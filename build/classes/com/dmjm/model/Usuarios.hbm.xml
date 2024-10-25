@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/10/2024 03:42:38 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.Usuarios" table="USUARIOS"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idUsuario" type="int">
+			<column name="ID_USUARIO" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="perfiles"
+			class="com.dmjm.model.Perfiles" fetch="select">
+			<column name="ID_PERFIL" />
+		</many-to-one>
+		<property name="nombre" type="string">
+			<column name="NOMBRE" length="50" />
+		</property>
+		<property name="correo" type="string">
+			<column name="CORREO" length="50" />
+		</property>
+		<property name="estatus" type="java.lang.Integer">
+			<column name="ESTATUS" />
+		</property>
+		<property name="fechaAlta" type="timestamp">
+			<column name="FECHA_ALTA" length="23" />
+		</property>
+		<property name="password" type="string">
+			<column name="PASSWORD" length="250" />
+		</property>
+		<property name="iniciales" type="string">
+			<column name="INICIALES" length="10" />
+		</property>
+		<property name="usuario" type="string">
+			<column name="USUARIO" length="50" />
+		</property>
+	</class>
+</hibernate-mapping>

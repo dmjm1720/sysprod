@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/10/2024 03:42:38 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.Perfiles" table="PERFILES"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idPerfil" type="int">
+			<column name="ID_PERFIL" />
+			<generator class="native" />
+		</id>
+		<property name="nombrePerfil" type="string">
+			<column name="NOMBRE_PERFIL" length="50" />
+		</property>
+		<set name="usuarioses" table="USUARIOS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ID_PERFIL" />
+			</key>
+			<one-to-many class="com.dmjm.model.Usuarios" />
+		</set>
+	</class>
+</hibernate-mapping>

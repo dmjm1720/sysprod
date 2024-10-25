@@ -1,0 +1,1286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<script type="text/javascript">
+                        function limpiarForm()
+                        {
+                            document.getElementById("frmPrincipal").reset();
+                        }
+                    </script>
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE MATERIA PRIMA" />
+				</div>
+
+				<div class="card">
+
+					<p:accordionPanel widgetVar="basic">
+
+						<p:tab title="CAPTURA DE MATERIA PRIMA">
+							<p:selectOneRadio id="line" value="{radioView.line}"
+								layout="lineDirection"
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador'}">
+								<f:selectItem itemLabel="MANDAR TOLVA AL MES ANTERIOR"
+									itemValue="MES ANTERIOR" />
+							</p:selectOneRadio>
+							<h:panelGrid columns="12" cellpadding="4"
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador'}">
+								<p:outputLabel for="tolvas" value="# de Tolvas" />
+								<p:inputText id="tolvas" readonly="true"
+									value="#{entradasBean.entradas.tolvas}" required="false"
+									requiredMessage="Campo requerido" />
+								<p:message for="tolvas" />
+
+								<p:outputLabel for="fecha" value="Fecha de entrada" />
+								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
+									disabled="true" placeholder="Fecha de entrada"
+									inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+									value="#{entradasBean.entradas.fechaRecepcion}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+								<p:message for="fecha" />
+
+								<p:outputLabel id="sucursal" for="sucursal" value="Sucursal" />
+								<p:selectOneMenu required="false" style="width: 200px;"
+									value="#{entradasBean.entradas.sucursal}">
+									<f:selectItem itemLabel="SELECCIONA SUCURSAL" itemValue="" />
+									<f:selectItem itemLabel="TOLUCA" itemValue="TOLUCA" />
+									<f:selectItem itemLabel="LEÓN" itemValue="LEÓN" />
+									<p:ajax update="tbt,tbl" />
+
+								</p:selectOneMenu>
+								<p:message for="sucursal" />
+
+								<p:outputLabel for="fechart" value="Fecha salida apróximada" />
+								<p:datePicker id="fechart" pattern="dd-MMMM-yyyy"
+									placeholder="Fecha salida apróximada" showTime="true"
+									disabled="true"
+									inputStyle="width: 300px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+									value="#{entradasBean.entradas.fechaRecepcionToluca}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+								<p:message for="fechart" />
+
+								<p:outputLabel for="tbt" value="Ticket bascula Toluca" />
+								<p:inputText id="tbt"
+									disabled="#{entradasBean.entradas.sucursal=='LEÓN'}"
+									value="#{entradasBean.entradas.ticketBasculaToluca}"
+									required="false" requiredMessage="Campo requerido" />
+								<p:message for="tbt" />
+
+								<p:outputLabel for="tbl" value="Ticket bascula León" />
+								<p:inputText id="tbl"
+									disabled="#{entradasBean.entradas.sucursal=='TOLUCA'}"
+									value="#{entradasBean.entradas.ticketBasculaLeon}"
+									required="false" requiredMessage="Campo requerido" />
+								<p:message for="tbl" />
+
+								<p:outputLabel for="factura" value="Factura" />
+								<p:inputText id="factura"
+									value="#{entradasBean.entradas.factura}" required="false"
+									requiredMessage="Campo requerido" />
+								<p:message for="factura" />
+
+								<p:outputLabel for="cer" value="Certificado Zoosanitario" />
+								<p:inputText id="cer"
+									value="#{entradasBean.entradas.certificado}" required="false"
+									requiredMessage="Campo requerido" />
+								<p:message for="cer" />
+
+								<p:outputLabel for="tra" value="Transportista" />
+								<p:autoComplete id="tra" size="35"
+									placeholder="Ingresa transportista" dropdown="true"
+									value="#{entradasBean.filterTransportista}"
+									completeMethod="#{entradasBean.buscarNombreTransportista}" />
+								<p:message for="tra" />
+
+								<p:outputLabel for="pro" value="Proveedor" />
+								<p:autoComplete id="pro" size="35"
+									placeholder="Ingresa proveedor" dropdown="true"
+									value="#{entradasBean.filterProveedor}"
+									completeMethod="#{entradasBean.buscarNombreProveedor}" />
+								<p:message for="pro" />
+
+								<p:outputLabel for="imp" value="Indentificación de material" />
+								<p:autoComplete id="imp" size="35"
+									placeholder="Ingresa identificación de material"
+									dropdown="true" value="#{entradasBean.filterMateria}"
+									completeMethod="#{entradasBean.buscarNombreMateria}" />
+								<p:message for="imp" />
+
+								<p:outputLabel for="mpre" value="Metodo de preservación" />
+								<p:autoComplete id="mpre" size="35"
+									placeholder="Ingresa método de preservación" dropdown="true"
+									value="#{entradasBean.filterPreservacion}"
+									completeMethod="#{entradasBean.buscarNombrePreservacion}" />
+								<p:message for="mpre" />
+							</h:panelGrid>
+
+							<h:form
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador'}">
+								<div style="text-align: center; font-size: .75rem">
+									<b>KG. DE MATERIA PRIMA</b>
+								</div>
+							</h:form>
+							<p:divider align="left" />
+							<br></br>
+							<h:panelGrid columns="12" cellpadding="4"
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador'}">
+								<p:outputLabel for="kge" value="Kg. embarcados" />
+								<p:inputText id="kge" value="#{entradasBean.kilosEmbarcados}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="mm, frmPrincipal:msgs"
+										listener="#{entradasBean.totalKilos}" />
+								</p:inputText>
+
+								<p:outputLabel for="kgnetos" value="Kg. netos" />
+								<p:inputText id="kgnetos"
+									value="#{entradasBean.entradas.kgNetos}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgbascula" value="Kg. bascula" />
+								<p:inputText id="kgbascula"
+									value="#{entradasBean.entradas.kgBascula}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgbasculamer" value="Kg. agua merma" />
+								<p:inputText id="kgbasculamer"
+									value="#{entradasBean.entradas.kgBasculaMerma}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kdrec" value="Kg. recibidos" />
+								<p:inputText id="kdrec" value="#{entradasBean.kilosRecibidos}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="mm, frmPrincipal:msgs"
+										listener="#{entradasBean.totalKilos}" />
+								</p:inputText>
+
+								<p:outputLabel for="kel" value="Kg. envío León" />
+								<p:inputText id="kel"
+									value="#{entradasBean.entradas.kgEnvioLeon}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="pal" value="Pallets recibidos" />
+								<p:inputText id="pal"
+									value="#{entradasBean.entradas.palletsRecibidos}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="mm" value="Merma" />
+								<p:inputText id="mm" value="#{entradasBean.entradas.merma}"
+									required="false" requiredMessage="Campo requerido" />
+
+							</h:panelGrid>
+
+							<br></br>
+							<h:form
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador'}">
+								<div style="text-align: center; font-size: .75rem">
+									<b>CALIDAD DE LA MATERIA %</b>
+								</div>
+								<p:divider align="left" />
+								<br></br>
+							</h:form>
+							<h:panelGrid columns="12" cellpadding="4"
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador'}">
+								<p:outputLabel for="cp" value="Carnaza con pelo" />
+								<p:inputText id="cp" value="#{entradasBean.dato1}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="c1" value="Carnaza de primera" />
+								<p:inputText id="c1" value="#{entradasBean.dato2}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="c2" value="Carnaza de segunda" />
+								<p:inputText id="c2" value="#{entradasBean.dato3}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="cs" value="Carnza salada" />
+								<p:inputText id="cs" value="#{entradasBean.dato4}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="dr" value="Desbarbe / Recorte" />
+								<p:inputText id="dr" value="#{entradasBean.dato5}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="cm" value="Cerdo Mexicano" />
+								<p:inputText id="cm" value="#{entradasBean.dato6}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="c" value="Cachete" />
+								<p:inputText id="c" value="#{entradasBean.dato7}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="pedaceria" value="Pedacería con pelo" />
+								<p:inputText id="pedaceria" value="#{entradasBean.dato8}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="pe" value="Pedacería" />
+								<p:inputText id="pe" value="#{entradasBean.dato9}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="da" value="Descarne adherido" />
+								<p:inputText id="da" value="#{entradasBean.dato10}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="ds" value="Descarbe separado" />
+								<p:inputText id="ds" value="#{entradasBean.dato11}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+								<p:outputLabel for="cpi" value="Cuero depilado integral" />
+								<p:inputText id="cpi" value="#{entradasBean.dato12}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="garra" value="Garra" />
+								<p:inputText id="garra" value="#{entradasBean.dato13}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+								<p:outputLabel for="ce" value="Cuero en sangre" />
+								<p:inputText id="ce" value="#{entradasBean.dato14}"
+									required="false" requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+
+								<p:outputLabel for="total" value="Total" />
+								<p:inputText id="total" value="#{entradasBean.entradas.total}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="coord" value="Inspeccionado por:" />
+								<p:inputText id="coord" readonly="true" size="35"
+									value="#{entradasBean.inicialesCoordinador}" required="false"
+									requiredMessage="Campo requerido" />
+
+							</h:panelGrid>
+
+							<h:form rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}">
+								<div style="text-align: center; font-size: .75rem">
+									<b>LIBERACIÓN</b>
+								</div>
+								<p:divider align="center" />
+								<br></br>
+							</h:form>
+
+							<h:panelGrid columns="12" cellpadding="4">
+								<p:outputLabel for="alcalinidad" value="Alcalinidad"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}" />
+								<p:inputText id="alcalinidad"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}"
+									value="#{entradasBean.entradas.alcalinidad}" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="humedad" value="Humedad"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}" />
+								<p:inputText id="humedad"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}"
+									value="#{entradasBean.entradas.humedad}" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="calidad" value="Control de calidad"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}" />
+								<p:inputText id="calidad" readonly="true"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}"
+									value="#{entradasBean.inicialesControlCalidad}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+							</h:panelGrid>
+
+							<h:panelGrid columns="12" cellpadding="4">
+
+
+								<p:outputLabel for="gerencia" value="Gerencia de producción"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}" />
+								<p:inputText id="gerencia" readonly="true"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}"
+									value="#{entradasBean.inicialesGerencia}" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="fechalib" value="Fecha de liberación"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}" />
+								<p:datePicker id="fechalib" pattern="dd-MMMM-yyyy"
+									placeholder="Fecha de liberación" showTime="true"
+									disabled="true"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Root'}"
+									inputStyle="width: 300px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+									value="#{entradasBean.entradas.fechaLiberacion}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+
+							</h:panelGrid>
+
+							<div style="text-align: center">
+								<p:commandButton icon="pi pi-save" value="Guardar"
+									title="Guardar"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador'}"
+									oncomplete="limpiarForm()"
+									actionListener="#{entradasBean.guardar()}"
+									update="frmPrincipal, frmPrincipal:msgs" />
+							</div>
+
+						</p:tab>
+						<p:tab title="LISTA DE MATERIA PRIMA">
+							<p:dataTable id="tblClientes" styleClass="tabla" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,50,100,200,500" rows="10"
+								paginator="true" liveScroll="true" rowHover="true"
+								paginatorAlwaysVisible="true" scrollable="true"
+								rowStyleClass="#{item.estado=='1' ? 'calidad' :null} #{item.estado=='2' ? 'liberado' :null} "
+								currentPageReportTemplate="Total: #{entradasBean.listarEntradas.size()}"
+								value="#{entradasBean.listarEntradas}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="Editar" width="3rem">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning"
+										disabled="#{item.bloqueoEditar==1}">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{entradasBean.entradasEditar}" />
+										<f:setPropertyActionListener
+											value="#{item.transportista.nombre}"
+											target="#{entradasBean.filterTransportista}" />
+										<f:setPropertyActionListener
+											value="#{item.proveedores.nombre}"
+											target="#{entradasBean.filterProveedor}" />
+										<f:setPropertyActionListener value="#{item.materia.tipo}"
+											target="#{entradasBean.filterMateria}" />
+										<f:setPropertyActionListener
+											value="#{item.preservacion.nombre}"
+											target="#{entradasBean.filterPreservacion}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+
+								<p:column headerText="Detalle" width="3rem">
+									<p:commandButton id="det" icon="pi pi-fw pi-search"
+										onclick="PF('dlgVer').show()" update="frmDetalle:pnlVer"
+										styleClass="ui-button-info">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{entradasBean.entradasDetalle}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipD" for="det"
+										value="Ver detalle de la captura" trackMouse="true" />
+								</p:column>
+								<!--Impresión de hoja de liberación, gerencia y contador: otro con detalle de pagos (Contador)-->
+								<p:column headerText="Imprimir" width="3rem">
+
+									<h:commandLink id="imp" value=""
+										style="height: 30px;  font-size: 12px;" target="_blank"
+										actionListener="#{entradasBean.visualizarReporte(item.idEntrada)}">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{entradasBean.entradasDetalle}" />
+										<h:graphicImage url="/resources/img/printer.png"
+											value="Reporte" style="height: 1.8rem" />
+									</h:commandLink>
+									<p:tooltip id="toolTipI" for="imp"
+										value="Imprimir hoja de liberación" trackMouse="true" />
+								</p:column>
+								<p:column rendered="#{login.usuario.perfiles.idPerfil==4}"
+									headerText="Desbloquear" width="5rem">
+									<p:commandButton id="des" icon="pi pi-fw pi-cog"
+										styleClass="ui-button-help"
+										update="frmDesbloquear:pnlDesbloquear"
+										onclick="PF('dlgEditar').hide(), PF('dlgDesbloquear').show()">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{entradasBean.entradasDesbloquear}" />
+										<f:setPropertyActionListener
+											value="#{item.transportista.nombre}"
+											target="#{entradasBean.filterTransportista}" />
+										<f:setPropertyActionListener
+											value="#{item.proveedores.nombre}"
+											target="#{entradasBean.filterProveedor}" />
+										<f:setPropertyActionListener value="#{item.materia.tipo}"
+											target="#{entradasBean.filterMateria}" />
+										<f:setPropertyActionListener
+											value="#{item.preservacion.nombre}"
+											target="#{entradasBean.filterPreservacion}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipDes" for="des" value="Desbloquear"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="Tolvas" width="3rem"
+									filterBy="#{item.tolvas}">
+									<h:outputText value="#{item.tolvas}" />
+								</p:column>
+
+								<p:column headerText="Fecha entrada" width="8rem">
+									<h:outputText value="#{item.fechaRecepcion}" />
+								</p:column>
+
+								<p:column headerText="Sucursal" width="4rem">
+									<h:outputText value="#{item.sucursal}" />
+								</p:column>
+								<p:column headerText="Fecha salida apróx." width="8rem">
+									<h:outputText value="#{item.fechaRecepcionToluca}" />
+								</p:column>
+								<p:column headerText="Ticket báscula Toluca" width="5rem">
+									<h:outputText value="#{item.ticketBasculaToluca}" />
+								</p:column>
+								<p:column headerText="Ticket báscula León" width="4rem">
+									<h:outputText value="#{item.ticketBasculaLeon}" />
+								</p:column>
+								<p:column headerText="Factura" width="4rem">
+									<h:outputText value="#{item.factura}" />
+								</p:column>
+								<p:column headerText="Certificado" width="5rem">
+									<h:outputText value="#{item.certificado}" />
+								</p:column>
+								<p:column headerText="Transportista" width="10rem">
+									<h:outputText value="#{item.transportista.nombre}" />
+								</p:column>
+								<p:column headerText="Proveedor" width="10rem">
+									<h:outputText value="#{item.proveedores.nombre}" />
+								</p:column>
+								<p:column headerText="Identificación material" width="10rem">
+									<h:outputText value="#{item.materia.tipo}" />
+								</p:column>
+								<p:column headerText="Método de preservación" width="8rem">
+									<h:outputText value="#{item.preservacion.nombre}" />
+								</p:column>
+								<p:column headerText="Kg embarcados" width="5rem">
+									<h:outputText value="#{item.kgEmbarcados}" />
+								</p:column>
+								<p:column headerText="Kg netos" width="4rem">
+									<h:outputText value="#{item.kgNetos}" />
+								</p:column>
+								<p:column headerText="Kg báscula" width="4rem">
+									<h:outputText value="#{item.kgBascula}" />
+								</p:column>
+								<p:column headerText="Kg báscula merma" width="4rem">
+									<h:outputText value="#{item.kgBasculaMerma}" />
+								</p:column>
+								<p:column headerText="Kg recibidos" width="4rem">
+									<h:outputText value="#{item.kgRecibidos}" />
+								</p:column>
+								<p:column headerText="kg envío León" width="4rem">
+									<h:outputText value="#{item.kgEnvioLeon}" />
+								</p:column>
+								<p:column headerText="Pallets recibidos" width="4rem">
+									<h:outputText value="#{item.palletsRecibidos}" />
+								</p:column>
+
+								<p:column headerText="Carnza con pelo" width="3rem">
+									<h:outputText value="#{item.carnazaConPelo}" />
+								</p:column>
+								<p:column headerText="Carnza de primera" width="3rem">
+									<h:outputText value="#{item.carnzaPrimera}" />
+								</p:column>
+								<p:column headerText="Carnaza de segunda" width="3rem">
+									<h:outputText value="#{item.carnzaSegunda}" />
+								</p:column>
+								<p:column headerText="Carnaza salada" width="3rem">
+									<h:outputText value="#{item.carnazaSalada}" />
+								</p:column>
+								<p:column headerText="Desbarbe/recorte" width="3rem">
+									<h:outputText value="#{item.desbarbeRecorte}" />
+								</p:column>
+								<p:column headerText="Cerdo Mexicano" width="3rem">
+									<h:outputText value="#{item.cerdoMexicano}" />
+								</p:column>
+								<p:column headerText="Cachete" width="3rem">
+									<h:outputText value="#{item.orejaCachete}" />
+								</p:column>
+								<p:column headerText="Pedacería con pelo" width="4rem">
+									<h:outputText value="#{item.pedaceriaConPelo}" />
+								</p:column>
+								<p:column headerText="Pedacería" width="4rem">
+									<h:outputText value="#{item.pedaceria}" />
+								</p:column>
+								<p:column headerText="Descarne adherido" width="3rem">
+									<h:outputText value="#{item.descarneAdherido}" />
+								</p:column>
+								<p:column headerText="Descarne separado" width="3rem">
+									<h:outputText value="#{item.descarneSeparado}" />
+								</p:column>
+								<p:column headerText="Cuero depilado integral" width="3rem">
+									<h:outputText value="#{item.cueroDepiladoIntegral}" />
+								</p:column>
+								<p:column headerText="Garra" width="3rem">
+									<h:outputText value="#{item.garra}" />
+								</p:column>
+								<p:column headerText="Cuero en sangre" width="3rem">
+									<h:outputText value="#{item.cueroEnSangre}" />
+								</p:column>
+								<p:column headerText="Total" width="3rem">
+									<h:outputText value="#{item.total}" />
+								</p:column>
+								<p:column headerText="Merma" width="3rem">
+									<h:outputText value="#{item.merma}" />
+								</p:column>
+								<p:column headerText="Alcalinidad" width="4rem">
+									<h:outputText value="#{item.alcalinidad}" />
+								</p:column>
+								<p:column headerText="Humedad" width="4rem">
+									<h:outputText value="#{item.humedad}" />
+								</p:column>
+								<p:column headerText="Inspeccionado por:" width="5rem">
+									<h:outputText value="#{item.coordinadorProduccion}" />
+								</p:column>
+								<p:column headerText="Control de calidad" width="5rem">
+									<h:outputText value="#{item.controlCalidad}" />
+								</p:column>
+								<p:column headerText="Gerencia de producción" width="5rem">
+									<h:outputText value="#{item.gerenciaProduccion}" />
+								</p:column>
+								<p:column headerText="Fecha de liberación" width="5rem">
+									<h:outputText value="#{item.fechaLiberacion}" />
+								</p:column>
+
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+				</div>
+
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+			<!-- INICIA FORMULARIO PARA EL DETALLE -->
+			<h:form id="frmDetalle">
+				<p:dialog id="ver" header="DETALLE DE CAPTURA" widgetVar="dlgVer"
+					minHeight="300" width="650" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+
+					<h:panelGrid id="pnlVer" columns="2">
+
+						<h:outputText
+							value="# Tolvas: #{entradasBean.entradasDetalle.tolvas}" />
+						<h:outputText
+							value="Fecha de entrada: #{entradasBean.entradasDetalle.fechaRecepcion}" />
+						<h:outputText
+							value="Sucursal: #{entradasBean.entradasDetalle.sucursal}" />
+						<h:outputText
+							value="Fecha de salida apróximada: #{entradasBean.entradasDetalle.fechaRecepcionToluca}" />
+						<h:outputText
+							value="Ticket bascula Toluca: #{entradasBean.entradasDetalle.ticketBasculaToluca}" />
+						<h:outputText
+							value="Ticket bascula León: #{entradasBean.entradasDetalle.ticketBasculaLeon}" />
+						<h:outputText
+							value="Factura: #{entradasBean.entradasDetalle.factura}" />
+						<h:outputText
+							value="Certificado Zoosanitario: #{entradasBean.entradasDetalle.certificado}" />
+						<h:outputText
+							value="Transportista: #{entradasBean.entradasDetalle.transportista.nombre}" />
+						<h:outputText
+							value="Proveedor: #{entradasBean.entradasDetalle.proveedores.nombre}" />
+						<h:outputText
+							value="Indentificación de material: #{entradasBean.entradasDetalle.materia.tipo}" />
+						<h:outputText
+							value="Metodo de preservación: #{entradasBean.entradasDetalle.preservacion.nombre}" />
+						<b>Kg. de materia prima</b>
+						<p:divider align="left" />
+
+						<h:outputText
+							value="Kg. embarcados: #{entradasBean.entradasDetalle.kgEmbarcados}" />
+						<h:outputText
+							value="Kg. netos: #{entradasBean.entradasDetalle.kgNetos}" />
+						<h:outputText
+							value="Kg. bascula: #{entradasBean.entradasDetalle.kgBascula}" />
+						<h:outputText
+							value="Kg. bascula merma: #{entradasBean.entradasDetalle.kgBasculaMerma}" />
+						<h:outputText
+							value="Kg. recibidos: #{entradasBean.entradasDetalle.kgRecibidos}" />
+						<h:outputText
+							value="Kg. envío León: #{entradasBean.entradasDetalle.kgEnvioLeon}" />
+						<h:outputText
+							value="Pallets recibidos: #{entradasBean.entradasDetalle.palletsRecibidos}" />
+						<h:outputText value="" />
+						<b>Calidad de la materia -Visual-</b>
+						<p:divider align="left" />
+						<h:outputText
+							value="Carnaza con pelo: #{entradasBean.entradasDetalle.carnazaConPelo}" />
+						<h:outputText
+							value="Carnaza de primera: #{entradasBean.entradasDetalle.carnzaPrimera}" />
+						<h:outputText
+							value="Carnaza de segunda: #{entradasBean.entradasDetalle.carnzaSegunda}" />
+						<h:outputText
+							value="Carnaza salada: #{entradasBean.entradasDetalle.carnazaSalada}" />
+						<h:outputText
+							value="Desbarbe / Recorte: #{entradasBean.entradasDetalle.desbarbeRecorte}" />
+						<h:outputText
+							value="Cerdo Mexicano: #{entradasBean.entradasDetalle.cerdoMexicano}" />
+						<h:outputText
+							value="Cachete: #{entradasBean.entradasDetalle.orejaCachete}" />
+						<h:outputText
+							value="Pedacería con pelo: #{entradasBean.entradasDetalle.pedaceriaConPelo}" />
+						<h:outputText
+							value="Pedacería: #{entradasBean.entradasDetalle.pedaceria}" />
+						<h:outputText
+							value="Descarne adherido: #{entradasBean.entradasDetalle.descarneAdherido}" />
+						<h:outputText
+							value="Descarne separado: #{entradasBean.entradasDetalle.descarneSeparado}" />
+						<h:outputText
+							value="Cuero depilado integral: #{entradasBean.entradasDetalle.cueroDepiladoIntegral}" />
+						<h:outputText value="Garra: #{entradasBean.entradasDetalle.garra}" />
+						<h:outputText
+							value="Cuero en sangre: #{entradasBean.entradasDetalle.cueroEnSangre}" />
+						<h:outputText
+							value=" Total: #{entradasBean.entradasDetalle.total}" />
+						<h:outputText
+							value="% Merma: #{entradasBean.entradasDetalle.merma}" />
+						<h:outputText
+							value="Coordinador de Producción: #{entradasBean.entradasDetalle.coordinadorProduccion}" />
+						<h:outputText value="" />
+						<b>Liberación</b>
+						<p:divider align="left" />
+						<br></br>
+						<p:outputLabel
+							value="Alcalinidad: #{entradasBean.entradasDetalle.alcalinidad}" />
+						<p:outputLabel
+							value="Humedad: #{entradasBean.entradasDetalle.humedad}" />
+						<p:outputLabel
+							value="Control de calidad: #{entradasBean.entradasDetalle.controlCalidad}" />
+						<p:outputLabel
+							value="Gerencia de producción: #{entradasBean.entradasDetalle.gerenciaProduccion}" />
+						<p:outputLabel
+							value="Fecha de liberación: #{entradasBean.entradasDetalle.fechaLiberacion}" />
+
+
+					</h:panelGrid>
+				</p:dialog>
+
+			</h:form>
+
+			<!-- FINALIZA FORMULARIO PARA EL DETALLE -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DE CAPTURA"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6">
+
+						<p:outputLabel for="tolvas" value="# de Tolvas" />
+						<p:inputText id="tolvas" disabled="true"
+							value="#{entradasBean.entradasEditar.tolvas}" required="false"
+							requiredMessage="Campo requerido" />
+
+						<p:outputLabel for="fecha" value="Fecha de entrada" />
+						<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
+							placeholder="Fecha de entrada" disabled="true"
+							inputStyle="width: 300px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+							value="#{entradasBean.entradasEditar.fechaRecepcion}"
+							style="font-family: 'Poppins', sans-serif !important;"
+							styleClass="captura" />
+
+						<p:outputLabel for="sucursal" value="Sucursal" />
+						<p:inputText id="sucursal" disabled="true"
+							value="#{entradasBean.entradasEditar.sucursal}" required="false"
+							requiredMessage="Campo requerido" />
+
+						<p:outputLabel for="fechart" value="Fecha de salida apróximada" />
+						<p:datePicker id="fechart" pattern="dd-MMMM-yyyy"
+							placeholder="Fecha de salida" showTime="true" disabled="true"
+							inputStyle="width: 300px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+							value="#{entradasBean.entradasEditar.fechaRecepcionToluca}"
+							style="font-family: 'Poppins', sans-serif !important;"
+							styleClass="captura" />
+
+						<p:outputLabel for="tbt" value="Ticket bascula Toluca" />
+						<p:inputText id="tbt" disabled="true"
+							value="#{entradasBean.entradasEditar.ticketBasculaToluca}"
+							required="false" requiredMessage="Campo requerido" />
+
+						<p:outputLabel for="tbl" value="Ticket bascula León" />
+						<p:inputText id="tbl" disabled="true"
+							value="#{entradasBean.entradasEditar.ticketBasculaLeon}"
+							required="false" requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="factura" value="Factura" />
+						<p:inputText id="factura" disabled="true"
+							value="#{entradasBean.entradasEditar.factura}" required="false"
+							requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="cer" value="Certificado Zoosanitario" />
+						<p:inputText id="cer" disabled="true"
+							value="#{entradasBean.entradasEditar.certificado}"
+							required="false" requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="tra" value="Transportista" />
+						<p:autoComplete id="tra" size="35" disabled="true"
+							placeholder="Ingresa transportista" dropdown="true"
+							value="#{entradasBean.filterTransportista}"
+							completeMethod="#{entradasBean.buscarNombreTransportista}" />
+
+
+						<p:outputLabel for="pro" value="Proveedor" />
+						<p:autoComplete id="pro" size="35" placeholder="Ingresa proveedor"
+							disabled="true" dropdown="true"
+							value="#{entradasBean.filterProveedor}"
+							completeMethod="#{entradasBean.buscarNombreProveedor}" />
+
+
+						<p:outputLabel for="imp" value="Indentificación de material" />
+						<p:autoComplete id="imp" size="35" disabled="true"
+							placeholder="Ingresa identificación de material" dropdown="true"
+							value="#{entradasBean.filterMateria}"
+							completeMethod="#{entradasBean.buscarNombreMateria}" />
+
+
+						<p:outputLabel for="mpre" value="Metodo de preservación" />
+						<p:autoComplete id="mpre" size="35" disabled="true"
+							placeholder="Ingresa método de preservación" dropdown="true"
+							value="#{entradasBean.filterPreservacion}"
+							completeMethod="#{entradasBean.buscarNombrePreservacion}" />
+
+
+						<div style="text-align: center; font-size: .75rem">
+							<b>KG. DE MATERIA PRIMA</b>
+							<p:divider align="center" />
+							<p:outputLabel value="" />
+							<p:outputLabel value="" />
+							<p:outputLabel value="" />
+
+						</div>
+
+
+						<p:outputLabel for="kge" value="Kg. embarcados" />
+						<p:inputText id="kge" disabled="true"
+							value="#{entradasBean.entradasEditar.kgEmbarcados}"
+							required="false" requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="kgnetos" value="Kg. netos" />
+						<p:inputText id="kgnetos" disabled="true"
+							value="#{entradasBean.entradasEditar.kgNetos}" required="false"
+							requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="kgbascula" value="Kg. bascula" />
+						<p:inputText id="kgbascula" disabled="true"
+							value="#{entradasBean.entradasEditar.kgBascula}" required="false"
+							requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="kgbasculamer" value="Kg. bascula merma" />
+						<p:inputText id="kgbasculamer" disabled="true"
+							value="#{entradasBean.entradasEditar.kgBasculaMerma}"
+							required="false" requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="kdrec" value="Kg. recibidos" />
+						<p:inputText id="kdrec" disabled="true"
+							value="#{entradasBean.entradasEditar.kgRecibidos}"
+							required="false" requiredMessage="Campo requerido" />
+
+						<p:outputLabel for="kel" value="Kg. envío León" />
+						<p:inputText id="kel" disabled="true"
+							value="#{entradasBean.entradasEditar.kgEnvioLeon}"
+							required="false" requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="" value="Pallets recibidos" />
+						<p:inputText id="pal" disabled="true"
+							value="#{entradasBean.entradasEditar.palletsRecibidos}"
+							required="false" requiredMessage="Campo requerido" />
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<div style="text-align: center; font-size: .75rem">
+							<b>CALIDAD DE LA MATERIA %</b>
+							<p:divider align="center" />
+							<p:outputLabel value="" />
+							<p:outputLabel value="" />
+							<p:outputLabel value="" />
+
+						</div>
+
+
+						<p:outputLabel for="cp" value="Carnaza con pelo" />
+						<p:inputText id="cp" disabled="true"
+							value="#{entradasBean.entradasEditar.carnazaConPelo}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="c1" value="Carnaza de primera" />
+						<p:inputText id="c1" disabled="true"
+							value="#{entradasBean.entradasEditar.carnzaPrimera}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="c2" value="Carnaza de segunda" />
+						<p:inputText id="c2" disabled="true"
+							value="#{entradasBean.entradasEditar.carnzaSegunda}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="cs" value="Carnza salada" />
+						<p:inputText id="cs" disabled="true"
+							value="#{entradasBean.entradasEditar.carnazaSalada}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="dr" value="Desbarbe / Recorte" />
+						<p:inputText id="dr" disabled="true"
+							value="#{entradasBean.entradasEditar.desbarbeRecorte}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="cm" value="Cerdo Mexicano" />
+						<p:inputText id="cm" disabled="true"
+							value="#{entradasBean.entradasEditar.cerdoMexicano}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="c" value="Cachete" />
+						<p:inputText id="c" disabled="true"
+							value="#{entradasBean.entradasEditar.orejaCachete}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="pedaceria" value="Pedacería con pelo" />
+						<p:inputText id="pedaceria" disabled="true"
+							value="#{entradasBean.entradasEditar.pedaceriaConPelo}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="pe" value="Pedacería" />
+						<p:inputText id="pe" disabled="true"
+							value="#{entradasBean.entradasEditar.pedaceria}" required="false"
+							requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="da" value="Descarne adherido" />
+						<p:inputText id="da" disabled="true"
+							value="#{entradasBean.entradasEditar.descarneAdherido}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="ds" value="Descarbe separado" />
+						<p:inputText id="ds" disabled="true"
+							value="#{entradasBean.entradasEditar.descarneSeparado}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+						<p:outputLabel for="cpi" value="Cuero depilado integral" />
+						<p:inputText id="cpi" disabled="true"
+							value="#{entradasBean.entradasEditar.cueroDepiladoIntegral}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+						<p:outputLabel for="garra" value="Garra" />
+						<p:inputText id="garra" disabled="true"
+							value="#{entradasBean.entradasEditar.garra}" required="false"
+							requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+						<p:outputLabel for="ce" value="Cuero en sangre" />
+						<p:inputText id="ce" disabled="true"
+							value="#{entradasBean.entradasEditar.cueroEnSangre}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+
+
+						<p:outputLabel for="total" value="Total" />
+						<p:inputText id="total" disabled="true"
+							value="#{entradasBean.entradasEditar.total}" required="false"
+							requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="merma" value="Merma" />
+						<p:inputText id="merma" disabled="true"
+							value="#{entradasBean.entradasEditar.merma}" required="false"
+							requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="coord" value="Coordinador de Producción" />
+						<p:inputText id="coord" disabled="true"
+							value="#{entradasBean.entradasEditar.coordinadorProduccion}"
+							required="false" requiredMessage="Campo requerido" />
+
+
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<div style="text-align: center; font-size: .75rem">
+							<b>LIBERACIÓN</b>
+							<p:divider align="center" />
+							<p:outputLabel value="" />
+							<p:outputLabel value="" />
+							<p:outputLabel value="" />
+
+						</div>
+
+						<h:form rendered="#{login.usuario.perfiles.idPerfil==3}">
+							<p:outputLabel for="alcalinidad" value="Alcalinidad" />
+							<p:inputText id="alcalinidad"
+								value="#{entradasBean.entradasEditar.alcalinidad}"
+								required="false" requiredMessage="Campo requerido" />
+
+
+							<p:outputLabel for="humedad" value="Humedad" />
+							<p:inputText id="humedad"
+								value="#{entradasBean.entradasEditar.humedad}" required="false"
+								requiredMessage="Campo requerido" />
+
+
+							<p:outputLabel for="calidad" value="Control de calidad" />
+							<p:inputText id="calidad" disabled="true"
+								value="#{entradasBean.inicialesControlCalidad}" required="false"
+								requiredMessage="Campo requerido" />
+
+						</h:form>
+
+						<h:form rendered="#{login.usuario.perfiles.idPerfil==4}">
+							<p:outputLabel for="alcalinidad" value="Alcalinidad" />
+							<p:inputText id="alcalinidad" disabled="true"
+								value="#{entradasBean.entradasEditar.alcalinidad}"
+								required="false" requiredMessage="Campo requerido" />
+
+
+							<p:outputLabel for="humedad" value="Humedad" />
+							<p:inputText id="humedad" disabled="true"
+								value="#{entradasBean.entradasEditar.humedad}" required="false"
+								requiredMessage="Campo requerido" />
+
+
+							<p:outputLabel for="calidad" value="Control de calidad" />
+							<p:inputText id="calidad" disabled="true"
+								value="#{entradasBean.entradasEditar.controlCalidad}" required="false"
+								requiredMessage="Campo requerido" />
+
+						</h:form>
+
+						<p:outputLabel for="gerencia" value="Gerencia de producción"
+							rendered="#{login.usuario.perfiles.idPerfil==4}" />
+						<p:inputText id="gerencia" disabled="true"
+							rendered="#{login.usuario.perfiles.idPerfil==4}"
+							value="#{entradasBean.inicialesGerencia}" required="false"
+							requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="fechalib" value="Fecha de liberación"
+							rendered="#{login.usuario.perfiles.idPerfil==4}" />
+						<p:datePicker id="fechalib" pattern="dd-MMMM-yyyy"
+							rendered="#{login.usuario.perfiles.idPerfil==4}"
+							placeholder="Fecha de liberación" showTime="true"
+							inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+							value="#{entradasBean.entradasEditar.fechaLiberacion}"
+							style="font-family: 'Poppins', sans-serif !important;"
+							styleClass="captura" />
+
+						<br></br>
+						<br></br>
+						<br></br>
+						<br></br>
+						<br></br>
+						<div style="text-align: center">
+							<p:commandButton icon="pi pi-pencil" value="Actualizar"
+								title="Guardar" actionListener="#{entradasBean.actualizar()}"
+								update="frmPrincipal, frmPrincipal:msgs" />
+
+						</div>
+					</h:panelGrid>
+
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA DESBLOQUEAR -->
+			<h:form id="frmDesbloquear">
+				<p:dialog id="desbloquear" header="DESBLOQUEAR"
+					widgetVar="dlgDesbloquear" minHeight="300" width="650"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<p:divider />
+					<div style="text-align: center">
+						<p:commandButton id="desb" icon="pi pi-fw pi-check"
+							onclick="PF('dlgEditar').show()" value="Desbloquer captura"
+							update="frmPrincipal, frmPrincipal:msgs"
+							styleClass="ui-button-secondary"
+							actionListener="#{entradasBean.desbloquear()}" />
+					</div>
+					<p:divider />
+					<h:panelGrid id="pnlDesbloquear" columns="2">
+
+
+						<h:outputText
+							value="# Tolvas: #{entradasBean.entradasDesbloquear.tolvas}" />
+						<h:outputText
+							value="Fecha de entrada: #{entradasBean.entradasDesbloquear.fechaRecepcion}" />
+						<h:outputText
+							value="Sucursal: #{entradasBean.entradasDesbloquear.sucursal}" />
+						<h:outputText
+							value="Fecha de salida apróximada: #{entradasBean.entradasDesbloquear.fechaRecepcionToluca}" />
+						<h:outputText
+							value="Ticket bascula Toluca: #{entradasBean.entradasDesbloquear.ticketBasculaToluca}" />
+						<h:outputText
+							value="Ticket bascula León: #{entradasBean.entradasDesbloquear.ticketBasculaLeon}" />
+						<h:outputText
+							value="Factura: #{entradasBean.entradasDesbloquear.factura}" />
+						<h:outputText
+							value="Certificado Zoosanitario: #{entradasBean.entradasDesbloquear.certificado}" />
+						<h:outputText
+							value="Transportista: #{entradasBean.entradasDesbloquear.transportista.nombre}" />
+						<h:outputText
+							value="Proveedor: #{entradasBean.entradasDesbloquear.proveedores.nombre}" />
+						<h:outputText
+							value="Indentificación de material: #{entradasBean.entradasDesbloquear.materia.tipo}" />
+						<h:outputText
+							value="Metodo de preservación: #{entradasBean.entradasDesbloquear.preservacion.nombre}" />
+						<b>Kg. de materia prima</b>
+						<p:divider align="left" />
+
+						<h:outputText
+							value="Kg. embarcados: #{entradasBean.entradasDesbloquear.kgEmbarcados}" />
+						<h:outputText
+							value="Kg. netos: #{entradasBean.entradasDesbloquear.kgNetos}" />
+						<h:outputText
+							value="Kg. bascula: #{entradasBean.entradasDesbloquear.kgBascula}" />
+						<h:outputText
+							value="Kg. bascula merma: #{entradasBean.entradasDesbloquear.kgBasculaMerma}" />
+						<h:outputText
+							value="Kg. recibidos: #{entradasBean.entradasDesbloquear.kgRecibidos}" />
+						<h:outputText
+							value="Kg. envío León: #{entradasBean.entradasDesbloquear.kgEnvioLeon}" />
+						<h:outputText
+							value="Pallets recibidos: #{entradasBean.entradasDesbloquear.palletsRecibidos}" />
+						<h:outputText value="" />
+						<b>Calidad de la materia -Visual-</b>
+						<p:divider align="left" />
+						<h:outputText
+							value="Carnaza con pelo: #{entradasBean.entradasDesbloquear.carnazaConPelo}" />
+						<h:outputText
+							value="Carnaza de primera: #{entradasBean.entradasDesbloquear.carnzaPrimera}" />
+						<h:outputText
+							value="Carnaza de segunda: #{entradasBean.entradasDesbloquear.carnzaSegunda}" />
+						<h:outputText
+							value="Carnaza salada: #{entradasBean.entradasDesbloquear.carnazaSalada}" />
+						<h:outputText
+							value="Desbarbe / Recorte: #{entradasBean.entradasDesbloquear.desbarbeRecorte}" />
+						<h:outputText
+							value="Cerdo Mexicano: #{entradasBean.entradasDesbloquear.cerdoMexicano}" />
+						<h:outputText
+							value="Cachete: #{entradasBean.entradasDesbloquear.orejaCachete}" />
+						<h:outputText
+							value="Pedacería con pelo: #{entradasBean.entradasDesbloquear.pedaceriaConPelo}" />
+						<h:outputText
+							value="Pedacería: #{entradasBean.entradasDesbloquear.pedaceria}" />
+						<h:outputText
+							value="Descarne adherido: #{entradasBean.entradasDesbloquear.descarneAdherido}" />
+						<h:outputText
+							value="Descarne separado: #{entradasBean.entradasDesbloquear.descarneSeparado}" />
+						<h:outputText
+							value="Cuero depilado integral: #{entradasBean.entradasDesbloquear.cueroDepiladoIntegral}" />
+						<h:outputText
+							value="Garra: #{entradasBean.entradasDesbloquear.garra}" />
+						<h:outputText
+							value="Cuero en sangre: #{entradasBean.entradasDesbloquear.cueroEnSangre}" />
+						<h:outputText
+							value=" Total: #{entradasBean.entradasDesbloquear.total}" />
+						<h:outputText
+							value="% Merma: #{entradasBean.entradasDesbloquear.merma}" />
+						<h:outputText
+							value="Coordinador de Producción: #{entradasBean.entradasDesbloquear.coordinadorProduccion}" />
+						<h:outputText value="" />
+						<b>Liberación</b>
+						<p:divider align="left" />
+						<br></br>
+						<p:outputLabel
+							value="Alcalinidad: #{entradasBean.entradasDesbloquear.alcalinidad}" />
+						<p:outputLabel
+							value="Humedad: #{entradasBean.entradasDesbloquear.humedad}" />
+						<p:outputLabel
+							value="Control de calidad: #{entradasBean.entradasDesbloquear.controlCalidad}" />
+						<p:outputLabel
+							value="Gerencia de producción: #{entradasBean.entradasDesbloquear.gerenciaProduccion}" />
+						<p:outputLabel
+							value="Fecha de liberación: #{entradasBean.entradasDesbloquear.fechaLiberacion}" />
+
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			<!-- INICIA FORMULARIO PARA DESBLOQUEAR -->
+
+
+			<!--FORMULARIO PARA VER EL PDF DEL XML-->
+			<h:form id="frmHojaLib">
+				<p:growl id="mensaje" showSummary="true" showDetail="true" />
+				<p:dialog style="font-size: 12px;" id="dlgVe"
+					header="Visualizar factura del XML" widgetVar="dialogVerXML"
+					resizable="false" showEffect="clip" hideEffect="size" modal="true">
+					<p:panelGrid columns="1" style="margin: 0 auto">
+						<p:outputLabel value="Versión" />
+						<p:inputText id="ver" value="#{filterByBean.factura.versioncfdi}"
+							style="width: 250px" readonly="true" />
+						<p:outputLabel value="UUID" />
+						<p:inputText id="uuid" value="#{filterByBean.factura.uuid}"
+							style="width: 250px" readonly="true" />
+					</p:panelGrid>
+					<br></br>
+					<p:spacer width="100px" height="5px" />
+					<h:commandLink id="reporte" value=""
+						style="height: 30px;  font-size: 16px;" target="_blank"
+						actionListener="#{facturaBean.visualizarCFDI_PDF()}"
+						onclick="PF('dialogVerXML').hide()">
+						<h:graphicImage url="/Images/printer.png" style="height: 80px" />
+					</h:commandLink>
+				</p:dialog>
+			</h:form>
+			<!--FORMULARIO PARA VER EL PDF DEL XML-->
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

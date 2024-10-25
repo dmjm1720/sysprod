@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+		<property name="hibernate.connection.url">jdbc:sqlserver://DESKTOP-3JBBJEB:1433;databaseName=sysprod</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.connection.password">sistemas24</property>
+		<property name="hibernate.current_session_context_class">thread</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.current_session_context_class">thread</property>
+		<property name="hibernate.enable_lazy_load_no_trans">true</property>
+		<mapping
+			resource="com/dmjm/model/DescuentoCalciosTablaA.hbm.xml" />
+		<mapping resource="com/dmjm/model/InfoDocumento.hbm.xml" />
+		<mapping resource="com/dmjm/model/Transportista.hbm.xml" />
+		<mapping resource="com/dmjm/model/Preservacion.hbm.xml" />
+		<mapping resource="com/dmjm/model/Proveedores.hbm.xml" />
+		<mapping resource="com/dmjm/model/Entradas.hbm.xml" />
+		<mapping
+			resource="com/dmjm/model/DescuentoCalciosTablaB.hbm.xml" />
+		<mapping resource="com/dmjm/model/Perfiles.hbm.xml" />
+		<mapping
+			resource="com/dmjm/model/DescuentoHumedadTablaA.hbm.xml" />
+		<mapping
+			resource="com/dmjm/model/DescuentoHumedadTablaB.hbm.xml" />
+		<mapping resource="com/dmjm/model/Folios.hbm.xml" />
+		<mapping resource="com/dmjm/model/Usuarios.hbm.xml" />
+		<mapping resource="com/dmjm/model/Materia.hbm.xml" />
+		<mapping resource="com/dmjm/model/Precios.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

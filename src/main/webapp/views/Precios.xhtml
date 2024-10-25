@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<script type="text/javascript">
+                        function limpiarForm()
+                        {
+                            document.getElementById("frmPrincipal").reset();
+                        }
+                    </script>
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE PRECIOS" />
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel widgetVar="basic">
+						<p:tab title="CAPTURA DE PRECIOS">
+							<h:panelGrid columns="4" cellpadding="4">
+
+
+
+
+
+								<p:outputLabel for="pro" value="Proveedor" />
+								<p:autoComplete id="pro" size="35"
+									placeholder="Ingresa proveedor" dropdown="true"
+									value="#{preciosBean.filterProveedor}"
+									completeMethod="#{preciosBean.buscarNombreProveedor}" />
+
+
+								<p:outputLabel for="imp" value="Indentificación de material" />
+								<p:autoComplete id="imp" size="35"
+									placeholder="Ingresa identificación de material"
+									dropdown="true" value="#{preciosBean.filterMateria}"
+									completeMethod="#{preciosBean.buscarNombreMateria}" />
+
+								<p:outputLabel for="precio" value="Nuevo precio $" />
+								<p:inputText id="precio"
+									value="#{preciosBean.precios.precioActual}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="fecha" value="Fecha de actualización" />
+								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
+									disabled="true" placeholder="Fecha de actualización"
+									inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+									value="#{preciosBean.precios.fechaActualizacion}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+
+							</h:panelGrid>
+							<br></br>
+							<div style="text-align: center">
+								<p:commandButton icon="pi pi-save" title="Actualizar"
+									value="ACTUALIZAR"
+									update="frmPrincipal, frmPrincipal:msgs, tblClientes"
+									oncomplete="limpiarForm()"
+									actionListener="#{preciosBean.guardar()}" />
+							</div>
+							<br></br>
+							<p:divider />
+							<br></br>
+
+						</p:tab>
+						<p:tab title="LISTA DE PRECIOS">
+							<p:dataTable id="tblClientes" styleClass="tabla" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
+								paginator="true" liveScroll="true" rowHover="true"
+								paginatorAlwaysVisible="true" scrollable="true"
+								currentPageReportTemplate="Total: #{preciosBean.listarPrecios.size()}"
+								value="#{preciosBean.listarPrecios}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="ID" width="2rem">
+									<h:outputText value="#{item.idPrecios}" />
+								</p:column>
+								<p:column headerText="Nombre de la materia" width="10rem">
+									<h:outputText value="#{item.materia.tipo}" />
+								</p:column>
+								<p:column headerText="Proveedor" width="10rem"
+									filterBy="#{item.proveedores.nombre}">
+									<h:outputText value="#{item.proveedores.nombre}" />
+								</p:column>
+								<p:column headerText="Precio actual" width="10rem">
+									<h:outputText value="#{item.precioActual}" />
+								</p:column>
+								<p:column headerText="Fecha de actualización" width="10rem">
+									<h:outputText value="#{item.fechaActualizacion}" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

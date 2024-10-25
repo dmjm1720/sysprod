@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+	<Appenders>
+		<Console name="LogToConsole" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<File name="LogToFile" fileName="Z:/logs/app.log">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+		</File>
+	</Appenders>
+	<Loggers>
+		<!-- avoid duplicated logs with additivity=false -->
+<!-- 		<Logger name="ERROR" level="error" additivity="false"> -->
+<!-- 			<AppenderRef ref="LogToConsole" /> -->
+<!-- 			<AppenderRef ref="LogToFile" /> -->
+<!-- 		</Logger> -->
+<!-- 		<Logger name="INFO" level="info" additivity="false"> -->
+<!-- 			<AppenderRef ref="LogToConsole" /> -->
+<!-- 			<AppenderRef ref="LogToFile" /> -->
+<!-- 		</Logger> -->
+		<Root level="debug">
+			<AppenderRef ref="LogToConsole" />
+			<AppenderRef ref="LogToFile" />
+		</Root>
+	</Loggers>
+	<Properties>
+		<Property name="log4j2.Clock">org.apache.logging.log4j.core.util.SystemClock
+		</Property>
+		<Property name="AsyncLogger.ThreadNameStrategy">UNCACHED</Property>
+	</Properties>
+</Configuration>

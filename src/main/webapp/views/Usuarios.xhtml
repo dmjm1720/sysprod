@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
+                                            <h:panelGrid styleClass="custom-painelgrid-center">
+                                                <h:outputText value="Buscando..." />
+                                                <p:graphicImage value="../resources/img/cargando.gif" />
+                                            </h:panelGrid>
+                                        </p:blockUI>-->
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE USUARIOS" />
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel widgetVar="basic">
+						<p:tab title="CAPTURA DE USUARIOS">
+							<h:panelGrid columns="12" cellpadding="4">
+
+								<p:outputLabel for="nombre" value="Nombre" />
+								<p:inputText id="nombre" value="#{usuariosBean.usuarios.nombre}"
+									required="false" requiredMessage="Campo requerido" />
+								<p:message for="nombre" />
+
+								<p:outputLabel for="correo" value="Correo" />
+								<p:inputText id="correo" value="#{usuariosBean.usuarios.correo}"
+									required="false" requiredMessage="Campo requerido" />
+								<p:message for="correo" />
+
+								<p:outputLabel for="perfil" value="Perfil" />
+								<p:selectOneMenu id="perfil" value="#{usuariosBean.idPerfil}">
+									<f:selectItem itemLabel="Selecciona perfil" itemValue="" />
+									<f:selectItem itemLabel="Administrador" itemValue="1" />
+									<f:selectItem itemLabel="Coordinador" itemValue="2" />
+									<f:selectItem itemLabel="Control de calidad" itemValue="3" />
+									<f:selectItem itemLabel="Gerencia" itemValue="4" />
+								</p:selectOneMenu>
+								<p:message for="perfil" />
+
+								<p:outputLabel for="fecha" value="Fecha alta" />
+								<p:calendar id="fecha" pattern="dd-MMMM-yyyy"
+									placeholder="Fecha de entrada"
+									inputStyle="width: 300px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+									value="#{usuariosBean.usuarios.fechaAlta}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+								<p:message for="fecha" />
+
+								<p:outputLabel for="password" value="Password" />
+								<p:inputText id="password"
+									value="#{usuariosBean.usuarios.password}" required="false"
+									requiredMessage="Campo requerido" />
+								<p:message for="password" />
+
+								<p:outputLabel for="iniciales" value="Iniciales" />
+								<p:inputText id="iniciales"
+									value="#{usuariosBean.usuarios.iniciales}" required="false"
+									requiredMessage="Campo requerido" />
+								<p:message for="iniciales" />
+
+								<p:outputLabel for="usuario" value="Usuario" />
+								<p:inputText id="usuario"
+									value="#{usuariosBean.usuarios.usuario}" required="false"
+									requiredMessage="Campo requerido" />
+								<p:message for="usuario" />
+
+
+								<p:commandButton icon="pi pi-save" value="Guardar"
+									title="Guardar"
+									update="frmPrincipal, frmPrincipal:msgs, tblClientes"
+									actionListener="#{usuariosBean.guardar()}" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="LISTA DE USUARIOS">
+							<p:dataTable id="tblClientes" styleClass="tabla" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
+								paginator="true" liveScroll="true" rowHover="true"
+								paginatorAlwaysVisible="true" scrollable="true"
+								currentPageReportTemplate="Total: #{usuariosBean.listarUsuarios.size()}"
+								value="#{usuariosBean.listarUsuarios}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="Nombre" width="10rem">
+									<h:outputText value="#{item.nombre}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Correo" width="10rem">
+									<h:outputText value="#{item.correo}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Estatus" width="10rem">
+									<h:outputText value="#{item.estatus}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Fecha Alta" width="10rem">
+									<h:outputText value="#{item.fechaAlta}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Perfil" width="10rem">
+									<h:outputText value="#{item.perfiles.nombrePerfil}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Iniciales" width="10rem">
+									<h:outputText value="#{item.iniciales}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Usuario" width="10rem">
+									<h:outputText value="#{item.usuario}" style="color: #036FAB;" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

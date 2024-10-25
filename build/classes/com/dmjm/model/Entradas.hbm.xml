@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/10/2024 03:42:38 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.Entradas" table="ENTRADAS"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idEntrada" type="int">
+			<column name="ID_ENTRADA" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="materia" class="com.dmjm.model.Materia"
+			fetch="select">
+			<column name="ID_IDENTIFICACION_MATERIAL" />
+		</many-to-one>
+		<many-to-one name="preservacion"
+			class="com.dmjm.model.Preservacion" fetch="select">
+			<column name="ID_METODO_PRESERVACION" />
+		</many-to-one>
+		<many-to-one name="proveedores"
+			class="com.dmjm.model.Proveedores" fetch="select">
+			<column name="ID_PROVEEDOR" />
+		</many-to-one>
+		<many-to-one name="transportista"
+			class="com.dmjm.model.Transportista" fetch="select">
+			<column name="ID_TRANSPORTE" />
+		</many-to-one>
+		<property name="tolvas" type="java.lang.Integer">
+			<column name="TOLVAS" />
+		</property>
+		<property name="fechaRecepcion" type="timestamp">
+			<column name="FECHA_RECEPCION" length="23" />
+		</property>
+		<property name="sucursal" type="string">
+			<column name="SUCURSAL" length="50" />
+		</property>
+		<property name="fechaRecepcionToluca" type="timestamp">
+			<column name="FECHA_RECEPCION_TOLUCA" length="23" />
+		</property>
+		<property name="ticketBasculaToluca" type="string">
+			<column name="TICKET_BASCULA_TOLUCA" length="50" />
+		</property>
+		<property name="ticketBasculaLeon" type="string">
+			<column name="TICKET_BASCULA_LEON" length="50" />
+		</property>
+		<property name="factura" type="string">
+			<column name="FACTURA" length="50" />
+		</property>
+		<property name="certificado" type="string">
+			<column name="CERTIFICADO" length="50" />
+		</property>
+		<property name="kgEmbarcados" type="big_decimal">
+			<column name="KG_EMBARCADOS" precision="10" scale="4" />
+		</property>
+		<property name="kgNetos" type="big_decimal">
+			<column name="KG_NETOS" precision="10" scale="4" />
+		</property>
+		<property name="kgBascula" type="big_decimal">
+			<column name="KG_BASCULA" precision="10" scale="4" />
+		</property>
+		<property name="kgBasculaMerma" type="big_decimal">
+			<column name="KG_BASCULA_MERMA" precision="10" scale="4" />
+		</property>
+		<property name="kgRecibidos" type="big_decimal">
+			<column name="KG_RECIBIDOS" precision="10" scale="4" />
+		</property>
+		<property name="kgEnvioLeon" type="big_decimal">
+			<column name="KG_ENVIO_LEON" precision="10" scale="4" />
+		</property>
+		<property name="palletsRecibidos" type="string">
+			<column name="PALLETS_RECIBIDOS" length="20" />
+		</property>
+		<property name="carnazaConPelo" type="big_decimal">
+			<column name="CARNAZA_CON_PELO" precision="10" scale="4" />
+		</property>
+		<property name="carnzaPrimera" type="big_decimal">
+			<column name="CARNZA_PRIMERA" precision="10" scale="4" />
+		</property>
+		<property name="carnzaSegunda" type="big_decimal">
+			<column name="CARNZA_SEGUNDA" precision="10" scale="4" />
+		</property>
+		<property name="desbarbeRecorte" type="big_decimal">
+			<column name="DESBARBE_RECORTE" precision="10" scale="4" />
+		</property>
+		<property name="cerdoMexicano" type="big_decimal">
+			<column name="CERDO_MEXICANO" precision="10" scale="4" />
+		</property>
+		<property name="orejaCachete" type="big_decimal">
+			<column name="OREJA_CACHETE" precision="10" scale="4" />
+		</property>
+		<property name="garra" type="big_decimal">
+			<column name="GARRA" precision="10" scale="4" />
+		</property>
+		<property name="pedaceria" type="big_decimal">
+			<column name="PEDACERIA" precision="10" scale="4" />
+		</property>
+		<property name="cueroDepiladoIntegral" type="big_decimal">
+			<column name="CUERO_DEPILADO_INTEGRAL" precision="10"
+				scale="4" />
+		</property>
+		<property name="pedaceriaConPelo" type="big_decimal">
+			<column name="PEDACERIA_CON_PELO" precision="10" scale="4" />
+		</property>
+		<property name="total" type="big_decimal">
+			<column name="TOTAL" precision="10" scale="4" />
+		</property>
+		<property name="merma" type="big_decimal">
+			<column name="MERMA" precision="10" scale="4" />
+		</property>
+		<property name="alcalinidad" type="big_decimal">
+			<column name="ALCALINIDAD" precision="10" scale="4" />
+		</property>
+		<property name="humedad" type="big_decimal">
+			<column name="HUMEDAD" precision="10" scale="4" />
+		</property>
+		<property name="coordinadorProduccion" type="string">
+			<column name="COORDINADOR_PRODUCCION" length="50" />
+		</property>
+		<property name="controlCalidad" type="string">
+			<column name="CONTROL_CALIDAD" length="50" />
+		</property>
+		<property name="gerenciaProduccion" type="string">
+			<column name="GERENCIA_PRODUCCION" length="50" />
+		</property>
+		<property name="fechaLiberacion" type="timestamp">
+			<column name="FECHA_LIBERACION" length="23" />
+		</property>
+		<property name="bloqueoEditar" type="java.lang.Integer">
+			<column name="BLOQUEO_EDITAR" />
+		</property>
+		<property name="estado" type="java.lang.Integer">
+			<column name="ESTADO" />
+		</property>
+		<property name="carnazaSalada" type="big_decimal">
+			<column name="CARNAZA_SALADA" precision="10" scale="4" />
+		</property>
+		<property name="descarneAdherido" type="big_decimal">
+			<column name="DESCARNE_ADHERIDO" precision="10" scale="4" />
+		</property>
+		<property name="descarneSeparado" type="big_decimal">
+			<column name="DESCARNE_SEPARADO" precision="10" scale="4" />
+		</property>
+		<property name="precioCcp" type="big_decimal">
+			<column name="PRECIO_CCP" precision="10" scale="4" />
+		</property>
+		<property name="precioC1" type="big_decimal">
+			<column name="PRECIO_C1" precision="10" scale="4" />
+		</property>
+		<property name="precioC2" type="big_decimal">
+			<column name="PRECIO_C2" precision="10" scale="4" />
+		</property>
+		<property name="precioCs" type="big_decimal">
+			<column name="PRECIO_CS" precision="10" scale="4" />
+		</property>
+		<property name="precioDr" type="big_decimal">
+			<column name="PRECIO_DR" precision="10" scale="4" />
+		</property>
+		<property name="precioCm" type="big_decimal">
+			<column name="PRECIO_CM" precision="10" scale="4" />
+		</property>
+		<property name="precioCo" type="big_decimal">
+			<column name="PRECIO_CO" precision="10" scale="4" />
+		</property>
+		<property name="precioPc" type="big_decimal">
+			<column name="PRECIO_PC" precision="10" scale="4" />
+		</property>
+		<property name="precioP" type="big_decimal">
+			<column name="PRECIO_P" precision="10" scale="4" />
+		</property>
+		<property name="precioDa" type="big_decimal">
+			<column name="PRECIO_DA" precision="10" scale="4" />
+		</property>
+		<property name="precioDs" type="big_decimal">
+			<column name="PRECIO_DS" precision="10" scale="4" />
+		</property>
+		<property name="precioCdi" type="big_decimal">
+			<column name="PRECIO_CDI" precision="10" scale="4" />
+		</property>
+		<property name="precioG" type="big_decimal">
+			<column name="PRECIO_G" precision="10" scale="4" />
+		</property>
+		<property name="precioCe" type="big_decimal">
+			<column name="PRECIO_CE" precision="10" scale="4" />
+		</property>
+		<property name="cueroEnSangre" type="big_decimal">
+			<column name="CUERO_EN_SANGRE" precision="10" scale="4" />
+		</property>
+		<property name="calculoPorcentajeMerma" type="big_decimal">
+			<column name="CALCULO_PORCENTAJE_MERMA" precision="10"
+				scale="4" />
+		</property>
+		<property name="descuentoHumedadTa" type="big_decimal">
+			<column name="DESCUENTO_HUMEDAD_TA" precision="10" scale="4" />
+		</property>
+		<property name="descuentoHumedadTb" type="big_decimal">
+			<column name="DESCUENTO_HUMEDAD_TB" precision="10" scale="4" />
+		</property>
+		<property name="descuentoCalcioTa" type="big_decimal">
+			<column name="DESCUENTO_CALCIO_TA" precision="10" scale="4" />
+		</property>
+		<property name="descuentoCalcioTb" type="big_decimal">
+			<column name="DESCUENTO_CALCIO_TB" precision="10" scale="4" />
+		</property>
+		<property name="calculoKgMerma" type="big_decimal">
+			<column name="CALCULO_KG_MERMA" precision="10" scale="4" />
+		</property>
+		<property name="descuentoHumedad" type="big_decimal">
+			<column name="DESCUENTO_HUMEDAD" precision="10" scale="4" />
+		</property>
+		<property name="descuentoCalcio" type="big_decimal">
+			<column name="DESCUENTO_CALCIO" precision="10" scale="4" />
+		</property>
+		<property name="fechaImpresionContador" type="timestamp">
+			<column name="FECHA_IMPRESION_CONTADOR" length="23" />
+		</property>
+	</class>
+</hibernate-mapping>

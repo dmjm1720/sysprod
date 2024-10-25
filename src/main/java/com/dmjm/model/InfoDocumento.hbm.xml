@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/10/2024 03:42:38 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.InfoDocumento" table="INFO_DOCUMENTO"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idDocumeno" type="int">
+			<column name="ID_DOCUMENO" />
+			<generator class="native" />
+		</id>
+		<property name="rutaImagenFirma" type="string">
+			<column name="RUTA_IMAGEN_FIRMA" length="50" />
+		</property>
+		<property name="notaUno" type="string">
+			<column name="NOTA_UNO" />
+		</property>
+		<property name="notaDos" type="string">
+			<column name="NOTA_DOS" />
+		</property>
+		<property name="notaTres" type="string">
+			<column name="NOTA_TRES" />
+		</property>
+		<property name="nombreGerenciaProduccion" type="string">
+			<column name="NOMBRE_GERENCIA_PRODUCCION" length="50" />
+		</property>
+	</class>
+</hibernate-mapping>

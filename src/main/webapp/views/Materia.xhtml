@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
+                                            <h:panelGrid styleClass="custom-painelgrid-center">
+                                                <h:outputText value="Buscando..." />
+                                                <p:graphicImage value="../resources/img/cargando.gif" />
+                                            </h:panelGrid>
+                                        </p:blockUI>-->
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE MATERIA PRIMA" />
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel widgetVar="basic">
+						<p:tab title="CAPTURA DE MATERIA PRIMA">
+							<h:panelGrid columns="12" cellpadding="4">
+
+								<p:outputLabel for="nombre" value="Nombre" />
+								<p:inputText id="nombre" value="#{materiaBean.materia.tipo}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="da" value="Descuento tabla A" />
+								<p:inputText id="da"
+									value="#{materiaBean.materia.descuentoCalcioTablaA}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="db" value="Descuento tabla B" />
+								<p:inputText id="db" value="#{materiaBean.materia.tipo}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+								<p:commandButton icon="pi pi-save" title="Guardar"
+									update="frmPrincipal, frmPrincipal:msgs, tblClientes"
+									actionListener="#{materiaBean.guardar()}" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="LISTA DE MATERIA PRIMA">
+							<p:dataTable id="tblClientes" styleClass="tabla" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
+								paginator="true" liveScroll="true" rowHover="true"
+								paginatorAlwaysVisible="true" scrollable="true"
+								currentPageReportTemplate="Total: #{materiaBean.listarMateria.size()}"
+								value="#{materiaBean.listarMateria}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="Nombre" width="10rem">
+									<h:outputText value="#{item.tipo}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Descuento tabla A" width="10rem">
+									<h:outputText value="#{item.descuentoCalcioTablaA}"
+										style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Descuento tabla B" width="10rem">
+									<h:outputText value="#{item.descuentoCalcioTablaB}"
+										style="color: #036FAB;" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
