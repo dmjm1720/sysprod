@@ -73,6 +73,7 @@ public class Entradas implements java.io.Serializable {
 	private BigDecimal descuentoHumedad;
 	private BigDecimal descuentoCalcio;
 	private Date fechaImpresionContador;
+	private BigDecimal porcentajeMerma;
 
 	public Entradas() {
 	}
@@ -97,7 +98,7 @@ public class Entradas implements java.io.Serializable {
 			BigDecimal precioCdi, BigDecimal precioG, BigDecimal precioCe, BigDecimal cueroEnSangre,
 			BigDecimal calculoPorcentajeMerma, BigDecimal descuentoHumedadTa, BigDecimal descuentoHumedadTb,
 			BigDecimal descuentoCalcioTa, BigDecimal descuentoCalcioTb, BigDecimal calculoKgMerma,
-			BigDecimal descuentoHumedad, BigDecimal descuentoCalcio, Date fechaImpresionContador) {
+			BigDecimal descuentoHumedad, BigDecimal descuentoCalcio, Date fechaImpresionContador, BigDecimal porcentajeMerma) {
 
 		this.idEntrada = idEntrada;
 		this.materia = materia;
@@ -166,6 +167,7 @@ public class Entradas implements java.io.Serializable {
 		this.descuentoHumedad = descuentoHumedad;
 		this.descuentoCalcio = descuentoCalcio;
 		this.fechaImpresionContador = fechaImpresionContador;
+		this.porcentajeMerma = porcentajeMerma;
 	}
 
 	public int getIdEntrada() {
@@ -702,6 +704,14 @@ public class Entradas implements java.io.Serializable {
 
 	public void setFechaImpresionContador(Date fechaImpresionContador) {
 		this.fechaImpresionContador = fechaImpresionContador;
+	}
+
+	public BigDecimal getPorcentajeMerma() {
+		return porcentajeMerma;
+	}
+
+	public void setPorcentajeMerma(BigDecimal porcentajeMerma) {
+		this.porcentajeMerma = porcentajeMerma;
 	}
 	
 	

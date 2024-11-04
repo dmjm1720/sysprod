@@ -29,14 +29,21 @@
 		<div id="menuPrincipal">
 			<h:form>
 				<div class="card">
+					<div style="text-align: center; font-size: 1.2rem">SISTEMA DE
+						CAPTURA DE PRODUCCIÓN</div>
 
+					<br></br>
 					<p:toolbar>
 						<p:toolbarGroup align="right">
-                                Sesión iniciada como:  #{login.usuario.nombre} | Perfil: #{login.usuario.perfiles.nombrePerfil}
-                                <p:spacer width="10" />
+
+							<div style="text-align: right;">
+								<p size="small">Sesión iniciada: #{login.usuario.nombre} |
+									Perfil: #{login.usuario.perfiles.nombrePerfil}</p>
+							</div>
+
 							<p:commandLink id="salir" action="/index?faces-redirect=true"
 								actionListener="#{login.cerrarSesion()}"
-								style="color: #ffffff; font-family: Questrial; font-size: 12px;">
+								style="color: #ffffff; font-family: Questrial; font-size: .3rem; !important">
 								<h:graphicImage url="../resources/img/logout.png"
 									style="height: 35px" />
 							</p:commandLink>
@@ -46,31 +53,8 @@
 					</p:toolbar>
 
 
-
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==2}"
-						activeIndex="#{param.i}">
-
-						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==2}"
-							value="Materia prima" outcome="/views/Entradas"
-							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
-						</p:menuitem>
-
-					</p:tabMenu>
-
-
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==3}"
-						activeIndex="#{param.i}">
-
-						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==3}"
-							value="Materia prima" outcome="/views/Entradas"
-							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
-						</p:menuitem>
-
-					</p:tabMenu>
-
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==4}"
+					<!--INICIA P1 ADM-->
+					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==1}"
 						activeIndex="#{param.i}">
 
 						<p:menuitem value="Materia prima" outcome="/views/Entradas"
@@ -97,9 +81,119 @@
 							icon="pi pi-fw pi-cog">
 							<f:param name="i" value="5" />
 						</p:menuitem>
-						<p:menuitem value="Settings" outcome="/views/Entradas"
-							icon="pi pi-fw pi-cog" />
+
 					</p:tabMenu>
+					<!--FINALIZA P1 ADM-->
+
+
+
+
+					<!--INICIA P2 COOR-->
+
+					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==2}"
+						activeIndex="#{param.i}">
+
+						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==2}"
+							value="Materia prima" outcome="/views/Entradas"
+							icon="pi pi-fw pi-home">
+							<f:param name="i" value="0" />
+						</p:menuitem>
+
+					</p:tabMenu>
+
+					<!--FINALIZA P2 COOR -->
+
+
+
+					<!--INICIA P3 CAL-->
+
+					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==3}"
+						activeIndex="#{param.i}">
+
+						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==3}"
+							value="Materia prima" outcome="/views/Entradas"
+							icon="pi pi-fw pi-home">
+							<f:param name="i" value="0" />
+						</p:menuitem>
+
+					</p:tabMenu>
+
+					<!--FINALIZA P3 CAL-->
+
+
+
+					<!--INICIA P4 GER-->
+					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==4}"
+						activeIndex="#{param.i}">
+
+						<p:menuitem value="Materia prima" outcome="/views/Entradas"
+							icon="pi pi-fw pi-home">
+							<f:param name="i" value="0" />
+						</p:menuitem>
+						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
+							icon="pi pi-fw pi-cog">
+							<f:param name="i" value="1" />
+						</p:menuitem>
+						<p:menuitem value="Materia prima" outcome="/views/Materia"
+							icon="pi pi-fw pi-pencil">
+							<f:param name="i" value="2" />
+						</p:menuitem>
+						<p:menuitem value="Transportista" outcome="/views/Transportista"
+							icon="pi pi-fw pi-file">
+							<f:param name="i" value="3" />
+						</p:menuitem>
+					</p:tabMenu>
+					<!--FINALIZA P4 GER-->
+
+
+
+
+					<!--INICIA P5 CONT-->
+					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==5}"
+						activeIndex="#{param.i}">
+
+						<p:menuitem value="Materia prima" outcome="/views/Entradas"
+							icon="pi pi-fw pi-home">
+							<f:param name="i" value="0" />
+						</p:menuitem>
+						<p:menuitem value="Precios" outcome="/views/Precios"
+							icon="pi pi-fw pi-cog">
+							<f:param name="i" value="1" />
+						</p:menuitem>
+					</p:tabMenu>
+					<!--FINALIZA P5 CONT-->
+
+
+
+
+					<!--INICIA P6 PRE-->
+					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==6}"
+						activeIndex="#{param.i}">
+
+						<p:menuitem value="Materia prima" outcome="/views/Entradas"
+							icon="pi pi-fw pi-home">
+							<f:param name="i" value="0" />
+						</p:menuitem>
+						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
+							icon="pi pi-fw pi-cog">
+							<f:param name="i" value="1" />
+						</p:menuitem>
+						<p:menuitem value="Materia prima" outcome="/views/Materia"
+							icon="pi pi-fw pi-pencil">
+							<f:param name="i" value="2" />
+						</p:menuitem>
+						<p:menuitem value="Transportista" outcome="/views/Transportista"
+							icon="pi pi-fw pi-file">
+							<f:param name="i" value="3" />
+						</p:menuitem>
+						<p:menuitem value="Precios" outcome="/views/Precios"
+							icon="pi pi-fw pi-cog">
+							<f:param name="i" value="4" />
+						</p:menuitem>
+
+					</p:tabMenu>
+					<!--FINALIZA P6 PRE-->
+
 
 				</div>
 

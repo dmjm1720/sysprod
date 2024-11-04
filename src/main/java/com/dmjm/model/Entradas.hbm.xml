@@ -213,5 +213,8 @@
 		<property name="fechaImpresionContador" type="timestamp">
 			<column name="FECHA_IMPRESION_CONTADOR" length="23" />
 		</property>
+		<property name="porcentajeMerma" type="big_decimal">
+			<column name="PORCENTAJE_MERMA" precision="10" scale="4" />
+		</property>
 	</class>
 </hibernate-mapping>

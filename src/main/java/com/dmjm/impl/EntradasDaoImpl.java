@@ -75,7 +75,7 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	}
 
 	@Override
-	public void actualizarFechaImpresion(int idEntrada, String fecha) {
+	public void actualizarFechaImpresion(int idEntrada, String fecha, int tolva) {
 		try {
 			ConectarSysProd();
 			PreparedStatement ps = getCnSysProd().prepareStatement(
@@ -83,7 +83,7 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 			ps.executeUpdate();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "¡AVISO!", "FECHA DE IMPRESIÓN ACTUALIZADA"));
-			LOGGER.info("FECHA DE IMPRESIÓN ACTUALIZADA: " + fecha + " POR EL USUARIO: " + us.getNombre() + " NO. DE TOLVA: " + idEntrada);
+			LOGGER.info("FECHA DE IMPRESIÓN ACTUALIZADA: " + fecha + " POR EL USUARIO: " + us.getNombre() + " NO. DE TOLVA: " + tolva);
 			CerrarSysProd();
 		} catch (SQLException ex) {
 			LOGGER.error("ERROR AL ACTUALIZAR LA FECHA DE IMPRESIÓN: " + ex.getMessage());

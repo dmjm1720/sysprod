@@ -98,6 +98,8 @@ public class EntradasBean extends Conexion implements Serializable {
 	private double kilosEmbarcados = 0.0;
 	private double kilosRecibidos = 0.0;
 
+	private double ceros = 0.0;
+
 	@PostConstruct
 	public void init() {
 		listarEntradas = new ArrayList<>();
@@ -128,6 +130,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradasEditar = new Entradas();
 		entradasDesbloquear = new Entradas();
 		entradasDetalle = new Entradas();
+
 	}
 
 	public Entradas getEntradas() {
@@ -420,6 +423,14 @@ public class EntradasBean extends Conexion implements Serializable {
 		this.entradasDetalle = entradasDetalle;
 	}
 
+	public double getCeros() {
+		return ceros;
+	}
+
+	public void setCeros(double ceros) {
+		this.ceros = ceros;
+	}
+
 	public void guardar() throws SQLException {
 		IEntradasDao eDao = new EntradasDaoImpl();
 
@@ -432,6 +443,11 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradas.setPreservacion(preservacion);
 		entradas.setTransportista(transportista);
 		entradas.setProveedores(proveedores);
+
+		entradas.setKgEmbarcados(BigDecimal.valueOf(kilosEmbarcados));
+		entradas.setKgRecibidos(BigDecimal.valueOf(kilosRecibidos));
+
+		// **PRECIO DE LA CARNAZA CON PELO**//
 
 		entradas.setCarnazaConPelo(BigDecimal.valueOf(dato1));
 		entradas.setCarnzaPrimera(BigDecimal.valueOf(dato2));
@@ -448,107 +464,186 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradas.setGarra(BigDecimal.valueOf(dato13));
 		entradas.setCueroEnSangre(BigDecimal.valueOf(dato14));
 
-		entradas.setKgEmbarcados(BigDecimal.valueOf(kilosEmbarcados));
-		entradas.setKgRecibidos(BigDecimal.valueOf(kilosRecibidos));
+		// VALIDAR DATOS
 
-		if (!entradas.getCarnazaConPelo().equals("0")) {
-			entradas.setPrecioCcp(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 1)));
+		if (entradas.getSucursal() == null || entradas.getTicketBasculaToluca()=="" || entradas.getFactura()=="" || entradas.getCertificado() == ""
+				|| transportista.getIdTransportista()==0 || proveedores.getIdProveedor()==0
+				|| materia.getIdMateria()==0 || preservacion.getIdPreservacion()==0) {
+
+			String suc = "";
+			String fac = "";
+			String cer = "";
+			String trans = "";
+			String pro = "";
+			String mat = "";
+			String pre = "";
+			String ticket="";
+
+			if (entradas.getSucursal() == null) {
+				suc = "Sucursal, ";
+			}
+
+			if (entradas.getFactura() =="") {
+				fac = "Factura, ";
+			}
+
+			if (entradas.getCertificado() == "") {
+				cer = "Certificado, ";
+			}
+			if(materia.getIdMateria()==0) {
+				mat="Identificación de la materia, ";
+			}
+
+			if (transportista.getIdTransportista()==0) {
+				trans = "Transportista, ";
+			}
+			if (proveedores.getIdProveedor()==0) {
+				pro = "Proveedor, ";
+			}
+			if (preservacion.getIdPreservacion()==0) {
+				pre = "Método de preservación, ";
+			}
+			if(entradas.getTicketBasculaToluca()=="") {
+				ticket="Ticket Toluca, ";
+			}
+
+			String mensaje = "Te faltan campos: " + suc  + ticket +  fac + cer  + trans  + pro  + mat  + pre; 
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + mensaje + "',\n" + "  showConfirmButton: true,\n"
+							+ "  timer: 8000\n" + "})");
+
+		} else {
+
+			LOGGER.info("INFO DATOS: " + dato1 + dato2 + dato3 + dato4 + dato5 + dato6 + dato7 + dato8 + dato9 + dato10
+					+ dato11 + dato12 + dato13 + dato14);
+
+			if (dato1 != ceros) {
+				entradas.setPrecioCcp(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 1)));
+			} else {
+				entradas.setPrecioCcp(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato2 != ceros) {
+				entradas.setPrecioC1(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 2)));
+			} else {
+				entradas.setPrecioC1(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato3 != ceros) {
+				entradas.setPrecioC2(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 3)));
+			} else {
+				entradas.setPrecioC2(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato4 != ceros) {
+				entradas.setPrecioCs(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 4)));
+			} else {
+				entradas.setPrecioCs(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato5 != ceros) {
+				entradas.setPrecioDr(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 5)));
+			} else {
+				entradas.setPrecioDr(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato6 != ceros) {
+				entradas.setPrecioCm(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 6)));
+			} else {
+				entradas.setPrecioCm(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato7 != ceros) {
+				entradas.setPrecioCo(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 7)));
+			} else {
+				entradas.setPrecioCo(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato8 != ceros) {
+				entradas.setPrecioPc(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 8)));
+			} else {
+				entradas.setPrecioPc(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato9 != ceros) {
+				entradas.setPrecioP(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 9)));
+			} else {
+				entradas.setPrecioP(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato10 != ceros) {
+				entradas.setPrecioDa(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 10)));
+			} else {
+				entradas.setPrecioDa(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato11 != ceros) {
+				entradas.setPrecioDs(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 11)));
+			} else {
+				entradas.setPrecioDs(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato12 != ceros) {
+				entradas.setPrecioCdi(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 12)));
+			} else {
+				entradas.setPrecioCdi(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato13 != ceros) {
+				entradas.setPrecioG(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 13)));
+			} else {
+				entradas.setPrecioG(BigDecimal.valueOf(ceros));
+			}
+
+			if (dato14 != ceros) {
+				entradas.setPrecioCe(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 14)));
+			} else {
+
+				entradas.setPrecioCe(BigDecimal.valueOf(ceros));
+			}
+
+			switch (us.getPerfiles().getNombrePerfil()) {
+			case "Coordinador" -> entradas.setCoordinadorProduccion(us.getIniciales());
+			case "Control de calidad" -> entradas.setControlCalidad(us.getIniciales());
+			case "Gerencia" -> entradas.setGerenciaProduccion(us.getIniciales());
+			default -> {
+			}
+			}
+
+			if (us.getPerfiles().getNombrePerfil().equals("Coordinador")) {
+				entradas.setEstado(0);
+			}
+
+			double porcentaje15 = 1.5;
+			if (Double.parseDouble(entradas.getPorcentajeMerma().toString()) < porcentaje15) {
+				porcentaje15 = 0.0;
+			}
+
+			entradas.setCalculoKgMerma(BigDecimal.valueOf((porcentaje15)));
+
+			eDao.guardarEntradas(entradas);
+
+			IFoliosDao fDao = new FoliosDaoImpl();
+			Month mes = LocalDate.now().getMonth();
+			int year = LocalDate.now().getYear();
+			String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+
+			fDao.actualizarFolio(year, nombre.toUpperCase(), entradas.getTolvas());
+
+			entradas = new Entradas();
+			preservacion = new Preservacion();
+			transportista = new Transportista();
+			proveedores = new Proveedores();
+			materia = new Materia();
+
+			String info = "Se ha registrado una nueva captura de materia prima";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
 		}
-
-		if (!entradas.getCarnzaPrimera().equals("0")) {
-			entradas.setPrecioC1(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 2)));
-		}
-		if (!entradas.getCarnzaSegunda().equals("0")) {
-			entradas.setPrecioC2(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 3)));
-		}
-		if (!entradas.getCarnazaSalada().equals("0")) {
-			entradas.setPrecioCs(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 4)));
-		}
-		if (!entradas.getDesbarbeRecorte().equals("0")) {
-			entradas.setPrecioDr(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 5)));
-		}
-		if (!entradas.getCerdoMexicano().equals("0")) {
-			entradas.setPrecioCm(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 6)));
-		}
-		if (!entradas.getOrejaCachete().equals("0")) {
-			entradas.setPrecioCo(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 7)));
-		}
-		if (!entradas.getPedaceriaConPelo().equals("0")) {
-			entradas.setPrecioPc(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 8)));
-		}
-		if (!entradas.getPedaceria().equals("0")) {
-			entradas.setPrecioP(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 9)));
-		}
-		if (!entradas.getDescarneAdherido().equals("0")) {
-			entradas.setPrecioDa(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 10)));
-		}
-		if (!entradas.getDescarneSeparado().equals("0")) {
-			entradas.setPrecioDs(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 11)));
-		}
-		if (!entradas.getCueroDepiladoIntegral().equals("0")) {
-			entradas.setPrecioCdi(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 12)));
-		}
-		if (!entradas.getGarra().equals("0")) {
-			entradas.setPrecioG(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 13)));
-		}
-		if (!entradas.getCueroEnSangre().equals("0")) {
-			entradas.setPrecioCe(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 14)));
-		}
-
-		switch (us.getPerfiles().getNombrePerfil()) {
-		case "Coordinador" -> entradas.setCoordinadorProduccion(us.getIniciales());
-		case "Control de calidad" -> entradas.setControlCalidad(us.getIniciales());
-		case "Gerencia" -> entradas.setGerenciaProduccion(us.getIniciales());
-		default -> {
-		}
-		}
-
-		if (us.getPerfiles().getNombrePerfil().equals("Coordinador")) {
-			entradas.setEstado(0);
-		}
-
-		double cal = 0.0;
-
-		cal = (Double.parseDouble(entradas.getKgNetos().toString()) * 100)
-				/ Double.parseDouble(entradas.getKgEmbarcados().toString());
-
-		cal = (cal - 100) * -1;
-
-		System.out.println("PORCENTAJE: " + cal);
-
-		// entradas.setCalculoPorcentajeMerma(String.valueOf(cal).substring(0, 6));
-		double cal_merma = 0.0;
-
-		double porcentaje15 = 1.5;
-
-		cal_merma = (Double.parseDouble(entradas.getKgEmbarcados().toString())
-				- (Double.parseDouble(entradas.getKgEmbarcados().toString()) * (((cal - porcentaje15) + 0))) / 100);
-		System.out.println("KG. MERMA: " + cal_merma);
-
-		entradas.setCalculoKgMerma(BigDecimal.valueOf((cal_merma)));
-		// entradas.setMerma("0");
-		eDao.guardarEntradas(entradas);
-
-		IFoliosDao fDao = new FoliosDaoImpl();
-		Month mes = LocalDate.now().getMonth();
-		int year = LocalDate.now().getYear();
-		String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-
-		fDao.actualizarFolio(year, nombre.toUpperCase(), entradas.getTolvas());
-
-		entradas = new Entradas();
-		preservacion = new Preservacion();
-		transportista = new Transportista();
-		proveedores = new Proveedores();
-		materia = new Materia();
-
-		String info = "Se ha registrado una nueva captura de materia prima";
-
-		PrimeFaces.current()
-				.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
-						+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-						+ "  timer: 8000\n" + "})");
-
 	}
 
 	// **DATOS DEL TRANSPORTISTA, NOMBRE**//
@@ -708,6 +803,14 @@ public class EntradasBean extends Conexion implements Serializable {
 		double resta = 0.0;
 		resta = (kilosEmbarcados - kilosRecibidos);
 		entradas.setMerma(BigDecimal.valueOf(resta));
+
+	}
+
+	public void porcentajeTotal() {
+		double porcentaje = 0.0;
+		porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) / (kilosEmbarcados);
+		String.format("%.2f", porcentaje);
+		entradas.setPorcentajeMerma(BigDecimal.valueOf(Double.parseDouble(String.format("%.2f", porcentaje))));
 	}
 
 	public double descuentoHumedadTabla_AB(String porcentaje, String tabla) {
@@ -781,24 +884,24 @@ public class EntradasBean extends Conexion implements Serializable {
 		return resultado;
 	}
 
-	public void visualizarReporte(String idEntrada) {
+	public void visualizarReporte(String idEntrada, int tolva) {
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 
 		if (us.getPerfiles().getIdPerfil() == 5) {
 			IEntradasDao fDao = new EntradasDaoImpl();
 			Entradas e = new Entradas();
-			e=fDao.validarFechaImpresion(Integer.parseInt(idEntrada));
-			
+			e = fDao.validarFechaImpresion(Integer.parseInt(idEntrada));
+
 			Optional<Date> validarFecha = Optional.ofNullable(e.getFechaImpresionContador());
-			
-			
+
 			if (validarFecha.isEmpty()) {
 				IEntradasDao eDao = new EntradasDaoImpl();
 				SimpleDateFormat fec = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-				eDao.actualizarFechaImpresion(Integer.parseInt(idEntrada), fec.format(new Date()));
-			}else {
-				LOGGER.info("YA CONTIENE LA FECHA DE IMPRESIÓN: " + e.getFechaImpresionContador() + " NO. TOLVA: " + e.getTolvas());
+				eDao.actualizarFechaImpresion(Integer.parseInt(idEntrada), fec.format(new Date()), tolva);
+			} else {
+				LOGGER.info("YA CONTIENE LA FECHA DE IMPRESIÓN: " + e.getFechaImpresionContador() + " NO. TOLVA: "
+						+ e.getTolvas());
 			}
 
 		}

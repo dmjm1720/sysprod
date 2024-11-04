@@ -12,7 +12,7 @@ public interface IEntradasDao {
 
     void actualizarEntradas(Entradas entradas);
     
-    void actualizarFechaImpresion(int idEntrada, String fecha);
+    void actualizarFechaImpresion(int idEntrada, String fecha, int tolva);
     
     Entradas validarFechaImpresion(int idEntrada);
 }

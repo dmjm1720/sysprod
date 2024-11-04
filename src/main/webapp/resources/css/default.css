@@ -135,3 +135,19 @@ a:link:hover, a:visited:hover {
 .calidad {
 	background-color: #ffff66;
 }
+
+.kilos {
+	background-color: #ffff66 !important;
+}
+
+.tolvas {
+	background-color: #62CBF5 !important;
+	font-weight: bold !important;
+	font-size: rem 2.5 !important;
+}
+
+.otrosCampos{
+	background-color: #CDF5C8 !important;
+}
+
+
