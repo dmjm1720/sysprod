@@ -20,10 +20,11 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 public class ReporteLiberacion extends Conexion {
 
-    public void getReporte(String ruta, String IDENTRADA) {
+    public void getReporte(String ruta, String IDENTRADA, String IDDOC) {
         this.ConectarSysProd();
         Map parameter = new HashMap();
         parameter.put("IDENTRADA", IDENTRADA);
+        parameter.put("IDDOC", IDDOC);
         try {
             File file = new File(ruta);
            // JRProperties.setProperty("net.sf.jasperreports.default.font.name", "Arial");

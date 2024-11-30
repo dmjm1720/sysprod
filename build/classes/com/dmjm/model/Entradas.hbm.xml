@@ -216,5 +216,57 @@
 		<property name="porcentajeMerma" type="big_decimal">
 			<column name="PORCENTAJE_MERMA" precision="10" scale="4" />
 		</property>
+
+		<property name="precioCalcCcp" type="big_decimal">
+			<column name="PRECIO_CALC_CCP" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcC1" type="big_decimal">
+			<column name="PRECIO_CALC_C1" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcC2" type="big_decimal">
+			<column name="PRECIO_CALC_C2" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcCs" type="big_decimal">
+			<column name="PRECIO_CALC_CS" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcDr" type="big_decimal">
+			<column name="PRECIO_CALC_DR" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcCm" type="big_decimal">
+			<column name="PRECIO_CALC_CM" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcCo" type="big_decimal">
+			<column name="PRECIO_CALC_CO" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcPc" type="big_decimal">
+			<column name="PRECIO_CALC_PC" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcP" type="big_decimal">
+			<column name="PRECIO_CALC_P" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcDa" type="big_decimal">
+			<column name="PRECIO_CALC_DA" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcDs" type="big_decimal">
+			<column name="PRECIO_CALC_DS" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcCdi" type="big_decimal">
+			<column name="PRECIO_CALC_CDI" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcG" type="big_decimal">
+			<column name="PRECIO_CALC_G" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcCe" type="big_decimal">
+			<column name="PRECIO_CALC_CE" precision="10" scale="4" />
+		</property>
+		<property name="subtotal" type="big_decimal">
+			<column name="SUBTOTAL" precision="10" scale="4" />
+		</property>
+		<property name="iva" type="big_decimal">
+			<column name="IVA" precision="10" scale="4" />
+		</property>
+		<property name="totalCaptura" type="big_decimal">
+			<column name="TOTAL_CAPTURA" precision="10" scale="4" />
+		</property>
 	</class>
 </hibernate-mapping>

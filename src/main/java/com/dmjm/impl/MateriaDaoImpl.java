@@ -12,6 +12,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.PrimeFaces;
 
 public class MateriaDaoImpl extends Conexion implements IMateriaDao {
 
@@ -32,6 +33,12 @@ public class MateriaDaoImpl extends Conexion implements IMateriaDao {
             Transaction transaction = session.beginTransaction();
             session.save(materia);
             transaction.commit();
+            String info = "Se ha registrado una nueva materia prima";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
         } catch (HibernateException e) {
             session.getTransaction().rollback();
         } finally {
@@ -43,7 +50,27 @@ public class MateriaDaoImpl extends Conexion implements IMateriaDao {
 
     @Override
     public void actualizarMateria(Materia materia) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    	Session session = null;
+        try {
+
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Transaction transaction = session.beginTransaction();
+            session.update(materia);
+            transaction.commit();
+            String info = "Se ha actualizado la información de la materia prima";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override

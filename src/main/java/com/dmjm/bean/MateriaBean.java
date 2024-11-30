@@ -14,7 +14,8 @@ import javax.inject.Named;
 @ViewScoped
 public class MateriaBean implements Serializable {
 
-    private List<Materia> listarMateria;
+    private static final long serialVersionUID = 1L;
+	private List<Materia> listarMateria;
     private Materia materia;
 
     @PostConstruct
@@ -42,6 +43,13 @@ public class MateriaBean implements Serializable {
     public void guardar() {
         IMateriaDao eDao = new MateriaDaoImpl();
         eDao.guardarMateria(materia);
+        materia = new Materia();
     }
 
+    public void actualizar() {
+        IMateriaDao eDao = new MateriaDaoImpl();
+        eDao.actualizarMateria(materia);
+        materia = new Materia();
+    }
+    
 }

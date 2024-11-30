@@ -13,6 +13,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.PrimeFaces;
 
 
 public class TransportistaDaoImpl extends Conexion implements ITransportistaDao{
@@ -35,6 +36,12 @@ public class TransportistaDaoImpl extends Conexion implements ITransportistaDao{
             Transaction transaction = session.beginTransaction();
             session.save(transportista);
             transaction.commit();
+            String info = "Se ha registrado un nuevo Transportista";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
         } catch (HibernateException e) {
             session.getTransaction().rollback();
         } finally {
@@ -46,7 +53,27 @@ public class TransportistaDaoImpl extends Conexion implements ITransportistaDao{
 
     @Override
     public void actualizarTransportista(Transportista transportista) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    	 Session session = null;
+         try {
+
+             session = HibernateUtil.getSessionFactory().openSession();
+
+             Transaction transaction = session.beginTransaction();
+             session.update(transportista);
+             transaction.commit();
+             String info = "Se ha actualizado el Transportista";
+
+ 			PrimeFaces.current()
+ 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+ 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+ 							+ "  timer: 8000\n" + "})");
+         } catch (HibernateException e) {
+             session.getTransaction().rollback();
+         } finally {
+             if (session != null) {
+                 session.close();
+             }
+         }
     }
 
     @Override

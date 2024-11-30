@@ -14,7 +14,8 @@ import javax.inject.Named;
 @ViewScoped
 public class ProveedoresBean implements Serializable {
 
-    private List<Proveedores> listarProveedores;
+    private static final long serialVersionUID = 1L;
+	private List<Proveedores> listarProveedores;
     private Proveedores proveedores;
 
     @PostConstruct
@@ -40,7 +41,22 @@ public class ProveedoresBean implements Serializable {
 
     public void guardar() {
         IProveedoresDao eDao = new ProveedoresDaoImpl();
+        proveedores.setEstado(1);
         eDao.guardarProveedores(proveedores);
+        proveedores = new Proveedores();
+    }
+    
+    public void actualizar() {
+    	 IProveedoresDao eDao = new ProveedoresDaoImpl();
+         eDao.actualizarProveedores(proveedores);
+         proveedores = new Proveedores();
+    }
+    
+    public void bajaProveedores() {
+    	 IProveedoresDao eDao = new ProveedoresDaoImpl();
+    	 proveedores.setEstado(0);
+         eDao.borrarProveedores(proveedores);
+         proveedores = new Proveedores();
     }
 
 }

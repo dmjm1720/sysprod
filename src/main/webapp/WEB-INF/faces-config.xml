@@ -6,6 +6,5 @@
 	<lifecycle>
 		<phase-listener>com.dmjm.util.FiltroUrl</phase-listener>
 	</lifecycle>
-	
-	
+
 </faces-config>

@@ -1,0 +1,467 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="REGISTRO DE PREPARACIÓN DE PIELES"
+						styleClass="fuente" />
+
+				</div>
+
+				<div class="card">
+
+					<p:splitter style="height: 160px" styleClass="mb-5"
+						widgetVar="splitter">
+						<p:splitterPanel
+							styleClass="flex align-items-center justify-content-center">
+							<h:panelGrid id="panelIzquierdo" columns="2" cellpadding="4"
+								styleClass="fuente">
+
+								<p:outputLabel for="operacion" value="Operación" />
+								<p:inputText id="operacion"
+									value="#{preparacionBean.prePieles.noOperacion}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="fecha" value="Fecha" />
+								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="false"
+									disabled="false" placeholder="Fecha de registro"
+									inputStyleClass="font-size: .8rem !important"
+									inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+									value="#{preparacionBean.prePieles.fecha}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+
+
+
+								<p:outputLabel for="total" value="Total" />
+								<p:inputText id="total"
+									value="#{preparacionBean.prePieles.totalKilos}"
+									required="false" requiredMessage="Campo requerido" />
+								<div style="text-align: center">
+									<p:commandButton icon="pi pi-save" title="Guardar"
+										value="GUARDAR"
+										update="frmPrincipal:msgs, frmPrincipal:acco:tblA"
+										style="widht: 20rem; height: 2rem"
+										actionListener="#{preparacionBean.guardarPreparacion()}" />
+								</div>
+							</h:panelGrid>
+
+
+						</p:splitterPanel>
+
+
+						<p:splitterPanel
+							styleClass="flex align-items-center justify-content-center">
+
+							<h:panelGrid id="panelDerecho" columns="4" cellpadding="4"
+								styleClass="fuente">
+
+								<p:outputLabel for="factura" value="Factura" />
+								<p:inputText id="factura"
+									value="#{preparacionBean.facturasPieles.factura}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cz" value="CZ" />
+								<p:inputText id="cz"
+									value="#{preparacionBean.facturasPieles.cz}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="dc" value="DC" />
+								<p:inputText id="dc"
+									value="#{preparacionBean.facturasPieles.dc}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="ds" value="DS" />
+								<p:inputText id="ds"
+									value="#{preparacionBean.facturasPieles.ds}" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="cn" value="CN" />
+								<p:inputText id="cn"
+									value="#{preparacionBean.facturasPieles.cn}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:commandButton icon="pi pi-save" title="Guardar"
+									value="GUARDAR"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblB"
+									style="widht: 20rem; height: 2rem"
+									actionListener="#{preparacionBean.guardarFacturaPieles()}" />
+							</h:panelGrid>
+						</p:splitterPanel>
+					</p:splitter>
+				</div>
+
+
+				<p:accordionPanel id="acco" widgetVar="basic">
+
+					<p:tab title="LISTA DE REGISTROS DE PREPARACIÓN DE PIELES"
+						titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+
+
+						<div class="card">
+
+							<p:splitter style="height: 150px; width:30%" styleClass="mb-5"
+								widgetVar="splitter">
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+
+									<div style="text-align: center">
+									<p:inputText value="{item.noOperacion}" placeholder="INGRESA NO DE OPERACIÓN"
+												style="color: #036FAB ;font-weight: bold !important;" />
+												
+										<p:commandButton icon="pi pi-search-plus" value="BUSCAR NO. DE OPERACION"
+											style="width: 10rem; height: 1.5rem" />
+									</div>
+									<p:dataTable id="tblA" styleClass="tabla fuente" var="item"
+										sortMode="multiple" rowHover="true"
+										paginatorAlwaysVisible="true" scrollable="true"
+										value="#{preparacionBean.listarPreparacion}"
+										emptyMessage="NO HAY REGISTROS">
+
+										<p:column headerText="Operación" width="4rem"
+											styleClass="fondo">
+											<h:outputText value="#{item.noOperacion}"
+												style="color: #036FAB ;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Fecha" width="8rem">
+											<h:outputText value="#{item.fecha}"
+												style="color: #036FAB;font-weight: bold !important;">
+												<f:convertDateTime pattern="YYYY-MM-dd"
+													timeZone="America/Mexico_City" />
+											</h:outputText>
+										</p:column>
+
+										<p:column headerText="Total kilos" width="10rem">
+											<h:outputText value="#{item.totalKilos}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+									</p:dataTable>
+								</p:splitterPanel>
+
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<div style="text-align: center">
+										<p:commandButton icon="pi pi-book" value="AGREGAR FACTURA"
+											style="width: 8rem; height: 1.5rem" />
+									</div>
+									<p:dataTable id="tblB" styleClass="tabla fuente" var="item2"
+										sortMode="multiple" rowHover="true"
+										style="height: 150px; width:100%"
+										paginatorAlwaysVisible="true" scrollable="true"
+										value="#{preparacionBean.listaFacturaPieles}"
+										emptyMessage="NO HAY REGISTROS">
+
+										<p:column headerText="Operación" width="4rem"
+											styleClass="fondo">
+											<h:outputText value="#{item2.preparacionPieles.noOperacion}"
+												style="color: #036FAB;" />
+										</p:column>
+
+										<p:column headerText="Factura" width="8rem">
+											<h:outputText value="#{item2.factura}"
+												style="color: #036FAB;" />
+										</p:column>
+
+										<p:column headerText="CZ" width="5rem">
+											<h:outputText value="#{item2.cz}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="DC" width="5rem">
+											<h:outputText value="#{item2.dc}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="DS" width="5rem">
+											<h:outputText value="#{item2.ds}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="CN" width="5rem">
+											<h:outputText value="#{item2.cn}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="RP" width="5rem">
+											<h:outputText value="#{item2.rp}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+									</p:dataTable>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<div style="text-align: center">
+										<p:commandButton icon="pi pi-download"
+											value="AGREGAR LAVADORA" style="width: 8rem; height: 1.5rem" />
+									</div>
+									<p:dataTable id="tblLavadorasw" styleClass="tabla fuente"
+										var="item" sortMode="multiple" rowHover="true"
+										style="width: 100%" paginatorAlwaysVisible="true"
+										scrollable="true" value="#{preparacionBean.listaOperaciones}"
+										emptyMessage="NO HAY REGISTROS">
+
+										<p:column headerText="Operación" width="4rem"
+											styleClass="fondo">
+											<h:outputText value="#{item.preparacionPieles.noOperacion}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Lavadora" width="8rem">
+											<h:outputText value="#{item.lavadoras.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+									</p:dataTable>
+								</p:splitterPanel>
+
+							</p:splitter>
+						</div>
+
+
+						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3"
+							value="#{preparacionBean.listaEtapa1}"
+							emptyMessage="NO HAY REGISTROS">
+
+							<p:column headerText="Operación" width="2rem" styleClass="fondo">
+								<h:outputText value="#{item3.preparacionPieles.noOperacion}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+							<p:column headerText="Etapa" width="5rem">
+								<h:outputText value="#{item3.etapa}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Día inicio" width="5rem">
+								<h:outputText value="#{item3.diaInicio}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Hora inicio" width="5rem">
+
+								<h:outputText value="#{item3.horaInicio}"
+									style="color: #036FAB; font-weight: bold !important;">
+									<f:convertDateTime pattern="HH:mm:ss a"
+										timeZone="America/Mexico_City" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Día fin" width="5rem">
+								<h:outputText value="#{item3.diaFin}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Hora fin" width="5rem">
+								<h:outputText value="#{item3.horaFin}"
+									style="color: #036FAB; font-weight: bold !important;">
+									<f:convertDateTime pattern="HH:mm:ss a"
+										timeZone="America/Mexico_City" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="PH Sol" width="5rem">
+								<h:outputText value="#{item3.phSol}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Normalidad" width="5rem">
+								<h:outputText value="#{item3.normalidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Tipo" width="5rem">
+								<h:outputText value="#{item3.tipo}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidad}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem">
+								<h:outputText value="#{item3.lote}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Operador" width="5rem">
+								<h:outputText value="#{item3.operador}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Agua" width="5rem">
+								<h:outputText value="#{item3.agua}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapa1}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+
+				</p:accordionPanel>
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DE LA LAVADORA"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6" styleClass="fuente">
+
+						<p:outputLabel for="etapa" value="Etapa" />
+						<p:inputText id="etapa" value="#{preparacionBean.etapa1.etapa}"
+							required="false" requiredMessage="Campo requerido"
+							disabled="true" style="width: 20rem" />
+						<p:message for="etapa" />
+
+						<p:outputLabel for="diaInicio" value="Día Inicio" />
+						<p:datePicker id="diaInicio"
+							value="#{preparacionBean.etapa1.diaInicio}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="diaInicio" />
+
+						<p:outputLabel for="hi" value="Hora Inicio" />
+
+						<p:datePicker id="hi" value="#{preparacionBean.etapa1.horaInicio}"
+							pattern="hh:mm:ss a" timeOnly="true"
+							timeZone="America/Mexico_City" />
+						<p:message for="hi" />
+
+						<p:outputLabel for="diaFin" value="Dia Fin" />
+						<p:datePicker id="diaFin" value="#{preparacionBean.etapa1.diaFin}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="diaFin" />
+
+						<p:outputLabel for="hf" value="Hora Fin" />
+						<p:datePicker id="hf" value="#{preparacionBean.etapa1.horaFin}"
+							pattern="hh:mm:ss a" timeOnly="true" showTime="true"
+							showIcon="true" timeZone="America/Mexico_City" />
+						<p:message for="hf" />
+
+						<p:outputLabel for="phsol" value="PH Sol" />
+						<p:inputText id="phsol" value="#{preparacionBean.etapa1.phSol}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="phsol" />
+
+						<p:outputLabel for="normalidad" value="Normalidad" />
+						<p:inputText id="normalidad"
+							value="#{preparacionBean.etapa1.normalidad}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="normalidad" />
+
+						<p:outputLabel for="tipo" value="Tipo" />
+						<p:inputText id="tipo" value="#{preparacionBean.etapa1.tipo}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="tipo" />
+
+						<p:outputLabel for="cantidad" value="Cantidad" />
+						<p:inputText id="cantidad"
+							value="#{preparacionBean.etapa1.cantidad}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="cantidad" />
+
+						<p:outputLabel for="lote" value="Lote" />
+						<p:inputText id="lote" value="#{preparacionBean.etapa1.lote}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="lote" />
+
+						<p:outputLabel for="operador" value="Operador" />
+						<p:inputText id="operador"
+							value="#{preparacionBean.etapa1.operador}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="operador" />
+
+						<p:outputLabel for="agua" value="Agua" />
+						<p:inputText id="agua" value="#{preparacionBean.etapa1.agua}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="agua" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{preparacionBean.actualizarEtapa()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

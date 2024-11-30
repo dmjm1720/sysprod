@@ -122,7 +122,6 @@ a:link:hover, a:visited:hover {
 }
 
 .tabla {
-	font-size: 12px !important;
 	/*        font-family: 'Jetbrains', sans-serif !important;*/
 	font-family: "Poppins", sans-serif !important;
 }
@@ -146,8 +145,28 @@ a:link:hover, a:visited:hover {
 	font-size: rem 2.5 !important;
 }
 
-.otrosCampos{
+.otrosCampos {
 	background-color: #CDF5C8 !important;
 }
 
+.fuente {
+	font-size: .8rem !important;
+}
 
+.fuente2 {
+	font-size: .6rem !important;
+}
+
+.detalle {
+	font-weight: bold !important;
+}
+
+.btnActualizar {
+	background-color: #4682B4 !important;
+	border-radius: .1rem;
+}
+
+.fondo {
+	background-color:  #d6eaf8  !important;
+	text-align: center !important
+}

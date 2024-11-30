@@ -44,6 +44,14 @@ public class TransportistaBean implements Serializable {
     public void guardar() {
         ITransportistaDao eDao = new TransportistaDaoImpl();
         eDao.guardarTransportista(transportista);
+        transportista = new Transportista(); 
     }
+    
+    public void actualizar() {
+        ITransportistaDao eDao = new TransportistaDaoImpl();
+        eDao.actualizarTransportista(transportista);
+        transportista = new Transportista(); 
+    }
+    
 
 }

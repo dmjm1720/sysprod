@@ -14,13 +14,14 @@ import java.util.logging.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.PrimeFaces;
 
 public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
 
     @Override
     public List<Proveedores> listarProveedores() {
         @SuppressWarnings("JPQLValidation")
-        List<Proveedores> proveedores = (List<Proveedores>) HibernateUtil.getSessionFactory().openSession().createQuery("From Proveedores").list();
+        List<Proveedores> proveedores = (List<Proveedores>) HibernateUtil.getSessionFactory().openSession().createQuery("From Proveedores WHERE estado=1  ORDER BY nombre").list();
         return proveedores;
     }
 
@@ -34,6 +35,13 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
             Transaction transaction = session.beginTransaction();
             session.save(proveedores);
             transaction.commit();
+
+			String info = "Se ha registrado un nuevo Proveedor";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
         } catch (HibernateException e) {
             session.getTransaction().rollback();
         } finally {
@@ -45,7 +53,28 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
 
     @Override
     public void actualizarProveedores(Proveedores proveedores) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    	 Session session = null;
+         try {
+
+             session = HibernateUtil.getSessionFactory().openSession();
+
+             Transaction transaction = session.beginTransaction();
+             session.update(proveedores);
+             transaction.commit();
+             String info = "Proveedor actualizado";
+
+ 			PrimeFaces.current()
+ 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+ 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+ 							+ "  timer: 8000\n" + "})");
+         } catch (HibernateException e) {
+        	 System.err.println(e.getMessage());
+             session.getTransaction().rollback();
+         } finally {
+             if (session != null) {
+                 session.close();
+             }
+         }
     }
 
     @Override
@@ -90,6 +119,35 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
         CerrarSysProd();
         return proveedor;
     }
+
+	
+
+	@Override
+	public void borrarProveedores(Proveedores proveedores) {
+		Session session = null;
+        try {
+
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Transaction transaction = session.beginTransaction();
+            session.update(proveedores);
+            transaction.commit();
+            String info = "El proveedor se ha dado de baja correctamente";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+        } catch (HibernateException e) {
+       	 System.err.println(e.getMessage());
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+		
+	}
 
    
 

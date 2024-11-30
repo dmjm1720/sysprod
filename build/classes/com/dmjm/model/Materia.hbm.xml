@@ -20,19 +20,5 @@
 			type="java.lang.Integer">
 			<column name="DESCUENTO_CALCIO_TABLA_B" />
 		</property>
-		<set name="entradases" table="ENTRADAS" inverse="true" lazy="true"
-			fetch="select">
-			<key>
-				<column name="ID_IDENTIFICACION_MATERIAL" />
-			</key>
-			<one-to-many class="com.dmjm.model.Entradas" />
-		</set>
-		<set name="precioses" table="PRECIOS" inverse="true" lazy="true"
-			fetch="select">
-			<key>
-				<column name="ID_MATERIA" />
-			</key>
-			<one-to-many class="com.dmjm.model.Precios" />
-		</set>
 	</class>
 </hibernate-mapping>

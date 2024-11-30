@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/11/2024 10:11:41 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.PreparacionPieles" table="PREPARACION_PIELES" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idPreparacion" type="int">
+            <column name="ID_PREPARACION" />
+            <generator class="native" />
+        </id>
+        <property name="fecha" type="timestamp">
+            <column name="FECHA" length="23" />
+        </property>
+        <property name="idOperacionLavadoras" type="java.lang.Integer">
+            <column name="ID_OPERACION_LAVADORAS" />
+        </property>
+        <property name="noOperacion" type="java.lang.Integer">
+            <column name="NO_OPERACION" />
+        </property>
+        <property name="totalKilos" type="big_decimal">
+            <column name="TOTAL_KILOS" precision="10" scale="4" />
+        </property>
+        <property name="estado" type="string">
+            <column name="ESTADO" length="20" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

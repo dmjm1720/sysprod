@@ -8,7 +8,6 @@ public class Transportista implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idTransportista;
 	private String nombre;
-	private Set entradases = new HashSet(0);
 
 	public Transportista() {
 	}
@@ -17,10 +16,9 @@ public class Transportista implements java.io.Serializable {
 		this.idTransportista = idTransportista;
 	}
 
-	public Transportista(int idTransportista, String nombre, Set entradases) {
+	public Transportista(int idTransportista, String nombre) {
 		this.idTransportista = idTransportista;
 		this.nombre = nombre;
-		this.entradases = entradases;
 	}
 
 	public int getIdTransportista() {
@@ -37,14 +35,6 @@ public class Transportista implements java.io.Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public Set getEntradases() {
-		return this.entradases;
-	}
-
-	public void setEntradases(Set entradases) {
-		this.entradases = entradases;
 	}
 
 }

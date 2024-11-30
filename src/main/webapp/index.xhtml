@@ -23,17 +23,19 @@
 		</div>
 	</div>
 	</section>
-
-	<h:form id="formLogin" class="modal-content logo-name"
-		style="text-align: center">
+	<h:form id="frmMsg">
 		<p:growl id="mensaje" showSummary="true" life="50000"
 			showDetail="true" />
-		<p:blockUI block="formLogin" trigger="inicio">
-			<p:graphicImage value="resources/img/ajax-loader.gif" height="120px"
-				width="120px" />
-		</p:blockUI>
-		<p:growl id="mensajeGeneral" sticky="true" showDetail="true"
+		<p:growl id="mensajeGral" sticky="true" showDetail="true"
 			life="3000" />
+	</h:form>
+
+
+	<p:poll interval="60" update="formLogin" />
+	<h:form id="formLogin" class="modal-content logo-name"
+		style="text-align: center">
+
+
 		<br></br>
             INGRESAR AL SISTEMA
             <div class="imgcontainer">
@@ -48,10 +50,10 @@
 				jsf:value="#{login.usuario.password}" required="true"
 				jsf:label="REQUIERE CONTRASEÑA" label="password"
 				jsf:requiredMessage="REQUIERE PASSWORD" />
-			<p:commandButton id="inicio" update="formLogin" value="LOGIN"
+			<p:commandButton id="inicio" update="formLogin,frmMsg:mensaje, frmMsg:mensajeGral" value="LOGIN"
 				actionListener="#{login.login(event)}"
 				oncomplete="handleLoginRequest(xhr, status, args)"
-				style="background-color: #1D60A4; color: #FFFFFF; font-family: 'Rajdhani', sans-serif !important">
+				style="background-color: #1D60A4; color: #000000; font-family: 'Rajdhani', sans-serif !important">
 			</p:commandButton>
 		</div>
 

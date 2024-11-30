@@ -38,24 +38,34 @@
 				<p:divider />
 				<div class="card">
 
-					<p:accordionPanel widgetVar="basic">
-						<p:tab title="CAPTURA DE TRANSPORTISTAS">
-							<h:panelGrid columns="12" cellpadding="4">
+					<p:accordionPanel id="acco" widgetVar="basic">
+						<p:tab title="CAPTURA DE TRANSPORTISTAS" titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
 
 								<p:outputLabel for="nombre" value="Nombre" />
-								<p:inputText id="nombre"
+								<p:inputText id="nombre" style="width: 20rem"
 									value="#{transportistaBean.transportista.nombre}"
 									required="false" requiredMessage="Campo requerido" />
 								<p:message for="nombre" />
 
 
-								<p:commandButton icon="pi pi-save" title="Guardar"
-									update="frmPrincipal, frmPrincipal:msgs, tblClientes"
+								<p:commandButton icon="pi pi-save" title="GUARDAR"
+									value="GUARDAR" style="width: 8rem; height: 2rem"
+									update="frmPrincipal, frmPrincipal:msgs, tblTrans"
 									actionListener="#{transportistaBean.guardar()}" />
 							</h:panelGrid>
 						</p:tab>
-						<p:tab title="LISTA DE TRANSPORTISTAS">
-							<p:dataTable id="tblClientes" styleClass="tabla" var="item"
+						<p:tab title="LISTA DE TRANSPORTISTAS" titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+						
+						<div style="text-align: center">
+								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
+									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
+									<p:dataExporter type="xls" target="frmPrincipal:acco:tblTrans"
+										fileName="REPORTE DE TRANSPORTISTAS" />
+								</p:commandButton>
+							</div>
+							
+							<p:dataTable id="tblTrans" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
@@ -65,6 +75,17 @@
 								value="#{transportistaBean.listarTransportista}"
 								emptyMessage="NO HAY REGISTROS">
 
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{transportistaBean.transportista}" />
+
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
 
 								<p:column headerText="Nombre" width="10rem">
 									<h:outputText value="#{item.nombre}" style="color: #036FAB;" />
@@ -116,7 +137,35 @@
 
 			</h:form>
 
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DEL TRANSPORTISTA"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6" styleClass="fuente">
+						<br />
+						<p:outputLabel for="nombre" value="Nombre" />
+						<p:inputText id="nombre"
+							value="#{transportistaBean.transportista.nombre}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="nombre" />
 
+
+					</h:panelGrid>
+
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{transportistaBean.actualizar()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
 
 		</ui:define>
 	</ui:composition>

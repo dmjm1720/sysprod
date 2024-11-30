@@ -74,6 +74,23 @@ public class Entradas implements java.io.Serializable {
 	private BigDecimal descuentoCalcio;
 	private Date fechaImpresionContador;
 	private BigDecimal porcentajeMerma;
+	private BigDecimal precioCalcCcp;
+	private BigDecimal precioCalcC1;
+	private BigDecimal precioCalcC2;
+	private BigDecimal precioCalcCs;
+	private BigDecimal precioCalcDr;
+	private BigDecimal precioCalcCm;
+	private BigDecimal precioCalcCo;
+	private BigDecimal precioCalcPc;
+	private BigDecimal precioCalcP;
+	private BigDecimal precioCalcDa;
+	private BigDecimal precioCalcDs;
+	private BigDecimal precioCalcCdi;
+	private BigDecimal precioCalcG;
+	private BigDecimal precioCalcCe;
+	private BigDecimal subtotal;
+	private BigDecimal iva;
+	private BigDecimal totalCaptura;
 
 	public Entradas() {
 	}
@@ -98,8 +115,13 @@ public class Entradas implements java.io.Serializable {
 			BigDecimal precioCdi, BigDecimal precioG, BigDecimal precioCe, BigDecimal cueroEnSangre,
 			BigDecimal calculoPorcentajeMerma, BigDecimal descuentoHumedadTa, BigDecimal descuentoHumedadTb,
 			BigDecimal descuentoCalcioTa, BigDecimal descuentoCalcioTb, BigDecimal calculoKgMerma,
-			BigDecimal descuentoHumedad, BigDecimal descuentoCalcio, Date fechaImpresionContador, BigDecimal porcentajeMerma) {
-
+			BigDecimal descuentoHumedad, BigDecimal descuentoCalcio, Date fechaImpresionContador,
+			BigDecimal porcentajeMerma, BigDecimal precioCalcCcp, BigDecimal precioCalcC1, BigDecimal precioCalcC2,
+			BigDecimal precioCalcCs, BigDecimal precioCalcDr, BigDecimal precioCalcCm, BigDecimal precioCalcCo,
+			BigDecimal precioCalcPc, BigDecimal precioCalcP, BigDecimal precioCalcDa, BigDecimal precioCalcDs,
+			BigDecimal precioCalcCdi, BigDecimal precioCalcG, BigDecimal precioCalcCe, BigDecimal subtotal,
+			BigDecimal iva, BigDecimal totalCaptura) {
+		super();
 		this.idEntrada = idEntrada;
 		this.materia = materia;
 		this.preservacion = preservacion;
@@ -168,10 +190,27 @@ public class Entradas implements java.io.Serializable {
 		this.descuentoCalcio = descuentoCalcio;
 		this.fechaImpresionContador = fechaImpresionContador;
 		this.porcentajeMerma = porcentajeMerma;
+		this.precioCalcCcp = precioCalcCcp;
+		this.precioCalcC1 = precioCalcC1;
+		this.precioCalcC2 = precioCalcC2;
+		this.precioCalcCs = precioCalcCs;
+		this.precioCalcDr = precioCalcDr;
+		this.precioCalcCm = precioCalcCm;
+		this.precioCalcCo = precioCalcCo;
+		this.precioCalcPc = precioCalcPc;
+		this.precioCalcP = precioCalcP;
+		this.precioCalcDa = precioCalcDa;
+		this.precioCalcDs = precioCalcDs;
+		this.precioCalcCdi = precioCalcCdi;
+		this.precioCalcG = precioCalcG;
+		this.precioCalcCe = precioCalcCe;
+		this.subtotal = subtotal;
+		this.iva = iva;
+		this.totalCaptura = totalCaptura;
 	}
 
 	public int getIdEntrada() {
-		return this.idEntrada;
+		return idEntrada;
 	}
 
 	public void setIdEntrada(int idEntrada) {
@@ -179,7 +218,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Materia getMateria() {
-		return this.materia;
+		return materia;
 	}
 
 	public void setMateria(Materia materia) {
@@ -187,7 +226,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Preservacion getPreservacion() {
-		return this.preservacion;
+		return preservacion;
 	}
 
 	public void setPreservacion(Preservacion preservacion) {
@@ -195,7 +234,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Proveedores getProveedores() {
-		return this.proveedores;
+		return proveedores;
 	}
 
 	public void setProveedores(Proveedores proveedores) {
@@ -203,7 +242,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Transportista getTransportista() {
-		return this.transportista;
+		return transportista;
 	}
 
 	public void setTransportista(Transportista transportista) {
@@ -211,7 +250,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Integer getTolvas() {
-		return this.tolvas;
+		return tolvas;
 	}
 
 	public void setTolvas(Integer tolvas) {
@@ -219,7 +258,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Date getFechaRecepcion() {
-		return this.fechaRecepcion;
+		return fechaRecepcion;
 	}
 
 	public void setFechaRecepcion(Date fechaRecepcion) {
@@ -227,7 +266,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getSucursal() {
-		return this.sucursal;
+		return sucursal;
 	}
 
 	public void setSucursal(String sucursal) {
@@ -235,7 +274,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Date getFechaRecepcionToluca() {
-		return this.fechaRecepcionToluca;
+		return fechaRecepcionToluca;
 	}
 
 	public void setFechaRecepcionToluca(Date fechaRecepcionToluca) {
@@ -243,7 +282,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getTicketBasculaToluca() {
-		return this.ticketBasculaToluca;
+		return ticketBasculaToluca;
 	}
 
 	public void setTicketBasculaToluca(String ticketBasculaToluca) {
@@ -251,7 +290,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getTicketBasculaLeon() {
-		return this.ticketBasculaLeon;
+		return ticketBasculaLeon;
 	}
 
 	public void setTicketBasculaLeon(String ticketBasculaLeon) {
@@ -259,7 +298,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getFactura() {
-		return this.factura;
+		return factura;
 	}
 
 	public void setFactura(String factura) {
@@ -267,7 +306,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getCertificado() {
-		return this.certificado;
+		return certificado;
 	}
 
 	public void setCertificado(String certificado) {
@@ -275,7 +314,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getKgEmbarcados() {
-		return this.kgEmbarcados;
+		return kgEmbarcados;
 	}
 
 	public void setKgEmbarcados(BigDecimal kgEmbarcados) {
@@ -283,7 +322,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getKgNetos() {
-		return this.kgNetos;
+		return kgNetos;
 	}
 
 	public void setKgNetos(BigDecimal kgNetos) {
@@ -291,7 +330,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getKgBascula() {
-		return this.kgBascula;
+		return kgBascula;
 	}
 
 	public void setKgBascula(BigDecimal kgBascula) {
@@ -299,7 +338,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getKgBasculaMerma() {
-		return this.kgBasculaMerma;
+		return kgBasculaMerma;
 	}
 
 	public void setKgBasculaMerma(BigDecimal kgBasculaMerma) {
@@ -307,7 +346,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getKgRecibidos() {
-		return this.kgRecibidos;
+		return kgRecibidos;
 	}
 
 	public void setKgRecibidos(BigDecimal kgRecibidos) {
@@ -315,7 +354,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getKgEnvioLeon() {
-		return this.kgEnvioLeon;
+		return kgEnvioLeon;
 	}
 
 	public void setKgEnvioLeon(BigDecimal kgEnvioLeon) {
@@ -323,7 +362,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getPalletsRecibidos() {
-		return this.palletsRecibidos;
+		return palletsRecibidos;
 	}
 
 	public void setPalletsRecibidos(String palletsRecibidos) {
@@ -331,7 +370,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCarnazaConPelo() {
-		return this.carnazaConPelo;
+		return carnazaConPelo;
 	}
 
 	public void setCarnazaConPelo(BigDecimal carnazaConPelo) {
@@ -339,7 +378,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCarnzaPrimera() {
-		return this.carnzaPrimera;
+		return carnzaPrimera;
 	}
 
 	public void setCarnzaPrimera(BigDecimal carnzaPrimera) {
@@ -347,7 +386,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCarnzaSegunda() {
-		return this.carnzaSegunda;
+		return carnzaSegunda;
 	}
 
 	public void setCarnzaSegunda(BigDecimal carnzaSegunda) {
@@ -355,7 +394,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getDesbarbeRecorte() {
-		return this.desbarbeRecorte;
+		return desbarbeRecorte;
 	}
 
 	public void setDesbarbeRecorte(BigDecimal desbarbeRecorte) {
@@ -363,7 +402,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCerdoMexicano() {
-		return this.cerdoMexicano;
+		return cerdoMexicano;
 	}
 
 	public void setCerdoMexicano(BigDecimal cerdoMexicano) {
@@ -371,7 +410,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getOrejaCachete() {
-		return this.orejaCachete;
+		return orejaCachete;
 	}
 
 	public void setOrejaCachete(BigDecimal orejaCachete) {
@@ -379,7 +418,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getGarra() {
-		return this.garra;
+		return garra;
 	}
 
 	public void setGarra(BigDecimal garra) {
@@ -387,7 +426,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPedaceria() {
-		return this.pedaceria;
+		return pedaceria;
 	}
 
 	public void setPedaceria(BigDecimal pedaceria) {
@@ -395,7 +434,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCueroDepiladoIntegral() {
-		return this.cueroDepiladoIntegral;
+		return cueroDepiladoIntegral;
 	}
 
 	public void setCueroDepiladoIntegral(BigDecimal cueroDepiladoIntegral) {
@@ -403,7 +442,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPedaceriaConPelo() {
-		return this.pedaceriaConPelo;
+		return pedaceriaConPelo;
 	}
 
 	public void setPedaceriaConPelo(BigDecimal pedaceriaConPelo) {
@@ -411,7 +450,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getTotal() {
-		return this.total;
+		return total;
 	}
 
 	public void setTotal(BigDecimal total) {
@@ -419,7 +458,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getMerma() {
-		return this.merma;
+		return merma;
 	}
 
 	public void setMerma(BigDecimal merma) {
@@ -427,7 +466,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getAlcalinidad() {
-		return this.alcalinidad;
+		return alcalinidad;
 	}
 
 	public void setAlcalinidad(BigDecimal alcalinidad) {
@@ -435,7 +474,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getHumedad() {
-		return this.humedad;
+		return humedad;
 	}
 
 	public void setHumedad(BigDecimal humedad) {
@@ -443,7 +482,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getCoordinadorProduccion() {
-		return this.coordinadorProduccion;
+		return coordinadorProduccion;
 	}
 
 	public void setCoordinadorProduccion(String coordinadorProduccion) {
@@ -451,7 +490,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getControlCalidad() {
-		return this.controlCalidad;
+		return controlCalidad;
 	}
 
 	public void setControlCalidad(String controlCalidad) {
@@ -459,7 +498,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public String getGerenciaProduccion() {
-		return this.gerenciaProduccion;
+		return gerenciaProduccion;
 	}
 
 	public void setGerenciaProduccion(String gerenciaProduccion) {
@@ -467,7 +506,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Date getFechaLiberacion() {
-		return this.fechaLiberacion;
+		return fechaLiberacion;
 	}
 
 	public void setFechaLiberacion(Date fechaLiberacion) {
@@ -475,7 +514,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Integer getBloqueoEditar() {
-		return this.bloqueoEditar;
+		return bloqueoEditar;
 	}
 
 	public void setBloqueoEditar(Integer bloqueoEditar) {
@@ -483,7 +522,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public Integer getEstado() {
-		return this.estado;
+		return estado;
 	}
 
 	public void setEstado(Integer estado) {
@@ -491,7 +530,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCarnazaSalada() {
-		return this.carnazaSalada;
+		return carnazaSalada;
 	}
 
 	public void setCarnazaSalada(BigDecimal carnazaSalada) {
@@ -499,7 +538,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getDescarneAdherido() {
-		return this.descarneAdherido;
+		return descarneAdherido;
 	}
 
 	public void setDescarneAdherido(BigDecimal descarneAdherido) {
@@ -507,7 +546,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getDescarneSeparado() {
-		return this.descarneSeparado;
+		return descarneSeparado;
 	}
 
 	public void setDescarneSeparado(BigDecimal descarneSeparado) {
@@ -515,7 +554,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioCcp() {
-		return this.precioCcp;
+		return precioCcp;
 	}
 
 	public void setPrecioCcp(BigDecimal precioCcp) {
@@ -523,7 +562,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioC1() {
-		return this.precioC1;
+		return precioC1;
 	}
 
 	public void setPrecioC1(BigDecimal precioC1) {
@@ -531,7 +570,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioC2() {
-		return this.precioC2;
+		return precioC2;
 	}
 
 	public void setPrecioC2(BigDecimal precioC2) {
@@ -539,7 +578,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioCs() {
-		return this.precioCs;
+		return precioCs;
 	}
 
 	public void setPrecioCs(BigDecimal precioCs) {
@@ -547,7 +586,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioDr() {
-		return this.precioDr;
+		return precioDr;
 	}
 
 	public void setPrecioDr(BigDecimal precioDr) {
@@ -555,7 +594,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioCm() {
-		return this.precioCm;
+		return precioCm;
 	}
 
 	public void setPrecioCm(BigDecimal precioCm) {
@@ -563,7 +602,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioCo() {
-		return this.precioCo;
+		return precioCo;
 	}
 
 	public void setPrecioCo(BigDecimal precioCo) {
@@ -571,7 +610,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioPc() {
-		return this.precioPc;
+		return precioPc;
 	}
 
 	public void setPrecioPc(BigDecimal precioPc) {
@@ -579,7 +618,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioP() {
-		return this.precioP;
+		return precioP;
 	}
 
 	public void setPrecioP(BigDecimal precioP) {
@@ -587,7 +626,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioDa() {
-		return this.precioDa;
+		return precioDa;
 	}
 
 	public void setPrecioDa(BigDecimal precioDa) {
@@ -595,7 +634,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioDs() {
-		return this.precioDs;
+		return precioDs;
 	}
 
 	public void setPrecioDs(BigDecimal precioDs) {
@@ -603,7 +642,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioCdi() {
-		return this.precioCdi;
+		return precioCdi;
 	}
 
 	public void setPrecioCdi(BigDecimal precioCdi) {
@@ -611,7 +650,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioG() {
-		return this.precioG;
+		return precioG;
 	}
 
 	public void setPrecioG(BigDecimal precioG) {
@@ -619,7 +658,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getPrecioCe() {
-		return this.precioCe;
+		return precioCe;
 	}
 
 	public void setPrecioCe(BigDecimal precioCe) {
@@ -627,7 +666,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCueroEnSangre() {
-		return this.cueroEnSangre;
+		return cueroEnSangre;
 	}
 
 	public void setCueroEnSangre(BigDecimal cueroEnSangre) {
@@ -635,7 +674,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCalculoPorcentajeMerma() {
-		return this.calculoPorcentajeMerma;
+		return calculoPorcentajeMerma;
 	}
 
 	public void setCalculoPorcentajeMerma(BigDecimal calculoPorcentajeMerma) {
@@ -643,7 +682,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getDescuentoHumedadTa() {
-		return this.descuentoHumedadTa;
+		return descuentoHumedadTa;
 	}
 
 	public void setDescuentoHumedadTa(BigDecimal descuentoHumedadTa) {
@@ -651,7 +690,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getDescuentoHumedadTb() {
-		return this.descuentoHumedadTb;
+		return descuentoHumedadTb;
 	}
 
 	public void setDescuentoHumedadTb(BigDecimal descuentoHumedadTb) {
@@ -659,7 +698,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getDescuentoCalcioTa() {
-		return this.descuentoCalcioTa;
+		return descuentoCalcioTa;
 	}
 
 	public void setDescuentoCalcioTa(BigDecimal descuentoCalcioTa) {
@@ -667,7 +706,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getDescuentoCalcioTb() {
-		return this.descuentoCalcioTb;
+		return descuentoCalcioTb;
 	}
 
 	public void setDescuentoCalcioTb(BigDecimal descuentoCalcioTb) {
@@ -675,7 +714,7 @@ public class Entradas implements java.io.Serializable {
 	}
 
 	public BigDecimal getCalculoKgMerma() {
-		return this.calculoKgMerma;
+		return calculoKgMerma;
 	}
 
 	public void setCalculoKgMerma(BigDecimal calculoKgMerma) {
@@ -713,7 +752,145 @@ public class Entradas implements java.io.Serializable {
 	public void setPorcentajeMerma(BigDecimal porcentajeMerma) {
 		this.porcentajeMerma = porcentajeMerma;
 	}
-	
-	
+
+	public BigDecimal getPrecioCalcCcp() {
+		return precioCalcCcp;
+	}
+
+	public void setPrecioCalcCcp(BigDecimal precioCalcCcp) {
+		this.precioCalcCcp = precioCalcCcp;
+	}
+
+	public BigDecimal getPrecioCalcC1() {
+		return precioCalcC1;
+	}
+
+	public void setPrecioCalcC1(BigDecimal precioCalcC1) {
+		this.precioCalcC1 = precioCalcC1;
+	}
+
+	public BigDecimal getPrecioCalcC2() {
+		return precioCalcC2;
+	}
+
+	public void setPrecioCalcC2(BigDecimal precioCalcC2) {
+		this.precioCalcC2 = precioCalcC2;
+	}
+
+	public BigDecimal getPrecioCalcCs() {
+		return precioCalcCs;
+	}
+
+	public void setPrecioCalcCs(BigDecimal precioCalcCs) {
+		this.precioCalcCs = precioCalcCs;
+	}
+
+	public BigDecimal getPrecioCalcDr() {
+		return precioCalcDr;
+	}
+
+	public void setPrecioCalcDr(BigDecimal precioCalcDr) {
+		this.precioCalcDr = precioCalcDr;
+	}
+
+	public BigDecimal getPrecioCalcCm() {
+		return precioCalcCm;
+	}
+
+	public void setPrecioCalcCm(BigDecimal precioCalcCm) {
+		this.precioCalcCm = precioCalcCm;
+	}
+
+	public BigDecimal getPrecioCalcCo() {
+		return precioCalcCo;
+	}
+
+	public void setPrecioCalcCo(BigDecimal precioCalcCo) {
+		this.precioCalcCo = precioCalcCo;
+	}
+
+	public BigDecimal getPrecioCalcPc() {
+		return precioCalcPc;
+	}
+
+	public void setPrecioCalcPc(BigDecimal precioCalcPc) {
+		this.precioCalcPc = precioCalcPc;
+	}
+
+	public BigDecimal getPrecioCalcP() {
+		return precioCalcP;
+	}
+
+	public void setPrecioCalcP(BigDecimal precioCalcP) {
+		this.precioCalcP = precioCalcP;
+	}
+
+	public BigDecimal getPrecioCalcDa() {
+		return precioCalcDa;
+	}
+
+	public void setPrecioCalcDa(BigDecimal precioCalcDa) {
+		this.precioCalcDa = precioCalcDa;
+	}
+
+	public BigDecimal getPrecioCalcDs() {
+		return precioCalcDs;
+	}
+
+	public void setPrecioCalcDs(BigDecimal precioCalcDs) {
+		this.precioCalcDs = precioCalcDs;
+	}
+
+	public BigDecimal getPrecioCalcCdi() {
+		return precioCalcCdi;
+	}
+
+	public void setPrecioCalcCdi(BigDecimal precioCalcCdi) {
+		this.precioCalcCdi = precioCalcCdi;
+	}
+
+	public BigDecimal getPrecioCalcG() {
+		return precioCalcG;
+	}
+
+	public void setPrecioCalcG(BigDecimal precioCalcG) {
+		this.precioCalcG = precioCalcG;
+	}
+
+	public BigDecimal getPrecioCalcCe() {
+		return precioCalcCe;
+	}
+
+	public void setPrecioCalcCe(BigDecimal precioCalcCe) {
+		this.precioCalcCe = precioCalcCe;
+	}
+
+	public BigDecimal getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(BigDecimal subtotal) {
+		this.subtotal = subtotal;
+	}
+
+	public BigDecimal getIva() {
+		return iva;
+	}
+
+	public void setIva(BigDecimal iva) {
+		this.iva = iva;
+	}
+
+	public BigDecimal getTotalCaptura() {
+		return totalCaptura;
+	}
+
+	public void setTotalCaptura(BigDecimal totalCaptura) {
+		this.totalCaptura = totalCaptura;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

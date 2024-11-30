@@ -21,6 +21,7 @@ import com.dmjm.model.Proveedores;
 import com.dmjm.model.Transportista;
 import com.dmjm.model.Usuarios;
 import com.dmjm.util.Conexion;
+import com.dmjm.util.Correo;
 import com.dmjm.util.ReporteLiberacion;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -97,6 +98,7 @@ public class EntradasBean extends Conexion implements Serializable {
 	private double dato14 = 0.0;
 	private double kilosEmbarcados = 0.0;
 	private double kilosRecibidos = 0.0;
+	private double kilosNetos = 0.0;
 
 	private double ceros = 0.0;
 
@@ -430,6 +432,15 @@ public class EntradasBean extends Conexion implements Serializable {
 	public void setCeros(double ceros) {
 		this.ceros = ceros;
 	}
+	
+
+	public double getKilosNetos() {
+		return kilosNetos;
+	}
+
+	public void setKilosNetos(double kilosNetos) {
+		this.kilosNetos = kilosNetos;
+	}
 
 	public void guardar() throws SQLException {
 		IEntradasDao eDao = new EntradasDaoImpl();
@@ -466,9 +477,9 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		// VALIDAR DATOS
 
-		if (entradas.getSucursal() == null || entradas.getTicketBasculaToluca()=="" || entradas.getFactura()=="" || entradas.getCertificado() == ""
-				|| transportista.getIdTransportista()==0 || proveedores.getIdProveedor()==0
-				|| materia.getIdMateria()==0 || preservacion.getIdPreservacion()==0) {
+		if (entradas.getSucursal() == null || entradas.getFactura() == "" || entradas.getCertificado() == ""
+				|| transportista.getIdTransportista() == 0 || proveedores.getIdProveedor() == 0
+				|| materia.getIdMateria() == 0 || preservacion.getIdPreservacion() == 0) {
 
 			String suc = "";
 			String fac = "";
@@ -477,37 +488,37 @@ public class EntradasBean extends Conexion implements Serializable {
 			String pro = "";
 			String mat = "";
 			String pre = "";
-			String ticket="";
+			String ticket = "";
 
 			if (entradas.getSucursal() == null) {
 				suc = "Sucursal, ";
 			}
 
-			if (entradas.getFactura() =="") {
+			if (entradas.getFactura() == "") {
 				fac = "Factura, ";
 			}
 
 			if (entradas.getCertificado() == "") {
 				cer = "Certificado, ";
 			}
-			if(materia.getIdMateria()==0) {
-				mat="Identificación de la materia, ";
+			if (materia.getIdMateria() == 0) {
+				mat = "Identificación de la materia, ";
 			}
 
-			if (transportista.getIdTransportista()==0) {
+			if (transportista.getIdTransportista() == 0) {
 				trans = "Transportista, ";
 			}
-			if (proveedores.getIdProveedor()==0) {
+			if (proveedores.getIdProveedor() == 0) {
 				pro = "Proveedor, ";
 			}
-			if (preservacion.getIdPreservacion()==0) {
+			if (preservacion.getIdPreservacion() == 0) {
 				pre = "Método de preservación, ";
 			}
-			if(entradas.getTicketBasculaToluca()=="") {
-				ticket="Ticket Toluca, ";
-			}
+//			if (entradas.getTicketBasculaToluca() == "") {
+//				ticket = "Ticket Toluca, ";
+//			}
 
-			String mensaje = "Te faltan campos: " + suc  + ticket +  fac + cer  + trans  + pro  + mat  + pre; 
+			String mensaje = "Te faltan campos: " + suc + ticket + fac + cer + trans + pro + mat + pre;
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + mensaje + "',\n" + "  showConfirmButton: true,\n"
@@ -605,14 +616,18 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			switch (us.getPerfiles().getNombrePerfil()) {
 			case "Coordinador" -> entradas.setCoordinadorProduccion(us.getIniciales());
-			case "Control de calidad" -> entradas.setControlCalidad(us.getIniciales());
-			case "Gerencia" -> entradas.setGerenciaProduccion(us.getIniciales());
+			case "Gerencia" -> entradas.setCoordinadorProduccion(us.getIniciales());
 			default -> {
 			}
 			}
 
-			if (us.getPerfiles().getNombrePerfil().equals("Coordinador")) {
+			if (us.getPerfiles().getNombrePerfil().equals("Coordinador")
+					|| us.getPerfiles().getNombrePerfil().equals("Gerencia")) {
 				entradas.setEstado(0);
+
+				entradas.setGerenciaProduccion(null);
+				entradas.setFechaLiberacion(null);
+
 			}
 
 			double porcentaje15 = 1.5;
@@ -631,11 +646,11 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			fDao.actualizarFolio(year, nombre.toUpperCase(), entradas.getTolvas());
 
-			entradas = new Entradas();
-			preservacion = new Preservacion();
-			transportista = new Transportista();
-			proveedores = new Proveedores();
-			materia = new Materia();
+			entradas = null;
+			preservacion = null;
+			transportista = null;
+			proveedores = null;
+			materia = null;
 
 			String info = "Se ha registrado una nueva captura de materia prima";
 
@@ -643,6 +658,13 @@ public class EntradasBean extends Conexion implements Serializable {
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
+
+			// PrimeFaces.current().ajax().update("frmPrincipal:acco:panel,
+			// frmPrincipal:acco:panel2, frmPrincipal:acco:panel3");
+			PrimeFaces.current().executeScript("PF('frmPrincipal').reset();");
+			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel");
+			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel1");
+			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel2");
 		}
 	}
 
@@ -719,13 +741,15 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 		}
 
+		int banderaGerencia = 0;
+		int banderaControlCalidad = 0;
 		if (us.getPerfiles().getNombrePerfil().equals("Gerencia")) {
 			entradasEditar.setBloqueoEditar(1);
 			entradasEditar.setEstado(2);
-
+			banderaGerencia = 1;
 		} else if (us.getPerfiles().getNombrePerfil().equals("Control de calidad")) {
 			entradasEditar.setEstado(1);
-
+			banderaControlCalidad = 1;
 			// **INICIA VALIDAR LOS DESCUENTOS POR ALCALINIDAD Y HUMEDAD**//
 			if (entradasEditar.getMateria().getDescuentoCalcioTablaA().equals(1)) {
 				// **EL 1 ES PARA LA TABLA A**//
@@ -754,9 +778,105 @@ public class EntradasBean extends Conexion implements Serializable {
 				entradasEditar.setDescuentoHumedad(entradasEditar.getDescuentoHumedadTb());
 			}
 
+			if (entradasEditar.getProveedores().getDescuentoHumedadTablaA().equals(0)
+					&& entradasEditar.getProveedores().getDescuentoHumedadTablaB().equals(0)) {
+				entradasEditar.setDescuentoHumedad(BigDecimal.valueOf(ceros));
+				LOGGER.info("PROVEEDOR SIN DESCUENTOS EN HUMEDADES EN LAS TABLAS A y B->"
+						+ entradasEditar.getProveedores().getNombre());
+			}
+
 			// **FINALIZA VALIDAR LOS DESCUENTOS POR ALCALINIDAD Y HUMEDAD**//
 		}
+
+		// **KG PORCENTAJE**//
+
+		double kg_porcentaje = 0.0;
+		kg_porcentaje = Double.valueOf(entradasEditar.getKgEmbarcados().toString())
+				- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
+						+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
+						+ Double.valueOf(entradasEditar.getPorcentajeMerma().toString())
+						- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
+						* Double.valueOf(entradasEditar.getKgEmbarcados().toString())) / 100);
+
+		entradasEditar.setPrecioCalcCcp(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaConPelo().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioCcp().toString())));
+		entradasEditar.setPrecioCalcC1(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnzaPrimera().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioC1().toString())));
+		entradasEditar.setPrecioCalcC2(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnzaSegunda().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioC2().toString())));
+		entradasEditar.setPrecioCalcCs(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaSalada().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioCs().toString())));
+		entradasEditar.setPrecioCalcDr(BigDecimal
+				.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getDesbarbeRecorte().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioDr().toString())));
+		entradasEditar.setPrecioCalcCm(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCerdoMexicano().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioCm().toString())));
+		entradasEditar.setPrecioCalcCo(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getOrejaCachete().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioCo().toString())));
+		entradasEditar.setPrecioCalcPc(BigDecimal
+				.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getPedaceriaConPelo().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioPc().toString())));
+		entradasEditar.setPrecioCalcP(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getPedaceria().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioP().toString())));
+		entradasEditar.setPrecioCalcDa(BigDecimal
+				.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getDescarneAdherido().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioDa().toString())));
+		entradasEditar.setPrecioCalcDs(BigDecimal
+				.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getDescarneSeparado().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioDs().toString())));
+		entradasEditar.setPrecioCalcCdi(BigDecimal
+				.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCueroDepiladoIntegral().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioCdi().toString())));
+		entradasEditar.setPrecioCalcG(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getGarra().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioG().toString())));
+		entradasEditar.setPrecioCalcCe(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCueroEnSangre().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioCe().toString())));
+
+		double sumaSubtotal = 0.0;
+		sumaSubtotal = (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcC1().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcC2().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcCs().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcDr().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcCm().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcCo().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcPc().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcP().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcDa().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcDs().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcCdi().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcG().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcCe().toString()));
+
+		double iva = 0.0;
+		iva = sumaSubtotal * .16;
+
+		double tCatura = 0.0;
+		tCatura = iva + sumaSubtotal;
+
+		entradasEditar.setSubtotal(BigDecimal.valueOf(sumaSubtotal));
+		entradasEditar.setIva(BigDecimal.valueOf(iva));
+		entradasEditar.setTotalCaptura(BigDecimal.valueOf(tCatura));
+		// **CALCULOS DE LOS PRECIOS**//
+
+		LOGGER.info(
+				"->PRECIO: " + kg_porcentaje + " ->SUBTOTAL:" + sumaSubtotal + " ->IVA:" + iva + " ->TOTAL:" + tCatura);
+
 		eDao.actualizarEntradas(entradasEditar);
+		Correo c = new Correo();
+
+		c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getProveedores().getNombre(),
+				entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(), banderaGerencia,
+				banderaControlCalidad);
 
 	}
 
@@ -799,29 +919,45 @@ public class EntradasBean extends Conexion implements Serializable {
 
 	}
 
+	// #################################//
+	// **KG EMBARCADOS - KG RECIBIDOS | KG NETOS - KG RECIBIDOS**//
 	public void totalKilos() {
 		double resta = 0.0;
-		resta = (kilosEmbarcados - kilosRecibidos);
+		if(kilosEmbarcados>0.0) {
+			resta = (kilosEmbarcados - kilosRecibidos);
+		}
+		if(kilosNetos>0.0) {
+			resta = (kilosNetos - kilosRecibidos);
+		}
 		entradas.setMerma(BigDecimal.valueOf(resta));
-
+	
+		
 	}
 
+	// **KG EMBARCADOS - KG RECIBIDOS | KG NETOS - KG RECIBIDOS**//
 	public void porcentajeTotal() {
 		double porcentaje = 0.0;
-		porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) / (kilosEmbarcados);
-		String.format("%.2f", porcentaje);
+		if(kilosEmbarcados>0.0) {
+			porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) / (kilosEmbarcados);
+		}
+		if(kilosNetos>0.0){
+			porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) / (kilosNetos);
+		}
+		
 		entradas.setPorcentajeMerma(BigDecimal.valueOf(Double.parseDouble(String.format("%.2f", porcentaje))));
 	}
+	// #################################//
 
+	// **PARA LOS DESCUENTOS EN LAS TABLASE DE LAS HUMEDADES**//
 	public double descuentoHumedadTabla_AB(String porcentaje, String tabla) {
 		double resultado = 0.0;
 		String sql = "";
 		if (tabla.equals("A")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_A " + "WHERE HUMEDAD >= " + porcentaje
-					+ " ORDER BY ID_HUMEDAD ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_A WHERE HUMEDAD <= " + porcentaje
+					+ " ORDER BY ID_HUMEDAD DESC";
 		} else if (tabla.equals("B")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_B " + "WHERE HUMEDAD >= " + porcentaje
-					+ " ORDER BY ID_HUMEDAD ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_B WHERE HUMEDAD <= " + porcentaje
+					+ " ORDER BY ID_HUMEDAD DESC";
 		}
 
 		try {
@@ -830,7 +966,7 @@ public class EntradasBean extends Conexion implements Serializable {
 			ResultSet rs = st.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
-
+				resultado = 0.0;
 			} else {
 				while (rs.next()) {
 					resultado = rs.getDouble("DESCUENTO");
@@ -849,14 +985,15 @@ public class EntradasBean extends Conexion implements Serializable {
 		return resultado;
 	}
 
+	// **PARA LOS DESCUENTOS EN LAS TABLAS DE LOS CALCIOS**//
 	public double descuentoCalciosTabla_AB(String porcentaje, String tabla) {
 		double resultado = 0.0;
 		String sql = "";
 		if (tabla.equals("A")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_A " + "WHERE ALCALINIDAD >= " + porcentaje
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_A WHERE ALCALINIDAD >= " + porcentaje
 					+ " ORDER BY ID_CALCIOS ASC";
 		} else if (tabla.equals("B")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_B " + "WHERE ALCALINIDAD >= " + porcentaje
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_B WHERE ALCALINIDAD >= " + porcentaje
 					+ " ORDER BY ID_CALCIOS ASC";
 		}
 
@@ -866,7 +1003,7 @@ public class EntradasBean extends Conexion implements Serializable {
 			ResultSet rs = st.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
-
+				resultado = 0.0;
 			} else {
 				while (rs.next()) {
 					resultado = rs.getDouble("DESCUENTO");
@@ -884,7 +1021,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		return resultado;
 	}
 
-	public void visualizarReporte(String idEntrada, int tolva) {
+	public void visualizarReporte(String idEntrada, int tolva, int estado, String iniciales) {
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 
@@ -910,9 +1047,33 @@ public class EntradasBean extends Conexion implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/liberacion.jasper");
+		String idDoc = "";
 
-		reporte.getReporte(ruta, idEntrada);
+		switch (iniciales) {
+		case "JMNV":
+			idDoc = "1";
+			break;
+		case "EEL":
+			idDoc = "2";
+			break;
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + iniciales);
+		}
+
+		switch (estado) {
+		case 0:
+		case 1:
+			ruta = servletContext.getRealPath("/REP/liberacionSF.jasper");
+			reporte.getReporte(ruta, idEntrada, idDoc);
+			break;
+		case 2:
+			ruta = servletContext.getRealPath("/REP/liberacion.jasper");
+			reporte.getReporte(ruta, idEntrada, idDoc);
+			break;
+		default:
+
+			throw new IllegalArgumentException("Unexpected value: " + estado);
+		}
 
 		FacesContext.getCurrentInstance().responseComplete();
 

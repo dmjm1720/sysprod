@@ -29,7 +29,7 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	@Override
 	public List<Entradas> listarEntradas() {
 		List<Entradas> entradas = (List<Entradas>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("From Entradas ORDER BY idEntrada DESC").list();
+				.createQuery("From Entradas ORDER BY idEntrada ASC").list();
 		return entradas;
 	}
 

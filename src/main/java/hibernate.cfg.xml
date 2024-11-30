@@ -3,14 +3,17 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.0.11:1433;databaseName=sysprod</property>
-		<property name="hibernate.connection.username">sa</property>
-		<property name="hibernate.connection.password">S1st3m4S*Duch3</property>
 		
 		
-<!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.1.2:1433;databaseName=sysprod</property> -->
+<!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.0.11:1433;databaseName=sysprod</property> -->
 <!-- 		<property name="hibernate.connection.username">sa</property> -->
-<!-- 		<property name="hibernate.connection.password">sistemas24</property> -->
+<!-- 		<property name="hibernate.connection.password">S1st3m4S*Duch3</property> -->
+
+
+		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.1.6:1433;databaseName=sysprod</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.connection.password">sistemas24</property>
+
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
 		<property name="hibernate.show_sql">true</property>
@@ -35,5 +38,11 @@
 		<mapping resource="com/dmjm/model/Usuarios.hbm.xml" />
 		<mapping resource="com/dmjm/model/Materia.hbm.xml" />
 		<mapping resource="com/dmjm/model/Precios.hbm.xml" />
+		<mapping resource="com/dmjm/model/SaldoFactura.hbm.xml" />
+		<mapping resource="com/dmjm/model/PreparacionPieles.hbm.xml" />
+		<mapping resource="com/dmjm/model/Lavadoras.hbm.xml" />
+		<mapping resource="com/dmjm/model/Etapa1.hbm.xml" />
+		<mapping resource="com/dmjm/model/FacturasPieles.hbm.xml" />
+				<mapping resource="com/dmjm/model/OperacionLavadoras.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

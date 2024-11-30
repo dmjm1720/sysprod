@@ -9,7 +9,7 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="refresh"
-		content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/index.xhtml" />
+		content="#{facesContext.externalContext.sessionMaxInactiveInterval};url=#{request.contextPath}/" />
 	<h:outputStylesheet name="css/default.css" />
 	<h:outputStylesheet name="css/cssLayout.css" />
 	<link rel="preconnect" href="https://fonts.googleapis.com"></link>
@@ -57,31 +57,54 @@
 					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==1}"
 						activeIndex="#{param.i}">
 
-						<p:menuitem value="Materia prima" outcome="/views/Entradas"
-							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
 						</p:menuitem>
 						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
-							icon="pi pi-fw pi-cog">
+							icon="pi pi-fw pi-users">
 							<f:param name="i" value="1" />
 						</p:menuitem>
 						<p:menuitem value="Materia prima" outcome="/views/Materia"
-							icon="pi pi-fw pi-pencil">
+							icon="pi pi-fw pi-book">
 							<f:param name="i" value="2" />
 						</p:menuitem>
 						<p:menuitem value="Transportista" outcome="/views/Transportista"
-							icon="pi pi-fw pi-file">
+							icon="pi pi-fw pi-id-card">
 							<f:param name="i" value="3" />
 						</p:menuitem>
-						<p:menuitem value="Precios" outcome="/views/Precios"
-							icon="pi pi-fw pi-cog">
+
+						<p:menuitem value="Usuarios" outcome="/views/Usuarios"
+							icon="pi pi-fw pi-user">
 							<f:param name="i" value="4" />
 						</p:menuitem>
-						<p:menuitem value="Usuarios" outcome="/views/Usuarios"
-							icon="pi pi-fw pi-cog">
+						<p:menuitem value="Calcios Tabla A" outcome="/views/CalciosA"
+							icon="pi pi-fw pi-check-square">
 							<f:param name="i" value="5" />
 						</p:menuitem>
-
+						<p:menuitem value="Calcios Tabla B" outcome="/views/CalciosB"
+							icon="pi pi-fw pi-check-square">
+							<f:param name="i" value="6" />
+						</p:menuitem>
+						<p:menuitem value="Humedad Tabla A" outcome="/views/HumedadA"
+							icon="pi pi-fw pi-check-square">
+							<f:param name="i" value="7" />
+						</p:menuitem>
+						<p:menuitem value="Humedad Tabla B" outcome="/views/HumedadB"
+							icon="pi pi-fw pi-check-square">
+							<f:param name="i" value="8" />
+						</p:menuitem>
+						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvas"
+							icon="pi pi-fw pi-file-excel">
+							<f:param name="i" value="9" />
+						</p:menuitem>
+						<p:menuitem value="Registro de pieles"
+							outcome="/views/RegistroPieles" icon="pi pi-fw pi-tags">
+							<f:param name="i" value="10" />
+						</p:menuitem>
+						<p:menuitem value="Lavadoras"
+							outcome="/views/Lavadoras" icon="pi pi-fw pi-tags">
+							<f:param name="i" value="11" />
+						</p:menuitem>
 					</p:tabMenu>
 					<!--FINALIZA P1 ADM-->
 
@@ -94,7 +117,7 @@
 						activeIndex="#{param.i}">
 
 						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==2}"
-							value="Materia prima" outcome="/views/Entradas"
+							value="Registro de Tolvas" outcome="/views/Entradas"
 							icon="pi pi-fw pi-home">
 							<f:param name="i" value="0" />
 						</p:menuitem>
@@ -111,7 +134,7 @@
 						activeIndex="#{param.i}">
 
 						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==3}"
-							value="Materia prima" outcome="/views/Entradas"
+							value="Registro de Tolvas" outcome="/views/Entradas"
 							icon="pi pi-fw pi-home">
 							<f:param name="i" value="0" />
 						</p:menuitem>
@@ -126,7 +149,7 @@
 					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==4}"
 						activeIndex="#{param.i}">
 
-						<p:menuitem value="Materia prima" outcome="/views/Entradas"
+						<p:menuitem value="Registro de Tolvas" outcome="/views/Entradas"
 							icon="pi pi-fw pi-home">
 							<f:param name="i" value="0" />
 						</p:menuitem>
@@ -142,6 +165,11 @@
 							icon="pi pi-fw pi-file">
 							<f:param name="i" value="3" />
 						</p:menuitem>
+						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvasGerencia"
+							icon="pi pi-fw pi-file">
+							<f:param name="i" value="4" />
+						</p:menuitem>
+
 					</p:tabMenu>
 					<!--FINALIZA P4 GER-->
 
@@ -152,7 +180,7 @@
 					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==5}"
 						activeIndex="#{param.i}">
 
-						<p:menuitem value="Materia prima" outcome="/views/Entradas"
+						<p:menuitem value="Registro de Tolvas" outcome="/views/Entradas"
 							icon="pi pi-fw pi-home">
 							<f:param name="i" value="0" />
 						</p:menuitem>
@@ -170,7 +198,7 @@
 					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==6}"
 						activeIndex="#{param.i}">
 
-						<p:menuitem value="Materia prima" outcome="/views/Entradas"
+						<p:menuitem value="Registro de Tolvas" outcome="/views/Entradas"
 							icon="pi pi-fw pi-home">
 							<f:param name="i" value="0" />
 						</p:menuitem>
@@ -190,7 +218,10 @@
 							icon="pi pi-fw pi-cog">
 							<f:param name="i" value="4" />
 						</p:menuitem>
-
+						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvas"
+							icon="pi pi-fw pi-home">
+							<f:param name="i" value="5" />
+						</p:menuitem>
 					</p:tabMenu>
 					<!--FINALIZA P6 PRE-->
 

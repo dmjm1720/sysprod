@@ -39,8 +39,8 @@
 				<div class="card">
 
 					<p:accordionPanel widgetVar="basic">
-						<p:tab title="CAPTURA DE USUARIOS">
-							<h:panelGrid columns="12" cellpadding="4">
+						<p:tab title="CAPTURA DE USUARIOS" titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
 
 								<p:outputLabel for="nombre" value="Nombre" />
 								<p:inputText id="nombre" value="#{usuariosBean.usuarios.nombre}"
@@ -61,13 +61,14 @@
 									<f:selectItem itemLabel="Gerencia" itemValue="4" />
 									<f:selectItem itemLabel="Contador" itemValue="5" />
 									<f:selectItem itemLabel="Presidencia" itemValue="6" />
+									<f:selectItem itemLabel="Operador" itemValue="7" />
 								</p:selectOneMenu>
 								<p:message for="perfil" />
 
 								<p:outputLabel for="fecha" value="Fecha alta" />
-								<p:calendar id="fecha" pattern="dd-MMMM-yyyy"
-									placeholder="Fecha de entrada"
-									inputStyle="width: 300px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
+									placeholder="Fecha de alta"
+									inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
 									value="#{usuariosBean.usuarios.fechaAlta}"
 									style="font-family: 'Poppins', sans-serif !important;"
 									styleClass="captura" />
@@ -94,12 +95,12 @@
 
 								<p:commandButton icon="pi pi-save" value="Guardar"
 									title="Guardar"
-									update="frmPrincipal, frmPrincipal:msgs, tblClientes"
+									update="frmPrincipal, frmPrincipal:msgs, tblUsuarios"
 									actionListener="#{usuariosBean.guardar()}" />
 							</h:panelGrid>
 						</p:tab>
-						<p:tab title="LISTA DE USUARIOS">
-							<p:dataTable id="tblClientes" styleClass="tabla" var="item"
+						<p:tab title="LISTA DE USUARIOS" titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+							<p:dataTable id="tblUsuarios" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
@@ -109,6 +110,17 @@
 								value="#{usuariosBean.listarUsuarios}"
 								emptyMessage="NO HAY REGISTROS">
 
+								<p:column headerText="Editar" width="3rem">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{usuariosBean.usuarios}" />
+
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
 
 								<p:column headerText="Nombre" width="10rem">
 									<h:outputText value="#{item.nombre}" style="color: #036FAB;" />
@@ -183,9 +195,70 @@
                         };
                     </script>
 
+
 			</h:form>
 
 
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DEL USUARIO"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6" styleClass="fuente">
+
+						<p:outputLabel for="nombre" value="Nombre" />
+						<p:inputText id="nombre" value="#{usuariosBean.usuarios.nombre}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 12rem" />
+						<p:message for="nombre" />
+
+						<p:outputLabel for="correo" value="Correo" />
+						<p:inputText id="correo" value="#{usuariosBean.usuarios.correo}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 12rem" />
+						<p:message for="correo" />
+
+						<p:outputLabel for="perfil" value="Perfil" />
+						<p:selectOneMenu id="perfil" value="#{usuariosBean.idPerfil}">
+							<f:selectItem itemLabel="Selecciona perfil" itemValue="" />
+							<f:selectItem itemLabel="Administrador" itemValue="1" />
+							<f:selectItem itemLabel="Coordinador" itemValue="2" />
+							<f:selectItem itemLabel="Control de calidad" itemValue="3" />
+							<f:selectItem itemLabel="Gerencia" itemValue="4" />
+							<f:selectItem itemLabel="Contador" itemValue="5" />
+							<f:selectItem itemLabel="Presidencia" itemValue="6" />
+							<f:selectItem itemLabel="Operador" itemValue="7" />
+						</p:selectOneMenu>
+						<p:message for="perfil" />
+
+						<p:outputLabel for="password" value="Password" />
+						<p:inputText id="password"
+							value="#{usuariosBean.usuarios.password}" required="false"
+							requiredMessage="Campo requerido" />
+						<p:message for="password" />
+
+						<p:outputLabel for="iniciales" value="Iniciales" />
+						<p:inputText id="iniciales"
+							value="#{usuariosBean.usuarios.iniciales}" required="false"
+							requiredMessage="Campo requerido" />
+						<p:message for="iniciales" />
+
+						<p:outputLabel for="usuario" value="Usuario" />
+						<p:inputText id="usuario" value="#{usuariosBean.usuarios.usuario}"
+							required="false" requiredMessage="Campo requerido" />
+						<p:message for="usuario" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{usuariosBean.actualizar()}" oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
 
 		</ui:define>
 	</ui:composition>

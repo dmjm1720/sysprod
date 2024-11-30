@@ -16,7 +16,7 @@
 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>home</param-value>
+		<param-value>bootstrap</param-value>
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
@@ -58,4 +58,6 @@
 		<extension>eot</extension>
 		<mime-type>application/x-font-eot</mime-type>
 	</mime-mapping>
+
+	
 </web-app>
