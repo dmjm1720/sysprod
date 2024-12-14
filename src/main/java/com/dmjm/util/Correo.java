@@ -12,7 +12,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.dmjm.bean.EntradasBean;
+
 public class Correo {
+
+	private static final Logger LOGGER = LogManager.getLogger(Correo.class.getName());
 
 	public void enviarNotificacion(int tolva, String proveedor, String factura, String tipoPiel, int bg, int cc) {
 		Properties props = new Properties();
@@ -50,13 +57,14 @@ public class Correo {
 			if (bg == 1) {
 				message.addRecipients(Message.RecipientType.TO, "ghernandez@duche.com");
 				message.addRecipients(Message.RecipientType.TO, "ggutierrez@duche.com");
+				//message.addRecipients(Message.RecipientType.TO, "mario.arias@dmjm-sistemas.com");
 			}
 			if (cc == 1) {
 				message.addRecipients(Message.RecipientType.TO, "jnolasco@duche.com");
 				message.addRecipients(Message.RecipientType.TO, "ggutierrez@duche.com");
+				//message.addRecipients(Message.RecipientType.TO, "mario.arias@dmjm-sistemas.com");
 			}
-			
-			
+
 			message.addRecipients(Message.RecipientType.BCC, "notificaciones@noficaciones.dmjm-sistemas.com");
 
 			message.setSubject("Notificación de liberación de Tolva número: " + tolva);
@@ -67,7 +75,9 @@ public class Correo {
 			t.connect("notificaciones@noficaciones.dmjm-sistemas.com", "y#=W>[keO3Z");
 			t.sendMessage(message, message.getAllRecipients());
 			t.close();
+			LOGGER.info("SE HA ENVIADO EL CORREO CON INFO DE LA TOLVA: " + tolva);
 		} catch (MessagingException e) {
+			LOGGER.info("ERROR AL ENVIAR EL CORREO: " + e);
 			throw new RuntimeException(e);
 		}
 	}

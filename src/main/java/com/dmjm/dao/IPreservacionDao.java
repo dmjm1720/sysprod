@@ -1,9 +1,9 @@
 package com.dmjm.dao;
 
-import com.dmjm.model.Preservacion;
-import com.dmjm.model.Transportista;
 import java.sql.SQLException;
 import java.util.List;
+
+import com.dmjm.model.Preservacion;
 
 public interface IPreservacionDao {
 

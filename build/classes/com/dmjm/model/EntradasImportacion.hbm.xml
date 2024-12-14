@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 5/12/2024 02:38:02 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.EntradasImportacion" table="ENTRADAS_IMPORTACION" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idEntradaImportacion" type="int">
+            <column name="ID_ENTRADA_IMPORTACION" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="cuentasContables" class="com.dmjm.model.CuentasContables" fetch="select">
+            <column name="ID_CUENTA_CONTABLE" />
+        </many-to-one>
+        <many-to-one name="materia" class="com.dmjm.model.Materia" fetch="select">
+            <column name="ID_MATERIA" />
+        </many-to-one>
+        <many-to-one name="proveedoresImportacion" class="com.dmjm.model.ProveedoresImportacion" fetch="select">
+            <column name="ID_PROVEEDOR" />
+        </many-to-one>
+        <property name="tolva" type="big_decimal">
+            <column name="TOLVA" precision="10" scale="4" />
+        </property>
+        <property name="fechaEntrada" type="timestamp">
+            <column name="FECHA_ENTRADA" length="23" />
+        </property>
+        <property name="ticketEmbarque" type="string">
+            <column name="TICKET_EMBARQUE" length="25" />
+        </property>
+        <property name="factura" type="string">
+            <column name="FACTURA" length="25" />
+        </property>
+        <property name="kgEmbarcado" type="big_decimal">
+            <column name="KG_EMBARCADO" precision="10" scale="4" />
+        </property>
+        <property name="kgToluca" type="big_decimal">
+            <column name="KG_TOLUCA" precision="10" scale="4" />
+        </property>
+        <property name="kgNeto" type="big_decimal">
+            <column name="KG_NETO" precision="10" scale="4" />
+        </property>
+        <property name="kgMerma" type="big_decimal">
+            <column name="KG_MERMA" precision="10" scale="4" />
+        </property>
+        <property name="kgPatio" type="big_decimal">
+            <column name="KG_PATIO" precision="10" scale="4" />
+        </property>
+        <property name="folioEa" type="java.lang.Integer">
+            <column name="FOLIO_EA" />
+        </property>
+        <property name="porcentajeSalado" type="java.lang.Integer">
+            <column name="PORCENTAJE_SALADO" />
+        </property>
+        <property name="certificadoZoosanitario" type="java.lang.Integer">
+            <column name="CERTIFICADO_ZOOSANITARIO" />
+        </property>
+        <property name="porcentaje" type="java.lang.Integer">
+            <column name="PORCENTAJE" />
+        </property>
+    </class>
+</hibernate-mapping>

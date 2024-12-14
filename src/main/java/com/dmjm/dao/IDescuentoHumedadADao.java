@@ -2,7 +2,6 @@ package com.dmjm.dao;
 
 import java.util.List;
 
-import com.dmjm.model.DescuentoCalciosTablaA;
 import com.dmjm.model.DescuentoHumedadTablaA;
 
 public interface IDescuentoHumedadADao {

@@ -268,5 +268,8 @@
 		<property name="totalCaptura" type="big_decimal">
 			<column name="TOTAL_CAPTURA" precision="10" scale="4" />
 		</property>
+		<property name="kgCalidadMateria" type="big_decimal">
+			<column name="KG_CALIDAD_MATERIA" precision="10" scale="4" />
+		</property>
 	</class>
 </hibernate-mapping>

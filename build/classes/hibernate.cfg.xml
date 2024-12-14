@@ -3,16 +3,17 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-		
-		
-<!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.0.11:1433;databaseName=sysprod</property> -->
-<!-- 		<property name="hibernate.connection.username">sa</property> -->
-<!-- 		<property name="hibernate.connection.password">S1st3m4S*Duch3</property> -->
 
+<!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://189.203.14.124:1433;databaseName=sysprod</property> -->
 
-		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.1.6:1433;databaseName=sysprod</property>
+		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.0.11:1433;databaseName=sysprod</property>
 		<property name="hibernate.connection.username">sa</property>
-		<property name="hibernate.connection.password">sistemas24</property>
+		<property name="hibernate.connection.password">S1st3m4S*Duch3</property>
+
+
+<!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.1.6:1433;databaseName=sysprod</property> -->
+<!-- 		<property name="hibernate.connection.username">sa</property> -->
+<!-- 		<property name="hibernate.connection.password">sistemas24</property> -->
 
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
@@ -43,6 +44,11 @@
 		<mapping resource="com/dmjm/model/Lavadoras.hbm.xml" />
 		<mapping resource="com/dmjm/model/Etapa1.hbm.xml" />
 		<mapping resource="com/dmjm/model/FacturasPieles.hbm.xml" />
-				<mapping resource="com/dmjm/model/OperacionLavadoras.hbm.xml" />
+		<mapping resource="com/dmjm/model/OperacionLavadoras.hbm.xml" />
+		<mapping resource="com/dmjm/model/CuentasContables.hbm.xml" />
+			<mapping
+	resource="com/dmjm/model/EntradasImportacion.hbm.xml" />
+	<mapping resource="com/dmjm/model/ProveedoresImportacion.hbm.xml" />
+			<mapping resource="com/dmjm/model/Activacion.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

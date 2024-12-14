@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
+                                            <h:panelGrid styleClass="custom-painelgrid-center">
+                                                <h:outputText value="Buscando..." />
+                                                <p:graphicImage value="../resources/img/cargando.gif" />
+                                            </h:panelGrid>
+                                        </p:blockUI>-->
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE TOLVAS DE IMPORTACIÓN" styleClass="fuente"/>
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+						<p:tab title="REGISTRO DE TOLVAS DE IMPORTACIÓN"
+							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
+
+								<p:outputLabel for="tolva" value="# Tolva" />
+								<p:inputText id="tolva"
+									value="#{entImportBean.entradasImportacion.tolva}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="fe" value="Fecha de entrada" />
+								<p:inputText id="fe"
+									value="#{entImportBean.entradasImportacion.fechaEntrada}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="ticketE" value="Ticket embarque" />
+								<p:inputText id="ticketE"
+									value="#{entImportBean.entradasImportacion.ticketEmbarque}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="factura" value="Factura" />
+								<p:inputText id="factura"
+									value="#{entImportBean.entradasImportacion.factura}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="proveedor" value="Nombre proveedor" />
+								<p:inputText id="proveedor"
+									value="#{entImportBean.entradasImportacion.proveedoresImportacion.nombre}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="materia" value="Materia" />
+								<p:inputText id="materia"
+									value="#{entImportBean.entradasImportacion.materia.tipo}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgE" value="Kg. Embarcado" />
+								<p:inputText id="kgE"
+									value="#{entImportBean.entradasImportacion.kgEmbarcado}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgT" value="Kg. Toluca" />
+								<p:inputText id="kgT"
+									value="#{entImportBean.entradasImportacion.kgToluca}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgN" value="Kg. Neto" />
+								<p:inputText id="kgN"
+									value="#{entImportBean.entradasImportacion.kgNeto}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgM" value="Kg. Merma" />
+								<p:inputText id="kgM"
+									value="#{entImportBean.entradasImportacion.kgMerma}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgP" value="Kg. Patio" />
+								<p:inputText id="kgP"
+									value="#{entImportBean.entradasImportacion.kgPatio}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="fea" value="Folio EA" />
+								<p:inputText id="fea"
+									value="#{entImportBean.entradasImportacion.folioEa}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="ps" value="% Salado" />
+								<p:inputText id="ps"
+									value="#{entImportBean.entradasImportacion.porcentajeSalado}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cz" value="Certificado Zoosanitario" />
+								<p:inputText id="cz"
+									value="#{entImportBean.entradasImportacion.certificadoZoosanitario}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cc" value="Cuenta Contable" />
+								<p:inputText id="cc"
+									value="#{entImportBean.entradasImportacion.cuentasContables.cuenta}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+								<p:commandButton icon="pi pi-save" title="Guardar"
+									value="GUARDAR"
+									update="frmPrincipal, frmPrincipal:msgs, tblEntImp"
+									style="widht: 20rem; height: 2rem"
+									actionListener="#{cuentasBean.guardarCuentas()}" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="LISTA DE REGISTRO DE TOLVAS DE IMPORTACIÓN"
+							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+							<div style="text-align: center">
+								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
+									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
+									<p:dataExporter type="xls" target="frmPrincipal:acco:tblEntImp"
+										fileName="REPORTE DE TOLVAS DE IMPORTACIÓN" />
+								</p:commandButton>
+							</div>
+							<p:dataTable id="tblEntImp" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
+								paginator="true" liveScroll="true" rowHover="true"
+								paginatorAlwaysVisible="true" scrollable="true"
+								currentPageReportTemplate="Total: #{entImportBean.listaEntradasImp.size()}"
+								value="#{entImportBean.listaEntradasImp}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{entImportBean.entradasImportacion}" />
+
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+								<p:column headerText="# Tolva" width="10rem">
+									<h:outputText value="#{item.tolva}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Fecha de entrada" width="15rem">
+									<h:outputText value="#{item.fechaEntrada}"
+										style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Ticket embarque" width="15rem">
+									<h:outputText value="#{item.ticketEmbarque}"
+										style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Factura" width="15rem">
+									<h:outputText value="#{item.factura}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Nombre Proveedor" width="15rem">
+									<h:outputText value="#{item.proveedoresImportacion.nombre}"
+										style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Materia" width="15rem">
+									<h:outputText value="#{item.materia.tipo}"
+										style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Kg. Embarcado" width="15rem">
+									<h:outputText value="#{item.kgEmbarcado}"
+										style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Kg. Toluca" width="15rem">
+									<h:outputText value="#{item.kgToluca}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Kg. Neto" width="15rem">
+									<h:outputText value="#{item.kgNeto}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Kg. Merma" width="15rem">
+									<h:outputText value="#{item.kgMerma}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Kg. Patio" width="15rem">
+									<h:outputText value="#{item.kgPatio}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Folio EA" width="15rem">
+									<h:outputText value="#{item.folioEa}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="% Salado" width="15rem">
+									<h:outputText value="#{item.porcentajeSalado}"
+										style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Certificado Zoosanitario" width="15rem">
+									<h:outputText value="#{item.certificadoZoosanitario}"
+										style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Cuenta contable" width="15rem">
+									<h:outputText value="#{item.cuentasContables.cuenta}"
+										style="color: #2196F3;" />
+								</p:column>
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DE CUENTA CONTABLE"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6">
+
+						<p:outputLabel for="cuentas" value="Cuentas" />
+						<p:inputText id="cuentas"
+							value="#{cuentasBean.cuentasContables.cuenta}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="cuentas" />
+
+						<p:outputLabel for="descripcion" value="Descripción" />
+						<p:inputText id="descripcion"
+							value="#{cuentasBean.cuentasContables.descripcion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="descripcion" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cuentasBean.actualizarCuentas()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

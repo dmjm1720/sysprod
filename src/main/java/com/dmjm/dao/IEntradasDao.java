@@ -15,4 +15,6 @@ public interface IEntradasDao {
     void actualizarFechaImpresion(int idEntrada, String fecha, int tolva);
     
     Entradas validarFechaImpresion(int idEntrada);
+    
+    void actualizarPerfilCoord(Entradas entradas);
 }

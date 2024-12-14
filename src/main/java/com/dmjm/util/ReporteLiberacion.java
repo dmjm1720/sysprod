@@ -20,38 +20,41 @@ import net.sf.jasperreports.engine.util.JRProperties;
 
 public class ReporteLiberacion extends Conexion {
 
-    public void getReporte(String ruta, String IDENTRADA, String IDDOC) {
-        this.ConectarSysProd();
-        Map parameter = new HashMap();
-        parameter.put("IDENTRADA", IDENTRADA);
-        parameter.put("IDDOC", IDDOC);
-        try {
-            File file = new File(ruta);
-           // JRProperties.setProperty("net.sf.jasperreports.default.font.name", "Arial");
-            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            httpServletResponse.setDateHeader("Expires", 0);
-            httpServletResponse.setContentType("application/PDF");
-            JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(file.getPath());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, getCnSysProd());
-            JRExporter jrExporter = null;
-            jrExporter = new JRPdfExporter();
-            jrExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-            jrExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, httpServletResponse.getOutputStream());
-            if (jrExporter != null) {
-                try {
-                    jrExporter.exportReport();
-                } catch (JRException e) {
-                }
-            }
+	public void getReporte(String ruta, String IDENTRADA, String IDDOC) {
+		this.ConectarSysProd();
+		Map parameter = new HashMap();
+		parameter.put("IDENTRADA", IDENTRADA);
+		parameter.put("IDDOC", IDDOC);
+		try {
+			File file = new File(ruta);
+			// JRProperties.setProperty("net.sf.jasperreports.default.font.name", "Arial");
+			HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance()
+					.getExternalContext().getResponse();
+			httpServletResponse.setDateHeader("Expires", 0);
+			httpServletResponse.setContentType("application/PDF");
+			JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(file.getPath());
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, getCnSysProd());
+			JRExporter jrExporter = null;
+			jrExporter = new JRPdfExporter();
+			jrExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			jrExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, httpServletResponse.getOutputStream());
+			if (jrExporter != null) {
+				try {
+					jrExporter.exportReport();
+				} catch (JRException e) {
+				}
+			}
 
-        } catch (JRException | IOException e) {
-        } finally {
-            if (getCnSysProd() != null) {
-                try {
-                    CerrarSysProd();
-                } catch (SQLException e) {
-                }
-            }
-        }
-    }
+		} catch (JRException | IOException e) {
+		} finally {
+			if (getCnSysProd() != null) {
+				try {
+					CerrarSysProd();
+				} catch (SQLException e) {
+				}
+			}
+		}
+	}
+
+	
 }

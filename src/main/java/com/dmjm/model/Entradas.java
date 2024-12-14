@@ -91,6 +91,7 @@ public class Entradas implements java.io.Serializable {
 	private BigDecimal subtotal;
 	private BigDecimal iva;
 	private BigDecimal totalCaptura;
+	private BigDecimal kgCalidadMateria;
 
 	public Entradas() {
 	}
@@ -120,7 +121,7 @@ public class Entradas implements java.io.Serializable {
 			BigDecimal precioCalcCs, BigDecimal precioCalcDr, BigDecimal precioCalcCm, BigDecimal precioCalcCo,
 			BigDecimal precioCalcPc, BigDecimal precioCalcP, BigDecimal precioCalcDa, BigDecimal precioCalcDs,
 			BigDecimal precioCalcCdi, BigDecimal precioCalcG, BigDecimal precioCalcCe, BigDecimal subtotal,
-			BigDecimal iva, BigDecimal totalCaptura) {
+			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria) {
 		super();
 		this.idEntrada = idEntrada;
 		this.materia = materia;
@@ -207,6 +208,7 @@ public class Entradas implements java.io.Serializable {
 		this.subtotal = subtotal;
 		this.iva = iva;
 		this.totalCaptura = totalCaptura;
+		this.kgCalidadMateria = kgCalidadMateria;
 	}
 
 	public int getIdEntrada() {
@@ -889,8 +891,15 @@ public class Entradas implements java.io.Serializable {
 		this.totalCaptura = totalCaptura;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public BigDecimal getKgCalidadMateria() {
+		return kgCalidadMateria;
 	}
+
+	public void setKgCalidadMateria(BigDecimal kgCalidadMateria) {
+		this.kgCalidadMateria = kgCalidadMateria;
+	}
+
+
+	
 
 }

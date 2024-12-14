@@ -29,7 +29,7 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	@Override
 	public List<Entradas> listarEntradas() {
 		List<Entradas> entradas = (List<Entradas>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("From Entradas ORDER BY idEntrada ASC").list();
+				.createQuery("From Entradas ORDER BY idEntrada DESC").list();
 		return entradas;
 	}
 
@@ -99,6 +99,28 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 		entradas = (Entradas) HibernateUtil.getSessionFactory().openSession()
 				.createQuery("From Entradas WHERE idEntrada=" + idEntrada + "").uniqueResult();
 		return entradas;
+	}
+
+	@Override
+	public void actualizarPerfilCoord(Entradas entradas) {
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.update(entradas);
+			session.getTransaction().commit();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "¡AVISO!", "INFORMACIÓN ACTUALIZADA CORRECTAMENTE"));
+		} catch (HibernateException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡AVISO!", "ERROR AL ACTUALIZAR"));
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		
 	}
 
 }
