@@ -6,14 +6,14 @@
 
 <!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://189.203.14.124:1433;databaseName=sysprod</property> -->
 
-		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.0.11:1433;databaseName=sysprod</property>
-		<property name="hibernate.connection.username">sa</property>
-		<property name="hibernate.connection.password">S1st3m4S*Duch3</property>
-
-
-<!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.1.6:1433;databaseName=sysprod</property> -->
+<!-- 		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.0.11:1433;databaseName=sysprod</property> -->
 <!-- 		<property name="hibernate.connection.username">sa</property> -->
-<!-- 		<property name="hibernate.connection.password">sistemas24</property> -->
+<!-- 		<property name="hibernate.connection.password">S1st3m4S*Duch3</property> -->
+
+
+		<property name="hibernate.connection.url">jdbc:sqlserver://192.168.1.7:1433;databaseName=sysprod</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.connection.password">sistemas24</property>
 
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>

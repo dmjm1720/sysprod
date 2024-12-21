@@ -9,21 +9,31 @@ import com.dmjm.impl.ProveedoresDaoImpl;
 import com.dmjm.model.Materia;
 import com.dmjm.model.Precios;
 import com.dmjm.model.Proveedores;
+import com.dmjm.model.Usuarios;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 @Named(value = "preciosBean")
 @ViewScoped
 public class PreciosBean implements Serializable {
 
-    private List<Precios> listarPrecios;
+    private static final long serialVersionUID = 1L;
+    
+    private static final Logger LOGGER = LogManager.getLogger(PreciosBean.class.getName());
+    Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
+	private List<Precios> listarPrecios;
     private Precios precios;
 
     private String filterProveedor;
@@ -138,6 +148,23 @@ public class PreciosBean implements Serializable {
     public int buscarMateria(String nombre) throws SQLException {
         IMateriaDao mDao = new MateriaDaoImpl();
         return mDao.buscarMateria(nombre);
+    }
+    
+    public void actualizarPrecio() {
+    	  IPreciosDao pDao = new PreciosDaoImpl();
+    	  pDao.actualizarPrecios(precios);
+    	  
+    	  LOGGER.info("ACTUALIZACIÓN DE PRECIO:" + precios.getPrecioActual() + " ID: " + precios.getIdPrecios() + " POR EL USUARIO: " + us.getUsuario()+ " "+ us.getIniciales());
+    	  String info = "SE HA ACTUALIZADO EL PRECIO CORRECTAMENTE";
+          PrimeFaces.current()
+                  .executeScript("Swal.fire({\n"
+                          + "  position: 'top-center',\n"
+                          + "  icon: 'success',\n"
+                          + "  title: '¡Aviso!',\n"
+                          + "  text: '" + info + "',\n"
+                          + "  showConfirmButton: false,\n"
+                          + "  timer: 8000\n"
+                          + "})");
     }
 
 }

@@ -173,7 +173,7 @@ a:link:hover, a:visited:hover {
 }
 
 .fondo {
-	background-color:  #FFA500  !important;
+	background-color:  #98FB98  !important;
 	text-align: center !important;
 	font-weight: bold !important;
 }
@@ -194,6 +194,21 @@ a:link:hover, a:visited:hover {
 	font-weight: bold !important;
 }
 .mensajeM{
+	font-size: 1rem !important;
+	color: #FF6347 !important;
+	font-weight: bold !important;
+}
+.mensajeLib{
+	font-size: 1rem !important;
+	color: #4682B4 !important;
+	font-weight: bold !important;
+}
+.mensajeLiberar{
+	font-size: 1rem !important;
+	color: #008080 !important;
+	font-weight: bold !important;
+}
+.mensajeLibCancelar{
 	font-size: 1rem !important;
 	color: #FF6347 !important;
 	font-weight: bold !important;

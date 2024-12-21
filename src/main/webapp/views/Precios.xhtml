@@ -27,7 +27,8 @@
 					skipDetailIfEqualsSummary="true" />
 
 				<div style="text-align: center">
-					<p:badge size="small" value="CAPTURA DE PRECIOS" styleClass="fuente"/>
+					<p:badge size="small" value="CAPTURA DE PRECIOS"
+						styleClass="fuente" />
 				</div>
 
 				<p:divider />
@@ -39,7 +40,8 @@
 				<div class="card">
 
 					<p:accordionPanel id="acco" widgetVar="basic">
-						<p:tab title="CAPTURA DE PRECIOS" titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+						<p:tab title="CAPTURA DE PRECIOS"
+							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
 							<h:panelGrid columns="4" cellpadding="4" styleClass="fuente">
 
 								<p:outputLabel for="pro" value="Proveedor" />
@@ -71,8 +73,9 @@
 							</h:panelGrid>
 							<br></br>
 							<div style="text-align: center">
-								<p:commandButton icon="pi pi-save" title="ACTUALIZAR PRECIO" styleClass="fuente"
-									value="ACTUALIZAR PRECIO" style="width: 12rem; height: 3rem"
+								<p:commandButton icon="pi pi-save" title="ACTUALIZAR PRECIO"
+									styleClass="mensajeBoton2" value="ACTUALIZAR PRECIO"
+									style="width: 12rem; height: 3rem"
 									update="frmPrincipal, frmPrincipal:msgs, tblPrecios"
 									oncomplete="limpiarForm()"
 									actionListener="#{preciosBean.guardar()}" />
@@ -82,18 +85,20 @@
 							<br></br>
 
 						</p:tab>
-						<p:tab title="LISTA DE PRECIOS" titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
-						
-						<div style="text-align: center">
-								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
-									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
-									<p:dataExporter type="xls" target="frmPrincipal:acco:tblPrecios"
+						<p:tab title="LISTA DE PRECIOS"
+							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+
+							<div style="text-align: center">
+								<p:commandButton value="EXPORTAR REPORTE A EXCEL"
+									styleClass="mensajeBoton2" icon="pi pi-file-excel"
+									style="width: 15rem; height: 3rem">
+									<p:dataExporter type="xls"
+										target="frmPrincipal:acco:tblPrecios"
 										fileName="REPORTE DE PRECIOS" />
 								</p:commandButton>
 							</div>
-							<p:dataTable id="tblPrecios" styleClass="tabla fuente"
-								var="item" sortMode="multiple" scrollHeight="650"
-								scrollWidth="100%"
+							<p:dataTable id="tblPrecios" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="40%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
 								paginator="true" liveScroll="true" rowHover="true"
@@ -102,6 +107,7 @@
 								value="#{preciosBean.listarPrecios}"
 								emptyMessage="NO HAY REGISTROS">
 
+
 								<p:column headerText="Nombre de la materia" width="10rem">
 									<h:outputText value="#{item.materia.tipo}" />
 								</p:column>
@@ -109,14 +115,24 @@
 									filterBy="#{item.proveedores.nombre}">
 									<h:outputText value="#{item.proveedores.nombre}" />
 								</p:column>
-								<p:column headerText="Precio actual" width="10rem">
-									<h:outputText value="#{item.precioActual}" />
-								</p:column>
 								<p:column headerText="Fecha de actualización" width="10rem">
 									<h:outputText value="#{item.fechaActualizacion}" />
 								</p:column>
+								<p:column headerText="Precio actual" width="10rem">
+									<h:outputText value="#{item.precioActual}" />
+								</p:column>
 
+								<p:column headerText="Editar precio" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{preciosBean.precios}" />
 
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
 							</p:dataTable>
 
 						</p:tab>
@@ -162,6 +178,33 @@
 
 			</h:form>
 
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR PRECIO" widgetVar="dlgEditar"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6">
+
+						<p:outputLabel for="precio" value="Precio" />
+						<p:inputText id="precio"
+							value="#{preciosBean.precios.precioActual}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="precio" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{preciosBean.actualizarPrecio()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
 
 
 		</ui:define>

@@ -6,7 +6,7 @@ import com.dmjm.model.FacturasPieles;
 
 public interface IFacturaPielesDao {
 
-	List<FacturasPieles> listaFacturaPieles();
+	List<FacturasPieles> listaFacturaPieles(int id);
 
 	void guardarFacturasPieles(FacturasPieles facturasPieles);
 

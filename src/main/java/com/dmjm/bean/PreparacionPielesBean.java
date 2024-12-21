@@ -6,24 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IEtapa1Dao;
 import com.dmjm.dao.IFacturaPielesDao;
 import com.dmjm.dao.IFolioPreparacionDao;
 import com.dmjm.dao.ILavadorasDao;
+import com.dmjm.dao.IMateriaDao;
 import com.dmjm.dao.IOperacionLavadorasDao;
 import com.dmjm.dao.IPreparacionPielesDao;
 import com.dmjm.impl.EtapaDaoImpl;
 import com.dmjm.impl.FacturaPielesDaoImpl;
 import com.dmjm.impl.FoliosPreparacionDaoImpl;
 import com.dmjm.impl.LavadorasDaoImpl;
+import com.dmjm.impl.MateriaDaoImpl;
 import com.dmjm.impl.OperacionLavadorasDaoImpl;
 import com.dmjm.impl.PreparacionDaoImpl;
 import com.dmjm.model.Etapa1;
@@ -36,6 +37,7 @@ import com.dmjm.model.PreparacionPieles;
 @ViewScoped
 public class PreparacionPielesBean implements Serializable {
 
+	private static final Logger LOGGER = LogManager.getLogger(PreciosBean.class.getName());
 	private static final long serialVersionUID = 1L;
 	private List<PreparacionPieles> listarPreparacion;
 	private PreparacionPieles prePieles;
@@ -52,6 +54,11 @@ public class PreparacionPielesBean implements Serializable {
 	private String filterLavadoras;
 
 	private List<OperacionLavadoras> listaOperaciones;
+
+	private int folio = 0;
+	private int idPrep = 0;
+
+	private String filterLavadora;
 
 	@PostConstruct
 	public void init() {
@@ -76,14 +83,16 @@ public class PreparacionPielesBean implements Serializable {
 	}
 
 	public List<PreparacionPieles> getListarPreparacion() {
-		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
-		listarPreparacion = pDao.listaPreparacionPieles();
+
 		return listarPreparacion;
 	}
 
+	public void setListaOperaciones(List<OperacionLavadoras> listaOperaciones) {
+		this.listaOperaciones = listaOperaciones;
+	}
+
 	public List<FacturasPieles> getListaFacturaPieles() {
-		IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
-		listaFacturaPieles = fDao.listaFacturaPieles();
+
 		return listaFacturaPieles;
 	}
 
@@ -131,10 +140,33 @@ public class PreparacionPielesBean implements Serializable {
 		this.operacionLavadoras = operacionLavadoras;
 	}
 
+	public int getFolio() {
+		return folio;
+	}
+
+	public void setFolio(int folio) {
+		this.folio = folio;
+	}
+
+	public int getIdPrep() {
+		return idPrep;
+	}
+
+	public void setIdPrep(int idPrep) {
+		this.idPrep = idPrep;
+	}
+
 	public List<OperacionLavadoras> getListaOperaciones() {
-		IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
-		listaOperaciones = oDao.listaOperacionLavadoras();
+
 		return listaOperaciones;
+	}
+
+	public String getFilterLavadora() {
+		return filterLavadora;
+	}
+
+	public void setFilterLavadora(String filterLavadora) {
+		this.filterLavadora = filterLavadora;
 	}
 
 	public void guardarPreparacion() throws SQLException {
@@ -156,9 +188,7 @@ public class PreparacionPielesBean implements Serializable {
 		PreparacionPieles pieles = new PreparacionPieles();
 		pieles.setIdPreparacion(idPre);
 		operacionLavadoras.setPreparacionPieles(pieles);
-		oDao.guardarOperacionLavadoras(operacionLavadoras);
-
-		fDao.guardarFacturasPieles(facturasPieles);
+		// oDao.guardarOperacionLavadoras(operacionLavadoras);
 
 		String[] listaEtapas = { "Carga", "Lavada de Carga", "Blanqueo", "Lavadas de Blanqueo", "Pre Acidulación",
 				"Acidulación", "Control 1", "Control 2", "Control 3", "Control 4", "Control 5", "Control 6",
@@ -185,9 +215,51 @@ public class PreparacionPielesBean implements Serializable {
 	}
 
 	public void guardarFacturaPieles() {
-		IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
-		fDao.guardarFacturasPieles(facturasPieles);
-		facturasPieles = new FacturasPieles();
+
+		if (idPrep > 0) {
+			IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
+			// **OBTENER EL VALOR ACTUAL DEL ID_PRERACIÓN**//
+			prePieles.setIdPreparacion(idPrep);
+			LOGGER.info("ID DE PREPARACIÓN: " + idPrep);
+			facturasPieles.setPreparacionPieles(prePieles);
+			fDao.guardarFacturasPieles(facturasPieles);
+			facturasPieles = new FacturasPieles();
+
+			IFacturaPielesDao pDao = new FacturaPielesDaoImpl();
+			listaFacturaPieles = pDao.listaFacturaPieles(idPrep);
+			getListaFacturaPieles();
+		} else {
+			String info = "FACTURA NO AGREGADA, SE REQUIERE EL NÚMERRO DE OPERACIÓN";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		}
+
+	}
+
+	public void guardarLavadora() throws SQLException {
+		if (idPrep > 0) {
+			IOperacionLavadorasDao lDao = new OperacionLavadorasDaoImpl();
+			prePieles.setIdPreparacion(idPrep);
+
+			operacionLavadoras.setPreparacionPieles(prePieles);
+			lavadoras.setIdLavadora(buscarLavadora(filterLavadora));
+			operacionLavadoras.setLavadoras(lavadoras);
+
+			lDao.guardarOperacionLavadoras(operacionLavadoras);
+			IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+			listaOperaciones = oDao.listaOperacionLavadoras(idPrep);
+			getListaOperaciones();
+		} else {
+			String info = "LAVADORA NO AGREGADA, SE REQUIERE EL NÚMERRO DE OPERACIÓN";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		}
 	}
 
 	// **DATOS DE LA LAVADORA**//
@@ -222,8 +294,7 @@ public class PreparacionPielesBean implements Serializable {
 	}
 
 	public List<Etapa1> getListaEtapa1() {
-		IEtapa1Dao eDao = new EtapaDaoImpl();
-		listaEtapa1 = eDao.listaEtapa1();
+
 		return listaEtapa1;
 	}
 
@@ -233,15 +304,39 @@ public class PreparacionPielesBean implements Serializable {
 		etapa1 = new Etapa1();
 	}
 
-	public void onRowEdit(RowEditEvent<Etapa1> event) {
+	public void buscarRegistro() {
+		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
+		listarPreparacion = pDao.listaPreparacionPieles(folio);
 
-		FacesMessage msg = new FacesMessage("Product Edited", String.valueOf(event.getObject().getIdEtapa()));
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+		for (PreparacionPieles preP : listarPreparacion) {
+			idPrep = preP.getIdPreparacion();
+		}
+		getListarPreparacion();
+
+		IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
+		listaFacturaPieles = fDao.listaFacturaPieles(idPrep);
+		getListaFacturaPieles();
+
+		IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+		listaOperaciones = oDao.listaOperacionLavadoras(idPrep);
+		getListaOperaciones();
+
+		IEtapa1Dao eDao = new EtapaDaoImpl();
+		listaEtapa1 = eDao.listaEtapa1(idPrep);
+		getListaEtapa1();
+
 	}
 
-	public void onRowCancel(RowEditEvent<Etapa1> event) {
-		FacesMessage msg = new FacesMessage("Edit Cancelled", String.valueOf(event.getObject().getEtapa()));
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+	// **DATOS DE LA LAVADORA, NOMBRE**//
+	public List<String> buscarNombreDeLavadora(String nombre) throws SQLException {
+		ILavadorasDao lDao = new LavadorasDaoImpl();
+		return lDao.completeLavadoras(nombre);
+	}
+
+	// **DATOS DE LA LAVADORA, ID**//
+	public int buscarLavadora(String nombre) throws SQLException {
+		ILavadorasDao lDao = new LavadorasDaoImpl();
+		return lDao.buscarLavadora(nombre);
 	}
 
 }

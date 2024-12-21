@@ -27,7 +27,8 @@
 					skipDetailIfEqualsSummary="true" />
 
 				<div style="text-align: center">
-					<p:badge size="small" value="CAPTURA DE TOLVAS DE IMPORTACIÓN" styleClass="fuente"/>
+					<p:badge size="small" value="CAPTURA DE TOLVAS DE IMPORTACIÓN"
+						styleClass="fuente" />
 				</div>
 
 				<p:divider />
@@ -41,91 +42,107 @@
 					<p:accordionPanel id="acco" widgetVar="basic">
 						<p:tab title="REGISTRO DE TOLVAS DE IMPORTACIÓN"
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
-							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
+							<h:panelGrid columns="6" cellpadding="4" styleClass="fuente">
 
 								<p:outputLabel for="tolva" value="# Tolva" />
-								<p:inputText id="tolva"
+								<p:inputText id="tolva" disabled="true" styleClass="tolvas"
 									value="#{entImportBean.entradasImportacion.tolva}"
 									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="fe" value="Fecha de entrada" />
-								<p:inputText id="fe"
+								<p:outputLabel for="fecha" value="Fecha de entrada" />
+								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
+									disabled="false" placeholder="Fecha de entrada"
+									inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
 									value="#{entImportBean.entradasImportacion.fechaEntrada}"
-									required="false" requiredMessage="Campo requerido" />
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
 
 								<p:outputLabel for="ticketE" value="Ticket embarque" />
-								<p:inputText id="ticketE"
+								<p:inputText id="ticketE" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.ticketEmbarque}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="factura" value="Factura" />
-								<p:inputText id="factura"
+								<p:inputText id="factura" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.factura}"
 									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="proveedor" value="Nombre proveedor" />
-								<p:inputText id="proveedor"
-									value="#{entImportBean.entradasImportacion.proveedoresImportacion.nombre}"
-									required="false" requiredMessage="Campo requerido" />
+								<p:outputLabel for="pro" value="Proveedor" />
+								<p:autoComplete id="pro" size="35" required="false"
+									requiredMessage="Proveedor requerido" autocomplete="off"
+									placeholder="Ingresa proveedor" dropdown="true"
+									value="#{entImportBean.filterProveedor}"
+									completeMethod="#{entImportBean.buscarNombreProveedor}" />
 
-								<p:outputLabel for="materia" value="Materia" />
-								<p:inputText id="materia"
-									value="#{entImportBean.entradasImportacion.materia.tipo}"
-									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="imp" value="Indentificación de material" />
+								<p:autoComplete id="imp" size="35" required="false"
+									autocomplete="off"
+									requiredMessage="Identificación de material requerido"
+									placeholder="Ingresa identificación de material"
+									dropdown="true" value="#{entImportBean.filterMateria}"
+									completeMethod="#{entImportBean.buscarNombreMateria}" />
 
 								<p:outputLabel for="kgE" value="Kg. Embarcado" />
-								<p:inputText id="kgE"
+								<p:inputText id="kgE" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.kgEmbarcado}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="kgT" value="Kg. Toluca" />
-								<p:inputText id="kgT"
+								<p:inputText id="kgT" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.kgToluca}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="kgN" value="Kg. Neto" />
-								<p:inputText id="kgN"
+								<p:inputText id="kgN" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.kgNeto}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="kgM" value="Kg. Merma" />
-								<p:inputText id="kgM"
+								<p:inputText id="kgM" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.kgMerma}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="kgP" value="Kg. Patio" />
-								<p:inputText id="kgP"
+								<p:inputText id="kgP" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.kgPatio}"
 									required="false" requiredMessage="Campo requerido" />
 
 
 								<p:outputLabel for="fea" value="Folio EA" />
-								<p:inputText id="fea"
+								<p:inputText id="fea" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.folioEa}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="ps" value="% Salado" />
-								<p:inputText id="ps"
+								<p:inputText id="ps" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.porcentajeSalado}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="cz" value="Certificado Zoosanitario" />
-								<p:inputText id="cz"
+								<p:inputText id="cz" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.certificadoZoosanitario}"
 									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="cc" value="Cuenta Contable" />
-								<p:inputText id="cc"
-									value="#{entImportBean.entradasImportacion.cuentasContables.cuenta}"
-									required="false" requiredMessage="Campo requerido" />
+								<p:outputLabel for="cc" value="Cuenta contable" />
+								<p:autoComplete id="cc" size="35" required="false"
+									autocomplete="off" requiredMessage="Cuenta contable requerida"
+									placeholder="Ingresa cuenta contable" dropdown="true"
+									value="#{entImportBean.filterCuenta}"
+									completeMethod="#{entImportBean.buscarNombreCuenta}" />
 
-
-								<p:commandButton icon="pi pi-save" title="Guardar"
-									value="GUARDAR"
-									update="frmPrincipal, frmPrincipal:msgs, tblEntImp"
-									style="widht: 20rem; height: 2rem"
-									actionListener="#{cuentasBean.guardarCuentas()}" />
 							</h:panelGrid>
+							<br></br>
+							<div style="text-align: center">
+
+								<p:commandButton icon="pi pi-save" value="GUARDAR CAPTURA"
+									styleClass="fuente" title="Guardar"
+									style="width: 12rem; height: 2rem"
+									actionListener="#{entImportBean.guardar()}"
+									update="frmPrincipal"
+									onclick="setTimeout(function() { window.location.href='EntradasImportacion.html'; }, 5000);">
+								</p:commandButton>
+							</div>
 						</p:tab>
 						<p:tab title="LISTA DE REGISTRO DE TOLVAS DE IMPORTACIÓN"
 							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">

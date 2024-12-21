@@ -1,6 +1,9 @@
 package com.dmjm.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -10,10 +13,10 @@ import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.ICuentasContablesDao;
 import com.dmjm.model.CuentasContables;
-import com.dmjm.model.DescuentoCalciosTablaA;
+import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
-public class CuentasContablesDaoImpl implements ICuentasContablesDao {
+public class CuentasContablesDaoImpl extends Conexion implements ICuentasContablesDao {
 
 	@Override
 	public List<CuentasContables> listaCuentasContables() {
@@ -78,14 +81,46 @@ public class CuentasContablesDaoImpl implements ICuentasContablesDao {
 
 	@Override
 	public List<String> completeCuentasContablesImp(String nombre) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 List<String> resultCuenta = new ArrayList<>();
+	        List<String> listarTodo = new ArrayList<>();
+
+	        ConectarSysProd();
+
+	        PreparedStatement st = getCnSysProd().prepareStatement("SELECT DISTINCT (CUENTA) FROM CUENTAS_CONTABLES WHERE CUENTA LIKE '" + nombre + "%'");
+	        ResultSet rs = st.executeQuery();
+	        listarTodo = new ArrayList<>();
+	        if (!rs.isBeforeFirst()) {
+	            listarTodo.add("No hay resultados para tu búsqueda");
+	        } else {
+	            while (rs.next()) {
+	                listarTodo.add(rs.getString("CUENTA"));
+	            }
+	        }
+	        for (int i = 0; i < listarTodo.size(); i++) {
+	        	resultCuenta.add(listarTodo.get(i));
+	        }
+
+	        CerrarSysProd();
+	        return resultCuenta;
 	}
 
 	@Override
 	public int buscarCuentaContable(String nombre) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		ConectarSysProd();
+        PreparedStatement st = getCnSysProd().prepareStatement("SELECT ID_CUENTA_CONTABLE FROM CUENTAS_CONTABLES WHERE CUENTA = '" + nombre + "'");
+        ResultSet rs = st.executeQuery();
+        int idCuenta = 0;
+        if (!rs.isBeforeFirst()) {
+
+        } else {
+            while (rs.next()) {
+            	idCuenta = rs.getInt("ID_CUENTA_CONTABLE");
+            }
+        }
+
+        CerrarSysProd();
+        return idCuenta;
+
 	}
 
 	

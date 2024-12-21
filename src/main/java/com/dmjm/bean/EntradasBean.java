@@ -106,6 +106,9 @@ public class EntradasBean extends Conexion implements Serializable {
 	private double ceros = 0.0;
 	private String mensajeMes;
 
+	private String datoHumedad = "";
+	private String datoAlcalinidad = "";
+
 	@PostConstruct
 	public void init() {
 		listarEntradas = new ArrayList<>();
@@ -469,6 +472,22 @@ public class EntradasBean extends Conexion implements Serializable {
 		this.kilosBasculaMerma = kilosBasculaMerma;
 	}
 
+	public String getDatoHumedad() {
+		return datoHumedad;
+	}
+
+	public void setDatoHumedad(String datoHumedad) {
+		this.datoHumedad = datoHumedad;
+	}
+
+	public String getDatoAlcalinidad() {
+		return datoAlcalinidad;
+	}
+
+	public void setDatoAlcalinidad(String datoAlcalinidad) {
+		this.datoAlcalinidad = datoAlcalinidad;
+	}
+
 	// *****************GUARDAR*********************//
 	public void guardar() throws SQLException {
 		IEntradasDao eDao = new EntradasDaoImpl();
@@ -773,23 +792,23 @@ public class EntradasBean extends Conexion implements Serializable {
 		if (fmAnt.validarFolioMesAnt() == 1) {
 			Month mes = LocalDate.now().getMonth().minus(1);
 			String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-			int year=0;
-			if(nombre.equals("diciembre")) {
+			int year = 0;
+			if (nombre.equals("diciembre")) {
 				LocalDate lastYearDate = LocalDate.now().minusYears(1);
 				year = lastYearDate.getYear();
-			}else {
+			} else {
 				year = LocalDate.now().getYear();
 			}
-			mensajeMes = " ESTA HABILITADA LA CAPTURA PARA EL MES DE " + nombre.toUpperCase() + ", AÑO " + year +" ";
+			mensajeMes = " ESTA HABILITADA LA CAPTURA PARA EL MES DE " + nombre.toUpperCase() + ", AÑO " + year + " ";
 			LOGGER.info(mensajeMes);
-			folio =  fDao.folioMax(year, nombre.toUpperCase());
-			
+			folio = fDao.folioMax(year, nombre.toUpperCase());
+
 		} else {
 
 			Month mes = LocalDate.now().getMonth();
 			int year = LocalDate.now().getYear();
 			String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-			folio =  fDao.folioMax(year, nombre.toUpperCase());
+			folio = fDao.folioMax(year, nombre.toUpperCase());
 		}
 
 		return folio;
@@ -824,6 +843,22 @@ public class EntradasBean extends Conexion implements Serializable {
 	public Double buscarPrecio(int idProveedor, int idMateria) {
 		IPreciosDao pDao = new PreciosDaoImpl();
 		return pDao.buscarPrecios(idProveedor, idMateria);
+	}
+
+	public void validarLiberacion(String val1, String val2) {
+
+		Optional<String> valHumedad = Optional.ofNullable(val1);
+		Optional<String> valAlcalinidad = Optional.ofNullable(val2);
+		
+		
+		if (valHumedad.isPresent()) {
+			datoHumedad = valHumedad.orElse("NO HAY DATO DE HUMEDAD");
+
+		}
+		if (valAlcalinidad.isPresent()) {
+			datoAlcalinidad= valAlcalinidad.orElse("NO HAY DATO DE HUMEDAD");
+		}
+
 	}
 
 	public void actualizar() {
@@ -990,23 +1025,33 @@ public class EntradasBean extends Conexion implements Serializable {
 				"->PRECIO: " + kg_porcentaje + " ->SUBTOTAL:" + sumaSubtotal + " ->IVA:" + iva + " ->TOTAL:" + tCatura);
 
 		eDao.actualizarEntradas(entradasEditar);
-		Correo c = new Correo();
+		// Correo c = new Correo();
 
-		c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getProveedores().getNombre(),
-				entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(), banderaGerencia,
-				banderaControlCalidad);
+		// c.enviarNotificacion(entradasEditar.getTolvas(),
+		// entradasEditar.getProveedores().getNombre(),
+		// entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(),
+		// banderaGerencia,
+		// banderaControlCalidad);
 
 	}
 
-	public void desbloquear() {
+	public void desbloquear(int id, int tolvaNo) {
 		try {
 			ConectarSysProd();
 			PreparedStatement ps = getCnSysProd()
-					.prepareStatement("UPDATE ENTRADAS SET BLOQUEO_EDITAR=0 WHERE ID_ENTRADA='"
-							+ entradasDesbloquear.getIdEntrada() + "'");
+					.prepareStatement("UPDATE ENTRADAS SET BLOQUEO_EDITAR=0 WHERE ID_ENTRADA='" + id + "'");
 			ps.executeUpdate();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "¡AVISO!",
-					"SE HA DESBLOQUEADO CORRECTAMENTE LA CAPTURA"));
+			// FacesContext.getCurrentInstance().addMessage(null, new
+			// FacesMessage(FacesMessage.SEVERITY_INFO, "¡AVISO!", "SE HA DESBLOQUEADO
+			// CORRECTAMENTE LA CAPTURA"));
+
+			String info = "SE HA DESBLOQUEADO CORRECTAMENTE LA CAPTURA DE LA TOLVA " + tolvaNo;
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'info',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+							+ "  timer: 8000\n" + "})");
+			LOGGER.info(info + " ID_ENTRADA: " + id);
 			CerrarSysProd();
 		} catch (SQLException ex) {
 			LOGGER.error("Error al desbloquear: " + ex.getMessage());
@@ -1281,26 +1326,6 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradasEditar.setTransportista(transportista);
 		entradasEditar.setProveedores(proveedores);
 
-//		entradasEditar.setKgEmbarcados(BigDecimal.valueOf(kilosEmbarcados));
-//		entradasEditar.setKgRecibidos(BigDecimal.valueOf(kilosRecibidos));
-//		entradasEditar.setKgNetos(BigDecimal.valueOf(kilosNetos));
-		// **PRECIO DE LA CARNAZA CON PELO**//
-
-//		entradasEditar.setCarnazaConPelo(BigDecimal.valueOf(dato1));
-//		entradasEditar.setCarnzaPrimera(BigDecimal.valueOf(dato2));
-//		entradasEditar.setCarnzaSegunda(BigDecimal.valueOf(dato3));
-//		entradasEditar.setCarnazaSalada(BigDecimal.valueOf(dato4));
-//		entradasEditar.setDesbarbeRecorte(BigDecimal.valueOf(dato5));
-//		entradasEditar.setCerdoMexicano(BigDecimal.valueOf(dato6));
-//		entradasEditar.setOrejaCachete(BigDecimal.valueOf(dato7));
-//		entradasEditar.setPedaceriaConPelo(BigDecimal.valueOf(dato8));
-//		entradasEditar.setPedaceria(BigDecimal.valueOf(dato9));
-//		entradasEditar.setDescarneAdherido(BigDecimal.valueOf(dato10));
-//		entradasEditar.setDescarneSeparado(BigDecimal.valueOf(dato11));
-//		entradasEditar.setCueroDepiladoIntegral(BigDecimal.valueOf(dato12));
-//		entradasEditar.setGarra(BigDecimal.valueOf(dato13));
-//		entradasEditar.setCueroEnSangre(BigDecimal.valueOf(dato14));
-
 		// VALIDAR DATOS
 
 		if (entradasEditar.getSucursal() == null || entradasEditar.getFactura() == ""
@@ -1453,15 +1478,13 @@ public class EntradasBean extends Conexion implements Serializable {
 			proveedores = null;
 			materia = null;
 
-			String info = "Se ha actualizado la captura de materia prima";
+			String info = "SE HA ACTUALIZADO LA CAPTURA DE LA MATERIA PRIMA";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
 
-			// PrimeFaces.current().ajax().update("frmPrincipal:acco:panel,
-			// frmPrincipal:acco:panel2, frmPrincipal:acco:panel3");
 			PrimeFaces.current().executeScript("PF('frmPrincipal').reset();");
 			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel");
 			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel1");

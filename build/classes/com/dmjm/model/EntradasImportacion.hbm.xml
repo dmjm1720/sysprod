@@ -17,8 +17,8 @@
         <many-to-one name="proveedoresImportacion" class="com.dmjm.model.ProveedoresImportacion" fetch="select">
             <column name="ID_PROVEEDOR" />
         </many-to-one>
-        <property name="tolva" type="big_decimal">
-            <column name="TOLVA" precision="10" scale="4" />
+        <property name="tolva" type="int">
+            <column name="TOLVA" />
         </property>
         <property name="fechaEntrada" type="timestamp">
             <column name="FECHA_ENTRADA" length="23" />

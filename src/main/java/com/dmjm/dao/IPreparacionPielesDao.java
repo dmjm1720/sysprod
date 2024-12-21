@@ -6,7 +6,7 @@ import com.dmjm.model.PreparacionPieles;
 
 public interface IPreparacionPielesDao {
 	
-	List<PreparacionPieles> listaPreparacionPieles();
+	List<PreparacionPieles> listaPreparacionPieles(int folio);
 	
 	int guardarPreparacionPieles(PreparacionPieles preparacionPieles);
 	

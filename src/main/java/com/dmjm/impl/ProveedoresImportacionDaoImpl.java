@@ -1,6 +1,9 @@
 package com.dmjm.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -10,9 +13,10 @@ import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IProveedoresImportacionDao;
 import com.dmjm.model.ProveedoresImportacion;
+import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
-public class ProveedoresImportacionDaoImpl implements IProveedoresImportacionDao {
+public class ProveedoresImportacionDaoImpl extends Conexion implements IProveedoresImportacionDao {
 
 	@Override
 	public List<ProveedoresImportacion> listaProvImp() {
@@ -77,8 +81,28 @@ public class ProveedoresImportacionDaoImpl implements IProveedoresImportacionDao
 
 	@Override
 	public List<String> completeProveedorImp(String nombre) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> resultRFC = new ArrayList<>();
+        List<String> listarTodo = new ArrayList<>();
+
+        ConectarSysProd();
+
+        PreparedStatement st = getCnSysProd().prepareStatement("SELECT DISTINCT (NOMBRE) FROM PROVEEDORES WHERE NOMBRE LIKE '" + nombre + "%'");
+        ResultSet rs = st.executeQuery();
+        listarTodo = new ArrayList<>();
+        if (!rs.isBeforeFirst()) {
+            listarTodo.add("No hay resultados para tu búsqueda");
+        } else {
+            while (rs.next()) {
+                listarTodo.add(rs.getString("NOMBRE"));
+            }
+        }
+        for (int i = 0; i < listarTodo.size(); i++) {
+            resultRFC.add(listarTodo.get(i));
+        }
+
+        CerrarSysProd();
+        return resultRFC;
+
 	}
 
 	@Override

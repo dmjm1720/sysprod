@@ -9,7 +9,7 @@
             <generator class="native" />
         </id>
         <many-to-one name="preparacionPieles" class="com.dmjm.model.PreparacionPieles" fetch="select">
-            <column name="ID_PREPARAION" />
+            <column name="ID_PREPARACION" />
         </many-to-one>
         <property name="factura" type="string">
             <column name="FACTURA" length="50" />

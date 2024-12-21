@@ -15,9 +15,9 @@ import com.dmjm.util.HibernateUtil;
 public class PreparacionDaoImpl implements IPreparacionPielesDao {
 
 	@Override
-	public List<PreparacionPieles> listaPreparacionPieles() {
+	public List<PreparacionPieles> listaPreparacionPieles(int folio) {
 		 @SuppressWarnings("JPQLValidation")
-	        List<PreparacionPieles> preparacion = (List<PreparacionPieles>) HibernateUtil.getSessionFactory().openSession().createQuery("From PreparacionPieles").list();
+	        List<PreparacionPieles> preparacion = (List<PreparacionPieles>) HibernateUtil.getSessionFactory().openSession().createQuery("From PreparacionPieles WHERE noOperacion ="+ folio +"").list();
 	        return preparacion;
 	}
 
