@@ -27,7 +27,7 @@
 					skipDetailIfEqualsSummary="true" />
 
 				<div style="text-align: center">
-					<p:badge size="small" value="LAVADORAS"  styleClass="fuente"/>
+					<p:badge size="small" value="LAVADORAS" styleClass="fuente" />
 				</div>
 
 				<p:divider />
@@ -88,6 +88,7 @@
 								paginator="true" liveScroll="true" rowHover="true"
 								paginatorAlwaysVisible="true" scrollable="true"
 								currentPageReportTemplate="Total: #{lavadorasBean.listarLavadoras.size()}"
+								rowStyleClass="#{item.estado=='0' ? 'disponible' :null} #{item.estado=='1' ? 'ocupada' :null} #{item.estado=='2' ? 'mantenimiento' :null}"
 								value="#{lavadorasBean.listarLavadoras}"
 								emptyMessage="NO HAY REGISTROS">
 
@@ -103,17 +104,16 @@
 										trackMouse="true" />
 								</p:column>
 								<p:column headerText="Nombre" width="10rem">
-									<h:outputText value="#{item.nombre}" style="color: #036FAB;" />
+									<h:outputText value="#{item.nombre}" />
 								</p:column>
 								<p:column headerText="Descripción" width="10rem">
-									<h:outputText value="#{item.descripcion}"
-										style="color: #036FAB;" />
+									<h:outputText value="#{item.descripcion}" />
 								</p:column>
 								<p:column headerText="Estado" width="10rem">
-									<h:outputText value="#{item.estado}" style="color: #036FAB;" />
+									<h:outputText value="#{item.estado eq 0 ? 'Disponible' : (item.estado eq 1 ? 'Ocupada' : 'Mantenimiento')}" />
 								</p:column>
 								<p:column headerText="Etapa" width="10rem">
-									<h:outputText value="#{item.etapa}" style="color: #036FAB;" />
+									<h:outputText value="#{item.etapa}" />
 								</p:column>
 
 							</p:dataTable>

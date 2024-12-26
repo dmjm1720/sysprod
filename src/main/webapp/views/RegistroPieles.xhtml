@@ -289,19 +289,6 @@
 								</h:outputText>
 							</p:column>
 
-							<p:column headerText="Día fin" width="5rem">
-								<h:outputText value="#{item3.diaFin}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Hora fin" width="5rem">
-								<h:outputText value="#{item3.horaFin}"
-									style="color: #036FAB; font-weight: bold !important;">
-									<f:convertDateTime pattern="HH:mm:ss a"
-										timeZone="America/Mexico_City" />
-								</h:outputText>
-							</p:column>
-
 							<p:column headerText="PH Sol" width="5rem">
 								<h:outputText value="#{item3.phSol}"
 									style="color: #036FAB; font-weight: bold !important;" />
@@ -335,6 +322,18 @@
 							<p:column headerText="Agua" width="5rem">
 								<h:outputText value="#{item3.agua}"
 									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+							<p:column headerText="Día fin" width="5rem">
+								<h:outputText value="#{item3.diaFin}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Hora fin" width="5rem">
+								<h:outputText value="#{item3.horaFin}"
+									style="color: #036FAB; font-weight: bold !important;">
+									<f:convertDateTime pattern="HH:mm:ss a"
+										timeZone="America/Mexico_City" />
+								</h:outputText>
 							</p:column>
 
 							<p:column headerText="Editar" width="2rem" exportable="false"

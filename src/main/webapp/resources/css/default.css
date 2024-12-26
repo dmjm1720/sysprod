@@ -140,6 +140,22 @@ a:link:hover, a:visited:hover {
 	background-color: #87CEFA;
 }
 
+.ocupada{
+	background-color: #FF6347;
+	color: #F0F8FF !important;
+	font-weight: bold;
+}
+.disponible{
+	background-color: #3CB371;
+	color: #F0F8FF !important;
+	font-weight: bold;
+}
+.mantenimiento{
+	background-color: #483D8B;
+	color: #F0F8FF !important;
+	font-weight: bold;
+}
+
 
 .kilos {
 	background-color: #ffff66 !important;
