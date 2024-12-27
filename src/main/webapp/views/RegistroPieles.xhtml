@@ -29,7 +29,7 @@
 
 				<div class="card">
 
-					<p:splitter style="height: 160px" styleClass="mb-5"
+					<p:splitter style="height: 220px" styleClass="mb-5"
 						widgetVar="splitter">
 						<p:splitterPanel
 							styleClass="flex align-items-center justify-content-center">
@@ -50,16 +50,25 @@
 									style="font-family: 'Poppins', sans-serif !important;"
 									styleClass="captura" />
 
+
+								<p:outputLabel for="imp" value="Lavadoras" />
+								<p:autoComplete id="imp" size="35" required="false"
+									autocomplete="off" requiredMessage="Lavadora requerida"
+									placeholder="Ingresa lavadora" dropdown="true"
+									value="#{preparacionBean.filterLavadora}"
+									completeMethod="#{preparacionBean.buscarNombreDeLavadora}" />
+
 								<p:outputLabel for="total" value="Total" />
 								<p:inputText id="total"
 									value="#{preparacionBean.prePieles.totalKilos}"
 									required="false" requiredMessage="Campo requerido" />
+									
 								<div style="text-align: center">
-									<p:commandButton icon="pi pi-save" title="Guardar"
-										value="GUARDAR"
-										update="frmPrincipal:msgs, frmPrincipal:acco:tblA"
-										style="widht: 20rem; height: 2rem"
-										actionListener="#{preparacionBean.guardarPreparacion()}" />
+									<p:commandButton icon="pi pi-save" title="Agregar operación"
+										value="AGREGAR OPERACIÓN"
+										style="width: 20rem; height: 2rem; color: #20B2AA; font-weight:bold"
+										update="frmPrincipal:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre" 
+										actionListener="#{preparacionBean.guardarPreparacion()}"/>
 								</div>
 							</h:panelGrid>
 
@@ -111,28 +120,20 @@
 										value="#{preparacionBean.facturasPieles.cn}" required="false"
 										requiredMessage="Campo requerido" />
 
+									<p:outputLabel for="rp" value="RP" />
+									<p:inputText id="rp"
+										value="#{preparacionBean.facturasPieles.rp}" required="false"
+										requiredMessage="Campo requerido" />
+
 									<p:commandButton icon="pi pi-save" title="Guardar"
-										value="AGREGAR FACTURA" style="widht: 20rem; height: 2rem; color: #4169E1; font-weight:bold"
+										value="AGREGAR FACTURA"
+										style="widht: 20rem; height: 2rem; color: #4169E1; font-weight:bold"
 										actionListener="#{preparacionBean.guardarFacturaPieles()}"
 										update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre" />
 								</h:panelGrid>
 							</p:splitterPanel>
 							<p:splitterPanel>
-								<h:panelGrid id="panelLavadora" columns="1" cellpadding="4"
-									styleClass="fuente">
-									<p:outputLabel for="imp" value="Lavadoras" />
-									<p:autoComplete id="imp" size="35" required="false"
-										autocomplete="off"
-										requiredMessage="Lavadora requerida"
-										placeholder="Ingresa lavadora"
-										dropdown="true" value="#{preparacionBean.filterLavadora}"
-										completeMethod="#{preparacionBean.buscarNombreDeLavadora}" />
-
-									<p:commandButton icon="pi pi-save" title="Agregar lavadora"
-										value="AGREGAR LAVADORA" style="widht: 20rem; height: 2rem; color: #20B2AA; font-weight:bold"
-										actionListener="#{preparacionBean.guardarLavadora()}"
-										update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre" />
-								</h:panelGrid>
+								
 							</p:splitterPanel>
 						</p:splitter>
 

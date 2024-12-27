@@ -141,8 +141,8 @@ a:link:hover, a:visited:hover {
 }
 
 .ocupada{
-	background-color: #FF6347;
-	color: #F0F8FF !important;
+	background-color: #ffff66;
+	color: #000000 !important;
 	font-weight: bold;
 }
 .disponible{
@@ -152,6 +152,11 @@ a:link:hover, a:visited:hover {
 }
 .mantenimiento{
 	background-color: #483D8B;
+	color: #F0F8FF !important;
+	font-weight: bold;
+}
+.sinuso{
+	background-color: #a51d2d;
 	color: #F0F8FF !important;
 	font-weight: bold;
 }

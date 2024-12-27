@@ -3,9 +3,12 @@ package com.dmjm.bean;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -32,6 +35,7 @@ import com.dmjm.model.FacturasPieles;
 import com.dmjm.model.Lavadoras;
 import com.dmjm.model.OperacionLavadoras;
 import com.dmjm.model.PreparacionPieles;
+import com.dmjm.model.Usuarios;
 
 @Named(value = "preparacionBean")
 @ViewScoped
@@ -41,7 +45,7 @@ public class PreparacionPielesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<PreparacionPieles> listarPreparacion;
 	private PreparacionPieles prePieles;
-
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 	private List<Etapa1> listaEtapa1;
 	private Etapa1 etapa1;
 	private OperacionLavadoras operacionLavadoras;
@@ -172,40 +176,96 @@ public class PreparacionPielesBean implements Serializable {
 	public void guardarPreparacion() throws SQLException {
 		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
 		prePieles.setIdPreparacion(buscarFolio());
-
-		IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
-
+		prePieles.setEstado("Carga");
 		int idPre = 0;
 
 		idPre = pDao.guardarPreparacionPieles(prePieles);
-
+		
+		
+		
 		PreparacionPieles pPieles = new PreparacionPieles();
 		pPieles.setIdPreparacion(idPre);
 		facturasPieles.setPreparacionPieles(pPieles);
 
-		IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
 
 		PreparacionPieles pieles = new PreparacionPieles();
 		pieles.setIdPreparacion(idPre);
 		operacionLavadoras.setPreparacionPieles(pieles);
-		// oDao.guardarOperacionLavadoras(operacionLavadoras);
+
 
 		String[] listaEtapas = { "Carga", "Lavada de Carga", "Blanqueo", "Lavadas de Blanqueo", "Pre Acidulación",
 				"Acidulación", "Control 1", "Control 2", "Control 3", "Control 4", "Control 5", "Control 6",
 				"Control 7", "Control 8" };
 		List<Etapa1> listaAgregarEtapas = new ArrayList<>();
 
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date()); // tuFechaBase es un Date;
+
+		Date fecInicio = calendar.getTime();
+		
+		int hora = calendar.get(Calendar.HOUR_OF_DAY);  // Hora en formato 24 horas
+        int minuto = calendar.get(Calendar.MINUTE);     // Minuto
+        int segundo = calendar.get(Calendar.SECOND);    // Segundo
+		
+		calendar.set(Calendar.HOUR_OF_DAY, hora);
+		calendar.set(Calendar.MINUTE, minuto);
+		calendar.set(Calendar.SECOND, segundo);
+		
+		Date horaIni = calendar.getTime();
 		for (String lEtapas : listaEtapas) {
 			Etapa1 e = new Etapa1();
 			e.setPreparacionPieles(pieles);
+			if(lEtapas.equals("Carga")) {
+				e.setDiaInicio(fecInicio);
+				e.setHoraInicio(horaIni);
+				e.setOperador(us.getNombre());
+			}
 			e.setEtapa(lEtapas);
 			listaAgregarEtapas.add(e);
 		}
 
 		IEtapa1Dao eDao = new EtapaDaoImpl();
 		eDao.guardarListaEtapas(listaAgregarEtapas);
-
+		
 		actualizarFolio(prePieles.getNoOperacion());
+		
+		if (idPre > 0) {
+			IOperacionLavadorasDao lDao = new OperacionLavadorasDaoImpl();
+			prePieles.setIdPreparacion(idPre);
+
+			operacionLavadoras.setPreparacionPieles(prePieles);
+			lavadoras.setIdLavadora(buscarLavadora(filterLavadora));
+			operacionLavadoras.setLavadoras(lavadoras);
+
+			lDao.guardarOperacionLavadoras(operacionLavadoras);
+			IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+			listaOperaciones = oDao.listaOperacionLavadoras(idPre);
+			getListaOperaciones();
+		} else {
+			String info = "LAVADORA NO AGREGADA, SE REQUIERE EL NÚMERRO DE OPERACIÓN";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		}
+		
+		ILavadorasDao lavDao = new LavadorasDaoImpl();
+		lavDao.actualizarEstadoLavadora(1,"Carga", lavadoras.getIdLavadora());
+		
+		IPreparacionPielesDao preDao = new PreparacionDaoImpl();
+		listarPreparacion = preDao.listaPreparacionPieles(prePieles.getNoOperacion());
+
+		for (PreparacionPieles preP : listarPreparacion) {
+			idPrep = preP.getIdPreparacion();
+		}
+		getListarPreparacion();
+		
+		
+		IEtapa1Dao etDao = new EtapaDaoImpl();
+		listaEtapa1 = etDao.listaEtapa1(idPre);
+		getListaEtapa1();
+		
 		prePieles = new PreparacionPieles();
 		lavadoras = new Lavadoras();
 		pieles = new PreparacionPieles();

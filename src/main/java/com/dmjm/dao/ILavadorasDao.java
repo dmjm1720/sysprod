@@ -16,4 +16,6 @@ public interface ILavadorasDao {
 	List<String> completeLavadoras(String nombre) throws SQLException;
 	
 	int buscarLavadora(String nombre) throws SQLException;
+	
+	void actualizarEstadoLavadora(int estado, String etapa, int idEntrada);
 }

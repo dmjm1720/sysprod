@@ -17,9 +17,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	@Override
 	public Usuarios obtenerDatosUsuario(Usuarios usuario) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		String hql = "FROM Usuarios WHERE nombre=:nombre AND password=:password";
+		String hql = "FROM Usuarios WHERE usuario=:usuario AND password=:password";
 		Query q = session.createQuery(hql).setMaxResults(1);
-		q.setParameter("nombre", usuario.getNombre());
+		q.setParameter("usuario", usuario.getUsuario());
 		q.setParameter("password", Password.sha512(usuario.getPassword()));
 		return (Usuarios) q.uniqueResult();
 	}

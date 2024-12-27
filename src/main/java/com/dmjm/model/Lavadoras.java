@@ -1,5 +1,7 @@
 package com.dmjm.model;
 
+import java.math.BigDecimal;
+
 public class Lavadoras implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -8,7 +10,7 @@ public class Lavadoras implements java.io.Serializable {
 	private String descripcion;
 	private Integer estado;
 	private String etapa;
-
+	private BigDecimal capacidadKilos;
 	public Lavadoras() {
 	}
 
@@ -16,12 +18,13 @@ public class Lavadoras implements java.io.Serializable {
 		this.idLavadora = idLavadora;
 	}
 
-	public Lavadoras(int idLavadora, String nombre, String descripcion, Integer estado, String etapa) {
+	public Lavadoras(int idLavadora, String nombre, String descripcion, Integer estado, String etapa, BigDecimal capacidadKilos) {
 		this.idLavadora = idLavadora;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.estado = estado;
 		this.etapa = etapa;
+		this.capacidadKilos = capacidadKilos;
 
 	}
 
@@ -64,5 +67,15 @@ public class Lavadoras implements java.io.Serializable {
 	public void setEtapa(String etapa) {
 		this.etapa = etapa;
 	}
+
+	public BigDecimal getCapacidadKilos() {
+		return capacidadKilos;
+	}
+
+	public void setCapacidadKilos(BigDecimal capacidadKilos) {
+		this.capacidadKilos = capacidadKilos;
+	}
+	
+	
 
 }

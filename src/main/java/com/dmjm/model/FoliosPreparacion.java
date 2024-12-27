@@ -1,10 +1,13 @@
 package com.dmjm.model;
 
+import java.util.Date;
+
 public class FoliosPreparacion implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idFolio;
 	private int folio;
+	private Date fecha;
 
 	public FoliosPreparacion() {
 	}
@@ -13,9 +16,10 @@ public class FoliosPreparacion implements java.io.Serializable {
 		this.idFolio = idFolio;
 	}
 
-	public FoliosPreparacion(int idFolio, int folio) {
+	public FoliosPreparacion(int idFolio, int folio, Date fecha) {
 		this.idFolio = idFolio;
 		this.folio = folio;
+		this.fecha = fecha;
 	}
 
 	public int getIdFolio() {
@@ -33,5 +37,14 @@ public class FoliosPreparacion implements java.io.Serializable {
 	public void setFolio(int folio) {
 		this.folio = folio;
 	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+	
 
 }

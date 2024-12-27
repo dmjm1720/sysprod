@@ -20,5 +20,8 @@
         <property name="etapa" type="string">
             <column name="ETAPA" length="50" />
         </property>
+                <property name="capacidadKilos" type="big_decimal">
+            <column name="CAPACIDAD_KILOS" precision="10" scale="4" />
+        </property>
     </class>
 </hibernate-mapping>

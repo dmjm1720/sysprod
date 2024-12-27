@@ -67,6 +67,13 @@
 									style="width: 20rem" />
 								<p:message for="etapa" />
 
+								<p:outputLabel for="capacidad" value="Capacidad en kilos" />
+								<p:inputText id="capacidad"
+									value="#{lavadorasBean.lavadoras.capacidadKilos}"
+									required="false" requiredMessage="Campo requerido"
+									style="width: 20rem" />
+								<p:message for="capacidad" />
+
 								<p:outputLabel value="" />
 
 								<p:commandButton icon="pi pi-save" title="Guardar"
@@ -88,7 +95,7 @@
 								paginator="true" liveScroll="true" rowHover="true"
 								paginatorAlwaysVisible="true" scrollable="true"
 								currentPageReportTemplate="Total: #{lavadorasBean.listarLavadoras.size()}"
-								rowStyleClass="#{item.estado=='0' ? 'disponible' :null} #{item.estado=='1' ? 'ocupada' :null} #{item.estado=='2' ? 'mantenimiento' :null}"
+								rowStyleClass="#{item.estado=='0' ? 'disponible' :null} #{item.estado=='1' ? 'ocupada' :null} #{item.estado=='2' ? 'mantenimiento' :null} #{item.estado=='3' ? 'sinuso' :null}"
 								value="#{lavadorasBean.listarLavadoras}"
 								emptyMessage="NO HAY REGISTROS">
 
@@ -110,10 +117,14 @@
 									<h:outputText value="#{item.descripcion}" />
 								</p:column>
 								<p:column headerText="Estado" width="10rem">
-									<h:outputText value="#{item.estado eq 0 ? 'Disponible' : (item.estado eq 1 ? 'Ocupada' : 'Mantenimiento')}" />
+									<h:outputText
+										value="#{item.estado eq 0 ? 'Disponible' : (item.estado eq 1 ? 'Ocupada' : (item.estado eq 2 ? 'Mantenimiento' : (item.estado eq 3 ? 'Sin uso' : 'Desconocido')))}" />
 								</p:column>
 								<p:column headerText="Etapa" width="10rem">
 									<h:outputText value="#{item.etapa}" />
+								</p:column>
+								<p:column headerText="Capacidad" width="10rem">
+									<h:outputText value="#{item.capacidadKilos}" />
 								</p:column>
 
 							</p:dataTable>
@@ -160,6 +171,13 @@
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 						<p:message for="etapa" />
+
+						<p:outputLabel for="capacidad" value="Etapa" />
+						<p:inputText id="capacidad"
+							value="#{lavadorasBean.lavadoras.capacidadKilos}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="capacidad" />
 
 					</h:panelGrid>
 
