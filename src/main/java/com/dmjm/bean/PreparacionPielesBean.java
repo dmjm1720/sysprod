@@ -2,6 +2,8 @@ package com.dmjm.bean;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,21 +22,22 @@ import com.dmjm.dao.IEtapa1Dao;
 import com.dmjm.dao.IFacturaPielesDao;
 import com.dmjm.dao.IFolioPreparacionDao;
 import com.dmjm.dao.ILavadorasDao;
-import com.dmjm.dao.IMateriaDao;
 import com.dmjm.dao.IOperacionLavadorasDao;
 import com.dmjm.dao.IPreparacionPielesDao;
+import com.dmjm.dao.IQuimicosDao;
 import com.dmjm.impl.EtapaDaoImpl;
 import com.dmjm.impl.FacturaPielesDaoImpl;
 import com.dmjm.impl.FoliosPreparacionDaoImpl;
 import com.dmjm.impl.LavadorasDaoImpl;
-import com.dmjm.impl.MateriaDaoImpl;
 import com.dmjm.impl.OperacionLavadorasDaoImpl;
 import com.dmjm.impl.PreparacionDaoImpl;
+import com.dmjm.impl.QuimicosDaoImpl;
 import com.dmjm.model.Etapa1;
 import com.dmjm.model.FacturasPieles;
 import com.dmjm.model.Lavadoras;
 import com.dmjm.model.OperacionLavadoras;
 import com.dmjm.model.PreparacionPieles;
+import com.dmjm.model.Quimicos;
 import com.dmjm.model.Usuarios;
 
 @Named(value = "preparacionBean")
@@ -64,6 +67,10 @@ public class PreparacionPielesBean implements Serializable {
 
 	private String filterLavadora;
 
+	private List<Integer> listaOperacionesDisponibles;
+
+	private List<String> listarQuimicos;
+
 	@PostConstruct
 	public void init() {
 		listarPreparacion = new ArrayList<>();
@@ -76,6 +83,8 @@ public class PreparacionPielesBean implements Serializable {
 		listaEtapa1 = new ArrayList<>();
 		operacionLavadoras = new OperacionLavadoras();
 		listaOperaciones = new ArrayList<>();
+		listaOperacionesDisponibles = new ArrayList<>();
+		listarQuimicos = new ArrayList<>();
 	}
 
 	public PreparacionPieles getPrePieles() {
@@ -173,6 +182,32 @@ public class PreparacionPielesBean implements Serializable {
 		this.filterLavadora = filterLavadora;
 	}
 
+	// **OBTENER LA LISTA DE LAS OPERACIONES DISPONIBLES**//
+	public List<Integer> getListaOperacionesDisponibles() {
+
+		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
+		List<PreparacionPieles> listar = new ArrayList<>();
+
+		listar = pDao.listaPreparacion();
+
+		for (PreparacionPieles preparacionPieles : listar) {
+			listaOperacionesDisponibles.add(preparacionPieles.getNoOperacion());
+		}
+
+		return listaOperacionesDisponibles;
+	}
+
+	// **OBTENER LA LISTA DE LOS QUÍMICOS**//
+	public List<String> getListarQuimicos() {
+		IQuimicosDao qDao = new QuimicosDaoImpl();
+		List<Quimicos> listar = qDao.listarQuimicos();
+		for (Quimicos q : listar) {
+			listarQuimicos.add(q.getNombre());
+		}
+		return listarQuimicos;
+	}
+
+	// **GUARDAR LA PREPARACIÓN**//
 	public void guardarPreparacion() throws SQLException {
 		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
 		prePieles.setIdPreparacion(buscarFolio());
@@ -180,18 +215,14 @@ public class PreparacionPielesBean implements Serializable {
 		int idPre = 0;
 
 		idPre = pDao.guardarPreparacionPieles(prePieles);
-		
-		
-		
+
 		PreparacionPieles pPieles = new PreparacionPieles();
 		pPieles.setIdPreparacion(idPre);
 		facturasPieles.setPreparacionPieles(pPieles);
 
-
 		PreparacionPieles pieles = new PreparacionPieles();
 		pieles.setIdPreparacion(idPre);
 		operacionLavadoras.setPreparacionPieles(pieles);
-
 
 		String[] listaEtapas = { "Carga", "Lavada de Carga", "Blanqueo", "Lavadas de Blanqueo", "Pre Acidulación",
 				"Acidulación", "Control 1", "Control 2", "Control 3", "Control 4", "Control 5", "Control 6",
@@ -202,23 +233,25 @@ public class PreparacionPielesBean implements Serializable {
 		calendar.setTime(new Date()); // tuFechaBase es un Date;
 
 		Date fecInicio = calendar.getTime();
-		
-		int hora = calendar.get(Calendar.HOUR_OF_DAY);  // Hora en formato 24 horas
-        int minuto = calendar.get(Calendar.MINUTE);     // Minuto
-        int segundo = calendar.get(Calendar.SECOND);    // Segundo
-		
+
+		int hora = calendar.get(Calendar.HOUR_OF_DAY); // Hora en formato 24 horas
+		int minuto = calendar.get(Calendar.MINUTE); // Minuto
+		int segundo = calendar.get(Calendar.SECOND); // Segundo
+
 		calendar.set(Calendar.HOUR_OF_DAY, hora);
 		calendar.set(Calendar.MINUTE, minuto);
 		calendar.set(Calendar.SECOND, segundo);
-		
+
 		Date horaIni = calendar.getTime();
 		for (String lEtapas : listaEtapas) {
 			Etapa1 e = new Etapa1();
 			e.setPreparacionPieles(pieles);
-			if(lEtapas.equals("Carga")) {
+			e.setEstado(false);
+			if (lEtapas.equals("Carga")) {
 				e.setDiaInicio(fecInicio);
 				e.setHoraInicio(horaIni);
 				e.setOperador(us.getNombre());
+				e.setEstado(true);
 			}
 			e.setEtapa(lEtapas);
 			listaAgregarEtapas.add(e);
@@ -226,9 +259,9 @@ public class PreparacionPielesBean implements Serializable {
 
 		IEtapa1Dao eDao = new EtapaDaoImpl();
 		eDao.guardarListaEtapas(listaAgregarEtapas);
-		
+
 		actualizarFolio(prePieles.getNoOperacion());
-		
+
 		if (idPre > 0) {
 			IOperacionLavadorasDao lDao = new OperacionLavadorasDaoImpl();
 			prePieles.setIdPreparacion(idPre);
@@ -246,13 +279,13 @@ public class PreparacionPielesBean implements Serializable {
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
-							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-							+ "  timer: 8000\n" + "})");
+							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n"
+							+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
 		}
-		
+
 		ILavadorasDao lavDao = new LavadorasDaoImpl();
-		lavDao.actualizarEstadoLavadora(1,"Carga", lavadoras.getIdLavadora());
-		
+		lavDao.actualizarEstadoLavadora(1, "Carga", lavadoras.getIdLavadora());
+
 		IPreparacionPielesDao preDao = new PreparacionDaoImpl();
 		listarPreparacion = preDao.listaPreparacionPieles(prePieles.getNoOperacion());
 
@@ -260,12 +293,11 @@ public class PreparacionPielesBean implements Serializable {
 			idPrep = preP.getIdPreparacion();
 		}
 		getListarPreparacion();
-		
-		
+
 		IEtapa1Dao etDao = new EtapaDaoImpl();
 		listaEtapa1 = etDao.listaEtapa1(idPre);
 		getListaEtapa1();
-		
+
 		prePieles = new PreparacionPieles();
 		lavadoras = new Lavadoras();
 		pieles = new PreparacionPieles();
@@ -293,12 +325,13 @@ public class PreparacionPielesBean implements Serializable {
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
-							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-							+ "  timer: 8000\n" + "})");
+							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n"
+							+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
 		}
 
 	}
 
+	// **GUARDAR LA LAVADORA**//
 	public void guardarLavadora() throws SQLException {
 		if (idPrep > 0) {
 			IOperacionLavadorasDao lDao = new OperacionLavadorasDaoImpl();
@@ -317,8 +350,8 @@ public class PreparacionPielesBean implements Serializable {
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
-							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-							+ "  timer: 8000\n" + "})");
+							+ "  title: '¡Error al guardar!',\n" + "  text: '" + info + "',\n"
+							+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
 		}
 	}
 
@@ -358,12 +391,320 @@ public class PreparacionPielesBean implements Serializable {
 		return listaEtapa1;
 	}
 
-	public void actualizarEtapa() {
+	// **ACTUALIZAR LAS ETAPAS DEL PROCESO**//
+	@SuppressWarnings("unlikely-arg-type")
+	public void actualizarEtapa() throws ParseException {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date()); // tuFechaBase es un Date;
+
+		Date fecInicio = calendar.getTime();
+
+		int hora = calendar.get(Calendar.HOUR_OF_DAY); // Hora en formato 24 horas
+		int minuto = calendar.get(Calendar.MINUTE); // Minuto
+		int segundo = calendar.get(Calendar.SECOND); // Segundo
+
+		calendar.set(Calendar.HOUR_OF_DAY, hora);
+		calendar.set(Calendar.MINUTE, minuto);
+		calendar.set(Calendar.SECOND, segundo);
+
+		Date horaIni = calendar.getTime();
+
+		
 		IEtapa1Dao eDao = new EtapaDaoImpl();
+
+		Etapa1 e = new Etapa1();
+
+		PreparacionPieles p = new PreparacionPieles();
+		p.setIdPreparacion(etapa1.getPreparacionPieles().getIdPreparacion());
+
+		e.setPreparacionPieles(p);
+		IEtapa1Dao etapaDao = new EtapaDaoImpl();
+		if (etapa1.getEtapa().equals("Carga")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Lavada de Carga");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+					LOGGER.info("Etapa: Lavada de carga, está en el estado CERO, se actualiza al estado 1 ");
+				}
+			}
+		}
+		
+		if (etapa1.getEtapa().equals("Lavada de Carga")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Blanqueo");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Blanqueo, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+
+		if (etapa1.getEtapa().equals("Blanqueo")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Lavadas de Blanqueo");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Lavadas de Blanqueo, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+		if (etapa1.getEtapa().equals("Lavadas de Blanqueo")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Pre Acidulación");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Pre Acidulación, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+
+		if (etapa1.getEtapa().equals("Pre Acidulación")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Acidulación");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Acidulación, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+		if (etapa1.getEtapa().equals("Acidulación")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 1");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 1, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+		if (etapa1.getEtapa().equals("Control 1")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 2");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 2, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+		if (etapa1.getEtapa().equals("Control 2")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 3");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 3, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+		if (etapa1.getEtapa().equals("Control 3")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 4");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 4, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+
+		if (etapa1.getEtapa().equals("Control 4")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 5");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 5, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+
+		if (etapa1.getEtapa().equals("Control 5")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 6");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 6, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+		
+		if (etapa1.getEtapa().equals("Control 6")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 7");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 7, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+		if (etapa1.getEtapa().equals("Control 7")) {
+			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+				
+				e.setEtapa("Control 8");
+
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);		
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		
+
 		eDao.actualizarEtapa1(etapa1);
 		etapa1 = new Etapa1();
 	}
 
+	public Etapa1 estadoEtapa(Etapa1 e) {
+		Etapa1 datoReusltado = new Etapa1();
+		IEtapa1Dao eDao = new EtapaDaoImpl();
+		 datoReusltado= eDao.estado(e);
+		return datoReusltado;
+	}
+
+	// **BUSCAR EL FOLIO DE PREPARACIÓN**//
 	public void buscarRegistro() {
 		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
 		listarPreparacion = pDao.listaPreparacionPieles(folio);

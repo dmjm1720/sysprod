@@ -26,228 +26,258 @@
 
 	<div id="top">
 
-		<div id="menuPrincipal">
+		<div class="card">
 			<h:form>
-				<div class="card">
-					<div style="text-align: center; font-size: 1.2rem; color: #4682B4; font-weight: bold; font-family: 'Poppins', sans-serif !important;">SISTEMA DE
-						CAPTURA DE PRODUCCIÓN</div>
+				<p:growl id="messages" />
 
-					<br></br>
-					<p:toolbar>
-						<p:toolbarGroup align="right">
+				<div
+					style="text-align: center; font-size: 1.2rem; color: #4682B4; font-weight: bold; font-family: 'Poppins', sans-serif !important;">SISTEMA
+					DE CAPTURA DE PRODUCCIÓN</div>
 
-							<div style="text-align: right; color: #00008B !important;" >
-								<p size="small">Sesión iniciada: #{login.usuario.nombre} |
-									Perfil: #{login.usuario.perfiles.nombrePerfil}</p>
-							</div>
+				<br></br>
+				<p:toolbar>
+					<p:toolbarGroup align="right">
 
-							<p:commandLink id="salir" action="/index?faces-redirect=true"
-								actionListener="#{login.cerrarSesion()}"
-								style="color: #ffffff; font-family: Questrial; font-size: .3rem; !important">
-								<h:graphicImage url="../resources/img/logout.png"
-									style="height: 35px" />
-							</p:commandLink>
-							<p:tooltip id="toolTipTrack2" for="salir" value="Cerrar sesión"
-								trackMouse="true" />
-						</p:toolbarGroup>
-					</p:toolbar>
+						<div style="text-align: right; color: #00008B !important;">
+							<p size="small">Sesión iniciada: #{login.usuario.nombre} |
+								Perfil: #{login.usuario.perfiles.nombrePerfil}</p>
+						</div>
+
+					</p:toolbarGroup>
+				</p:toolbar>
 
 
-					<!--INICIA P1 ADM-->
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==1}"
-						activeIndex="#{param.i}">
+				<!-- ADMINISTRADOR -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==1}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
 
 						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
 						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
 							icon="pi pi-fw pi-users">
-							<f:param name="i" value="1" />
 						</p:menuitem>
 						<p:menuitem value="Materia prima" outcome="/views/Materia"
 							icon="pi pi-fw pi-book">
-							<f:param name="i" value="2" />
 						</p:menuitem>
 						<p:menuitem value="Transportista" outcome="/views/Transportista"
 							icon="pi pi-fw pi-id-card">
-							<f:param name="i" value="3" />
 						</p:menuitem>
 
-						<p:menuitem value="Usuarios" outcome="/views/Usuarios"
-							icon="pi pi-fw pi-user">
-							<f:param name="i" value="4" />
-						</p:menuitem>
-						
 						<p:menuitem value="Calcios Tabla A" outcome="/views/CalciosA"
 							icon="pi pi-fw pi-check-square">
-							<f:param name="i" value="5" />
 						</p:menuitem>
-						
+
 						<p:menuitem value="Calcios Tabla B" outcome="/views/CalciosB"
 							icon="pi pi-fw pi-check-square">
 							<f:param name="i" value="6" />
 						</p:menuitem>
-						
+
 						<p:menuitem value="Humedad Tabla A" outcome="/views/HumedadA"
 							icon="pi pi-fw pi-check-square">
-							<f:param name="i" value="7" />
 						</p:menuitem>
-						
+
 						<p:menuitem value="Humedad Tabla B" outcome="/views/HumedadB"
 							icon="pi pi-fw pi-check-square">
-							<f:param name="i" value="8" />
 						</p:menuitem>
-						
+
 						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvas"
 							icon="pi pi-fw pi-file-excel">
-							<f:param name="i" value="9" />
 						</p:menuitem>
-						
+
+					</p:submenu>
+
+
+					<p:submenu label="Materia Prima Importación" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Cuentas" outcome="/views/Cuentas"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Proveedores"
+							outcome="/views/ProveedoresImportacion" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+						<p:menuitem value="Registro de Tolvas"
+							outcome="/views/EntradasImportacion" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+					</p:submenu>
+
+
+					<p:submenu label="Lavadoras" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Registro de pieles"
 							outcome="/views/RegistroPieles" icon="pi pi-fw pi-tags">
 							<f:param name="i" value="10" />
 						</p:menuitem>
-						
-						<p:menuitem value="Lavadoras"
-							outcome="/views/Lavadoras" icon="pi pi-fw pi-tags">
-							<f:param name="i" value="11" />
-						</p:menuitem>
-						
-						<p:menuitem value="Cuentas"
-							outcome="/views/Cuentas" icon="pi pi-fw pi-tags">
-							<f:param name="i" value="12" />
-						</p:menuitem>
-						
-						<p:menuitem value="Proveedores de importación"
-							outcome="/views/ProveedoresImportacion" icon="pi pi-fw pi-tags">
-							<f:param name="i" value="13" />
-						</p:menuitem>
-						<p:menuitem value="Registro de importación"
-							outcome="/views/EntradasImportacion" icon="pi pi-fw pi-tags">
-							<f:param name="i" value="14" />
-						</p:menuitem>
-					</p:tabMenu>
-					<!--FINALIZA P1 ADM-->
 
-
-
-
-					<!--INICIA P2 COOR-->
-
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==2}"
-						activeIndex="#{param.i}">
-
-						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==2}"
-							value="Registro de Tolvas" outcome="/views/Entradas"
-							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
+						<p:menuitem value="Lavadoras" outcome="/views/Lavadoras"
+							icon="pi pi-fw pi-tags">
 						</p:menuitem>
 
-					</p:tabMenu>
-
-					<!--FINALIZA P2 COOR -->
-
-
-
-					<!--INICIA P3 CAL-->
-
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==3}"
-						activeIndex="#{param.i}">
-
-						<p:menuitem rendered="#{login.usuario.perfiles.idPerfil==3}"
-							value="Registro de Tolvas" outcome="/views/Entradas"
-							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
+						<p:menuitem value="Cuentas" outcome="/views/Cuentas"
+							icon="pi pi-fw pi-tags">
 						</p:menuitem>
-
-					</p:tabMenu>
-
-					<!--FINALIZA P3 CAL-->
+					</p:submenu>
 
 
+					<p:submenu label="usuarios" icon="pi pi-fw pi-user">
+						<p:menuitem value="Usuarios" outcome="/views/Usuarios"
+							icon="pi pi-fw pi-user">
+						</p:menuitem>
+					</p:submenu>
 
-					<!--INICIA P4 GER-->
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==4}"
-						activeIndex="#{param.i}">
+					<p:divider layout="vertical" />
 
-						<p:menuitem value="Registro de Tolvas" outcome="/views/Entradas"
-							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+
+
+				<!-- COORDINADOR -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==2}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
+						</p:menuitem>
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+				<!-- CALIDAD -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==3}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
+						</p:menuitem>
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+				<!-- GERENCIA -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==4}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
+
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
 						</p:menuitem>
 						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
-							icon="pi pi-fw pi-cog">
-							<f:param name="i" value="1" />
+							icon="pi pi-fw pi-users">
 						</p:menuitem>
 						<p:menuitem value="Materia prima" outcome="/views/Materia"
-							icon="pi pi-fw pi-pencil">
-							<f:param name="i" value="2" />
+							icon="pi pi-fw pi-book">
 						</p:menuitem>
 						<p:menuitem value="Transportista" outcome="/views/Transportista"
-							icon="pi pi-fw pi-file">
-							<f:param name="i" value="3" />
+							icon="pi pi-fw pi-id-card">
+
 						</p:menuitem>
-						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvasGerencia"
-							icon="pi pi-fw pi-file">
-							<f:param name="i" value="4" />
+						<p:menuitem value="Reporte de Tolvas"
+							outcome="/views/RepTolvasGerencia" icon="pi pi-fw pi-file">
 						</p:menuitem>
 
-					</p:tabMenu>
-					<!--FINALIZA P4 GER-->
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+
+				</p:menubar>
 
 
+				<!-- CONTADOR -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==5}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
 
-
-					<!--INICIA P5 CONT-->
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==5}"
-						activeIndex="#{param.i}">
-
-						<p:menuitem value="Registro de Tolvas" outcome="/views/Entradas"
-							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
 						</p:menuitem>
 						<p:menuitem value="Precios" outcome="/views/Precios"
 							icon="pi pi-fw pi-cog">
-							<f:param name="i" value="1" />
 						</p:menuitem>
-					</p:tabMenu>
-					<!--FINALIZA P5 CONT-->
+
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
 
 
 
+				<!-- PRESIDENCIA -->
 
-					<!--INICIA P6 PRE-->
-					<p:tabMenu rendered="#{login.usuario.perfiles.idPerfil==6}"
-						activeIndex="#{param.i}">
-
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==6}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Registro de Tolvas" outcome="/views/Entradas"
 							icon="pi pi-fw pi-home">
-							<f:param name="i" value="0" />
 						</p:menuitem>
 						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
 							icon="pi pi-fw pi-cog">
-							<f:param name="i" value="1" />
 						</p:menuitem>
 						<p:menuitem value="Materia prima" outcome="/views/Materia"
 							icon="pi pi-fw pi-pencil">
-							<f:param name="i" value="2" />
 						</p:menuitem>
 						<p:menuitem value="Transportista" outcome="/views/Transportista"
 							icon="pi pi-fw pi-file">
-							<f:param name="i" value="3" />
 						</p:menuitem>
 						<p:menuitem value="Precios" outcome="/views/Precios"
 							icon="pi pi-fw pi-cog">
-							<f:param name="i" value="4" />
 						</p:menuitem>
 						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvas"
 							icon="pi pi-fw pi-home">
-							<f:param name="i" value="5" />
 						</p:menuitem>
-					</p:tabMenu>
-					<!--FINALIZA P6 PRE-->
 
+					</p:submenu>
 
-				</div>
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
 
 			</h:form>
 		</div>

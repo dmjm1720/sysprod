@@ -8,7 +8,6 @@ import org.hibernate.Transaction;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IPreparacionPielesDao;
-import com.dmjm.model.Lavadoras;
 import com.dmjm.model.PreparacionPieles;
 import com.dmjm.util.HibernateUtil;
 
@@ -16,9 +15,12 @@ public class PreparacionDaoImpl implements IPreparacionPielesDao {
 
 	@Override
 	public List<PreparacionPieles> listaPreparacionPieles(int folio) {
-		 @SuppressWarnings("JPQLValidation")
-	        List<PreparacionPieles> preparacion = (List<PreparacionPieles>) HibernateUtil.getSessionFactory().openSession().createQuery("From PreparacionPieles WHERE noOperacion ="+ folio +"").list();
-	        return preparacion;
+		@SuppressWarnings("unchecked")
+		List<PreparacionPieles> preparacion = (List<PreparacionPieles>) HibernateUtil.getSessionFactory().openSession()
+				.createQuery("FROM PreparacionPieles WHERE noOperacion = :folio")
+				.setParameter("folio", folio)
+				.list();
+				return preparacion;
 	}
 
 	@Override
@@ -67,6 +69,15 @@ public class PreparacionDaoImpl implements IPreparacionPielesDao {
             }
         }
 
+	}
+
+	@Override
+	public List<PreparacionPieles> listaPreparacion() {
+		@SuppressWarnings("unchecked")
+		List<PreparacionPieles> operacion = (List<PreparacionPieles>) HibernateUtil.getSessionFactory().openSession()
+				.createQuery("FROM PreparacionPieles WHERE estado != 'Finalizado'")
+				.list();
+				return operacion;
 	}
 
 }

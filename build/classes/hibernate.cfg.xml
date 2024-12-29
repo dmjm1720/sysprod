@@ -50,5 +50,6 @@
 	resource="com/dmjm/model/EntradasImportacion.hbm.xml" />
 	<mapping resource="com/dmjm/model/ProveedoresImportacion.hbm.xml" />
 			<mapping resource="com/dmjm/model/Activacion.hbm.xml" />
+			<mapping resource="com/dmjm/model/Quimicos.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

@@ -13,4 +13,8 @@ public interface IEtapa1Dao {
 	void actualizarEtapa1(Etapa1 etapa1);
 	
 	void guardarListaEtapas(List<Etapa1> lista);
+	
+	Etapa1 estado(Etapa1 etapa1);
+	
+	void actualizarSiguienteEtapa(Etapa1 e);
 }
