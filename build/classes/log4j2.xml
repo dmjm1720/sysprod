@@ -7,12 +7,12 @@
 		</Console>
 
 
-		<!-- <File name="LogToFile" -->
-		<!-- fileName="C:\Sistema_Prod_Htas\logs\app.log"> -->
-		<!-- <PatternLayout> -->
-		<!-- <Pattern>%d %p %c{1.} [%t] %m%n</Pattern> -->
-		<!-- </PatternLayout> -->
-		<!-- </File> -->
+<!-- 		<File name="LogToFile" -->
+<!-- 			fileName="C:\Sistema_Prod_Htas\logs\app.log"> -->
+<!-- 			<PatternLayout> -->
+<!-- 				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern> -->
+<!-- 			</PatternLayout> -->
+<!-- 		</File> -->
 
 
 		<File name="LogToFile"
@@ -25,15 +25,7 @@
 
 	</Appenders>
 	<Loggers>
-		<!-- avoid duplicated logs with additivity=false -->
-		<!-- <Logger name="ERROR" level="error" additivity="false"> -->
-		<!-- <AppenderRef ref="LogToConsole" /> -->
-		<!-- <AppenderRef ref="LogToFile" /> -->
-		<!-- </Logger> -->
-		<!-- <Logger name="INFO" level="info" additivity="false"> -->
-		<!-- <AppenderRef ref="LogToConsole" /> -->
-		<!-- <AppenderRef ref="LogToFile" /> -->
-		<!-- </Logger> -->
+
 		<Root level="debug">
 			<AppenderRef ref="LogToConsole" />
 			<AppenderRef ref="LogToFile" />

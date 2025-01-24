@@ -3,31 +3,37 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 22/11/2024 10:11:41 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.dmjm.model.FacturasPieles" table="FACTURAS_PIELES" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
-        <id name="idFacturaPiel" type="int">
-            <column name="ID_FACTURA_PIEL" />
-            <generator class="native" />
-        </id>
-        <many-to-one name="preparacionPieles" class="com.dmjm.model.PreparacionPieles" fetch="select">
-            <column name="ID_PREPARACION" />
-        </many-to-one>
-        <property name="factura" type="string">
-            <column name="FACTURA" length="50" />
-        </property>
-        <property name="cz" type="big_decimal">
-            <column name="CZ" precision="10" scale="4" />
-        </property>
-        <property name="dc" type="big_decimal">
-            <column name="DC" precision="10" scale="4" />
-        </property>
-        <property name="ds" type="big_decimal">
-            <column name="DS" precision="10" scale="4" />
-        </property>
-        <property name="cn" type="big_decimal">
-            <column name="CN" precision="10" scale="4" />
-        </property>
-        <property name="rp" type="big_decimal">
-            <column name="RP" precision="10" scale="4" />
-        </property>
-    </class>
+	<class name="com.dmjm.model.FacturasPieles"
+		table="FACTURAS_PIELES" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idFacturaPiel" type="int">
+			<column name="ID_FACTURA_PIEL" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="preparacionPieles"
+			class="com.dmjm.model.PreparacionPieles" fetch="select">
+			<column name="ID_PREPARACION" />
+		</many-to-one>
+		<property name="factura" type="string">
+			<column name="FACTURA" length="50" />
+		</property>
+		<property name="cz" type="big_decimal">
+			<column name="CZ" precision="10" scale="4" />
+		</property>
+		<property name="dc" type="big_decimal">
+			<column name="DC" precision="10" scale="4" />
+		</property>
+		<property name="ds" type="big_decimal">
+			<column name="DS" precision="10" scale="4" />
+		</property>
+		<property name="cn" type="big_decimal">
+			<column name="CN" precision="10" scale="4" />
+		</property>
+		<property name="rp" type="big_decimal">
+			<column name="RP" precision="10" scale="4" />
+		</property>
+		<property name="total" type="big_decimal">
+			<column name="TOTAL" precision="10" scale="4" />
+		</property>
+	</class>
 </hibernate-mapping>

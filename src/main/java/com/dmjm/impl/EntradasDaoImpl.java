@@ -1,16 +1,10 @@
 package com.dmjm.impl;
 
-import com.dmjm.dao.IEntradasDao;
-import com.dmjm.model.Entradas;
-import com.dmjm.model.Usuarios;
-import com.dmjm.util.Conexion;
-import com.dmjm.util.HibernateUtil;
-
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -19,6 +13,13 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import com.dmjm.dao.IEntradasDao;
+import com.dmjm.model.Entradas;
+import com.dmjm.model.Usuarios;
+import com.dmjm.util.Conexion;
+import com.dmjm.util.HibernateUtil;
 
 public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 
@@ -78,12 +79,15 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	public void actualizarFechaImpresion(int idEntrada, String fecha, int tolva) {
 		try {
 			ConectarSysProd();
-			PreparedStatement ps = getCnSysProd().prepareStatement(
-					"UPDATE ENTRADAS SET FECHA_IMPRESION_CONTADOR='" + fecha + "' WHERE ID_ENTRADA=" + idEntrada + "");
+			PreparedStatement ps = getCnSysProd()
+					.prepareStatement("UPDATE ENTRADAS SET FECHA_IMPRESION_CONTADOR=? WHERE ID_ENTRADA=?");
+			ps.setString(1, fecha);
+			ps.setInt(2, idEntrada);
 			ps.executeUpdate();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "¡AVISO!", "FECHA DE IMPRESIÓN ACTUALIZADA"));
-			LOGGER.info("FECHA DE IMPRESIÓN ACTUALIZADA: " + fecha + " POR EL USUARIO: " + us.getNombre() + " NO. DE TOLVA: " + tolva);
+			LOGGER.info("FECHA DE IMPRESIÓN ACTUALIZADA: " + fecha + " POR EL USUARIO: " + us.getNombre()
+					+ " NO. DE TOLVA: " + tolva);
 			CerrarSysProd();
 		} catch (SQLException ex) {
 			LOGGER.error("ERROR AL ACTUALIZAR LA FECHA DE IMPRESIÓN: " + ex.getMessage());
@@ -120,7 +124,79 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 				session.close();
 			}
 		}
-		
+
+	}
+
+	@Override
+	public Entradas obtenerIdEntrada(String factura) {
+		Entradas entrada = new Entradas();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM Entradas WHERE factura = :factura";
+			Query<Entradas> query = session.createQuery(hql, Entradas.class);
+
+			// Establecer el parámetro
+
+			query.setParameter("factura", factura);
+			entrada = query.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+
+		return entrada;
+	}
+
+	@Override
+	public void actualizarNombreArchivoCert(int id, String nombre) {
+		try {
+			ConectarSysProd();
+			PreparedStatement ps = getCnSysProd()
+					.prepareStatement("UPDATE ENTRADAS SET ARCHIVO_CERTIFICADO=? WHERE ID_ENTRADA=?");
+			ps.setString(1, nombre);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.info("ERROR AL ACTUALIZAR EL NOMBRE DEL ARCHIVO: " + ex);
+		}
+
+	}
+
+	@Override
+	public String nombreArchivoCert(int id) {
+		String certificado = "";
+		try {
+
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd()
+					.prepareStatement("SELECT ARCHIVO_CERTIFICADO FROM ENTRADAS WHERE ID_ENTRADA=?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+			} else {
+				while (rs.next()) {
+					certificado = rs.getString("ARCHIVO_CERTIFICADO");
+					LOGGER.info("NOMBRE DEL CERTIFICADO: " + certificado);
+				}
+			}
+
+			CerrarSysProd();
+
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL OBTERNER EL CERTIFICADO: " + ex);
+		}
+		return certificado;
 	}
 
 }

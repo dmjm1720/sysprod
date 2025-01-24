@@ -27,8 +27,8 @@ public class Entradas implements java.io.Serializable {
 	private BigDecimal kgEnvioLeon;
 	private String palletsRecibidos;
 	private BigDecimal carnazaConPelo;
-	private BigDecimal carnzaPrimera;
-	private BigDecimal carnzaSegunda;
+	private BigDecimal carnazaPrimera;
+	private BigDecimal carnazaSegunda;
 	private BigDecimal desbarbeRecorte;
 	private BigDecimal cerdoMexicano;
 	private BigDecimal orejaCachete;
@@ -92,6 +92,9 @@ public class Entradas implements java.io.Serializable {
 	private BigDecimal iva;
 	private BigDecimal totalCaptura;
 	private BigDecimal kgCalidadMateria;
+	private String archivoCertificado;
+	private String tipoMoneda;
+
 
 	public Entradas() {
 	}
@@ -100,12 +103,17 @@ public class Entradas implements java.io.Serializable {
 		this.idEntrada = idEntrada;
 	}
 
+	public Entradas(int idEntrada, BigDecimal kgRecibidos) {
+		this.idEntrada = idEntrada;
+		this.kgRecibidos = kgRecibidos;
+	}
+
 	public Entradas(int idEntrada, Materia materia, Preservacion preservacion, Proveedores proveedores,
 			Transportista transportista, Integer tolvas, Date fechaRecepcion, String sucursal,
 			Date fechaRecepcionToluca, String ticketBasculaToluca, String ticketBasculaLeon, String factura,
 			String certificado, BigDecimal kgEmbarcados, BigDecimal kgNetos, BigDecimal kgBascula,
 			BigDecimal kgBasculaMerma, BigDecimal kgRecibidos, BigDecimal kgEnvioLeon, String palletsRecibidos,
-			BigDecimal carnazaConPelo, BigDecimal carnzaPrimera, BigDecimal carnzaSegunda, BigDecimal desbarbeRecorte,
+			BigDecimal carnazaConPelo, BigDecimal carnazaPrimera, BigDecimal carnazaSegunda, BigDecimal desbarbeRecorte,
 			BigDecimal cerdoMexicano, BigDecimal orejaCachete, BigDecimal garra, BigDecimal pedaceria,
 			BigDecimal cueroDepiladoIntegral, BigDecimal pedaceriaConPelo, BigDecimal total, BigDecimal merma,
 			BigDecimal alcalinidad, BigDecimal humedad, String coordinadorProduccion, String controlCalidad,
@@ -121,8 +129,8 @@ public class Entradas implements java.io.Serializable {
 			BigDecimal precioCalcCs, BigDecimal precioCalcDr, BigDecimal precioCalcCm, BigDecimal precioCalcCo,
 			BigDecimal precioCalcPc, BigDecimal precioCalcP, BigDecimal precioCalcDa, BigDecimal precioCalcDs,
 			BigDecimal precioCalcCdi, BigDecimal precioCalcG, BigDecimal precioCalcCe, BigDecimal subtotal,
-			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria) {
-		super();
+			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria,  String archivoCertificado, String tipoMoneda) {
+
 		this.idEntrada = idEntrada;
 		this.materia = materia;
 		this.preservacion = preservacion;
@@ -144,8 +152,8 @@ public class Entradas implements java.io.Serializable {
 		this.kgEnvioLeon = kgEnvioLeon;
 		this.palletsRecibidos = palletsRecibidos;
 		this.carnazaConPelo = carnazaConPelo;
-		this.carnzaPrimera = carnzaPrimera;
-		this.carnzaSegunda = carnzaSegunda;
+		this.carnazaPrimera = carnazaPrimera;
+		this.carnazaSegunda = carnazaSegunda;
 		this.desbarbeRecorte = desbarbeRecorte;
 		this.cerdoMexicano = cerdoMexicano;
 		this.orejaCachete = orejaCachete;
@@ -209,6 +217,8 @@ public class Entradas implements java.io.Serializable {
 		this.iva = iva;
 		this.totalCaptura = totalCaptura;
 		this.kgCalidadMateria = kgCalidadMateria;
+		this.archivoCertificado = archivoCertificado;
+		this.tipoMoneda = tipoMoneda;
 	}
 
 	public int getIdEntrada() {
@@ -379,20 +389,20 @@ public class Entradas implements java.io.Serializable {
 		this.carnazaConPelo = carnazaConPelo;
 	}
 
-	public BigDecimal getCarnzaPrimera() {
-		return carnzaPrimera;
+	public BigDecimal getCarnazaPrimera() {
+		return carnazaPrimera;
 	}
 
-	public void setCarnzaPrimera(BigDecimal carnzaPrimera) {
-		this.carnzaPrimera = carnzaPrimera;
+	public void setCarnazaPrimera(BigDecimal carnazaPrimera) {
+		this.carnazaPrimera = carnazaPrimera;
 	}
 
-	public BigDecimal getCarnzaSegunda() {
-		return carnzaSegunda;
+	public BigDecimal getCarnazaSegunda() {
+		return carnazaSegunda;
 	}
 
-	public void setCarnzaSegunda(BigDecimal carnzaSegunda) {
-		this.carnzaSegunda = carnzaSegunda;
+	public void setCarnazaSegunda(BigDecimal carnazaSegunda) {
+		this.carnazaSegunda = carnazaSegunda;
 	}
 
 	public BigDecimal getDesbarbeRecorte() {
@@ -899,7 +909,22 @@ public class Entradas implements java.io.Serializable {
 		this.kgCalidadMateria = kgCalidadMateria;
 	}
 
+	public String getTipoMoneda() {
+		return tipoMoneda;
+	}
 
+	public void setTipoMoneda(String tipoMoneda) {
+		this.tipoMoneda = tipoMoneda;
+	}
+
+	public String getArchivoCertificado() {
+		return archivoCertificado;
+	}
+
+	public void setArchivoCertificado(String archivoCertificado) {
+		this.archivoCertificado = archivoCertificado;
+	}
+	
 	
 
 }

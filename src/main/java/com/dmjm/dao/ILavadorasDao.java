@@ -18,4 +18,10 @@ public interface ILavadorasDao {
 	int buscarLavadora(String nombre) throws SQLException;
 	
 	void actualizarEstadoLavadora(int estado, String etapa, int idEntrada);
+	
+	Lavadoras listarCapaciad(Lavadoras l);
+	
+	List<Lavadoras> listarLavadorasDisponibles();
+	
+	void actualizarEtapaLavadora(String etapa, int id);
 }

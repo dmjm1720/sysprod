@@ -1,6 +1,5 @@
 package com.dmjm.impl;
 
-
 import com.dmjm.dao.ITransportistaDao;
 import com.dmjm.model.Transportista;
 import com.dmjm.util.Conexion;
@@ -16,107 +15,135 @@ import org.hibernate.Transaction;
 import org.primefaces.PrimeFaces;
 
 
-public class TransportistaDaoImpl extends Conexion implements ITransportistaDao{
+public class TransportistaDaoImpl extends Conexion implements ITransportistaDao {
 
-    @Override
-    public List<Transportista> listarTransportista() {
-       @SuppressWarnings("JPQLValidation")
-        List<Transportista> transportista = (List<Transportista>) HibernateUtil.getSessionFactory().openSession().createQuery("From Transportista").list();
-        return transportista;
-    }
-    
-    
-    @Override
-    public void guardarTransportista(Transportista transportista) {
-        Session session = null;
-        try {
+	@Override
+	public List<Transportista> listarTransportista() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Transportista WHERE ESTADO=1", Transportista.class).list();
+		}
+	}
 
-            session = HibernateUtil.getSessionFactory().openSession();
+	@Override
+	public void guardarTransportista(Transportista transportista) {
+		Session session = null;
+		try {
 
-            Transaction transaction = session.beginTransaction();
-            session.save(transportista);
-            transaction.commit();
-            String info = "Se ha registrado un nuevo Transportista";
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.save(transportista);
+			transaction.commit();
+			String info = "Se ha registrado un nuevo Transportista";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 
-    @Override
-    public void actualizarTransportista(Transportista transportista) {
-    	 Session session = null;
-         try {
+	@Override
+	public void actualizarTransportista(Transportista transportista) {
+		Session session = null;
+		try {
 
-             session = HibernateUtil.getSessionFactory().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 
-             Transaction transaction = session.beginTransaction();
-             session.update(transportista);
-             transaction.commit();
-             String info = "Se ha actualizado el Transportista";
+			Transaction transaction = session.beginTransaction();
+			session.update(transportista);
+			transaction.commit();
+			String info = "Se ha actualizado el Transportista";
 
- 			PrimeFaces.current()
- 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
- 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
- 							+ "  timer: 8000\n" + "})");
-         } catch (HibernateException e) {
-             session.getTransaction().rollback();
-         } finally {
-             if (session != null) {
-                 session.close();
-             }
-         }
-    }
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 
-    @Override
-    public List<String> completeTransportista(String nombre) throws SQLException {
-       List<String> resultRFC = new ArrayList<>();
-        List<String> listarTodo = new ArrayList<>();
+	@Override
+	public List<String> completeTransportista(String nombre) throws SQLException {
+		List<String> resultRFC = new ArrayList<>();
+		List<String> listarTodo = new ArrayList<>();
 
-        ConectarSysProd();
+		ConectarSysProd();
 
-        PreparedStatement st = getCnSysProd().prepareStatement("SELECT DISTINCT (NOMBRE) FROM TRANSPORTISTA WHERE NOMBRE LIKE '" + nombre + "%'");
-        ResultSet rs = st.executeQuery();
-        listarTodo = new ArrayList<>();
-        if (!rs.isBeforeFirst()) {
-            listarTodo.add("No hay resultados para tu búsqueda");
-        } else {
-            while (rs.next()) {
-                listarTodo.add(rs.getString("NOMBRE"));
-            }
-        }
-        for (int i = 0; i < listarTodo.size(); i++) {
-            resultRFC.add(listarTodo.get(i));
-        }
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM TRANSPORTISTA WHERE NOMBRE LIKE '" + nombre + "%'");
+		ResultSet rs = st.executeQuery();
+		listarTodo = new ArrayList<>();
+		if (!rs.isBeforeFirst()) {
+			listarTodo.add("No hay resultados para tu búsqueda");
+		} else {
+			while (rs.next()) {
+				listarTodo.add(rs.getString("NOMBRE"));
+			}
+		}
+		for (int i = 0; i < listarTodo.size(); i++) {
+			resultRFC.add(listarTodo.get(i));
+		}
 
-        CerrarSysProd();
-        return resultRFC;
-    }
+		CerrarSysProd();
+		return resultRFC;
+	}
 
-    @Override
-    public int buscarTransportista(String nombre) throws SQLException {
-        ConectarSysProd();
-        PreparedStatement st = getCnSysProd().prepareStatement("SELECT ID_TRANSPORTISTA FROM TRANSPORTISTA WHERE NOMBRE = '" + nombre + "'");
-        ResultSet rs = st.executeQuery();
-        int transportista = 0;
-        if (!rs.isBeforeFirst()) {
+	@Override
+	public int buscarTransportista(String nombre) throws SQLException {
+		ConectarSysProd();
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT ID_TRANSPORTISTA FROM TRANSPORTISTA WHERE NOMBRE = '" + nombre + "'");
+		ResultSet rs = st.executeQuery();
+		int transportista = 0;
+		if (!rs.isBeforeFirst()) {
 
-        } else {
-            while (rs.next()) {
-                transportista = rs.getInt("ID_TRANSPORTISTA");
-            }
-        }
+		} else {
+			while (rs.next()) {
+				transportista = rs.getInt("ID_TRANSPORTISTA");
+			}
+		}
 
-        CerrarSysProd();
-        return transportista;
-    }
-    
+		CerrarSysProd();
+		return transportista;
+	}
+
+	@Override
+	public void borrarTransportista(Transportista transportista) {
+		Session session = null;
+		try {
+
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.update(transportista);
+			transaction.commit();
+			String info = "El transportista se ha dado de baja correctamente";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			System.err.println(e.getMessage());
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+	}
+
 }

@@ -3,52 +3,60 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 22/11/2024 10:11:41 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.dmjm.model.Etapa1" table="ETAPA1" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
-        <id name="idEtapa" type="int">
-            <column name="ID_ETAPA" />
-            <generator class="native" />
-        </id>
-        <many-to-one name="preparacionPieles" class="com.dmjm.model.PreparacionPieles" fetch="select">
-            <column name="ID_PREPARACION" />
-        </many-to-one>
-        <property name="etapa" type="string">
-            <column name="ETAPA" length="50" />
-        </property>
-        <property name="diaInicio" type="date">
-            <column name="DIA_INICIO" length="10" />
-        </property>
-        <property name="horaInicio" type="time">
-            <column name="HORA_INICIO" length="16" />
-        </property>
-        <property name="diaFin" type="date">
-            <column name="DIA_FIN" length="10" />
-        </property>
-        <property name="horaFin" type="time">
-            <column name="HORA_FIN" length="16" />
-        </property>
-        <property name="phSol" type="big_decimal">
-            <column name="PH_SOL" precision="10" scale="4" />
-        </property>
-        <property name="normalidad" type="big_decimal">
-            <column name="NORMALIDAD" precision="10" scale="4" />
-        </property>
-        <property name="tipo" type="string">
-            <column name="TIPO" length="50" />
-        </property>
-        <property name="cantidad" type="string">
-            <column name="CANTIDAD" length="50" />
-        </property>
-        <property name="lote" type="string">
-            <column name="LOTE" length="50" />
-        </property>
-        <property name="operador" type="string">
-            <column name="OPERADOR" length="50" />
-        </property>
-        <property name="agua" type="string">
-            <column name="AGUA" length="50" />
-        </property>
-        <property name="estado" type="java.lang.Boolean">
-            <column name="ESTADO" />
-        </property>
-    </class>
+	<class name="com.dmjm.model.Etapa1" table="ETAPA1" schema="dbo"
+		catalog="SYSPROD" optimistic-lock="version">
+		<id name="idEtapa" type="int">
+			<column name="ID_ETAPA" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="preparacionPieles"
+			class="com.dmjm.model.PreparacionPieles" fetch="select">
+			<column name="ID_PREPARACION" />
+		</many-to-one>
+		<property name="etapa" type="string">
+			<column name="ETAPA" length="50" />
+		</property>
+		<property name="diaInicio" type="date">
+			<column name="DIA_INICIO" length="10" />
+		</property>
+		<property name="horaInicio" type="time">
+			<column name="HORA_INICIO" length="16" />
+		</property>
+		<property name="diaFin" type="date">
+			<column name="DIA_FIN" length="10" />
+		</property>
+		<property name="horaFin" type="time">
+			<column name="HORA_FIN" length="16" />
+		</property>
+		<property name="phSol" type="big_decimal">
+			<column name="PH_SOL" precision="10" scale="4" />
+		</property>
+		<property name="normalidad" type="big_decimal">
+			<column name="NORMALIDAD" precision="10" scale="4" />
+		</property>
+		<property name="tipo" type="string">
+			<column name="TIPO" length="50" />
+		</property>
+		<property name="cantidad" type="string">
+			<column name="CANTIDAD" length="50" />
+		</property>
+		<property name="lote" type="string">
+			<column name="LOTE" length="50" />
+		</property>
+		<property name="operador" type="string">
+			<column name="OPERADOR" length="50" />
+		</property>
+		<property name="agua" type="string">
+			<column name="AGUA" length="50" />
+		</property>
+		<property name="estado" type="java.lang.Boolean">
+			<column name="ESTADO" />
+		</property>
+		<property name="alcalinidad" type="java.lang.Integer">
+			<column name="ALCALINIDAD" />
+		</property>
+		<property name="conductividad" type="java.lang.Integer">
+			<column name="CONDUCTIVIDAD" />
+		</property>
+	</class>
 </hibernate-mapping>

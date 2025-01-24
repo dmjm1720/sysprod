@@ -13,44 +13,44 @@
 </h:head>
 
 <body>
-
-	<section class="hero news alternate">
-	<div class="grid-container">
-		<div class="cell">
-			<div class="annotation">SISTEMA DE CAPTURA DE PRODUCCIÓN
-				Release Beta 241220</div>
-			<h1>Coloidales Duché S.A. de C.V.</h1>
-		</div>
-	</div>
-	</section>
 	<h:form id="frmMsg">
+		<section class="hero news alternate">
+		<div class="grid-container">
+			<div class="cell">
+				<div class="annotation">SISTEMA DE CAPTURA DE PRODUCCIÓN
+					Release Beta 241220</div>
+				<h1>Coloidales Duché S.A. de C.V.</h1>
+			</div>
+		</div>
+		</section>
+
 		<p:growl id="mensaje" showSummary="true" life="50000"
 			showDetail="true" />
-		<p:growl id="mensajeGral" sticky="true" showDetail="true"
-			life="3000" />
+		<p:growl id="mensajeGral" sticky="true" showDetail="true" life="3000" />
 	</h:form>
 
 
-	<p:poll interval="60" update="formLogin" />
+
 	<h:form id="formLogin" class="modal-content logo-name"
 		style="text-align: center">
-
+		<p:poll interval="60" update="formLogin" />
 
 		<br></br>
-            INGRESAR AL SISTEMA
+            SISTEMA DE CAPTURA DE PRODUCCIÓN
             <div class="imgcontainer">
 
-			<img src="resources/img/user-login.svg" alt="Login" class="avatar" />
+			<img src="resources/img/security.png" alt="Login" class="avatar" />
 			<br></br> <br></br> <label for="uname"><b>USUARIO</b></label> <br></br>
 			<input type="text" name="uname" jsf:value="#{login.usuario.usuario}"
 				placeholder="Ingresa tu usuario" required="true" label="username"
 				jsf:requiredMessage="REQUIERE USUARIO" jsf:label="REQUIERE USUARIO" />
 			<label for="psw"><b>CONTRASEÑA</b></label> <input type="password"
-				name="psw" placeholder="Ingresa tu password"
+				name="psw" placeholder="Ingresa tu contraseña"
 				jsf:value="#{login.usuario.password}" required="true"
 				jsf:label="REQUIERE CONTRASEÑA" label="password"
 				jsf:requiredMessage="REQUIERE PASSWORD" />
-			<p:commandButton id="inicio" update="formLogin,frmMsg:mensaje, frmMsg:mensajeGral" value="LOGIN"
+			<p:commandButton id="inicio"
+				update="formLogin,frmMsg:mensaje, frmMsg:mensajeGral" value="INGRESAR AL SISTEMA"
 				actionListener="#{login.login(event)}"
 				oncomplete="handleLoginRequest(xhr, status, args)"
 				style="background-color: #1D60A4; color: #000000; font-family: 'Rajdhani', sans-serif !important">

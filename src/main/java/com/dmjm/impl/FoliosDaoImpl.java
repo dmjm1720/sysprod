@@ -1,14 +1,14 @@
 package com.dmjm.impl;
 
-import com.dmjm.bean.EntradasBean;
-import com.dmjm.dao.IFoliosDao;
-import com.dmjm.util.Conexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.dmjm.dao.IFoliosDao;
+import com.dmjm.util.Conexion;
 
 public class FoliosDaoImpl extends Conexion implements IFoliosDao {
 

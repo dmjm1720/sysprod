@@ -17,14 +17,17 @@ import org.apache.logging.log4j.Logger;
 
 import com.dmjm.bean.EntradasBean;
 
-public class Correo {
+public class Correo extends Configuracion {
 
 	private static final Logger LOGGER = LogManager.getLogger(Correo.class.getName());
 
 	public void enviarNotificacion(int tolva, String proveedor, String factura, String tipoPiel, int bg, int cc) {
+		// LEER LAS PROPIEDADES
+		leerConfig();
+
 		Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.hostinger.com");
-		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.host", getSmtpHost()); // PROPS
+		props.put("mail.smtp.port", getSmtpPort());// PROPS
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
 		Session session = Session.getDefaultInstance(props, null);
@@ -32,10 +35,10 @@ public class Correo {
 		BodyPart texto = new MimeBodyPart();
 		String mensaje = null;
 		if (bg == 1) {
-			mensaje = "Se ha liberado una nueva Tolva: ";
+			mensaje = getMsgLiberacionTolva();
 		}
 		if (cc == 1) {
-			mensaje = "Se ha registrado una nueva Tolva para su liberaci&oacute;n: ";
+			mensaje = getMsgRegistroTolva();
 		}
 
 		try {
@@ -52,27 +55,28 @@ public class Correo {
 
 			MimeMessage message = new MimeMessage(session);
 
-			message.setFrom(new InternetAddress("notificaciones@noficaciones.dmjm-sistemas.com"));
+			message.setFrom(new InternetAddress(getDominioCorreo()));//PROPS
 
 			if (bg == 1) {
-				message.addRecipients(Message.RecipientType.TO, "ghernandez@duche.com");
-				message.addRecipients(Message.RecipientType.TO, "ggutierrez@duche.com");
-				//message.addRecipients(Message.RecipientType.TO, "mario.arias@dmjm-sistemas.com");
+				//message.addRecipients(Message.RecipientType.TO, getMsgToContador());//PROPS
+				//message.addRecipients(Message.RecipientType.TO, getMsgToAdmin());//PROPS
+
 			}
 			if (cc == 1) {
-				message.addRecipients(Message.RecipientType.TO, "jnolasco@duche.com");
-				message.addRecipients(Message.RecipientType.TO, "ggutierrez@duche.com");
-				//message.addRecipients(Message.RecipientType.TO, "mario.arias@dmjm-sistemas.com");
+				message.addRecipients(Message.RecipientType.TO, getMsgToGerencia());//PROPS
+				message.addRecipients(Message.RecipientType.TO, getMsgToGerencia2());//PROPS
+				message.addRecipients(Message.RecipientType.TO, getMsgToAdmin());//PROPS
+
 			}
 
-			message.addRecipients(Message.RecipientType.BCC, "notificaciones@noficaciones.dmjm-sistemas.com");
+			message.addRecipients(Message.RecipientType.BCC, getDominioCorreo());//PROPS
 
 			message.setSubject("Notificación de liberación de Tolva número: " + tolva);
 
 			message.setContent(multiParte);
 
 			Transport t = session.getTransport("smtp");
-			t.connect("notificaciones@noficaciones.dmjm-sistemas.com", "y#=W>[keO3Z");
+			t.connect(getDominioCorreo(), getPwdMail());//PROPS
 			t.sendMessage(message, message.getAllRecipients());
 			t.close();
 			LOGGER.info("SE HA ENVIADO EL CORREO CON INFO DE LA TOLVA: " + tolva);

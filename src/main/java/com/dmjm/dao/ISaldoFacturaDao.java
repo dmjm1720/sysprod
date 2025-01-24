@@ -11,4 +11,7 @@ public interface ISaldoFacturaDao {
 	void guardarSaldoFactura(SaldoFactura saldoFactura);
 
 	void actualizarSaldoFactura(SaldoFactura saldoFactura);
+	
+	double saldo (String factura);
+	
 }

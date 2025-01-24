@@ -73,11 +73,11 @@
 		<property name="carnazaConPelo" type="big_decimal">
 			<column name="CARNAZA_CON_PELO" precision="10" scale="4" />
 		</property>
-		<property name="carnzaPrimera" type="big_decimal">
-			<column name="CARNZA_PRIMERA" precision="10" scale="4" />
+		<property name="carnazaPrimera" type="big_decimal">
+			<column name="CARNAZA_PRIMERA" precision="10" scale="4" />
 		</property>
-		<property name="carnzaSegunda" type="big_decimal">
-			<column name="CARNZA_SEGUNDA" precision="10" scale="4" />
+		<property name="carnazaSegunda" type="big_decimal">
+			<column name="CARNAZA_SEGUNDA" precision="10" scale="4" />
 		</property>
 		<property name="desbarbeRecorte" type="big_decimal">
 			<column name="DESBARBE_RECORTE" precision="10" scale="4" />
@@ -271,5 +271,12 @@
 		<property name="kgCalidadMateria" type="big_decimal">
 			<column name="KG_CALIDAD_MATERIA" precision="10" scale="4" />
 		</property>
+		<property name="archivoCertificado" type="string">
+			<column name="ARCHIVO_CERTIFICADO" length="150" />
+		</property>
+		<property name="tipoMoneda" type="string">
+			<column name="TIPO_MONEDA" length="5" />
+		</property>
+
 	</class>
 </hibernate-mapping>

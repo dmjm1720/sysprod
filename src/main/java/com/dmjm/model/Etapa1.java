@@ -21,6 +21,8 @@ public class Etapa1 implements java.io.Serializable {
 	private String operador;
 	private String agua;
 	private Boolean estado;
+	private Integer alcalinidad;
+	private Integer conductividad;
 
 	public Etapa1() {
 	}
@@ -31,7 +33,7 @@ public class Etapa1 implements java.io.Serializable {
 
 	public Etapa1(int idEtapa, PreparacionPieles preparacionPieles, String etapa, Date diaInicio, Date horaInicio,
 			Date diaFin, Date horaFin, BigDecimal phSol, BigDecimal normalidad, String tipo, String cantidad,
-			String lote, String operador, String agua, Boolean estado) {
+			String lote, String operador, String agua, Boolean estado, Integer alcalinidad, Integer conductividad) {
 		this.idEtapa = idEtapa;
 		this.preparacionPieles = preparacionPieles;
 		this.etapa = etapa;
@@ -47,6 +49,8 @@ public class Etapa1 implements java.io.Serializable {
 		this.operador = operador;
 		this.agua = agua;
 		this.estado = estado;
+		this.alcalinidad =alcalinidad;
+		this.conductividad = conductividad;
 	}
 
 	public int getIdEtapa() {
@@ -168,5 +172,23 @@ public class Etapa1 implements java.io.Serializable {
 	public void setEstado(Boolean estado) {
 		this.estado = estado;
 	}
+
+	public Integer getAlcalinidad() {
+		return alcalinidad;
+	}
+
+	public void setAlcalinidad(Integer alcalinidad) {
+		this.alcalinidad = alcalinidad;
+	}
+
+	public Integer getConductividad() {
+		return conductividad;
+	}
+
+	public void setConductividad(Integer conductividad) {
+		this.conductividad = conductividad;
+	}
+	
+	
 
 }

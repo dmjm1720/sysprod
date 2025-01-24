@@ -27,7 +27,8 @@
 					skipDetailIfEqualsSummary="true" />
 
 				<div style="text-align: center">
-					<p:badge size="small" value="CAPTURA DE PROVEEDORES" styleClass="fuente" />
+					<p:badge size="small" value="CAPTURA DE PROVEEDORES"
+						styleClass="fuente" />
 				</div>
 
 				<p:divider />
@@ -58,6 +59,16 @@
 									value="#{proveedoresBean.proveedores.origen}" required="false"
 									requiredMessage="Campo requerido" />
 
+								<p:outputLabel for="nacimp" value="Nacional / Importado" />
+								<p:selectOneMenu id="nacimp" required="false"
+									style="width: 200px;" requiredMessage="Nacional o Importado"
+									value="#{proveedoresBean.proveedores.nacionalImportacion}">
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="NACIONAL" itemValue="TOLUCA" />
+									<f:selectItem itemLabel="IMPORTACIÓN" itemValue="LEÓN" />
+								</p:selectOneMenu>
+
+
 								<p:outputLabel for="ta" value="Descuento humedad tabla A" />
 								<p:inputText id="ta"
 									value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
@@ -76,7 +87,8 @@
 									actionListener="#{proveedoresBean.guardar()}" />
 							</h:panelGrid>
 						</p:tab>
-						<p:tab title="LISTA DE PROVEEDORES" titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+						<p:tab title="LISTA DE PROVEEDORES"
+							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
 							<div style="text-align: center">
 								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
 									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
@@ -87,9 +99,9 @@
 							<p:dataTable id="tblProv" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,20,50,100,200,500" rows="40"
-								paginator="true" liveScroll="true" rowHover="true"
-								paginatorAlwaysVisible="true" scrollable="true"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
 								currentPageReportTemplate="Total: #{proveedoresBean.listarProveedores.size()}"
 								value="#{proveedoresBean.listarProveedores}"
 								emptyMessage="NO HAY REGISTROS">
@@ -105,7 +117,7 @@
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
 								</p:column>
-								
+
 								<p:column headerText="Baja" width="3rem" exportable="false">
 									<p:commandButton id="ba" icon="pi pi-fw pi-trash"
 										onclick="PF('dlgBorrar').show()" update="frmBorrar:pnlBorrar"
@@ -117,10 +129,10 @@
 									<p:tooltip id="toolTipBorrar" for="ba" value="Baja"
 										trackMouse="true" />
 								</p:column>
-								
+
 								<p:column headerText="Nombre" width="10rem"
 									filterBy="#{item.nombre}">
-									<h:outputText value="#{item.nombre}" style="color: #036FAB;"/>
+									<h:outputText value="#{item.nombre}" style="color: #036FAB;" />
 								</p:column>
 
 								<p:column headerText="Razón social" width="15rem"
@@ -132,6 +144,11 @@
 								<p:column headerText="Origen" width="10rem"
 									filterBy="#{item.origen}">
 									<h:outputText value="#{item.origen}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Nacional / Importado" width="10rem"
+									filterBy="#{item.nacionalImportacion}">
+									<h:outputText value="#{item.nacionalImportacion}"
+										style="color: #036FAB;" />
 								</p:column>
 								<p:column headerText="Descuento humedad tabla A" width="10rem">
 									<h:outputText value="#{item.descuentoHumedadTablaA}"
@@ -192,33 +209,42 @@
 				<p:dialog header="ACTUALIZAR INFORMACIÓN DEL PROVEEDOR"
 					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
 					minimizable="true" maximizable="true">
-					<h:panelGrid id="pnlEditar" columns="6">
+					<h:panelGrid id="pnlEditar" columns="4">
 
 						<p:outputLabel for="nombre" value="Nombre" />
 						<p:inputText id="nombre"
 							value="#{proveedoresBean.proveedores.nombre}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
-						<p:message for="nombre" />
+
 
 						<p:outputLabel for="razonsocial" value="Razón Social" />
 						<p:inputText id="razonsocial"
 							value="#{proveedoresBean.proveedores.razonSocial}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-						<p:message for="razonsocial" />
+
 
 						<p:outputLabel for="origen" value="Origen" />
 						<p:inputText id="origen"
 							value="#{proveedoresBean.proveedores.origen}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
-						<p:message for="origen" />
+
+
+						<p:outputLabel for="nacimp" value="Nacional / Importado" />
+						<p:selectOneMenu id="nacimp" required="false"
+							style="width: 200px;" requiredMessage="Nacional o Importado"
+							value="#{proveedoresBean.proveedores.nacionalImportacion}">
+							<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+							<f:selectItem itemLabel="NACIONAL" itemValue="NACIONAL" />
+							<f:selectItem itemLabel="IMPORTACIÓN" itemValue="IMPORTACIÓN" />
+						</p:selectOneMenu>
 
 						<p:outputLabel for="descA" value="Descuento humedad tabla A" />
 						<p:inputText id="descA"
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-						<p:message for="descA" />
+					
 
 
 						<p:outputLabel for="descB" value="Descuento humedad tabla B" />
@@ -226,7 +252,7 @@
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-						<p:message for="descB" />
+		
 
 
 
@@ -246,36 +272,36 @@
 
 			<!-- INICIA FORMULARIO PARA BORRAR -->
 			<h:form id="frmBorrar">
-				<p:dialog header="DAR DE BAJA AL PROVEEDOR"
-					widgetVar="dlgBorrar" showEffect="fade" closeOnEscape="true"
-					minimizable="true" maximizable="true">
+				<p:dialog header="DAR DE BAJA AL PROVEEDOR" widgetVar="dlgBorrar"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
 					<h:panelGrid id="pnlBorrar" columns="6">
 
 						<p:outputLabel for="nombre" value="Nombre" />
 						<p:inputText id="nombre" readonly="true"
 							value="#{proveedoresBean.proveedores.nombre}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
-						<p:message for="nombre" />
+				
 
 						<p:outputLabel for="razonsocial" value="Razón Social" />
 						<p:inputText id="razonsocial" readonly="true"
 							value="#{proveedoresBean.proveedores.razonSocial}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-						<p:message for="razonsocial" />
+			
 
 						<p:outputLabel for="origen" value="Origen" />
 						<p:inputText id="origen" readonly="true"
 							value="#{proveedoresBean.proveedores.origen}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
-						<p:message for="origen" />
+					
 
 						<p:outputLabel for="descA" value="Descuento humedad tabla A" />
 						<p:inputText id="descA" readonly="true"
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-						<p:message for="descA" />
+				
 
 
 						<p:outputLabel for="descB" value="Descuento humedad tabla B" />
@@ -283,7 +309,7 @@
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-						<p:message for="descB" />
+					
 
 
 

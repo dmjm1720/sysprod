@@ -71,7 +71,7 @@
 							<p:dataTable id="tblClientes" styleClass="tabla fuente"
 								var="item" scrollHeight="650" scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,20,50,100,200,500" rows="10"
+								rowsPerPageTemplate="50,100,200,500" rows="50"
 								paginator="true" liveScroll="true" rowHover="true"
 								paginatorAlwaysVisible="true" scrollable="true"
 								filterBy="#{item.proveedores.nombre}"
@@ -141,14 +141,14 @@
 									<h:outputText value="#{item.palletsRecibidos}" />
 								</p:column>
 
-								<p:column headerText="Carnza con pelo" width="3rem">
+								<p:column headerText="Carnaza con pelo" width="3rem">
 									<h:outputText value="#{item.carnazaConPelo}" />
 								</p:column>
-								<p:column headerText="Carnza de primera" width="3rem">
-									<h:outputText value="#{item.carnzaPrimera}" />
+								<p:column headerText="Carnaza de primera" width="3rem">
+									<h:outputText value="#{item.carnazaPrimera}" />
 								</p:column>
 								<p:column headerText="Carnaza de segunda" width="3rem">
-									<h:outputText value="#{item.carnzaSegunda}" />
+									<h:outputText value="#{item.carnazaSegunda}" />
 								</p:column>
 								<p:column headerText="Carnaza salada" width="3rem">
 									<h:outputText value="#{item.carnazaSalada}" />
@@ -369,12 +369,12 @@
 
 						<h:outputLabel value="Carnaza de primera:" />
 						<h:outputText
-							value=" #{entradasBean.entradasDetalle.carnzaPrimera}"
+							value=" #{entradasBean.entradasDetalle.carnazaPrimera}"
 							styleClass="detalle" />
 
 						<h:outputLabel value="Carnaza de segunda:" />
 						<h:outputText
-							value="#{entradasBean.entradasDetalle.carnzaSegunda}"
+							value="#{entradasBean.entradasDetalle.carnazaSegunda}"
 							styleClass="detalle" />
 
 						<h:outputLabel value="Carnaza salada:" />
@@ -639,7 +639,7 @@
 
 						<p:outputLabel for="c1" value="Carnaza de primera" />
 						<p:inputText id="c1" disabled="true"
-							value="#{entradasBean.entradasEditar.carnzaPrimera}"
+							value="#{entradasBean.entradasEditar.carnazaPrimera}"
 							required="false" requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
 								listener="#{entradasBean.calcularTotal}" />
@@ -648,14 +648,14 @@
 
 						<p:outputLabel for="c2" value="Carnaza de segunda" />
 						<p:inputText id="c2" disabled="true"
-							value="#{entradasBean.entradasEditar.carnzaSegunda}"
+							value="#{entradasBean.entradasEditar.carnazaSegunda}"
 							required="false" requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
 								listener="#{entradasBean.calcularTotal}" />
 						</p:inputText>
 
 
-						<p:outputLabel for="cs" value="Carnza salada" />
+						<p:outputLabel for="cs" value="Carnaza salada" />
 						<p:inputText id="cs" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaSalada}"
 							required="false" requiredMessage="Campo requerido">
@@ -932,9 +932,9 @@
 						<h:outputText
 							value="Carnaza con pelo: #{entradasBean.entradasDesbloquear.carnazaConPelo}" />
 						<h:outputText
-							value="Carnaza de primera: #{entradasBean.entradasDesbloquear.carnzaPrimera}" />
+							value="Carnaza de primera: #{entradasBean.entradasDesbloquear.carnazaPrimera}" />
 						<h:outputText
-							value="Carnaza de segunda: #{entradasBean.entradasDesbloquear.carnzaSegunda}" />
+							value="Carnaza de segunda: #{entradasBean.entradasDesbloquear.carnazaSegunda}" />
 						<h:outputText
 							value="Carnaza salada: #{entradasBean.entradasDesbloquear.carnazaSalada}" />
 						<h:outputText

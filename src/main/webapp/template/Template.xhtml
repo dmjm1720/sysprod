@@ -59,34 +59,33 @@
 						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
-						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
+						<p:menuitem value="Proveedores" outcome="Proveedores"
 							icon="pi pi-fw pi-users">
 						</p:menuitem>
-						<p:menuitem value="Materia prima" outcome="/views/Materia"
+						<p:menuitem value="Materia prima" outcome="Materia"
 							icon="pi pi-fw pi-book">
 						</p:menuitem>
-						<p:menuitem value="Transportista" outcome="/views/Transportista"
+						<p:menuitem value="Transportista" outcome="Transportista"
 							icon="pi pi-fw pi-id-card">
 						</p:menuitem>
 
-						<p:menuitem value="Calcios Tabla A" outcome="/views/CalciosA"
+						<p:menuitem value="Calcios Tabla A" outcome="CalciosA"
 							icon="pi pi-fw pi-check-square">
 						</p:menuitem>
 
-						<p:menuitem value="Calcios Tabla B" outcome="/views/CalciosB"
-							icon="pi pi-fw pi-check-square">
-							<f:param name="i" value="6" />
-						</p:menuitem>
-
-						<p:menuitem value="Humedad Tabla A" outcome="/views/HumedadA"
+						<p:menuitem value="Calcios Tabla B" outcome="CalciosB"
 							icon="pi pi-fw pi-check-square">
 						</p:menuitem>
 
-						<p:menuitem value="Humedad Tabla B" outcome="/views/HumedadB"
+						<p:menuitem value="Humedad Tabla A" outcome="HumedadA"
 							icon="pi pi-fw pi-check-square">
 						</p:menuitem>
 
-						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvas"
+						<p:menuitem value="Humedad Tabla B" outcome="HumedadB"
+							icon="pi pi-fw pi-check-square">
+						</p:menuitem>
+
+						<p:menuitem value="Reporte de Tolvas" outcome="RepTolvas"
 							icon="pi pi-fw pi-file-excel">
 						</p:menuitem>
 
@@ -94,37 +93,33 @@
 
 
 					<p:submenu label="Materia Prima Importación" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Cuentas" outcome="/views/Cuentas"
+						<p:menuitem value="Registro de Tolvas"
+							outcome="EntradasImportacion" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+						<p:menuitem value="Cuentas" outcome="EntradasImportacion"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
 
 						<p:menuitem value="Proveedores"
-							outcome="/views/ProveedoresImportacion" icon="pi pi-fw pi-tags">
+							outcome="ProveedoresImportacion" icon="pi pi-fw pi-tags">
 						</p:menuitem>
-						<p:menuitem value="Registro de Tolvas"
-							outcome="/views/EntradasImportacion" icon="pi pi-fw pi-tags">
-						</p:menuitem>
+
 					</p:submenu>
 
 
 					<p:submenu label="Lavadoras" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Registro de pieles"
-							outcome="/views/RegistroPieles" icon="pi pi-fw pi-tags">
-							<f:param name="i" value="10" />
+							outcome="RegistroPieles" icon="pi pi-fw pi-tags">
 						</p:menuitem>
 
-						<p:menuitem value="Lavadoras" outcome="/views/Lavadoras"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Cuentas" outcome="/views/Cuentas"
+						<p:menuitem value="Lavadoras" outcome="Lavadoras"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
 					</p:submenu>
 
 
 					<p:submenu label="usuarios" icon="pi pi-fw pi-user">
-						<p:menuitem value="Usuarios" outcome="/views/Usuarios"
+						<p:menuitem value="Usuarios" outcome="Usuarios"
 							icon="pi pi-fw pi-user">
 						</p:menuitem>
 					</p:submenu>
@@ -190,18 +185,18 @@
 						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
-						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
+						<p:menuitem value="Proveedores" outcome="Proveedores"
 							icon="pi pi-fw pi-users">
 						</p:menuitem>
-						<p:menuitem value="Materia prima" outcome="/views/Materia"
+						<p:menuitem value="Materia prima" outcome="Materia"
 							icon="pi pi-fw pi-book">
 						</p:menuitem>
-						<p:menuitem value="Transportista" outcome="/views/Transportista"
+						<p:menuitem value="Transportista" outcome="Transportista"
 							icon="pi pi-fw pi-id-card">
 
 						</p:menuitem>
 						<p:menuitem value="Reporte de Tolvas"
-							outcome="/views/RepTolvasGerencia" icon="pi pi-fw pi-file">
+							outcome="RepTolvasGerencia" icon="pi pi-fw pi-file">
 						</p:menuitem>
 
 					</p:submenu>
@@ -227,7 +222,7 @@
 						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
-						<p:menuitem value="Precios" outcome="/views/Precios"
+						<p:menuitem value="Precios" outcome="Precios"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
 
@@ -251,22 +246,22 @@
 							library="showcase" />
 					</f:facet>
 					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Registro de Tolvas" outcome="/views/Entradas"
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
 							icon="pi pi-fw pi-home">
 						</p:menuitem>
-						<p:menuitem value="Proveedores" outcome="/views/Proveedores"
+						<p:menuitem value="Proveedores" outcome="Proveedores"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
-						<p:menuitem value="Materia prima" outcome="/views/Materia"
+						<p:menuitem value="Materia prima" outcome="Materia"
 							icon="pi pi-fw pi-pencil">
 						</p:menuitem>
-						<p:menuitem value="Transportista" outcome="/views/Transportista"
+						<p:menuitem value="Transportista" outcome="Transportista"
 							icon="pi pi-fw pi-file">
 						</p:menuitem>
-						<p:menuitem value="Precios" outcome="/views/Precios"
+						<p:menuitem value="Precios" outcome="Precios"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
-						<p:menuitem value="Reporte de Tolvas" outcome="/views/RepTolvas"
+						<p:menuitem value="Reporte de Tolvas" outcome="RepTolvas"
 							icon="pi pi-fw pi-home">
 						</p:menuitem>
 

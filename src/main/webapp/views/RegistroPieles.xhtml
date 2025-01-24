@@ -53,11 +53,20 @@
 
 
 								<p:outputLabel for="imp" value="Lavadoras" />
-								<p:autoComplete id="imp" size="35" required="false"
-									autocomplete="off" requiredMessage="Lavadora requerida"
-									placeholder="Ingresa lavadora" dropdown="true"
-									styleClass="amarillo" value="#{preparacionBean.filterLavadora}"
-									completeMethod="#{preparacionBean.buscarNombreDeLavadora}" />
+
+								<p:selectOneMenu id="imp" styleClass="amarillo"
+									style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:17rem"
+									value="#{preparacionBean.filterLavadora}">
+									<f:selectItem itemLabel="SELECCIONA LAVADORA" itemValue="">
+
+									</f:selectItem>
+									<f:selectItems
+										value="#{preparacionBean.listarLavadorasDisponibles}" />
+									<p:ajax event="change"
+										listener="#{preparacionBean.capacidad(preparacionBean.filterLavadora)}"
+										update="frmPrincipal:imp, frmPrincipal:total" />
+								</p:selectOneMenu>
+
 
 								<p:outputLabel for="total"
 									value="Capacidad total de la lavadora en kg" />
@@ -88,82 +97,86 @@
 					<p:tab title="LISTA DE REGISTROS DE PREPARACIÓN DE PIELES"
 						titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
 
-						<p:splitter style="height: 70px" widgetVar="splitter">
-							<p:splitterPanel>
+						<div style="text-align: center">
 
-								<h:panelGrid id="panelBuscar" columns="2" cellpadding="4"
-									styleClass="fuente">
-
-									<p:selectOneMenu id="group"
-										style="color: #FF7F50 ;font-weight: bold !important;font-size: .8rem; width:17rem"
-										value="#{preparacionBean.folio}">
-										<f:selectItem itemLabel="SELECCIONA NÚMERO DE OPERACIÓN"
-											itemValue="" />
-										<f:selectItems
-											value="#{preparacionBean.listaOperacionesDisponibles}" />
-									</p:selectOneMenu>
+							<p:selectOneMenu id="group" style="width:17rem"
+								styleClass="saldo" value="#{preparacionBean.folio}">
+								<f:selectItem itemLabel="NÚMERO DE OPERACIÓN" itemValue="" />
+								<f:selectItems
+									value="#{preparacionBean.listaOperacionesDisponibles}" />
+							</p:selectOneMenu>
 
 
-									<p:commandButton icon="pi pi-search-plus"
-										value="BUSCAR NO. DE OPERACION" styleClass="mensajeBoton2"
-										style="width: 15rem; height: 2rem"
-										actionListener="#{preparacionBean.buscarRegistro()}"
-										update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre" />
+							<p:commandButton icon="pi pi-search-plus"
+								value="BUSCAR NO. DE OPERACION" styleClass="mensajeBoton2"
+								style="width: 15rem; height: 2rem"
+								actionListener="#{preparacionBean.buscarRegistro()}"
+								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre" />
 
-								</h:panelGrid>
+						</div>
 
-
-							</p:splitterPanel>
-							<p:splitterPanel>
-
-							</p:splitterPanel>
-						</p:splitter>
-
+						<br></br>
+						<br></br>
 						<p:divider></p:divider>
 						<br></br>
 						<br></br>
 						<div class="card">
 
 							<!-- AGREGAR LA FACTURA -->
-							<h:panelGrid id="panelDerecho" columns="8" cellpadding="4"
+							<p:outputLabel value="" />
+							<p:outputLabel id="sd"
+								value="FACTURA SALDO DISPONIBLE: #{preparacionBean.saldoDisponibleParaAgregar}"
+								styleClass="saldo" />
+							<h:panelGrid id="panelDerecho" columns="12" cellpadding="4"
 								styleClass="fuente">
 
-								<p:outputLabel for="factura" value="Factura" />
-								<p:inputText id="factura" styleClass="pear"
-									value="#{preparacionBean.facturasPieles.factura}"
-									required="false" requiredMessage="Campo requerido" />
+								<p:outputLabel for="factura" value="FACTURA"
+									styleClass="mensajeBoton2" />
+								<p:selectOneMenu id="factura" styleClass="amarillo"
+									style="color: #B22222;font-weight: bold !important;font-size: .9rem; width:14rem"
+									value="#{preparacionBean.facturasPieles.factura}">
+									<f:selectItem itemLabel="SELECCIONA FACTURA" itemValue="">
 
-								<p:outputLabel for="cz" value="CZ" />
+									</f:selectItem>
+									<f:selectItems value="#{preparacionBean.listaFacturasTolvas}" />
+									<p:ajax event="change"
+										listener="#{preparacionBean.validacionFactura(preparacionBean.facturasPieles.factura, preparacionBean.folio, 'LAVADORA 41')}"
+										update="frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp, frmPrincipal:acco:sd" />
+								</p:selectOneMenu>
+
+
+								<p:outputLabel for="cz" value="CZ" styleClass="mensajeBoton2" />
 								<p:inputText id="cz" styleClass="pear"
 									value="#{preparacionBean.facturasPieles.cz}" required="false"
 									requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="dc" value="DC" />
+
+								<p:outputLabel for="dc" value="DC" styleClass="mensajeBoton2" />
 								<p:inputText id="dc" styleClass="pear"
 									value="#{preparacionBean.facturasPieles.dc}" required="false"
 									requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="ds" value="DS" />
+								<p:outputLabel for="ds" value="DS" styleClass="mensajeBoton2" />
 								<p:inputText id="ds" styleClass="pear"
 									value="#{preparacionBean.facturasPieles.ds}" required="false"
 									requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="cn" value="CN" />
+								<p:outputLabel for="cn" value="CN" styleClass="mensajeBoton2" />
 								<p:inputText id="cn" styleClass="pear"
 									value="#{preparacionBean.facturasPieles.cn}" required="false"
 									requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="rp" value="RP" />
+								<p:outputLabel for="rp" value="RP" styleClass="mensajeBoton2" />
 								<p:inputText id="rp" styleClass="pear"
 									value="#{preparacionBean.facturasPieles.rp}" required="false"
 									requiredMessage="Campo requerido" />
 
-								<p:outputLabel value="" />
+								<p:outputLabel value="" styleClass="mensajeBoton2" />
 								<p:commandButton icon="pi pi-save" title="Guardar"
 									value="AGREGAR FACTURA" styleClass="pear"
 									style="widht: 20rem; height: 2rem; color: #4169E1; font-weight:bold"
 									actionListener="#{preparacionBean.guardarFacturaPieles()}"
-									update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre" />
+									update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp" />
 
 							</h:panelGrid>
 							<p:divider></p:divider>
@@ -314,6 +327,16 @@
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
 
+							<p:column headerText="Alcalinidad" width="5rem">
+								<h:outputText value="#{item3.alcalinidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Conductividad" width="5rem">
+								<h:outputText value="#{item3.conductividad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
 							<p:column headerText="Tipo" width="5rem">
 								<h:outputText value="#{item3.tipo}"
 									style="color: #036FAB; font-weight: bold !important;" />
@@ -353,7 +376,8 @@
 
 							<p:column headerText="Editar" width="2rem" exportable="false"
 								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil" disabled="#{item3.estado==false}"
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
 									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
 									styleClass="ui-button-warning">
 									<f:setPropertyActionListener value="#{item3}"
@@ -438,6 +462,18 @@
 							value="#{preparacionBean.etapa1.normalidad}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 						<p:message for="normalidad" />
+
+						<p:outputLabel for="alcalinidad" value="Alcalinidad" />
+						<p:inputText id="alcalinidad"
+							value="#{preparacionBean.etapa1.alcalinidad}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="alcalinidad" />
+
+						<p:outputLabel for="conductividad" value="Conductividad" />
+						<p:inputText id="conductividad"
+							value="#{preparacionBean.etapa1.conductividad}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="conductividad" />
 
 						<p:outputLabel for="tipo" value="Tipo" />
 						<p:selectOneMenu id="tipo"

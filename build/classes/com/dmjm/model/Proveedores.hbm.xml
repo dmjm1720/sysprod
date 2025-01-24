@@ -29,5 +29,8 @@
 		<property name="estado" type="java.lang.Integer">
 			<column name="ESTADO" />
 		</property>
+		<property name="nacionalImportacion" type="string">
+			<column name="NACIONAL_IMPORTACION" length="50" />
+		</property>
 	</class>
 </hibernate-mapping>

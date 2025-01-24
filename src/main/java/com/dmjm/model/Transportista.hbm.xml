@@ -12,5 +12,8 @@
 		<property name="nombre" type="string">
 			<column name="NOMBRE" length="50" />
 		</property>
+		<property name="estado" type="java.lang.Integer">
+			<column name="ESTADO" />
+		</property>
 	</class>
 </hibernate-mapping>

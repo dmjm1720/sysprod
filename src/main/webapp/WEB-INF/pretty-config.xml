@@ -1,9 +1,95 @@
-<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+<pretty-config
+	xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemalocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
 
-	<url-mapping id="home">
-		<pattern value="/Entradas" />
-		<view-id value="/views/Entradas" />
-	</url-mapping>
+<!-- 	<url-mapping id="entradas"> -->
+<!-- 		<pattern value="/Entradas" /> -->
+<!-- 		<view-id value="/views/Entradas.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="proveedores"> -->
+<!-- 		<pattern value="/01945432-ce21-7367-b957-84400100790b" /> -->
+<!-- 		<view-id value="/views/Proveedores.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="materia"> -->
+<!-- 		<pattern value="/01945433-8b97-75fe-a168-a70453d77720" /> -->
+<!-- 		<view-id value="/views/Materia.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="transportista"> -->
+<!-- 		<pattern value="/01945433-e012-7698-9dd2-efea8fb4c543" /> -->
+<!-- 		<view-id value="/views/Transportista.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="ca"> -->
+<!-- 		<pattern value="/01945434-37dd-7046-8198-7aebf717060b" /> -->
+<!-- 		<view-id value="/views/CalciosA.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="cb"> -->
+<!-- 		<pattern value="/01945434-64eb-7c09-94de-6b971b5287d7" /> -->
+<!-- 		<view-id value="/views/CalciosB.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="ha"> -->
+<!-- 		<pattern value="/01945434-83c6-7695-95ff-01770347dfab" /> -->
+<!-- 		<view-id value="/views/HumedadA.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="hb"> -->
+<!-- 		<pattern value="/01945434-a332-7ea1-a23c-72696a233c6e" /> -->
+<!-- 		<view-id value="/views/HumedadB.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="rt"> -->
+<!-- 		<pattern value="/01945434-c58a-7a6f-b7a7-ff894c121dc9" /> -->
+<!-- 		<view-id value="/views/RepTolvas.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="rtg"> -->
+<!-- 		<pattern value="/01945435-b111-7e15-b562-01aae399d045" /> -->
+<!-- 		<view-id value="/views/RepTolvasGerencia.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="cta"> -->
+<!-- 		<pattern value="/01945435-d67c-752e-bc51-a0b1878507be" /> -->
+<!-- 		<view-id value="/views/Cuentas.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="entradasimp"> -->
+<!-- 		<pattern value="/01945436-0471-705c-a4fb-f60a632459f1" /> -->
+<!-- 		<view-id value="/views/EntradasImportacion.html" /> -->
+<!-- 	</url-mapping> -->
+
+
+<!-- 	<url-mapping id="provimp"> -->
+<!-- 		<pattern value="/01945436-2a7b-7472-9d9d-d63ec795a67e" /> -->
+<!-- 		<view-id value="/views/ProveedoresImportacion.html" /> -->
+<!-- 	</url-mapping> -->
+
+
+<!-- 	<url-mapping id="pieles"> -->
+<!-- 		<pattern value="/01945436-5b65-7680-9d25-f754828c7cec" /> -->
+<!-- 		<view-id value="/views/RegistroPieles.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="lavadoras"> -->
+<!-- 		<pattern value="/01945436-922f-7491-a3bf-d52777a58bf4" /> -->
+<!-- 		<view-id value="/views/Lavadoras.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="usuarios"> -->
+<!-- 		<pattern value="/01945436-ae21-7f8e-95b0-8fb24891fd32" /> -->
+<!-- 		<view-id value="/views/Usuarios.html" /> -->
+<!-- 	</url-mapping> -->
+
+<!-- 	<url-mapping id="precios"> -->
+<!-- 		<pattern value="/01945436-e3d9-7b0c-9253-2557e10a41b0" /> -->
+<!-- 		<view-id value="/views/Precios.html" /> -->
+<!-- 	</url-mapping> -->
+
 
 </pretty-config>

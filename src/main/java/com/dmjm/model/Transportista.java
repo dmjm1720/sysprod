@@ -1,13 +1,11 @@
 package com.dmjm.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Transportista implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idTransportista;
 	private String nombre;
+	private int estado;
 
 	public Transportista() {
 	}
@@ -16,9 +14,10 @@ public class Transportista implements java.io.Serializable {
 		this.idTransportista = idTransportista;
 	}
 
-	public Transportista(int idTransportista, String nombre) {
+	public Transportista(int idTransportista, String nombre, int estado) {
 		this.idTransportista = idTransportista;
 		this.nombre = nombre;
+		this.estado = estado;
 	}
 
 	public int getIdTransportista() {
@@ -35,6 +34,14 @@ public class Transportista implements java.io.Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 
 }

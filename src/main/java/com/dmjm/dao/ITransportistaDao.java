@@ -15,5 +15,7 @@ public interface ITransportistaDao {
     List<String> completeTransportista(String nombre) throws SQLException;
     
     int buscarTransportista(String nombre) throws SQLException;
+    
+    void borrarTransportista(Transportista transportista);
 
 }

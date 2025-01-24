@@ -10,4 +10,8 @@ public interface IOperacionLavadorasDao {
 	void guardarOperacionLavadoras(OperacionLavadoras operacionLavadoras);
 	
 	void actualizarOperacionLavadoras(OperacionLavadoras operacionLavadoras);
+	
+	OperacionLavadoras listaOperacionLavadorasEtapa(int id);
+	
+	OperacionLavadoras operacionLavadoraId(int id);
 }

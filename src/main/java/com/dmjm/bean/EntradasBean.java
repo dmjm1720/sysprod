@@ -1,5 +1,10 @@
 package com.dmjm.bean;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -18,6 +23,8 @@ import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -27,6 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
 
 import com.dmjm.dao.IEntradasDao;
 import com.dmjm.dao.IFoliosDao;
@@ -109,6 +119,14 @@ public class EntradasBean extends Conexion implements Serializable {
 	private String datoHumedad = "";
 	private String datoAlcalinidad = "";
 
+	private UploadedFile pdfFile;
+
+	private String file;
+
+	private double porcentajeCalculo = 0.0;
+
+	private Entradas entradasCertificado;
+
 	@PostConstruct
 	public void init() {
 		listarEntradas = new ArrayList<>();
@@ -139,6 +157,8 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradasEditar = new Entradas();
 		entradasDesbloquear = new Entradas();
 		entradasDetalle = new Entradas();
+		entradasCertificado = new Entradas();
+		file = "";
 
 	}
 
@@ -488,15 +508,56 @@ public class EntradasBean extends Conexion implements Serializable {
 		this.datoAlcalinidad = datoAlcalinidad;
 	}
 
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public UploadedFile getPdfFile() {
+		return pdfFile;
+	}
+
+	public void setPdfFile(UploadedFile pdfFile) {
+		this.pdfFile = pdfFile;
+	}
+
+	public double getPorcentajeCalculo() {
+		return porcentajeCalculo;
+	}
+
+	public void setPorcentajeCalculo(double porcentajeCalculo) {
+		this.porcentajeCalculo = porcentajeCalculo;
+	}
+
+	public Entradas getEntradasCertificado() {
+		return entradasCertificado;
+	}
+
+	public void setEntradasCertificado(Entradas entradasCertificado) {
+		this.entradasCertificado = entradasCertificado;
+	}
+
+	public void setListarEntradas(List<Entradas> listarEntradas) {
+		this.listarEntradas = listarEntradas;
+	}
+
 	// *****************GUARDAR*********************//
 	public void guardar() throws SQLException {
 		IEntradasDao eDao = new EntradasDaoImpl();
 
 		preservacion.setIdPreservacion(buscarPreservacion(filterPreservacion));
-		transportista.setIdTransportista(buscarTransportista(filterTransportista));
+
+		Optional<String> valorTransportista = Optional.ofNullable(filterTransportista);
+		String datoTransportista = valorTransportista.orElse("TRANSPORTE PENDIENTE");
+		transportista.setIdTransportista(buscarTransportista(datoTransportista));
+
 		proveedores.setIdProveedor(buscarProveedor(filterProveedor));
 		materia.setIdMateria(buscarMateria(filterMateria));
 
+		entradas.setTipoMoneda(prov(filterProveedor));
 		entradas.setMateria(materia);
 		entradas.setPreservacion(preservacion);
 		entradas.setTransportista(transportista);
@@ -511,8 +572,8 @@ public class EntradasBean extends Conexion implements Serializable {
 		// **PRECIO DE LA CARNAZA CON PELO**//
 
 		entradas.setCarnazaConPelo(BigDecimal.valueOf(dato1));
-		entradas.setCarnzaPrimera(BigDecimal.valueOf(dato2));
-		entradas.setCarnzaSegunda(BigDecimal.valueOf(dato3));
+		entradas.setCarnazaPrimera(BigDecimal.valueOf(dato2));
+		entradas.setCarnazaSegunda(BigDecimal.valueOf(dato3));
 		entradas.setCarnazaSalada(BigDecimal.valueOf(dato4));
 		entradas.setDesbarbeRecorte(BigDecimal.valueOf(dato5));
 		entradas.setCerdoMexicano(BigDecimal.valueOf(dato6));
@@ -526,9 +587,10 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradas.setCueroEnSangre(BigDecimal.valueOf(dato14));
 
 		// VALIDAR DATOS
-
-		if (entradas.getSucursal() == null || entradas.getFactura() == "" || entradas.getCertificado() == ""
-				|| transportista.getIdTransportista() == 0 || proveedores.getIdProveedor() == 0
+//		if (entradas.getSucursal() == null || entradas.getFactura() == "" || entradas.getCertificado() == ""
+//				|| transportista.getIdTransportista() == 0 || proveedores.getIdProveedor() == 0
+//				|| materia.getIdMateria() == 0 || preservacion.getIdPreservacion() == 0) {
+		if (entradas.getSucursal() == null || entradas.getCertificado() == "" || proveedores.getIdProveedor() == 0
 				|| materia.getIdMateria() == 0 || preservacion.getIdPreservacion() == 0) {
 
 			String suc = "";
@@ -544,9 +606,9 @@ public class EntradasBean extends Conexion implements Serializable {
 				suc = "Sucursal, ";
 			}
 
-			if (entradas.getFactura() == "") {
-				fac = "Factura, ";
-			}
+//			if (entradas.getFactura() == "") {
+//				fac = "Factura, ";
+//			}
 
 			if (entradas.getCertificado() == "") {
 				cer = "Certificado, ";
@@ -555,9 +617,9 @@ public class EntradasBean extends Conexion implements Serializable {
 				mat = "Identificación de la materia, ";
 			}
 
-			if (transportista.getIdTransportista() == 0) {
-				trans = "Transportista, ";
-			}
+//			if (transportista.getIdTransportista() == 0) {
+//				trans = "Transportista, ";
+//			}
 			if (proveedores.getIdProveedor() == 0) {
 				pro = "Proveedor, ";
 			}
@@ -568,7 +630,7 @@ public class EntradasBean extends Conexion implements Serializable {
 //				ticket = "Ticket Toluca, ";
 //			}
 
-			String mensaje = "Te faltan campos: " + suc + ticket + fac + cer + trans + pro + mat + pre;
+			String mensaje = "Te faltan campos: " + suc + ticket + cer + pro + mat + pre;
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + mensaje + "',\n" + "  showConfirmButton: true,\n"
@@ -759,6 +821,11 @@ public class EntradasBean extends Conexion implements Serializable {
 		return pDao.buscarProveedor(nombre);
 	}
 
+	public String prov(String nombre) throws SQLException {
+		IProveedoresDao provDao = new ProveedoresDaoImpl();
+		return provDao.buscarTipoMonedaProveedor(nombre);
+	}
+
 	// **DATOS DE LA MATERIA PRIMA, NOMBRE**//
 	public List<String> buscarNombreMateria(String nombre) throws SQLException {
 		IMateriaDao mDao = new MateriaDaoImpl();
@@ -849,14 +916,13 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		Optional<String> valHumedad = Optional.ofNullable(val1);
 		Optional<String> valAlcalinidad = Optional.ofNullable(val2);
-		
-		
+
 		if (valHumedad.isPresent()) {
 			datoHumedad = valHumedad.orElse("NO HAY DATO DE HUMEDAD");
 
 		}
 		if (valAlcalinidad.isPresent()) {
-			datoAlcalinidad= valAlcalinidad.orElse("NO HAY DATO DE HUMEDAD");
+			datoAlcalinidad = valAlcalinidad.orElse("NO HAY DATO DE HUMEDAD");
 		}
 
 	}
@@ -871,7 +937,9 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 		}
 
+		@SuppressWarnings("unused")
 		int banderaGerencia = 0;
+		@SuppressWarnings("unused")
 		int banderaControlCalidad = 0;
 		if (us.getPerfiles().getNombrePerfil().equals("Gerencia")) {
 			entradasEditar.setBloqueoEditar(1);
@@ -955,10 +1023,10 @@ public class EntradasBean extends Conexion implements Serializable {
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaConPelo().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioCcp().toString())));
 		entradasEditar.setPrecioCalcC1(
-				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnzaPrimera().toString()) / 100)
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaPrimera().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioC1().toString())));
 		entradasEditar.setPrecioCalcC2(
-				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnzaSegunda().toString()) / 100)
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaSegunda().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioC2().toString())));
 		entradasEditar.setPrecioCalcCs(
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaSalada().toString()) / 100)
@@ -1025,13 +1093,13 @@ public class EntradasBean extends Conexion implements Serializable {
 				"->PRECIO: " + kg_porcentaje + " ->SUBTOTAL:" + sumaSubtotal + " ->IVA:" + iva + " ->TOTAL:" + tCatura);
 
 		eDao.actualizarEntradas(entradasEditar);
-		// Correo c = new Correo();
+		Correo c = new Correo();
 
-		// c.enviarNotificacion(entradasEditar.getTolvas(),
-		// entradasEditar.getProveedores().getNombre(),
-		// entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(),
-		// banderaGerencia,
-		// banderaControlCalidad);
+		if (banderaControlCalidad == 1) {
+			c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getProveedores().getNombre(),
+					entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(), banderaGerencia,
+					banderaControlCalidad);
+		}
 
 	}
 
@@ -1086,8 +1154,8 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		double suma = 0.0;
 		suma = (Double.parseDouble(entradasEditar.getCarnazaConPelo().toString())
-				+ Double.parseDouble(entradasEditar.getCarnzaPrimera().toString())
-				+ Double.parseDouble(entradasEditar.getCarnzaSegunda().toString())
+				+ Double.parseDouble(entradasEditar.getCarnazaPrimera().toString())
+				+ Double.parseDouble(entradasEditar.getCarnazaSegunda().toString())
 				+ Double.parseDouble(entradasEditar.getCarnazaSalada().toString())
 				+ Double.parseDouble(entradasEditar.getDesbarbeRecorte().toString())
 				+ Double.parseDouble(entradasEditar.getCerdoMexicano().toString())
@@ -1124,6 +1192,8 @@ public class EntradasBean extends Conexion implements Serializable {
 	// #################################//
 	// **KG EMBARCADOS - KG RECIBIDOS | KG NETOS - KG RECIBIDOS**//
 	public void totalKilos() {
+		// String valorProveedor = obtenerValorComponente("frmPrincipal:acco:pro");
+		// System.out.println("Valor del componente: " + valorProveedor);
 		double resta = 0.0;
 		if (kilosEmbarcados > 0.0) {
 			resta = (kilosEmbarcados - kilosRecibidos);
@@ -1137,15 +1207,21 @@ public class EntradasBean extends Conexion implements Serializable {
 
 	// **KG EMBARCADOS - KG RECIBIDOS | KG NETOS - KG RECIBIDOS**//
 	public void porcentajeTotal() {
-		double porcentaje = 0.0;
+
 		if (kilosEmbarcados > 0.0) {
-			porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) / (kilosEmbarcados);
+			porcentajeCalculo = (entradas.getMerma().doubleValue() * 100) / kilosEmbarcados;
+			// porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) /
+			// (kilosEmbarcados);
 		}
 		if (kilosNetos > 0.0) {
-			porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) / (kilosNetos);
+			porcentajeCalculo = (entradas.getMerma().doubleValue() * 100) / kilosNetos;
+			// porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) /
+			// (kilosNetos);
 		}
-
-		entradas.setPorcentajeMerma(BigDecimal.valueOf(Double.parseDouble(String.format("%.2f", porcentaje))));
+		LOGGER.info("PORCENTAJE: " + porcentajeCalculo);
+		entradas.setPorcentajeMerma(
+				BigDecimal.valueOf(Double.parseDouble(String.format("%.2f", porcentajeCalculo).replace(",", "."))));
+		LOGGER.info("PORCENTAJE MERMA: " + entradas.getPorcentajeMerma());
 	}
 	// #################################//
 
@@ -1254,7 +1330,8 @@ public class EntradasBean extends Conexion implements Serializable {
 		return resultado;
 	}
 
-	public void visualizarReporte(String idEntrada, int tolva, int estado, String iniciales) {
+	public void visualizarReporte(String idEntrada, int tolva, int estado, String iniciales) throws SQLException {
+		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 
@@ -1384,13 +1461,13 @@ public class EntradasBean extends Conexion implements Serializable {
 				entradasEditar.setPrecioCcp(BigDecimal.valueOf(ceros));
 			}
 
-			if (Double.parseDouble(entradasEditar.getCarnzaPrimera().toString()) != ceros) {
+			if (Double.parseDouble(entradasEditar.getCarnazaPrimera().toString()) != ceros) {
 				entradasEditar.setPrecioC1(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 2)));
 			} else {
 				entradasEditar.setPrecioC1(BigDecimal.valueOf(ceros));
 			}
 
-			if (Double.parseDouble(entradasEditar.getCarnzaSegunda().toString()) != ceros) {
+			if (Double.parseDouble(entradasEditar.getCarnazaSegunda().toString()) != ceros) {
 				entradasEditar.setPrecioC2(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 3)));
 			} else {
 				entradasEditar.setPrecioC2(BigDecimal.valueOf(ceros));
@@ -1492,29 +1569,61 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 	}
 
-	public void llenarInfo() {
+	public void upload() {
+		if (pdfFile != null) {
+			try {
+				// Ruta donde se guardará el archivo
 
-		kilosEmbarcados = Double.parseDouble(entradasEditar.getKgEmbarcados().toString());
-//			entradas.setKgRecibidos(BigDecimal.valueOf(kilosRecibidos));
-//			entradas.setKgNetos(BigDecimal.valueOf(kilosNetos));
-		//
-//			// **PRECIO DE LA CARNAZA CON PELO**//
-		//
-//			entradas.setCarnazaConPelo(BigDecimal.valueOf(dato1));
-//			entradas.setCarnzaPrimera(BigDecimal.valueOf(dato2));
-//			entradas.setCarnzaSegunda(BigDecimal.valueOf(dato3));
-//			entradas.setCarnazaSalada(BigDecimal.valueOf(dato4));
-//			entradas.setDesbarbeRecorte(BigDecimal.valueOf(dato5));
-//			entradas.setCerdoMexicano(BigDecimal.valueOf(dato6));
-//			entradas.setOrejaCachete(BigDecimal.valueOf(dato7));
-//			entradas.setPedaceriaConPelo(BigDecimal.valueOf(dato8));
-//			entradas.setPedaceria(BigDecimal.valueOf(dato9));
-//			entradas.setDescarneAdherido(BigDecimal.valueOf(dato10));
-//			entradas.setDescarneSeparado(BigDecimal.valueOf(dato11));
-//			entradas.setCueroDepiladoIntegral(BigDecimal.valueOf(dato12));
-//			entradas.setGarra(BigDecimal.valueOf(dato13));
-//			entradas.setCueroEnSangre(BigDecimal.valueOf(dato14));
+				leerConfig();
+				String destination = getPathCert() + pdfFile.getFileName();
 
+				IEntradasDao eDao = new EntradasDaoImpl();
+				eDao.actualizarNombreArchivoCert(entradasCertificado.getIdEntrada(), pdfFile.getFileName());
+				entradasCertificado = new Entradas();
+
+				// Crear el directorio si no existe
+				File directory = new File(getPathCert());
+				if (!directory.exists()) {
+					directory.mkdirs();
+				}
+
+				// Escribir el archivo en la ruta especificada
+				FileOutputStream out = new FileOutputStream(destination);
+				out.write(pdfFile.getContent());
+				out.close();
+
+				System.out.println("Nombre del archivo" + pdfFile.getFileName());
+				// Mensaje de éxito
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"¡Éxito!", "Archivo cargado correctamente: " + pdfFile.getFileName()));
+			} catch (IOException e) {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡Error!", "No se pudo cargar el archivo."));
+				e.printStackTrace();
+			}
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Debe seleccionar un archivo."));
+		}
+
+	}
+
+	public void loadPdf(String docto) {
+		leerConfig();
+		// Ruta del archivo PDF
+		file = getUrlCert() + docto;
+	}
+
+	public String obtenerValorComponente(String idComponente) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		UIComponent componente = context.getViewRoot().findComponent(idComponente);
+
+		if (componente != null && componente instanceof UIInput) {
+			UIInput input = (UIInput) componente;
+			return (String) input.getValue();
+		}
+
+		return null;
 	}
 
 }

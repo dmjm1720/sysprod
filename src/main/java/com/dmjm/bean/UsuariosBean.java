@@ -17,6 +17,7 @@ import javax.inject.Named;
 @ViewScoped
 public class UsuariosBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private List<Usuarios> listarUsuarios;
 	private Usuarios usuarios;
 	private Perfiles perfiles;

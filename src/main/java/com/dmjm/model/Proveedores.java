@@ -13,6 +13,7 @@ public class Proveedores implements java.io.Serializable {
 	private Integer descuentoHumedadTablaA;
 	private Integer descuentoHumedadTablaB;
 	private Integer estado;
+	private String nacionalImportacion;
 
 	public Proveedores() {
 	}
@@ -22,7 +23,7 @@ public class Proveedores implements java.io.Serializable {
 	}
 
 	public Proveedores(int idProveedor, String nombre, String razonSocial, String origen,
-			Integer descuentoHumedadTablaA, Integer descuentoHumedadTablaB, Integer estado) {
+			Integer descuentoHumedadTablaA, Integer descuentoHumedadTablaB, Integer estado, String nacionalImportacion) {
 		this.idProveedor = idProveedor;
 		this.nombre = nombre;
 		this.razonSocial = razonSocial;
@@ -30,6 +31,7 @@ public class Proveedores implements java.io.Serializable {
 		this.descuentoHumedadTablaA = descuentoHumedadTablaA;
 		this.descuentoHumedadTablaB = descuentoHumedadTablaB;
 		this.estado = estado;
+		this.nacionalImportacion = nacionalImportacion;
 
 	}
 
@@ -87,6 +89,14 @@ public class Proveedores implements java.io.Serializable {
 
 	public void setEstado(Integer estado) {
 		this.estado = estado;
+	}
+
+	public String getNacionalImportacion() {
+		return nacionalImportacion;
+	}
+
+	public void setNacionalImportacion(String nacionalImportacion) {
+		this.nacionalImportacion = nacionalImportacion;
 	}
 
 

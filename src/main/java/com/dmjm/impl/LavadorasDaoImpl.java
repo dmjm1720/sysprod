@@ -16,20 +16,20 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.PrimeFaces;
 
-import com.dmjm.bean.LoginBean;
 import com.dmjm.dao.ILavadorasDao;
 import com.dmjm.model.Lavadoras;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
 public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
+
 	private static final Logger LOGGER = LogManager.getLogger(LavadorasDaoImpl.class);
+
 	@Override
 	public List<Lavadoras> listaLavadoras() {
-		@SuppressWarnings("JPQLValidation")
-		List<Lavadoras> lavadoras = (List<Lavadoras>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("From Lavadoras").list();
-		return lavadoras;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Lavadoras", Lavadoras.class).list();
+		}
 	}
 
 	@Override
@@ -133,10 +133,47 @@ public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
 	public void actualizarEstadoLavadora(int estado, String etapa, int idEntrada) {
 		try {
 			ConectarSysProd();
-			PreparedStatement ps = getCnSysProd()
-					.prepareStatement("UPDATE LAVADORAS SET ESTADO=" + estado + ", ETAPA='" + etapa + "' WHERE ID_LAVADORA=" + idEntrada + "");
+			String sql = "UPDATE LAVADORAS SET ESTADO = ?, ETAPA = ? WHERE ID_LAVADORA = ?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setInt(1, estado);
+			ps.setString(2, etapa);
+			ps.setInt(3, idEntrada);
 			ps.executeUpdate();
-			LOGGER.info("LAVADORA ACTUALIZADA : " + idEntrada + " ESTADO: " + estado + " ETAPA:" + etapa);
+			LOGGER.info("LAVADORA ACTUALIZADA : " + idEntrada + " ESTADO: " + estado + " ETAPA: " + etapa);
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA LAVADORA: " + ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡AVISO!", "ERROR AL ACTUALIZAR"));
+		}
+
+	}
+
+	@Override
+	public Lavadoras listarCapaciad(Lavadoras l) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Lavadoras WHERE nombre = :nombre", Lavadoras.class)
+					.setParameter("nombre", l.getNombre()).uniqueResult();
+		}
+	}
+
+	@Override
+	public List<Lavadoras> listarLavadorasDisponibles() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Lavadoras WHERE estado=0", Lavadoras.class).list();
+		}
+	}
+
+	@Override
+	public void actualizarEtapaLavadora(String etapa, int id) {
+		try {
+			ConectarSysProd();
+			String sql = "UPDATE LAVADORAS SET ETAPA = ? WHERE ID_LAVADORA = ?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setString(1, etapa);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			LOGGER.info("LAVADORA ACTUALIZADA : " + id + " ETAPA: " + etapa);
 			CerrarSysProd();
 		} catch (SQLException ex) {
 			LOGGER.error("ERROR AL ACTUALIZAR LA LAVADORA: " + ex.getMessage());

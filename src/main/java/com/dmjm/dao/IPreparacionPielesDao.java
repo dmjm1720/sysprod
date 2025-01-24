@@ -2,8 +2,6 @@ package com.dmjm.dao;
 
 import java.util.List;
 
-import javax.faces.model.SelectItem;
-
 import com.dmjm.model.PreparacionPieles;
 
 public interface IPreparacionPielesDao {
@@ -15,4 +13,6 @@ public interface IPreparacionPielesDao {
 	void actualizarPreparcionPieles(PreparacionPieles preparacionPieles);
 	
 	List<PreparacionPieles> listaPreparacion();
+	
+	void actualizaEstatusEtapa(int id, String etapa);
 }

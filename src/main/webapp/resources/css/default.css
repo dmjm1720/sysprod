@@ -102,6 +102,9 @@ a:link:hover, a:visited:hover {
 .pear {
 	background-color: #b7dc2c !important;
 	color: #101010 !important;
+	font-size: .9rem !important;
+	text-align: center !important;
+	font-weight: bolder !important;
 }
 
 .captura {
@@ -140,27 +143,29 @@ a:link:hover, a:visited:hover {
 	background-color: #87CEFA;
 }
 
-.ocupada{
+.ocupada {
 	background-color: #ffff66;
 	color: #000000 !important;
 	font-weight: bold;
 }
-.disponible{
+
+.disponible {
 	background-color: #3CB371;
 	color: #F0F8FF !important;
 	font-weight: bold;
 }
-.mantenimiento{
+
+.mantenimiento {
 	background-color: #483D8B;
 	color: #F0F8FF !important;
 	font-weight: bold;
 }
-.sinuso{
+
+.sinuso {
 	background-color: #a51d2d;
 	color: #F0F8FF !important;
 	font-weight: bold;
 }
-
 
 .kilos {
 	background-color: #ffff66 !important;
@@ -194,43 +199,55 @@ a:link:hover, a:visited:hover {
 }
 
 .fondo {
-	background-color:  #98FB98  !important;
+	background-color: #98FB98 !important;
 	text-align: center !important;
 	font-weight: bold !important;
 }
 
 .fondo2 {
-	background-color:  #ADFF2F  !important;
+	background-color: #ADFF2F !important;
 	text-align: center !important;
 	font-weight: bold !important;
 }
 
-.mensajeBoton{
+.mensajeBoton {
 	font-size: .8rem !important;
 	color: #008080 !important;
 	font-weight: bold !important;
-}.mensajeBoton2{
+}
+
+.mensajeBoton2 {
 	font-size: .8rem !important;
 	color: #4682B4 !important;
 	font-weight: bold !important;
 }
-.mensajeM{
+
+.mensajeM {
 	font-size: 1rem !important;
 	color: #FF6347 !important;
 	font-weight: bold !important;
 }
-.mensajeLib{
+
+.mensajeLib {
 	font-size: 1rem !important;
 	color: #4682B4 !important;
 	font-weight: bold !important;
 }
-.mensajeLiberar{
+
+.mensajeLiberar {
 	font-size: 1rem !important;
 	color: #008080 !important;
 	font-weight: bold !important;
 }
-.mensajeLibCancelar{
+
+.mensajeLibCancelar {
 	font-size: 1rem !important;
 	color: #FF6347 !important;
 	font-weight: bold !important;
+}
+
+.saldo {
+	color: #B22222 !important;
+	font-weight: bold !important;
+	font-size: 1rem !important;
 }

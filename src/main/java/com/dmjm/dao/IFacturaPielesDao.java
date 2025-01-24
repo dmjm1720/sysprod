@@ -11,5 +11,7 @@ public interface IFacturaPielesDao {
 	void guardarFacturasPieles(FacturasPieles facturasPieles);
 
 	void actualizarFacturasPieles(FacturasPieles facturasPieles);
+	
+	double sumaSaldo (int idPrep);
 
 }

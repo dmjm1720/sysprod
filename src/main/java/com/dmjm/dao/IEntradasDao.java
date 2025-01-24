@@ -17,4 +17,10 @@ public interface IEntradasDao {
     Entradas validarFechaImpresion(int idEntrada);
     
     void actualizarPerfilCoord(Entradas entradas);
+    
+    Entradas obtenerIdEntrada(String factura);
+    
+    void actualizarNombreArchivoCert(int id, String nombre);
+    
+    String nombreArchivoCert(int id);
 }

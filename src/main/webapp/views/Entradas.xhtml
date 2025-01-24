@@ -125,7 +125,9 @@
 									requiredMessage="Proveedor requerido" autocomplete="off"
 									placeholder="Ingresa proveedor" dropdown="true"
 									value="#{entradasBean.filterProveedor}"
-									completeMethod="#{entradasBean.buscarNombreProveedor}" />
+									completeMethod="#{entradasBean.buscarNombreProveedor}">
+									<p:ajax event="change" listener="#{entradasBean.totalKilos()}" />
+								</p:autoComplete>
 
 								<p:outputLabel for="tra" value="Transportista" />
 								<p:autoComplete id="tra" size="35" required="false"
@@ -206,9 +208,9 @@
 								<p:inputText id="kdrec" autocomplete="off" styleClass="kilos"
 									value="#{entradasBean.kilosRecibidos}" required="false"
 									requiredMessage="Campo requerido">
-									<p:ajax event="keyup" update="mm, frmPrincipal:msgs"
+									<p:ajax event="keyup" update="mm,  frmPrincipal:msgs"
 										listener="#{entradasBean.totalKilos}" />
-									<p:ajax event="keyup" update="mmm, frmPrincipal:msgs"
+									<p:ajax event="keyup" update="mmm,  frmPrincipal:msgs"
 										listener="#{entradasBean.porcentajeTotal}" />
 								</p:inputText>
 
@@ -465,10 +467,9 @@
 							<p:dataTable id="tblClientes" styleClass="tabla fuente"
 								var="item" scrollHeight="650" scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="10,20,50,100,200,500" rows="10"
-								paginator="true" liveScroll="true" rowHover="true"
-								paginatorAlwaysVisible="true" scrollable="true"
-								filterBy="#{item.proveedores.nombre}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true" filterBy="#{item.proveedores.nombre}"
 								rowStyleClass="#{item.estado=='1' ? 'calidad' :null} #{item.estado=='2' ? 'liberado' :null} #{item.estado=='3' ? 'nohumedad' :null}"
 								currentPageReportTemplate="Total: #{entradasBean.listarEntradas.size()}"
 								value="#{entradasBean.listarEntradas}"
@@ -583,6 +584,23 @@
 										trackMouse="true" />
 								</p:column>
 
+								<p:column headerText="Subir certificado" width="4rem">
+									<p:commandButton id="subirpdf" icon="pi pi-upload"
+										update="frmPDF:pnlVerPDF" onclick="PF('dlgVerPDF').show()"
+										styleClass="ui-button-info">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{entradasBean.entradasCertificado}" />
+									</p:commandButton>
+								</p:column>
+
+								<p:column headerText="Ver certificado" width="4rem">
+									<p:commandButton id="pdf" icon="pi pi-fw pi-file-pdf"
+										actionListener="#{entradasBean.loadPdf(item.archivoCertificado)}"
+										onclick="PF('dlgPDF').show()" update="formPDF:viewer" 
+										styleClass="ui-button-info">
+									</p:commandButton>
+								</p:column>
+
 								<p:column headerText="Tolvas" width="3rem"
 									filterBy="#{item.tolvas}">
 									<h:outputText value="#{item.tolvas}" />
@@ -646,14 +664,14 @@
 									<h:outputText value="#{item.palletsRecibidos}" />
 								</p:column>
 
-								<p:column headerText="Carnza con pelo" width="3rem">
+								<p:column headerText="Carnaza con pelo" width="3rem">
 									<h:outputText value="#{item.carnazaConPelo}" />
 								</p:column>
-								<p:column headerText="Carnza de primera" width="3rem">
-									<h:outputText value="#{item.carnzaPrimera}" />
+								<p:column headerText="Carnaza de primera" width="3rem">
+									<h:outputText value="#{item.carnazaPrimera}" />
 								</p:column>
 								<p:column headerText="Carnaza de segunda" width="3rem">
-									<h:outputText value="#{item.carnzaSegunda}" />
+									<h:outputText value="#{item.carnazaSegunda}" />
 								</p:column>
 								<p:column headerText="Carnaza salada" width="3rem">
 									<h:outputText value="#{item.carnazaSalada}" />
@@ -926,12 +944,12 @@
 
 									<h:outputLabel value="Carnaza de primera:" />
 									<h:outputText
-										value=" #{entradasBean.entradasDetalle.carnzaPrimera}"
+										value=" #{entradasBean.entradasDetalle.carnazaPrimera}"
 										styleClass="detalle" />
 
 									<h:outputLabel value="Carnaza de segunda:" />
 									<h:outputText
-										value="#{entradasBean.entradasDetalle.carnzaSegunda}"
+										value="#{entradasBean.entradasDetalle.carnazaSegunda}"
 										styleClass="detalle" />
 
 									<h:outputLabel value="Carnaza salada:" />
@@ -1216,7 +1234,7 @@
 
 						<p:outputLabel for="c1" value="Carnaza de primera" />
 						<p:inputText id="c1"
-							value="#{entradasBean.entradasEditar.carnzaPrimera}"
+							value="#{entradasBean.entradasEditar.carnazaPrimera}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
 							requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
@@ -1226,7 +1244,7 @@
 
 						<p:outputLabel for="c2" value="Carnaza de segunda" />
 						<p:inputText id="c2"
-							value="#{entradasBean.entradasEditar.carnzaSegunda}"
+							value="#{entradasBean.entradasEditar.carnazaSegunda}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
 							requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
@@ -1531,7 +1549,7 @@
 
 						<p:outputLabel for="c1" value="Carnaza de primera" />
 						<p:inputText id="c1" disabled="true"
-							value="#{entradasBean.entradasEditar.carnzaPrimera}"
+							value="#{entradasBean.entradasEditar.carnazaPrimera}"
 							required="false" requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
 								listener="#{entradasBean.calcularTotal}" />
@@ -1540,14 +1558,14 @@
 
 						<p:outputLabel for="c2" value="Carnaza de segunda" />
 						<p:inputText id="c2" disabled="true"
-							value="#{entradasBean.entradasEditar.carnzaSegunda}"
+							value="#{entradasBean.entradasEditar.carnazaSegunda}"
 							required="false" requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
 								listener="#{entradasBean.calcularTotal}" />
 						</p:inputText>
 
 
-						<p:outputLabel for="cs" value="Carnza salada" />
+						<p:outputLabel for="cs" value="Carnaza salada" />
 						<p:inputText id="cs" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaSalada}"
 							required="false" requiredMessage="Campo requerido">
@@ -1918,7 +1936,7 @@
 
 						<p:outputLabel for="c1" value="Carnaza de primera" />
 						<p:inputText id="c1" disabled="true"
-							value="#{entradasBean.entradasEditar.carnzaPrimera}"
+							value="#{entradasBean.entradasEditar.carnazaPrimera}"
 							required="false" requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
 								listener="#{entradasBean.calcularTotal}" />
@@ -1927,14 +1945,14 @@
 
 						<p:outputLabel for="c2" value="Carnaza de segunda" />
 						<p:inputText id="c2" disabled="true"
-							value="#{entradasBean.entradasEditar.carnzaSegunda}"
+							value="#{entradasBean.entradasEditar.carnazaSegunda}"
 							required="false" requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
 								listener="#{entradasBean.calcularTotal}" />
 						</p:inputText>
 
 
-						<p:outputLabel for="cs" value="Carnza salada" />
+						<p:outputLabel for="cs" value="Carnaza salada" />
 						<p:inputText id="cs" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaSalada}"
 							required="false" requiredMessage="Campo requerido">
@@ -2165,6 +2183,47 @@
 			<!-- FINALIZA FORMULARIO PARA LIBERAR -->
 
 
+			<!-- INICIA FORMULARIO PARA VER EL PDF -->
+			<h:form id="formPDF">
+				<p:dialog
+					header="" widgetVar="dlgPDF" 
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+						<!-- Visor del PDF -->
+						<p:panel header="Certificado Zoosanitario" id="viewer">
+							<p:media value="#{entradasBean.file}" width="100%" height="600px"
+								player="pdf" />
+						</p:panel>
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA VER EL PDF -->
+
+
+
+			<!-- INICIA FORMULARIO PARA AGREGAR EL PDF -->
+			<h:form id="frmPDF" enctype="multipart/form-data">
+				<p:dialog id="dlgCargarPDF"
+					header="AÑADIR EL CERTIFICADO EN FORMATO PDF" widgetVar="dlgVerPDF"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlVerPDF" columns="6" styleClass="fuente">
+						<!-- Componente para subir el archivo -->
+						<p:fileUpload value="#{entradasBean.pdfFile}" mode="simple"
+							accept=".pdf" auto="false" />
+						<!-- Mostrar mensajes -->
+						<p:messages id="messages" />
+
+						<div style="text-align: right">
+							<p:commandButton icon="pi pi-save" value="GUARDAR"
+								style="widht: 20rem; height: 2rem" title="Guardar"
+								update="frmPrincipal, frmPrincipal:msgs"
+								actionListener="#{entradasBean.upload()}"
+								oncomplete="PF('dlgVerPDF').hide()" />
+						</div>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA AGREGAR EL PDF -->
 
 		</ui:define>
 	</ui:composition>

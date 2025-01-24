@@ -8,11 +8,42 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_VIEW_PROTECTION</param-name>
+		<param-value>enable</param-value>
+	</context-param>
+
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+
 		<load-on-startup>1</load-on-startup>
+
+		<multipart-config>
+			<max-file-size>10485760</max-file-size> <!-- 10 MB -->
+			<max-request-size>20971520</max-request-size> <!-- 20 MB -->
+		</multipart-config>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>Pretty Filter</filter-name>
+		<filter-class>org.ocpsoft.rewrite.servlet.RewriteFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>Pretty Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
@@ -26,10 +57,7 @@
 		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
 		<location>/error.xhtml</location>
 	</error-page>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.html</url-pattern>
-	</servlet-mapping>
+
 
 	<session-config>
 		<session-timeout>90</session-timeout>
@@ -58,6 +86,11 @@
 		<extension>eot</extension>
 		<mime-type>application/x-font-eot</mime-type>
 	</mime-mapping>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
 
-	
+
+
 </web-app>

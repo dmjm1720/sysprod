@@ -13,6 +13,7 @@ public class FacturasPieles implements java.io.Serializable {
 	private BigDecimal ds;
 	private BigDecimal cn;
 	private BigDecimal rp;
+	private BigDecimal total;
 
 	public FacturasPieles() {
 	}
@@ -22,7 +23,7 @@ public class FacturasPieles implements java.io.Serializable {
 	}
 
 	public FacturasPieles(int idFacturaPiel, PreparacionPieles preparacionPieles, String factura, BigDecimal cz,
-			BigDecimal dc, BigDecimal ds, BigDecimal cn, BigDecimal rp) {
+			BigDecimal dc, BigDecimal ds, BigDecimal cn, BigDecimal rp, BigDecimal total) {
 		this.idFacturaPiel = idFacturaPiel;
 		this.preparacionPieles = preparacionPieles;
 		this.factura = factura;
@@ -31,6 +32,7 @@ public class FacturasPieles implements java.io.Serializable {
 		this.ds = ds;
 		this.cn = cn;
 		this.rp = rp;
+		this.total = total;
 	}
 
 	public int getIdFacturaPiel() {
@@ -95,6 +97,14 @@ public class FacturasPieles implements java.io.Serializable {
 
 	public void setRp(BigDecimal rp) {
 		this.rp = rp;
+	}
+
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = total;
 	}
 
 }

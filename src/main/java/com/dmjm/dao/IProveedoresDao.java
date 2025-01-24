@@ -17,4 +17,6 @@ public interface IProveedoresDao {
     int buscarProveedor(String nombre) throws SQLException;
     
     void borrarProveedores(Proveedores proveedores);
+    
+    String buscarTipoMonedaProveedor(String nombre)throws SQLException;
 }
