@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
+                                            <h:panelGrid styleClass="custom-painelgrid-center">
+                                                <h:outputText value="Buscando..." />
+                                                <p:graphicImage value="../resources/img/cargando.gif" />
+                                            </h:panelGrid>
+                                        </p:blockUI>-->
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE PROVEEDORES"
+						styleClass="fuente" />
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+						<p:tab title="CAPTURA DE PROVEEDORES"
+							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
+
+								<p:outputLabel for="nombre" value="Nombre" />
+								<p:inputText id="nombre"
+									value="#{proveedoresBean.proveedores.nombre}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="razon" value="Razón social" />
+								<p:inputText id="razon"
+									value="#{proveedoresBean.proveedores.razonSocial}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="origen" value="Origen" />
+								<p:inputText id="origen"
+									value="#{proveedoresBean.proveedores.origen}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="nacimp" value="Nacional / Importado" />
+								<p:selectOneMenu id="nacimp" required="false"
+									style="width: 200px;" requiredMessage="Nacional o Importado"
+									value="#{proveedoresBean.proveedores.nacionalImportacion}">
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="NACIONAL" itemValue="TOLUCA" />
+									<f:selectItem itemLabel="IMPORTACIÓN" itemValue="LEÓN" />
+								</p:selectOneMenu>
+
+
+								<p:outputLabel for="ta" value="Descuento humedad tabla A" />
+								<p:inputText id="ta"
+									value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="tb" value="Descuento humedad tabla B" />
+								<p:inputText id="tb"
+									value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+								<p:commandButton icon="pi pi-save" title="Guardar"
+									value="GUARDAR"
+									update="frmPrincipal, frmPrincipal:msgs, tblProv"
+									style="widht: 20rem; height: 2rem"
+									actionListener="#{proveedoresBean.guardar()}" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="LISTA DE PROVEEDORES"
+							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+							<div style="text-align: center">
+								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
+									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
+									<p:dataExporter type="xls" target="frmPrincipal:acco:tblProv"
+										fileName="REPORTE DE PROVEEDORES" />
+								</p:commandButton>
+							</div>
+							<p:dataTable id="tblProv" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{proveedoresBean.listarProveedores.size()}"
+								value="#{proveedoresBean.listarProveedores}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{proveedoresBean.proveedores}" />
+
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="Baja" width="3rem" exportable="false">
+									<p:commandButton id="ba" icon="pi pi-fw pi-trash"
+										onclick="PF('dlgBorrar').show()" update="frmBorrar:pnlBorrar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{proveedoresBean.proveedores}" />
+
+									</p:commandButton>
+									<p:tooltip id="toolTipBorrar" for="ba" value="Baja"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="Nombre" width="10rem"
+									filterBy="#{item.nombre}">
+									<h:outputText value="#{item.nombre}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Razón social" width="15rem"
+									filterBy="#{item.razonSocial}">
+									<h:outputText value="#{item.razonSocial}"
+										style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Origen" width="10rem"
+									filterBy="#{item.origen}">
+									<h:outputText value="#{item.origen}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Nacional / Importado" width="10rem"
+									filterBy="#{item.nacionalImportacion}">
+									<h:outputText value="#{item.nacionalImportacion}"
+										style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Descuento humedad tabla A" width="10rem">
+									<h:outputText value="#{item.descuentoHumedadTablaA}"
+										style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Descuento humedad tabla B" width="10rem">
+									<h:outputText value="#{item.descuentoHumedadTablaB}"
+										style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DEL PROVEEDOR"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="4">
+
+						<p:outputLabel for="nombre" value="Nombre" />
+						<p:inputText id="nombre"
+							value="#{proveedoresBean.proveedores.nombre}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+
+						<p:outputLabel for="razonsocial" value="Razón Social" />
+						<p:inputText id="razonsocial"
+							value="#{proveedoresBean.proveedores.razonSocial}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+
+						<p:outputLabel for="origen" value="Origen" />
+						<p:inputText id="origen"
+							value="#{proveedoresBean.proveedores.origen}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+
+						<p:outputLabel for="nacimp" value="Nacional / Importado" />
+						<p:selectOneMenu id="nacimp" required="false"
+							style="width: 200px;" requiredMessage="Nacional o Importado"
+							value="#{proveedoresBean.proveedores.nacionalImportacion}">
+							<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+							<f:selectItem itemLabel="NACIONAL" itemValue="NACIONAL" />
+							<f:selectItem itemLabel="IMPORTACIÓN" itemValue="IMPORTACIÓN" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="descA" value="Descuento humedad tabla A" />
+						<p:inputText id="descA"
+							value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+					
+
+
+						<p:outputLabel for="descB" value="Descuento humedad tabla B" />
+						<p:inputText id="descB"
+							value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+		
+
+
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{proveedoresBean.actualizar()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+			<!-- INICIA FORMULARIO PARA BORRAR -->
+			<h:form id="frmBorrar">
+				<p:dialog header="DAR DE BAJA AL PROVEEDOR" widgetVar="dlgBorrar"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlBorrar" columns="6">
+
+						<p:outputLabel for="nombre" value="Nombre" />
+						<p:inputText id="nombre" readonly="true"
+							value="#{proveedoresBean.proveedores.nombre}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+				
+
+						<p:outputLabel for="razonsocial" value="Razón Social" />
+						<p:inputText id="razonsocial" readonly="true"
+							value="#{proveedoresBean.proveedores.razonSocial}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+			
+
+						<p:outputLabel for="origen" value="Origen" />
+						<p:inputText id="origen" readonly="true"
+							value="#{proveedoresBean.proveedores.origen}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+					
+
+						<p:outputLabel for="descA" value="Descuento humedad tabla A" />
+						<p:inputText id="descA" readonly="true"
+							value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+				
+
+
+						<p:outputLabel for="descB" value="Descuento humedad tabla B" />
+						<p:inputText id="descB" readonly="true"
+							value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+					
+
+
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-trash" value="BAJA DE PROVEEDOR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{proveedoresBean.bajaProveedores()}"
+							oncomplete="PF('dlgBorrar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

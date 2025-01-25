@@ -10,8 +10,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import org.primefaces.PrimeFaces;
 
 @Named(value = "usuariosBean")
 @ViewScoped
@@ -78,6 +82,16 @@ public class UsuariosBean implements Serializable {
 		usuarios.setPerfiles(p);
 		usuarios.setPassword(Password.sha512(usuarios.getPassword()));
 		uDao.actualizarUsuario(usuarios);
+		String info = "Usuario agregado correctamente";
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		String viewId = facesContext.getViewRoot().getViewId();
+		System.out.println("Vista actual: " + viewId);
+		
+
+		PrimeFaces.current()
+				.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+						+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+						+ "  timer: 8000\n" + "})");
 		usuarios = new Usuarios();
 
 	}
