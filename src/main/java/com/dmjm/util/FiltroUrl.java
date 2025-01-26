@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.primefaces.PrimeFaces;
 
 import com.dmjm.bean.LoginBean;
 
@@ -18,7 +19,7 @@ public class FiltroUrl implements PhaseListener {
 	private static final Logger LOGGER = LogManager.getLogger(FiltroUrl.class);
 	// Constantes para rutas
 	private static final String LOGIN_PAGE = "/index.xhtml";
-	private static final String DASHBOARD_PAGE = "/index.xhtml";
+
 
 	@Override
 	public void afterPhase(PhaseEvent event) {
@@ -48,7 +49,7 @@ public class FiltroUrl implements PhaseListener {
 			// Verificar roles según la página
 			if (!isLoginPage) {
 				if (!isAuthorized(rol, currentPage)) {
-					redirectToPage(facesContext, DASHBOARD_PAGE); // Página predeterminada
+					redirectToPage(facesContext, LOGIN_PAGE); // Página predeterminada
 				}
 			}
 		}
@@ -96,11 +97,12 @@ public class FiltroUrl implements PhaseListener {
 	 */
 	private void redirectToPage(FacesContext facesContext, String page) {
 		// Verificar autenticación
-		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-		Object nombre = session.getAttribute("nombre");
+		//HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+		//Object nombre = session.getAttribute("nombre");
+
 		NavigationHandler navHandler = facesContext.getApplication().getNavigationHandler();
 		navHandler.handleNavigation(facesContext, null, page + "?faces-redirect=true");
 		facesContext.renderResponse();
-		LOGGER.warn("VIOLACIÓN DE ACCESO: " + nombre);
+		LOGGER.warn("VIOLACIÓN DE ACCESO");
 	}
 }

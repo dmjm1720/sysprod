@@ -50,9 +50,10 @@
         <property name="porcentajeSalado" type="java.lang.Integer">
             <column name="PORCENTAJE_SALADO" />
         </property>
-        <property name="certificadoZoosanitario" type="java.lang.Integer">
-            <column name="CERTIFICADO_ZOOSANITARIO" />
+         <property name="certificadoZoosanitario" type="string">
+            <column name="CERTIFICADO_ZOOSANITARIO" length="50" />
         </property>
+
         <property name="porcentaje" type="java.lang.Integer">
             <column name="PORCENTAJE" />
         </property>

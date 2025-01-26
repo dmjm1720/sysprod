@@ -14,16 +14,19 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import com.dmjm.dao.ICuentasContablesDao;
+import com.dmjm.dao.IEntradasDao;
 import com.dmjm.dao.IEntradasImportacionDao;
 import com.dmjm.dao.IFoliosImportacion;
 import com.dmjm.dao.IMateriaDao;
 import com.dmjm.dao.IProveedoresDao;
 import com.dmjm.impl.CuentasContablesDaoImpl;
+import com.dmjm.impl.EntradasDaoImpl;
 import com.dmjm.impl.EntradasImportacionDaoImpl;
 import com.dmjm.impl.FoliosImportacionDaoImpl;
 import com.dmjm.impl.MateriaDaoImpl;
 import com.dmjm.impl.ProveedoresDaoImpl;
 import com.dmjm.model.CuentasContables;
+import com.dmjm.model.Entradas;
 import com.dmjm.model.EntradasImportacion;
 import com.dmjm.model.Materia;
 import com.dmjm.model.Proveedores;
@@ -40,11 +43,17 @@ public class EntradasImportacionBean implements Serializable {
 	private ProveedoresImportacion proveedoresImportacion;
 	private Materia materia;
 	private CuentasContables cuentasContables;
+	private List<Entradas> listarFacturasImportacion;
+	private Entradas entradas;
 
 	private String filterProveedor;
 	private String filterMateria;
 	private String filterCuenta;
 	private Proveedores proveedores;
+	private List<String> listarNoFactImportacion;
+	private String factura;
+	private String proveedor;
+	private String identificacionMateria;
 
 	@PostConstruct
 	public void init() {
@@ -55,6 +64,9 @@ public class EntradasImportacionBean implements Serializable {
 		materia = new Materia();
 		cuentasContables = new CuentasContables();
 		entradasImportacion.setTolva(buscarFolio());
+		listarFacturasImportacion = new ArrayList<Entradas>();
+		listarNoFactImportacion = new ArrayList<String>();
+		entradas = new Entradas();
 	}
 
 	public void setEntradasImportacion(EntradasImportacion entradasImportacion) {
@@ -113,8 +125,6 @@ public class EntradasImportacionBean implements Serializable {
 	public void setProveedores(Proveedores proveedores) {
 		this.proveedores = proveedores;
 	}
-	
-	
 
 	public String getFilterCuenta() {
 		return filterCuenta;
@@ -129,6 +139,76 @@ public class EntradasImportacionBean implements Serializable {
 		IEntradasImportacionDao eDao = new EntradasImportacionDaoImpl();
 		listaEntradasImp = eDao.listarEntradas();
 		return listaEntradasImp;
+	}
+
+	public List<Entradas> getListarFacturasImportacion() {
+		return listarFacturasImportacion;
+	}
+
+	public Entradas getEntradas() {
+		return entradas;
+	}
+
+	public void setEntradas(Entradas entradas) {
+		this.entradas = entradas;
+	}
+
+	public String getFactura() {
+		return factura;
+	}
+
+	public void setFactura(String factura) {
+		this.factura = factura;
+	}
+
+	public String getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(String proveedor) {
+		this.proveedor = proveedor;
+	}
+
+	public String getIdentificacionMateria() {
+		return identificacionMateria;
+	}
+
+	public void setIdentificacionMateria(String identificacionMateria) {
+		this.identificacionMateria = identificacionMateria;
+	}
+
+	// **LISTAR FACTURAS DE IMPORTACIÓN**//
+	public List<String> getListarNoFactImportacion() {
+		IEntradasDao eDao = new EntradasDaoImpl();
+		listarFacturasImportacion = eDao.listarEntradasImportacion();
+		listarNoFactImportacion.clear();
+		for (Entradas entradasImportacion : listarFacturasImportacion) {
+			listarNoFactImportacion.add(entradasImportacion.getFactura());
+		}
+
+		return listarNoFactImportacion;
+	}
+
+	public void datosEntradas(String factura) {
+		IEntradasDao eDao = new EntradasDaoImpl();
+
+		Entradas entradas = new Entradas();
+
+		entradas = eDao.buscarEntradaPorFactura(factura);
+
+		entradasImportacion.setFechaEntrada(entradas.getFechaRecepcionToluca());
+		entradasImportacion.setTicketEmbarque(entradas.getTicketBasculaToluca());
+		proveedor = entradas.getProveedores().getNombre();
+		identificacionMateria = entradas.getMateria().getTipo();
+		entradasImportacion.setKgEmbarcado(entradas.getKgEmbarcados());
+		//entradasImportacion.setKgToluca(entradas.getK);
+		entradasImportacion.setKgNeto(entradas.getKgNetos());
+		entradasImportacion.setKgMerma(entradas.getMerma());
+		//entradasImportacion.setKgPatio(entradas.getKg);
+		entradasImportacion.setCertificadoZoosanitario(entradas.getCertificado());
+
+		
+		System.out.println(factura);
 	}
 
 	public int buscarFolio() {
@@ -149,18 +229,18 @@ public class EntradasImportacionBean implements Serializable {
 		proveedores.setIdProveedor(buscarProveedor(filterProveedor));
 		materia.setIdMateria(buscarMateria(filterMateria));
 		cuentasContables.setIdCuentaContable(buscarCuenta(filterCuenta));
-		
+
 		proveedoresImportacion.setIdProveedor(1);
 		entradasImportacion.setMateria(materia);
 		entradasImportacion.setProveedoresImportacion(proveedoresImportacion);
 		entradasImportacion.setCuentasContables(cuentasContables);
-		
+
 		IFoliosImportacion fDao = new FoliosImportacionDaoImpl();
 		Month mes = LocalDate.now().getMonth();
 		int year = LocalDate.now().getYear();
 		String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
 		fDao.actualizarFolio(year, nombre.toUpperCase(), entradasImportacion.getTolva());
-		
+
 		eDao.guardarEntradasImportacion(entradasImportacion);
 		entradasImportacion = new EntradasImportacion();
 	}
@@ -188,16 +268,17 @@ public class EntradasImportacionBean implements Serializable {
 		IMateriaDao mDao = new MateriaDaoImpl();
 		return mDao.buscarMateria(nombre);
 	}
-	
+
 	// **DATOS DE LA CUENTA CONTABLE, CUENTA**//
-	public List<String> buscarNombreCuenta(String cuenta) throws SQLException{
+	public List<String> buscarNombreCuenta(String cuenta) throws SQLException {
 		ICuentasContablesDao cDao = new CuentasContablesDaoImpl();
 		return cDao.completeCuentasContablesImp(cuenta);
 	}
-	
+
 	// **DATOS DE LA CUENTA CONTABLE, ID**//
 	public int buscarCuenta(String cuenta) throws SQLException {
 		ICuentasContablesDao cDao = new CuentasContablesDaoImpl();
 		return cDao.buscarCuentaContable(cuenta);
 	}
+
 }

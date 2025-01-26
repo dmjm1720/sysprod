@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
@@ -26,11 +27,14 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	private static final Logger LOGGER = LogManager.getLogger(EntradasDaoImpl.class.getName());
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public List<Entradas> listarEntradas() {
-		List<Entradas> entradas = (List<Entradas>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("From Entradas ORDER BY idEntrada DESC").list();
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Query<Entradas> query = session.createQuery("FROM Entradas ORDER BY idEntrada DESC", Entradas.class);
+		List<Entradas> entradas = query.list();
+		session.close();
 		return entradas;
 	}
 
@@ -197,6 +201,45 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 			LOGGER.error("ERROR AL OBTERNER EL CERTIFICADO: " + ex);
 		}
 		return certificado;
+	}
+
+	@Override
+	public List<Entradas> listarEntradasImportacion() {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Query<Entradas> query = session.createQuery("FROM Entradas WHERE tipoMoneda='USD'", Entradas.class);
+		List<Entradas> entradas = query.list();
+		session.close();
+		return entradas;
+	}
+
+	@Override
+	public Entradas buscarEntradaPorFactura(String factura) {
+		Entradas entrada = new Entradas();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM Entradas WHERE factura = :factura";
+			Query<Entradas> query = session.createQuery(hql, Entradas.class);
+
+			// Establecer el parámetro
+
+			query.setParameter("factura", factura);
+			entrada = query.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+
+		return entrada;
 	}
 
 }

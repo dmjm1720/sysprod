@@ -23,4 +23,8 @@ public interface IEntradasDao {
     void actualizarNombreArchivoCert(int id, String nombre);
     
     String nombreArchivoCert(int id);
+    
+    List<Entradas> listarEntradasImportacion();
+    
+    Entradas buscarEntradaPorFactura(String factura);
 }

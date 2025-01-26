@@ -21,7 +21,7 @@ public class EntradasImportacion implements java.io.Serializable {
 	private BigDecimal kgPatio;
 	private Integer folioEa;
 	private Integer porcentajeSalado;
-	private Integer certificadoZoosanitario;
+	private String certificadoZoosanitario;
 	private Integer porcentaje;
 	
 	
@@ -36,7 +36,7 @@ public class EntradasImportacion implements java.io.Serializable {
 	public EntradasImportacion(int idEntradaImportacion, CuentasContables cuentasContables, Materia materia,
 			ProveedoresImportacion proveedoresImportacion, int tolva, Date fechaEntrada, String ticketEmbarque,
 			String factura, BigDecimal kgEmbarcado, BigDecimal kgToluca, BigDecimal kgNeto, BigDecimal kgMerma,
-			BigDecimal kgPatio, Integer folioEa, Integer porcentajeSalado, Integer certificadoZoosanitario,
+			BigDecimal kgPatio, Integer folioEa, Integer porcentajeSalado, String certificadoZoosanitario,
 			Integer porcentaje) {
 		this.idEntradaImportacion = idEntradaImportacion;
 		this.cuentasContables = cuentasContables;
@@ -177,11 +177,11 @@ public class EntradasImportacion implements java.io.Serializable {
 		this.porcentajeSalado = porcentajeSalado;
 	}
 
-	public Integer getCertificadoZoosanitario() {
+	public String getCertificadoZoosanitario() {
 		return this.certificadoZoosanitario;
 	}
 
-	public void setCertificadoZoosanitario(Integer certificadoZoosanitario) {
+	public void setCertificadoZoosanitario(String certificadoZoosanitario) {
 		this.certificadoZoosanitario = certificadoZoosanitario;
 	}
 

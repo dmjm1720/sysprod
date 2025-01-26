@@ -16,12 +16,6 @@
 			<!--Formulario principal-->
 
 			<h:form id="frmPrincipal">
-				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
-                                            <h:panelGrid styleClass="custom-painelgrid-center">
-                                                <h:outputText value="Buscando..." />
-                                                <p:graphicImage value="../resources/img/cargando.gif" />
-                                            </h:panelGrid>
-                                        </p:blockUI>-->
 
 				<p:growl id="msgs" showDetail="true"
 					skipDetailIfEqualsSummary="true" />
@@ -44,6 +38,19 @@
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
 							<h:panelGrid columns="6" cellpadding="4" styleClass="fuente">
 
+								<p:outputLabel for="fact" value="FACTURA"
+									styleClass="mensajeBoton2" />
+								<p:selectOneMenu id="fact" styleClass="amarillo"
+									style="color: #B22222;font-weight: bold !important;font-size: .9rem; width:14rem"
+									value="#{entImportBean.factura}">
+									<f:selectItem itemLabel="SELECCIONA FACTURA" itemValue="">
+
+									</f:selectItem>
+									<f:selectItems value="#{entImportBean.listarNoFactImportacion}" />
+									<p:ajax event="change" update="frmPrincipal:acco"
+										listener="#{entImportBean.datosEntradas(entImportBean.factura)}" />
+								</p:selectOneMenu>
+
 								<p:outputLabel for="tolva" value="# Tolva" />
 								<p:inputText id="tolva" disabled="true" styleClass="tolvas"
 									value="#{entImportBean.entradasImportacion.tolva}"
@@ -62,26 +69,17 @@
 									value="#{entImportBean.entradasImportacion.ticketEmbarque}"
 									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="factura" value="Factura" />
-								<p:inputText id="factura" styleClass="otrosCampos"
-									value="#{entImportBean.entradasImportacion.factura}"
-									required="false" requiredMessage="Campo requerido" />
-
 								<p:outputLabel for="pro" value="Proveedor" />
-								<p:autoComplete id="pro" size="35" required="false"
-									requiredMessage="Proveedor requerido" autocomplete="off"
-									placeholder="Ingresa proveedor" dropdown="true"
-									value="#{entImportBean.filterProveedor}"
-									completeMethod="#{entImportBean.buscarNombreProveedor}" />
+								<p:inputText id="pro" styleClass="otrosCampos"
+									value="#{entImportBean.proveedor}" required="false"
+									requiredMessage="Campo requerido" />
 
 
-								<p:outputLabel for="imp" value="Indentificación de material" />
-								<p:autoComplete id="imp" size="35" required="false"
-									autocomplete="off"
-									requiredMessage="Identificación de material requerido"
-									placeholder="Ingresa identificación de material"
-									dropdown="true" value="#{entImportBean.filterMateria}"
-									completeMethod="#{entImportBean.buscarNombreMateria}" />
+								<p:outputLabel for="mat" value="Identificación de la materia" />
+								<p:inputText id="mat" styleClass="otrosCampos"
+									value="#{entImportBean.identificacionMateria}" required="false"
+									requiredMessage="Campo requerido" />
+
 
 								<p:outputLabel for="kgE" value="Kg. Embarcado" />
 								<p:inputText id="kgE" styleClass="otrosCampos"
@@ -156,9 +154,9 @@
 							<p:dataTable id="tblEntImp" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="50,100,200,500" rows="50"
-								paginator="true" liveScroll="true" rowHover="true"
-								paginatorAlwaysVisible="true" scrollable="true"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
 								currentPageReportTemplate="Total: #{entImportBean.listaEntradasImp.size()}"
 								value="#{entImportBean.listaEntradasImp}"
 								emptyMessage="NO HAY REGISTROS">
