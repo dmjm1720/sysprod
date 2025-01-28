@@ -1092,13 +1092,35 @@ public class EntradasBean extends Conexion implements Serializable {
 		LOGGER.info(
 				"->PRECIO: " + kg_porcentaje + " ->SUBTOTAL:" + sumaSubtotal + " ->IVA:" + iva + " ->TOTAL:" + tCatura);
 
-		eDao.actualizarEntradas(entradasEditar);
-		Correo c = new Correo();
+		if (us.getPerfiles().getIdPerfil() == 4) {
+			if (entradasEditar.getFechaLiberacion() == null || entradasEditar.getFechaLiberacion().equals("")) {
+				String info = "Te hace falta la fecha de liberación";
 
-		if (banderaControlCalidad == 1) {
-			c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getProveedores().getNombre(),
-					entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(), banderaGerencia,
-					banderaControlCalidad);
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Advertencia!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: true,\n" + "  timer: 8000\n" + "})");
+				LOGGER.error("No hay fecha de liberación");
+			} else {
+				eDao.actualizarEntradas(entradasEditar);
+				Correo c = new Correo();
+
+				if (banderaControlCalidad == 1) {
+					c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getProveedores().getNombre(),
+							entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(), banderaGerencia,
+							banderaControlCalidad);
+				}
+			}
+		} else {
+			eDao.actualizarEntradas(entradasEditar);
+			Correo c = new Correo();
+
+			if (banderaControlCalidad == 1) {
+				c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getProveedores().getNombre(),
+						entradasEditar.getFactura(), entradasEditar.getMateria().getTipo(), banderaGerencia,
+						banderaControlCalidad);
+			}
+
 		}
 
 	}
@@ -1184,6 +1206,7 @@ public class EntradasBean extends Conexion implements Serializable {
 	}
 
 	public void aguaMerma() {
+
 		double resta = 0.0;
 		resta = kilosBascula - kilosBasculaMerma;
 		kilosRecibidos = resta;
@@ -1192,9 +1215,26 @@ public class EntradasBean extends Conexion implements Serializable {
 	// #################################//
 	// **KG EMBARCADOS - KG RECIBIDOS | KG NETOS - KG RECIBIDOS**//
 	public void totalKilos() {
-		// String valorProveedor = obtenerValorComponente("frmPrincipal:acco:pro");
-		// System.out.println("Valor del componente: " + valorProveedor);
+
+		String valorProveedor = obtenerValorComponente("frmPrincipal:acco:pro");
+		String tipoDeMoneda = "";
+		IProveedoresDao pDao = new ProveedoresDaoImpl();
+		try {
+			tipoDeMoneda = pDao.buscarTipoMonedaProveedor(valorProveedor);
+			System.out.println(tipoDeMoneda);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (tipoDeMoneda.equals("USD")) {
+			kilosBasculaMerma = kilosEmbarcados - kilosNetos;
+		}
+		
+		
 		double resta = 0.0;
+
 		if (kilosEmbarcados > 0.0) {
 			resta = (kilosEmbarcados - kilosRecibidos);
 		}
@@ -1207,7 +1247,7 @@ public class EntradasBean extends Conexion implements Serializable {
 
 	// **KG EMBARCADOS - KG RECIBIDOS | KG NETOS - KG RECIBIDOS**//
 	public void porcentajeTotal() {
-
+		
 		if (kilosEmbarcados > 0.0) {
 			porcentajeCalculo = (entradas.getMerma().doubleValue() * 100) / kilosEmbarcados;
 			// porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) /

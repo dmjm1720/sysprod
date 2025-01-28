@@ -94,9 +94,7 @@ public class FiltroUrl implements PhaseListener {
 	 */
 	private void redirectToPage(FacesContext facesContext, String page) {
 		// Verificar autenticación
-		//HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-		//Object nombre = session.getAttribute("nombre");
-
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		NavigationHandler navHandler = facesContext.getApplication().getNavigationHandler();
 		navHandler.handleNavigation(facesContext, null, page + "?faces-redirect=true");
 		facesContext.renderResponse();

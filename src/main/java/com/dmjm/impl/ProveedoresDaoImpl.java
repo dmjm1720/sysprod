@@ -176,4 +176,6 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
 		return tipo_modeda;
 	}
 
+
+
 }
