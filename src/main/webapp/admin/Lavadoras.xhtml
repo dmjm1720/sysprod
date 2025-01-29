@@ -16,12 +16,6 @@
 			<!--Formulario principal-->
 
 			<h:form id="frmPrincipal">
-				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
-                                            <h:panelGrid styleClass="custom-painelgrid-center">
-                                                <h:outputText value="Buscando..." />
-                                                <p:graphicImage value="../resources/img/cargando.gif" />
-                                            </h:panelGrid>
-                                        </p:blockUI>-->
 
 				<p:growl id="msgs" showDetail="true"
 					skipDetailIfEqualsSummary="true" />
@@ -54,18 +48,6 @@
 									value="#{lavadorasBean.lavadoras.descripcion}" required="false"
 									requiredMessage="Campo requerido" style="width: 20rem" />
 								<p:message for="desc" />
-
-								<p:outputLabel for="estado" value="Estado" />
-								<p:inputText id="estado"
-									value="#{lavadorasBean.lavadoras.estado}" required="false"
-									requiredMessage="Campo requerido" style="width: 20rem" />
-								<p:message for="estado" />
-
-								<p:outputLabel for="etapa" value="Etapa" />
-								<p:inputText id="etapa" value="#{lavadorasBean.lavadoras.etapa}"
-									required="false" requiredMessage="Campo requerido"
-									style="width: 20rem" />
-								<p:message for="etapa" />
 
 								<p:outputLabel for="capacidad" value="Capacidad en kilos" />
 								<p:inputText id="capacidad"
@@ -116,9 +98,9 @@
 								<p:column headerText="Descripción" width="10rem">
 									<h:outputText value="#{item.descripcion}" />
 								</p:column>
-								<p:column headerText="Estado" width="10rem">
+								<p:column headerText="Estatus" width="10rem">
 									<h:outputText
-										value="#{item.estado eq 0 ? 'Disponible' : (item.estado eq 1 ? 'Ocupada' : (item.estado eq 2 ? 'Mantenimiento' : (item.estado eq 3 ? 'Sin uso' : 'Desconocido')))}" />
+										value="#{item.estado eq 0 ? 'Vacía' : (item.estado eq 1 ? 'En proceso' : (item.estado eq 2 ? 'Mantenimiento' : (item.estado eq 3 ? 'Sin uso' : 'Desconocido')))}" />
 								</p:column>
 								<p:column headerText="Etapa" width="10rem">
 									<h:outputText value="#{item.etapa}" />
@@ -160,7 +142,7 @@
 						<p:message for="desc" />
 
 
-						<p:outputLabel for="estado" value="Estado" />
+						<p:outputLabel for="estado" value="Estatus" />
 						<p:inputText id="estado" value="#{lavadorasBean.lavadoras.estado}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />

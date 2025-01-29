@@ -42,6 +42,8 @@ public class LavadorasBean implements Serializable {
 
 	public void guardar() {
 		ILavadorasDao lDao = new LavadorasDaoImpl();
+		lavadoras.setEstado(0);
+		lavadoras.setEtapa("Sin etapa");
 		lDao.guardarLavadoras(lavadoras);
 		lavadoras = new Lavadoras();
 	}
