@@ -82,7 +82,7 @@ public class TransportistaDaoImpl extends Conexion implements ITransportistaDao 
 		ConectarSysProd();
 
 		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM TRANSPORTISTA WHERE NOMBRE LIKE '" + nombre + "%'");
+				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM TRANSPORTISTA WHERE NOMBRE LIKE '" + nombre + "%' AND ESTADO=1");
 		ResultSet rs = st.executeQuery();
 		listarTodo = new ArrayList<>();
 		if (!rs.isBeforeFirst()) {

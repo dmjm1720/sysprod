@@ -1,15 +1,9 @@
 package com.dmjm.impl;
 
-import com.dmjm.bean.EntradasBean;
-import com.dmjm.dao.IPreciosDao;
-import com.dmjm.model.Precios;
-import com.dmjm.util.Conexion;
-import com.dmjm.util.HibernateUtil;
-import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,12 +11,29 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.dmjm.dao.IPreciosDao;
+import com.dmjm.model.Precios;
+import com.dmjm.util.Conexion;
+import com.dmjm.util.HibernateUtil;
+
 public class PreciosDaoImpl extends Conexion implements IPreciosDao {
 	private static final Logger LOGGER = LogManager.getLogger(PreciosDaoImpl.class.getName());
     @Override
-    public List<Precios> listarPrecios() {
-        @SuppressWarnings("JPQLValidation")
-        List<Precios> precios = (List<Precios>) HibernateUtil.getSessionFactory().openSession().createQuery("From Precios ORDER BY idPrecios DESC").list();
+    public List<Precios> listarPrecios() {        
+        Transaction transaction = null;
+        List<Precios> precios = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            precios = session.createQuery("FROM Precios ORDER BY idPrecios DESC", Precios.class).list();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
         return precios;
     }
 

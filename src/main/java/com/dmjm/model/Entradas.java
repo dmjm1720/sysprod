@@ -94,7 +94,7 @@ public class Entradas implements java.io.Serializable {
 	private BigDecimal kgCalidadMateria;
 	private String archivoCertificado;
 	private String tipoMoneda;
-
+	private Integer estatusFacturaImportacion;
 
 	public Entradas() {
 	}
@@ -129,7 +129,8 @@ public class Entradas implements java.io.Serializable {
 			BigDecimal precioCalcCs, BigDecimal precioCalcDr, BigDecimal precioCalcCm, BigDecimal precioCalcCo,
 			BigDecimal precioCalcPc, BigDecimal precioCalcP, BigDecimal precioCalcDa, BigDecimal precioCalcDs,
 			BigDecimal precioCalcCdi, BigDecimal precioCalcG, BigDecimal precioCalcCe, BigDecimal subtotal,
-			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria,  String archivoCertificado, String tipoMoneda) {
+			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria, String archivoCertificado,
+			String tipoMoneda, Integer estatusFacturaImportacion) {
 
 		this.idEntrada = idEntrada;
 		this.materia = materia;
@@ -219,6 +220,7 @@ public class Entradas implements java.io.Serializable {
 		this.kgCalidadMateria = kgCalidadMateria;
 		this.archivoCertificado = archivoCertificado;
 		this.tipoMoneda = tipoMoneda;
+		this.estatusFacturaImportacion = estatusFacturaImportacion;
 	}
 
 	public int getIdEntrada() {
@@ -924,7 +926,13 @@ public class Entradas implements java.io.Serializable {
 	public void setArchivoCertificado(String archivoCertificado) {
 		this.archivoCertificado = archivoCertificado;
 	}
-	
-	
+
+	public Integer getEstatusFacturaImportacion() {
+		return estatusFacturaImportacion;
+	}
+
+	public void setEstatusFacturaImportacion(Integer estatusFacturaImportacion) {
+		this.estatusFacturaImportacion = estatusFacturaImportacion;
+	}
 
 }

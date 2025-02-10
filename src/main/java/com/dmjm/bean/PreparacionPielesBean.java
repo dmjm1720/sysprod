@@ -257,7 +257,7 @@ public class PreparacionPielesBean implements Serializable {
 	}
 
 	// **GUARDAR LA PREPARACIÓN**//
-	public void guardarPreparacion() throws SQLException {
+	public void guardarPreparacion() throws SQLException, ParseException {
 		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
 		prePieles.setIdPreparacion(buscarFolio());
 		prePieles.setEstado("Carga");
@@ -273,9 +273,9 @@ public class PreparacionPielesBean implements Serializable {
 		pieles.setIdPreparacion(idPre);
 		operacionLavadoras.setPreparacionPieles(pieles);
 
-		String[] listaEtapas = { "Carga", "Lavado Enzimático", "Lavada de Carga", "Blanqueo", "Lavadas de Blanqueo", "Pre Acidulación",
-				"Acidulación", "Control 1", "Control 2", "Control 3", "Control 4", "Control 5", "Control 6",
-				"Control 7", "Control 8" };
+		String[] listaEtapas = { "Carga", "Lavado Enzimático", "Lavada de Carga", "Blanqueo", "Lavadas de Blanqueo",
+				"Pre Acidulación", "Acidulación", "Control 1", "Control 2", "Control 3", "Control 4", "Control 5",
+				"Control 6", "Control 7", "Control 8" };
 		List<Etapa1> listaAgregarEtapas = new ArrayList<>();
 
 		Calendar calendar = Calendar.getInstance();
@@ -287,11 +287,20 @@ public class PreparacionPielesBean implements Serializable {
 		int minuto = calendar.get(Calendar.MINUTE); // Minuto
 		int segundo = calendar.get(Calendar.SECOND); // Segundo
 
-		calendar.set(Calendar.HOUR_OF_DAY, hora);
+		calendar.set(Calendar.HOUR, hora);
 		calendar.set(Calendar.MINUTE, minuto);
 		calendar.set(Calendar.SECOND, segundo);
 
-		Date horaIni = calendar.getTime();
+	     // Obtener la hora actual
+//        LocalTime ahora = LocalTime.now();
+//        DateTimeFormatter formato = DateTimeFormatter.ofPattern("hh:mm:ss a");
+//        String horaFormateada = ahora.format(formato);
+//        
+//        // Define el formato de la hora
+//        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+//        Date horaIni = sdf.parse(horaFormateada);
+		 Date horaIni = calendar.getTime();
+
 		for (String lEtapas : listaEtapas) {
 			Etapa1 e = new Etapa1();
 			e.setPreparacionPieles(pieles);
@@ -302,6 +311,7 @@ public class PreparacionPielesBean implements Serializable {
 				e.setOperador(us.getNombre());
 				e.setEstado(true);
 			}
+			e.setLavadora(filterLavadora);
 			e.setEtapa(lEtapas);
 			listaAgregarEtapas.add(e);
 		}
@@ -554,7 +564,7 @@ public class PreparacionPielesBean implements Serializable {
 				}
 			}
 		}
-		
+
 		if (etapa1.getEtapa().equals("Lavado Enzimático")) {
 			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
 
@@ -890,8 +900,14 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
+
+		
 		eDao.actualizarEtapa1(etapa1);
 		etapa1 = new Etapa1();
+		
+		IEtapa1Dao eTDao = new EtapaDaoImpl();
+		listaEtapa1 = eTDao.listaEtapa1(idPrep);
+		getListaEtapa1();
 	}
 
 	public Etapa1 estadoEtapa(Etapa1 e) {
@@ -970,7 +986,7 @@ public class PreparacionPielesBean implements Serializable {
 	}
 
 	// **VALIDACIONES DE LA FACTURA**//
-	public void validacionFactura(String fact, int operacion, String lavadora) {
+	public void validacionFactura(String fact) {
 		ISaldoFacturaDao sDao = new SaldoFacturaDaoImpl();
 		double validarSaldo = 0.0;
 
@@ -995,8 +1011,11 @@ public class PreparacionPielesBean implements Serializable {
 			tipoM = e.getMateria().getTipo();
 
 			// **VALIDAR EL TIPO DE MATERIAL**//
-
-			validarMaterial(tipoM, validarSaldo);
+			ISaldoFacturaDao vDao = new SaldoFacturaDaoImpl();
+			double saldoFactura = 0.0;
+			saldoFactura = vDao.saldo(fact);// hace un top a la selección
+			validarMaterial(tipoM, saldoFactura);
+			
 			LOGGER.info("SE HA IDENTIFICADO LA MATERIA: " + tipoM);
 
 			LOGGER.info(
@@ -1006,7 +1025,11 @@ public class PreparacionPielesBean implements Serializable {
 			LOGGER.info("Mostramos el saldo de kilos: " + validarSaldo);
 			LOGGER.info("SE HA IDENTIFICADO LA MATERIA: " + tipoM);
 			facturasPieles = new FacturasPieles();
-			validarMaterial(tipoM, validarSaldo);
+			
+			ISaldoFacturaDao vDao = new SaldoFacturaDaoImpl();
+			double saldoFactura = 0.0;
+			saldoFactura = vDao.saldo(fact);// hace un top a la selección
+			validarMaterial(tipoM, saldoFactura);
 
 		}
 	}
@@ -1019,7 +1042,7 @@ public class PreparacionPielesBean implements Serializable {
 			LOGGER.info("Procesar material tipo CZ");
 			// Acciones para CZ
 			facturasPieles.setCz(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar=facturasPieles.getCz().doubleValue();
+			saldoDisponibleParaAgregar = facturasPieles.getCz().doubleValue();
 		}
 
 		// OC
@@ -1027,7 +1050,7 @@ public class PreparacionPielesBean implements Serializable {
 			LOGGER.info("Procesar material tipo OC");
 			// Acciones para DC
 			facturasPieles.setDc(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar=facturasPieles.getDc().doubleValue();
+			saldoDisponibleParaAgregar = facturasPieles.getDc().doubleValue();
 		}
 
 		// DS
@@ -1035,7 +1058,7 @@ public class PreparacionPielesBean implements Serializable {
 			LOGGER.info("Procesar material tipo DS");
 			// Acciones para DS
 			facturasPieles.setDs(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar=facturasPieles.getDs().doubleValue();
+			saldoDisponibleParaAgregar = facturasPieles.getDs().doubleValue();
 		}
 
 		// CN
@@ -1043,7 +1066,7 @@ public class PreparacionPielesBean implements Serializable {
 			LOGGER.info("Procesar material tipo CN");
 			// Acciones para CN
 			facturasPieles.setCn(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar=facturasPieles.getCn().doubleValue();
+			saldoDisponibleParaAgregar = facturasPieles.getCn().doubleValue();
 		}
 
 		// RP
@@ -1051,7 +1074,7 @@ public class PreparacionPielesBean implements Serializable {
 			LOGGER.info("Procesar material RP");
 			// Acciones para RP
 			facturasPieles.setRp(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar=facturasPieles.getRp().doubleValue();
+			saldoDisponibleParaAgregar = facturasPieles.getRp().doubleValue();
 		}
 
 		default -> System.out.println("Tipo de material desconocido.");
@@ -1137,5 +1160,8 @@ public class PreparacionPielesBean implements Serializable {
 		return cantidad;
 
 	}
+	
+	
+
 
 }

@@ -14,7 +14,7 @@
         <many-to-one name="materia" class="com.dmjm.model.Materia" fetch="select">
             <column name="ID_MATERIA" />
         </many-to-one>
-        <many-to-one name="proveedoresImportacion" class="com.dmjm.model.ProveedoresImportacion" fetch="select">
+        <many-to-one name="proveedores" class="com.dmjm.model.Proveedores" fetch="select">
             <column name="ID_PROVEEDOR" />
         </many-to-one>
         <property name="tolva" type="int">

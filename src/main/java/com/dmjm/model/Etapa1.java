@@ -23,6 +23,7 @@ public class Etapa1 implements java.io.Serializable {
 	private Boolean estado;
 	private Integer alcalinidad;
 	private Integer conductividad;
+	private String lavadora;
 
 	public Etapa1() {
 	}
@@ -33,7 +34,7 @@ public class Etapa1 implements java.io.Serializable {
 
 	public Etapa1(int idEtapa, PreparacionPieles preparacionPieles, String etapa, Date diaInicio, Date horaInicio,
 			Date diaFin, Date horaFin, BigDecimal phSol, BigDecimal normalidad, String tipo, String cantidad,
-			String lote, String operador, String agua, Boolean estado, Integer alcalinidad, Integer conductividad) {
+			String lote, String operador, String agua, Boolean estado, Integer alcalinidad, Integer conductividad, String lavadora) {
 		this.idEtapa = idEtapa;
 		this.preparacionPieles = preparacionPieles;
 		this.etapa = etapa;
@@ -51,6 +52,7 @@ public class Etapa1 implements java.io.Serializable {
 		this.estado = estado;
 		this.alcalinidad =alcalinidad;
 		this.conductividad = conductividad;
+		this.lavadora = lavadora;
 	}
 
 	public int getIdEtapa() {
@@ -188,6 +190,15 @@ public class Etapa1 implements java.io.Serializable {
 	public void setConductividad(Integer conductividad) {
 		this.conductividad = conductividad;
 	}
+
+	public String getLavadora() {
+		return lavadora;
+	}
+
+	public void setLavadora(String lavadora) {
+		this.lavadora = lavadora;
+	}
+	
 	
 	
 

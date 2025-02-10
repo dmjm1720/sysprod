@@ -10,8 +10,13 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.ICuentasContablesDao;
 import com.dmjm.dao.IEntradasDao;
@@ -31,6 +36,7 @@ import com.dmjm.model.EntradasImportacion;
 import com.dmjm.model.Materia;
 import com.dmjm.model.Proveedores;
 import com.dmjm.model.ProveedoresImportacion;
+import com.dmjm.util.ReporteImportacion;
 
 @Named(value = "entImportBean")
 @ViewScoped
@@ -63,7 +69,7 @@ public class EntradasImportacionBean implements Serializable {
 		proveedores = new Proveedores();
 		materia = new Materia();
 		cuentasContables = new CuentasContables();
-		entradasImportacion.setTolva(buscarFolio());
+		// entradasImportacion.setTolva(buscarFolio());
 		listarFacturasImportacion = new ArrayList<Entradas>();
 		listarNoFactImportacion = new ArrayList<String>();
 		entradas = new Entradas();
@@ -201,14 +207,14 @@ public class EntradasImportacionBean implements Serializable {
 		proveedor = entradas.getProveedores().getNombre();
 		identificacionMateria = entradas.getMateria().getTipo();
 		entradasImportacion.setKgEmbarcado(entradas.getKgEmbarcados());
-		//entradasImportacion.setKgToluca(entradas.getK);
+		entradasImportacion.setTolva(entradas.getTolvas());
+		entradasImportacion.setKgToluca(entradas.getKgBascula());
 		entradasImportacion.setKgNeto(entradas.getKgNetos());
 		entradasImportacion.setKgMerma(entradas.getMerma());
-		//entradasImportacion.setKgPatio(entradas.getKg);
+		entradasImportacion.setKgPatio(entradas.getKgRecibidos());
 		entradasImportacion.setCertificadoZoosanitario(entradas.getCertificado());
 
-		
-		System.out.println(factura);
+
 	}
 
 	public int buscarFolio() {
@@ -226,23 +232,35 @@ public class EntradasImportacionBean implements Serializable {
 	public void guardar() throws SQLException {
 		IEntradasImportacionDao eDao = new EntradasImportacionDaoImpl();
 
-		proveedores.setIdProveedor(buscarProveedor(filterProveedor));
-		materia.setIdMateria(buscarMateria(filterMateria));
+		proveedores.setIdProveedor(buscarProveedor(proveedor));
+		materia.setIdMateria(buscarMateria(identificacionMateria));
 		cuentasContables.setIdCuentaContable(buscarCuenta(filterCuenta));
 
-		proveedoresImportacion.setIdProveedor(1);
 		entradasImportacion.setMateria(materia);
-		entradasImportacion.setProveedoresImportacion(proveedoresImportacion);
+		entradasImportacion.setProveedores(proveedores);
 		entradasImportacion.setCuentasContables(cuentasContables);
 
-		IFoliosImportacion fDao = new FoliosImportacionDaoImpl();
-		Month mes = LocalDate.now().getMonth();
-		int year = LocalDate.now().getYear();
-		String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
-		fDao.actualizarFolio(year, nombre.toUpperCase(), entradasImportacion.getTolva());
+		entradasImportacion.setFactura(factura);
+
+//		IFoliosImportacion fDao = new FoliosImportacionDaoImpl();
+//		Month mes = LocalDate.now().getMonth();
+//		int year = LocalDate.now().getYear();
+//		String nombre = mes.getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
+//		fDao.actualizarFolio(year, nombre.toUpperCase(), entradasImportacion.getTolva());
+		
+		//**ACTUALIZAR FACTURA DE IMPORTACIÓN**//
+		IEntradasDao fac = new EntradasDaoImpl();
+		fac.actualizarFacturaImportacion(factura);
 
 		eDao.guardarEntradasImportacion(entradasImportacion);
 		entradasImportacion = new EntradasImportacion();
+		
+		String info = "Se ha registrado correctamente la factura de importación no.: "+ factura;
+
+		PrimeFaces.current()
+				.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+						+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+						+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
 	}
 
 	// **DATOS DEL PROVEEDOR, NOMBRE**//
@@ -281,4 +299,26 @@ public class EntradasImportacionBean implements Serializable {
 		return cDao.buscarCuentaContable(cuenta);
 	}
 
+	public void visualizarReporte(String idEntrada) throws SQLException {
+
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ReporteImportacion reporte = new ReporteImportacion();
+		ruta = servletContext.getRealPath("/REP/reporteImportacion.jasper");
+		reporte.getReporte(ruta, idEntrada, "3");
+
+		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
+
+	
+	
+	
 }

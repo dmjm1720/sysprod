@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 9/02/2025 10:01:08 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.BitacoraPrecios" table="BITACORA_PRECIOS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idPrecioBitacora" type="int">
+            <column name="ID_PRECIO_BITACORA" />
+            <generator class="native" />
+        </id>
+        <property name="idMateria" type="java.lang.Integer">
+            <column name="ID_MATERIA" />
+        </property>
+        <property name="idProveedor" type="java.lang.Integer">
+            <column name="ID_PROVEEDOR" />
+        </property>
+        <property name="precioActual" type="big_decimal">
+            <column name="PRECIO_ACTUAL" precision="10" scale="4" />
+        </property>
+        <property name="fechaActualizacion" type="timestamp">
+            <column name="FECHA_ACTUALIZACION" length="23" />
+        </property>
+        <property name="actualizadoPor" type="java.lang.Integer">
+            <column name="ACTUALIZADO_POR" />
+        </property>
+    </class>
+</hibernate-mapping>

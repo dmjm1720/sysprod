@@ -277,6 +277,9 @@
 		<property name="tipoMoneda" type="string">
 			<column name="TIPO_MONEDA" length="5" />
 		</property>
+		<property name="estatusFacturaImportacion" type="java.lang.Integer">
+			<column name="ESTATUS_FACTURA_IMPORTACION" />
+		</property>
 
 	</class>
 </hibernate-mapping>

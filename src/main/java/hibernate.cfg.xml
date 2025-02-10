@@ -5,12 +5,12 @@
 
 		<property name="hibernate.connection.datasource">java:/MSSQLDS</property>
 
-		        <!-- Configuración del pool de conexiones (HikariCP) -->
-        <property name="hibernate.hikari.minimumPoolSize">5</property>
-        <property name="hibernate.hikari.maximumPoolSize">50</property>
-        <property name="hibernate.hikari.idleTimeout">60000</property>
-        <property name="hibernate.hikari.connectionTimeout">20000</property>
-        <property name="hibernate.hikari.maxLifetime">1800000</property>
+		<!-- Configuración del pool de conexiones (HikariCP) -->
+		<property name="hibernate.hikari.minimumPoolSize">5</property>
+		<property name="hibernate.hikari.maximumPoolSize">50</property>
+		<property name="hibernate.hikari.idleTimeout">60000</property>
+		<property name="hibernate.hikari.connectionTimeout">20000</property>
+		<property name="hibernate.hikari.maxLifetime">1800000</property>
 
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
@@ -48,5 +48,6 @@
 			resource="com/dmjm/model/ProveedoresImportacion.hbm.xml" />
 		<mapping resource="com/dmjm/model/Activacion.hbm.xml" />
 		<mapping resource="com/dmjm/model/Quimicos.hbm.xml" />
+		<mapping resource="com/dmjm/model/BitacoraPrecios.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

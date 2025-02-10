@@ -58,5 +58,8 @@
 		<property name="conductividad" type="java.lang.Integer">
 			<column name="CONDUCTIVIDAD" />
 		</property>
+		<property name="lavadora" type="string">
+			<column name="LAVADORA" length="50" />
+		</property>
 	</class>
 </hibernate-mapping>

@@ -86,7 +86,7 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
 		ConectarSysProd();
 
 		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM PROVEEDORES WHERE NOMBRE LIKE '" + nombre + "%'");
+				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM PROVEEDORES WHERE NOMBRE LIKE '" + nombre + "%' AND ESTADO=1");
 		ResultSet rs = st.executeQuery();
 		listarTodo = new ArrayList<>();
 		if (!rs.isBeforeFirst()) {

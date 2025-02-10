@@ -610,9 +610,9 @@ public class EntradasBean extends Conexion implements Serializable {
 //				fac = "Factura, ";
 //			}
 
-			if (entradas.getCertificado() == "") {
-				cer = "Certificado, ";
-			}
+//			if (entradas.getCertificado() == "") {
+//				cer = "Certificado, ";
+//			}
 			if (materia.getIdMateria() == 0) {
 				mat = "Identificación de la materia, ";
 			}
@@ -630,7 +630,7 @@ public class EntradasBean extends Conexion implements Serializable {
 //				ticket = "Ticket Toluca, ";
 //			}
 
-			String mensaje = "Te faltan campos: " + suc + ticket + cer + pro + mat + pre;
+			String mensaje = "Te faltan campos: " + suc + ticket + pro + mat + pre;
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + mensaje + "',\n" + "  showConfirmButton: true,\n"
@@ -1003,21 +1003,53 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		double kg_porcentaje = 0.0;
 
+		LOGGER.info("Tipo de moneda: " + entradasEditar.getTipoMoneda());
+
+		double porcentajeDeMerma = 0.0;
+		porcentajeDeMerma = Double.valueOf(entradasEditar.getPorcentajeMerma().toString());
+		LOGGER.warn("**********************************************************************");
+		LOGGER.info("El porcentaje la merma es de: " + porcentajeDeMerma);
+		LOGGER.warn("**********************************************************************");
+
+		if (porcentajeDeMerma > 1.5) {
+			LOGGER.warn("**********************************************************************");
+			LOGGER.info("El porcentaje la merma es mayor, se aplica descuento de 1.5");
+			porcentajeDeMerma = porcentajeDeMerma - 1.5;
+			LOGGER.info("El porcentaje con el descuento de 1.5: " + porcentajeDeMerma);
+			LOGGER.warn("**********************************************************************");
+
+		}
+		LOGGER.info("Porcentaje de la merma: " + porcentajeDeMerma);
+		if (porcentajeDeMerma < 1.5) {
+			porcentajeDeMerma = 0.0;
+		}
+
 		// **VALIDAR SI ES NEGATIVO**//
-		if (Double.valueOf(entradasEditar.getPorcentajeMerma().toString()) < 0.0) {
-			kg_porcentaje = Double.valueOf(entradasEditar.getKgEmbarcados().toString());
-			LOGGER.info("EL PORCENTAJE ES NEGATIVO SE CALCULA CON LOS KILOS EMBARCADOS: " + kg_porcentaje);
+//		if (Double.valueOf(entradasEditar.getPorcentajeMerma().toString()) < 0.0) {
+//			kg_porcentaje = Double.valueOf(entradasEditar.getKgEmbarcados().toString());
+//			LOGGER.info("EL PORCENTAJE ES NEGATIVO SE CALCULA CON LOS KILOS EMBARCADOS: " + kg_porcentaje);
+//			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
+//		} else {
+		if (entradasEditar.getTipoMoneda().equals("USD")) {
+			kg_porcentaje = Double.valueOf(entradasEditar.getKgNetos().toString())
+					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
+							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
+							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
+							* Double.valueOf(entradasEditar.getKgNetos().toString())) / 100);
+			LOGGER.info("EL PORCENTAJE ES POSITIVO SE CALCULA CON EL FLUJO NORMAL: " + kg_porcentaje
+					+ " Tipo de moneda: " + entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		} else {
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgEmbarcados().toString())
 					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
-							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
-							+ Double.valueOf(entradasEditar.getPorcentajeMerma().toString())
+							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgEmbarcados().toString())) / 100);
-			LOGGER.info("EL PORCENTAJE ES POSITIVO SE CALCULA CON EL FLUJO NORMAL: " + kg_porcentaje);
+			LOGGER.info("EL PORCENTAJE ES POSITIVO SE CALCULA CON EL FLUJO NORMAL: " + kg_porcentaje
+					+ " Tipo de moneda: " + entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		}
+		// }
 
 		entradasEditar.setPrecioCalcCcp(
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaConPelo().toString()) / 100)
@@ -1231,8 +1263,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		if (tipoDeMoneda.equals("USD")) {
 			kilosBasculaMerma = kilosEmbarcados - kilosNetos;
 		}
-		
-		
+
 		double resta = 0.0;
 
 		if (kilosEmbarcados > 0.0) {
@@ -1247,7 +1278,7 @@ public class EntradasBean extends Conexion implements Serializable {
 
 	// **KG EMBARCADOS - KG RECIBIDOS | KG NETOS - KG RECIBIDOS**//
 	public void porcentajeTotal() {
-		
+
 		if (kilosEmbarcados > 0.0) {
 			porcentajeCalculo = (entradas.getMerma().doubleValue() * 100) / kilosEmbarcados;
 			// porcentaje = (Double.parseDouble(entradas.getMerma().toString()) * 100) /

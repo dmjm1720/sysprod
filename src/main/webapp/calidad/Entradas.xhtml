@@ -171,7 +171,7 @@
 								<p:inputText id="kge" value="#{entradasBean.kilosEmbarcados}"
 									styleClass="kilos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
-									<p:ajax event="keyup" update="mm, frmPrincipal:msgs"
+									<p:ajax event="keyup" update="mm"
 										listener="#{entradasBean.totalKilos}" />
 								</p:inputText>
 
@@ -179,7 +179,8 @@
 								<p:inputText id="kgnetos" autocomplete="off"
 									styleClass="otrosCampos" value="#{entradasBean.kilosNetos}"
 									required="false" requiredMessage="Campo requerido">
-									<p:ajax event="keyup" update="mm, frmPrincipal:msgs"
+									<p:ajax event="keyup"
+										update="mm, kgbasculamer"
 										listener="#{entradasBean.totalKilos}" />
 								</p:inputText>
 
@@ -187,7 +188,8 @@
 								<p:inputText id="kgbascula" autocomplete="off"
 									styleClass="otrosCampos" value="#{entradasBean.kilosBascula}"
 									required="false" requiredMessage="Campo requerido">
-									<p:ajax event="keyup" update="kdrec, frmPrincipal:msgs"
+									<p:ajax event="keyup"
+										update="kdrec,kgbasculamer"
 										listener="#{entradasBean.aguaMerma}" />
 								</p:inputText>
 
@@ -196,11 +198,12 @@
 									styleClass="otrosCampos"
 									value="#{entradasBean.kilosBasculaMerma}" required="false"
 									requiredMessage="Campo requerido">
-									<p:ajax event="keyup" update="kdrec, frmPrincipal:msgs"
+									<p:ajax event="keyup" update="kdrec"
 										listener="#{entradasBean.aguaMerma}" />
-									<p:ajax event="keyup" update="mm, frmPrincipal:msgs"
+									<p:ajax event="keyup" update="mm"
 										listener="#{entradasBean.totalKilos}" />
-									<p:ajax event="keyup" update="mmm, frmPrincipal:msgs"
+									<p:ajax event="keyup"
+										update="mmm, kgbasculamer"
 										listener="#{entradasBean.porcentajeTotal}" />
 								</p:inputText>
 
@@ -596,7 +599,7 @@
 								<p:column headerText="Ver certificado" width="4rem">
 									<p:commandButton id="pdf" icon="pi pi-fw pi-file-pdf"
 										actionListener="#{entradasBean.loadPdf(item.archivoCertificado)}"
-										onclick="PF('dlgPDF').show()" update="formPDF:viewer" 
+										onclick="PF('dlgPDF').show()" update="formPDF:viewer"
 										styleClass="ui-button-info">
 									</p:commandButton>
 								</p:column>
@@ -2130,7 +2133,8 @@
 
 						<p:outputLabel for="fechalib" value="Fecha de liberación"
 							rendered="#{login.usuario.perfiles.idPerfil==4}" />
-						<p:datePicker id="fechalib" pattern="dd-MMMM-yyyy"
+						<p:datePicker id="fechalib" pattern="dd-MMMM-yyyy" required="true"
+							requiredMessage="Fecha de liberación requerida"
 							rendered="#{login.usuario.perfiles.idPerfil==4}"
 							placeholder="Fecha de liberación" showTime="true"
 							inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
@@ -2139,6 +2143,7 @@
 							styleClass="captura" />
 
 					</h:panelGrid>
+					<p:message for="fechalib" />
 
 					<br></br>
 					<div style="text-align: center;">
@@ -2151,6 +2156,7 @@
 						</p:commandButton>
 
 						<p:commandButton icon="pi pi-pencil" value="LIBERAR TOLVA"
+							update="frmPrincipal:msgs, frmLiberar:fechalib"
 							rendered="#{login.usuario.perfiles.idPerfil==4}"
 							styleClass="btnActualizar" title="ACTUALIZAR"
 							onclick="PF('dlgLiberacion').show()">
@@ -2185,15 +2191,13 @@
 
 			<!-- INICIA FORMULARIO PARA VER EL PDF -->
 			<h:form id="formPDF">
-				<p:dialog
-					header="" widgetVar="dlgPDF" 
-					showEffect="fade" closeOnEscape="true" minimizable="true"
-					maximizable="true">
-						<!-- Visor del PDF -->
-						<p:panel header="Certificado Zoosanitario" id="viewer">
-							<p:media value="#{entradasBean.file}" width="100%" height="600px"
-								player="pdf" />
-						</p:panel>
+				<p:dialog header="" widgetVar="dlgPDF" showEffect="fade"
+					closeOnEscape="true" minimizable="true" maximizable="true">
+					<!-- Visor del PDF -->
+					<p:panel header="Certificado y Factura" id="viewer">
+						<p:media value="#{entradasBean.file}" width="100%" height="600px"
+							player="pdf" />
+					</p:panel>
 				</p:dialog>
 			</h:form>
 			<!-- FINALIZA FORMULARIO PARA VER EL PDF -->
@@ -2203,7 +2207,7 @@
 			<!-- INICIA FORMULARIO PARA AGREGAR EL PDF -->
 			<h:form id="frmPDF" enctype="multipart/form-data">
 				<p:dialog id="dlgCargarPDF"
-					header="AÑADIR EL CERTIFICADO EN FORMATO PDF" widgetVar="dlgVerPDF"
+					header="Añadir el certificado en formato PDF" widgetVar="dlgVerPDF"
 					showEffect="fade" closeOnEscape="true" minimizable="true"
 					maximizable="true">
 					<h:panelGrid id="pnlVerPDF" columns="6" styleClass="fuente">

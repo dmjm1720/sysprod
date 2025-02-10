@@ -9,7 +9,7 @@ public class EntradasImportacion implements java.io.Serializable {
 	private int idEntradaImportacion;
 	private CuentasContables cuentasContables;
 	private Materia materia;
-	private ProveedoresImportacion proveedoresImportacion;
+	private Proveedores proveedores;
 	private int tolva;
 	private Date fechaEntrada;
 	private String ticketEmbarque;
@@ -34,14 +34,14 @@ public class EntradasImportacion implements java.io.Serializable {
 	}
 
 	public EntradasImportacion(int idEntradaImportacion, CuentasContables cuentasContables, Materia materia,
-			ProveedoresImportacion proveedoresImportacion, int tolva, Date fechaEntrada, String ticketEmbarque,
+			Proveedores proveedores, int tolva, Date fechaEntrada, String ticketEmbarque,
 			String factura, BigDecimal kgEmbarcado, BigDecimal kgToluca, BigDecimal kgNeto, BigDecimal kgMerma,
 			BigDecimal kgPatio, Integer folioEa, Integer porcentajeSalado, String certificadoZoosanitario,
 			Integer porcentaje) {
 		this.idEntradaImportacion = idEntradaImportacion;
 		this.cuentasContables = cuentasContables;
 		this.materia = materia;
-		this.proveedoresImportacion = proveedoresImportacion;
+		this.proveedores = proveedores;
 		this.tolva = tolva;
 		this.fechaEntrada = fechaEntrada;
 		this.ticketEmbarque = ticketEmbarque;
@@ -81,12 +81,12 @@ public class EntradasImportacion implements java.io.Serializable {
 		this.materia = materia;
 	}
 
-	public ProveedoresImportacion getProveedoresImportacion() {
-		return this.proveedoresImportacion;
+	public Proveedores getProveedores() {
+		return this.proveedores;
 	}
 
-	public void setProveedoresImportacion(ProveedoresImportacion proveedoresImportacion) {
-		this.proveedoresImportacion = proveedoresImportacion;
+	public void setProveedores(Proveedores proveedores) {
+		this.proveedores = proveedores;
 	}
 
 	public int getTolva() {

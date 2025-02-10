@@ -207,7 +207,7 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	public List<Entradas> listarEntradasImportacion() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		Query<Entradas> query = session.createQuery("FROM Entradas WHERE tipoMoneda='USD'", Entradas.class);
+		Query<Entradas> query = session.createQuery("FROM Entradas WHERE tipoMoneda='USD' AND estatusFacturaImportacion IS NULL", Entradas.class);
 		List<Entradas> entradas = query.list();
 		session.close();
 		return entradas;
@@ -240,6 +240,21 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 		}
 
 		return entrada;
+	}
+
+	@Override
+	public void actualizarFacturaImportacion(String factura) {
+		try {
+			ConectarSysProd();
+			PreparedStatement ps = getCnSysProd()
+					.prepareStatement("UPDATE ENTRADAS SET ESTATUS_FACTURA_IMPORTACION=1 WHERE FACTURA=?");
+			ps.setString(1, factura);
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA FACTURA:" + factura+ " ERROR: " + ex);
+		}
+		
 	}
 
 }
