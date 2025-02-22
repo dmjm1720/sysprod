@@ -29,4 +29,6 @@ public interface IEntradasDao {
     Entradas buscarEntradaPorFactura(String factura);
     
     void actualizarFacturaImportacion (String factura);
+    
+    List<Entradas> listarEntradasFactura();
 }

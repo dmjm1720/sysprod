@@ -10,20 +10,20 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.dmjm.dao.IEntradasImportacionDao;
-import com.dmjm.model.EntradasImportacion;
+import com.dmjm.dao.IEntradasMaqEqDao;
+import com.dmjm.model.EntradasMaquinariaEquipo;
 import com.dmjm.util.HibernateUtil;
 
-public class EntradasImportacionDaoImpl implements IEntradasImportacionDao {
+public class EntradasMaqEqImpl implements IEntradasMaqEqDao {
 
 	@Override
-	public List<EntradasImportacion> listarEntradas() {
-		List<EntradasImportacion> entradas = null;
+	public List<EntradasMaquinariaEquipo> listarEntradas() {
+		List<EntradasMaquinariaEquipo> entradas = null;
 
 		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
 			Transaction tx = session.beginTransaction(); // Iniciar transacción
-			Query<EntradasImportacion> query = session.createQuery(
-					"FROM EntradasImportacion ORDER BY idEntradaImportacion DESC", EntradasImportacion.class);
+			Query<EntradasMaquinariaEquipo> query = session.createQuery(
+					"FROM EntradasMaquinariaEquipo ORDER BY idMaqEq DESC", EntradasMaquinariaEquipo.class);
 			entradas = query.list();
 			tx.commit(); // Confirmar la transacción
 		} catch (Exception e) {
@@ -34,14 +34,14 @@ public class EntradasImportacionDaoImpl implements IEntradasImportacionDao {
 	}
 
 	@Override
-	public void guardarEntradasImportacion(EntradasImportacion entradasImportacion) {
+	public void guardarEntradasImportacion(EntradasMaquinariaEquipo entradasMaquinariaEquipo) {
 		Session session = null;
 		try {
 
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.save(entradasImportacion);
+			session.save(entradasMaquinariaEquipo);
 			transaction.commit();
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
@@ -50,16 +50,15 @@ public class EntradasImportacionDaoImpl implements IEntradasImportacionDao {
 				session.close();
 			}
 		}
-
 	}
 
 	@Override
-	public void actualizarEntradasImportacion(EntradasImportacion entradasImportacion) {
+	public void actualizarEntradasImportacion(EntradasMaquinariaEquipo entradasMaquinariaEquipo) {
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(entradasImportacion);
+			session.update(entradasMaquinariaEquipo);
 			session.getTransaction().commit();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "¡AVISO!", "INFORMACIÓN ACTUALIZADA CORRECTAMENTE"));

@@ -1,10 +1,8 @@
 package com.dmjm.bean;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -34,8 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 
 import com.dmjm.dao.IEntradasDao;
@@ -551,7 +547,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		preservacion.setIdPreservacion(buscarPreservacion(filterPreservacion));
 
 		Optional<String> valorTransportista = Optional.ofNullable(filterTransportista);
-		String datoTransportista = valorTransportista.orElse("TRANSPORTE PENDIENTE");
+		String datoTransportista = valorTransportista.orElse("POR DEFINIR");
 		transportista.setIdTransportista(buscarTransportista(datoTransportista));
 
 		proveedores.setIdProveedor(buscarProveedor(filterProveedor));
@@ -568,7 +564,14 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradas.setKgNetos(BigDecimal.valueOf(kilosNetos));
 		entradas.setKgBascula(BigDecimal.valueOf(kilosBascula));
 		entradas.setKgBasculaMerma(BigDecimal.valueOf(kilosBasculaMerma));
-
+		
+		//**COLOCAR CERO A DESCUENTOS POR HUMEDAD Y ALCALINIDAD**//
+		entradas.setDescuentoCalcioTa(new BigDecimal(0));
+		entradas.setDescuentoCalcioTb(new BigDecimal(0));
+		entradas.setDescuentoHumedadTa(new BigDecimal(0));
+		entradas.setDescuentoHumedadTb(new BigDecimal(0));
+		entradas.setDescuentoHumedad(new BigDecimal(0));
+		entradas.setDescuentoCalcio(new BigDecimal(0));
 		// **PRECIO DE LA CARNAZA CON PELO**//
 
 		entradas.setCarnazaConPelo(BigDecimal.valueOf(dato1));
@@ -590,7 +593,7 @@ public class EntradasBean extends Conexion implements Serializable {
 //		if (entradas.getSucursal() == null || entradas.getFactura() == "" || entradas.getCertificado() == ""
 //				|| transportista.getIdTransportista() == 0 || proveedores.getIdProveedor() == 0
 //				|| materia.getIdMateria() == 0 || preservacion.getIdPreservacion() == 0) {
-		if (entradas.getSucursal() == null || entradas.getCertificado() == "" || proveedores.getIdProveedor() == 0
+		if (entradas.getSucursal() == null || proveedores.getIdProveedor() == 0
 				|| materia.getIdMateria() == 0 || preservacion.getIdPreservacion() == 0) {
 
 			String suc = "";
@@ -788,12 +791,8 @@ public class EntradasBean extends Conexion implements Serializable {
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
 
-			// PrimeFaces.current().ajax().update("frmPrincipal:acco:panel,
-			// frmPrincipal:acco:panel2, frmPrincipal:acco:panel3");
-			PrimeFaces.current().executeScript("PF('frmPrincipal').reset();");
-			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel");
-			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel1");
-			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel2");
+			String script = "setTimeout(function() { window.location.href='Entradas.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
 		}
 	}
 
@@ -937,6 +936,93 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 		}
 
+		
+		//**BUSCAR ACTUALIZACIÓN DE PRECIO**//
+		if (Double.parseDouble(entradasEditar.getPrecioCcp().toString()) != ceros) {
+			entradasEditar.setPrecioCcp(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 1)));
+		} else {
+			entradasEditar.setPrecioCcp(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioC1().toString()) != ceros) {
+			entradas.setPrecioC1(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 2)));
+		} else {
+			entradasEditar.setPrecioC1(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioC2().toString())  != ceros) {
+			entradasEditar.setPrecioC2(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 3)));
+		} else {
+			entradasEditar.setPrecioC2(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioCs().toString())  != ceros) {
+			entradasEditar.setPrecioCs(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 4)));
+		} else {
+			entradasEditar.setPrecioCs(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioDr().toString())  != ceros) {
+			entradasEditar.setPrecioDr(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 5)));
+		} else {
+			entradasEditar.setPrecioDr(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioCm().toString())  != ceros) {
+			entradasEditar.setPrecioCm(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 6)));
+		} else {
+			entradasEditar.setPrecioCm(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioCo().toString())  != ceros) {
+			entradasEditar.setPrecioCo(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 7)));
+		} else {
+			entradasEditar.setPrecioCo(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioPc().toString())  != ceros) {
+			entradasEditar.setPrecioPc(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 8)));
+		} else {
+			entradasEditar.setPrecioPc(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioP().toString())  != ceros) {
+			entradasEditar.setPrecioP(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 9)));
+		} else {
+			entradasEditar.setPrecioP(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioCcp().toString())  != ceros) {
+			entradasEditar.setPrecioDa(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 10)));
+		} else {
+			entradasEditar.setPrecioDa(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioDs().toString())  != ceros) {
+			entradasEditar.setPrecioDs(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 11)));
+		} else {
+			entradasEditar.setPrecioDs(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioCdi().toString())  != ceros) {
+			entradasEditar.setPrecioCdi(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 12)));
+		} else {
+			entradasEditar.setPrecioCdi(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioG().toString())  != ceros) {
+			entradasEditar.setPrecioG(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 13)));
+		} else {
+			entradas.setPrecioG(BigDecimal.valueOf(ceros));
+		}
+
+		if (Double.parseDouble(entradasEditar.getPrecioCe().toString())  != ceros) {
+			entradasEditar.setPrecioCe(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 14)));
+		} else {
+
+			entradasEditar.setPrecioCe(BigDecimal.valueOf(ceros));
+		}
+		
 		@SuppressWarnings("unused")
 		int banderaGerencia = 0;
 		@SuppressWarnings("unused")
@@ -1014,14 +1100,14 @@ public class EntradasBean extends Conexion implements Serializable {
 		if (porcentajeDeMerma > 1.5) {
 			LOGGER.warn("**********************************************************************");
 			LOGGER.info("El porcentaje la merma es mayor, se aplica descuento de 1.5");
-			porcentajeDeMerma = porcentajeDeMerma - 1.5;
-			LOGGER.info("El porcentaje con el descuento de 1.5: " + porcentajeDeMerma);
+			LOGGER.info("El porcentaje con el descuento de 1.5: " + (porcentajeDeMerma-1.5) + Double.valueOf(entradasEditar.getDescuentoCalcio().toString())+Double.valueOf(entradasEditar.getKgNetos().toString()));
 			LOGGER.warn("**********************************************************************");
 
 		}
-		LOGGER.info("Porcentaje de la merma: " + porcentajeDeMerma);
+
 		if (porcentajeDeMerma < 1.5) {
 			porcentajeDeMerma = 0.0;
+			
 		}
 
 		// **VALIDAR SI ES NEGATIVO**//
@@ -1036,7 +1122,7 @@ public class EntradasBean extends Conexion implements Serializable {
 							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgNetos().toString())) / 100);
-			LOGGER.info("EL PORCENTAJE ES POSITIVO SE CALCULA CON EL FLUJO NORMAL: " + kg_porcentaje
+			LOGGER.info("KG MERMA: " + kg_porcentaje
 					+ " Tipo de moneda: " + entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		} else {
@@ -1045,7 +1131,7 @@ public class EntradasBean extends Conexion implements Serializable {
 							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgEmbarcados().toString())) / 100);
-			LOGGER.info("EL PORCENTAJE ES POSITIVO SE CALCULA CON EL FLUJO NORMAL: " + kg_porcentaje
+			LOGGER.info("KG MERMA: " + kg_porcentaje
 					+ " Tipo de moneda: " + entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		}
@@ -1444,6 +1530,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		switch (estado) {
 		case 0:
 		case 1:
+		case 3:
 			ReporteLiberacionSF reporteSF = new ReporteLiberacionSF();
 			ruta = servletContext.getRealPath("/REP/liberacionSF.jasper");
 			reporteSF.getReporte(ruta, idEntrada, idDoc);
@@ -1633,10 +1720,8 @@ public class EntradasBean extends Conexion implements Serializable {
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
 
-			PrimeFaces.current().executeScript("PF('frmPrincipal').reset();");
-			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel");
-			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel1");
-			PrimeFaces.current().ajax().update("frmPrincipal:acco:panel2");
+			String script = "setTimeout(function() { window.location.href='Entradas.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
 		}
 	}
 

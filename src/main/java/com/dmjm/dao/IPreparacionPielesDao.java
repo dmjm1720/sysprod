@@ -15,4 +15,7 @@ public interface IPreparacionPielesDao {
 	List<PreparacionPieles> listaPreparacion();
 	
 	void actualizaEstatusEtapa(int id, String etapa);
+	
+	String nombreEstado (int idPreparacion);
+	
 }

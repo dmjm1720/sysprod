@@ -14,4 +14,8 @@ public interface IOperacionLavadorasDao {
 	OperacionLavadoras listaOperacionLavadorasEtapa(int id);
 	
 	OperacionLavadoras operacionLavadoraId(int id);
+	
+	void actualizarCambioLavadora(int idPreparacion,  int idLavadora);
+	
+	int obtenerIdLavadora(int idPreparacion);
 }

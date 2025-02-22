@@ -1,5 +1,8 @@
 package com.dmjm.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,6 +162,49 @@ public class EtapaDaoImpl extends Conexion implements IEtapa1Dao {
 			}
 		}
 
+	}
+
+	@Override
+	public void actualizarEtapaCambioLavadora(int idPreparacion, String etapa, String lavadora) {
+		try {
+			ConectarSysProd();
+			String sql = "UPDATE ETAPA1 SET LAVADORA = ? WHERE ID_PREPARACION = ? AND ETAPA = ?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setString(1, lavadora);
+			ps.setInt(2, idPreparacion);
+			ps.setString(3, etapa);
+
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA ETAPA: " + ex);
+		}
+
+	}
+
+	@Override
+	public List<String> listaProcesosPendientesEtapa(int idPreparacion) {
+		List<String> lista = new ArrayList<String>();
+		try {
+
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd().prepareStatement("SELECT ETAPA FROM ETAPA1 WHERE ID_PREPARACION =? AND HORA_FIN IS NULL");
+			st.setInt(1, idPreparacion);
+			ResultSet rs = st.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+			} else {
+				while (rs.next()) {
+					lista.add(rs.getString("ETAPA"));
+				}
+			}
+
+			CerrarSysProd();
+
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL CONSULTAR EL FOLIO: " + ex);
+		}
+		return lista;
 	}
 
 }

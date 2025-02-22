@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -17,6 +18,9 @@ import javax.inject.Named;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.ToggleSelectEvent;
+import org.primefaces.event.UnselectEvent;
 
 import com.dmjm.dao.IEntradasDao;
 import com.dmjm.dao.IEtapa1Dao;
@@ -72,17 +76,24 @@ public class PreparacionPielesBean implements Serializable {
 	private int idPrep = 0;
 
 	private String filterLavadora;
+	private String filterLavadora2;
 
 	private List<Integer> listaOperacionesDisponibles;
 
 	private List<String> listarQuimicos;
 
 	private List<String> listarLavadorasDisponibles;
+	private List<String> listarLavadorasDisponibles2;
 
 	private List<String> listaFacturasTolvas;
 
 	private double saldoDisponibleParaAgregar = 0.0;
 
+	private String[] selectedProcess;
+	private List<String> procesos;
+
+	private String estadoLavadora="";
+	
 	@PostConstruct
 	public void init() {
 		listarPreparacion = new ArrayList<>();
@@ -98,7 +109,27 @@ public class PreparacionPielesBean implements Serializable {
 		listaOperacionesDisponibles = new ArrayList<>();
 		listarQuimicos = new ArrayList<>();
 		listarLavadorasDisponibles = new ArrayList<>();
+		listarLavadorasDisponibles2 = new ArrayList<>();
 		listaFacturasTolvas = new ArrayList<>();
+
+		procesos = new ArrayList<>();
+		procesos.add("Carga");
+		procesos.add("Lavado Enzimático");
+		procesos.add("Lavada de Carga");
+		procesos.add("Blanqueo");
+		procesos.add("Lavadas de Blanqueo");
+		procesos.add("Pre Acidulación");
+		procesos.add("Acidulación");
+		procesos.add("Control 1");
+		procesos.add("Control 2");
+		procesos.add("Control 3");
+		procesos.add("Control 4");
+		procesos.add("Control 5");
+		procesos.add("Control 6");
+		procesos.add("Control 7");
+		procesos.add("Control 8");
+		
+
 	}
 
 	public PreparacionPieles getPrePieles() {
@@ -149,6 +180,14 @@ public class PreparacionPielesBean implements Serializable {
 
 	public void setFilterLavadoras(String filterLavadoras) {
 		this.filterLavadoras = filterLavadoras;
+	}
+
+	public String getFilterLavadora2() {
+		return filterLavadora2;
+	}
+
+	public void setFilterLavadora2(String filterLavadora2) {
+		this.filterLavadora2 = filterLavadora2;
 	}
 
 	public Etapa1 getEtapa1() {
@@ -204,6 +243,54 @@ public class PreparacionPielesBean implements Serializable {
 		this.saldoDisponibleParaAgregar = saldoDisponibleParaAgregar;
 	}
 
+	public List<String> getProcesos() {
+		return procesos;
+	}
+
+	public void setProcesos(List<String> procesos) {
+		this.procesos = procesos;
+	}
+
+	public String[] getSelectedProcess() {
+		return selectedProcess;
+	}
+
+	public void setSelectedProcess(String[] selectedProcess) {
+		this.selectedProcess = selectedProcess;
+	}
+	
+	public String getEstadoLavadora() {
+		return estadoLavadora;
+	}
+
+	public void setEstadoLavadora(String estadoLavadora) {
+		this.estadoLavadora = estadoLavadora;
+	}
+
+	public void onToggleSelect(ToggleSelectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Toggled: " + event.isSelected());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onItemSelect(@SuppressWarnings("rawtypes") SelectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Item selected: " + event.getObject().toString());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onItemUnselect(@SuppressWarnings("rawtypes") UnselectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Item unselected: " + event.getObject().toString());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	// **OBTENER LA LISTA DE LAS OPERACIONES DISPONIBLES**//
 	public List<Integer> getListaOperacionesDisponibles() {
 
@@ -230,6 +317,17 @@ public class PreparacionPielesBean implements Serializable {
 		return listarLavadorasDisponibles;
 	}
 
+	// **OBTENER LA LISTA DE LAS LAVADORAS DISPONIBLES**//
+	public List<String> getListarLavadorasDisponibles2() {
+		ILavadorasDao lava = new LavadorasDaoImpl();
+		List<Lavadoras> listar = lava.listarLavadorasDisponibles();
+		listarLavadorasDisponibles2.clear();
+		for (Lavadoras l : listar) {
+			listarLavadorasDisponibles2.add(l.getNombre());
+		}
+		return listarLavadorasDisponibles2;
+	}
+
 	// **OBTENER LA LISTA DE LOS QUÍMICOS**//
 	public List<String> getListarQuimicos() {
 		IQuimicosDao qDao = new QuimicosDaoImpl();
@@ -248,7 +346,7 @@ public class PreparacionPielesBean implements Serializable {
 		listaFacturasTolvas.clear();
 
 		List<Entradas> listar = new ArrayList<>();
-		listar = eDao.listarEntradas();
+		listar = eDao.listarEntradasFactura();
 		for (Entradas e : listar) {
 			listaFacturasTolvas.add(e.getFactura());
 		}
@@ -291,7 +389,7 @@ public class PreparacionPielesBean implements Serializable {
 		calendar.set(Calendar.MINUTE, minuto);
 		calendar.set(Calendar.SECOND, segundo);
 
-	     // Obtener la hora actual
+		// Obtener la hora actual
 //        LocalTime ahora = LocalTime.now();
 //        DateTimeFormatter formato = DateTimeFormatter.ofPattern("hh:mm:ss a");
 //        String horaFormateada = ahora.format(formato);
@@ -299,7 +397,7 @@ public class PreparacionPielesBean implements Serializable {
 //        // Define el formato de la hora
 //        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
 //        Date horaIni = sdf.parse(horaFormateada);
-		 Date horaIni = calendar.getTime();
+		Date horaIni = calendar.getTime();
 
 		for (String lEtapas : listaEtapas) {
 			Etapa1 e = new Etapa1();
@@ -517,7 +615,7 @@ public class PreparacionPielesBean implements Serializable {
 
 	// **ACTUALIZAR LAS ETAPAS DEL PROCESO**//
 	@SuppressWarnings("unlikely-arg-type")
-	public void actualizarEtapa() throws ParseException {
+	public void actualizarEtapa(String lavadoraActual) throws ParseException {
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date()); // tuFechaBase es un Date;
@@ -551,6 +649,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -574,6 +673,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -598,6 +698,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -622,6 +723,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -646,6 +748,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -670,6 +773,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -694,6 +798,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -718,6 +823,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -742,6 +848,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -766,6 +873,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -790,6 +898,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -814,6 +923,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -838,6 +948,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -862,6 +973,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -884,6 +996,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
 					PreparacionPieles prep = new PreparacionPieles();
@@ -900,11 +1013,9 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-
-		
 		eDao.actualizarEtapa1(etapa1);
 		etapa1 = new Etapa1();
-		
+
 		IEtapa1Dao eTDao = new EtapaDaoImpl();
 		listaEtapa1 = eTDao.listaEtapa1(idPrep);
 		getListaEtapa1();
@@ -1015,7 +1126,7 @@ public class PreparacionPielesBean implements Serializable {
 			double saldoFactura = 0.0;
 			saldoFactura = vDao.saldo(fact);// hace un top a la selección
 			validarMaterial(tipoM, saldoFactura);
-			
+
 			LOGGER.info("SE HA IDENTIFICADO LA MATERIA: " + tipoM);
 
 			LOGGER.info(
@@ -1025,7 +1136,7 @@ public class PreparacionPielesBean implements Serializable {
 			LOGGER.info("Mostramos el saldo de kilos: " + validarSaldo);
 			LOGGER.info("SE HA IDENTIFICADO LA MATERIA: " + tipoM);
 			facturasPieles = new FacturasPieles();
-			
+
 			ISaldoFacturaDao vDao = new SaldoFacturaDaoImpl();
 			double saldoFactura = 0.0;
 			saldoFactura = vDao.saldo(fact);// hace un top a la selección
@@ -1160,8 +1271,52 @@ public class PreparacionPielesBean implements Serializable {
 		return cantidad;
 
 	}
-	
-	
 
+	public void mostrar(String lavadora, int estadoLavadora) throws SQLException {
+
+		// **ACTUALIZA EL CAMBIO DE LAVADORA EN LA ETAPA**//
+		IEtapa1Dao eDao = new EtapaDaoImpl();
+		//**VALIDAR LOS PROCESOS RESTANTES**//
+		IEtapa1Dao etaDao = new EtapaDaoImpl();
+		List<String> listaEtapasPendientes = new ArrayList<String>();
+		
+		listaEtapasPendientes = etaDao.listaProcesosPendientesEtapa(idPrep);
+		for (String etapa : listaEtapasPendientes) {
+			eDao.actualizarEtapaCambioLavadora(idPrep, etapa, lavadora);
+			LOGGER.info(
+					"Actualización de Lavdora: " + lavadora + " id preparación: " + idPrep + " etapa: " + etapa);
+		}
+		
+//		for (String procesosE : selectedProcess) {
+//			eDao.actualizarEtapaCambioLavadora(idPrep, procesosE, lavadora);
+//			LOGGER.info(
+//					"Actualización de Lavdora: " + lavadora + " id preparación: " + idPrep + " etapa: " + procesosE);
+//		}
+
+		// **BUSCAR LA LAVADORA EN LA TABLA OPERACION_LAVADORAS**//
+		IOperacionLavadorasDao opDao = new OperacionLavadorasDaoImpl();
+
+		// **ACTUALIZAR EL ESTADO DE LA LAVADORA CON EL ESTATUS 2 DE MATENIMIENTO**//
+		ILavadorasDao lavDao = new LavadorasDaoImpl();
+		lavDao.actualizarEstadoLavadora(estadoLavadora, "", opDao.obtenerIdLavadora(idPrep));
+
+		// **ACTUALIZAR EL ESTADO DE LA LAVADORA CON EL ESTATUS DONDE TOMARA EL PROCESO**//
+		ILavadorasDao lavadoraDao = new LavadorasDaoImpl();
+		IPreparacionPielesDao prepDao = new PreparacionDaoImpl();
+		lavadoraDao.actualizarEstadoLavadora(1, prepDao.nombreEstado(idPrep), buscarLavadora(lavadora));
+
+		// **ACTUALIZA EL CAMBIO DE LAVADORA POR EL NUEVO ID EN LA LA TABLA
+		// OPERACION_LAVADORAS**//
+		IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+		oDao.actualizarCambioLavadora(idPrep, buscarLavadora(lavadora));
+		
+		buscarRegistro();
+		String info = "Se ha realizado el cambio de lavadora";
+		PrimeFaces.current()
+		.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+				+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+				+ "  timer: 8000\n" + "})");
+
+	}
 
 }

@@ -100,7 +100,7 @@
 								</p:column>
 								<p:column headerText="Estatus" width="10rem">
 									<h:outputText
-										value="#{item.estado eq 0 ? 'Vacía' : (item.estado eq 1 ? 'En proceso' : (item.estado eq 2 ? 'Mantenimiento' : (item.estado eq 3 ? 'Sin uso' : 'Desconocido')))}" />
+										value="#{item.estado eq 0 ? 'Liberar' : (item.estado eq 1 ? 'En proceso' : (item.estado eq 2 ? 'Mantenimiento' : (item.estado eq 3 ? 'Obsoleta' : 'Otro')))}" />
 								</p:column>
 								<p:column headerText="Etapa" width="10rem">
 									<h:outputText value="#{item.etapa}" />

@@ -40,7 +40,7 @@
 
 								<p:outputLabel for="fact" value="FACTURA"
 									styleClass="mensajeBoton2" />
-								<p:selectOneMenu id="fact" styleClass="amarillo"
+								<p:selectOneMenu id="fact" styleClass="amarillo" filter="true"
 									style="color: #B22222;font-weight: bold !important;font-size: .9rem; width:14rem"
 									value="#{entImportBean.factura}">
 									<f:selectItem itemLabel="SELECCIONA FACTURA" itemValue="">
@@ -55,6 +55,11 @@
 								<p:inputText id="tolva" disabled="true" styleClass="tolvas"
 									value="#{entImportBean.entradasImportacion.tolva}"
 									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="fea" value="Folio EA" />
+								<p:inputText id="fea" styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.folioImportacion}"
+									required="false" requiredMessage="Campo requerido" disabled="true" />
 
 								<p:outputLabel for="fecha" value="Fecha de entrada" />
 								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
@@ -112,17 +117,7 @@
 									value="#{entImportBean.entradasImportacion.certificadoZoosanitario}"
 									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="fea" value="Folio EA" />
-								<p:inputText id="fea" styleClass="otrosCampos"
-									value="#{entImportBean.entradasImportacion.folioEa}"
-									required="false" requiredMessage="Campo requerido" />
-
-								<p:outputLabel for="ps" value="% Salado" />
-								<p:inputText id="ps" styleClass="otrosCampos"
-									value="#{entImportBean.entradasImportacion.porcentajeSalado}"
-									required="false" requiredMessage="Campo requerido" />
-
-								<p:outputLabel for="cc" value="Cuenta contable" />
+								<p:outputLabel for="cc" value="Cuenta contable requerida" />
 								<p:autoComplete id="cc" size="35" required="false"
 									autocomplete="off" requiredMessage="Cuenta contable requerida"
 									placeholder="Ingresa cuenta contable" dropdown="true"
@@ -138,7 +133,7 @@
 									style="width: 12rem; height: 2rem"
 									actionListener="#{entImportBean.guardar()}"
 									update="frmPrincipal"
-									onclick="setTimeout(function() { window.location.href='EntradasImportacion.html'; }, 5000);">
+									>
 								</p:commandButton>
 							</div>
 						</p:tab>
@@ -173,21 +168,25 @@
 										value="Imprimir hoja de liberación" trackMouse="true" />
 								</p:column>
 
-								<p:column headerText="# Tolva" width="10rem">
+								<p:column headerText="# Tolva" width="2rem">
 									<h:outputText value="#{item.tolva}" style="color: #036FAB;" />
 								</p:column>
+								
+								<p:column headerText="Folio EA" width="3rem">
+									<h:outputText value="#{item.folioImportacion}" style="color: #2196F3;" />
+								</p:column>
 
-								<p:column headerText="Fecha de entrada" width="15rem">
+								<p:column headerText="Fecha de entrada" width="7rem">
 									<h:outputText value="#{item.fechaEntrada}"
 										style="color: #2196F3;" />
 								</p:column>
 
-								<p:column headerText="Ticket embarque" width="15rem">
+								<p:column headerText="Ticket embarque" width="7rem">
 									<h:outputText value="#{item.ticketEmbarque}"
 										style="color: #2196F3;" />
 								</p:column>
 
-								<p:column headerText="Factura" width="15rem">
+								<p:column headerText="Factura" width="7rem">
 									<h:outputText value="#{item.factura}" style="color: #2196F3;" />
 								</p:column>
 								<p:column headerText="Nombre Proveedor" width="15rem">
@@ -195,38 +194,32 @@
 										style="color: #2196F3;" />
 								</p:column>
 
-								<p:column headerText="Materia" width="15rem">
+								<p:column headerText="Materia" width="10rem">
 									<h:outputText value="#{item.materia.tipo}"
 										style="color: #2196F3;" />
 								</p:column>
-								<p:column headerText="Kg. Embarcado" width="15rem">
+								<p:column headerText="Kg. Embarcado" width="5rem">
 									<h:outputText value="#{item.kgEmbarcado}"
 										style="color: #2196F3;" />
 								</p:column>
-								<p:column headerText="Kg. Toluca" width="15rem">
+								<p:column headerText="Kg. Toluca" width="5rem">
 									<h:outputText value="#{item.kgToluca}" style="color: #2196F3;" />
 								</p:column>
-								<p:column headerText="Kg. Neto" width="15rem">
+								<p:column headerText="Kg. Neto" width="5rem">
 									<h:outputText value="#{item.kgNeto}" style="color: #2196F3;" />
 								</p:column>
-								<p:column headerText="Kg. Merma" width="15rem">
+								<p:column headerText="Kg. Merma" width="5rem">
 									<h:outputText value="#{item.kgMerma}" style="color: #2196F3;" />
 								</p:column>
-								<p:column headerText="Kg. Patio" width="15rem">
+								<p:column headerText="Kg. Patio" width="5rem">
 									<h:outputText value="#{item.kgPatio}" style="color: #2196F3;" />
 								</p:column>
-								<p:column headerText="Folio EA" width="15rem">
-									<h:outputText value="#{item.folioEa}" style="color: #2196F3;" />
-								</p:column>
-								<p:column headerText="% Salado" width="15rem">
-									<h:outputText value="#{item.porcentajeSalado}"
-										style="color: #2196F3;" />
-								</p:column>
-								<p:column headerText="Certificado Zoosanitario" width="15rem">
+
+								<p:column headerText="Certificado Zoosanitario" width="5rem">
 									<h:outputText value="#{item.certificadoZoosanitario}"
 										style="color: #2196F3;" />
 								</p:column>
-								<p:column headerText="Cuenta contable" width="15rem">
+								<p:column headerText="Cuenta contable" width="5rem">
 									<h:outputText value="#{item.cuentasContables.cuenta}"
 										style="color: #2196F3;" />
 								</p:column>

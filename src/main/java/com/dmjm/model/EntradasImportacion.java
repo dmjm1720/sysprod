@@ -23,7 +23,7 @@ public class EntradasImportacion implements java.io.Serializable {
 	private Integer porcentajeSalado;
 	private String certificadoZoosanitario;
 	private Integer porcentaje;
-	
+    private Long folioImportacion;
 	
 
 	public EntradasImportacion() {
@@ -37,7 +37,7 @@ public class EntradasImportacion implements java.io.Serializable {
 			Proveedores proveedores, int tolva, Date fechaEntrada, String ticketEmbarque,
 			String factura, BigDecimal kgEmbarcado, BigDecimal kgToluca, BigDecimal kgNeto, BigDecimal kgMerma,
 			BigDecimal kgPatio, Integer folioEa, Integer porcentajeSalado, String certificadoZoosanitario,
-			Integer porcentaje) {
+			Integer porcentaje, Long folioImportacion) {
 		this.idEntradaImportacion = idEntradaImportacion;
 		this.cuentasContables = cuentasContables;
 		this.materia = materia;
@@ -55,6 +55,7 @@ public class EntradasImportacion implements java.io.Serializable {
 		this.porcentajeSalado = porcentajeSalado;
 		this.certificadoZoosanitario = certificadoZoosanitario;
 		this.porcentaje = porcentaje;
+		this.folioImportacion =folioImportacion;
 	}
 
 	public int getIdEntradaImportacion() {
@@ -192,5 +193,15 @@ public class EntradasImportacion implements java.io.Serializable {
 	public void setPorcentaje(Integer porcentaje) {
 		this.porcentaje = porcentaje;
 	}
+
+	public Long getFolioImportacion() {
+		return folioImportacion;
+	}
+
+	public void setFolioImportacion(Long folioImportacion) {
+		this.folioImportacion = folioImportacion;
+	}
+	
+	
 
 }

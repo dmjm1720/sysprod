@@ -1,6 +1,7 @@
 package com.dmjm.impl;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,11 +21,26 @@ public class PreparacionDaoImpl extends Conexion implements IPreparacionPielesDa
 
 	private static final Logger LOGGER = LogManager.getLogger(PreparacionDaoImpl.class.getName());
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<PreparacionPieles> listaPreparacionPieles(int folio) {
-		@SuppressWarnings("unchecked")
-		List<PreparacionPieles> preparacion = (List<PreparacionPieles>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("FROM PreparacionPieles WHERE noOperacion = :folio").setParameter("folio", folio).list();
+		Transaction transaction = null;
+		List<PreparacionPieles> preparacion = null;
+
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+
+			preparacion = session.createQuery("FROM PreparacionPieles WHERE noOperacion = :folio")
+					.setParameter("folio", folio).list();
+
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+
 		return preparacion;
 	}
 
@@ -76,12 +92,27 @@ public class PreparacionDaoImpl extends Conexion implements IPreparacionPielesDa
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<PreparacionPieles> listaPreparacion() {
-		@SuppressWarnings("unchecked")
-		List<PreparacionPieles> operacion = (List<PreparacionPieles>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("FROM PreparacionPieles WHERE estado != 'Finalizado'").list();
-		return operacion;
+		Transaction transaction = null;
+        List<PreparacionPieles> operacion = null;
+        
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            
+            operacion = session.createQuery("FROM PreparacionPieles WHERE estado != 'Finalizado'")
+                               .list();
+                               
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return operacion;
 	}
 
 	@Override
@@ -98,6 +129,33 @@ public class PreparacionDaoImpl extends Conexion implements IPreparacionPielesDa
 			LOGGER.error("ERROR AL ACTUALIZAR EL FOLIO: " + ex);
 		}
 
+	}
+
+	@Override
+	public String nombreEstado(int idPreparacion) {
+		String nombreLavadora="";
+		try {
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd()
+					.prepareStatement("SELECT ESTADO FROM PREPARACION_PIELES WHERE ID_PREPARACION = ?");
+			st.setInt(1, idPreparacion);
+
+			ResultSet rs = st.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+
+			} else {
+				while (rs.next()) {
+					nombreLavadora = rs.getString("ESTADO");
+				}
+			}
+
+			CerrarSysProd();
+
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL OBTENER EL NOMBRE DE LA LAVADORA" + "ERROR: " + ex);
+		}
+		return nombreLavadora;
 	}
 
 }

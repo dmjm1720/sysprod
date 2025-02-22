@@ -17,4 +17,8 @@ public interface IEtapa1Dao {
 	Etapa1 estado(Etapa1 etapa1);
 	
 	void actualizarSiguienteEtapa(Etapa1 e);
+	
+	void actualizarEtapaCambioLavadora(int idPreparacion, String etapa, String lavadora);
+	
+	List<String> listaProcesosPendientesEtapa(int idPreparacion);
 }

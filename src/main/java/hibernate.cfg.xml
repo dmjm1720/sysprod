@@ -49,5 +49,6 @@
 		<mapping resource="com/dmjm/model/Activacion.hbm.xml" />
 		<mapping resource="com/dmjm/model/Quimicos.hbm.xml" />
 		<mapping resource="com/dmjm/model/BitacoraPrecios.hbm.xml" />
+		<mapping resource="com/dmjm/model/EntradasMaquinariaEquipo.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

@@ -1,21 +1,21 @@
 package com.dmjm.bean;
 
-import com.dmjm.dao.IUsuarioDao;
-import com.dmjm.impl.UsuarioDaoImpl;
-import com.dmjm.model.Perfiles;
-import com.dmjm.model.Usuarios;
-import com.dmjm.util.Password;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
+
+import com.dmjm.dao.IUsuarioDao;
+import com.dmjm.impl.UsuarioDaoImpl;
+import com.dmjm.model.Perfiles;
+import com.dmjm.model.Usuarios;
+import com.dmjm.util.Password;
 
 @Named(value = "usuariosBean")
 @ViewScoped

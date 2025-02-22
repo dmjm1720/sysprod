@@ -19,71 +19,60 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.ICuentasContablesDao;
-import com.dmjm.dao.IEntradasDao;
-import com.dmjm.dao.IEntradasImportacionDao;
+import com.dmjm.dao.IEntradasMaqEqDao;
 import com.dmjm.dao.IFolioDeImportacionDao;
 import com.dmjm.dao.IFoliosImportacion;
 import com.dmjm.dao.IMateriaDao;
 import com.dmjm.dao.IProveedoresDao;
+import com.dmjm.dao.IProveedoresImportacionDao;
 import com.dmjm.impl.CuentasContablesDaoImpl;
-import com.dmjm.impl.EntradasDaoImpl;
-import com.dmjm.impl.EntradasImportacionDaoImpl;
+import com.dmjm.impl.EntradasMaqEqImpl;
 import com.dmjm.impl.FolioDeImportacionDaoImpl;
 import com.dmjm.impl.FoliosImportacionDaoImpl;
 import com.dmjm.impl.MateriaDaoImpl;
 import com.dmjm.impl.ProveedoresDaoImpl;
+import com.dmjm.impl.ProveedoresImportacionDaoImpl;
 import com.dmjm.model.CuentasContables;
-import com.dmjm.model.Entradas;
-import com.dmjm.model.EntradasImportacion;
-import com.dmjm.model.Materia;
+import com.dmjm.model.EntradasMaquinariaEquipo;
 import com.dmjm.model.Proveedores;
 import com.dmjm.model.ProveedoresImportacion;
 import com.dmjm.util.ReporteImportacion;
 
-@Named(value = "entImportBean")
+@Named(value = "entMaqEqBean")
 @ViewScoped
-public class EntradasImportacionBean implements Serializable {
+public class EntradasMaqEqBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<EntradasImportacion> listaEntradasImp;
-	private EntradasImportacion entradasImportacion;
+	private List<EntradasMaquinariaEquipo> listaEntradasImp;
+	private EntradasMaquinariaEquipo entradasImportacionMaq;
 	private ProveedoresImportacion proveedoresImportacion;
-	private Materia materia;
 	private CuentasContables cuentasContables;
-	private List<Entradas> listarFacturasImportacion;
-	private Entradas entradas;
 
 	private String filterProveedor;
 	private String filterMateria;
 	private String filterCuenta;
 	private Proveedores proveedores;
-	private List<String> listarNoFactImportacion;
 	private String factura;
 	private String proveedor;
-	private String identificacionMateria;
 
 	@PostConstruct
 	public void init() {
 		listaEntradasImp = new ArrayList<>();
-		entradasImportacion = new EntradasImportacion();
+		entradasImportacionMaq = new EntradasMaquinariaEquipo();
 		proveedoresImportacion = new ProveedoresImportacion();
 		proveedores = new Proveedores();
-		materia = new Materia();
 		cuentasContables = new CuentasContables();
-		entradasImportacion.setFolioImportacion(buscarFolioImportacion());
-		listarFacturasImportacion = new ArrayList<Entradas>();
-		listarNoFactImportacion = new ArrayList<String>();
-		entradas = new Entradas();
+		entradasImportacionMaq.setFolioImportacion(buscarFolioImportacion());
+
 	}
 
-	public void setEntradasImportacion(EntradasImportacion entradasImportacion) {
-		this.entradasImportacion = entradasImportacion;
+	public EntradasMaquinariaEquipo getEntradasImportacionMaq() {
+		return entradasImportacionMaq;
 	}
 
-	public EntradasImportacion getEntradasImportacion() {
-
-		return entradasImportacion;
+	public void setEntradasImportacionMaq(EntradasMaquinariaEquipo entradasImportacionMaq) {
+		this.entradasImportacionMaq = entradasImportacionMaq;
 	}
 
 	public ProveedoresImportacion getProveedoresImportacion() {
@@ -92,14 +81,6 @@ public class EntradasImportacionBean implements Serializable {
 
 	public void setProveedoresImportacion(ProveedoresImportacion proveedoresImportacion) {
 		this.proveedoresImportacion = proveedoresImportacion;
-	}
-
-	public Materia getMateria() {
-		return materia;
-	}
-
-	public void setMateria(Materia materia) {
-		this.materia = materia;
 	}
 
 	public CuentasContables getCuentasContables() {
@@ -142,23 +123,11 @@ public class EntradasImportacionBean implements Serializable {
 		this.filterCuenta = filterCuenta;
 	}
 
-	public List<EntradasImportacion> getListaEntradasImp() {
+	public List<EntradasMaquinariaEquipo> getListaEntradasImp() {
 
-		IEntradasImportacionDao eDao = new EntradasImportacionDaoImpl();
+		IEntradasMaqEqDao eDao = new EntradasMaqEqImpl();
 		listaEntradasImp = eDao.listarEntradas();
 		return listaEntradasImp;
-	}
-
-	public List<Entradas> getListarFacturasImportacion() {
-		return listarFacturasImportacion;
-	}
-
-	public Entradas getEntradas() {
-		return entradas;
-	}
-
-	public void setEntradas(Entradas entradas) {
-		this.entradas = entradas;
 	}
 
 	public String getFactura() {
@@ -175,48 +144,6 @@ public class EntradasImportacionBean implements Serializable {
 
 	public void setProveedor(String proveedor) {
 		this.proveedor = proveedor;
-	}
-
-	public String getIdentificacionMateria() {
-		return identificacionMateria;
-	}
-
-	public void setIdentificacionMateria(String identificacionMateria) {
-		this.identificacionMateria = identificacionMateria;
-	}
-
-	// **LISTAR FACTURAS DE IMPORTACIÓN**//
-	public List<String> getListarNoFactImportacion() {
-		IEntradasDao eDao = new EntradasDaoImpl();
-		listarFacturasImportacion = eDao.listarEntradasImportacion();
-		listarNoFactImportacion.clear();
-		for (Entradas entradasImportacion : listarFacturasImportacion) {
-			listarNoFactImportacion.add(entradasImportacion.getFactura());
-		}
-
-		return listarNoFactImportacion;
-	}
-
-	public void datosEntradas(String factura) {
-		IEntradasDao eDao = new EntradasDaoImpl();
-
-		Entradas entradas = new Entradas();
-
-		entradas = eDao.buscarEntradaPorFactura(factura);
-
-		entradasImportacion.setFechaEntrada(entradas.getFechaRecepcionToluca());
-		entradasImportacion.setTicketEmbarque(entradas.getTicketBasculaToluca());
-		proveedor = entradas.getProveedores().getNombre();
-		identificacionMateria = entradas.getMateria().getTipo();
-		entradasImportacion.setKgEmbarcado(entradas.getKgEmbarcados());
-		entradasImportacion.setTolva(entradas.getTolvas());
-		entradasImportacion.setKgToluca(entradas.getKgBascula());
-		entradasImportacion.setKgNeto(entradas.getKgNetos());
-		entradasImportacion.setKgMerma(entradas.getMerma());
-		entradasImportacion.setKgPatio(entradas.getKgRecibidos());
-
-		entradasImportacion.setCertificadoZoosanitario(entradas.getCertificado());
-
 	}
 
 	public int buscarFolio() {
@@ -244,34 +171,28 @@ public class EntradasImportacionBean implements Serializable {
 	public void guardar() throws SQLException {
 
 		if (filterCuenta != null) {
-			IEntradasImportacionDao eDao = new EntradasImportacionDaoImpl();
+			IEntradasMaqEqDao eDao = new EntradasMaqEqImpl();
 
-			proveedores.setIdProveedor(buscarProveedor(proveedor));
-			materia.setIdMateria(buscarMateria(identificacionMateria));
+			proveedoresImportacion.setIdProveedor(buscarProveedor(filterProveedor));
 			cuentasContables.setIdCuentaContable(buscarCuenta(filterCuenta));
 
-			entradasImportacion.setMateria(materia);
-			entradasImportacion.setProveedores(proveedores);
-			entradasImportacion.setCuentasContables(cuentasContables);
+			entradasImportacionMaq.setProveedoresImportacion(proveedoresImportacion);
+			entradasImportacionMaq.setCuentasContables(cuentasContables);
 
-			entradasImportacion.setFactura(factura);
+			actualizarFolioDeImportacion(entradasImportacionMaq.getFolioImportacion());
 
-			actualizarFolioDeImportacion(entradasImportacion.getFolioImportacion());
-			IEntradasDao fac = new EntradasDaoImpl();
-			fac.actualizarFacturaImportacion(factura);
-
-			eDao.guardarEntradasImportacion(entradasImportacion);
+			eDao.guardarEntradasImportacion(entradasImportacionMaq);
 
 			String info = "Se ha registrado correctamente la factura de importación no.: " + factura + " Folio EA: "
-					+ entradasImportacion.getFolioImportacion();
+					+ entradasImportacionMaq.getFolioImportacion();
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
-			entradasImportacion = new EntradasImportacion();
+			entradasImportacionMaq = new EntradasMaquinariaEquipo();
 
-			String script = "setTimeout(function() { window.location.href='EntradasImportacion.html'; }, 5000);";
+			String script = "setTimeout(function() { window.location.href='EntradasMaquinariaEquipo.html'; }, 5000);";
 			PrimeFaces.current().executeScript(script);
 
 		} else {
@@ -287,14 +208,14 @@ public class EntradasImportacionBean implements Serializable {
 
 	// **DATOS DEL PROVEEDOR, NOMBRE**//
 	public List<String> buscarNombreProveedor(String nombre) throws SQLException {
-		IProveedoresDao pDao = new ProveedoresDaoImpl();
-		return pDao.completeProveedor(nombre);
+		IProveedoresImportacionDao pDao = new ProveedoresImportacionDaoImpl();
+		return pDao.completeProveedorImp(nombre);
 	}
 
 	// **DATOS DEL PROVEEDOR, ID**//
 	public int buscarProveedor(String nombre) throws SQLException {
-		IProveedoresDao pDao = new ProveedoresDaoImpl();
-		return pDao.buscarProveedor(nombre);
+		IProveedoresImportacionDao pDao = new ProveedoresImportacionDaoImpl();
+		return pDao.buscarProvImp(nombre);
 	}
 
 	// **DATOS DE LA MATERIA PRIMA, NOMBRE**//

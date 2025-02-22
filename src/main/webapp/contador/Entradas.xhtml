@@ -459,7 +459,7 @@
 									rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
 									actionListener="#{entradasBean.guardar()}"
 									update="frmPrincipal"
-									>
+									onclick="setTimeout(function() { window.location.href='Entradas.html'; }, 5000);">
 								</p:commandButton>
 
 							</div>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/02/2025 08:08:39 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.EntradasMaquinariaEquipo" table="ENTRADAS_MAQUINARIA_EQUIPO" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idMaqEq" type="int">
+            <column name="ID_MAQ_EQ" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="cuentasContables" class="com.dmjm.model.CuentasContables" fetch="select">
+            <column name="ID_CUENTA_CONTABLE" />
+        </many-to-one>
+        <many-to-one name="proveedoresImportacion" class="com.dmjm.model.ProveedoresImportacion" fetch="select">
+            <column name="ID_PROVEEDOR" />
+        </many-to-one>
+        <property name="factura" type="string">
+            <column name="FACTURA" length="50" />
+        </property>
+        <property name="fechaEntrega" type="timestamp">
+            <column name="FECHA_ENTREGA" length="23" />
+        </property>
+        <property name="folioImportacion" type="java.lang.Long">
+            <column name="FOLIO_IMPORTACION" />
+        </property>
+        <property name="noReqExtra" type="string">
+            <column name="NO_REQ_EXTRA" length="250" />
+        </property>
+        <property name="oc" type="string">
+            <column name="OC" length="50" />
+        </property>
+        <property name="pedimento" type="string">
+            <column name="PEDIMENTO" length="50" />
+        </property>
+        <property name="importe" type="big_decimal">
+            <column name="IMPORTE" precision="10" scale="4" />
+        </property>
+        <property name="identificacionMaqEq" type="string">
+            <column name="IDENTIFICACION_MAQ_EQ" length="250" />
+        </property>
+    </class>
+</hibernate-mapping>

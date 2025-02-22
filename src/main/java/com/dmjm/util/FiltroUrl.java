@@ -82,7 +82,7 @@ public class FiltroUrl implements PhaseListener {
 			return true;
 		} else if (rol.equals("Presidencia") && page.contains("/presidencia/")) {
 			return true;
-		} else if (rol.equals("Otros") && page.contains("/pend/")) {
+		} else if (rol.equals("Operador") && page.contains("/operador/")) {
 			return true;
 		}
 

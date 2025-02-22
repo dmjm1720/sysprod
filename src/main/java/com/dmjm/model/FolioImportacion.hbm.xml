@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10/02/2025 02:20:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.FolioImportacion" table="FOLIO_IMPORTACION" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idFolio" type="int">
+            <column name="ID_FOLIO" />
+            <generator class="assigned" />
+        </id>
+        <property name="folio" type="java.lang.Long">
+            <column name="FOLIO" />
+        </property>
+    </class>
+</hibernate-mapping>
