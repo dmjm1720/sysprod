@@ -90,7 +90,7 @@
 										onclick="PF('dlgBorrar').show()" update="frmBorrar:pnlBorrar"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{proveedoresBean.proveedores}" />
+											target="#{provImpBean.proveedoresImportacion}" />
 
 									</p:commandButton>
 									<p:tooltip id="toolTipBorrar" for="ba" value="Baja"
@@ -186,39 +186,9 @@
 
 						<p:outputLabel for="nombre" value="Nombre" />
 						<p:inputText id="nombre" readonly="true"
-							value="#{proveedoresBean.proveedores.nombre}" required="false"
+							value="#{provImpBean.proveedoresImportacion.nombre}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 						<p:message for="nombre" />
-
-						<p:outputLabel for="razonsocial" value="Razón Social" />
-						<p:inputText id="razonsocial" readonly="true"
-							value="#{proveedoresBean.proveedores.razonSocial}"
-							required="false" requiredMessage="Campo requerido"
-							style="width: 20rem" />
-						<p:message for="razonsocial" />
-
-						<p:outputLabel for="origen" value="Origen" />
-						<p:inputText id="origen" readonly="true"
-							value="#{proveedoresBean.proveedores.origen}" required="false"
-							requiredMessage="Campo requerido" style="width: 20rem" />
-						<p:message for="origen" />
-
-						<p:outputLabel for="descA" value="Descuento humedad tabla A" />
-						<p:inputText id="descA" readonly="true"
-							value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
-							required="false" requiredMessage="Campo requerido"
-							style="width: 20rem" />
-						<p:message for="descA" />
-
-
-						<p:outputLabel for="descB" value="Descuento humedad tabla B" />
-						<p:inputText id="descB" readonly="true"
-							value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
-							required="false" requiredMessage="Campo requerido"
-							style="width: 20rem" />
-						<p:message for="descB" />
-
-
 
 					</h:panelGrid>
 
@@ -226,7 +196,7 @@
 						<p:commandButton icon="pi pi-trash" value="BAJA DE PROVEEDOR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{proveedoresBean.bajaProveedores()}"
+							actionListener="#{provImpBean.bajaProveedores()}"
 							oncomplete="PF('dlgBorrar').hide()" />
 					</div>
 

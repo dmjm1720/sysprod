@@ -86,22 +86,6 @@
 									value="#{entMaqEqBean.filterCuenta}"
 									completeMethod="#{entMaqEqBean.buscarNombreCuenta}" />
 
-								<p:outputLabel for="oc" value="OC" />
-								<p:inputText id="oc" disabled="false" styleClass="otrosCampos"
-									value="#{entMaqEqBean.entradasImportacionMaq.oc}"
-									required="false" requiredMessage="Campo requerido" />
-
-								<p:outputLabel for="pedimento" value="Pedimento" />
-								<p:inputText id="pedimento" disabled="false"
-									styleClass="otrosCampos"
-									value="#{entMaqEqBean.entradasImportacionMaq.pedimento}"
-									required="false" requiredMessage="Campo requerido" />
-
-								<p:outputLabel for="importe" value="Importe" />
-								<p:inputText id="importe" disabled="false"
-									styleClass="otrosCampos"
-									value="#{entMaqEqBean.entradasImportacionMaq.importe}"
-									required="false" requiredMessage="Campo requerido" />
 							</h:panelGrid>
 							<br></br>
 							<div style="text-align: center">
@@ -183,17 +167,17 @@
 										style="color: #2196F3;" />
 								</p:column>
 
-								<p:column headerText="Orden de compra" width="5rem">
-									<h:outputText value="#{item.oc}" style="color: #2196F3;" />
-								</p:column>
+<!-- 								<p:column headerText="Orden de compra" width="5rem"> -->
+<!-- 									<h:outputText value="{item.oc}" style="color: #2196F3;" /> -->
+<!-- 								</p:column> -->
 
-								<p:column headerText="Pedimento" width="5rem">
-									<h:outputText value="#{item.pedimento}" style="color: #2196F3;" />
-								</p:column>
+<!-- 								<p:column headerText="Pedimento" width="5rem"> -->
+<!-- 									<h:outputText value="{item.pedimento}" style="color: #2196F3;" /> -->
+<!-- 								</p:column> -->
 
-								<p:column headerText="Importe" width="5rem">
-									<h:outputText value="#{item.importe}" style="color: #2196F3;" />
-								</p:column>
+<!-- 								<p:column headerText="Importe" width="5rem"> -->
+<!-- 									<h:outputText value="{item.importe}" style="color: #2196F3;" /> -->
+<!-- 								</p:column> -->
 
 							</p:dataTable>
 

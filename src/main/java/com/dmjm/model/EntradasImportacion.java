@@ -24,6 +24,8 @@ public class EntradasImportacion implements java.io.Serializable {
 	private String certificadoZoosanitario;
 	private Integer porcentaje;
     private Long folioImportacion;
+    private BigDecimal humedad;
+    private BigDecimal calcios;
 	
 
 	public EntradasImportacion() {
@@ -37,7 +39,7 @@ public class EntradasImportacion implements java.io.Serializable {
 			Proveedores proveedores, int tolva, Date fechaEntrada, String ticketEmbarque,
 			String factura, BigDecimal kgEmbarcado, BigDecimal kgToluca, BigDecimal kgNeto, BigDecimal kgMerma,
 			BigDecimal kgPatio, Integer folioEa, Integer porcentajeSalado, String certificadoZoosanitario,
-			Integer porcentaje, Long folioImportacion) {
+			Integer porcentaje, Long folioImportacion,BigDecimal humedad,BigDecimal calcios) {
 		this.idEntradaImportacion = idEntradaImportacion;
 		this.cuentasContables = cuentasContables;
 		this.materia = materia;
@@ -56,6 +58,8 @@ public class EntradasImportacion implements java.io.Serializable {
 		this.certificadoZoosanitario = certificadoZoosanitario;
 		this.porcentaje = porcentaje;
 		this.folioImportacion =folioImportacion;
+		this.humedad=humedad;
+		this.calcios=calcios;
 	}
 
 	public int getIdEntradaImportacion() {
@@ -200,6 +204,22 @@ public class EntradasImportacion implements java.io.Serializable {
 
 	public void setFolioImportacion(Long folioImportacion) {
 		this.folioImportacion = folioImportacion;
+	}
+
+	public BigDecimal getHumedad() {
+		return humedad;
+	}
+
+	public void setHumedad(BigDecimal humedad) {
+		this.humedad = humedad;
+	}
+
+	public BigDecimal getCalcios() {
+		return calcios;
+	}
+
+	public void setCalcios(BigDecimal calcios) {
+		this.calcios = calcios;
 	}
 	
 	

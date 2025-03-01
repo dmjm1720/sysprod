@@ -59,7 +59,8 @@
 								<p:outputLabel for="fea" value="Folio EA" />
 								<p:inputText id="fea" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.folioImportacion}"
-									required="false" requiredMessage="Campo requerido" disabled="true" />
+									required="false" requiredMessage="Campo requerido"
+									disabled="true" />
 
 								<p:outputLabel for="fecha" value="Fecha de entrada" />
 								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
@@ -112,6 +113,16 @@
 									value="#{entImportBean.entradasImportacion.kgPatio}"
 									required="false" requiredMessage="Campo requerido" />
 
+								<p:outputLabel for="humedad" value="Humedad" />
+								<p:inputText id="humedad" styleClass="otrosCampos" disabled="true"
+									value="#{entImportBean.entradasImportacion.humedad}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="calcios" value="Calcios" />
+								<p:inputText id="calcios" styleClass="otrosCampos" disabled="true"
+									value="#{entImportBean.entradasImportacion.calcios}"
+									required="false" requiredMessage="Campo requerido" />
+
 								<p:outputLabel for="cz" value="Certificado Zoosanitario" />
 								<p:inputText id="cz" disabled="true" styleClass="otrosCampos"
 									value="#{entImportBean.entradasImportacion.certificadoZoosanitario}"
@@ -132,8 +143,7 @@
 									styleClass="fuente" title="Guardar"
 									style="width: 12rem; height: 2rem"
 									actionListener="#{entImportBean.guardar()}"
-									update="frmPrincipal"
-									>
+									update="frmPrincipal">
 								</p:commandButton>
 							</div>
 						</p:tab>
@@ -157,7 +167,7 @@
 								emptyMessage="NO HAY REGISTROS">
 
 								<!--Impresión de hoja de importación-->
-								<p:column headerText="Imprimir" width="3rem">
+								<p:column headerText="Imprimir" width="3rem" exportable="false">
 									<h:commandLink id="imp" value=""
 										style="height: 30px;  font-size: 12px;" target="_blank"
 										actionListener="#{entImportBean.visualizarReporte(item.idEntradaImportacion)}">
@@ -171,14 +181,15 @@
 								<p:column headerText="# Tolva" width="2rem">
 									<h:outputText value="#{item.tolva}" style="color: #036FAB;" />
 								</p:column>
-								
+
 								<p:column headerText="Folio EA" width="3rem">
-									<h:outputText value="#{item.folioImportacion}" style="color: #2196F3;" />
+									<h:outputText value="#{item.folioImportacion}"
+										style="color: #2196F3;" />
 								</p:column>
 
 								<p:column headerText="Fecha de entrada" width="7rem">
 									<h:outputText value="#{item.fechaEntrada}"
-										style="color: #2196F3;" />
+										style="color: #036FAB;" />
 								</p:column>
 
 								<p:column headerText="Ticket embarque" width="7rem">
@@ -187,7 +198,7 @@
 								</p:column>
 
 								<p:column headerText="Factura" width="7rem">
-									<h:outputText value="#{item.factura}" style="color: #2196F3;" />
+									<h:outputText value="#{item.factura}" style="color: #036FAB;" />
 								</p:column>
 								<p:column headerText="Nombre Proveedor" width="15rem">
 									<h:outputText value="#{item.proveedores.nombre}"
@@ -196,28 +207,34 @@
 
 								<p:column headerText="Materia" width="10rem">
 									<h:outputText value="#{item.materia.tipo}"
-										style="color: #2196F3;" />
+										style="color: #036FAB;" />
 								</p:column>
 								<p:column headerText="Kg. Embarcado" width="5rem">
 									<h:outputText value="#{item.kgEmbarcado}"
 										style="color: #2196F3;" />
 								</p:column>
 								<p:column headerText="Kg. Toluca" width="5rem">
-									<h:outputText value="#{item.kgToluca}" style="color: #2196F3;" />
+									<h:outputText value="#{item.kgToluca}" style="color: #036FAB;" />
 								</p:column>
 								<p:column headerText="Kg. Neto" width="5rem">
 									<h:outputText value="#{item.kgNeto}" style="color: #2196F3;" />
 								</p:column>
 								<p:column headerText="Kg. Merma" width="5rem">
-									<h:outputText value="#{item.kgMerma}" style="color: #2196F3;" />
+									<h:outputText value="#{item.kgMerma}" style="color: #036FAB;" />
 								</p:column>
 								<p:column headerText="Kg. Patio" width="5rem">
 									<h:outputText value="#{item.kgPatio}" style="color: #2196F3;" />
 								</p:column>
+								<p:column headerText="Humedad" width="5rem">
+									<h:outputText value="#{item.humedad}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Calcios" width="5rem">
+									<h:outputText value="#{item.calcios}" style="color: #2196F3;" />
+								</p:column>
 
 								<p:column headerText="Certificado Zoosanitario" width="5rem">
 									<h:outputText value="#{item.certificadoZoosanitario}"
-										style="color: #2196F3;" />
+										style="color: #036FAB;" />
 								</p:column>
 								<p:column headerText="Cuenta contable" width="5rem">
 									<h:outputText value="#{item.cuentasContables.cuenta}"

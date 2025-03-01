@@ -42,7 +42,8 @@
 					<p:accordionPanel id="acco" widgetVar="basic">
 						<p:tab title="CAPTURA DE PRECIOS"
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
-							<h:panelGrid columns="4" cellpadding="4" styleClass="fuente" rendered="#{login.usuario.perfiles.nombrePerfil=='Presidencia'}">
+							<h:panelGrid columns="4" cellpadding="4" styleClass="fuente"
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Presidencia'}">
 
 								<p:outputLabel for="pro" value="Proveedor" />
 								<p:autoComplete id="pro" size="35"
@@ -73,8 +74,9 @@
 							</h:panelGrid>
 							<br></br>
 							<div style="text-align: center">
-								<p:commandButton icon="pi pi-save" title="ACTUALIZAR PRECIO" rendered="#{login.usuario.perfiles.nombrePerfil=='Presidencia'}"
+								<p:commandButton icon="pi pi-save" title="ACTUALIZAR PRECIO"
 									styleClass="mensajeBoton2" value="ACTUALIZAR PRECIO"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Presidencia'}"
 									style="width: 12rem; height: 3rem"
 									update="frmPrincipal, frmPrincipal:msgs, tblPrecios"
 									oncomplete="limpiarForm()"
@@ -107,7 +109,8 @@
 								value="#{preciosBean.listarPrecios}"
 								emptyMessage="NO HAY REGISTROS">
 
-								<p:column headerText="Editar precio" width="3rem" rendered="#{login.usuario.perfiles.nombrePerfil=='Presidencia'}"
+								<p:column headerText="Editar precio" width="3rem"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Presidencia'}"
 									exportable="false">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
 										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
@@ -193,6 +196,14 @@
 							value="#{preciosBean.precios.precioActual}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 						<p:message for="precio" />
+
+						<p:outputLabel for="fecha" value="Fecha de actualización" />
+						<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
+							disabled="false" placeholder="Fecha de actualización"
+							inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+							value="#{preciosBean.precios.fechaActualizacion}"
+							style="font-family: 'Poppins', sans-serif !important;"
+							styleClass="captura" />
 
 					</h:panelGrid>
 

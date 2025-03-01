@@ -8,8 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import com.dmjm.dao.IProveedoresDao;
 import com.dmjm.dao.IProveedoresImportacionDao;
+import com.dmjm.impl.ProveedoresDaoImpl;
 import com.dmjm.impl.ProveedoresImportacionDaoImpl;
+import com.dmjm.model.Proveedores;
 import com.dmjm.model.ProveedoresImportacion;
 
 @Named(value = "provImpBean")
@@ -45,6 +48,7 @@ public class ProveedoresImpBean implements Serializable {
 
 	public void guardarProvImp() {
 		IProveedoresImportacionDao pDao = new ProveedoresImportacionDaoImpl();
+		proveedoresImportacion.setEstado(1);
 		pDao.guardarProvImp(proveedoresImportacion);
 		proveedoresImportacion = new ProveedoresImportacion();
 
@@ -56,5 +60,11 @@ public class ProveedoresImpBean implements Serializable {
 		proveedoresImportacion = new ProveedoresImportacion();
 
 	}
+    public void bajaProveedores() {
+    	IProveedoresImportacionDao pDao = new ProveedoresImportacionDaoImpl();
+    	proveedoresImportacion.setEstado(0);
+    	pDao.borrarProvImp(proveedoresImportacion);
+    	proveedoresImportacion = new ProveedoresImportacion();
+   }
 
 }

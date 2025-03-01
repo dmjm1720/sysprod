@@ -64,5 +64,11 @@
 		<property name="folioImportacion" type="java.lang.Long">
 			<column name="FOLIO_IMPORTACION" />
 		</property>
+		<property name="humedad" type="big_decimal">
+			<column name="HUMEDAD" precision="10" scale="4" />
+		</property>
+		<property name="calcios" type="big_decimal">
+			<column name="CALCIOS" precision="10" scale="4" />
+		</property>
 	</class>
 </hibernate-mapping>

@@ -150,7 +150,7 @@ public class PreciosBean implements Serializable {
 
 	public void actualizarPrecio() {
 		IPreciosDao pDao = new PreciosDaoImpl();
-		precios.setFechaActualizacion(new Date());
+		//precios.setFechaActualizacion(new Date());
 		pDao.actualizarPrecios(precios);
 		
 		IBitacoraPreciosDao bDao = new BitacoraPreciosDaoImpl();

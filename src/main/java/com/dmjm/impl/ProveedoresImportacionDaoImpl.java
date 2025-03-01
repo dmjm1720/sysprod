@@ -90,7 +90,7 @@ public class ProveedoresImportacionDaoImpl extends Conexion implements IProveedo
 		ConectarSysProd();
 
 		PreparedStatement st = getCnSysProd().prepareStatement(
-				"SELECT DISTINCT (NOMBRE) FROM PROVEEDORES_IMPORTACION WHERE NOMBRE LIKE '" + nombre + "%'");
+				"SELECT DISTINCT (NOMBRE) FROM PROVEEDORES_IMPORTACION WHERE NOMBRE LIKE '" + nombre + "%' AND ESTADO = 1");
 		ResultSet rs = st.executeQuery();
 		listarTodo = new ArrayList<>();
 		if (!rs.isBeforeFirst()) {
@@ -113,7 +113,7 @@ public class ProveedoresImportacionDaoImpl extends Conexion implements IProveedo
 	public int buscarProvImp(String nombre) throws SQLException {
 		ConectarSysProd();
 		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT ID_PROVEEDOR FROM PROVEEDORES_IMPORTACION WHERE NOMBRE = '" + nombre + "'");
+				.prepareStatement("SELECT ID_PROVEEDOR FROM PROVEEDORES_IMPORTACION WHERE NOMBRE = '" + nombre + "' AND ESTADO = 1");
 		ResultSet rs = st.executeQuery();
 		int proveedor = 0;
 		if (!rs.isBeforeFirst()) {

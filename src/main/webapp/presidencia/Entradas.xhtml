@@ -179,8 +179,7 @@
 								<p:inputText id="kgnetos" autocomplete="off"
 									styleClass="otrosCampos" value="#{entradasBean.kilosNetos}"
 									required="false" requiredMessage="Campo requerido">
-									<p:ajax event="keyup"
-										update="mm, kgbasculamer"
+									<p:ajax event="keyup" update="mm, kgbasculamer"
 										listener="#{entradasBean.totalKilos}" />
 								</p:inputText>
 
@@ -188,8 +187,7 @@
 								<p:inputText id="kgbascula" autocomplete="off"
 									styleClass="otrosCampos" value="#{entradasBean.kilosBascula}"
 									required="false" requiredMessage="Campo requerido">
-									<p:ajax event="keyup"
-										update="kdrec,kgbasculamer"
+									<p:ajax event="keyup" update="kdrec,kgbasculamer"
 										listener="#{entradasBean.aguaMerma}" />
 								</p:inputText>
 
@@ -202,8 +200,7 @@
 										listener="#{entradasBean.aguaMerma}" />
 									<p:ajax event="keyup" update="mm"
 										listener="#{entradasBean.totalKilos}" />
-									<p:ajax event="keyup"
-										update="mmm, kgbasculamer"
+									<p:ajax event="keyup" update="mmm, kgbasculamer"
 										listener="#{entradasBean.porcentajeTotal}" />
 								</p:inputText>
 
@@ -458,8 +455,7 @@
 									style="width: 12rem; height: 2rem"
 									rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
 									actionListener="#{entradasBean.guardar()}"
-									update="frmPrincipal"
-									onclick="setTimeout(function() { window.location.href='Entradas.html'; }, 5000);">
+									update="frmPrincipal">
 								</p:commandButton>
 
 							</div>
@@ -548,7 +544,8 @@
 											target="#{entradasBean.filterPreservacion}" />
 									</p:commandButton>
 								</p:column>
-								<p:column headerText="Detalle" width="3rem">
+								<p:column headerText="Detalle" width="3rem"
+									style="text-align: center">
 									<p:commandButton id="det" icon="pi pi-fw pi-search"
 										onclick="PF('dlgVer').show()" update="frmDetalle:ver"
 										styleClass="ui-button-info">
@@ -562,6 +559,7 @@
 
 								<!--Impresión de hoja de liberación, gerencia y contador: otro con detalle de pagos (Contador)-->
 								<p:column headerText="Imprimir" width="3rem"
+									style="text-align: center"
 									rendered="#{login.usuario.perfiles.idPerfil!=2 and login.usuario.perfiles.idPerfil!=3}">
 									<h:commandLink id="imp" value=""
 										style="height: 30px;  font-size: 12px;" target="_blank"
@@ -578,7 +576,7 @@
 								<p:column rendered="#{login.usuario.perfiles.idPerfil==4}"
 									headerText="Desbloquear" width="5rem" styleClass="fuente">
 									<p:commandButton id="des" icon="pi pi-fw pi-cog"
-										styleClass="ui-button-help"
+										style="text-align: center" styleClass="ui-button-help"
 										actionListener="#{entradasBean.desbloquear(item.idEntrada, item.tolvas)}"
 										update="frmPrincipal, frmPrincipal:msgs">
 
@@ -587,7 +585,8 @@
 										trackMouse="true" />
 								</p:column>
 
-								<p:column headerText="Subir certificado" width="4rem">
+								<p:column headerText="Subir documentos" width="5rem"
+									style="text-align: center">
 									<p:commandButton id="subirpdf" icon="pi pi-upload"
 										update="frmPDF:pnlVerPDF" onclick="PF('dlgVerPDF').show()"
 										styleClass="ui-button-info">
@@ -596,14 +595,16 @@
 									</p:commandButton>
 								</p:column>
 
-								<p:column headerText="Ver certificado" width="4rem">
+								<p:column headerText="Ver certificado" width="4rem"
+									style="text-align: center">
 									<p:commandButton id="pdf" icon="pi pi-fw pi-file-pdf"
 										actionListener="#{entradasBean.loadPdf(item.archivoCertificado)}"
-										onclick="PF('dlgPDF').show()" update="formPDF:viewer"
-										styleClass="ui-button-info">
+										onclick="PF('dlgPDF').show()" update="formPDF:viewer">
 									</p:commandButton>
+									<p:graphicImage
+										value="/resources/img/#{item.archivoCertificado.contains('.pdf') ? 'check.png' : 'cross.png'}"
+										style="width: 20px; height: 20px;" />
 								</p:column>
-
 								<p:column headerText="Tolvas" width="3rem"
 									filterBy="#{item.tolvas}">
 									<h:outputText value="#{item.tolvas}" />

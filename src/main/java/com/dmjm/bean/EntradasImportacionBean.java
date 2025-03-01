@@ -214,6 +214,8 @@ public class EntradasImportacionBean implements Serializable {
 		entradasImportacion.setKgNeto(entradas.getKgNetos());
 		entradasImportacion.setKgMerma(entradas.getMerma());
 		entradasImportacion.setKgPatio(entradas.getKgRecibidos());
+		entradasImportacion.setCalcios(entradas.getAlcalinidad());
+		entradasImportacion.setHumedad(entradas.getHumedad());
 
 		entradasImportacion.setCertificadoZoosanitario(entradas.getCertificado());
 
