@@ -103,6 +103,7 @@ public class EntradasBean extends Conexion implements Serializable {
 	private double dato12 = 0.0;
 	private double dato13 = 0.0;
 	private double dato14 = 0.0;
+	private double dato15 = 0.0;
 	private double kilosEmbarcados = 0.0;
 	private double kilosRecibidos = 0.0;
 	private double kilosNetos = 0.0;
@@ -540,6 +541,14 @@ public class EntradasBean extends Conexion implements Serializable {
 		this.listarEntradas = listarEntradas;
 	}
 
+	public double getDato15() {
+		return dato15;
+	}
+
+	public void setDato15(double dato15) {
+		this.dato15 = dato15;
+	}
+
 	// *****************GUARDAR*********************//
 	public void guardar() throws SQLException {
 		IEntradasDao eDao = new EntradasDaoImpl();
@@ -564,8 +573,8 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradas.setKgNetos(BigDecimal.valueOf(kilosNetos));
 		entradas.setKgBascula(BigDecimal.valueOf(kilosBascula));
 		entradas.setKgBasculaMerma(BigDecimal.valueOf(kilosBasculaMerma));
-		
-		//**COLOCAR CERO A DESCUENTOS POR HUMEDAD Y ALCALINIDAD**//
+
+		// **COLOCAR CERO A DESCUENTOS POR HUMEDAD Y ALCALINIDAD**//
 		entradas.setDescuentoCalcioTa(new BigDecimal(0));
 		entradas.setDescuentoCalcioTb(new BigDecimal(0));
 		entradas.setDescuentoHumedadTa(new BigDecimal(0));
@@ -588,13 +597,14 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradas.setCueroDepiladoIntegral(BigDecimal.valueOf(dato12));
 		entradas.setGarra(BigDecimal.valueOf(dato13));
 		entradas.setCueroEnSangre(BigDecimal.valueOf(dato14));
+		entradas.setCerdoAmericano(BigDecimal.valueOf(dato15));
 
 		// VALIDAR DATOS
 //		if (entradas.getSucursal() == null || entradas.getFactura() == "" || entradas.getCertificado() == ""
 //				|| transportista.getIdTransportista() == 0 || proveedores.getIdProveedor() == 0
 //				|| materia.getIdMateria() == 0 || preservacion.getIdPreservacion() == 0) {
-		if (entradas.getSucursal() == null || proveedores.getIdProveedor() == 0
-				|| materia.getIdMateria() == 0 || preservacion.getIdPreservacion() == 0) {
+		if (entradas.getSucursal() == null || proveedores.getIdProveedor() == 0 || materia.getIdMateria() == 0
+				|| preservacion.getIdPreservacion() == 0) {
 
 			String suc = "";
 			String fac = "";
@@ -642,7 +652,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		} else {
 
 			LOGGER.info("INFO DATOS: " + dato1 + dato2 + dato3 + dato4 + dato5 + dato6 + dato7 + dato8 + dato9 + dato10
-					+ dato11 + dato12 + dato13 + dato14);
+					+ dato11 + dato12 + dato13 + dato14 + dato15);
 
 			if (dato1 != ceros) {
 				entradas.setPrecioCcp(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 1)));
@@ -724,6 +734,9 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			if (dato14 != ceros) {
 				entradas.setPrecioCe(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 14)));
+			}
+			if (dato15 != ceros) {
+				entradas.setPrecioCe(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 15)));
 			} else {
 
 				entradas.setPrecioCe(BigDecimal.valueOf(ceros));
@@ -936,10 +949,10 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 		}
 
-		
-		//**BUSCAR ACTUALIZACIÓN DE PRECIO**//
+		// **BUSCAR ACTUALIZACIÓN DE PRECIO**//
 		if (Double.parseDouble(entradasEditar.getPrecioCcp().toString()) != ceros) {
-			entradasEditar.setPrecioCcp(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 1)));
+			entradasEditar.setPrecioCcp(
+					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 1)));
 		} else {
 			entradasEditar.setPrecioCcp(BigDecimal.valueOf(ceros));
 		}
@@ -950,79 +963,98 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar.setPrecioC1(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioC2().toString())  != ceros) {
-			entradasEditar.setPrecioC2(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 3)));
+		if (Double.parseDouble(entradasEditar.getPrecioC2().toString()) != ceros) {
+			entradasEditar
+					.setPrecioC2(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 3)));
 		} else {
 			entradasEditar.setPrecioC2(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCs().toString())  != ceros) {
-			entradasEditar.setPrecioCs(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 4)));
+		if (Double.parseDouble(entradasEditar.getPrecioCs().toString()) != ceros) {
+			entradasEditar
+					.setPrecioCs(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 4)));
 		} else {
 			entradasEditar.setPrecioCs(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioDr().toString())  != ceros) {
-			entradasEditar.setPrecioDr(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 5)));
+		if (Double.parseDouble(entradasEditar.getPrecioDr().toString()) != ceros) {
+			entradasEditar
+					.setPrecioDr(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 5)));
 		} else {
 			entradasEditar.setPrecioDr(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCm().toString())  != ceros) {
-			entradasEditar.setPrecioCm(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 6)));
+		if (Double.parseDouble(entradasEditar.getPrecioCm().toString()) != ceros) {
+			entradasEditar
+					.setPrecioCm(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 6)));
 		} else {
 			entradasEditar.setPrecioCm(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCo().toString())  != ceros) {
-			entradasEditar.setPrecioCo(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 7)));
+		if (Double.parseDouble(entradasEditar.getPrecioCo().toString()) != ceros) {
+			entradasEditar
+					.setPrecioCo(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 7)));
 		} else {
 			entradasEditar.setPrecioCo(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioPc().toString())  != ceros) {
-			entradasEditar.setPrecioPc(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 8)));
+		if (Double.parseDouble(entradasEditar.getPrecioPc().toString()) != ceros) {
+			entradasEditar
+					.setPrecioPc(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 8)));
 		} else {
 			entradasEditar.setPrecioPc(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioP().toString())  != ceros) {
-			entradasEditar.setPrecioP(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 9)));
+		if (Double.parseDouble(entradasEditar.getPrecioP().toString()) != ceros) {
+			entradasEditar
+					.setPrecioP(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 9)));
 		} else {
 			entradasEditar.setPrecioP(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCcp().toString())  != ceros) {
-			entradasEditar.setPrecioDa(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 10)));
+		if (Double.parseDouble(entradasEditar.getPrecioCcp().toString()) != ceros) {
+			entradasEditar.setPrecioDa(
+					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 10)));
 		} else {
 			entradasEditar.setPrecioDa(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioDs().toString())  != ceros) {
-			entradasEditar.setPrecioDs(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 11)));
+		if (Double.parseDouble(entradasEditar.getPrecioDs().toString()) != ceros) {
+			entradasEditar.setPrecioDs(
+					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 11)));
 		} else {
 			entradasEditar.setPrecioDs(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCdi().toString())  != ceros) {
-			entradasEditar.setPrecioCdi(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 12)));
+		if (Double.parseDouble(entradasEditar.getPrecioCdi().toString()) != ceros) {
+			entradasEditar.setPrecioCdi(
+					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 12)));
 		} else {
 			entradasEditar.setPrecioCdi(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioG().toString())  != ceros) {
-			entradasEditar.setPrecioG(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 13)));
+		if (Double.parseDouble(entradasEditar.getPrecioG().toString()) != ceros) {
+			entradasEditar
+					.setPrecioG(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 13)));
 		} else {
 			entradas.setPrecioG(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCe().toString())  != ceros) {
-			entradasEditar.setPrecioCe(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 14)));
+		if (Double.parseDouble(entradasEditar.getPrecioCe().toString()) != ceros) {
+			entradasEditar.setPrecioCe(
+					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 14)));
 		} else {
 
 			entradasEditar.setPrecioCe(BigDecimal.valueOf(ceros));
 		}
-		
+		if (Double.parseDouble(entradasEditar.getPrecioCa().toString()) != ceros) {
+			entradasEditar.setPrecioCa(
+					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 15)));
+		} else {
+
+			entradasEditar.setPrecioCa(BigDecimal.valueOf(ceros));
+		}
+
 		@SuppressWarnings("unused")
 		int banderaGerencia = 0;
 		@SuppressWarnings("unused")
@@ -1100,14 +1132,16 @@ public class EntradasBean extends Conexion implements Serializable {
 		if (porcentajeDeMerma > 1.5) {
 			LOGGER.warn("**********************************************************************");
 			LOGGER.info("El porcentaje la merma es mayor, se aplica descuento de 1.5");
-			LOGGER.info("El porcentaje con el descuento de 1.5: " + (porcentajeDeMerma-1.5) + Double.valueOf(entradasEditar.getDescuentoCalcio().toString())+Double.valueOf(entradasEditar.getKgNetos().toString()));
+			LOGGER.info("El porcentaje con el descuento de 1.5: " + (porcentajeDeMerma - 1.5)
+					+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
+					+ Double.valueOf(entradasEditar.getKgNetos().toString()));
 			LOGGER.warn("**********************************************************************");
 
 		}
 
 		if (porcentajeDeMerma < 1.5) {
 			porcentajeDeMerma = 0.0;
-			
+
 		}
 
 		// **VALIDAR SI ES NEGATIVO**//
@@ -1122,8 +1156,7 @@ public class EntradasBean extends Conexion implements Serializable {
 							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgNetos().toString())) / 100);
-			LOGGER.info("KG MERMA: " + kg_porcentaje
-					+ " Tipo de moneda: " + entradasEditar.getTipoMoneda());
+			LOGGER.info("KG MERMA: " + kg_porcentaje + " Tipo de moneda: " + entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		} else {
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgEmbarcados().toString())
@@ -1131,8 +1164,7 @@ public class EntradasBean extends Conexion implements Serializable {
 							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgEmbarcados().toString())) / 100);
-			LOGGER.info("KG MERMA: " + kg_porcentaje
-					+ " Tipo de moneda: " + entradasEditar.getTipoMoneda());
+			LOGGER.info("KG MERMA: " + kg_porcentaje + " Tipo de moneda: " + entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		}
 		// }
@@ -1179,6 +1211,10 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradasEditar.setPrecioCalcCe(
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCueroEnSangre().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioCe().toString())));
+		entradasEditar.setPrecioCalcCa(
+				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCerdoAmericano().toString()) / 100)
+						* Double.valueOf(entradasEditar.getPrecioCa().toString())));
+
 
 		double sumaSubtotal = 0.0;
 		sumaSubtotal = (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())
@@ -1194,7 +1230,8 @@ public class EntradasBean extends Conexion implements Serializable {
 				+ Double.valueOf(entradasEditar.getPrecioCalcDs().toString())
 				+ Double.valueOf(entradasEditar.getPrecioCalcCdi().toString())
 				+ Double.valueOf(entradasEditar.getPrecioCalcG().toString())
-				+ Double.valueOf(entradasEditar.getPrecioCalcCe().toString()));
+				+ Double.valueOf(entradasEditar.getPrecioCalcCe().toString())
+				+ Double.valueOf(entradasEditar.getPrecioCalcCa().toString()));
 
 		double iva = 0.0;
 		iva = sumaSubtotal * .16;
@@ -1273,7 +1310,7 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		double suma = 0.0;
 		suma = (dato1 + dato2 + dato3 + dato4 + dato5 + dato6 + dato7 + dato8 + dato9 + dato10 + dato11 + dato12
-				+ dato13 + dato14);
+				+ dato13 + dato14 + dato15);
 		if (suma > 100) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_FATAL, "¡ERROR!", "EL TOTAL DEBE SER IGUAL A 100% O MENOR"));
@@ -1306,7 +1343,8 @@ public class EntradasBean extends Conexion implements Serializable {
 				+ Double.parseDouble(entradasEditar.getDescarneSeparado().toString())
 				+ Double.parseDouble(entradasEditar.getCueroDepiladoIntegral().toString())
 				+ Double.parseDouble(entradasEditar.getGarra().toString())
-				+ Double.parseDouble(entradasEditar.getCueroEnSangre().toString()));
+				+ Double.parseDouble(entradasEditar.getCueroEnSangre().toString())
+				+ Double.parseDouble(entradasEditar.getCerdoAmericano().toString()));
 		if (suma > 100) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_FATAL, "¡ERROR!", "EL TOTAL DEBE SER IGUAL A 100% O MENOR"));
@@ -1693,6 +1731,12 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			if (Double.parseDouble(entradasEditar.getCueroEnSangre().toString()) != ceros) {
 				entradasEditar.setPrecioCe(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 14)));
+			} else {
+
+				entradasEditar.setPrecioCe(BigDecimal.valueOf(ceros));
+			}
+			if (Double.parseDouble(entradasEditar.getCerdoAmericano().toString()) != ceros) {
+				entradasEditar.setPrecioCe(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 15)));
 			} else {
 
 				entradasEditar.setPrecioCe(BigDecimal.valueOf(ceros));

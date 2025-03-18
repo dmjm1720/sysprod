@@ -21,6 +21,7 @@ import org.primefaces.PrimeFaces;
 import com.dmjm.dao.ICuentasContablesDao;
 import com.dmjm.dao.IEntradasDao;
 import com.dmjm.dao.IEntradasImportacionDao;
+import com.dmjm.dao.IEntradasMaqEqDao;
 import com.dmjm.dao.IFolioDeImportacionDao;
 import com.dmjm.dao.IFoliosImportacion;
 import com.dmjm.dao.IMateriaDao;
@@ -28,6 +29,7 @@ import com.dmjm.dao.IProveedoresDao;
 import com.dmjm.impl.CuentasContablesDaoImpl;
 import com.dmjm.impl.EntradasDaoImpl;
 import com.dmjm.impl.EntradasImportacionDaoImpl;
+import com.dmjm.impl.EntradasMaqEqImpl;
 import com.dmjm.impl.FolioDeImportacionDaoImpl;
 import com.dmjm.impl.FoliosImportacionDaoImpl;
 import com.dmjm.impl.MateriaDaoImpl;
@@ -323,7 +325,7 @@ public class EntradasImportacionBean implements Serializable {
 		return cDao.buscarCuentaContable(cuenta);
 	}
 
-	public void visualizarReporte(String idEntrada) throws SQLException {
+	public void visualizarReporte(String idEntrada, int estado) throws SQLException {
 
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -334,10 +336,22 @@ public class EntradasImportacionBean implements Serializable {
 		String ruta = null;
 
 		ReporteImportacion reporte = new ReporteImportacion();
-		ruta = servletContext.getRealPath("/REP/reporteImportacion.jasper");
+		
+		if (estado == 0) {
+			ruta = servletContext.getRealPath("/REP/reporteImportacionSF.jasper");
+		} else if (estado == 1) {
+			ruta = servletContext.getRealPath("/REP/reporteImportacion.jasper");
+		}
+		
+		
 		reporte.getReporte(ruta, idEntrada, "3");
 
 		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
+	public void liberar(int id) {
+		IEntradasImportacionDao eDao = new EntradasImportacionDaoImpl();
+		eDao.actualizarEstadoImpresion(id);
 	}
 
 }

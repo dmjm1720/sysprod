@@ -11,5 +11,7 @@ public interface IEntradasImportacionDao {
 	void guardarEntradasImportacion(EntradasImportacion entradasImportacion);
 
 	void actualizarEntradasImportacion(EntradasImportacion entradasImportacion);
+	
+	 void actualizarEstadoImpresion (int id);
 
 }

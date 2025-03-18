@@ -348,7 +348,7 @@ public class PreparacionPielesBean implements Serializable {
 		List<Entradas> listar = new ArrayList<>();
 		listar = eDao.listarEntradasFactura();
 		for (Entradas e : listar) {
-			listaFacturasTolvas.add(e.getFactura());
+			listaFacturasTolvas.add(e.getTicketBasculaToluca());
 		}
 
 		return listaFacturasTolvas;

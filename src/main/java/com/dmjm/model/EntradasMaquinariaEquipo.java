@@ -3,7 +3,6 @@ package com.dmjm.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 public class EntradasMaquinariaEquipo implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,6 +17,8 @@ public class EntradasMaquinariaEquipo implements java.io.Serializable {
 	private String pedimento;
 	private BigDecimal importe;
 	private String identificacionMaqEq;
+	private int estadoImpresion;
+	private int cantidad;
 
 	public EntradasMaquinariaEquipo() {
 	}
@@ -28,7 +29,8 @@ public class EntradasMaquinariaEquipo implements java.io.Serializable {
 
 	public EntradasMaquinariaEquipo(int idMaqEq, CuentasContables cuentasContables,
 			ProveedoresImportacion proveedoresImportacion, String factura, Date fechaEntrega, Long folioImportacion,
-			String noReqExtra, String oc, String pedimento, BigDecimal importe, String identificacionMaqEq) {
+			String noReqExtra, String oc, String pedimento, BigDecimal importe, String identificacionMaqEq,
+			int estadoImpresion, int cantidad) {
 		this.idMaqEq = idMaqEq;
 		this.cuentasContables = cuentasContables;
 		this.proveedoresImportacion = proveedoresImportacion;
@@ -40,6 +42,8 @@ public class EntradasMaquinariaEquipo implements java.io.Serializable {
 		this.pedimento = pedimento;
 		this.importe = importe;
 		this.identificacionMaqEq = identificacionMaqEq;
+		this.estadoImpresion = estadoImpresion;
+		this.cantidad = cantidad;
 	}
 
 	public int getIdMaqEq() {
@@ -128,6 +132,22 @@ public class EntradasMaquinariaEquipo implements java.io.Serializable {
 
 	public void setIdentificacionMaqEq(String identificacionMaqEq) {
 		this.identificacionMaqEq = identificacionMaqEq;
+	}
+
+	public int getEstadoImpresion() {
+		return estadoImpresion;
+	}
+
+	public void setEstadoImpresion(int estadoImpresion) {
+		this.estadoImpresion = estadoImpresion;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 }

@@ -34,7 +34,7 @@
 				<div class="card">
 
 					<p:accordionPanel id="acco" widgetVar="basic">
-						<p:tab title="REGISTRO DE MAQUINARIA Y EQUIPO DE IMPORTACIÓN"
+						<p:tab title="REGISTRO DE MAQUINARIA Y EQUIPO DE IMPORTACIÓN" rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
 							<h:panelGrid columns="4" cellpadding="4" styleClass="fuente">
 
@@ -44,6 +44,12 @@
 									value="#{entMaqEqBean.entradasImportacionMaq.factura}"
 									required="false" requiredMessage="Campo requerido" />
 
+								<p:outputLabel for="fea" value="Folio EA" />
+								<p:inputText id="fea" styleClass="otrosCampos"
+									value="#{entMaqEqBean.entradasImportacionMaq.folioImportacion}"
+									required="false" requiredMessage="Campo requerido"
+									disabled="true" />
+
 								<p:outputLabel for="fecha" value="Fecha de entrada" />
 								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
 									disabled="false" placeholder="Fecha de entrada"
@@ -52,11 +58,7 @@
 									style="font-family: 'Poppins', sans-serif !important;"
 									styleClass="captura" />
 
-								<p:outputLabel for="fea" value="Folio EA" />
-								<p:inputText id="fea" styleClass="otrosCampos"
-									value="#{entMaqEqBean.entradasImportacionMaq.folioImportacion}"
-									required="false" requiredMessage="Campo requerido"
-									disabled="true" />
+
 
 								<p:outputLabel for="pro" value="Proveedor" />
 								<p:autoComplete id="pro" size="35" required="false"
@@ -65,9 +67,16 @@
 									value="#{entMaqEqBean.filterProveedor}"
 									completeMethod="#{entMaqEqBean.buscarNombreProveedor}" />
 
+								<p:outputLabel for="cantidad"
+									value="Cantidad" />
+								<p:inputText id="cantidad" disabled="false"
+									styleClass="otrosCampos"
+									value="#{entMaqEqBean.entradasImportacionMaq.cantidad}"
+									required="false" requiredMessage="Campo requerido" />
+								
 								<p:outputLabel for="mat"
 									value="Identificación de la maquinaraia y/o equipo" />
-								<p:inputTextarea id="mat" disabled="false"
+								<p:inputTextarea id="mat" disabled="false" 
 									styleClass="otrosCampos"
 									value="#{entMaqEqBean.entradasImportacionMaq.identificacionMaqEq}"
 									required="false" requiredMessage="Campo requerido" />
@@ -122,13 +131,21 @@
 								<p:column headerText="Imprimir" width="3rem">
 									<h:commandLink id="imp" value=""
 										style="height: 30px;  font-size: 12px;" target="_blank"
-										actionListener="#{entImportBean.visualizarReporte(item.idMaqEq)}">
+										actionListener="#{entMaqEqBean.visualizarReporte(item.idMaqEq, item.estadoImpresion)}">
 										<h:graphicImage url="/resources/img/printer.png"
 											value="Reporte" style="height: 1.8rem" />
 									</h:commandLink>
 									<p:tooltip id="toolTipI" for="imp"
 										value="Imprimir hoja de liberación" trackMouse="true" />
 								</p:column>
+								
+								<p:column headerText="Liberar" width="3rem" rendered="#{login.usuario.perfiles.nombrePerfil=='Importaciones'}">
+									<p:commandButton id="lib" icon="pi pi-calendar" actionListener="#{entMaqEqBean.liberar(item.idMaqEq)}"
+										update="frmPrincipal:acco:tblEntImp, frmPrincipal:msgs" styleClass="ui-button-warning"
+										disabled="#{item.estadoImpresion==1}">
+									</p:commandButton>
+								</p:column>
+								
 
 								<p:column headerText="Factura" width="2rem">
 									<h:outputText value="#{item.factura}" style="color: #036FAB;" />
@@ -167,17 +184,17 @@
 										style="color: #2196F3;" />
 								</p:column>
 
-<!-- 								<p:column headerText="Orden de compra" width="5rem"> -->
-<!-- 									<h:outputText value="{item.oc}" style="color: #2196F3;" /> -->
-<!-- 								</p:column> -->
+								<!-- 								<p:column headerText="Orden de compra" width="5rem"> -->
+								<!-- 									<h:outputText value="{item.oc}" style="color: #2196F3;" /> -->
+								<!-- 								</p:column> -->
 
-<!-- 								<p:column headerText="Pedimento" width="5rem"> -->
-<!-- 									<h:outputText value="{item.pedimento}" style="color: #2196F3;" /> -->
-<!-- 								</p:column> -->
+								<!-- 								<p:column headerText="Pedimento" width="5rem"> -->
+								<!-- 									<h:outputText value="{item.pedimento}" style="color: #2196F3;" /> -->
+								<!-- 								</p:column> -->
 
-<!-- 								<p:column headerText="Importe" width="5rem"> -->
-<!-- 									<h:outputText value="{item.importe}" style="color: #2196F3;" /> -->
-<!-- 								</p:column> -->
+								<!-- 								<p:column headerText="Importe" width="5rem"> -->
+								<!-- 									<h:outputText value="{item.importe}" style="color: #2196F3;" /> -->
+								<!-- 								</p:column> -->
 
 							</p:dataTable>
 

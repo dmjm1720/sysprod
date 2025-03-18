@@ -95,6 +95,9 @@ public class Entradas implements java.io.Serializable {
 	private String archivoCertificado;
 	private String tipoMoneda;
 	private Integer estatusFacturaImportacion;
+	private BigDecimal cerdoAmericano;
+	private BigDecimal precioCa;
+	private BigDecimal precioCalcCa;
 
 	public Entradas() {
 	}
@@ -130,7 +133,7 @@ public class Entradas implements java.io.Serializable {
 			BigDecimal precioCalcPc, BigDecimal precioCalcP, BigDecimal precioCalcDa, BigDecimal precioCalcDs,
 			BigDecimal precioCalcCdi, BigDecimal precioCalcG, BigDecimal precioCalcCe, BigDecimal subtotal,
 			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria, String archivoCertificado,
-			String tipoMoneda, Integer estatusFacturaImportacion) {
+			String tipoMoneda, Integer estatusFacturaImportacion, BigDecimal cerdoAmericano, BigDecimal precioCa, BigDecimal precioCalcCa) {
 
 		this.idEntrada = idEntrada;
 		this.materia = materia;
@@ -221,6 +224,9 @@ public class Entradas implements java.io.Serializable {
 		this.archivoCertificado = archivoCertificado;
 		this.tipoMoneda = tipoMoneda;
 		this.estatusFacturaImportacion = estatusFacturaImportacion;
+		this.cerdoAmericano = cerdoAmericano;
+		this.precioCa=precioCa;
+		this.precioCalcCa = precioCalcCa;
 	}
 
 	public int getIdEntrada() {
@@ -934,5 +940,31 @@ public class Entradas implements java.io.Serializable {
 	public void setEstatusFacturaImportacion(Integer estatusFacturaImportacion) {
 		this.estatusFacturaImportacion = estatusFacturaImportacion;
 	}
+
+	public BigDecimal getCerdoAmericano() {
+		return cerdoAmericano;
+	}
+
+	public void setCerdoAmericano(BigDecimal cerdoAmericano) {
+		this.cerdoAmericano = cerdoAmericano;
+	}
+
+	public BigDecimal getPrecioCa() {
+		return precioCa;
+	}
+
+	public void setPrecioCa(BigDecimal precioCa) {
+		this.precioCa = precioCa;
+	}
+
+	public BigDecimal getPrecioCalcCa() {
+		return precioCalcCa;
+	}
+
+	public void setPrecioCalcCa(BigDecimal precioCalcCa) {
+		this.precioCalcCa = precioCalcCa;
+	}
+	
+	
 
 }

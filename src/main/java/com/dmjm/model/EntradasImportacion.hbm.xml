@@ -70,5 +70,8 @@
 		<property name="calcios" type="big_decimal">
 			<column name="CALCIOS" precision="10" scale="4" />
 		</property>
+		<property name="estadoImpresion" type="int">
+			<column name="ESTADO_IMPRESION" />
+		</property>
 	</class>
 </hibernate-mapping>

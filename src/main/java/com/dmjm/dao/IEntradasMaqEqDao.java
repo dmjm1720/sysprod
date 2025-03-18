@@ -10,5 +10,7 @@ public interface IEntradasMaqEqDao {
 	void guardarEntradasImportacion(EntradasMaquinariaEquipo entradasMaquinariaEquipo);
 
 	void actualizarEntradasImportacion(EntradasMaquinariaEquipo entradasMaquinariaEquipo);
+	
+	 void actualizarEstadoImpresion (int id);
 
 }

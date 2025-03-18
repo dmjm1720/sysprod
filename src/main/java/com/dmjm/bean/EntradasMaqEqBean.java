@@ -37,6 +37,7 @@ import com.dmjm.model.EntradasMaquinariaEquipo;
 import com.dmjm.model.Proveedores;
 import com.dmjm.model.ProveedoresImportacion;
 import com.dmjm.util.ReporteImportacion;
+import com.dmjm.util.ReporteImportacionMaq;
 
 @Named(value = "entMaqEqBean")
 @ViewScoped
@@ -180,6 +181,7 @@ public class EntradasMaqEqBean implements Serializable {
 			entradasImportacionMaq.setCuentasContables(cuentasContables);
 
 			actualizarFolioDeImportacion(entradasImportacionMaq.getFolioImportacion());
+			entradasImportacionMaq.setEstadoImpresion(0);
 
 			eDao.guardarEntradasImportacion(entradasImportacionMaq);
 
@@ -242,7 +244,7 @@ public class EntradasMaqEqBean implements Serializable {
 		return cDao.buscarCuentaContable(cuenta);
 	}
 
-	public void visualizarReporte(String idEntrada) throws SQLException {
+	public void visualizarReporte(String idEntrada, int estado) throws SQLException {
 
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -252,11 +254,21 @@ public class EntradasMaqEqBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ReporteImportacion reporte = new ReporteImportacion();
-		ruta = servletContext.getRealPath("/REP/reporteImportacion.jasper");
+		ReporteImportacionMaq reporte = new ReporteImportacionMaq();
+		if (estado == 0) {
+			ruta = servletContext.getRealPath("/REP/reporteImportacionMaquinariaSF.jasper");
+		} else if (estado == 1) {
+			ruta = servletContext.getRealPath("/REP/reporteImportacionMaquinaria.jasper");
+		}
+
 		reporte.getReporte(ruta, idEntrada, "3");
 
 		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
+	public void liberar(int id) {
+		IEntradasMaqEqDao eDao = new EntradasMaqEqImpl();
+		eDao.actualizarEstadoImpresion(id);
 	}
 
 }

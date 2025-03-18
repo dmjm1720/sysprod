@@ -277,8 +277,18 @@
 		<property name="tipoMoneda" type="string">
 			<column name="TIPO_MONEDA" length="5" />
 		</property>
-		<property name="estatusFacturaImportacion" type="java.lang.Integer">
+		<property name="estatusFacturaImportacion"
+			type="java.lang.Integer">
 			<column name="ESTATUS_FACTURA_IMPORTACION" />
+		</property>
+		<property name="cerdoAmericano" type="big_decimal">
+			<column name="CERDO_AMERICANO" precision="10" scale="4" />
+		</property>
+		<property name="precioCa" type="big_decimal">
+			<column name="PRECIO_CA" precision="10" scale="4" />
+		</property>
+		<property name="precioCalcCa" type="big_decimal">
+			<column name="PRECIO_CALC_CA" precision="10" scale="4" />
 		</property>
 
 	</class>

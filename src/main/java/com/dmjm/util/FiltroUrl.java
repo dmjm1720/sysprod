@@ -17,7 +17,6 @@ public class FiltroUrl implements PhaseListener {
 	// Constantes para rutas
 	private static final String LOGIN_PAGE = "/index.xhtml";
 
-
 	@Override
 	public void afterPhase(PhaseEvent event) {
 		FacesContext facesContext = event.getFacesContext();
@@ -81,6 +80,8 @@ public class FiltroUrl implements PhaseListener {
 		} else if (rol.equals("Contador") && page.contains("/contador/")) {
 			return true;
 		} else if (rol.equals("Presidencia") && page.contains("/presidencia/")) {
+			return true;
+		} else if (rol.equals("Importaciones") && page.contains("/importaciones/")) {
 			return true;
 		} else if (rol.equals("Operador") && page.contains("/operador/")) {
 			return true;

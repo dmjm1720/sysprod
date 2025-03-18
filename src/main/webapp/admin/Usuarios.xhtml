@@ -39,7 +39,8 @@
 				<div class="card">
 
 					<p:accordionPanel widgetVar="basic">
-						<p:tab title="CAPTURA DE USUARIOS" titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+						<p:tab title="CAPTURA DE USUARIOS"
+							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
 							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
 
 								<p:outputLabel for="nombre" value="Nombre" />
@@ -62,6 +63,7 @@
 									<f:selectItem itemLabel="Contador" itemValue="5" />
 									<f:selectItem itemLabel="Presidencia" itemValue="6" />
 									<f:selectItem itemLabel="Operador" itemValue="7" />
+									<f:selectItem itemLabel="Importaciones" itemValue="8" />
 								</p:selectOneMenu>
 								<p:message for="perfil" />
 
@@ -99,13 +101,15 @@
 									actionListener="#{usuariosBean.guardar()}" />
 							</h:panelGrid>
 						</p:tab>
-						<p:tab title="LISTA DE USUARIOS" titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
-							<p:dataTable id="tblUsuarios" styleClass="tabla fuente" var="item"
-								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+						<p:tab title="LISTA DE USUARIOS"
+							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+							<p:dataTable id="tblUsuarios" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="50,100,200,500" rows="50"
-								paginator="true" liveScroll="true" rowHover="true"
-								paginatorAlwaysVisible="true" scrollable="true"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
 								currentPageReportTemplate="Total: #{usuariosBean.listarUsuarios.size()}"
 								value="#{usuariosBean.listarUsuarios}"
 								emptyMessage="NO HAY REGISTROS">
@@ -228,6 +232,7 @@
 							<f:selectItem itemLabel="Contador" itemValue="5" />
 							<f:selectItem itemLabel="Presidencia" itemValue="6" />
 							<f:selectItem itemLabel="Operador" itemValue="7" />
+							<f:selectItem itemLabel="Importaciones" itemValue="8" />
 						</p:selectOneMenu>
 						<p:message for="perfil" />
 
@@ -253,7 +258,8 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{usuariosBean.actualizar()}" oncomplete="PF('dlgEditar').hide()" />
+							actionListener="#{usuariosBean.actualizar()}"
+							oncomplete="PF('dlgEditar').hide()" />
 					</div>
 
 				</p:dialog>

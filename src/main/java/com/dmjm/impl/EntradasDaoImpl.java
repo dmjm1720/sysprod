@@ -140,12 +140,13 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			tx = session.beginTransaction();
-			String hql = "FROM Entradas WHERE factura = :factura";
+			//String hql = "FROM Entradas WHERE factura = :factura";
+			String hql = "FROM Entradas WHERE ticketBasculaToluca = :ticketBasculaToluca";
 			Query<Entradas> query = session.createQuery(hql, Entradas.class);
 
 			// Establecer el parámetro
 
-			query.setParameter("factura", factura);
+			query.setParameter("ticketBasculaToluca", factura);
 			entrada = query.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
@@ -261,7 +262,7 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	public List<Entradas> listarEntradasFactura() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		Query<Entradas> query = session.createQuery("FROM Entradas ORDER BY factura DESC", Entradas.class);
+		Query<Entradas> query = session.createQuery("FROM Entradas WHERE ticketBasculaToluca IS NOT NULL ORDER BY ticketBasculaToluca DESC", Entradas.class);
 		List<Entradas> entradas = query.list();
 		session.close();
 		return entradas;

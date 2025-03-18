@@ -252,7 +252,7 @@
 							<h:panelGrid id="panel2" columns="12" cellpadding="4"
 								styleClass="fuente"
 								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}">
-								<p:outputLabel for="cp" value="Carnaza con pelo" />
+								<p:outputLabel for="cp" value="Cuero integral salado con pelo" />
 
 								<p:inputText id="cp" value="#{entradasBean.dato1}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
@@ -262,7 +262,7 @@
 								</p:inputText>
 
 
-								<p:outputLabel for="c1" value="Carnaza de primera" />
+								<p:outputLabel for="c1" value="Carnaza completa" />
 								<p:inputText id="c1" value="#{entradasBean.dato2}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
@@ -271,7 +271,7 @@
 								</p:inputText>
 
 
-								<p:outputLabel for="c2" value="Carnaza de segunda" />
+								<p:outputLabel for="c2" value="Carnaza pedazos" />
 								<p:inputText id="c2" value="#{entradasBean.dato3}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
@@ -289,7 +289,7 @@
 								</p:inputText>
 
 
-								<p:outputLabel for="dr" value="Desbarbe / Recorte" />
+								<p:outputLabel for="dr" value="Desbarbe / Recortes" />
 								<p:inputText id="dr" value="#{entradasBean.dato5}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
@@ -316,7 +316,7 @@
 								</p:inputText>
 
 
-								<p:outputLabel for="pedaceria" value="Pedacería con pelo" />
+								<p:outputLabel for="pedaceria" value="Recorte de cuero con pelo" />
 								<p:inputText id="pedaceria" value="#{entradasBean.dato8}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
@@ -351,7 +351,7 @@
 										listener="#{entradasBean.calcularTotal}" />
 								</p:inputText>
 
-								<p:outputLabel for="cpi" value="Cuero depilado integral" />
+								<p:outputLabel for="cpi" value="Cuero depliado" />
 								<p:inputText id="cpi" value="#{entradasBean.dato12}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
@@ -360,7 +360,7 @@
 								</p:inputText>
 
 
-								<p:outputLabel for="garra" value="Garra" />
+								<p:outputLabel for="garra" value="Garra y Falda" />
 								<p:inputText id="garra" value="#{entradasBean.dato13}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
@@ -370,6 +370,14 @@
 
 								<p:outputLabel for="ce" value="Cuero en sangre" />
 								<p:inputText id="ce" value="#{entradasBean.dato14}"
+									styleClass="otrosCampos" required="false" autocomplete="off"
+									requiredMessage="Campo requerido">
+									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+										listener="#{entradasBean.calcularTotal}" />
+								</p:inputText>
+
+								<p:outputLabel for="cca" value="Cerdo Americano" />
+								<p:inputText id="cca" value="#{entradasBean.dato15}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
 									requiredMessage="Campo requerido">
 									<p:ajax event="keyup" update="total, frmPrincipal:msgs"
@@ -595,7 +603,7 @@
 									</p:commandButton>
 								</p:column>
 
-								<p:column headerText="Ver certificado" width="4rem"
+								<p:column headerText="Ver documentos" width="4rem"
 									style="text-align: center">
 									<p:commandButton id="pdf" icon="pi pi-fw pi-file-pdf"
 										actionListener="#{entradasBean.loadPdf(item.archivoCertificado)}"
@@ -668,19 +676,19 @@
 									<h:outputText value="#{item.palletsRecibidos}" />
 								</p:column>
 
-								<p:column headerText="Carnaza con pelo" width="3rem">
+								<p:column headerText="Cuero integral salado con pelo" width="3rem">
 									<h:outputText value="#{item.carnazaConPelo}" />
 								</p:column>
-								<p:column headerText="Carnaza de primera" width="3rem">
+								<p:column headerText="Carnaza completa" width="3rem">
 									<h:outputText value="#{item.carnazaPrimera}" />
 								</p:column>
-								<p:column headerText="Carnaza de segunda" width="3rem">
+								<p:column headerText="Carnaza pedazos" width="3rem">
 									<h:outputText value="#{item.carnazaSegunda}" />
 								</p:column>
 								<p:column headerText="Carnaza salada" width="3rem">
 									<h:outputText value="#{item.carnazaSalada}" />
 								</p:column>
-								<p:column headerText="Desbarbe/recorte" width="3rem">
+								<p:column headerText="Desbarbe / Recortes" width="3rem">
 									<h:outputText value="#{item.desbarbeRecorte}" />
 								</p:column>
 								<p:column headerText="Cerdo Mexicano" width="3rem">
@@ -689,7 +697,7 @@
 								<p:column headerText="Cachete" width="3rem">
 									<h:outputText value="#{item.orejaCachete}" />
 								</p:column>
-								<p:column headerText="Pedacería con pelo" width="4rem">
+								<p:column headerText="Recorte de cuero con pelo" width="4rem">
 									<h:outputText value="#{item.pedaceriaConPelo}" />
 								</p:column>
 								<p:column headerText="Pedacería" width="4rem">
@@ -701,14 +709,20 @@
 								<p:column headerText="Descarne separado" width="3rem">
 									<h:outputText value="#{item.descarneSeparado}" />
 								</p:column>
-								<p:column headerText="Cuero depilado integral" width="3rem">
+								<p:column headerText="Cuero depliado" width="3rem">
 									<h:outputText value="#{item.cueroDepiladoIntegral}" />
 								</p:column>
-								<p:column headerText="Garra" width="3rem">
+								<p:column headerText="Cerdo Americano" width="3rem">
+									<h:outputText value="#{item.cerdoAmericano}" />
+								</p:column>
+								<p:column headerText="Garra y Falda" width="3rem">
 									<h:outputText value="#{item.garra}" />
 								</p:column>
 								<p:column headerText="Cuero en sangre" width="3rem">
 									<h:outputText value="#{item.cueroEnSangre}" />
+								</p:column>
+								<p:column headerText="Cerdo Americano" width="3rem">
+									<h:outputText value="#{item.cerdoAmericano}" />
 								</p:column>
 								<p:column headerText="Total" width="3rem">
 									<h:outputText value="#{item.total}" />
@@ -941,17 +955,17 @@
 								<h:panelGrid id="pnlVer3" columns="2" cellpadding="2"
 									styleClass="fuente">
 
-									<h:outputLabel value="Carnaza con pelo:" />
+									<h:outputLabel value="Cuero integral salado con pelo:" />
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.carnazaConPelo}"
 										styleClass="detalle" />
 
-									<h:outputLabel value="Carnaza de primera:" />
+									<h:outputLabel value="Carnaza completa:" />
 									<h:outputText
 										value=" #{entradasBean.entradasDetalle.carnazaPrimera}"
 										styleClass="detalle" />
 
-									<h:outputLabel value="Carnaza de segunda:" />
+									<h:outputLabel value="Carnaza pedazos:" />
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.carnazaSegunda}"
 										styleClass="detalle" />
@@ -961,7 +975,7 @@
 										value="#{entradasBean.entradasDetalle.carnazaSalada}"
 										styleClass="detalle" />
 
-									<h:outputLabel value="Desbarbe / Recorte:" />
+									<h:outputLabel value="Desbarbe / Recortes:" />
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.desbarbeRecorte}"
 										styleClass="detalle" />
@@ -976,7 +990,7 @@
 										value="#{entradasBean.entradasDetalle.orejaCachete}"
 										styleClass="detalle" />
 
-									<h:outputLabel value="Pedacería con pelo:" />
+									<h:outputLabel value="Recorte de cuero con pelo:" />
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.pedaceriaConPelo}"
 										styleClass="detalle" />
@@ -996,12 +1010,12 @@
 										styleClass="detalle" />
 
 
-									<h:outputLabel value="Cuero depilado integral:" />
+									<h:outputLabel value="Cuero depilado:" />
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.cueroDepiladoIntegral}"
 										styleClass="detalle" />
 
-									<h:outputLabel value="Garra:" />
+									<h:outputLabel value="Garra y Falda:" />
 									<h:outputText value="#{entradasBean.entradasDetalle.garra}"
 										styleClass="detalle" />
 
@@ -1009,8 +1023,13 @@
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.cueroEnSangre}"
 										styleClass="detalle" />
+									
+									<h:outputLabel value="Cerdo Americano" />
+									<h:outputText
+										value="#{entradasBean.entradasDetalle.cerdoAmericano}"
+										styleClass="detalle" />
 
-									<h:outputLabel value="Pedacería:" />
+									<h:outputLabel value="Total" />
 									<h:outputText
 										value=" Total: #{entradasBean.entradasDetalle.total}"
 										styleClass="detalle" />
@@ -1225,7 +1244,7 @@
 					<h:panelGrid id="panel2" columns="12" cellpadding="4"
 						styleClass="fuente"
 						rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}">
-						<p:outputLabel for="cp" value="Carnaza con pelo" />
+						<p:outputLabel for="cp" value="Cuero integral salado con pelo" />
 
 						<p:inputText id="cp"
 							value="#{entradasBean.entradasEditar.carnazaConPelo}"
@@ -1236,7 +1255,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="c1" value="Carnaza de primera" />
+						<p:outputLabel for="c1" value="Carnaza completa" />
 						<p:inputText id="c1"
 							value="#{entradasBean.entradasEditar.carnazaPrimera}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
@@ -1246,7 +1265,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="c2" value="Carnaza de segunda" />
+						<p:outputLabel for="c2" value="Carnaza pedazos" />
 						<p:inputText id="c2"
 							value="#{entradasBean.entradasEditar.carnazaSegunda}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
@@ -1266,7 +1285,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="dr" value="Desbarbe / Recorte" />
+						<p:outputLabel for="dr" value="Desbarbe / Recortes" />
 						<p:inputText id="dr"
 							value="#{entradasBean.entradasEditar.desbarbeRecorte}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
@@ -1296,7 +1315,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="pedaceria" value="Pedacería con pelo" />
+						<p:outputLabel for="pedaceria" value="Recorte de cuero con pelo" />
 						<p:inputText id="pedaceria"
 							value="#{entradasBean.entradasEditar.pedaceriaConPelo}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
@@ -1335,7 +1354,7 @@
 								listener="#{entradasBean.calcularTotalPC}" />
 						</p:inputText>
 
-						<p:outputLabel for="cpi" value="Cuero depilado integral" />
+						<p:outputLabel for="cpi" value="Cuero depliado" />
 						<p:inputText id="cpi"
 							value="#{entradasBean.entradasEditar.cueroDepiladoIntegral}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
@@ -1345,7 +1364,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="garra" value="Garra" />
+						<p:outputLabel for="garra" value="Garra y Falda" />
 						<p:inputText id="garra"
 							value="#{entradasBean.entradasEditar.garra}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
@@ -1357,6 +1376,15 @@
 						<p:outputLabel for="ce" value="Cuero en sangre" />
 						<p:inputText id="ce"
 							value="#{entradasBean.entradasEditar.cueroEnSangre}"
+							styleClass="otrosCampos" required="false" autocomplete="off"
+							requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotalPC}" />
+						</p:inputText>
+
+						<p:outputLabel for="cca" value="Cerdo Americano" />
+						<p:inputText id="cca"
+							value="#{entradasBean.entradasEditar.cerdoAmericano}"
 							styleClass="otrosCampos" required="false" autocomplete="off"
 							requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
@@ -1542,7 +1570,7 @@
 						</div>
 
 
-						<p:outputLabel for="cp" value="Carnaza con pelo" />
+						<p:outputLabel for="cp" value="Cuero integral salado con pelo" />
 						<p:inputText id="cp" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaConPelo}"
 							required="false" requiredMessage="Campo requerido">
@@ -1551,7 +1579,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="c1" value="Carnaza de primera" />
+						<p:outputLabel for="c1" value="Carnaza completa" />
 						<p:inputText id="c1" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaPrimera}"
 							required="false" requiredMessage="Campo requerido">
@@ -1560,7 +1588,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="c2" value="Carnaza de segunda" />
+						<p:outputLabel for="c2" value="Carnaza pedazos" />
 						<p:inputText id="c2" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaSegunda}"
 							required="false" requiredMessage="Campo requerido">
@@ -1578,7 +1606,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="dr" value="Desbarbe / Recorte" />
+						<p:outputLabel for="dr" value="Desbarbe / Recortes" />
 						<p:inputText id="dr" disabled="true"
 							value="#{entradasBean.entradasEditar.desbarbeRecorte}"
 							required="false" requiredMessage="Campo requerido">
@@ -1605,7 +1633,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="pedaceria" value="Pedacería con pelo" />
+						<p:outputLabel for="pedaceria" value="Recorte de cuero con pelo" />
 						<p:inputText id="pedaceria" disabled="true"
 							value="#{entradasBean.entradasEditar.pedaceriaConPelo}"
 							required="false" requiredMessage="Campo requerido">
@@ -1640,7 +1668,7 @@
 								listener="#{entradasBean.calcularTotal}" />
 						</p:inputText>
 
-						<p:outputLabel for="cpi" value="Cuero depilado integral" />
+						<p:outputLabel for="cpi" value="Cuero depliado" />
 						<p:inputText id="cpi" disabled="true"
 							value="#{entradasBean.entradasEditar.cueroDepiladoIntegral}"
 							required="false" requiredMessage="Campo requerido">
@@ -1649,7 +1677,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="garra" value="Garra" />
+						<p:outputLabel for="garra" value="Garra y Falda" />
 						<p:inputText id="garra" disabled="true"
 							value="#{entradasBean.entradasEditar.garra}" required="false"
 							requiredMessage="Campo requerido">
@@ -1660,6 +1688,14 @@
 						<p:outputLabel for="ce" value="Cuero en sangre" />
 						<p:inputText id="ce" disabled="true"
 							value="#{entradasBean.entradasEditar.cueroEnSangre}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
+
+						<p:outputLabel for="cca" value="Cerdo Americano" />
+						<p:inputText id="cca" disabled="true"
+							value="#{entradasBean.entradasEditar.cerdoAmericano}"
 							required="false" requiredMessage="Campo requerido">
 							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
 								listener="#{entradasBean.calcularTotal}" />
@@ -1929,7 +1965,7 @@
 						</div>
 
 
-						<p:outputLabel for="cp" value="Carnaza con pelo" />
+						<p:outputLabel for="cp" value="Cuero integral salado con pelo" />
 						<p:inputText id="cp" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaConPelo}"
 							required="false" requiredMessage="Campo requerido">
@@ -1938,7 +1974,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="c1" value="Carnaza de primera" />
+						<p:outputLabel for="c1" value="Carnaza completa" />
 						<p:inputText id="c1" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaPrimera}"
 							required="false" requiredMessage="Campo requerido">
@@ -1947,7 +1983,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="c2" value="Carnaza de segunda" />
+						<p:outputLabel for="c2" value="Carnaza pedazos" />
 						<p:inputText id="c2" disabled="true"
 							value="#{entradasBean.entradasEditar.carnazaSegunda}"
 							required="false" requiredMessage="Campo requerido">
@@ -1965,7 +2001,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="dr" value="Desbarbe / Recorte" />
+						<p:outputLabel for="dr" value="Desbarbe / Recortes" />
 						<p:inputText id="dr" disabled="true"
 							value="#{entradasBean.entradasEditar.desbarbeRecorte}"
 							required="false" requiredMessage="Campo requerido">
@@ -1992,7 +2028,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="pedaceria" value="Pedacería con pelo" />
+						<p:outputLabel for="pedaceria" value="Recorte de cuero con pelo" />
 						<p:inputText id="pedaceria" disabled="true"
 							value="#{entradasBean.entradasEditar.pedaceriaConPelo}"
 							required="false" requiredMessage="Campo requerido">
@@ -2027,7 +2063,7 @@
 								listener="#{entradasBean.calcularTotal}" />
 						</p:inputText>
 
-						<p:outputLabel for="cpi" value="Cuero depilado integral" />
+						<p:outputLabel for="cpi" value="Cuero depliado" />
 						<p:inputText id="cpi" disabled="true"
 							value="#{entradasBean.entradasEditar.cueroDepiladoIntegral}"
 							required="false" requiredMessage="Campo requerido">
@@ -2036,7 +2072,7 @@
 						</p:inputText>
 
 
-						<p:outputLabel for="garra" value="Garra" />
+						<p:outputLabel for="garra" value="Garra y Falda" />
 						<p:inputText id="garra" disabled="true"
 							value="#{entradasBean.entradasEditar.garra}" required="false"
 							requiredMessage="Campo requerido">
@@ -2052,6 +2088,14 @@
 								listener="#{entradasBean.calcularTotal}" />
 						</p:inputText>
 
+
+						<p:outputLabel for="cca" value="Cerdo Americano" />
+						<p:inputText id="cca" disabled="true"
+							value="#{entradasBean.entradasEditar.cerdoAmericano}"
+							required="false" requiredMessage="Campo requerido">
+							<p:ajax event="keyup" update="total, frmPrincipal:msgs"
+								listener="#{entradasBean.calcularTotal}" />
+						</p:inputText>
 
 
 						<p:outputLabel for="total" value="Total" />

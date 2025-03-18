@@ -59,6 +59,7 @@
 									style="font-family: 'Poppins', sans-serif !important;"
 									styleClass="captura" />
 
+
 								<p:outputLabel for="pro" value="Proveedor" />
 								<p:autoComplete id="pro" size="35" required="false"
 									autocomplete="off" requiredMessage="Proiveedor requerido"
@@ -66,8 +67,7 @@
 									value="#{entMaqEqBean.filterProveedor}"
 									completeMethod="#{entMaqEqBean.buscarNombreProveedor}" />
 
-								<p:outputLabel for="cantidad"
-									value="Cantidad" />
+								<p:outputLabel for="cantidad" value="Cantidad" />
 								<p:inputText id="cantidad" disabled="false"
 									styleClass="otrosCampos"
 									value="#{entMaqEqBean.entradasImportacionMaq.cantidad}"

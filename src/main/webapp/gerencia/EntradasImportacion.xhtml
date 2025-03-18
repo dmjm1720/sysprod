@@ -34,7 +34,7 @@
 				<div class="card">
 
 					<p:accordionPanel id="acco" widgetVar="basic">
-						<p:tab title="REGISTRO DE TOLVAS DE IMPORTACIÓN"
+						<p:tab title="REGISTRO DE TOLVAS DE IMPORTACIÓN" rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
 							<h:panelGrid columns="6" cellpadding="4" styleClass="fuente">
 
@@ -170,12 +170,19 @@
 								<p:column headerText="Imprimir" width="3rem" exportable="false">
 									<h:commandLink id="imp" value=""
 										style="height: 30px;  font-size: 12px;" target="_blank"
-										actionListener="#{entImportBean.visualizarReporte(item.idEntradaImportacion)}">
+										actionListener="#{entImportBean.visualizarReporte(item.idEntradaImportacion, item.estadoImpresion)}">
 										<h:graphicImage url="/resources/img/printer.png"
 											value="Reporte" style="height: 1.8rem" />
 									</h:commandLink>
 									<p:tooltip id="toolTipI" for="imp"
 										value="Imprimir hoja de liberación" trackMouse="true" />
+								</p:column>
+								
+								<p:column headerText="Liberar" width="3rem" rendered="#{login.usuario.perfiles.nombrePerfil=='Importaciones'}">
+									<p:commandButton id="lib" icon="pi pi-calendar" actionListener="#{entImportBean.liberar(item.idEntradaImportacion)}"
+										update="frmPrincipal:acco:tblEntImp, frmPrincipal:msgs" styleClass="ui-button-warning"
+										disabled="#{item.estadoImpresion==1}">
+									</p:commandButton>
 								</p:column>
 
 								<p:column headerText="# Tolva" width="2rem">
