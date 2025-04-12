@@ -58,7 +58,7 @@
 							<br></br>
 							<h:panelGrid id="panel" columns="8" cellpadding="4"
 								styleClass="fuente"
-								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}">
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Operador'}">
 
 								<p:outputLabel for="tolvas" value="# de Tolvas" />
 								<p:inputText id="tolvas" disabled="true" styleClass="tolvas"
@@ -156,7 +156,7 @@
 							</h:panelGrid>
 
 							<h:form
-								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}">
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Operador'}">
 								<div style="text-align: center; font-size: .8rem">
 									<b>KG. DE MATERIA PRIMA</b>
 								</div>
@@ -165,7 +165,7 @@
 							<br></br>
 							<h:panelGrid id="panel1" columns="8" cellpadding="4"
 								styleClass="fuente"
-								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}">
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Operador'}">
 
 								<p:outputLabel for="kge" value="Kg. embarcados" />
 								<p:inputText id="kge" value="#{entradasBean.kilosEmbarcados}"
@@ -242,7 +242,7 @@
 
 							<br></br>
 							<h:form
-								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}">
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Operador'}">
 								<div style="text-align: center; font-size: .8rem">
 									<b>CALIDAD DE LA MATERIA %</b>
 								</div>
@@ -251,7 +251,7 @@
 							</h:form>
 							<h:panelGrid id="panel2" columns="12" cellpadding="4"
 								styleClass="fuente"
-								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}">
+								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Operador'}">
 								<p:outputLabel for="cp" value="Cuero integral salado con pelo" />
 
 								<p:inputText id="cp" value="#{entradasBean.dato1}"
@@ -461,7 +461,7 @@
 								<p:commandButton icon="pi pi-save" value="GUARDAR CAPTURA"
 									styleClass="fuente" title="Guardar"
 									style="width: 12rem; height: 2rem"
-									rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Operador'}"
 									actionListener="#{entradasBean.guardar()}"
 									update="frmPrincipal">
 								</p:commandButton>
@@ -483,7 +483,8 @@
 								emptyMessage="NO HAY REGISTROS">
 
 
-								<p:column headerText="Editar" width="3rem">
+								<p:column headerText="Editar" width="3rem"
+									rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Control de calidad'}">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
 										rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
 										onclick="PF('dlgEditar').show()"
@@ -603,7 +604,7 @@
 									</p:commandButton>
 								</p:column>
 
-								<p:column headerText="Ver documentos" width="4rem"
+								<p:column headerText="Ver documentos" width="5rem"
 									style="text-align: center">
 									<p:commandButton id="pdf" icon="pi pi-fw pi-file-pdf"
 										actionListener="#{entradasBean.loadPdf(item.archivoCertificado)}"
@@ -612,6 +613,20 @@
 									<p:graphicImage
 										value="/resources/img/#{item.archivoCertificado.contains('.pdf') ? 'check.png' : 'cross.png'}"
 										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="Rango Humedad" width="4rem">
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.rangoHumedad eq 0 ? 'arriba.png' : 'abajo.png'}"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+								<p:column headerText="Rango Calcios" width="3.5rem">
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.rangoCalcios eq 0 ? 'arriba.png' : 'abajo.png'}"
+											style="width: 20px; height: 20px;" />
+									</div>
 								</p:column>
 								<p:column headerText="Tolvas" width="3rem"
 									filterBy="#{item.tolvas}">
@@ -676,7 +691,8 @@
 									<h:outputText value="#{item.palletsRecibidos}" />
 								</p:column>
 
-								<p:column headerText="Cuero integral salado con pelo" width="3rem">
+								<p:column headerText="Cuero integral salado con pelo"
+									width="3rem">
 									<h:outputText value="#{item.carnazaConPelo}" />
 								</p:column>
 								<p:column headerText="Carnaza completa" width="3rem">
@@ -1023,7 +1039,7 @@
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.cueroEnSangre}"
 										styleClass="detalle" />
-									
+
 									<h:outputLabel value="Cerdo Americano" />
 									<h:outputText
 										value="#{entradasBean.entradasDetalle.cerdoAmericano}"

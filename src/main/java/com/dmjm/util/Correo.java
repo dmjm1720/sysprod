@@ -21,7 +21,7 @@ public class Correo extends Configuracion {
 
 	private static final Logger LOGGER = LogManager.getLogger(Correo.class.getName());
 
-	public void enviarNotificacion(int tolva, String proveedor, String factura, String tipoPiel, int bg, int cc) {
+	public void enviarNotificacion(int tolva, String noTicket, String proveedor, String factura, String tipoPiel, int bg, int cc) {
 		// LEER LAS PROPIEDADES
 		leerConfig();
 
@@ -45,7 +45,7 @@ public class Correo extends Configuracion {
 			texto.setContent(
 					"<html><head><title></title></head><body><table width='678' height='315' border='0' bordercolor='#0000FF' bgcolor='#FFFFFF'><tr><td height='10' colspan='3' bordercolor='#FFFFFF'></td></tr><tr><td colspan='3' bordercolor='#FFFFFF'><p align='left' style='font-family:calibri; font-size:17px'><font color='#086A87'>"
 							+ mensaje + "</font><br><br><b><font color='#000000'>" + "Tolva: " + tolva
-							+ "| No. Factura: " + factura + " | Tipo de piel: " + tipoPiel
+							+ "| No. Factura: " + factura + " | No. Ticket: " + noTicket + " | Tipo de piel: " + tipoPiel +" | Proveedor: " + proveedor
 							+ " </font></b><br></tr><tr><td width='425' bordercolor='#FFFFFF'><p align='left' style='font-family:calibri; font-size:17px'><br><font color='#17202a'>Sistema de Captura de Producci&oacute;n | </font><font color='#E60013'>Coloidales Duch&eacute;, S.A. de C.V.</font><br></td><td width='122' bordercolor='#FFFFFF'></td><td width='222' rowspan='2' bordercolor='#FFFFFF'></td></tr><tr><td colspan='2' bordercolor='#17202a'><br><br><p align='center' style='font-family:calibri; font-size:15px'><font color='#086A87'><br> Mensaje autom&aacute;tico enviado desde el Sistema de Producci&oacute;n, favor de no responder.</font></p></td></tr></table></body></html>",
 					"text/html");
 

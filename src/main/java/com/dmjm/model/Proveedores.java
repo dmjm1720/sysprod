@@ -1,7 +1,6 @@
 package com.dmjm.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
 
 public class Proveedores implements java.io.Serializable {
 
@@ -14,6 +13,7 @@ public class Proveedores implements java.io.Serializable {
 	private Integer descuentoHumedadTablaB;
 	private Integer estado;
 	private String nacionalImportacion;
+	private BigDecimal descuentoMerma;
 
 	public Proveedores() {
 	}
@@ -23,7 +23,7 @@ public class Proveedores implements java.io.Serializable {
 	}
 
 	public Proveedores(int idProveedor, String nombre, String razonSocial, String origen,
-			Integer descuentoHumedadTablaA, Integer descuentoHumedadTablaB, Integer estado, String nacionalImportacion) {
+			Integer descuentoHumedadTablaA, Integer descuentoHumedadTablaB, Integer estado, String nacionalImportacion,BigDecimal descuentoMerma) {
 		this.idProveedor = idProveedor;
 		this.nombre = nombre;
 		this.razonSocial = razonSocial;
@@ -32,6 +32,7 @@ public class Proveedores implements java.io.Serializable {
 		this.descuentoHumedadTablaB = descuentoHumedadTablaB;
 		this.estado = estado;
 		this.nacionalImportacion = nacionalImportacion;
+		this.descuentoMerma = descuentoMerma;
 
 	}
 
@@ -98,6 +99,16 @@ public class Proveedores implements java.io.Serializable {
 	public void setNacionalImportacion(String nacionalImportacion) {
 		this.nacionalImportacion = nacionalImportacion;
 	}
+
+	public BigDecimal getDescuentoMerma() {
+		return descuentoMerma;
+	}
+
+	public void setDescuentoMerma(BigDecimal descuentoMerma) {
+		this.descuentoMerma = descuentoMerma;
+	}
+	
+	
 
 
 }

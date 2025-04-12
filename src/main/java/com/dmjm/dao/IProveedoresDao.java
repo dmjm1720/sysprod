@@ -20,5 +20,7 @@ public interface IProveedoresDao {
     
     String buscarTipoMonedaProveedor(String nombre)throws SQLException;
     
+    Proveedores buscarMerma (int id);
+    
 
 }

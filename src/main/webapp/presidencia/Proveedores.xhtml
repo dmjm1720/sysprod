@@ -42,7 +42,7 @@
 					<p:accordionPanel id="acco" widgetVar="basic">
 						<p:tab title="CAPTURA DE PROVEEDORES"
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
-							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
+							<h:panelGrid columns="4" cellpadding="4" styleClass="fuente">
 
 								<p:outputLabel for="nombre" value="Nombre" />
 								<p:inputText id="nombre"
@@ -77,6 +77,11 @@
 								<p:outputLabel for="tb" value="Descuento humedad tabla B" />
 								<p:inputText id="tb"
 									value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="dm" value="Descuento por merma" />
+								<p:inputText id="dm"
+									value="#{proveedoresBean.proveedores.descuentoMerma}"
 									required="false" requiredMessage="Campo requerido" />
 
 
@@ -158,6 +163,10 @@
 									<h:outputText value="#{item.descuentoHumedadTablaB}"
 										style="color: #036FAB;" />
 								</p:column>
+								<p:column headerText="Descuento por merma" width="10rem">
+									<h:outputText value="#{item.descuentoMerma}"
+										style="color: #036FAB; font-weight:bold" />
+								</p:column>
 
 							</p:dataTable>
 
@@ -223,12 +232,10 @@
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
-
 						<p:outputLabel for="origen" value="Origen" />
 						<p:inputText id="origen"
 							value="#{proveedoresBean.proveedores.origen}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
-
 
 						<p:outputLabel for="nacimp" value="Nacional / Importado" />
 						<p:selectOneMenu id="nacimp" required="false"
@@ -244,15 +251,18 @@
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-					
-
 
 						<p:outputLabel for="descB" value="Descuento humedad tabla B" />
 						<p:inputText id="descB"
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-		
+
+						<p:outputLabel for="descMerma" value="Descuento por merma" />
+						<p:inputText id="descMerma"
+							value="#{proveedoresBean.proveedores.descuentoMerma}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
 
 
 
@@ -281,27 +291,27 @@
 						<p:inputText id="nombre" readonly="true"
 							value="#{proveedoresBean.proveedores.nombre}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
-				
+
 
 						<p:outputLabel for="razonsocial" value="Razón Social" />
 						<p:inputText id="razonsocial" readonly="true"
 							value="#{proveedoresBean.proveedores.razonSocial}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-			
+
 
 						<p:outputLabel for="origen" value="Origen" />
 						<p:inputText id="origen" readonly="true"
 							value="#{proveedoresBean.proveedores.origen}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
-					
+
 
 						<p:outputLabel for="descA" value="Descuento humedad tabla A" />
 						<p:inputText id="descA" readonly="true"
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaA}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-				
+
 
 
 						<p:outputLabel for="descB" value="Descuento humedad tabla B" />
@@ -309,7 +319,7 @@
 							value="#{proveedoresBean.proveedores.descuentoHumedadTablaB}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-					
+
 
 
 

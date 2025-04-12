@@ -4,8 +4,9 @@ public class DescuentoCalciosTablaA implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idCalcios;
-	private Integer alcalinidad;
 	private String descuento;
+	private String de;
+	private String hasta;
 
 	public DescuentoCalciosTablaA() {
 	}
@@ -14,10 +15,11 @@ public class DescuentoCalciosTablaA implements java.io.Serializable {
 		this.idCalcios = idCalcios;
 	}
 
-	public DescuentoCalciosTablaA(int idCalcios, Integer alcalinidad, String descuento) {
+	public DescuentoCalciosTablaA(int idCalcios, String descuento, String de, String hasta) {
 		this.idCalcios = idCalcios;
-		this.alcalinidad = alcalinidad;
 		this.descuento = descuento;
+		this.de = de;
+		this.hasta = hasta;
 	}
 
 	public int getIdCalcios() {
@@ -28,20 +30,28 @@ public class DescuentoCalciosTablaA implements java.io.Serializable {
 		this.idCalcios = idCalcios;
 	}
 
-	public Integer getAlcalinidad() {
-		return this.alcalinidad;
-	}
-
-	public void setAlcalinidad(Integer alcalinidad) {
-		this.alcalinidad = alcalinidad;
-	}
-
 	public String getDescuento() {
 		return this.descuento;
 	}
 
 	public void setDescuento(String descuento) {
 		this.descuento = descuento;
+	}
+
+	public String getDe() {
+		return de;
+	}
+
+	public void setDe(String de) {
+		this.de = de;
+	}
+
+	public String getHasta() {
+		return hasta;
+	}
+
+	public void setHasta(String hasta) {
+		this.hasta = hasta;
 	}
 
 }

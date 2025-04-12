@@ -48,7 +48,7 @@ public class DescuentosHumedadADaoImpl implements IDescuentoHumedadADao {
 	}
 
 	@Override
-	public void actualziarHumedadA(DescuentoHumedadTablaA humedadTablaA) {
+	public void actualizarHumedadA(DescuentoHumedadTablaA humedadTablaA) {
 		Session session = null;
         try {
 
@@ -72,6 +72,33 @@ public class DescuentosHumedadADaoImpl implements IDescuentoHumedadADao {
             }
         }
 
+	}
+
+	@Override
+	public void eliminarHumedadA(DescuentoHumedadTablaA humedadTablaA) {
+		Session session = null;
+        try {
+
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Transaction transaction = session.beginTransaction();
+            session.delete(humedadTablaA);
+            transaction.commit();
+
+			String info = "Se ha eliminado descuento";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+		
 	}
 
 }

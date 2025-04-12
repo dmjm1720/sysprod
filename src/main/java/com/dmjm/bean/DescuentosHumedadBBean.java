@@ -49,7 +49,13 @@ public class DescuentosHumedadBBean implements Serializable {
 
 	public void actualizar() {
 		IDescuentoHumedadBDao eDao = new DescuentosHumedadBDaoImpl();
-		eDao.actualziarHumedadB(descuentosHumedadB);
+		eDao.actualizarHumedadB(descuentosHumedadB);
+		descuentosHumedadB = new DescuentoHumedadTablaB();
+	}
+	
+	public void eliminar() {
+		IDescuentoHumedadBDao eDao = new DescuentosHumedadBDaoImpl();
+		eDao.eliminarHumedadB(descuentosHumedadB);
 		descuentosHumedadB = new DescuentoHumedadTablaB();
 	}
 

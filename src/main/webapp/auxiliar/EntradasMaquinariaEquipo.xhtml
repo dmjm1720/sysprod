@@ -139,7 +139,7 @@
 								</p:column>
 
 								<p:column headerText="Liberar" width="3rem"
-									rendered="#{login.usuario.perfiles.nombrePerfil=='Importaciones'}">
+									rendered="#{login.usuario.perfiles.nombrePerfil=='R. Industriales'}">
 									<p:commandButton id="lib" icon="pi pi-calendar"
 										actionListener="#{entMaqEqBean.liberar(item.idMaqEq)}"
 										update="frmPrincipal:acco:tblEntImp, frmPrincipal:msgs"
@@ -214,7 +214,7 @@
                             closeText: 'Cerrar',
                             prevText: 'Anterior',
                             nextText: 'Siguiente',
-                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',Importaciones 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
                             monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],

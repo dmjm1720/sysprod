@@ -32,5 +32,8 @@
 		<property name="nacionalImportacion" type="string">
 			<column name="NACIONAL_IMPORTACION" length="50" />
 		</property>
+		<property name="descuentoMerma" type="big_decimal">
+			<column name="DESCUENTO_MERMA" precision="10" scale="1" />
+		</property>
 	</class>
 </hibernate-mapping>

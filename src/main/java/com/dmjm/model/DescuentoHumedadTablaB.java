@@ -4,8 +4,9 @@ public class DescuentoHumedadTablaB implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idHumedad;
-	private Integer humedad;
 	private String descuento;
+	private String de;
+	private String hasta;
 
 	public DescuentoHumedadTablaB() {
 	}
@@ -14,10 +15,11 @@ public class DescuentoHumedadTablaB implements java.io.Serializable {
 		this.idHumedad = idHumedad;
 	}
 
-	public DescuentoHumedadTablaB(int idHumedad, Integer humedad, String descuento) {
+	public DescuentoHumedadTablaB(int idHumedad, String descuento, String de, String hasta) {
 		this.idHumedad = idHumedad;
-		this.humedad = humedad;
 		this.descuento = descuento;
+		this.de = de;
+		this.hasta = hasta;
 	}
 
 	public int getIdHumedad() {
@@ -28,20 +30,27 @@ public class DescuentoHumedadTablaB implements java.io.Serializable {
 		this.idHumedad = idHumedad;
 	}
 
-	public Integer getHumedad() {
-		return this.humedad;
-	}
-
-	public void setHumedad(Integer humedad) {
-		this.humedad = humedad;
-	}
-
 	public String getDescuento() {
 		return this.descuento;
 	}
 
 	public void setDescuento(String descuento) {
 		this.descuento = descuento;
+	}
+	public String getDe() {
+		return de;
+	}
+
+	public void setDe(String de) {
+		this.de = de;
+	}
+
+	public String getHasta() {
+		return hasta;
+	}
+
+	public void setHasta(String hasta) {
+		this.hasta = hasta;
 	}
 
 }

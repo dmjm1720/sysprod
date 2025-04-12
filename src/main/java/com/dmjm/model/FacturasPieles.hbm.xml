@@ -35,5 +35,8 @@
 		<property name="total" type="big_decimal">
 			<column name="TOTAL" precision="10" scale="4" />
 		</property>
+		<property name="ca" type="big_decimal">
+			<column name="CA" precision="10" scale="4" />
+		</property>
 	</class>
 </hibernate-mapping>

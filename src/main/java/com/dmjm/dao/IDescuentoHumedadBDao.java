@@ -10,6 +10,9 @@ public interface IDescuentoHumedadBDao {
 
 	void guardarHumedadB(DescuentoHumedadTablaB humedadTablaB);
 
-	void actualziarHumedadB(DescuentoHumedadTablaB humedadTablaB);
+	void actualizarHumedadB(DescuentoHumedadTablaB humedadTablaB);
+	
+	void eliminarHumedadB(DescuentoHumedadTablaB humedadTablaB);
+
 
 }

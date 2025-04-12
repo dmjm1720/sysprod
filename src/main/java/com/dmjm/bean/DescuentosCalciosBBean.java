@@ -53,8 +53,14 @@ public class DescuentosCalciosBBean implements Serializable {
     
     public void actualizar() {
     	 IDescuentoCalciosBDao eDao = new DescuentosCalciosBDaoImpl();
-    	 eDao.actualziarDescuentosCalciosB(descuentosCalciosB);
+    	 eDao.actualizarDescuentosCalciosB(descuentosCalciosB);
          descuentosCalciosB = new DescuentoCalciosTablaB();
     }
+    
+    public void eliminar() {
+   	 IDescuentoCalciosBDao eDao = new DescuentosCalciosBDaoImpl();
+   	 eDao.eliminarDescuentosCalciosB(descuentosCalciosB);
+        descuentosCalciosB = new DescuentoCalciosTablaB();
+   }
 
 }

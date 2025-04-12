@@ -15,21 +15,22 @@ public class DescuentosCalciosADaoImpl implements IDescuentoCalciosADao {
 
 	@Override
 	public List<DescuentoCalciosTablaA> listarDescuentos() {
-		 @SuppressWarnings("JPQLValidation")
-	        List<DescuentoCalciosTablaA> descuentos = (List<DescuentoCalciosTablaA>) HibernateUtil.getSessionFactory().openSession().createQuery("From DescuentoCalciosTablaA").list();
-	        return descuentos;
+		@SuppressWarnings("JPQLValidation")
+		List<DescuentoCalciosTablaA> descuentos = (List<DescuentoCalciosTablaA>) HibernateUtil.getSessionFactory()
+				.openSession().createQuery("From DescuentoCalciosTablaA").list();
+		return descuentos;
 	}
 
 	@Override
 	public void guardarDescuentosCalciosA(DescuentoCalciosTablaA calciosTablaA) {
 		Session session = null;
-        try {
+		try {
 
-            session = HibernateUtil.getSessionFactory().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 
-            Transaction transaction = session.beginTransaction();
-            session.save(calciosTablaA);
-            transaction.commit();
+			Transaction transaction = session.beginTransaction();
+			session.save(calciosTablaA);
+			transaction.commit();
 
 			String info = "Se ha registrado un nuevo descuento";
 
@@ -37,26 +38,26 @@ public class DescuentosCalciosADaoImpl implements IDescuentoCalciosADao {
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 
 	}
 
 	@Override
-	public void actualziarDescuentosCalciosA(DescuentoCalciosTablaA calciosTablaA) {
+	public void actualizarDescuentosCalciosA(DescuentoCalciosTablaA calciosTablaA) {
 		Session session = null;
-        try {
+		try {
 
-            session = HibernateUtil.getSessionFactory().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 
-            Transaction transaction = session.beginTransaction();
-            session.update(calciosTablaA);
-            transaction.commit();
+			Transaction transaction = session.beginTransaction();
+			session.update(calciosTablaA);
+			transaction.commit();
 
 			String info = "Se ha actualizado el descuento";
 
@@ -64,13 +65,40 @@ public class DescuentosCalciosADaoImpl implements IDescuentoCalciosADao {
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+	}
+
+	@Override
+	public void eliminarDescuentosCalciosA(DescuentoCalciosTablaA calciosTablaA) {
+		Session session = null;
+		try {
+
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.delete(calciosTablaA);
+			transaction.commit();
+
+			String info = "Se ha eliminado descuento";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
 
 	}
 

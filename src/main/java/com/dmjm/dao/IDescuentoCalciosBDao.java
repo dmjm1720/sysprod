@@ -10,6 +10,8 @@ public interface IDescuentoCalciosBDao {
 
 	void guardarDescuentosCalciosA(DescuentoCalciosTablaB calciosTablaB);
 
-	void actualziarDescuentosCalciosB(DescuentoCalciosTablaB calciosTablaB);
+	void actualizarDescuentosCalciosB(DescuentoCalciosTablaB calciosTablaB);
+	
+	void eliminarDescuentosCalciosB(DescuentoCalciosTablaB calciosTablaB);
 
 }

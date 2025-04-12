@@ -49,7 +49,7 @@ public class DescuentosCalciosBDaoImpl implements IDescuentoCalciosBDao {
 	}
 
 	@Override
-	public void actualziarDescuentosCalciosB(DescuentoCalciosTablaB calciosTablaB) {
+	public void actualizarDescuentosCalciosB(DescuentoCalciosTablaB calciosTablaB) {
 		Session session = null;
         try {
 
@@ -73,6 +73,33 @@ public class DescuentosCalciosBDaoImpl implements IDescuentoCalciosBDao {
             }
         }
 
+	}
+
+	@Override
+	public void eliminarDescuentosCalciosB(DescuentoCalciosTablaB calciosTablaB) {
+		Session session = null;
+        try {
+
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            Transaction transaction = session.beginTransaction();
+            session.delete(calciosTablaB);
+            transaction.commit();
+
+			String info = "Se ha eliminado descuento";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+		
 	}
 
 }

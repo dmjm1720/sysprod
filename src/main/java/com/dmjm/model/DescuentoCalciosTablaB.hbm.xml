@@ -10,11 +10,14 @@
 			<column name="ID_CALCIOS" />
 			<generator class="native" />
 		</id>
-		<property name="alcalinidad" type="java.lang.Integer">
-			<column name="ALCALINIDAD" />
-		</property>
 		<property name="descuento" type="string">
 			<column name="DESCUENTO" length="10" />
+		</property>
+		<property name="de" type="string">
+			<column name="DE" length="10" />
+		</property>
+		<property name="hasta" type="string">
+			<column name="HASTA" length="10" />
 		</property>
 	</class>
 </hibernate-mapping>

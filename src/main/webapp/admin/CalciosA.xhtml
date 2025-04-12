@@ -16,12 +16,6 @@
 			<!--Formulario principal-->
 
 			<h:form id="frmPrincipal">
-				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
-                                            <h:panelGrid styleClass="custom-painelgrid-center">
-                                                <h:outputText value="Buscando..." />
-                                                <p:graphicImage value="../resources/img/cargando.gif" />
-                                            </h:panelGrid>
-                                        </p:blockUI>-->
 
 				<p:growl id="msgs" showDetail="true"
 					skipDetailIfEqualsSummary="true" />
@@ -43,9 +37,14 @@
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
 							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
 
-								<p:outputLabel for="alcalinidad" value="Alcalinidad" />
-								<p:inputText id="alcalinidad"
-									value="#{descuentoCA.descuentosCalciosA.alcalinidad}"
+								<p:outputLabel for="de" value="De" />
+								<p:inputText id="de"
+									value="#{descuentoCA.descuentosCalciosA.de}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="hasta" value="Hasta" />
+								<p:inputText id="hasta"
+									value="#{descuentoCA.descuentosCalciosA.hasta}"
 									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="descuento" value="Descuento" />
@@ -71,29 +70,45 @@
 								</p:commandButton>
 							</div>
 							<p:dataTable id="tblProv" styleClass="tabla fuente" var="item"
-								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								sortMode="multiple" scrollHeight="650" scrollWidth="40%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="50,100,200,500" rows="50"
-								paginator="true" liveScroll="true" rowHover="true"
-								paginatorAlwaysVisible="true" scrollable="true"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
 								currentPageReportTemplate="Total: #{descuentoCA.listarDescuentosCalcioA.size()}"
 								value="#{descuentoCA.listarDescuentosCalcioA}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:column headerText="Editar" width="3rem" exportable="false">
-									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-										styleClass="ui-button-warning">
-										<f:setPropertyActionListener value="#{item}"
-											target="#{descuentoCA.descuentosCalciosA}" />
-
-									</p:commandButton>
-									<p:tooltip id="toolTipE" for="ed" value="Editar"
-										trackMouse="true" />
+									<div style="text-align: center">
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{descuentoCA.descuentosCalciosA}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
+									</div>
 								</p:column>
-								<p:column headerText="Alcalinidad" width="10rem">
-									<h:outputText value="#{item.alcalinidad}"
-										style="color: #036FAB;" />
+								<p:column headerText="Eliminar" width="3rem" exportable="false">
+									<div style="text-align: center">
+										<p:commandButton id="el" icon="pi pi-fw pi-trash"
+											onclick="PF('dlgEliminar').show()"
+											update="frmEliminar:pnlEliminar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{descuentoCA.descuentosCalciosA}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEl" for="el" value="Eliminar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+								<p:column headerText="De" width="15rem">
+									<h:outputText value="#{item.de}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Hasta" width="15rem">
+									<h:outputText value="#{item.hasta}" style="color: #2196F3;" />
 								</p:column>
 
 								<p:column headerText="Descuento" width="15rem">
@@ -154,12 +169,17 @@
 					minimizable="true" maximizable="true">
 					<h:panelGrid id="pnlEditar" columns="6" styleClass="fuente">
 
-						<p:outputLabel for="alcalinidad" value="Alacalinidad" />
-						<p:inputText id="alcalinidad"
-							value="#{descuentoCA.descuentosCalciosA.alcalinidad}"
+						<p:outputLabel for="de" value="De" />
+						<p:inputText id="de" value="#{descuentoCA.descuentosCalciosA.de}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
-						<p:message for="alcalinidad" />
+						<p:message for="de" />
+
+						<p:outputLabel for="hasta" value="Hasta" />
+						<p:inputText id="hasta"
+							value="#{descuentoCA.descuentosCalciosA.hasta}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="hasta" />
 
 						<p:outputLabel for="descuento" value="Descuento" />
 						<p:inputText id="descuento"
@@ -181,6 +201,37 @@
 				</p:dialog>
 			</h:form>
 			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+			<!-- INICIA FORMULARIO PARA ELIMINAR -->
+			<h:form id="frmEliminar">
+				<p:dialog header="ELIMINAR INFORMACIÓN" widgetVar="dlgEliminar"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEliminar" columns="1" styleClass="fuente">
+
+						<p:outputLabel
+							style="font-weight: bold; font-size: 1rem; color: red"
+							value="De #{descuentoCA.descuentosCalciosA.de}" />
+						<p:outputLabel
+							style="font-weight: bold; font-size: 1rem; color: red"
+							value="Hasta #{descuentoCA.descuentosCalciosA.hasta}" />
+						<p:outputLabel
+							style="font-weight: bold; font-size: 1rem; color: red"
+							value="Descuento: #{descuentoCA.descuentosCalciosA.descuento}" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ELIMINAR"
+							style="widht: 20rem; height: 2rem" title="Eliminar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{descuentoCA.eliminar()}"
+							oncomplete="PF('dlgEliminar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA ELIMINAR -->
 
 		</ui:define>
 	</ui:composition>

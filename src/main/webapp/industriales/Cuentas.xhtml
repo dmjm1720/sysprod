@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
+                                            <h:panelGrid styleClass="custom-painelgrid-center">
+                                                <h:outputText value="Buscando..." />
+                                                <p:graphicImage value="../resources/img/cargando.gif" />
+                                            </h:panelGrid>
+                                        </p:blockUI>-->
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE CUENTAS" styleClass="fuente"/>
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+						<p:tab title="CAPTURA DE CUENTAS" titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+							<h:panelGrid columns="2" cellpadding="4" styleClass="fuente">
+
+								<p:outputLabel for="cuenta" value="Cuenta contable" />
+								<p:inputText id="cuenta"
+									value="#{cuentasBean.cuentasContables.cuenta}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="descripcion" value="Descripción" />
+								<p:inputText id="descripcion"
+									value="#{cuentasBean.cuentasContables.descripcion}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+								<p:commandButton icon="pi pi-save" title="Guardar" value="GUARDAR" 
+									update="frmPrincipal, frmPrincipal:msgs, tblCta" style="widht: 20rem; height: 2rem"
+									actionListener="#{cuentasBean.guardarCuentas()}" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="LISTA DE CUENTAS CONTABLES" titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+						<div style="text-align: center">
+								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
+									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
+									<p:dataExporter type="xls" target="frmPrincipal:acco:tblCta"
+										fileName="REPORTE DE CALCIOS TABLA B" />
+								</p:commandButton>
+							</div>
+							<p:dataTable id="tblCta" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50"
+								paginator="true" liveScroll="true" rowHover="true"
+								paginatorAlwaysVisible="true" scrollable="true"
+								currentPageReportTemplate="Total: #{cuentasBean.listaCuentas.size()}"
+								value="#{cuentasBean.listaCuentas}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{cuentasBean.cuentasContables}" />
+
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+								<p:column headerText="Cuentas contables" width="10rem">
+									<h:outputText value="#{item.cuenta}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Descripción" width="15rem">
+									<h:outputText value="#{item.descripcion}"
+										style="color: #2196F3;" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DE CUENTA CONTABLE"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6">
+
+						<p:outputLabel for="cuentas" value="Cuentas" />
+						<p:inputText id="cuentas" value="#{cuentasBean.cuentasContables.cuenta}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="cuentas" />
+
+						<p:outputLabel for="descripcion" value="Descripción" />
+						<p:inputText id="descripcion" value="#{cuentasBean.cuentasContables.descripcion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="descripcion" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR" style="widht: 20rem; height: 2rem"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cuentasBean.actualizarCuentas()}" 
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

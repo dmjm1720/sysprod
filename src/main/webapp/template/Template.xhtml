@@ -262,35 +262,6 @@
 						actionListener="#{login.cerrarSesion()}" />
 				</p:menubar>
 
-				<!-- IMPORTACIONES -->
-				<p:menubar hideDelay="1000"
-					rendered="#{login.usuario.perfiles.idPerfil==8}">
-					<f:facet name="start">
-						<p:graphicImage name="images/primefaces-logo.svg"
-							library="showcase" />
-					</f:facet>
-
-					<p:submenu label="Materia Prima Importación" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Registro de Tolvas"
-							outcome="EntradasImportacion" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-						<p:menuitem value="Maquinaria y Equipo"
-							outcome="EntradasMaquinariaEquipo" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-						<p:menuitem value="Cuentas" outcome="Cuentas"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-					</p:submenu>
-
-					<p:divider layout="vertical" />
-
-					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
-						action="/index?faces-redirect=true"
-						actionListener="#{login.cerrarSesion()}" />
-				</p:menubar>
-
-
 				<!-- PRESIDENCIA -->
 
 				<p:menubar hideDelay="1000"
@@ -345,9 +316,76 @@
 						<p:graphicImage name="images/primefaces-logo.svg"
 							library="showcase" />
 					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
+						</p:menuitem>
+					</p:submenu>
 
 					<p:submenu label="Lavadoras" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Registro de pieles" outcome="RegistroPieles"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+					</p:submenu>
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+
+				</p:menubar>
+
+				<!-- R. INDUSTRIALES -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==8}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+
+					<p:submenu label="Materia Prima Importación" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Registro de Tolvas"
+							outcome="EntradasImportacion" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+						<p:menuitem value="Maquinaria y Equipo"
+							outcome="EntradasMaquinariaEquipo" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+						<p:menuitem value="Cuentas" outcome="Cuentas"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+
+				<!-- AUXILIAR CONTABLE -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==9}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
+						</p:menuitem>
+					</p:submenu>
+					
+					<p:submenu label="Materia Prima Importación" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Registro de Tolvas"
+							outcome="EntradasImportacion" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+						<p:menuitem value="Maquinaria y Equipo"
+							outcome="EntradasMaquinariaEquipo" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+						<p:menuitem value="Cuentas" outcome="Cuentas"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
 

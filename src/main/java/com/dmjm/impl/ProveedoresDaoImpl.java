@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IProveedoresDao;
@@ -21,9 +23,15 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
 	@Override
 	public List<Proveedores> listarProveedores() {
 
+		List<Proveedores> proveedores = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("FROM Proveedores WHERE estado = 1 ORDER BY nombre", Proveedores.class).list();
+			Query<Proveedores> query = session.createQuery("FROM Proveedores p WHERE p.estado = 1 ORDER BY p.nombre",
+					Proveedores.class);
+			proveedores = query.list();
+		} catch (Exception e) {
+			e.printStackTrace(); // Manejo de error
 		}
+		return proveedores;
 	}
 
 	@Override
@@ -85,8 +93,8 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
 
 		ConectarSysProd();
 
-		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM PROVEEDORES WHERE NOMBRE LIKE '" + nombre + "%' AND ESTADO=1");
+		PreparedStatement st = getCnSysProd().prepareStatement(
+				"SELECT DISTINCT (NOMBRE) FROM PROVEEDORES WHERE NOMBRE LIKE '" + nombre + "%' AND ESTADO=1");
 		ResultSet rs = st.executeQuery();
 		listarTodo = new ArrayList<>();
 		if (!rs.isBeforeFirst()) {
@@ -176,6 +184,20 @@ public class ProveedoresDaoImpl extends Conexion implements IProveedoresDao {
 		return tipo_modeda;
 	}
 
-
+	@Override
+	public Proveedores buscarMerma(int id) {
+		Proveedores proveedores = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+		    Query<Proveedores> query = session.createQuery(
+		        "FROM Proveedores p WHERE p.idProveedor = :idProveedor", 
+		        Proveedores.class
+		    );
+		    query.setParameter("idProveedor", id); // Parámetro seguro
+		    proveedores = query.uniqueResult();
+		} catch (Exception e) {
+		    e.printStackTrace(); // Manejo de error
+		}
+		return proveedores;
+	}
 
 }

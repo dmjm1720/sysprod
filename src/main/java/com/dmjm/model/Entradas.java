@@ -98,6 +98,8 @@ public class Entradas implements java.io.Serializable {
 	private BigDecimal cerdoAmericano;
 	private BigDecimal precioCa;
 	private BigDecimal precioCalcCa;
+	private Integer rangoHumedad;
+	private Integer rangoCalcios;
 
 	public Entradas() {
 	}
@@ -133,7 +135,8 @@ public class Entradas implements java.io.Serializable {
 			BigDecimal precioCalcPc, BigDecimal precioCalcP, BigDecimal precioCalcDa, BigDecimal precioCalcDs,
 			BigDecimal precioCalcCdi, BigDecimal precioCalcG, BigDecimal precioCalcCe, BigDecimal subtotal,
 			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria, String archivoCertificado,
-			String tipoMoneda, Integer estatusFacturaImportacion, BigDecimal cerdoAmericano, BigDecimal precioCa, BigDecimal precioCalcCa) {
+			String tipoMoneda, Integer estatusFacturaImportacion, BigDecimal cerdoAmericano, BigDecimal precioCa,
+			BigDecimal precioCalcCa, Integer rangoHumedad, Integer rangoCalcios) {
 
 		this.idEntrada = idEntrada;
 		this.materia = materia;
@@ -225,8 +228,10 @@ public class Entradas implements java.io.Serializable {
 		this.tipoMoneda = tipoMoneda;
 		this.estatusFacturaImportacion = estatusFacturaImportacion;
 		this.cerdoAmericano = cerdoAmericano;
-		this.precioCa=precioCa;
+		this.precioCa = precioCa;
 		this.precioCalcCa = precioCalcCa;
+		this.rangoHumedad = rangoHumedad;
+		this.rangoCalcios = rangoCalcios;
 	}
 
 	public int getIdEntrada() {
@@ -963,6 +968,22 @@ public class Entradas implements java.io.Serializable {
 
 	public void setPrecioCalcCa(BigDecimal precioCalcCa) {
 		this.precioCalcCa = precioCalcCa;
+	}
+
+	public Integer getRangoCalcios() {
+		return rangoCalcios;
+	}
+
+	public void setRangoCalcios(Integer rangoCalcios) {
+		this.rangoCalcios = rangoCalcios;
+	}
+
+	public Integer getRangoHumedad() {
+		return rangoHumedad;
+	}
+
+	public void setRangoHumedad(Integer rangoHumedad) {
+		this.rangoHumedad = rangoHumedad;
 	}
 	
 	

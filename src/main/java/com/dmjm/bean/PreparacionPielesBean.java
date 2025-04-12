@@ -1147,9 +1147,10 @@ public class PreparacionPielesBean implements Serializable {
 
 	public void validarMaterial(String tipoDeMaterial, double saldoRestante) {
 
+		//**CLASIFICACIÓN DE LA MATERIA**//
 		switch (tipoDeMaterial) {
 		// CZ
-		case "CARNAZA 1", "CARNAZA 2", "CARNZA SALADA", "CUERO DEPILADO INTEGRAL", "DESBARBE / RECORTE", "GARRA" -> {
+		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES", "GARRA Y FALDA" -> {
 			LOGGER.info("Procesar material tipo CZ");
 			// Acciones para CZ
 			facturasPieles.setCz(new BigDecimal(saldoRestante));
@@ -1179,9 +1180,17 @@ public class PreparacionPielesBean implements Serializable {
 			facturasPieles.setCn(new BigDecimal(saldoRestante));
 			saldoDisponibleParaAgregar = facturasPieles.getCn().doubleValue();
 		}
+		
+		// CN
+		case "CERDO AMERICANO" -> {
+			LOGGER.info("Procesar material tipo CAM");
+			// Acciones para CN
+			facturasPieles.setCa(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCa().doubleValue();
+		}
 
 		// RP
-		case "CARNAZA CON PELO", "PEDACERÍA CON PELO", "CUERO EN SANGRE" -> {
+		case "CUERO INTEGRAL SALADO CON PELO", "RECORTE DE CUERO CON PELO", "CUERO EN SANGRE" -> {
 			LOGGER.info("Procesar material RP");
 			// Acciones para RP
 			facturasPieles.setRp(new BigDecimal(saldoRestante));
@@ -1232,7 +1241,7 @@ public class PreparacionPielesBean implements Serializable {
 
 		switch (identificacionMaterial) {
 		// CZ
-		case "CARNAZA 1", "CARNAZA 2", "CARNZA SALADA", "CUERO DEPILADO INTEGRAL", "DESBARBE / RECORTE", "GARRA" -> {
+		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES", "GARRA Y FALDA" -> {
 			LOGGER.info("Procesar material tipo CZ");
 			// Acciones para CZ
 			cantidad = Double.valueOf(facturasPieles.getCz().toString());
@@ -1255,12 +1264,19 @@ public class PreparacionPielesBean implements Serializable {
 		// CN
 		case "CERDO MEXICANO" -> {
 			LOGGER.info("Procesar material tipo CN");
-			// Acciones para RP
+			// Acciones para CN
 			cantidad = Double.valueOf(facturasPieles.getCn().toString());
+		}
+		
+		// CAM
+		case "CERDO AMERICANO" -> {
+			LOGGER.info("Procesar material tipo CAM");
+			// Acciones para CAM
+			cantidad = Double.valueOf(facturasPieles.getCa().toString());
 		}
 
 		// RP
-		case "CARNAZA CON PELO", "PEDACERÍA CON PELO", "CUERO EN SANGRE" -> {
+		case "CUERO INTEGRAL SALADO CON PELO", "RECORTE DE CUERO CON PELO", "CUERO EN SANGRE" -> {
 			LOGGER.info("Procesar material con RP");
 			// Acciones para materiales con pelo
 			cantidad = Double.valueOf(facturasPieles.getRp().toString());

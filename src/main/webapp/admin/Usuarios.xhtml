@@ -53,18 +53,12 @@
 									required="false" requiredMessage="Campo requerido" />
 								<p:message for="correo" />
 
+
 								<p:outputLabel for="perfil" value="Perfil" />
-								<p:selectOneMenu id="perfil" value="#{usuariosBean.idPerfil}">
-									<f:selectItem itemLabel="Selecciona perfil" itemValue="" />
-									<f:selectItem itemLabel="Administrador" itemValue="1" />
-									<f:selectItem itemLabel="Coordinador" itemValue="2" />
-									<f:selectItem itemLabel="Control de calidad" itemValue="3" />
-									<f:selectItem itemLabel="Gerencia" itemValue="4" />
-									<f:selectItem itemLabel="Contador" itemValue="5" />
-									<f:selectItem itemLabel="Presidencia" itemValue="6" />
-									<f:selectItem itemLabel="Operador" itemValue="7" />
-									<f:selectItem itemLabel="Importaciones" itemValue="8" />
-								</p:selectOneMenu>
+								<p:autoComplete id="perfil" size="35"
+									placeholder="Selecciona Perfil" dropdown="true"
+									value="#{usuariosBean.filterUsuario}"
+									completeMethod="#{usuariosBean.buscarNombrePerfil}" />
 								<p:message for="perfil" />
 
 								<p:outputLabel for="fecha" value="Fecha alta" />
@@ -223,17 +217,10 @@
 						<p:message for="correo" />
 
 						<p:outputLabel for="perfil" value="Perfil" />
-						<p:selectOneMenu id="perfil" value="#{usuariosBean.idPerfil}">
-							<f:selectItem itemLabel="Selecciona perfil" itemValue="" />
-							<f:selectItem itemLabel="Administrador" itemValue="1" />
-							<f:selectItem itemLabel="Coordinador" itemValue="2" />
-							<f:selectItem itemLabel="Control de calidad" itemValue="3" />
-							<f:selectItem itemLabel="Gerencia" itemValue="4" />
-							<f:selectItem itemLabel="Contador" itemValue="5" />
-							<f:selectItem itemLabel="Presidencia" itemValue="6" />
-							<f:selectItem itemLabel="Operador" itemValue="7" />
-							<f:selectItem itemLabel="Importaciones" itemValue="8" />
-						</p:selectOneMenu>
+						<p:autoComplete id="perfil" size="35"
+							placeholder="Selecciona Perfil" dropdown="true"
+							value="#{usuariosBean.filterUsuario}"
+							completeMethod="#{usuariosBean.buscarNombrePerfil}" />
 						<p:message for="perfil" />
 
 						<p:outputLabel for="password" value="Password" />

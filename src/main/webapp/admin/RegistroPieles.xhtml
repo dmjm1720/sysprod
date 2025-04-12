@@ -127,7 +127,7 @@
 							<p:outputLabel id="sd"
 								value="FACTURA SALDO DISPONIBLE: #{preparacionBean.saldoDisponibleParaAgregar}"
 								styleClass="saldo" />
-							<h:panelGrid id="panelDerecho" columns="12" cellpadding="4"
+							<h:panelGrid id="panelDerecho" columns="8" cellpadding="2"
 								styleClass="fuente">
 
 								<p:outputLabel for="factura" value="FACTURA"
@@ -143,39 +143,45 @@
 										update="frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp, frmPrincipal:acco:sd" />
 								</p:selectOneMenu>
 
-
-								<p:outputLabel for="cz" value="CZ" styleClass="mensajeBoton2" />
-								<p:inputText id="cz" styleClass="pear"
-									value="#{preparacionBean.facturasPieles.cz}" required="false"
-									requiredMessage="Campo requerido" />
-
-
-								<p:outputLabel for="dc" value="DC" styleClass="mensajeBoton2" />
-								<p:inputText id="dc" styleClass="pear"
-									value="#{preparacionBean.facturasPieles.dc}" required="false"
-									requiredMessage="Campo requerido" />
-
-								<p:outputLabel for="ds" value="DS" styleClass="mensajeBoton2" />
-								<p:inputText id="ds" styleClass="pear"
-									value="#{preparacionBean.facturasPieles.ds}" required="false"
-									requiredMessage="Campo requerido" />
-
-								<p:outputLabel for="cn" value="CN" styleClass="mensajeBoton2" />
-								<p:inputText id="cn" styleClass="pear"
-									value="#{preparacionBean.facturasPieles.cn}" required="false"
-									requiredMessage="Campo requerido" />
-
-								<p:outputLabel for="rp" value="RP" styleClass="mensajeBoton2" />
-								<p:inputText id="rp" styleClass="pear"
-									value="#{preparacionBean.facturasPieles.rp}" required="false"
-									requiredMessage="Campo requerido" />
-
 								<p:outputLabel value="" styleClass="mensajeBoton2" />
 								<p:commandButton icon="pi pi-save" title="Guardar"
 									value="Agregar factura al proceso" styleClass="pear"
 									style="width: 15rem; height: 2rem; color: #4169E1; font-weight:bold"
 									actionListener="#{preparacionBean.guardarFacturaPieles()}"
 									update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp" />
+
+
+								<p:outputLabel for="cz" value="CZ" styleClass="mensajeBoton2" />
+								<p:inputText id="cz" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.cz}" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="dc" value="DC" styleClass="mensajeBoton2" />
+								<p:inputText id="dc" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.dc}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="ds" value="DS" styleClass="mensajeBoton2" />
+								<p:inputText id="ds" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.ds}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cn" value="CN" styleClass="mensajeBoton2" />
+								<p:inputText id="cn" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.cn}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="rp" value="RP" styleClass="mensajeBoton2" />
+								<p:inputText id="rp" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.rp}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cam" value="CAM" styleClass="mensajeBoton2" />
+								<p:inputText id="cam" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.ca}" required="false"
+									requiredMessage="Campo requerido" />
+
 
 							</h:panelGrid>
 							<p:divider></p:divider>
@@ -261,6 +267,11 @@
 											<h:outputText value="#{item2.rp}"
 												style="color: #036FAB;font-weight: bold !important;" />
 										</p:column>
+										
+										<p:column headerText="CAM" width="5rem">
+											<h:outputText value="#{item2.ca}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
 
 									</p:dataTable>
 								</p:splitterPanel>
@@ -307,7 +318,8 @@
 										<p:selectOneMenu id="la" styleClass="amarillo"
 											style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:17rem"
 											value="#{preparacionBean.filterLavadora2}">
-											<f:selectItem itemLabel="SELECCIONA NUEVA LAVADORA" itemValue="" />
+											<f:selectItem itemLabel="SELECCIONA NUEVA LAVADORA"
+												itemValue="" />
 											<f:selectItems
 												value="#{preparacionBean.listarLavadorasDisponibles}" />
 											<p:ajax event="change" update="frmPrincipal:acco:la" />
