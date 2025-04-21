@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE TOLVAS DE IMPORTACIÓN"
+						styleClass="fuente" />
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+						<p:tab title="REGISTRO DE TOLVAS DE IMPORTACIÓN" rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
+							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+							<h:panelGrid columns="6" cellpadding="4" styleClass="fuente">
+
+								<p:outputLabel for="fact" value="FACTURA"
+									styleClass="mensajeBoton2" />
+								<p:selectOneMenu id="fact" styleClass="amarillo" filter="true"
+									style="color: #B22222;font-weight: bold !important;font-size: .9rem; width:14rem"
+									value="#{entImportBean.factura}">
+									<f:selectItem itemLabel="SELECCIONA FACTURA" itemValue="">
+
+									</f:selectItem>
+									<f:selectItems value="#{entImportBean.listarNoFactImportacion}" />
+									<p:ajax event="change" update="frmPrincipal:acco"
+										listener="#{entImportBean.datosEntradas(entImportBean.factura)}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel for="tolva" value="# Tolva" />
+								<p:inputText id="tolva" disabled="true" styleClass="tolvas"
+									value="#{entImportBean.entradasImportacion.tolva}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="fea" value="Folio EA" />
+								<p:inputText id="fea" styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.folioImportacion}"
+									required="false" requiredMessage="Campo requerido"
+									disabled="true" />
+
+								<p:outputLabel for="fecha" value="Fecha de entrada" />
+								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
+									disabled="true" placeholder="Fecha de entrada"
+									inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+									value="#{entImportBean.entradasImportacion.fechaEntrada}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+
+								<p:outputLabel for="ticketE" value="Ticket embarque" />
+								<p:inputText id="ticketE" disabled="true"
+									styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.ticketEmbarque}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="pro" value="Proveedor" />
+								<p:inputText id="pro" disabled="true" styleClass="otrosCampos"
+									style="width:350px" value="#{entImportBean.proveedor}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="mat" value="Identificación de la materia" />
+								<p:inputText id="mat" disabled="true" styleClass="otrosCampos"
+									value="#{entImportBean.identificacionMateria}" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="kgE" value="Kg. Embarcado" />
+								<p:inputText id="kgE" disabled="true" styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.kgEmbarcado}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgT" value="Kg. Toluca" />
+								<p:inputText id="kgT" disabled="true" styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.kgToluca}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgN" value="Kg. Neto" />
+								<p:inputText id="kgN" disabled="true" styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.kgNeto}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgM" value="Kg. Merma" />
+								<p:inputText id="kgM" disabled="true" styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.kgMerma}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="kgP" value="Kg. Patio" />
+								<p:inputText id="kgP" styleClass="otrosCampos" disabled="true"
+									value="#{entImportBean.entradasImportacion.kgPatio}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="humedad" value="Humedad" />
+								<p:inputText id="humedad" styleClass="otrosCampos" disabled="true"
+									value="#{entImportBean.entradasImportacion.humedad}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="calcios" value="Calcios" />
+								<p:inputText id="calcios" styleClass="otrosCampos" disabled="true"
+									value="#{entImportBean.entradasImportacion.calcios}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cz" value="Certificado Zoosanitario" />
+								<p:inputText id="cz" disabled="true" styleClass="otrosCampos"
+									value="#{entImportBean.entradasImportacion.certificadoZoosanitario}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cc" value="Cuenta contable requerida" />
+								<p:autoComplete id="cc" size="35" required="false"
+									autocomplete="off" requiredMessage="Cuenta contable requerida"
+									placeholder="Ingresa cuenta contable" dropdown="true"
+									value="#{entImportBean.filterCuenta}"
+									completeMethod="#{entImportBean.buscarNombreCuenta}" />
+
+							</h:panelGrid>
+							<br></br>
+							<div style="text-align: center">
+
+								<p:commandButton icon="pi pi-save" value="GUARDAR CAPTURA"
+									styleClass="fuente" title="Guardar"
+									style="width: 12rem; height: 2rem"
+									actionListener="#{entImportBean.guardar()}"
+									update="frmPrincipal">
+								</p:commandButton>
+							</div>
+						</p:tab>
+						<p:tab title="LISTA DE REGISTRO DE TOLVAS DE IMPORTACIÓN"
+							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+							<div style="text-align: center">
+								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
+									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
+									<p:dataExporter type="xls" target="frmPrincipal:acco:tblEntImp"
+										fileName="REPORTE DE TOLVAS DE IMPORTACIÓN" />
+								</p:commandButton>
+							</div>
+							<p:dataTable id="tblEntImp" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{entImportBean.listaEntradasImp.size()}"
+								value="#{entImportBean.listaEntradasImp}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<!--Impresión de hoja de importación-->
+								<p:column headerText="Imprimir" width="3rem" exportable="false">
+									<h:commandLink id="imp" value=""
+										style="height: 30px;  font-size: 12px;" target="_blank"
+										actionListener="#{entImportBean.visualizarReporte(item.idEntradaImportacion, item.estadoImpresion)}">
+										<h:graphicImage url="/resources/img/printer.png"
+											value="Reporte" style="height: 1.8rem" />
+									</h:commandLink>
+									<p:tooltip id="toolTipI" for="imp"
+										value="Imprimir hoja de liberación" trackMouse="true" />
+								</p:column>
+								
+								<p:column headerText="Liberar" width="3rem" rendered="#{login.usuario.perfiles.nombrePerfil=='Importaciones'}">
+									<p:commandButton id="lib" icon="pi pi-calendar" actionListener="#{entImportBean.liberar(item.idEntradaImportacion)}"
+										update="frmPrincipal:acco:tblEntImp, frmPrincipal:msgs" styleClass="ui-button-warning"
+										disabled="#{item.estadoImpresion==1}">
+									</p:commandButton>
+								</p:column>
+
+								<p:column headerText="# Tolva" width="2rem">
+									<h:outputText value="#{item.tolva}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Folio EA" width="3rem">
+									<h:outputText value="#{item.folioImportacion}"
+										style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Fecha de entrada" width="7rem">
+									<h:outputText value="#{item.fechaEntrada}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Ticket embarque" width="7rem">
+									<h:outputText value="#{item.ticketEmbarque}"
+										style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Factura" width="7rem">
+									<h:outputText value="#{item.factura}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Nombre Proveedor" width="15rem">
+									<h:outputText value="#{item.proveedores.nombre}"
+										style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Materia" width="10rem">
+									<h:outputText value="#{item.materia.tipo}"
+										style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Kg. Embarcado" width="5rem">
+									<h:outputText value="#{item.kgEmbarcado}"
+										style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Kg. Toluca" width="5rem">
+									<h:outputText value="#{item.kgToluca}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Kg. Neto" width="5rem">
+									<h:outputText value="#{item.kgNeto}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Kg. Merma" width="5rem">
+									<h:outputText value="#{item.kgMerma}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Kg. Patio" width="5rem">
+									<h:outputText value="#{item.kgPatio}" style="color: #2196F3;" />
+								</p:column>
+								<p:column headerText="Humedad" width="5rem">
+									<h:outputText value="#{item.humedad}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Calcios" width="5rem">
+									<h:outputText value="#{item.calcios}" style="color: #2196F3;" />
+								</p:column>
+
+								<p:column headerText="Certificado Zoosanitario" width="5rem">
+									<h:outputText value="#{item.certificadoZoosanitario}"
+										style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Cuenta contable" width="5rem">
+									<h:outputText value="#{item.cuentasContables.cuenta}"
+										style="color: #2196F3;" />
+								</p:column>
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DE CUENTA CONTABLE"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6">
+
+						<p:outputLabel for="cuentas" value="Cuentas" />
+						<p:inputText id="cuentas"
+							value="#{cuentasBean.cuentasContables.cuenta}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="cuentas" />
+
+						<p:outputLabel for="descripcion" value="Descripción" />
+						<p:inputText id="descripcion"
+							value="#{cuentasBean.cuentasContables.descripcion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="descripcion" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cuentasBean.actualizarCuentas()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

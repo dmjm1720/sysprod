@@ -77,7 +77,7 @@ public class FiltroUrl implements PhaseListener {
 			return true;
 		} else if (rol.equals("Gerencia") && page.contains("/gerencia/")) {
 			return true;
-		} else if (rol.equals("Contador") && page.contains("/contador/")) {
+		} else if (rol.equals("Contralor") && page.contains("/contralor/")) {
 			return true;
 		} else if (rol.equals("Presidencia") && page.contains("/presidencia/")) {
 			return true;

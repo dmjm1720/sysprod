@@ -612,19 +612,20 @@
 									</p:commandButton>
 									<p:graphicImage
 										value="/resources/img/#{item.archivoCertificado.contains('.pdf') ? 'check.png' : 'cross.png'}"
-										style="width: 20px; height: 20px;" />
+										style="width: 20px; height: 20px;"/>
 								</p:column>
 								<p:column headerText="Rango Humedad" width="4rem">
 									<div style="text-align: center">
 										<p:graphicImage
-											value="/resources/img/#{item.rangoHumedad eq 0 ? 'arriba.png' : 'abajo.png'}"
-											style="width: 20px; height: 20px;" />
+											value="/resources/img/#{item.rangoHumedad eq 0 ? 'arriba.png' : (item.rangoHumedad eq 1 ? 'abajo.png' : 'cero.png')}"
+											style="width: 20px; height: 20px;" 
+											/>
 									</div>
 								</p:column>
 								<p:column headerText="Rango Calcios" width="3.5rem">
 									<div style="text-align: center">
 										<p:graphicImage
-											value="/resources/img/#{item.rangoCalcios eq 0 ? 'arriba.png' : 'abajo.png'}"
+											value="/resources/img/#{item.rangoCalcios eq 0 ? 'arriba.png' : (item.rangoCalcios eq 1 ? 'abajo.png' : 'cero.png')}"
 											style="width: 20px; height: 20px;" />
 									</div>
 								</p:column>

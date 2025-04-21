@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE DESCUENTOS HUMEDAD TABLA B" />
+				</div>
+
+				<p:divider />
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+						<p:tab title="CAPTURA DE DESCUENTOS HUMEDAD TABLA B"
+							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
+							<h:panelGrid columns="12" cellpadding="4" styleClass="fuente">
+
+								<p:outputLabel for="de" value="De" />
+								<p:inputText id="de"
+									value="#{descuentoHB.descuentosHumedadB.de}"
+									required="false" requiredMessage="Campo requerido" />
+									
+								
+								<p:outputLabel for="hasta" value="Hasta" />
+								<p:inputText id="hasta"
+									value="#{descuentoHB.descuentosHumedadB.hasta}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="descuento" value="Descuento" />
+								<p:inputText id="descuento"
+									value="#{descuentoHB.descuentosHumedadB.descuento}"
+									required="false" requiredMessage="Campo requerido" />
+
+
+								<p:commandButton icon="pi pi-save" title="Guardar"
+									value="GUARDAR"
+									update="frmPrincipal, frmPrincipal:msgs, tblProv"
+									style="widht: 20rem; height: 2rem"
+									actionListener="#{descuentoHB.guardar()}" />
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="LISTA DE DESCUENTOS DE HUMEDAD TABLA B"
+							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
+							<div style="text-align: center">
+								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
+									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
+									<p:dataExporter type="xls" target="frmPrincipal:acco:tblProv"
+										fileName="REPORTE DE HUMEDAD TABLA B" />
+								</p:commandButton>
+							</div>
+
+							<p:dataTable id="tblProv" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="40%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{descuentoHB.listarDescuentosHumedadB().size()}"
+								value="#{descuentoHB.listarDescuentosHumedadB()}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{descuentoHB.descuentosHumedadB}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+								<p:column headerText="Eliminar" width="3rem" exportable="false">
+									<div style="text-align: center">
+										<p:commandButton id="el" icon="pi pi-fw pi-trash"
+											onclick="PF('dlgEliminar').show()"
+											update="frmEliminar:pnlEliminar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{descuentoHB.descuentosHumedadB}" />
+
+										</p:commandButton>
+										<p:tooltip id="toolTipEl" for="el" value="Eliminar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+								
+								<p:column headerText="De" width="10rem">
+									<h:outputText value="#{item.de}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hasta" width="10rem">
+									<h:outputText value="#{item.hasta}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Descuento" width="15rem">
+									<h:outputText value="#{item.descuento}" style="color: #2196F3;" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog
+					header="ACTUALIZAR INFORMACIÓN DEL DESCUENTO DE LA HUMEDAD DE LA TABLA B"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6">
+
+						<p:outputLabel for="de" value="De" />
+						<p:inputText id="de"
+							value="#{descuentoHB.descuentosHumedadB.de}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="de" />
+						
+						
+						<p:outputLabel for="hasta" value="Hasta" />
+						<p:inputText id="hasta"
+							value="#{descuentoHB.descuentosHumedadB.hasta}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="hasta" />
+
+						<p:outputLabel for="descuento" value="Descuento" />
+						<p:inputText id="descuento"
+							value="#{descuentoHB.descuentosHumedadB.descuento}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+						<p:message for="descuento" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{descuentoHB.actualizar()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+			<!-- INICIA FORMULARIO PARA ELIMINAR -->
+			<h:form id="frmEliminar">
+				<p:dialog header="ELIMINAR INFORMACIÓN" widgetVar="dlgEliminar"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEliminar" columns="1" styleClass="fuente">
+
+						<p:outputLabel
+							style="font-weight: bold; font-size: 1rem; color: red"
+							value="De: #{descuentoHB.descuentosHumedadB.de}" />
+						
+						<p:outputLabel
+							style="font-weight: bold; font-size: 1rem; color: red"
+							value="Hasta: #{descuentoHB.descuentosHumedadB.hasta}" />
+						<p:outputLabel
+							style="font-weight: bold; font-size: 1rem; color: red"
+							value="Descuento: #{descuentoHB.descuentosHumedadB.descuento}" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ELIMINAR"
+							style="widht: 20rem; height: 2rem" title="Eliminar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{descuentoHB.eliminar()}"
+							oncomplete="PF('dlgEliminar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA ELIMINAR -->
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

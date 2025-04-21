@@ -1111,12 +1111,14 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			if (calcios != 0.0 && humedad == 0.0) {
 				entradasEditar.setEstado(3);
+				LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 				LOGGER.info("VALIDACIÓN DE HUMEDAD ES: " + humedad);
 				LOGGER.info("VALIDACIÓN DE ALCALINIDAD ES: " + calcios);
 			} else if (calcios != 0.0 && humedad > 0.0) {
 				entradasEditar.setEstado(1);
+				LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 				LOGGER.info("VALIDACIÓN DE HUMEDAD ES >: " + humedad);
-				LOGGER.info("VALIDACIÓN DE HUMEDAD ES >: " + calcios);
+				LOGGER.info("VALIDACIÓN DE CALCIOS ES >: " + calcios);
 			}
 
 			banderaControlCalidad = 1;
@@ -1246,10 +1248,23 @@ public class EntradasBean extends Conexion implements Serializable {
 					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
 					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
 		}
+		case "null-FUERA DE RANGO" -> {
+			CorreoRangos cr = new CorreoRangos();
+			cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
+					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
+					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
+		}
+		case "FUERA DE RANGO-null" -> {
+			CorreoRangos cr = new CorreoRangos();
+			cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
+					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
+					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
+		}
 		default -> {
 
 		}
 		}
+		
 		entradasEditar.setPrecioCalcCcp(
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaConPelo().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioCcp().toString())));

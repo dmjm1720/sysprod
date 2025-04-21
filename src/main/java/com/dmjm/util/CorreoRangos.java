@@ -54,6 +54,16 @@ public class CorreoRangos extends Configuracion {
 			textMeciones = "Humedad fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Humedad fuera de rangos";
 		}
+		case "null-FUERA DE RANGO" -> {
+			mediciones = "Humedad: " + humedad;
+			textMeciones = "Humedad fuera de rango en la tolva: ";
+			mensaje="El sistema ha detectado Humedad fuera de rangos";
+		}
+		case "FUERA DE RANGO-null" -> {
+			mediciones = "Calcios: " + calcios;
+			textMeciones = "Calcios fuera de rango en la tolva: ";
+			mensaje="El sistema ha detectado Calcios fuera de rangos";
+		}
 		default -> {
 			mediciones = "Valores dentro de los rangos esperados";
 			textMeciones = "Todo está en orden en la tolva.";
@@ -83,7 +93,7 @@ public class CorreoRangos extends Configuracion {
 			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta3());// PROPS
 			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta4());// PROPS
 			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta5());// PROPS
-
+			message.addRecipients(Message.RecipientType.TO, getMsgToAdmin());// PROPS
 			message.addRecipients(Message.RecipientType.BCC, getDominioCorreo());// PROPS
 
 			message.setSubject(textMeciones + tolva);
@@ -94,7 +104,7 @@ public class CorreoRangos extends Configuracion {
 			t.connect(getDominioCorreo(), getPwdMail());// PROPS
 			t.sendMessage(message, message.getAllRecipients());
 			t.close();
-			LOGGER.info("SE HA ENVIADO EL CORREO DE ALERTAS DE RANGOS CON INFO DE LA TOLVA: " + tolva);
+			LOGGER.warn("SE HA ENVIADO EL CORREO DE ALERTAS DE RANGOS CON INFO DE LA TOLVA: " + tolva);
 		} catch (MessagingException e) {
 			LOGGER.info("ERROR AL ENVIAR EL CORREO: " + e);
 			throw new RuntimeException(e);
