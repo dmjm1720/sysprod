@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +26,7 @@ import org.primefaces.event.ToggleSelectEvent;
 import org.primefaces.event.UnselectEvent;
 
 import com.dmjm.dao.IEntradasDao;
-import com.dmjm.dao.IEtapa1Dao;
+import com.dmjm.dao.IEtapasDao;
 import com.dmjm.dao.IFacturaPielesDao;
 import com.dmjm.dao.IFolioPreparacionDao;
 import com.dmjm.dao.ILavadorasDao;
@@ -32,7 +35,7 @@ import com.dmjm.dao.IPreparacionPielesDao;
 import com.dmjm.dao.IQuimicosDao;
 import com.dmjm.dao.ISaldoFacturaDao;
 import com.dmjm.impl.EntradasDaoImpl;
-import com.dmjm.impl.EtapaDaoImpl;
+import com.dmjm.impl.EtapasDaoImpl;
 import com.dmjm.impl.FacturaPielesDaoImpl;
 import com.dmjm.impl.FoliosPreparacionDaoImpl;
 import com.dmjm.impl.LavadorasDaoImpl;
@@ -41,7 +44,7 @@ import com.dmjm.impl.PreparacionDaoImpl;
 import com.dmjm.impl.QuimicosDaoImpl;
 import com.dmjm.impl.SaldoFacturaDaoImpl;
 import com.dmjm.model.Entradas;
-import com.dmjm.model.Etapa1;
+import com.dmjm.model.Etapas;
 import com.dmjm.model.FacturasPieles;
 import com.dmjm.model.Lavadoras;
 import com.dmjm.model.OperacionLavadoras;
@@ -59,8 +62,12 @@ public class PreparacionPielesBean implements Serializable {
 	private List<PreparacionPieles> listarPreparacion;
 	private PreparacionPieles prePieles;
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
-	private List<Etapa1> listaEtapa1;
-	private Etapa1 etapa1;
+	private List<Etapas> listaDeEtapas;
+	private List<Etapas> listaDeEtapas2;
+	private List<Etapas> listaDeEtapas3;
+	private List<Etapas> listaDeEtapas4;
+	private List<Etapas> listaDeEtapas5;
+	private Etapas etapas;
 	private OperacionLavadoras operacionLavadoras;
 
 	private List<FacturasPieles> listaFacturaPieles;
@@ -92,8 +99,8 @@ public class PreparacionPielesBean implements Serializable {
 	private String[] selectedProcess;
 	private List<String> procesos;
 
-	private String estadoLavadora="";
-	
+	private String estadoLavadora = "";
+
 	@PostConstruct
 	public void init() {
 		listarPreparacion = new ArrayList<>();
@@ -102,8 +109,12 @@ public class PreparacionPielesBean implements Serializable {
 		facturasPieles = new FacturasPieles();
 		lavadoras = new Lavadoras();
 		prePieles.setNoOperacion(buscarFolio());
-		etapa1 = new Etapa1();
-		listaEtapa1 = new ArrayList<>();
+		etapas = new Etapas();
+		listaDeEtapas = new ArrayList<>();
+		listaDeEtapas2 = new ArrayList<>();
+		listaDeEtapas3 = new ArrayList<>();
+		listaDeEtapas4 = new ArrayList<>();
+		listaDeEtapas5 = new ArrayList<>();
 		operacionLavadoras = new OperacionLavadoras();
 		listaOperaciones = new ArrayList<>();
 		listaOperacionesDisponibles = new ArrayList<>();
@@ -128,7 +139,6 @@ public class PreparacionPielesBean implements Serializable {
 		procesos.add("Control 6");
 		procesos.add("Control 7");
 		procesos.add("Control 8");
-		
 
 	}
 
@@ -190,12 +200,12 @@ public class PreparacionPielesBean implements Serializable {
 		this.filterLavadora2 = filterLavadora2;
 	}
 
-	public Etapa1 getEtapa1() {
-		return etapa1;
+	public Etapas getEtapas() {
+		return etapas;
 	}
 
-	public void setEtapa1(Etapa1 etapa1) {
-		this.etapa1 = etapa1;
+	public void setEtapas(Etapas etapas) {
+		this.etapas = etapas;
 	}
 
 	public OperacionLavadoras getOperacionLavadoras() {
@@ -258,7 +268,7 @@ public class PreparacionPielesBean implements Serializable {
 	public void setSelectedProcess(String[] selectedProcess) {
 		this.selectedProcess = selectedProcess;
 	}
-	
+
 	public String getEstadoLavadora() {
 		return estadoLavadora;
 	}
@@ -371,10 +381,25 @@ public class PreparacionPielesBean implements Serializable {
 		pieles.setIdPreparacion(idPre);
 		operacionLavadoras.setPreparacionPieles(pieles);
 
+		// PRIMERA ETAPA
 		String[] listaEtapas = { "Carga", "Lavado Enzimático", "Lavada de Carga", "Blanqueo", "Lavadas de Blanqueo",
 				"Pre Acidulación", "Acidulación", "Control 1", "Control 2", "Control 3", "Control 4", "Control 5",
 				"Control 6", "Control 7", "Control 8" };
-		List<Etapa1> listaAgregarEtapas = new ArrayList<>();
+		// SEGUNDA ETAPA
+		String[] listaEtapaBlanqueo = { "Blanqueo 1", "Blanqueo 2", "Blanqueo 3", "Blanqueo 4", "Blanqueo 5",
+				"Blanqueo 6", "Blanqueo 7", "Blanqueo 8" };
+		// TERCERA ETAPA APARTADO 1
+		String[] listaEtapaLavadorasChicas = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
+				"Lavadora Chica 4" };
+		// TERCERA ETAPA APARTADO 2
+		String[] listaEtapaLavadorasChicas2 = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
+				"Lavadora Chica 4" };
+		// TERCERA ETAPA APARTADO 3
+		String[] listaEtapaLavadorasChicas3 = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
+				"Lavadora Chica 4" };
+		// CUARTA ETAPA
+		String[] listaSilos = { "Silos" };
+		List<Etapas> listaAgregarEtapas = new ArrayList<>();
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date()); // tuFechaBase es un Date;
@@ -389,18 +414,11 @@ public class PreparacionPielesBean implements Serializable {
 		calendar.set(Calendar.MINUTE, minuto);
 		calendar.set(Calendar.SECOND, segundo);
 
-		// Obtener la hora actual
-//        LocalTime ahora = LocalTime.now();
-//        DateTimeFormatter formato = DateTimeFormatter.ofPattern("hh:mm:ss a");
-//        String horaFormateada = ahora.format(formato);
-//        
-//        // Define el formato de la hora
-//        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
-//        Date horaIni = sdf.parse(horaFormateada);
 		Date horaIni = calendar.getTime();
 
+		// GUARDAR PRIMERA ETAPA
 		for (String lEtapas : listaEtapas) {
-			Etapa1 e = new Etapa1();
+			Etapas e = new Etapas();
 			e.setPreparacionPieles(pieles);
 			e.setEstado(false);
 			if (lEtapas.equals("Carga")) {
@@ -409,12 +427,85 @@ public class PreparacionPielesBean implements Serializable {
 				e.setOperador(us.getNombre());
 				e.setEstado(true);
 			}
+			if (lEtapas.equals("Lavada de Carga") || lEtapas.equals("Blanqueo")) {
+				e.setNormalidad(new BigDecimal(-1));
+			}
+			if (lEtapas.equals("Lavadas de Blanqueo") || lEtapas.equals("Pre Acidulación")) {
+				e.setNormalidad(new BigDecimal(-1));
+				e.setTipo("-1");
+				e.setCantidad("-1");
+				e.setLote("-1");
+			}
+			if (lEtapas.equals("Control 1") || lEtapas.equals("Control 2") || lEtapas.equals("Control 3")
+					|| lEtapas.equals("Control 4") || lEtapas.equals("Control 5") || lEtapas.equals("Control 6")
+					|| lEtapas.equals("Control 7")) {
+				e.setDiaInicio(new Date(1969 - 12 - 31));
+				e.setDiaFin(new Date(1969 - 12 - 31));
+				LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+				LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+				Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+				e.setHoraFin(date);
+				e.setHoraFin(date);
+				e.setTipo("-1");
+				e.setCantidad("-1");
+				e.setLote("-1");
+				e.setAgua("Z");
+			}
+			if (lEtapas.equals("Control 8")) {
+				e.setDiaInicio(new Date(1969 - 12 - 31));
+				e.setAgua("Z");
+			}
 			e.setLavadora(filterLavadora);
 			e.setEtapa(lEtapas);
+			e.setEstadoEtapa("Etapa 1");
 			listaAgregarEtapas.add(e);
 		}
 
-		IEtapa1Dao eDao = new EtapaDaoImpl();
+		// GUARDAR SEGUNDA ETAPA
+		for (String segundaEtapa : listaEtapaBlanqueo) {
+			Etapas e = new Etapas();
+			e.setPreparacionPieles(pieles);
+			e.setEstado(false);
+			e.setLavadora(filterLavadora);
+			e.setEtapa(segundaEtapa);
+			e.setEstadoEtapa("Etapa 2");
+			listaAgregarEtapas.add(e);
+		}
+
+		// GUARDAR TERCERA ETAPA
+		for (String terceraEtapa : listaEtapaLavadorasChicas) {
+			Etapas e = new Etapas();
+			e.setPreparacionPieles(pieles);
+			e.setEstado(false);
+			e.setLavadora(filterLavadora);
+			e.setEtapa(terceraEtapa);
+			e.setEstadoEtapa("Etapa 3");
+			listaAgregarEtapas.add(e);
+		}
+
+		// GUARDAR TERCERA ETAPA APARTADO 2
+		for (String terceraEtapa2 : listaEtapaLavadorasChicas2) {
+			Etapas e = new Etapas();
+			e.setPreparacionPieles(pieles);
+			e.setEstado(false);
+			e.setLavadora(filterLavadora);
+			e.setEtapa(terceraEtapa2);
+			e.setEstadoEtapa("Etapa 4");
+			listaAgregarEtapas.add(e);
+		}
+
+		// GUARDAR TERCERA ETAPA APARTADO 3
+		for (String terceraEtapa3 : listaEtapaLavadorasChicas3) {
+			Etapas e = new Etapas();
+			e.setPreparacionPieles(pieles);
+			e.setEstado(false);
+			e.setLavadora(filterLavadora);
+			e.setEtapa(terceraEtapa3);
+			e.setEstadoEtapa("Etapa 5");
+			listaAgregarEtapas.add(e);
+		}
+
+		IEtapasDao eDao = new EtapasDaoImpl();
 		eDao.guardarListaEtapas(listaAgregarEtapas);
 
 		actualizarFolio(prePieles.getNoOperacion());
@@ -451,9 +542,9 @@ public class PreparacionPielesBean implements Serializable {
 		}
 		getListarPreparacion();
 
-		IEtapa1Dao etDao = new EtapaDaoImpl();
-		listaEtapa1 = etDao.listaEtapa1(idPre);
-		getListaEtapa1();
+		IEtapasDao etDao = new EtapasDaoImpl();
+		listaDeEtapas = etDao.listaEtapas(idPre);
+		getListaDeEtapas();
 
 		prePieles = new PreparacionPieles();
 		lavadoras = new Lavadoras();
@@ -608,9 +699,25 @@ public class PreparacionPielesBean implements Serializable {
 		lDao.actualizarLavadoras(lavadoras);
 	}
 
-	public List<Etapa1> getListaEtapa1() {
+	public List<Etapas> getListaDeEtapas() {
+		return listaDeEtapas;
+	}
 
-		return listaEtapa1;
+	public List<Etapas> getListaDeEtapas2() {
+		return listaDeEtapas2;
+	}
+
+	public List<Etapas> getListaDeEtapas3() {
+		return listaDeEtapas3;
+	}
+	
+
+	public List<Etapas> getListaDeEtapas4() {
+		return listaDeEtapas4;
+	}
+
+	public List<Etapas> getListaDeEtapas5() {
+		return listaDeEtapas5;
 	}
 
 	// **ACTUALIZAR LAS ETAPAS DEL PROCESO**//
@@ -632,23 +739,24 @@ public class PreparacionPielesBean implements Serializable {
 
 		Date horaIni = calendar.getTime();
 
-		IEtapa1Dao eDao = new EtapaDaoImpl();
+		IEtapasDao eDao = new EtapasDaoImpl();
 
-		Etapa1 e = new Etapa1();
+		Etapas e = new Etapas();
 
 		PreparacionPieles p = new PreparacionPieles();
-		p.setIdPreparacion(etapa1.getPreparacionPieles().getIdPreparacion());
+		p.setIdPreparacion(etapas.getPreparacionPieles().getIdPreparacion());
 
 		e.setPreparacionPieles(p);
-		IEtapa1Dao etapaDao = new EtapaDaoImpl();
-		if (etapa1.getEtapa().equals("Carga")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		IEtapasDao etapaDao = new EtapasDaoImpl();
+		if (etapas.getEtapa().equals("Carga")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Lavado Enzimático");
 				if (estadoEtapa(e).getEstado().equals(false)) {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 1");// REGLA
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -664,8 +772,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Lavado Enzimático")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Lavado Enzimático")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Lavada de Carga");
 
@@ -673,6 +781,10 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");// REGLA
+					e.setNormalidad(new BigDecimal(-1));// REGLA
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -689,8 +801,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Lavada de Carga")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Lavada de Carga")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Blanqueo");
 
@@ -698,6 +810,10 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");// REGLA
+					e.setNormalidad(new BigDecimal(-1));// REGLA
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -714,8 +830,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Blanqueo")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Blanqueo")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Lavadas de Blanqueo");
 
@@ -723,6 +839,13 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");// REGLA
+					e.setNormalidad(new BigDecimal(-1));// REGLA
+					e.setTipo("-1");// REGLA
+					e.setCantidad("-1");// REGLA
+					e.setLote("-1");// REGLA
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -739,8 +862,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Lavadas de Blanqueo")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Lavadas de Blanqueo")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Pre Acidulación");
 
@@ -748,6 +871,13 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");// REGLA
+					e.setNormalidad(new BigDecimal(-1));// REGLA
+					e.setTipo("-1");// REGLA
+					e.setCantidad("-1");// REGLA
+					e.setLote("-1");// REGLA
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -764,8 +894,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Pre Acidulación")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Pre Acidulación")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Acidulación");
 
@@ -773,6 +903,7 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 1");
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -789,8 +920,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Acidulación")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Acidulación")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 1");
 
@@ -798,6 +929,19 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+					e.setDiaFin(new Date(1969 - 12 - 31));
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+					e.setHoraFin(date);
+					e.setTipo("-1");
+					e.setCantidad("-1");
+					e.setLote("-1");
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -814,8 +958,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 1")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 1")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 2");
 
@@ -823,6 +967,19 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+					e.setDiaFin(new Date(1969 - 12 - 31));
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+					e.setHoraFin(date);
+					e.setTipo("-1");
+					e.setCantidad("-1");
+					e.setLote("-1");
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -839,8 +996,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 2")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 2")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 3");
 
@@ -848,6 +1005,19 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+					e.setDiaFin(new Date(1969 - 12 - 31));
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+					e.setHoraFin(date);
+					e.setTipo("-1");
+					e.setCantidad("-1");
+					e.setLote("-1");
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -864,8 +1034,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 3")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 3")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 4");
 
@@ -873,6 +1043,19 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+					e.setDiaFin(new Date(1969 - 12 - 31));
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+					e.setHoraFin(date);
+					e.setTipo("-1");
+					e.setCantidad("-1");
+					e.setLote("-1");
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -889,8 +1072,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 4")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 4")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 5");
 
@@ -898,6 +1081,19 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+					e.setDiaFin(new Date(1969 - 12 - 31));
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+					e.setHoraFin(date);
+					e.setTipo("-1");
+					e.setCantidad("-1");
+					e.setLote("-1");
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -914,8 +1110,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 5")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 5")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 6");
 
@@ -923,6 +1119,19 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+					e.setDiaFin(new Date(1969 - 12 - 31));
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+					e.setHoraFin(date);
+					e.setTipo("-1");
+					e.setCantidad("-1");
+					e.setLote("-1");
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -939,8 +1148,8 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 6")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 6")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 7");
 
@@ -948,6 +1157,19 @@ public class PreparacionPielesBean implements Serializable {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+					e.setDiaFin(new Date(1969 - 12 - 31));
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+					e.setHoraFin(date);
+					e.setTipo("-1");
+					e.setCantidad("-1");
+					e.setLote("-1");
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -964,15 +1186,25 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 7")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 7")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
 
 				e.setEtapa("Control 8");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
+					// e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 1");
+					e.setDiaInicio(new Date(1969 - 12 - 31));
+
+					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
+					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
+					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
+
+					e.setAgua("Z");
+
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -989,13 +1221,44 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		if (etapa1.getEtapa().equals("Control 8")) {
-			if (etapa1.getHoraFin() != null && !etapa1.getHoraFin().equals("NULL")) {
+		if (etapas.getEtapa().equals("Control 8")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				etapas.setDiaInicio(new Date(1969 - 12 - 31));
+				etapas.setAgua("Z");
 
-				if (estadoEtapa(e).getEstado().equals(true)) {
+				e.setEtapa("Blanqueo 1");
+				if (estadoEtapa(e).getEstado().equals(false)) {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+
+			}
+			
+			
+		}
+
+		if (etapas.getEtapa().equals("Blanqueo 1")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Blanqueo 2");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -1013,17 +1276,194 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		eDao.actualizarEtapa1(etapa1);
-		etapa1 = new Etapa1();
+		if (etapas.getEtapa().equals("Blanqueo 2")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Blanqueo 3");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
 
-		IEtapa1Dao eTDao = new EtapaDaoImpl();
-		listaEtapa1 = eTDao.listaEtapa1(idPrep);
-		getListaEtapa1();
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+
+			}
+		}
+
+		if (etapas.getEtapa().equals("Blanqueo 3")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Blanqueo 4");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+
+			}
+		}
+
+		if (etapas.getEtapa().equals("Blanqueo 4")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Blanqueo 5");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+
+			}
+		}
+
+		if (etapas.getEtapa().equals("Blanqueo 5")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Blanqueo 6");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+
+			}
+		}
+
+		if (etapas.getEtapa().equals("Blanqueo 6")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Blanqueo 7");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+
+			}
+		}
+
+		if (etapas.getEtapa().equals("Blanqueo 7")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Blanqueo 8");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+					e.setEstadoEtapa("Etapa 2");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+
+			}
+		}
+		showMessage();
+		etapas.setOperador(us.getNombre());
+		eDao.actualizarEtapas(etapas);
+		etapas = new Etapas();
+
+		// ETAPA 1//
+		IEtapasDao eTDao = new EtapasDaoImpl();
+		listaDeEtapas = eTDao.listaEtapas(idPrep);
+		getListaDeEtapas();
+
+		// ETAPA 2//
+		IEtapasDao eDao2 = new EtapasDaoImpl();
+		listaDeEtapas2 = eDao2.listaEtapas2(idPrep);
+		getListaDeEtapas2();
+
+		// ETAPA 3//
+		IEtapasDao eDao3 = new EtapasDaoImpl();
+		listaDeEtapas3 = eDao3.listaEtapas3(idPrep);
+		getListaDeEtapas3();
+		
+		// ETAPA 3//
+		IEtapasDao eDao4 = new EtapasDaoImpl();
+		listaDeEtapas4 = eDao4.listaEtapas3(idPrep);
+		getListaDeEtapas3();
+		
+		// ETAPA 3//
+		IEtapasDao eDao5 = new EtapasDaoImpl();
+		listaDeEtapas4 = eDao5.listaEtapas3(idPrep);
+		getListaDeEtapas3();
+
+		IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+		listaOperaciones = oDao.listaOperacionLavadoras(idPrep);
+		getListaOperaciones();
+
 	}
 
-	public Etapa1 estadoEtapa(Etapa1 e) {
-		Etapa1 datoReusltado = new Etapa1();
-		IEtapa1Dao eDao = new EtapaDaoImpl();
+	public Etapas estadoEtapa(Etapas e) {
+		Etapas datoReusltado = new Etapas();
+		IEtapasDao eDao = new EtapasDaoImpl();
 		datoReusltado = eDao.estado(e);
 		return datoReusltado;
 	}
@@ -1046,9 +1486,30 @@ public class PreparacionPielesBean implements Serializable {
 		listaOperaciones = oDao.listaOperacionLavadoras(idPrep);
 		getListaOperaciones();
 
-		IEtapa1Dao eDao = new EtapaDaoImpl();
-		listaEtapa1 = eDao.listaEtapa1(idPrep);
-		getListaEtapa1();
+		// ETAPA 1//
+		IEtapasDao eDao1 = new EtapasDaoImpl();
+		listaDeEtapas = eDao1.listaEtapas(idPrep);
+		getListaDeEtapas();
+
+		// ETAPA 2//
+		IEtapasDao eDao2 = new EtapasDaoImpl();
+		listaDeEtapas2 = eDao2.listaEtapas2(idPrep);
+		getListaDeEtapas2();
+
+		// ETAPA 3 APARTADO//
+		IEtapasDao eDao3 = new EtapasDaoImpl();
+		listaDeEtapas3 = eDao3.listaEtapas3(idPrep);
+		getListaDeEtapas3();
+
+		// ETAPA 3 APARTADO 2//
+		IEtapasDao eDao4 = new EtapasDaoImpl();
+		listaDeEtapas4 = eDao4.listaEtapas4(idPrep);
+		getListaDeEtapas4();
+
+		// ETAPA 3 APARTADO 3//
+		IEtapasDao eDao5 = new EtapasDaoImpl();
+		listaDeEtapas5 = eDao5.listaEtapas5(idPrep);
+		getListaDeEtapas5();
 
 	}
 
@@ -1085,7 +1546,8 @@ public class PreparacionPielesBean implements Serializable {
 		 * ACTUALIZAR EL ESTADO DE LA TABLA DE PREPARACION_PIELES ESTADO (Carga, etc)
 		 **/
 		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
-		pDao.actualizaEstatusEtapa(oDao.listaOperacionLavadorasEtapa(idPreparacion).getIdOperacionLavadoras(), etapa);
+		pDao.actualizaEstatusEtapa(
+				oDao.listaOperacionLavadorasEtapa(idPreparacion).getPreparacionPieles().getIdPreparacion(), etapa);
 
 		/**
 		 * ACTUALIZAR LA ETAPA DE LA LAVADORA EN LA TABLA LAVADORAS ETAPA (Carga, etc)
@@ -1147,10 +1609,11 @@ public class PreparacionPielesBean implements Serializable {
 
 	public void validarMaterial(String tipoDeMaterial, double saldoRestante) {
 
-		//**CLASIFICACIÓN DE LA MATERIA**//
+		// **CLASIFICACIÓN DE LA MATERIA**//
 		switch (tipoDeMaterial) {
 		// CZ
-		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES", "GARRA Y FALDA" -> {
+		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES",
+				"GARRA Y FALDA" -> {
 			LOGGER.info("Procesar material tipo CZ");
 			// Acciones para CZ
 			facturasPieles.setCz(new BigDecimal(saldoRestante));
@@ -1180,7 +1643,7 @@ public class PreparacionPielesBean implements Serializable {
 			facturasPieles.setCn(new BigDecimal(saldoRestante));
 			saldoDisponibleParaAgregar = facturasPieles.getCn().doubleValue();
 		}
-		
+
 		// CN
 		case "CERDO AMERICANO" -> {
 			LOGGER.info("Procesar material tipo CAM");
@@ -1241,7 +1704,8 @@ public class PreparacionPielesBean implements Serializable {
 
 		switch (identificacionMaterial) {
 		// CZ
-		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES", "GARRA Y FALDA" -> {
+		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES",
+				"GARRA Y FALDA" -> {
 			LOGGER.info("Procesar material tipo CZ");
 			// Acciones para CZ
 			cantidad = Double.valueOf(facturasPieles.getCz().toString());
@@ -1267,7 +1731,7 @@ public class PreparacionPielesBean implements Serializable {
 			// Acciones para CN
 			cantidad = Double.valueOf(facturasPieles.getCn().toString());
 		}
-		
+
 		// CAM
 		case "CERDO AMERICANO" -> {
 			LOGGER.info("Procesar material tipo CAM");
@@ -1291,18 +1755,17 @@ public class PreparacionPielesBean implements Serializable {
 	public void mostrar(String lavadora, int estadoLavadora) throws SQLException {
 
 		// **ACTUALIZA EL CAMBIO DE LAVADORA EN LA ETAPA**//
-		IEtapa1Dao eDao = new EtapaDaoImpl();
-		//**VALIDAR LOS PROCESOS RESTANTES**//
-		IEtapa1Dao etaDao = new EtapaDaoImpl();
+		IEtapasDao eDao = new EtapasDaoImpl();
+		// **VALIDAR LOS PROCESOS RESTANTES**//
+		IEtapasDao etaDao = new EtapasDaoImpl();
 		List<String> listaEtapasPendientes = new ArrayList<String>();
-		
+
 		listaEtapasPendientes = etaDao.listaProcesosPendientesEtapa(idPrep);
 		for (String etapa : listaEtapasPendientes) {
 			eDao.actualizarEtapaCambioLavadora(idPrep, etapa, lavadora);
-			LOGGER.info(
-					"Actualización de Lavdora: " + lavadora + " id preparación: " + idPrep + " etapa: " + etapa);
+			LOGGER.info("Actualización de Lavdora: " + lavadora + " id preparación: " + idPrep + " etapa: " + etapa);
 		}
-		
+
 //		for (String procesosE : selectedProcess) {
 //			eDao.actualizarEtapaCambioLavadora(idPrep, procesosE, lavadora);
 //			LOGGER.info(
@@ -1316,7 +1779,8 @@ public class PreparacionPielesBean implements Serializable {
 		ILavadorasDao lavDao = new LavadorasDaoImpl();
 		lavDao.actualizarEstadoLavadora(estadoLavadora, "", opDao.obtenerIdLavadora(idPrep));
 
-		// **ACTUALIZAR EL ESTADO DE LA LAVADORA CON EL ESTATUS DONDE TOMARA EL PROCESO**//
+		// **ACTUALIZAR EL ESTADO DE LA LAVADORA CON EL ESTATUS DONDE TOMARA EL
+		// PROCESO**//
 		ILavadorasDao lavadoraDao = new LavadorasDaoImpl();
 		IPreparacionPielesDao prepDao = new PreparacionDaoImpl();
 		lavadoraDao.actualizarEstadoLavadora(1, prepDao.nombreEstado(idPrep), buscarLavadora(lavadora));
@@ -1325,14 +1789,21 @@ public class PreparacionPielesBean implements Serializable {
 		// OPERACION_LAVADORAS**//
 		IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
 		oDao.actualizarCambioLavadora(idPrep, buscarLavadora(lavadora));
-		
+
 		buscarRegistro();
 		String info = "Se ha realizado el cambio de lavadora";
 		PrimeFaces.current()
-		.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
-				+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-				+ "  timer: 8000\n" + "})");
+				.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+						+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+						+ "  timer: 8000\n" + "})");
 
 	}
+	
+	
+	public void showMessage() {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mandar proceso actual", "¿Deseas pasar al proceso de lavadoras chicas?!");
+
+        PrimeFaces.current().dialog().showMessageDynamic(message);
+    }
 
 }

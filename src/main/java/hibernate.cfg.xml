@@ -39,7 +39,7 @@
 		<mapping resource="com/dmjm/model/SaldoFactura.hbm.xml" />
 		<mapping resource="com/dmjm/model/PreparacionPieles.hbm.xml" />
 		<mapping resource="com/dmjm/model/Lavadoras.hbm.xml" />
-		<mapping resource="com/dmjm/model/Etapa1.hbm.xml" />
+		<mapping resource="com/dmjm/model/Etapas.hbm.xml" />
 		<mapping resource="com/dmjm/model/FacturasPieles.hbm.xml" />
 		<mapping resource="com/dmjm/model/OperacionLavadoras.hbm.xml" />
 		<mapping resource="com/dmjm/model/CuentasContables.hbm.xml" />
@@ -49,6 +49,15 @@
 		<mapping resource="com/dmjm/model/Activacion.hbm.xml" />
 		<mapping resource="com/dmjm/model/Quimicos.hbm.xml" />
 		<mapping resource="com/dmjm/model/BitacoraPrecios.hbm.xml" />
-		<mapping resource="com/dmjm/model/EntradasMaquinariaEquipo.hbm.xml" />
+		<mapping
+			resource="com/dmjm/model/EntradasMaquinariaEquipo.hbm.xml" />
+
+		<mapping
+			resource="com/dmjm/model/FolioPreparacionCocedores.hbm.xml" />
+		<mapping resource="com/dmjm/model/Cocedores.hbm.xml" />
+		<mapping resource="com/dmjm/model/Limpieza.hbm.xml" />
+		<mapping resource="com/dmjm/model/OrdenMantenimiento.hbm.xml" />
+		<mapping resource="com/dmjm/model/FolioCocedores.hbm.xml" />
+		<mapping resource="com/dmjm/model/Purgas.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

@@ -3,7 +3,7 @@ package com.dmjm.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Etapa1 implements java.io.Serializable {
+public class Etapas implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idEtapa;
@@ -24,17 +24,19 @@ public class Etapa1 implements java.io.Serializable {
 	private Integer alcalinidad;
 	private Integer conductividad;
 	private String lavadora;
+	private String estadoEtapa;
+	private BigDecimal phPiel;
 
-	public Etapa1() {
+	public Etapas() {
 	}
 
-	public Etapa1(int idEtapa) {
+	public Etapas(int idEtapa) {
 		this.idEtapa = idEtapa;
 	}
 
-	public Etapa1(int idEtapa, PreparacionPieles preparacionPieles, String etapa, Date diaInicio, Date horaInicio,
+	public Etapas(int idEtapa, PreparacionPieles preparacionPieles, String etapa, Date diaInicio, Date horaInicio,
 			Date diaFin, Date horaFin, BigDecimal phSol, BigDecimal normalidad, String tipo, String cantidad,
-			String lote, String operador, String agua, Boolean estado, Integer alcalinidad, Integer conductividad, String lavadora) {
+			String lote, String operador, String agua, Boolean estado, Integer alcalinidad, Integer conductividad, String lavadora, String estadoEtapa, BigDecimal phPiel) {
 		this.idEtapa = idEtapa;
 		this.preparacionPieles = preparacionPieles;
 		this.etapa = etapa;
@@ -53,6 +55,8 @@ public class Etapa1 implements java.io.Serializable {
 		this.alcalinidad =alcalinidad;
 		this.conductividad = conductividad;
 		this.lavadora = lavadora;
+		this.estadoEtapa = estadoEtapa;
+		this.phPiel = phPiel;
 	}
 
 	public int getIdEtapa() {
@@ -197,6 +201,22 @@ public class Etapa1 implements java.io.Serializable {
 
 	public void setLavadora(String lavadora) {
 		this.lavadora = lavadora;
+	}
+
+	public String getEstadoEtapa() {
+		return estadoEtapa;
+	}
+
+	public void setEstadoEtapa(String estadoEtapa) {
+		this.estadoEtapa = estadoEtapa;
+	}
+
+	public BigDecimal getPhPiel() {
+		return phPiel;
+	}
+
+	public void setPhPiel(BigDecimal phPiel) {
+		this.phPiel = phPiel;
 	}
 	
 	

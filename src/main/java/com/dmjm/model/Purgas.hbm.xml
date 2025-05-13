@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-may-2025 22:46:38 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.Purgas" table="PURGAS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idPurgas" type="int">
+            <column name="ID_PURGAS" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="folioPreparacionCocedores" class="com.dmjm.model.FolioPreparacionCocedores" fetch="select">
+            <column name="ID_FOLIO_PREP" />
+        </many-to-one>
+        <property name="hora" type="time">
+            <column name="HORA" length="16" />
+        </property>
+        <property name="cm" type="java.lang.Integer">
+            <column name="CM" />
+        </property>
+        <property name="concentrado" type="java.lang.Integer">
+            <column name="CONCENTRADO" />
+        </property>
+        <property name="ph" type="java.lang.Integer">
+            <column name="PH" />
+        </property>
+        <property name="coc01" type="java.lang.Integer">
+            <column name="COC_01" />
+        </property>
+        <property name="coc02" type="java.lang.Integer">
+            <column name="COC_02" />
+        </property>
+        <property name="coc03" type="java.lang.Integer">
+            <column name="COC_03" />
+        </property>
+        <property name="coc04" type="java.lang.Integer">
+            <column name="COC_04" />
+        </property>
+        <property name="coc05" type="java.lang.Integer">
+            <column name="COC_05" />
+        </property>
+    </class>
+</hibernate-mapping>

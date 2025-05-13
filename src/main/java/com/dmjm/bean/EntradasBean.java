@@ -675,89 +675,104 @@ public class EntradasBean extends Conexion implements Serializable {
 					+ dato11 + dato12 + dato13 + dato14 + dato15);
 
 			if (dato1 != ceros) {
+				LOGGER.info("Dato1: " + dato1 + " CUERO INTEGRAL SALADO CON PELO " + proveedores.getIdProveedor());
 				entradas.setPrecioCcp(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 1)));
 			} else {
 				entradas.setPrecioCcp(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato2 != ceros) {
+				LOGGER.info("Dato2: " + dato2 + " CARNAZA COMPLETA " + proveedores.getIdProveedor());
 				entradas.setPrecioC1(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 2)));
 			} else {
 				entradas.setPrecioC1(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato3 != ceros) {
+				LOGGER.info("Dato3: " + dato3 + " CARNAZA PEDAZOS " + proveedores.getIdProveedor());
 				entradas.setPrecioC2(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 3)));
 			} else {
 				entradas.setPrecioC2(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato4 != ceros) {
+				LOGGER.info("Dato4: " + dato4 + " CARNAZA SALADA " + proveedores.getIdProveedor());
 				entradas.setPrecioCs(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 4)));
 			} else {
 				entradas.setPrecioCs(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato5 != ceros) {
+				LOGGER.info("Dato5: " + dato5 + " DESBARBE / RECORTES " + proveedores.getIdProveedor());
 				entradas.setPrecioDr(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 5)));
 			} else {
 				entradas.setPrecioDr(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato6 != ceros) {
+				LOGGER.info("Dato6: " + dato6 + " CERDO MEXICANO " + proveedores.getIdProveedor());
 				entradas.setPrecioCm(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 6)));
 			} else {
 				entradas.setPrecioCm(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato7 != ceros) {
+				LOGGER.info("Dato7: " + dato7 + " CACHETE " + proveedores.getIdProveedor());
 				entradas.setPrecioCo(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 7)));
 			} else {
 				entradas.setPrecioCo(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato8 != ceros) {
+				LOGGER.info("Dato8: " + dato8 + " RECORTE DE CUERO CON PELO " + proveedores.getIdProveedor());
 				entradas.setPrecioPc(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 8)));
 			} else {
 				entradas.setPrecioPc(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato9 != ceros) {
+				LOGGER.info("Dato9: " + dato9 + " PEDACERÍA " + proveedores.getIdProveedor());
 				entradas.setPrecioP(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 9)));
 			} else {
 				entradas.setPrecioP(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato10 != ceros) {
+				LOGGER.info("Dato10: " + dato10 + " DESCARNE ADHERIDO " + proveedores.getIdProveedor());
 				entradas.setPrecioDa(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 10)));
 			} else {
 				entradas.setPrecioDa(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato11 != ceros) {
+				LOGGER.info("Dato11: " + dato11 + " DESCARNE SEPARADO " + proveedores.getIdProveedor());
 				entradas.setPrecioDs(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 11)));
 			} else {
 				entradas.setPrecioDs(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato12 != ceros) {
+				LOGGER.info("Dato12: " + dato12 + " CUERO DEPILADO " + proveedores.getIdProveedor());
 				entradas.setPrecioCdi(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 12)));
 			} else {
 				entradas.setPrecioCdi(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato13 != ceros) {
+				LOGGER.info("Dato13: " + dato13 + " GARRA Y FALDA " + proveedores.getIdProveedor());
 				entradas.setPrecioG(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 13)));
 			} else {
 				entradas.setPrecioG(BigDecimal.valueOf(ceros));
 			}
 
 			if (dato14 != ceros) {
+				LOGGER.info("Dato14: " + dato14 + " CUERO EN SANGRE " + proveedores.getIdProveedor());
 				entradas.setPrecioCe(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 14)));
 			} else {
 				entradas.setPrecioCe(BigDecimal.valueOf(ceros));
 			}
 			if (dato15 != ceros) {
+				LOGGER.info("Dato15: " + dato15 + " CERDO AMERICANO " + proveedores.getIdProveedor());
 				entradas.setPrecioCa(BigDecimal.valueOf(buscarPrecio(proveedores.getIdProveedor(), 15)));
 			} else {
 
@@ -991,111 +1006,157 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 
 		// **BUSCAR ACTUALIZACIÓN DE PRECIO**//
-		if (Double.parseDouble(entradasEditar.getPrecioCcp().toString()) != ceros) {
+		LOGGER.warn(">>>>>>>>>>>>>>>>>>INICIA BUSCAR ACTUALIZACIÓN DE PRECIO<<<<<<<<<<<<<<<<<<");
+		if (Double.parseDouble(entradasEditar.getCarnazaConPelo().toString()) != ceros) {
+			LOGGER.info("Dato1: " + entradasEditar.getCarnazaConPelo().toString()
+					+ " CUERO INTEGRAL SALADO CON PELO >>>Proveedor: " + entradasEditar.getProveedores().getNombre());
 			entradasEditar.setPrecioCcp(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 1)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioCcp());
 		} else {
 			entradasEditar.setPrecioCcp(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioC1().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getCarnazaPrimera().toString()) != ceros) {
+			LOGGER.info("Dato2: " + entradasEditar.getCarnazaPrimera().toString() + " CARNAZA COMPLETA >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradas.setPrecioC1(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 2)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioC1());
 		} else {
 			entradasEditar.setPrecioC1(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioC2().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getCarnazaSegunda().toString()) != ceros) {
+			LOGGER.info("Dato3: " + entradasEditar.getCarnazaSegunda().toString() + " CARNAZA PEDAZOS >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioC2(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 3)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioC2());
 		} else {
 			entradasEditar.setPrecioC2(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCs().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getCarnazaSalada().toString()) != ceros) {
+			LOGGER.info("Dato4: " + entradasEditar.getCarnazaSalada().toString() + " CARNAZA SALADA >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioCs(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 4)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioCs());
 		} else {
 			entradasEditar.setPrecioCs(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioDr().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getDesbarbeRecorte().toString()) != ceros) {
+			LOGGER.info("Dato5: " + entradasEditar.getDesbarbeRecorte().toString()
+					+ " DESBARBE / RECORTES >>>Proveedor: " + entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioDr(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 5)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioDr());
 		} else {
 			entradasEditar.setPrecioDr(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCm().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getCerdoMexicano().toString()) != ceros) {
+			LOGGER.info("Dato6: " + entradasEditar.getCerdoMexicano().toString() + " CERDO MEXICANO >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioCm(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 6)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioCm());
 		} else {
 			entradasEditar.setPrecioCm(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCo().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getOrejaCachete().toString()) != ceros) {
+			LOGGER.info("Dato7: " + entradasEditar.getOrejaCachete().toString() + " CACHETE >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioCo(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 7)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioCo());
 		} else {
 			entradasEditar.setPrecioCo(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioPc().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getPedaceriaConPelo().toString()) != ceros) {
+			LOGGER.info("Dato8: " + entradasEditar.getPedaceriaConPelo().toString()
+					+ " RECORTE DE CUERO CON PELO >>>Proveedor: " + entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioPc(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 8)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioPc());
 		} else {
 			entradasEditar.setPrecioPc(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioP().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getPedaceria().toString()) != ceros) {
+			LOGGER.info("Dato9: " + entradasEditar.getPedaceria().toString() + " PEDACERÍA >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioP(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 9)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioP());
 		} else {
 			entradasEditar.setPrecioP(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCcp().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getDescarneAdherido().toString()) != ceros) {
+			LOGGER.info("Dato10: " + entradasEditar.getPrecioCcp().toString() + " DESCARNE ADHERIDO >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar.setPrecioDa(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 10)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioDa());
 		} else {
 			entradasEditar.setPrecioDa(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioDs().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getDescarneSeparado().toString()) != ceros) {
+			LOGGER.info("Dato11: " + entradasEditar.getDescarneSeparado().toString()
+					+ " DESCARNE SEPARADO >>>Proveedor: " + entradasEditar.getProveedores().getNombre());
 			entradasEditar.setPrecioDs(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 11)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioDs());
 		} else {
 			entradasEditar.setPrecioDs(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCdi().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getCueroDepiladoIntegral().toString()) != ceros) {
+			LOGGER.info("Dato12: " + entradasEditar.getCueroDepiladoIntegral().toString()
+					+ " CUERO DEPILADO >>>Proveedor: " + entradasEditar.getProveedores().getNombre());
 			entradasEditar.setPrecioCdi(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 12)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioCdi());
 		} else {
 			entradasEditar.setPrecioCdi(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioG().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getGarra().toString()) != ceros) {
+			LOGGER.info("Dato13: " + entradasEditar.getGarra().toString() + " GARRA Y FALDA >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar
 					.setPrecioG(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 13)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioG());
 		} else {
 			entradas.setPrecioG(BigDecimal.valueOf(ceros));
 		}
 
-		if (Double.parseDouble(entradasEditar.getPrecioCe().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getCueroEnSangre().toString()) != ceros) {
+			LOGGER.info("Dato14: " + entradasEditar.getCueroEnSangre().toString() + " CUERO EN SANGRE >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar.setPrecioCe(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 14)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioCe());
 		} else {
 
 			entradasEditar.setPrecioCe(BigDecimal.valueOf(ceros));
 		}
-		if (Double.parseDouble(entradasEditar.getPrecioCa().toString()) != ceros) {
+		if (Double.parseDouble(entradasEditar.getCerdoAmericano().toString()) != ceros) {
+			LOGGER.info("Dato15: " + entradasEditar.getCerdoAmericano().toString() + " CERDO AMERICANO >>>Proveedor: "
+					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar.setPrecioCa(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 15)));
+			LOGGER.info("Precio: " + entradasEditar.getPrecioCa());
 		} else {
 
 			entradasEditar.setPrecioCa(BigDecimal.valueOf(ceros));
 		}
-
+		LOGGER.warn(">>>>>>>>>>>>>>>>>>FIN BUSCAR ACTUALIZACIÓN DE PRECIO<<<<<<<<<<<<<<<<<<");
 		@SuppressWarnings("unused")
 		int banderaGerencia = 0;
 		@SuppressWarnings("unused")
@@ -1124,6 +1185,7 @@ public class EntradasBean extends Conexion implements Serializable {
 			banderaControlCalidad = 1;
 
 			// **INICIA VALIDAR LOS DESCUENTOS POR ALCALINIDAD Y HUMEDAD**//
+			LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>>INICA VALIDACIÓN DE DESCUENTOS<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 			if (entradasEditar.getMateria().getDescuentoCalcioTablaA().equals(1)) {
 				// **EL 1 ES PARA LA TABLA A**//
 				entradasEditar.setDescuentoCalcioTa(
@@ -1161,8 +1223,55 @@ public class EntradasBean extends Conexion implements Serializable {
 				LOGGER.info("PROVEEDOR SIN DESCUENTOS EN HUMEDADES EN LAS TABLAS A y B->"
 						+ entradasEditar.getProveedores().getNombre());
 			}
-
+			LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>>FINALIZA VALIDACIÓN DE DESCUENTOS<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 			// **FINALIZA VALIDAR LOS DESCUENTOS POR ALCALINIDAD Y HUMEDAD**//
+
+			// MANDAR CORREO EN CASO DE //
+			switch (alertaCalcios + "-" + alertaHumedad) {
+			case "FUERA DE RANGO-FUERA DE RANGO" -> {
+				CorreoRangos cr = new CorreoRangos();
+				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
+						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
+						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
+						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
+						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
+			}
+			case "FUERA DE RANGO-OK" -> {
+				CorreoRangos cr = new CorreoRangos();
+				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
+						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
+						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
+						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
+						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
+			}
+			case "OK-FUERA DE RANGO" -> {
+				CorreoRangos cr = new CorreoRangos();
+				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
+						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
+						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
+						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
+						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
+			}
+			case "null-FUERA DE RANGO" -> {
+				CorreoRangos cr = new CorreoRangos();
+				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
+						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
+						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
+						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
+						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
+			}
+			case "FUERA DE RANGO-null" -> {
+				CorreoRangos cr = new CorreoRangos();
+				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
+						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
+						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
+						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
+						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
+			}
+			default -> {
+
+			}
+			}
 		}
 
 		// VALIDAR EL PROVEEDOR SI TIENE DESCUENTO EN LA MERMA
@@ -1228,43 +1337,6 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		}
 
-		//MANDAR CORREO EN CASO DE //
-		switch (alertaCalcios + "-" + alertaHumedad) {
-		case "FUERA DE RANGO-FUERA DE RANGO" -> {
-			CorreoRangos cr = new CorreoRangos();
-			cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
-		}
-		case "FUERA DE RANGO-OK" -> {
-			CorreoRangos cr = new CorreoRangos();
-			cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
-		}
-		case "OK-FUERA DE RANGO" -> {
-			CorreoRangos cr = new CorreoRangos();
-			cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
-		}
-		case "null-FUERA DE RANGO" -> {
-			CorreoRangos cr = new CorreoRangos();
-			cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
-		}
-		case "FUERA DE RANGO-null" -> {
-			CorreoRangos cr = new CorreoRangos();
-			cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-					entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-					entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios);
-		}
-		default -> {
-
-		}
-		}
-		
 		entradasEditar.setPrecioCalcCcp(
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCarnazaConPelo().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioCcp().toString())));
@@ -1583,15 +1655,27 @@ public class EntradasBean extends Conexion implements Serializable {
 			ResultSet rs = st.executeQuery();
 
 			if (!rs.isBeforeFirst()) {
-				LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje);
-				entradasEditar.setRangoHumedad(1);
-				alertaHumedad = "FUERA DE RANGO";
+				// LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje);
 				resultado = 0.0;
 			} else {
-				entradasEditar.setRangoHumedad(0);
-				alertaHumedad = "OK";
+
 				while (rs.next()) {
+
 					resultado = rs.getDouble("DESCUENTO");
+					// HUMEDAD HASTA >= 85.0 TABLA A
+					// HUMEDAD HASTA >= 80.0 TABLA B
+					if (Double.valueOf(porcentaje) >= 85.0 && tabla.equals("A")) {
+						entradasEditar.setRangoHumedad(1);
+						alertaHumedad = "FUERA DE RANGO";
+						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA A");
+					}else if (Double.valueOf(porcentaje) >= 80.0 && tabla.equals("B")) {
+						entradasEditar.setRangoHumedad(1);
+						alertaHumedad = "FUERA DE RANGO";
+						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA B");
+					} else {
+						entradasEditar.setRangoHumedad(0);
+						alertaHumedad = "OK";
+					}
 					LOGGER.info(entradasEditar.getProveedores().getNombre());
 					LOGGER.info("DESCUENTO HUMEDAD DE LA TABLA: " + tabla + ":->" + resultado);
 				}
@@ -1630,10 +1714,22 @@ public class EntradasBean extends Conexion implements Serializable {
 				entradasEditar.setRangoCalcios(1);
 				alertaCalcios = "FUERA DE RANGO";
 			} else {
-				entradasEditar.setRangoCalcios(0);
-				alertaCalcios = "OK";
 				while (rs.next()) {
+
 					resultado = rs.getDouble("DESCUENTO");
+					// CALCIOS HASTA >= 1500.0 TABLA A y B
+					if (Double.valueOf(porcentaje) >= 1500.0 && tabla.equals("A")) {
+						entradasEditar.setRangoCalcios(1);
+						alertaCalcios = "FUERA DE RANGO";
+						LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA A");
+					} else if (Double.valueOf(porcentaje) >= 1500.0 && tabla.equals("B")) {
+						entradasEditar.setRangoCalcios(1);
+						alertaCalcios = "FUERA DE RANGO";
+						LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA B");
+					} else {
+						entradasEditar.setRangoCalcios(0);
+						alertaCalcios = "OK";
+					}
 					LOGGER.info(entradasEditar.getMateria().getTipo());
 					LOGGER.info("DESCUENTO DE CALCIOS DE LA TABLA: " + tabla + ":->" + resultado);
 				}

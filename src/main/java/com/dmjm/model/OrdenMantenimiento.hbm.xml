@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-may-2025 22:46:38 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.OrdenMantenimiento" table="ORDEN_MANTENIMIENTO" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idOrdenManto" type="int">
+            <column name="ID_ORDEN_MANTO" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="folioPreparacionCocedores" class="com.dmjm.model.FolioPreparacionCocedores" fetch="select">
+            <column name="ID_FOLIO_PREP" />
+        </many-to-one>
+        <property name="si" type="string">
+            <column name="SI" length="5" />
+        </property>
+        <property name="no" type="string">
+            <column name="NO" length="5" />
+        </property>
+        <property name="noOrden" type="java.lang.Integer">
+            <column name="NO_ORDEN" />
+        </property>
+        <property name="horaInicio" type="time">
+            <column name="HORA_INICIO" length="16" />
+        </property>
+        <property name="horaFin" type="time">
+            <column name="HORA_FIN" length="16" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -19,6 +19,10 @@
 	url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap')
 	;
 
+@import
+	url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap')
+	;
+
 body {
 	background-color: #154360 !important;
 	/*    background-image: url('../..//img/blue.jpg');*/
@@ -189,6 +193,10 @@ a:link:hover, a:visited:hover {
 	font-size: .8rem !important;
 }
 
+.fuenteTitulo {
+	font-size: 1.2rem !important;
+}
+
 .fuente2 {
 	font-size: .6rem !important;
 }
@@ -256,9 +264,69 @@ a:link:hover, a:visited:hover {
 	font-size: 1rem !important;
 }
 
-.lavadora{
+.lavadora {
 	color: #2da08c !important;
 	font-weight: bold !important;
 	font-size: 1rem !important;
 }
 
+.negativo {
+	background-color: #1E90FF !important; /* Rojo claro para resaltar */
+	color: #1E90FF !important; /* Texto oscuro para contraste */
+}
+
+.normal {
+	color: #036FAB !important;
+	font-weight: bold !important;
+}
+
+.datos {
+	color: #036FAB !important;
+}
+
+.color {
+	color: #8B008B !important;
+	font-weight: bold !important;
+}
+
+.fuenteCocedores {
+	font-size: .6rem !important;
+	font-weight: bold !important;
+}
+
+.fondoAmarillo {
+	background-color: #FAFAD2 !important;
+}
+
+.fuenteNaranja {
+	color: #FF8C00 !important;
+	font-weight: bold !important;
+}
+
+.temperatura {
+	background-color: #FFA500 !important;
+}
+
+.estado {
+	background-color: #AFEEEE !important;
+}
+
+.tabla2 {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+}
+
+.fechaActual {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-size: 1.2rem;
+	color: #FFFFFF;
+	background-color: #4169E1 !important;
+	border-radius: .3rem;
+	margin-left: 5rem;
+}
+
+.promedio {
+	background-color: #191970 !important;
+	color: #FFFFFF !important;
+}

@@ -20,21 +20,23 @@ public class CuentasContablesDaoImpl extends Conexion implements ICuentasContabl
 
 	@Override
 	public List<CuentasContables> listaCuentasContables() {
-		@SuppressWarnings("JPQLValidation")
-        List<CuentasContables> cuentas = (List<CuentasContables>) HibernateUtil.getSessionFactory().openSession().createQuery("From CuentasContables").list();
-        return cuentas;
+
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM CuentasContables", CuentasContables.class).list();
+		}
+
 	}
 
 	@Override
 	public void guardarCuentasContables(CuentasContables cuentasContables) {
 		Session session = null;
-        try {
+		try {
 
-            session = HibernateUtil.getSessionFactory().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 
-            Transaction transaction = session.beginTransaction();
-            session.save(cuentasContables);
-            transaction.commit();
+			Transaction transaction = session.beginTransaction();
+			session.save(cuentasContables);
+			transaction.commit();
 
 			String info = "Se ha registrado un nueva cuenta contable";
 
@@ -42,26 +44,26 @@ public class CuentasContablesDaoImpl extends Conexion implements ICuentasContabl
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-		
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
 	}
 
 	@Override
 	public void actualizarCuentasContables(CuentasContables cuentasContables) {
 		Session session = null;
-        try {
+		try {
 
-            session = HibernateUtil.getSessionFactory().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 
-            Transaction transaction = session.beginTransaction();
-            session.update(cuentasContables);
-            transaction.commit();
+			Transaction transaction = session.beginTransaction();
+			session.update(cuentasContables);
+			transaction.commit();
 
 			String info = "Se ha actualizado la cuenta contable";
 
@@ -69,60 +71,60 @@ public class CuentasContablesDaoImpl extends Conexion implements ICuentasContabl
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-		
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
 	}
 
 	@Override
 	public List<String> completeCuentasContablesImp(String nombre) throws SQLException {
-		 List<String> resultCuenta = new ArrayList<>();
-	        List<String> listarTodo = new ArrayList<>();
+		List<String> resultCuenta = new ArrayList<>();
+		List<String> listarTodo = new ArrayList<>();
 
-	        ConectarSysProd();
+		ConectarSysProd();
 
-	        PreparedStatement st = getCnSysProd().prepareStatement("SELECT DISTINCT (CUENTA) FROM CUENTAS_CONTABLES WHERE CUENTA LIKE '" + nombre + "%'");
-	        ResultSet rs = st.executeQuery();
-	        listarTodo = new ArrayList<>();
-	        if (!rs.isBeforeFirst()) {
-	            listarTodo.add("No hay resultados para tu búsqueda");
-	        } else {
-	            while (rs.next()) {
-	                listarTodo.add(rs.getString("CUENTA"));
-	            }
-	        }
-	        for (int i = 0; i < listarTodo.size(); i++) {
-	        	resultCuenta.add(listarTodo.get(i));
-	        }
+		PreparedStatement st = getCnSysProd().prepareStatement(
+				"SELECT DISTINCT (CUENTA) FROM CUENTAS_CONTABLES WHERE CUENTA LIKE '" + nombre + "%'");
+		ResultSet rs = st.executeQuery();
+		listarTodo = new ArrayList<>();
+		if (!rs.isBeforeFirst()) {
+			listarTodo.add("No hay resultados para tu búsqueda");
+		} else {
+			while (rs.next()) {
+				listarTodo.add(rs.getString("CUENTA"));
+			}
+		}
+		for (int i = 0; i < listarTodo.size(); i++) {
+			resultCuenta.add(listarTodo.get(i));
+		}
 
-	        CerrarSysProd();
-	        return resultCuenta;
+		CerrarSysProd();
+		return resultCuenta;
 	}
 
 	@Override
 	public int buscarCuentaContable(String nombre) throws SQLException {
 		ConectarSysProd();
-        PreparedStatement st = getCnSysProd().prepareStatement("SELECT ID_CUENTA_CONTABLE FROM CUENTAS_CONTABLES WHERE CUENTA = '" + nombre + "'");
-        ResultSet rs = st.executeQuery();
-        int idCuenta = 0;
-        if (!rs.isBeforeFirst()) {
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT ID_CUENTA_CONTABLE FROM CUENTAS_CONTABLES WHERE CUENTA = '" + nombre + "'");
+		ResultSet rs = st.executeQuery();
+		int idCuenta = 0;
+		if (!rs.isBeforeFirst()) {
 
-        } else {
-            while (rs.next()) {
-            	idCuenta = rs.getInt("ID_CUENTA_CONTABLE");
-            }
-        }
+		} else {
+			while (rs.next()) {
+				idCuenta = rs.getInt("ID_CUENTA_CONTABLE");
+			}
+		}
 
-        CerrarSysProd();
-        return idCuenta;
+		CerrarSysProd();
+		return idCuenta;
 
 	}
-
-	
 
 }

@@ -22,7 +22,7 @@ public class CorreoRangos extends Configuracion {
 	private static final Logger LOGGER = LogManager.getLogger(CorreoRangos.class.getName());
 
 	public void enviarNotificacion(int tolva, String noTicket, String proveedor, String factura, String tipoPiel,
-			String banderaHumedad, double humedad, String banderaCalcios, double calcios) {
+			String banderaHumedad, double humedad, String banderaCalcios, double calcios, double porcentajeHumedad, double porcentajeCalcios) {
 		// LEER LAS PROPIEDADES
 		leerConfig();
 
@@ -37,30 +37,36 @@ public class CorreoRangos extends Configuracion {
 		String mensaje = null;
 		String mediciones = null;
 		String textMeciones = null;
+		String porcentajes = null;
 
 		switch (banderaCalcios + "-" + banderaHumedad) {
 		case "FUERA DE RANGO-FUERA DE RANGO" -> {
 			mediciones = "Humedad: " + humedad + " y Calcios: " + calcios;
+			porcentajes = "Porcentaje Humedad: " + porcentajeHumedad + " y Porcentaje Calcios: " + porcentajeCalcios;
 			textMeciones = "Calcios y Humedad fuera de rangos en la tolva: ";
 			mensaje="El sistema ha detectado Calcios y Humedad fuera de rangos";
 		}
 		case "FUERA DE RANGO-OK" -> {
 			mediciones = "Calcios: " + calcios;
+			porcentajes = "Porcentaje Calcios: " + porcentajeCalcios;
 			textMeciones = "Calcios fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Calcios fuera de rangos";
 		}
 		case "OK-FUERA DE RANGO" -> {
 			mediciones = "Humedad: " + humedad;
+			porcentajes = "Porcentaje Humedad: " + porcentajeHumedad;
 			textMeciones = "Humedad fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Humedad fuera de rangos";
 		}
 		case "null-FUERA DE RANGO" -> {
 			mediciones = "Humedad: " + humedad;
+			porcentajes = "Porcentaje Humedad: " + porcentajeHumedad;
 			textMeciones = "Humedad fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Humedad fuera de rangos";
 		}
 		case "FUERA DE RANGO-null" -> {
 			mediciones = "Calcios: " + calcios;
+			porcentajes = "Porcentaje Calcios: " + porcentajeCalcios;
 			textMeciones = "Calcios fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Calcios fuera de rangos";
 		}
@@ -72,12 +78,18 @@ public class CorreoRangos extends Configuracion {
 
 		try {
 			texto.setContent(
-					"<html><head><title></title></head><body><table width='678' height='315' border='0' bordercolor='#0000FF' bgcolor='#FFFFFF'><tr><td height='10' colspan='3' bordercolor='#FFFFFF'></td></tr><tr><td colspan='3' bordercolor='#FFFFFF'><p align='left' style='font-family:calibri; font-size:17px'><font color='#086A87'>"
-							+ mensaje + "</font><br><br><b><font color='#000000'>" + "Tolva: " + tolva
-							+ "| No. Factura: " + factura + " | No. Ticket: " + noTicket + " | Tipo de piel: "
-							+ tipoPiel + " | Proveedor: " + proveedor + "<br><font color='#E60013'>" + mediciones
+					"<html><head><title></title></head><body><table width='678' height='315' border='0' bordercolor='#0000FF' bgcolor='#FFFFFF'><tr>"
+					+ "<td height='10' colspan='3' bordercolor='#FFFFFF'></td></tr>"
+					+ "<tr><td colspan='3' bordercolor='#FFFFFF'><p align='left' style='font-family:arial; font-size:17px'><font color='#086A87'>"
+							+ mensaje + "</font><br><br><b><font color='#000000'>" + "Tolva: </b>" + tolva
+							+ "<br><b> Proveedor: </b>" + proveedor + " <br><b> No. Factura: </b>" + factura+ " <br> <b>No. Ticket: </b>"
+							+ noTicket + " <br><b> Tipo de piel: </b>"  + tipoPiel + " <br><font color='#E60013'><b>" + mediciones + "<br>" + porcentajes
 							+ "</font>"
-							+ " </font></b><br></tr><tr><td width='425' bordercolor='#FFFFFF'><p align='left' style='font-family:calibri; font-size:17px'><br><font color='#17202a'>Sistema de Captura de Producci&oacute;n | </font><br><font color='#E60013'>Coloidales Duch&eacute;, S.A. de C.V.</font><br></td><td width='122' bordercolor='#FFFFFF'></td><td width='222' rowspan='2' bordercolor='#FFFFFF'></td></tr><tr><td colspan='2' bordercolor='#17202a'><br><br><p align='center' style='font-family:calibri; font-size:15px'><font color='#086A87'><br> Mensaje autom&aacute;tico enviado desde el Sistema de Producci&oacute;n, favor de no responder.</font></p></td></tr></table></body></html>",
+							+ " </font></b><br></tr><tr><td width='425' bordercolor='#FFFFFF'><p align='left' style='font-family:arial; font-size:17px'>"
+							+ "<br><font color='#17202a'>Sistema de Captura de Producci&oacute;n </font><br><font color='#17202a'>Coloidales Duch&eacute;, S.A. de C.V.</font>"
+							+ "<br></td><td width='122' bordercolor='#FFFFFF'></td><td width='222' rowspan='2' bordercolor='#FFFFFF'></td></tr><tr>"
+							+ "<td colspan='2' bordercolor='#17202a'><br><br><p align='center' style='font-family:arial; font-size:15px'><font color='#086A87'>"
+							+ "<br> Mensaje autom&aacute;tico enviado desde el Sistema de Producci&oacute;n, favor de no responder.</font></p></td></tr></table></body></html>",
 					"text/html");
 
 			MimeMultipart multiParte = new MimeMultipart();

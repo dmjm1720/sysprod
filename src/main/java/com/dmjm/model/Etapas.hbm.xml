@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 22/11/2024 10:11:41 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-	<class name="com.dmjm.model.Etapa1" table="ETAPA1" schema="dbo"
+	<class name="com.dmjm.model.Etapas" table="ETAPAS" schema="dbo"
 		catalog="SYSPROD" optimistic-lock="version">
 		<id name="idEtapa" type="int">
 			<column name="ID_ETAPA" />
@@ -60,6 +60,12 @@
 		</property>
 		<property name="lavadora" type="string">
 			<column name="LAVADORA" length="50" />
+		</property>
+		<property name="estadoEtapa" type="string">
+			<column name="ESTADO_ETAPA" length="25" />
+		</property>
+		<property name="phPiel"  type="big_decimal">
+			<column name="PH_PIEL" precision="10" scale="4" />
 		</property>
 	</class>
 </hibernate-mapping>

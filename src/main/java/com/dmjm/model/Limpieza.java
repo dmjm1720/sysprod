@@ -1,0 +1,90 @@
+package com.dmjm.model;
+
+import java.util.Date;
+
+public class Limpieza implements java.io.Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private int idLimpieza;
+	private FolioPreparacionCocedores folioPreparacionCocedores;
+	private Date horaInicial;
+	private Date horaFinal;
+	private String quimico;
+	private Integer litrosUsados;
+	private String lote;
+
+	public Limpieza() {
+	}
+
+	public Limpieza(int idLimpieza) {
+		this.idLimpieza = idLimpieza;
+	}
+
+	public Limpieza(int idLimpieza, FolioPreparacionCocedores folioPreparacionCocedores, Date horaInicial,
+			Date horaFinal, String quimico, Integer litrosUsados, String lote) {
+		this.idLimpieza = idLimpieza;
+		this.folioPreparacionCocedores = folioPreparacionCocedores;
+		this.horaInicial = horaInicial;
+		this.horaFinal = horaFinal;
+		this.quimico = quimico;
+		this.litrosUsados = litrosUsados;
+		this.lote = lote;
+	}
+
+	public int getIdLimpieza() {
+		return this.idLimpieza;
+	}
+
+	public void setIdLimpieza(int idLimpieza) {
+		this.idLimpieza = idLimpieza;
+	}
+
+	public FolioPreparacionCocedores getFolioPreparacionCocedores() {
+		return this.folioPreparacionCocedores;
+	}
+
+	public void setFolioPreparacionCocedores(FolioPreparacionCocedores folioPreparacionCocedores) {
+		this.folioPreparacionCocedores = folioPreparacionCocedores;
+	}
+
+	public Date getHoraInicial() {
+		return this.horaInicial;
+	}
+
+	public void setHoraInicial(Date horaInicial) {
+		this.horaInicial = horaInicial;
+	}
+
+	public Date getHoraFinal() {
+		return this.horaFinal;
+	}
+
+	public void setHoraFinal(Date horaFinal) {
+		this.horaFinal = horaFinal;
+	}
+
+	public String getQuimico() {
+		return this.quimico;
+	}
+
+	public void setQuimico(String quimico) {
+		this.quimico = quimico;
+	}
+
+	public Integer getLitrosUsados() {
+		return this.litrosUsados;
+	}
+
+	public void setLitrosUsados(Integer litrosUsados) {
+		this.litrosUsados = litrosUsados;
+	}
+
+	public String getLote() {
+		return this.lote;
+	}
+
+	public void setLote(String lote) {
+		this.lote = lote;
+	}
+
+}
