@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge size="small" value="CAPTURA DE COCEDORES"
+						styleClass="fuenteTitulo" />
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab title="FILTRO DE COCEDORES"
+							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+							<div style="text-align: left">
+
+							</div>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+							<br />
+							<br />
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="950" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{cocedoresBean.listaFiltroPromedioCocedores}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:columnGroup type="header">
+									<p:row>
+										<p:column rowspan="5" headerText="Fecha" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column rowspan="3" headerText="HORA" styleClass="datos"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="4" headerText="OPERACIÓN"
+											styleClass="datos" style="font-size: .6rem !important" />
+									</p:row>
+
+
+									<p:row>
+										<p:column colspan="8" headerText="DATOS GENERALES"
+											styleClass="color" />
+										<p:column colspan="2" headerText="COC-01" styleClass="color" />
+										<p:column colspan="2" headerText="COC-02" styleClass="color" />
+										<p:column colspan="2" headerText="COC-03" styleClass="color" />
+										<p:column colspan="2" headerText="COC-04" styleClass="color" />
+										<p:column colspan="2" headerText="COC-05" styleClass="color" />
+										<p:column colspan="2" headerText="COC-06" styleClass="color" />
+										<p:column colspan="2" headerText="COC-07" styleClass="color" />
+										<p:column colspan="2" headerText="COC-08" styleClass="color" />
+										<p:column colspan="2" headerText="COC-09" styleClass="color" />
+										<p:column colspan="2" headerText="COC-10" styleClass="color" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="°C Ent H2O" styleClass="datos" />
+										<p:column headerText="Flujo L/hr" styleClass="datos" />
+										<p:column headerText="PH" styleClass="datos" />
+										<p:column headerText="NTU" styleClass="datos" />
+										<p:column headerText="Calcios (p.p.m)" styleClass="datos" />
+										<p:column headerText="Visc. (mp)" styleClass="datos" />
+										<p:column headerText="Cond. (ms)" styleClass="datos" />
+										<p:column headerText="% Conc. Sal Grl" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+										<p:column headerText="Temp (°C)" styleClass="datos" />
+										<p:column headerText="Conc %" styleClass="datos" />
+
+									</p:row>
+									<p:row>
+
+										<p:column headerText="LIMITES ESPECIFICOS" styleClass="datos" />
+										<p:column headerText="55-80 °C" styleClass="datos" />
+										<p:column headerText="Min. 400" styleClass="datos" />
+										<p:column headerText="2.7-4.0" styleClass="datos" />
+										<p:column headerText="---" styleClass="datos" />
+										<p:column headerText="---" styleClass="datos" />
+										<p:column headerText="---" styleClass="datos" />
+										<p:column headerText="---" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos" />
+
+									</p:row>
+
+								</p:columnGroup>
+								<p:column>
+									<h:outputText value="#{item.fecha}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.horaLimitesEspecificos}"
+										styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.operacion}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.grados}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.flujo}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.ph}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.ntu}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.calcios}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.viscocidad}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.condensacion}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concentrado}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc01}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc01}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc02}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc02}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc03}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc03}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc04}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc04}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc05}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc05}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc06}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc06}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc07}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc07}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc08}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc08}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc09}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc09}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.tempCoc10}" styleClass="datos" />
+								</p:column>
+
+								<p:column>
+									<h:outputText value="#{item.concCoc10}" styleClass="datos" />
+								</p:column>
+
+							</p:dataTable>
+
+
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

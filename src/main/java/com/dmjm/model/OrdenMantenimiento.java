@@ -7,11 +7,11 @@ public class OrdenMantenimiento implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idOrdenManto;
 	private FolioPreparacionCocedores folioPreparacionCocedores;
-	private String si;
-	private String no;
+	private String siNo;
 	private Integer noOrden;
 	private Date horaInicio;
 	private Date horaFin;
+	private String descripcion;
 
 	public OrdenMantenimiento() {
 	}
@@ -20,15 +20,15 @@ public class OrdenMantenimiento implements java.io.Serializable {
 		this.idOrdenManto = idOrdenManto;
 	}
 
-	public OrdenMantenimiento(int idOrdenManto, FolioPreparacionCocedores folioPreparacionCocedores, String si,
-			String no, Integer noOrden, Date horaInicio, Date horaFin) {
+	public OrdenMantenimiento(int idOrdenManto, FolioPreparacionCocedores folioPreparacionCocedores, String siNo,
+			Integer noOrden, Date horaInicio, Date horaFin, String descripcion) {
 		this.idOrdenManto = idOrdenManto;
 		this.folioPreparacionCocedores = folioPreparacionCocedores;
-		this.si = si;
-		this.no = no;
+		this.siNo = siNo;
 		this.noOrden = noOrden;
 		this.horaInicio = horaInicio;
 		this.horaFin = horaFin;
+		this.descripcion = descripcion;
 	}
 
 	public int getIdOrdenManto() {
@@ -47,20 +47,12 @@ public class OrdenMantenimiento implements java.io.Serializable {
 		this.folioPreparacionCocedores = folioPreparacionCocedores;
 	}
 
-	public String getSi() {
-		return this.si;
+	public String getSiNo() {
+		return siNo;
 	}
 
-	public void setSi(String si) {
-		this.si = si;
-	}
-
-	public String getNo() {
-		return this.no;
-	}
-
-	public void setNo(String no) {
-		this.no = no;
+	public void setSiNo(String siNo) {
+		this.siNo = siNo;
 	}
 
 	public Integer getNoOrden() {
@@ -85,6 +77,14 @@ public class OrdenMantenimiento implements java.io.Serializable {
 
 	public void setHoraFin(Date horaFin) {
 		this.horaFin = horaFin;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

@@ -11,11 +11,8 @@ public class Purgas implements java.io.Serializable {
 	private Integer cm;
 	private Integer concentrado;
 	private Integer ph;
-	private Integer coc01;
-	private Integer coc02;
-	private Integer coc03;
-	private Integer coc04;
-	private Integer coc05;
+	private Integer noCocedor;
+	private String operacion;
 
 	public Purgas() {
 	}
@@ -25,19 +22,15 @@ public class Purgas implements java.io.Serializable {
 	}
 
 	public Purgas(int idPurgas, FolioPreparacionCocedores folioPreparacionCocedores, Date hora, Integer cm,
-			Integer concentrado, Integer ph, Integer coc01, Integer coc02, Integer coc03, Integer coc04,
-			Integer coc05) {
+			Integer concentrado, Integer ph, Integer noCocedor, String operacion) {
 		this.idPurgas = idPurgas;
 		this.folioPreparacionCocedores = folioPreparacionCocedores;
 		this.hora = hora;
 		this.cm = cm;
 		this.concentrado = concentrado;
 		this.ph = ph;
-		this.coc01 = coc01;
-		this.coc02 = coc02;
-		this.coc03 = coc03;
-		this.coc04 = coc04;
-		this.coc05 = coc05;
+		this.noCocedor = noCocedor;
+		this.operacion = operacion;
 	}
 
 	public int getIdPurgas() {
@@ -88,44 +81,20 @@ public class Purgas implements java.io.Serializable {
 		this.ph = ph;
 	}
 
-	public Integer getCoc01() {
-		return this.coc01;
+	public Integer getNoCocedor() {
+		return noCocedor;
 	}
 
-	public void setCoc01(Integer coc01) {
-		this.coc01 = coc01;
+	public void setNoCocedor(Integer noCocedor) {
+		this.noCocedor = noCocedor;
 	}
 
-	public Integer getCoc02() {
-		return this.coc02;
+	public String getOperacion() {
+		return operacion;
 	}
 
-	public void setCoc02(Integer coc02) {
-		this.coc02 = coc02;
-	}
-
-	public Integer getCoc03() {
-		return this.coc03;
-	}
-
-	public void setCoc03(Integer coc03) {
-		this.coc03 = coc03;
-	}
-
-	public Integer getCoc04() {
-		return this.coc04;
-	}
-
-	public void setCoc04(Integer coc04) {
-		this.coc04 = coc04;
-	}
-
-	public Integer getCoc05() {
-		return this.coc05;
-	}
-
-	public void setCoc05(Integer coc05) {
-		this.coc05 = coc05;
+	public void setOperacion(String operacion) {
+		this.operacion = operacion;
 	}
 
 }

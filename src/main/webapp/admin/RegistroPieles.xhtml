@@ -1115,6 +1115,59 @@
 			</h:form>
 			<!-- FINALIZA FORMULARIO PARA EDITAR -->
 
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmLavadoras">
+				<p:dialog id="dlgLavadorasChicas" header="" widgetVar="dlgLavadoras"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+
+					<h:panelGrid id="pnlLavadoras" columns="1" styleClass="mensajeLib">
+
+						<p:outputLabel styleClass="mensajeLib"
+							value="¿Deseas pasar el proceso a lavadoras chicas o silos?" />
+
+						<p:selectOneRadio id="line" value="Silos" styleClass="mensajeLib"
+							layout="lineDirection">
+							<f:selectItem itemLabel="Lavadoras chicas" itemValue="lavadoras" />
+							<f:selectItem itemLabel="Silos" itemValue="silos" />
+						</p:selectOneRadio>
+
+						<div class="field col-12 md:col-1">
+							<p:outputLabel for="@next" value="¿Cuantas lavodoras?"
+								styleClass="mensajeLib" />
+							<p:spinner id="basic"
+								value="#{preparacionBean.noLavadorasChicas}"
+								styleClass="mensajeLib" />
+						</div>
+						<p:outputLabel id="nf"
+							value="No Factura: #{preparacionBean.noFacturaLavadorasChicas}" />
+
+						<p:outputLabel id="kilosTemp"
+							value="Kilos totales: #{preparacionBean.kilosLavadorasChicas}" />
+
+						<p:outputLabel id="kg1" value="#{preparacionBean.kg1}" />
+						<p:outputLabel id="kg2" value="#{preparacionBean.kg2}" />
+						<p:outputLabel id="kg3" value="#{preparacionBean.kg3}" />
+
+						<p:commandButton value="Procesar"
+							actionListener="#{preparacionBean.calcularKilos(preparacionBean.noLavadorasChicas)}"
+							update="frmLavadoras:nf, frmLavadoras:kilosTemp, frmLavadoras:kg1, frmLavadoras:kg2, frmLavadoras:kg3" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Mandar a proceso"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							actionListener="#{preparacionBean.actualizarEtapa(preparacionBean.etapas.lavadora)}"
+							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
 		</ui:define>
 	</ui:composition>
 </h:body>

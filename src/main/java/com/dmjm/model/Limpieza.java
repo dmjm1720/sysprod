@@ -1,5 +1,6 @@
 package com.dmjm.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Limpieza implements java.io.Serializable {
@@ -10,8 +11,9 @@ public class Limpieza implements java.io.Serializable {
 	private Date horaInicial;
 	private Date horaFinal;
 	private String quimico;
-	private Integer litrosUsados;
+	private BigDecimal litrosUsados;
 	private String lote;
+	private String proceso;
 
 	public Limpieza() {
 	}
@@ -21,7 +23,7 @@ public class Limpieza implements java.io.Serializable {
 	}
 
 	public Limpieza(int idLimpieza, FolioPreparacionCocedores folioPreparacionCocedores, Date horaInicial,
-			Date horaFinal, String quimico, Integer litrosUsados, String lote) {
+			Date horaFinal, String quimico, BigDecimal litrosUsados, String lote, String proceso) {
 		this.idLimpieza = idLimpieza;
 		this.folioPreparacionCocedores = folioPreparacionCocedores;
 		this.horaInicial = horaInicial;
@@ -29,6 +31,7 @@ public class Limpieza implements java.io.Serializable {
 		this.quimico = quimico;
 		this.litrosUsados = litrosUsados;
 		this.lote = lote;
+		this.proceso = proceso;
 	}
 
 	public int getIdLimpieza() {
@@ -71,11 +74,11 @@ public class Limpieza implements java.io.Serializable {
 		this.quimico = quimico;
 	}
 
-	public Integer getLitrosUsados() {
+	public BigDecimal getLitrosUsados() {
 		return this.litrosUsados;
 	}
 
-	public void setLitrosUsados(Integer litrosUsados) {
+	public void setLitrosUsados(BigDecimal litrosUsados) {
 		this.litrosUsados = litrosUsados;
 	}
 
@@ -86,5 +89,15 @@ public class Limpieza implements java.io.Serializable {
 	public void setLote(String lote) {
 		this.lote = lote;
 	}
+
+	public String getProceso() {
+		return proceso;
+	}
+
+	public void setProceso(String proceso) {
+		this.proceso = proceso;
+	}
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.dmjm.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.dmjm.model.Cocedores;
@@ -9,6 +10,10 @@ import com.dmjm.model.Cocedores;
 public interface ICocedoresDao {
 	
 	List<Cocedores> listaCocedores();
+	
+	List<Cocedores> listaFiltroCocedores();
+	
+	List<Cocedores> listaPorFechaCocedores(Date fecha);
 
 	void guardarCocedores(Cocedores cocedores);
 

@@ -11,6 +11,9 @@
         <property name="fecha" type="date">
             <column name="FECHA" length="10" />
         </property>
+        <property name="folioCocedor" type="java.lang.Integer">
+			<column name="FOLIO_COCEDOR" />
+		</property>
         
     </class>
 </hibernate-mapping>

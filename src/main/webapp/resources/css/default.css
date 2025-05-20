@@ -312,8 +312,8 @@ a:link:hover, a:visited:hover {
 }
 
 .tabla2 {
-	font-family: "IBM Plex Sans", sans-serif;
-	font-optical-sizing: auto;
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto !important;
 }
 
 .fechaActual {
@@ -329,4 +329,40 @@ a:link:hover, a:visited:hover {
 .promedio {
 	background-color: #191970 !important;
 	color: #FFFFFF !important;
+}
+
+.camposLimpieza {
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	background-color: #48D1CC !important;
+}
+
+.camposCocedores {
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	background-color: #B0C4DE !important;
+	font-size: bold;
+}
+
+.camposCocedoresC {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+	background-color: #D8BFD8 !important;
+}
+
+.camposCocedoresT {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+	background-color: #E0FFFF !important;
+}
+
+.camposManto {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+	background-color: #B0E0E6 !important;
+}
+.camposPurgas {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+	background-color: #66CDAA !important;
 }

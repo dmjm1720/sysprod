@@ -2,6 +2,7 @@ package com.dmjm.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.ICocedoresDao;
@@ -22,7 +24,9 @@ public class CocedoresDaoImpl extends Conexion implements ICocedoresDao {
 	@Override
 	public List<Cocedores> listaCocedores() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("FROM Cocedores c JOIN FETCH c.folioPreparacionCocedores ORDER BY c.folioPreparacionCocedores.idFolioPrep DESC", Cocedores.class).list();
+			return session.createQuery(
+					"FROM Cocedores c JOIN FETCH c.folioPreparacionCocedores ORDER BY c.folioPreparacionCocedores.idFolioPrep DESC",
+					Cocedores.class).list();
 		}
 	}
 
@@ -637,6 +641,27 @@ public class CocedoresDaoImpl extends Conexion implements ICocedoresDao {
 			CerrarSysProd();
 		} catch (SQLException ex) {
 			LOGGER.error("ERROR AL ACTUALIZAR EL FOLIO: ", ex);
+		}
+
+	}
+
+	@Override
+	public List<Cocedores> listaFiltroCocedores() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Cocedores c JOIN FETCH c.folioPreparacionCocedores WHERE c.horaLimitesEspecificos='PROM.' ORDER BY c.folioPreparacionCocedores.idFolioPrep DESC",
+					Cocedores.class).list();
+		}
+	}
+
+	@Override
+	public List<Cocedores> listaPorFechaCocedores(Date fecha) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "FROM Cocedores c JOIN FETCH c.folioPreparacionCocedores WHERE c.fecha = :fecha ORDER BY c.folioPreparacionCocedores.idFolioPrep DESC";
+			Query<Cocedores> query = session.createQuery(hql, Cocedores.class);
+			query.setParameter("fecha", fecha);
+
+			return query.list();
 		}
 
 	}

@@ -7,6 +7,7 @@ public class FolioPreparacionCocedores implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idFolioPrep;
 	private Date fecha;
+	private int folioCocedor;
 
 	public FolioPreparacionCocedores() {
 	}
@@ -15,9 +16,10 @@ public class FolioPreparacionCocedores implements java.io.Serializable {
 		this.idFolioPrep = idFolioPrep;
 	}
 
-	public FolioPreparacionCocedores(int idFolioPrep, Date fecha) {
+	public FolioPreparacionCocedores(int idFolioPrep, Date fecha, int folioCocedor) {
 		this.idFolioPrep = idFolioPrep;
 		this.fecha = fecha;
+		this.folioCocedor = folioCocedor;
 
 	}
 
@@ -36,6 +38,14 @@ public class FolioPreparacionCocedores implements java.io.Serializable {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 
-		}
+	}
+
+	public int getFolioCocedor() {
+		return folioCocedor;
+	}
+
+	public void setFolioCocedor(int folioCocedor) {
+		this.folioCocedor = folioCocedor;
+	}
 
 }

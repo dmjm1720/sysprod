@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -100,6 +101,14 @@ public class PreparacionPielesBean implements Serializable {
 	private List<String> procesos;
 
 	private String estadoLavadora = "";
+
+	private String noFacturaLavadorasChicas = "";
+	private Double kilosLavadorasChicas = 0.0;
+	private int noLavadorasChicas;
+
+	private Double kg1 = 0.0;
+	private Double kg2 = 0.0;
+	private Double kg3 = 0.0;
 
 	@PostConstruct
 	public void init() {
@@ -275,6 +284,54 @@ public class PreparacionPielesBean implements Serializable {
 
 	public void setEstadoLavadora(String estadoLavadora) {
 		this.estadoLavadora = estadoLavadora;
+	}
+
+	public String getNoFacturaLavadorasChicas() {
+		return noFacturaLavadorasChicas;
+	}
+
+	public void setNoFacturaLavadorasChicas(String noFacturaLavadorasChicas) {
+		this.noFacturaLavadorasChicas = noFacturaLavadorasChicas;
+	}
+
+	public Double getKilosLavadorasChicas() {
+		return kilosLavadorasChicas;
+	}
+
+	public void setKilosLavadorasChicas(Double kilosLavadorasChicas) {
+		this.kilosLavadorasChicas = kilosLavadorasChicas;
+	}
+
+	public int getNoLavadorasChicas() {
+		return noLavadorasChicas;
+	}
+
+	public void setNoLavadorasChicas(int noLavadorasChicas) {
+		this.noLavadorasChicas = noLavadorasChicas;
+	}
+
+	public Double getKg1() {
+		return kg1;
+	}
+
+	public void setKg1(Double kg1) {
+		this.kg1 = kg1;
+	}
+
+	public Double getKg2() {
+		return kg2;
+	}
+
+	public void setKg2(Double kg2) {
+		this.kg2 = kg2;
+	}
+
+	public Double getKg3() {
+		return kg3;
+	}
+
+	public void setKg3(Double kg3) {
+		this.kg3 = kg3;
 	}
 
 	public void onToggleSelect(ToggleSelectEvent event) {
@@ -710,7 +767,6 @@ public class PreparacionPielesBean implements Serializable {
 	public List<Etapas> getListaDeEtapas3() {
 		return listaDeEtapas3;
 	}
-	
 
 	public List<Etapas> getListaDeEtapas4() {
 		return listaDeEtapas4;
@@ -1247,8 +1303,7 @@ public class PreparacionPielesBean implements Serializable {
 				}
 
 			}
-			
-			
+
 		}
 
 		if (etapas.getEtapa().equals("Blanqueo 1")) {
@@ -1444,12 +1499,12 @@ public class PreparacionPielesBean implements Serializable {
 		IEtapasDao eDao3 = new EtapasDaoImpl();
 		listaDeEtapas3 = eDao3.listaEtapas3(idPrep);
 		getListaDeEtapas3();
-		
+
 		// ETAPA 3//
 		IEtapasDao eDao4 = new EtapasDaoImpl();
 		listaDeEtapas4 = eDao4.listaEtapas3(idPrep);
 		getListaDeEtapas3();
-		
+
 		// ETAPA 3//
 		IEtapasDao eDao5 = new EtapasDaoImpl();
 		listaDeEtapas4 = eDao5.listaEtapas3(idPrep);
@@ -1798,12 +1853,39 @@ public class PreparacionPielesBean implements Serializable {
 						+ "  timer: 8000\n" + "})");
 
 	}
-	
-	
-	public void showMessage() {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Mandar proceso actual", "¿Deseas pasar al proceso de lavadoras chicas?!");
 
-        PrimeFaces.current().dialog().showMessageDynamic(message);
-    }
+	public void showMessage() {
+
+		PrimeFaces.current().executeScript("PF('dlgLavadoras').show();");
+	}
+
+	public void calcularKilos(int noLavadoras) {
+		System.out.println("No de lavadoras: " + noLavadoras);
+		IFacturaPielesDao pDao = new FacturaPielesDaoImpl();
+		listaFacturaPieles = pDao.listaFacturaPieles(idPrep);
+
+		Double kilos1 = 0.0;
+		Double kilos2 = 0.0;
+		Double kilos3 = 0.0;
+
+		for (FacturasPieles fp : listaFacturaPieles) {
+			noFacturaLavadorasChicas = fp.getFactura();
+			kilos1 = fp.getCz().doubleValue();
+		}
+
+		kilos2 = Math.floor(kilos1 / noLavadoras);
+
+		if (noLavadoras == 3) {
+			kilos3 = (kilos2 * 2) - kilos1;
+		}
+
+		if (noLavadoras == 3) {
+			kg1 = kilos2;
+			kg2 = kilos2;
+			kg3 = Math.abs(kilos3);
+		}
+		kilosLavadorasChicas = kilos1;
+
+	}
 
 }
