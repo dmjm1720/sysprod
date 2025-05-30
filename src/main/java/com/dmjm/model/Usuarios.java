@@ -14,6 +14,7 @@ public class Usuarios implements java.io.Serializable {
 	private String password;
 	private String iniciales;
 	private String usuario;
+	private String rutaImgFirma;
 
 	public Usuarios() {
 	}
@@ -23,7 +24,7 @@ public class Usuarios implements java.io.Serializable {
 	}
 
 	public Usuarios(int idUsuario, Perfiles perfiles, String nombre, String correo, Integer estatus, Date fechaAlta,
-			String password, String iniciales, String usuario) {
+			String password, String iniciales, String usuario, String rutaImgFirma) {
 		this.idUsuario = idUsuario;
 		this.perfiles = perfiles;
 		this.nombre = nombre;
@@ -33,6 +34,7 @@ public class Usuarios implements java.io.Serializable {
 		this.password = password;
 		this.iniciales = iniciales;
 		this.usuario = usuario;
+		this.rutaImgFirma = rutaImgFirma;
 	}
 
 	public int getIdUsuario() {
@@ -105,6 +107,14 @@ public class Usuarios implements java.io.Serializable {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	public String getRutaImgFirma() {
+		return rutaImgFirma;
+	}
+
+	public void setRutaImgFirma(String rutaImgFirma) {
+		this.rutaImgFirma = rutaImgFirma;
 	}
 
 }

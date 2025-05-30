@@ -361,8 +361,35 @@ a:link:hover, a:visited:hover {
 	font-optical-sizing: auto;
 	background-color: #B0E0E6 !important;
 }
+
 .camposPurgas {
 	font-family: "IBM Plex Sans", sans-serif;
 	font-optical-sizing: auto;
 	background-color: #66CDAA !important;
+}
+
+.filtros {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-size: 1rem !important;
+	font-weight: bold !important;
+}
+
+.btn-aceptado {
+	border: 2rem !important;
+	background-color: #008000 !important; /* Verde */
+	color: white !important;
+}
+
+.btn-rechazado {
+	border: 2rem !important; background-color : #FF0000 !important;
+	/* Rojo */
+	color: white !important;
+	background-color: #FF0000 !important;
+}
+
+.fondoTurnos {
+	background-color: #98FB98 !important;
+	text-align: center !important;
+	font-weight: bold !important;
 }

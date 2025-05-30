@@ -19,6 +19,8 @@ public interface ICocedoresDao {
 
 	void actualizarCocedores(Cocedores cocedores);
 	
+	void actualizarCocedoresPromedio(String operacion, int folio);
+	
 	void actualizarPromedioGrados(int folio);
 	void actualizarPromedioFlujo(int folio);
 	void actualizarPromedioPH(int folio);

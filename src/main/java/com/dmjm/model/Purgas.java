@@ -1,5 +1,6 @@
 package com.dmjm.model;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Purgas implements java.io.Serializable {
@@ -9,9 +10,9 @@ public class Purgas implements java.io.Serializable {
 	private FolioPreparacionCocedores folioPreparacionCocedores;
 	private Date hora;
 	private Integer cm;
-	private Integer concentrado;
-	private Integer ph;
-	private Integer noCocedor;
+	private BigDecimal concentrado;
+	private BigDecimal ph;
+	private String noCocedor;
 	private String operacion;
 
 	public Purgas() {
@@ -22,7 +23,7 @@ public class Purgas implements java.io.Serializable {
 	}
 
 	public Purgas(int idPurgas, FolioPreparacionCocedores folioPreparacionCocedores, Date hora, Integer cm,
-			Integer concentrado, Integer ph, Integer noCocedor, String operacion) {
+			BigDecimal concentrado, BigDecimal ph, String noCocedor, String operacion) {
 		this.idPurgas = idPurgas;
 		this.folioPreparacionCocedores = folioPreparacionCocedores;
 		this.hora = hora;
@@ -65,27 +66,27 @@ public class Purgas implements java.io.Serializable {
 		this.cm = cm;
 	}
 
-	public Integer getConcentrado() {
+	public BigDecimal getConcentrado() {
 		return this.concentrado;
 	}
 
-	public void setConcentrado(Integer concentrado) {
+	public void setConcentrado(BigDecimal concentrado) {
 		this.concentrado = concentrado;
 	}
 
-	public Integer getPh() {
+	public BigDecimal getPh() {
 		return this.ph;
 	}
 
-	public void setPh(Integer ph) {
+	public void setPh(BigDecimal ph) {
 		this.ph = ph;
 	}
 
-	public Integer getNoCocedor() {
+	public String getNoCocedor() {
 		return noCocedor;
 	}
 
-	public void setNoCocedor(Integer noCocedor) {
+	public void setNoCocedor(String noCocedor) {
 		this.noCocedor = noCocedor;
 	}
 

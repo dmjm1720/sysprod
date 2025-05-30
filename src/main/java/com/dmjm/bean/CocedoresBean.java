@@ -1,40 +1,58 @@
 package com.dmjm.bean;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.ToggleSelectEvent;
+import org.primefaces.event.UnselectEvent;
 import org.primefaces.event.data.PageEvent;
 
 import com.dmjm.dao.ICocedoresDao;
 import com.dmjm.dao.IFolioCocedoresDao;
 import com.dmjm.dao.IFolioPreparcionCocedoresDao;
 import com.dmjm.dao.ILimpiezaDao;
+import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IOrdenMantoDao;
 import com.dmjm.dao.IPurgasDao;
+import com.dmjm.dao.IRegistroTurnosDao;
+import com.dmjm.dao.ITurnosDao;
+import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.impl.CocedoresDaoImpl;
 import com.dmjm.impl.FolioPreparacionCocedoresDaoImpl;
 import com.dmjm.impl.FoliosCocedoresDaoImpl;
 import com.dmjm.impl.LimpiezaDaoImpl;
+import com.dmjm.impl.OperadorDaoImpl;
 import com.dmjm.impl.OrdenMantoDaoImpl;
 import com.dmjm.impl.PurgasDaoImpl;
+import com.dmjm.impl.RegistroTurnoDaoImpl;
+import com.dmjm.impl.TurnosDaoImpl;
+import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.model.Cocedores;
 import com.dmjm.model.FolioPreparacionCocedores;
 import com.dmjm.model.Limpieza;
+import com.dmjm.model.Operador;
 import com.dmjm.model.OrdenMantenimiento;
 import com.dmjm.model.Purgas;
+import com.dmjm.model.RegistroTurnos;
+import com.dmjm.model.Turnos;
+import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteCocedores;
 
 @Named("cocedoresBean")
 @ViewScoped
@@ -66,6 +84,22 @@ public class CocedoresBean implements Serializable {
 
 	private Date fechaFiltro;
 
+	private String filterTurno;
+	private String filterUsuario;
+	private String filterOperador;
+	private RegistroTurnos registroTurnos;
+	private RegistroTurnos registroTurnosEditar;
+	private List<RegistroTurnos> listarRegistroTurnos;
+
+	private Operador operador;
+	private Operador operadorEditar;
+	private List<Operador> listaOperadores;
+
+	private String[] selectedProcess;
+	private List<String> procesos;
+
+	private List<String> cocedorNo;
+
 	public CocedoresBean() {
 
 	}
@@ -89,7 +123,28 @@ public class CocedoresBean implements Serializable {
 		purgas = new Purgas();
 		purgasEditar = new Purgas();
 
+		registroTurnos = new RegistroTurnos();
+		listarRegistroTurnos = new ArrayList<>();
+		registroTurnosEditar = new RegistroTurnos();
+
+		operador = new Operador();
+		operadorEditar = new Operador();
+		listaOperadores = new ArrayList<>();
+
 		primera();
+		getListarRegistroTurnos();
+
+		procesos = new ArrayList<>();
+		procesos.add("Cocedor 1");
+		procesos.add("Cocedor 2");
+		procesos.add("Cocedor 3");
+		procesos.add("Cocedor 4");
+		procesos.add("Cocedor 5");
+		procesos.add("Cocedor 6");
+		procesos.add("Cocedor 7");
+		procesos.add("Cocedor 8");
+		procesos.add("Cocedor 9");
+		procesos.add("Cocedor 10");
 
 	}
 
@@ -147,6 +202,93 @@ public class CocedoresBean implements Serializable {
 
 	public void setFolioFecha(int folioFecha) {
 		this.folioFecha = folioFecha;
+	}
+
+	public String getFilterTurno() {
+		return filterTurno;
+	}
+
+	public void setFilterTurno(String filterTurno) {
+		this.filterTurno = filterTurno;
+	}
+
+	public String getFilterUsuario() {
+		return filterUsuario;
+	}
+
+	public void setFilterUsuario(String filterUsuario) {
+		this.filterUsuario = filterUsuario;
+	}
+
+	public RegistroTurnos getRegistroTurnos() {
+		return registroTurnos;
+	}
+
+	public void setRegistroTurnos(RegistroTurnos registroTurnos) {
+		this.registroTurnos = registroTurnos;
+	}
+
+	public Operador getOperador() {
+		return operador;
+	}
+
+	public void setOperador(Operador operador) {
+		this.operador = operador;
+	}
+
+	public Operador getOperadorEditar() {
+		return operadorEditar;
+	}
+
+	public void setOperadorEditar(Operador operadorEditar) {
+		this.operadorEditar = operadorEditar;
+	}
+
+	public String[] getSelectedProcess() {
+		return selectedProcess;
+	}
+
+	public void setSelectedProcess(String[] selectedProcess) {
+		this.selectedProcess = selectedProcess;
+	}
+
+	public List<String> getProcesos() {
+		return procesos;
+	}
+
+	public void setProcesos(List<String> procesos) {
+		this.procesos = procesos;
+	}
+
+	public List<String> getCocedorNo() {
+		return cocedorNo;
+	}
+
+	public void setCocedorNo(List<String> cocedorNo) {
+		this.cocedorNo = cocedorNo;
+	}
+
+	public List<RegistroTurnos> getListarRegistroTurnos() {
+
+		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
+		listarRegistroTurnos = rDao.listaRegistroTurnos(fecha);
+		return listarRegistroTurnos;
+	}
+
+	public String getFilterOperador() {
+		return filterOperador;
+	}
+
+	public void setFilterOperador(String filterOperador) {
+		this.filterOperador = filterOperador;
+	}
+
+	public RegistroTurnos getRegistroTurnosEditar() {
+		return registroTurnosEditar;
+	}
+
+	public void setRegistroTurnosEditar(RegistroTurnos registroTurnosEditar) {
+		this.registroTurnosEditar = registroTurnosEditar;
 	}
 
 	public List<Cocedores> getListaCocedores() {
@@ -217,6 +359,10 @@ public class CocedoresBean implements Serializable {
 	}
 
 	public Purgas getPurgasEditar() {
+		if (purgasEditar != null && purgasEditar.getNoCocedor() != null) {
+			selectedProcess = purgasEditar.getNoCocedor().split(", ");
+		}
+
 		return purgasEditar;
 	}
 
@@ -284,14 +430,27 @@ public class CocedoresBean implements Serializable {
 	public void actualizarCocedores() {
 		ICocedoresDao cDao = new CocedoresDaoImpl();
 
-		String oper = cocedoresEditar.getOperacion();
+		String oper = cocedoresEditar.getOperacion().replaceAll("\\s+", "");
 		cocedoresEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
+		if (cocedoresEditar.getEstadoAR().equals(true)) {
+			cocedoresEditar.setEstadoA("X");
+			cocedoresEditar.setEstadoR(null);
+		}
+		if (cocedoresEditar.getEstadoAR().equals(false)) {
+			cocedoresEditar.setEstadoR("X");
+			cocedoresEditar.setEstadoA(null);
+		}
 
 		cDao.actualizarCocedores(cocedoresEditar);
 		actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
 
+		if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
+			ICocedoresDao aDao = new CocedoresDaoImpl();
+			aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
+					cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+		}
 		cocedoresEditar = new Cocedores();
-		radioButton = null;
+
 	}
 
 	public List<Cocedores> obtenerElementosDePagina(int pagina) {
@@ -336,6 +495,7 @@ public class CocedoresBean implements Serializable {
 			this.folioFecha = folioDao.fechaFolioActual(fecha);
 			IFolioPreparcionCocedoresDao folioPrepDao = new FolioPreparacionCocedoresDaoImpl();
 			this.folioPrepCocedor = folioPrepDao.folioCocedorActual(fecha);
+			getListarRegistroTurnos();
 		}
 
 	}
@@ -446,14 +606,22 @@ public class CocedoresBean implements Serializable {
 		IPurgasDao pDao = new PurgasDaoImpl();
 		FolioPreparacionCocedores f = new FolioPreparacionCocedores();
 		f.setIdFolioPrep(folioPrepCocedor);
+
+		String procesosGuardados = String.join(", ", selectedProcess);
+
+		purgas.setNoCocedor(procesosGuardados);
 		purgas.setFolioPreparacionCocedores(f);
 		pDao.guardaPurgas(purgas);
+		selectedProcess=null;
 		purgas = new Purgas();
 	}
 
 	public void actualizarPurgas() {
 		IPurgasDao pDao = new PurgasDaoImpl();
+		String procesosGuardados = String.join(", ", selectedProcess);
+		purgasEditar.setNoCocedor(procesosGuardados);
 		pDao.actualizarPurgas(purgasEditar);
+		selectedProcess=null;
 		purgas = new Purgas();
 	}
 
@@ -476,6 +644,160 @@ public class CocedoresBean implements Serializable {
 	// **FILTRAR POR FECHA**//
 	public void filtrarPorFecha() {
 		getListaCocedores();
+	}
+
+	// **DATOS DEL TURNO, NOMBRE**//
+	public List<String> buscarNombreTurno(String nombre) throws SQLException {
+		ITurnosDao tDao = new TurnosDaoImpl();
+		return tDao.completeTurnos(nombre);
+	}
+
+	// **DATOS DEL TURNO, ID**//
+	public int buscarTurno(String nombre) throws SQLException {
+		ITurnosDao tDao = new TurnosDaoImpl();
+		return tDao.buscarTurnos(nombre);
+	}
+
+	// **DATOS DEL COORDINADOR, NOMBRE**//
+	public List<String> buscarNombreCoordinador(String nombre) throws SQLException {
+		IUsuarioDao tDao = new UsuarioDaoImpl();
+		return tDao.completeUsuario(nombre);
+	}
+
+	// **DATOS DEL COORDINADOR, ID**//
+	public int buscarCoordinador(String nombre) throws SQLException {
+		IUsuarioDao tDao = new UsuarioDaoImpl();
+		return tDao.buscarUsuario(nombre);
+	}
+
+	// **DATOS DEL OPERADOR, NOMBRE**//
+	public List<String> buscarNombreOperador(String nombre) throws SQLException {
+		IOperadorDao tDao = new OperadorDaoImpl();
+		return tDao.completeOperador(nombre);
+	}
+
+	// **DATOS DEL OPERADOR, ID**//
+	public int buscarOperador(String nombre) throws SQLException {
+		IOperadorDao tDao = new OperadorDaoImpl();
+		return tDao.buscarOperador(nombre);
+	}
+
+	public void guardarRegistroTurnos() throws SQLException {
+		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
+		Usuarios u = new Usuarios();
+		Operador o = new Operador();
+		Turnos t = new Turnos();
+		RegistroTurnos rt = new RegistroTurnos();
+
+		u.setIdUsuario(buscarCoordinador(filterUsuario));
+		o.setIdOperador(buscarOperador(filterOperador));
+		t.setIdTurno(buscarTurno(filterTurno));
+
+		rt.setTurnos(t);
+		rt.setOperador(o);
+		rt.setUsuarios(u);
+
+		rt.setFecha(fecha);
+		rt.setFolio(folioFecha);
+		rt.setDescProceso("COCEDORES");
+
+		rDao.guardaRegistroTurnos(rt);
+
+		u = new Usuarios();
+		o = new Operador();
+		t = new Turnos();
+		rt = new RegistroTurnos();
+
+	}
+
+	public void actualizarTurnos() throws SQLException {
+		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
+		Usuarios u = new Usuarios();
+		u.setIdUsuario(buscarCoordinador(filterUsuario));
+		registroTurnosEditar.setUsuarios(u);
+		rDao.actualizarRegistroTurnos(registroTurnosEditar);
+		registroTurnosEditar = new RegistroTurnos();
+		filterUsuario = null;
+	}
+
+	public void visualizarReporte() throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/cocedores_rep.jasper");
+		reporte.getReporte(ruta, fecha.toString(), folioPrepCocedor, folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+
+	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/cocedores_rep.jasper");
+
+		reporte.getReporte(ruta, fec, folioPrep, folioFechaRep);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+
+	public List<Operador> getListaOperadores() {
+		IOperadorDao oDao = new OperadorDaoImpl();
+		listaOperadores = oDao.listaOperadorCocedores();
+		return listaOperadores;
+	}
+
+	public void guardarOperador() {
+		IOperadorDao oDao = new OperadorDaoImpl();
+		operador.setEstado("Activo");
+		operador.setProceso("Cocedores");
+		oDao.guardarOperador(operador);
+		operador = new Operador();
+
+	}
+
+	public void actualizarOperador() {
+		IOperadorDao oDao = new OperadorDaoImpl();
+		oDao.actualizarOperador(operadorEditar);
+		operadorEditar = new Operador();
+	}
+
+	public void onToggleSelect(ToggleSelectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Toggled: " + event.isSelected());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onItemSelect(@SuppressWarnings("rawtypes") SelectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Item selected: " + event.getObject().toString());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onItemUnselect(@SuppressWarnings("rawtypes") UnselectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Item unselected: " + event.getObject().toString());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
 }

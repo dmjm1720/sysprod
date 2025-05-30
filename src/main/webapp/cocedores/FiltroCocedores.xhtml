@@ -33,11 +33,9 @@
 
 					<p:accordionPanel id="acco" widgetVar="basic">
 
-						<p:tab title="FILTRO DE COCEDORES"
+						<p:tab title="RESUMEN DE COCEDORES"
 							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
-							<div style="text-align: left">
-
-							</div>
+							<div style="text-align: left"></div>
 							<br />
 							<p:divider />
 							<br />
@@ -58,6 +56,7 @@
 
 								<p:columnGroup type="header">
 									<p:row>
+										<p:column rowspan="5" headerText="Ver repporte" styleClass="datos" />
 										<p:column rowspan="5" headerText="Fecha" styleClass="datos" />
 									</p:row>
 
@@ -148,8 +147,19 @@
 										<p:column headerText="Min 2.0" styleClass="datos" />
 
 									</p:row>
-
 								</p:columnGroup>
+
+								<p:column>
+									<div style="text-align: center">
+									<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+										target="_blank"
+										actionListener="#{cocedoresBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionCocedores.idFolioPrep, item.folioCocedor)}">
+										<h:graphicImage url="/resources/img/printer.png"
+											style="height: 1.8rem" />
+									</h:commandLink>
+									</div>
+								</p:column>
+								
 								<p:column>
 									<h:outputText value="#{item.fecha}" styleClass="datos" />
 								</p:column>

@@ -59,5 +59,10 @@
 		<mapping resource="com/dmjm/model/OrdenMantenimiento.hbm.xml" />
 		<mapping resource="com/dmjm/model/FolioCocedores.hbm.xml" />
 		<mapping resource="com/dmjm/model/Purgas.hbm.xml" />
+
+
+		<mapping resource="com/dmjm/model/Operador.hbm.xml" />
+		<mapping resource="com/dmjm/model/RegistroTurnos.hbm.xml" />
+		<mapping resource="com/dmjm/model/Turnos.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

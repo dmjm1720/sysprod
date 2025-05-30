@@ -5,6 +5,10 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Root;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -662,6 +666,26 @@ public class CocedoresDaoImpl extends Conexion implements ICocedoresDao {
 			query.setParameter("fecha", fecha);
 
 			return query.list();
+		}
+
+	}
+
+	@Override
+	public void actualizarCocedoresPromedio(String operacion, int folio) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE COCEDORES SET OPERACION=? WHERE HORA_LIMITES_ESPECIFICOS='PROM.' AND ID_FOLIO_PREP=?;";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			ps.setString(1, operacion);
+			ps.setInt(2, folio);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL FOLIO: ", ex);
 		}
 
 	}

@@ -1,23 +1,30 @@
 package com.dmjm.impl;
 
-import com.dmjm.dao.IUsuarioDao;
-import com.dmjm.model.Usuarios;
-import com.dmjm.util.HibernateUtil;
-import com.dmjm.util.Password;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.HibernateException;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.primefaces.PrimeFaces;
 
-public class UsuarioDaoImpl implements IUsuarioDao {
+import com.dmjm.dao.IUsuarioDao;
+import com.dmjm.model.Usuarios;
+import com.dmjm.util.Conexion;
+import com.dmjm.util.HibernateUtil;
+import com.dmjm.util.Password;
+
+public class UsuarioDaoImpl extends Conexion implements IUsuarioDao {
 
 	@Override
 	public Usuarios obtenerDatosUsuario(Usuarios usuario) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String hql = "FROM Usuarios WHERE usuario=:usuario AND password=:password";
+		@SuppressWarnings("rawtypes")
 		Query q = session.createQuery(hql).setMaxResults(1);
 		q.setParameter("usuario", usuario.getUsuario());
 		q.setParameter("password", Password.sha512(usuario.getPassword()));
@@ -95,9 +102,54 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
 	@Override
 	public List<Usuarios> listarUsuarios() {
-		List<Usuarios> usuarios = (List<Usuarios>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("From Usuarios").list();
-		return usuarios;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Usuarios", Usuarios.class).list();
+		}
+	}
+
+	@Override
+	public List<String> completeUsuario(String nombre) throws SQLException {
+		List<String> resultUsuario = new ArrayList<>();
+		List<String> listarTodo = new ArrayList<>();
+
+		ConectarSysProd();
+
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM USUARIOS WHERE NOMBRE LIKE '" + nombre + "%' AND ID_PERFIL =2");
+		ResultSet rs = st.executeQuery();
+		listarTodo = new ArrayList<>();
+		if (!rs.isBeforeFirst()) {
+			listarTodo.add("No hay resultados para tu búsqueda");
+		} else {
+			while (rs.next()) {
+				listarTodo.add(rs.getString("NOMBRE"));
+			}
+		}
+		for (int i = 0; i < listarTodo.size(); i++) {
+			resultUsuario.add(listarTodo.get(i));
+		}
+
+		CerrarSysProd();
+		return resultUsuario;
+	}
+
+	@Override
+	public int buscarUsuario(String nombre) throws SQLException {
+		ConectarSysProd();
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT ID_USUARIO FROM USUARIOS WHERE NOMBRE = '" + nombre + "' AND ID_PERFIL =2");
+		ResultSet rs = st.executeQuery();
+		int usuario = 0;
+		if (!rs.isBeforeFirst()) {
+
+		} else {
+			while (rs.next()) {
+				usuario = rs.getInt("ID_USUARIO");
+			}
+		}
+
+		CerrarSysProd();
+		return usuario;
 	}
 
 }

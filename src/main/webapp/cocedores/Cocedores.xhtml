@@ -37,6 +37,7 @@
 
 
 
+
 						<p:tab id="pt" title="COCEDORES"
 							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
 
@@ -72,34 +73,157 @@
                         };
                     </script>
 							<div style="text-align: left">
-								<!-- 								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente" -->
-								<!-- 									icon="pi pi-file-excel" style="width: 8rem; height: 3rem"> -->
-								<!-- 									<p:dataExporter type="xls" target="frmPrincipal:acco:tblCoc" -->
-								<!-- 										fileName="REPORTE DE COCEDORES" /> -->
-								<!-- 								</p:commandButton> -->
-								<p:commandButton value="REGISTRAR NUEVA HOJA" styleClass="fuente"
-									actionListener="#{cocedoresBean.guardarCocedores()}"
-									update="frmPrincipal, frmPrincipal:msgs"
-									icon="pi pi-file-excel" style="width: 15rem; height: 2rem">
-								</p:commandButton>
-								
-								<br />
-								<br />
-								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="false"
-									disabled="false" placeholder="SELECCIONA FECHA A FILTRAR"
-									inputStyleClass="font-size: .8rem !important amarillo"
-									inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
-									value="#{cocedoresBean.fechaFiltro}"
-									style="font-family: 'Poppins', sans-serif !important;"
-									styleClass="captura" />
-								
-								<p:spacer width="2rem"/>
-								<p:commandButton value="FILTRAR POR FECHA" styleClass="fuente"
-									actionListener="#{cocedoresBean.filtrarPorFecha()}"
-									update="frmPrincipal:acco:tblCoc,frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
-									frmPrincipal:acco:fom, frmPrincipal:acco:fap, frmPrincipal:acco:fop, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp"
-									icon="pi pi-file-excel" style="width: 12rem; height: 2rem">
-								</p:commandButton>
+
+
+								<p:tabView id="tv" styleClass="filtros">
+
+									<p:tab id="tRegTurnos" title="REGISTRAR TURNOS">
+
+										<h:panelGrid id="pgTurnos" columns="2"
+											styleClass="tabla fuente">
+											<p:outputLabel for="turno" value="Turno" />
+											<p:autoComplete id="turno" size="35" required="false"
+												requiredMessage="Turno requerido" autocomplete="off"
+												placeholder="Ingresa Turno" dropdown="true"
+												value="#{cocedoresBean.filterTurno}"
+												completeMethod="#{cocedoresBean.buscarNombreTurno}">
+											</p:autoComplete>
+
+											<p:outputLabel for="operador" value="Operador" />
+											<p:autoComplete id="operador" size="35" required="false"
+												requiredMessage="Operador requerido" autocomplete="off"
+												placeholder="Ingresa Operador" dropdown="true"
+												value="#{cocedoresBean.filterOperador}"
+												completeMethod="#{cocedoresBean.buscarNombreOperador}">
+											</p:autoComplete>
+
+											<p:outputLabel for="coord" value="Coordinador" />
+											<p:autoComplete id="coord" size="35" required="false"
+												requiredMessage="Coordinador requerido" autocomplete="off"
+												placeholder="Ingresa Coordinador" dropdown="true"
+												value="#{cocedoresBean.filterUsuario}"
+												completeMethod="#{cocedoresBean.buscarNombreCoordinador}">
+											</p:autoComplete>
+
+											<p:outputLabel for="reg" value="Registrar turno" />
+											<p:commandButton id="reg" value="REGISTRAR"
+												styleClass="fuente"
+												actionListener="#{cocedoresBean.guardarRegistroTurnos()}"
+												update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
+												style="width: 8rem; height: 2rem">
+											</p:commandButton>
+										</h:panelGrid>
+
+
+										<br />
+										<br />
+										<br />
+										<p:outputLabel value="TURNOS REGISTRADOS" />
+										<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
+											var="turnos" sortMode="multiple" rowHover="true"
+											style="width: 40%" paginatorAlwaysVisible="true"
+											scrollable="true"
+											value="#{cocedoresBean.listarRegistroTurnos}"
+											emptyMessage="NO HAY REGISTROS">
+
+
+											<p:column headerText="Editar" width="1rem">
+												<div style="text-align: center">
+													<p:commandButton id="et" icon="pi pi-fw pi-pencil"
+														onclick="PF('dlgEditarTurnos').show()"
+														update="frmTurnos:pnlEditarTurnos"
+														styleClass="ui-button-warning">
+														<f:setPropertyActionListener value="#{turnos}"
+															target="#{cocedoresBean.registroTurnosEditar}" />
+													</p:commandButton>
+													<p:tooltip id="toolTipET" for="et" value="Editar"
+														trackMouse="true" />
+												</div>
+											</p:column>
+
+											<p:column headerText="Turno" width="6rem" styleClass="fondo">
+												<h:outputText value="#{turnos.turnos.nombreTurno}"
+													style="color: #036FAB;font-weight: bold !important;" />
+											</p:column>
+
+											<p:column headerText="Fecha registro turno" width="8rem"
+												styleClass="fondo">
+												<h:outputText value="#{turnos.fecha}"
+													style="color: #036FAB;font-weight: bold !important;" />
+											</p:column>
+
+											<p:column headerText="Folio" width="6rem" styleClass="fondo">
+												<h:outputText value="#{turnos.folio}"
+													style="color: #036FAB;font-weight: bold !important;" />
+											</p:column>
+
+											<p:column headerText="Operador" width="8rem"
+												styleClass="fondo">
+												<h:outputText value="#{turnos.operador.nombre}"
+													style="color: #036FAB;font-weight: bold !important;" />
+											</p:column>
+
+											<p:column headerText="Coordinador" width="8rem"
+												styleClass="fondo">
+												<h:outputText value="#{turnos.usuarios.nombre}"
+													style="color: #036FAB;font-weight: bold !important;" />
+											</p:column>
+
+										</p:dataTable>
+
+									</p:tab>
+
+									<p:tab title="BUSCAR POR FECHAS">
+										<h:panelGrid id="pgFechas" columns="2"
+											styleClass="tabla fuente">
+
+
+											<p:outputLabel value="Selecciona fecha" />
+											<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
+												showTime="false" disabled="false" showIcon="true"
+												placeholder="SELECCIONA FECHA"
+												inputStyleClass="font-size: .8rem !important pear"
+												inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+												value="#{cocedoresBean.fechaFiltro}"
+												style="font-family: 'Poppins', sans-serif !important;"
+												styleClass="captura" />
+
+											<p:outputLabel value="Filtrar fecha" />
+											<p:commandButton value="FILTRAR" styleClass="fuente"
+												actionListener="#{cocedoresBean.filtrarPorFecha()}"
+												update="frmPrincipal:acco:tblCoc,frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
+									frmPrincipal:acco:fom, frmPrincipal:acco:fap, frmPrincipal:acco:fop, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos"
+												icon="pi pi-filter" style="width: 6rem; height: 2rem">
+											</p:commandButton>
+
+
+											<p:outputLabel value="Visualirzar reporte PDF" />
+											<h:commandLink id="imp"
+												style="height: 30px; font-size: 12px;" target="_blank"
+												actionListener="#{cocedoresBean.visualizarReporte()}">
+												<h:graphicImage url="/resources/img/printer.png"
+													style="height: 1.8rem" />
+											</h:commandLink>
+
+
+										</h:panelGrid>
+
+									</p:tab>
+
+									<p:tab title="REGISTRAR NUEVA HOJA">
+										<div style="text-align: center">
+
+											<p:commandButton value="REGISTRAR NUEVA HOJA"
+												styleClass="fuente"
+												actionListener="#{cocedoresBean.guardarCocedores()}"
+												update="frmPrincipal, frmPrincipal:msgs"
+												icon="pi pi-file-excel" style="width: 15rem; height: 2rem">
+											</p:commandButton>
+
+										</div>
+
+									</p:tab>
+								</p:tabView>
 
 							</div>
 							<br />
@@ -121,7 +245,7 @@
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
 								var="item" sortMode="multiple" reflow="true"
 								paginatorTemplate="
-								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
 								scrollHeight="950" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
@@ -130,7 +254,7 @@
 
 								<p:ajax event="page" listener="#{cocedoresBean.onPageChange}"
 									update="frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
-									frmPrincipal:acco:fom, frmPrincipal:acco:fap, frmPrincipal:acco:fop, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp" />
+									frmPrincipal:acco:fom, frmPrincipal:acco:fap, frmPrincipal:acco:fop, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos" />
 
 								<p:columnGroup type="header">
 
@@ -410,13 +534,18 @@
 
 								<p:column
 									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
-									<h:outputText value="#{item.estadoA}"
-										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoA}"
+											styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
 								</p:column>
 								<p:column
-									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
-									<h:outputText value="#{item.estadoR}"
-										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ?
+										'promedio' : ''}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoR}"
+											styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
 								</p:column>
 
 							</p:dataTable>
@@ -457,7 +586,7 @@
 
 							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
 								var="item" sortMode="multiple" scrollHeight="650"
-								scrollWidth="50%"
+								scrollWidth="65%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
@@ -659,20 +788,18 @@
 									requiredMessage="Campo requerido" />
 
 								<p:outputLabel for="c0" value="No Cocedor" />
-								<p:selectOneMenu id="c0" styleClass="camposPurgas"
-									value="#{cocedoresBean.purgas.noCocedor}">
-									<f:selectItem itemLabel="Selecciona opción" itemValue="" />
-									<f:selectItem itemLabel="COCEDOR 01" itemValue="1" />
-									<f:selectItem itemLabel="COCEDOR 02" itemValue="2" />
-									<f:selectItem itemLabel="COCEDOR 03" itemValue="3" />
-									<f:selectItem itemLabel="COCEDOR 04" itemValue="4" />
-									<f:selectItem itemLabel="COCEDOR 05" itemValue="5" />
-									<f:selectItem itemLabel="COCEDOR 06" itemValue="6" />
-									<f:selectItem itemLabel="COCEDOR 07" itemValue="7" />
-									<f:selectItem itemLabel="COCEDOR 08" itemValue="8" />
-									<f:selectItem itemLabel="COCEDOR 09" itemValue="9" />
-									<f:selectItem itemLabel="COCEDOR 10" itemValue="10" />
-								</p:selectOneMenu>
+								<p:selectCheckboxMenu id="c0" multiple="true"
+									panelStyleClass="fuente" styleClass="fuente"
+									emptyLabel="SELECCIONA LOS COCEDORES..." updateLabel="true"
+									style="min-width: 15rem" panelStyle="width: 20rem"
+									scrollHeight="250" value="#{cocedoresBean.selectedProcess}">
+									<p:ajax event="change"
+										listener="#{cocedoresBean.onToggleSelect}" />
+									<p:ajax event="change" listener="#{cocedoresBean.onItemSelect}" />
+									<p:ajax event="itemUnselect"
+										listener="#{cocedoresBean.onItemUnselect}" />
+									<f:selectItems value="#{cocedoresBean.procesos}" />
+								</p:selectCheckboxMenu>
 
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE PURGAS"
@@ -721,24 +848,26 @@
 										trackMouse="true" />
 								</p:column>
 
-								<p:column headerText="Hora" width="10rem">
+								<p:column headerText="Hora" width="4rem">
 									<h:outputText value="#{item.hora}" style="color: #036FAB;" />
 								</p:column>
-
-								<p:column headerText="CM" width="10rem">
+								<p:column headerText="Operación" width="4rem">
+									<h:outputText value="#{item.operacion}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="CM" width="4rem">
 									<h:outputText value="#{item.cm}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="CONCENTRACIÓN" width="10rem">
+								<p:column headerText="Concentración" width="6rem">
 									<h:outputText value="#{item.concentrado}"
 										style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="PH" width="10rem">
+								<p:column headerText="pH" width="4rem">
 									<h:outputText value="#{item.ph}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="NO COCEDOR" width="10rem">
+								<p:column headerText="No. cocedor" width="15rem">
 									<h:outputText value="#{item.noCocedor}" style="color: #036FAB;" />
 								</p:column>
 
@@ -800,13 +929,13 @@
 							value="#{cocedoresBean.cocedoresEditar.calcios}" required="false"
 							requiredMessage="Campo requerido" style="width: 5rem" />
 
-						<p:outputLabel for="visc" value="Viscocidad" />
+						<p:outputLabel for="visc" value="Viscosidad" />
 						<p:inputText id="visc" styleClass="camposCocedores"
 							value="#{cocedoresBean.cocedoresEditar.viscocidad}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
-						<p:outputLabel for="cond" value="Condensación" />
+						<p:outputLabel for="cond" value="Conductividad" />
 						<p:inputText id="cond" styleClass="camposCocedores"
 							value="#{cocedoresBean.cocedoresEditar.condensacion}"
 							required="false" requiredMessage="Campo requerido"
@@ -940,22 +1069,23 @@
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
-
-						<p:outputLabel for="a" value="Aceptado" />
-
-						<p:inputText id="a" styleClass="datos"
-							value="#{cocedoresBean.cocedoresEditar.estadoA}" required="false"
-							requiredMessage="Campo requerido" style="width: 5rem" />
-
-
-						<p:outputLabel for="r" value="Rechazado" />
-
-						<p:inputText id="r" styleClass="datos"
-							value="#{cocedoresBean.cocedoresEditar.estadoR}" required="false"
-							requiredMessage="Campo requerido" style="width: 5rem" />
-
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
+							styleClass="#{cocedoresBean.cocedoresEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+						<p:selectOneButton id="a"
+							value="#{cocedoresBean.cocedoresEditar.estadoAR}"
+							styleClass="#{cocedoresBean.cocedoresEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							<f:selectItem itemLabel="Aceptado" itemValue="true" />
+							<f:selectItem itemLabel="Rechazado" itemValue="false" />
+							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />
+						</p:selectOneButton>
 
 					</h:panelGrid>
+
+					<br />
+					<br />
+					<br />
 
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
@@ -1069,21 +1199,20 @@
 							value="#{cocedoresBean.purgasEditar.ph}" required="false"
 							requiredMessage="Campo requerido" />
 
-						<p:outputLabel for="c01" value="No Cocedor" />
-						<p:selectOneMenu id="c01" styleClass="camposPurgas"
-							value="#{cocedoresBean.purgasEditar.noCocedor}">
-							<f:selectItem itemLabel="Selecciona opción" itemValue="" />
-							<f:selectItem itemLabel="COCEDOR 01" itemValue="1" />
-							<f:selectItem itemLabel="COCEDOR 02" itemValue="2" />
-							<f:selectItem itemLabel="COCEDOR 03" itemValue="3" />
-							<f:selectItem itemLabel="COCEDOR 04" itemValue="4" />
-							<f:selectItem itemLabel="COCEDOR 05" itemValue="5" />
-							<f:selectItem itemLabel="COCEDOR 06" itemValue="6" />
-							<f:selectItem itemLabel="COCEDOR 07" itemValue="7" />
-							<f:selectItem itemLabel="COCEDOR 08" itemValue="8" />
-							<f:selectItem itemLabel="COCEDOR 09" itemValue="9" />
-							<f:selectItem itemLabel="COCEDOR 10" itemValue="10" />
-						</p:selectOneMenu>
+
+						<p:outputLabel for="c1" value="No Cocedor" />
+						<p:selectCheckboxMenu id="c1" multiple="true"
+							panelStyleClass="fuente" styleClass="fuente"
+							emptyLabel="SELECCIONA LOS COCEDORES..." updateLabel="true"
+							style="min-width: 15rem" panelStyle="width: 20rem"
+							scrollHeight="250" value="#{cocedoresBean.selectedProcess}">
+							<p:ajax event="change" listener="#{cocedoresBean.onToggleSelect}" />
+							<p:ajax event="change" listener="#{cocedoresBean.onItemSelect}" />
+							<p:ajax event="itemUnselect"
+								listener="#{cocedoresBean.onItemUnselect}" />
+							<f:selectItems value="#{cocedoresBean.procesos}" />
+						</p:selectCheckboxMenu>
+
 
 					</h:panelGrid>
 					<div style="text-align: right">
@@ -1160,6 +1289,37 @@
 				</p:dialog>
 			</h:form>
 			<!-- FINALIZA FORMULARIO PARA EDITAR PURGAS-->
+
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmTurnos">
+				<p:dialog header="Actualizar información del turno"
+					widgetVar="dlgEditarTurnos" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditarTurnos" columns="6" styleClass="fuente">
+
+						<p:outputLabel for="coord" value="Coordinador" />
+						<p:autoComplete id="coord" size="35" required="false"
+							requiredMessage="Coordinador requerido" autocomplete="off"
+							placeholder="Ingresa coordinador" dropdown="true"
+							value="#{cocedoresBean.filterUsuario}"
+							completeMethod="#{cocedoresBean.buscarNombreCoordinador}">
+						</p:autoComplete>
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cocedoresBean.actualizarTurnos()}"
+							oncomplete="PF('dlgEditarTurnos').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
 
 		</ui:define>
 	</ui:composition>

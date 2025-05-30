@@ -74,12 +74,14 @@ public class LoginBean implements Serializable {
 				ruta = "/sysprod/contralor/Entradas.html";
 			} else if (this.usuario.getPerfiles().getNombrePerfil().equals("Presidencia")) {
 				ruta = "/sysprod/presidencia/Entradas.html";
-			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("R. Industriales")) {
+			} else if (this.usuario.getPerfiles().getNombrePerfil().equals("R. Industriales")) {
 				ruta = "/sysprod/industriales/EntradasImportacion.html";
-			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("Aux. Contable")) {
+			} else if (this.usuario.getPerfiles().getNombrePerfil().equals("Aux. Contable")) {
 				ruta = "/sysprod/auxiliar/Entradas.html";
-			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("Operador")) {
+			} else if (this.usuario.getPerfiles().getNombrePerfil().equals("Operador")) {
 				ruta = "/sysprod/operador/Entradas.html";
+			} else if (this.usuario.getPerfiles().getNombrePerfil().equals("Cocedores")) {
+				ruta = "/sysprod/cocedores/Cocedores.html";
 			}
 
 		} else {

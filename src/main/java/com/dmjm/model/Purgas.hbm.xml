@@ -17,17 +17,18 @@
         <property name="cm" type="java.lang.Integer">
             <column name="CM" />
         </property>
-        <property name="concentrado" type="java.lang.Integer">
-            <column name="CONCENTRADO" />
+        <property name="concentrado" type="big_decimal">
+            <column name="CONCENTRADO" precision="10" scale="1" />
         </property>
-        <property name="ph" type="java.lang.Integer">
-            <column name="PH" />
+        <property name="ph" type="big_decimal">
+            <column name="PH" precision="10" scale="1" />
         </property>
-        <property name="noCocedor" type="java.lang.Integer">
-            <column name="NO_COCEDOR" />
+        <property name="noCocedor" type="string">
+            <column name="NO_COCEDOR" length="150" />
         </property>
         <property name="operacion" type="string">
 			<column name="OPERACION" length="50" />
 		</property>
+
     </class>
 </hibernate-mapping>

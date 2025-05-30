@@ -34,5 +34,8 @@
 		<property name="usuario" type="string">
 			<column name="USUARIO" length="50" />
 		</property>
+		<property name="rutaImgFirma" type="string">
+			<column name="RUTA_IMG_FIRMA" length="150" />
+		</property>
 	</class>
 </hibernate-mapping>

@@ -1,6 +1,8 @@
 package com.dmjm.dao;
 
 import com.dmjm.model.Usuarios;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IUsuarioDao {
@@ -16,4 +18,9 @@ public interface IUsuarioDao {
     public void borrarUsuario(Usuarios usuarios);
     
      List<Usuarios> listarUsuarios();
+     
+     
+ 	List<String> completeUsuario(String nombre) throws SQLException;
+
+ 	int buscarUsuario(String nombre) throws SQLException;
 }

@@ -252,7 +252,7 @@
 							<h:panelGrid id="panel2" columns="12" cellpadding="4"
 								styleClass="fuente"
 								rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia' or login.usuario.perfiles.nombrePerfil=='Operador'}">
-								
+
 								<p:outputLabel for="cp" value="Cuero integral salado con pelo" />
 								<p:inputText id="cp" value="#{entradasBean.dato1}"
 									styleClass="otrosCampos" required="false" autocomplete="off"
@@ -612,14 +612,13 @@
 									</p:commandButton>
 									<p:graphicImage
 										value="/resources/img/#{item.archivoCertificado.contains('.pdf') ? 'check.png' : 'cross.png'}"
-										style="width: 20px; height: 20px;"/>
+										style="width: 20px; height: 20px;" />
 								</p:column>
 								<p:column headerText="Rango Humedad" width="4rem">
 									<div style="text-align: center">
 										<p:graphicImage
 											value="/resources/img/#{item.rangoHumedad eq 0 ? 'arriba.png' : (item.rangoHumedad eq 1 ? 'abajo.png' : 'cero.png')}"
-											style="width: 20px; height: 20px;" 
-											/>
+											style="width: 20px; height: 20px;" />
 									</div>
 								</p:column>
 								<p:column headerText="Rango Calcios" width="3.5rem">
@@ -645,13 +644,14 @@
 								<p:column headerText="Fecha salida apróx." width="8rem">
 									<h:outputText value="#{item.fechaRecepcionToluca}" />
 								</p:column>
-								<p:column headerText="Ticket báscula Toluca" width="5rem">
+								<p:column headerText="Ticket báscula Toluca" width="5rem"
+									filterBy="#{item.ticketBasculaToluca}">
 									<h:outputText value="#{item.ticketBasculaToluca}" />
 								</p:column>
-								<p:column headerText="Ticket báscula León" width="4rem">
+								<p:column headerText="Ticket báscula León" width="4rem" filterBy="#{item.ticketBasculaLeon}">
 									<h:outputText value="#{item.ticketBasculaLeon}" />
 								</p:column>
-								<p:column headerText="Factura" width="4rem">
+								<p:column headerText="Factura" width="4rem" filterBy="#{item.factura}">
 									<h:outputText value="#{item.factura}" />
 								</p:column>
 								<p:column headerText="Certificado" width="5rem">

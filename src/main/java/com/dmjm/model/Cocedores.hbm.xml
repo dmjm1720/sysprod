@@ -3,115 +3,120 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 10-may-2025 22:46:38 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.dmjm.model.Cocedores" table="COCEDORES" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
-        <id name="idCocedor" type="int">
-            <column name="ID_COCEDOR" />
-            <generator class="native" />
-        </id>
-        <many-to-one name="folioPreparacionCocedores" class="com.dmjm.model.FolioPreparacionCocedores" fetch="select">
-            <column name="ID_FOLIO_PREP" />
-        </many-to-one>
-        <property name="horaLimitesEspecificos" type="string">
-            <column name="HORA_LIMITES_ESPECIFICOS" length="10" />
-        </property>
-        <property name="operacion" type="string">
-            <column name="OPERACION" length="25" />
-        </property>
-        <property name="grados" type="big_decimal">
-            <column name="GRADOS" precision="10" scale="2" />
-        </property>
-        <property name="flujo" type="java.lang.Integer">
-            <column name="FLUJO" />
-        </property>
-        <property name="ph" type="big_decimal">
-            <column name="PH" precision="10" scale="2" />
-        </property>
-        <property name="ntu" type="java.lang.Integer">
-            <column name="NTU" />
-        </property>
-        <property name="calcios" type="java.lang.Integer">
-            <column name="CALCIOS" />
-        </property>
-        <property name="viscocidad" type="big_decimal">
-            <column name="VISCOCIDAD" precision="10" scale="2" />
-        </property>
-        <property name="condensacion" type="big_decimal">
-            <column name="CONDENSACION" precision="10" scale="2" />
-        </property>
-        <property name="concentrado" type="big_decimal">
-            <column name="CONCENTRADO" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc01" type="java.lang.Integer">
-            <column name="TEMP_COC_01" />
-        </property>
-        <property name="concCoc01" type="big_decimal">
-            <column name="CONC_COC_01" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc02" type="java.lang.Integer">
-            <column name="TEMP_COC_02" />
-        </property>
-        <property name="concCoc02" type="big_decimal">
-            <column name="CONC_COC_02" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc03" type="java.lang.Integer">
-            <column name="TEMP_COC_03" />
-        </property>
-        <property name="concCoc03" type="big_decimal">
-            <column name="CONC_COC_03" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc04" type="java.lang.Integer">
-            <column name="TEMP_COC_04" />
-        </property>
-        <property name="concCoc04" type="big_decimal">
-            <column name="CONC_COC_04" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc05" type="java.lang.Integer">
-            <column name="TEMP_COC_05" />
-        </property>
-        <property name="concCoc05" type="big_decimal">
-            <column name="CONC_COC_05" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc06" type="java.lang.Integer">
-            <column name="TEMP_COC_06" />
-        </property>
-        <property name="concCoc06" type="big_decimal">
-            <column name="CONC_COC_06" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc07" type="java.lang.Integer">
-            <column name="TEMP_COC_07" />
-        </property>
-        <property name="concCoc07" type="big_decimal">
-            <column name="CONC_COC_07" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc08" type="java.lang.Integer">
-            <column name="TEMP_COC_08" />
-        </property>
-        <property name="concCoc08" type="big_decimal">
-            <column name="CONC_COC_08" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc09" type="java.lang.Integer">
-            <column name="TEMP_COC_09" />
-        </property>
-        <property name="concCoc09" type="big_decimal">
-            <column name="CONC_COC_09" precision="10" scale="2" />
-        </property>
-        <property name="tempCoc10" type="java.lang.Integer">
-            <column name="TEMP_COC_10" />
-        </property>
-        <property name="concCoc10" type="big_decimal">
-            <column name="CONC_COC_10" precision="10" scale="2" />
-        </property>
-        <property name="estadoA" type="string">
-            <column name="ESTADO_A" length="2" />
-        </property>
-        <property name="estadoR" type="string">
-            <column name="ESTADO_R" length="2" />
-        </property>
-        <property name="folioCocedor" type="java.lang.Integer">
-            <column name="FOLIO_COCEDOR" />
-        </property>
-          <property name="fecha" type="date">
-            <column name="FECHA" length="10" />
-        </property>
-    </class>
+	<class name="com.dmjm.model.Cocedores" table="COCEDORES"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idCocedor" type="int">
+			<column name="ID_COCEDOR" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionCocedores"
+			class="com.dmjm.model.FolioPreparacionCocedores" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="horaLimitesEspecificos" type="string">
+			<column name="HORA_LIMITES_ESPECIFICOS" length="10" />
+		</property>
+		<property name="operacion" type="string">
+			<column name="OPERACION" length="25" />
+		</property>
+		<property name="grados" type="big_decimal">
+			<column name="GRADOS" precision="10" scale="2" />
+		</property>
+		<property name="flujo" type="java.lang.Integer">
+			<column name="FLUJO" />
+		</property>
+		<property name="ph" type="big_decimal">
+			<column name="PH" precision="10" scale="2" />
+		</property>
+		<property name="ntu" type="java.lang.Integer">
+			<column name="NTU" />
+		</property>
+		<property name="calcios" type="java.lang.Integer">
+			<column name="CALCIOS" />
+		</property>
+		<property name="viscocidad" type="big_decimal">
+			<column name="VISCOCIDAD" precision="10" scale="2" />
+		</property>
+		<property name="condensacion" type="big_decimal">
+			<column name="CONDENSACION" precision="10" scale="2" />
+		</property>
+		<property name="concentrado" type="big_decimal">
+			<column name="CONCENTRADO" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc01" type="java.lang.Integer">
+			<column name="TEMP_COC_01" />
+		</property>
+		<property name="concCoc01" type="big_decimal">
+			<column name="CONC_COC_01" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc02" type="java.lang.Integer">
+			<column name="TEMP_COC_02" />
+		</property>
+		<property name="concCoc02" type="big_decimal">
+			<column name="CONC_COC_02" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc03" type="java.lang.Integer">
+			<column name="TEMP_COC_03" />
+		</property>
+		<property name="concCoc03" type="big_decimal">
+			<column name="CONC_COC_03" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc04" type="java.lang.Integer">
+			<column name="TEMP_COC_04" />
+		</property>
+		<property name="concCoc04" type="big_decimal">
+			<column name="CONC_COC_04" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc05" type="java.lang.Integer">
+			<column name="TEMP_COC_05" />
+		</property>
+		<property name="concCoc05" type="big_decimal">
+			<column name="CONC_COC_05" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc06" type="java.lang.Integer">
+			<column name="TEMP_COC_06" />
+		</property>
+		<property name="concCoc06" type="big_decimal">
+			<column name="CONC_COC_06" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc07" type="java.lang.Integer">
+			<column name="TEMP_COC_07" />
+		</property>
+		<property name="concCoc07" type="big_decimal">
+			<column name="CONC_COC_07" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc08" type="java.lang.Integer">
+			<column name="TEMP_COC_08" />
+		</property>
+		<property name="concCoc08" type="big_decimal">
+			<column name="CONC_COC_08" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc09" type="java.lang.Integer">
+			<column name="TEMP_COC_09" />
+		</property>
+		<property name="concCoc09" type="big_decimal">
+			<column name="CONC_COC_09" precision="10" scale="2" />
+		</property>
+		<property name="tempCoc10" type="java.lang.Integer">
+			<column name="TEMP_COC_10" />
+		</property>
+		<property name="concCoc10" type="big_decimal">
+			<column name="CONC_COC_10" precision="10" scale="2" />
+		</property>
+		<property name="estadoA" type="string">
+			<column name="ESTADO_A" length="2" />
+		</property>
+		<property name="estadoR" type="string">
+			<column name="ESTADO_R" length="2" />
+		</property>
+		<property name="folioCocedor" type="java.lang.Integer">
+			<column name="FOLIO_COCEDOR" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="estadoAR" type="java.lang.Boolean">
+			<column name="ESTADO_A_R" />
+		</property>
+	</class>
 </hibernate-mapping>
