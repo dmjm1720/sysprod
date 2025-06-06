@@ -1297,8 +1297,20 @@
 				<p:dialog header="Actualizar información del turno"
 					widgetVar="dlgEditarTurnos" showEffect="fade" closeOnEscape="true"
 					minimizable="true" maximizable="true">
-					<h:panelGrid id="pnlEditarTurnos" columns="6" styleClass="fuente">
+					<h:panelGrid id="pnlEditarTurnos" columns="2" styleClass="fuente">
 
+
+						<p:outputLabel for="operador" value="Operador" />
+						<p:autoComplete id="operador" size="35" required="false"
+							requiredMessage="Operador requerido" autocomplete="off"
+							placeholder="Ingresa Operador" dropdown="true"
+							value="#{cocedoresBean.filterOperador}"
+							completeMethod="#{cocedoresBean.buscarNombreOperador}">
+						</p:autoComplete>
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						
 						<p:outputLabel for="coord" value="Coordinador" />
 						<p:autoComplete id="coord" size="35" required="false"
 							requiredMessage="Coordinador requerido" autocomplete="off"
@@ -1308,7 +1320,8 @@
 						</p:autoComplete>
 
 					</h:panelGrid>
-
+					<br />
+					<br />
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"

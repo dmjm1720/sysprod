@@ -56,8 +56,9 @@
 
 								<p:columnGroup type="header">
 									<p:row>
-										<p:column rowspan="5" headerText="Ver repporte" styleClass="datos" />
-										<p:column rowspan="5" headerText="Fecha" styleClass="datos" />
+										<p:column rowspan="5" headerText="Ver reporte"
+											styleClass="datos" />
+										<p:column rowspan="5" headerText="Manto." styleClass="datos" />
 									</p:row>
 
 									<p:row>
@@ -65,6 +66,7 @@
 											style="font-size: .6rem !important" />
 										<p:column rowspan="4" headerText="OPERACIÓN"
 											styleClass="datos" style="font-size: .6rem !important" />
+
 									</p:row>
 
 
@@ -84,6 +86,7 @@
 									</p:row>
 
 									<p:row>
+
 										<p:column headerText="°C Ent H2O" styleClass="datos" />
 										<p:column headerText="Flujo L/hr" styleClass="datos" />
 										<p:column headerText="PH" styleClass="datos" />
@@ -115,7 +118,6 @@
 
 									</p:row>
 									<p:row>
-
 										<p:column headerText="LIMITES ESPECIFICOS" styleClass="datos" />
 										<p:column headerText="55-80 °C" styleClass="datos" />
 										<p:column headerText="Min. 400" styleClass="datos" />
@@ -151,22 +153,26 @@
 
 								<p:column>
 									<div style="text-align: center">
-									<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
-										target="_blank"
-										actionListener="#{cocedoresBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionCocedores.idFolioPrep, item.folioCocedor)}">
-										<h:graphicImage url="/resources/img/printer.png"
-											style="height: 1.8rem" />
-									</h:commandLink>
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{cocedoresBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionCocedores.idFolioPrep, item.folioCocedor)}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
 									</div>
-								</p:column>
-								
-								<p:column>
-									<h:outputText value="#{item.fecha}" styleClass="datos" />
 								</p:column>
 
 								<p:column>
-									<h:outputText value="#{item.horaLimitesEspecificos}"
-										styleClass="datos" />
+
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoManto eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+
+								</p:column>
+								<p:column>
+									<h:outputText value="7:00" styleClass="datos" />
 								</p:column>
 
 								<p:column>

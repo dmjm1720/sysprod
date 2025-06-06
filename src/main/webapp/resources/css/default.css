@@ -393,3 +393,7 @@ a:link:hover, a:visited:hover {
 	text-align: center !important;
 	font-weight: bold !important;
 }
+
+.columna {
+	background-color: #F8F8FF !important;
+}

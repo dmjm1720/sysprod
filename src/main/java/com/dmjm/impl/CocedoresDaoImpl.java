@@ -5,10 +5,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -688,6 +684,24 @@ public class CocedoresDaoImpl extends Conexion implements ICocedoresDao {
 			LOGGER.error("ERROR AL ACTUALIZAR EL FOLIO: ", ex);
 		}
 
+	}
+
+	@Override
+	public void actualizarManto(int folio) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE COCEDORES SET ESTADO_MANTO=1 WHERE HORA_LIMITES_ESPECIFICOS='PROM.' AND ID_FOLIO_PREP=?;";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			ps.setInt(1, folio);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL ESTADO DE MANTENIMIENTO: ", ex);
+		}
 	}
 
 }

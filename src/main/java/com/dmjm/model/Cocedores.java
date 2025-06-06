@@ -43,6 +43,7 @@ public class Cocedores implements java.io.Serializable {
 	private Integer folioCocedor;
 	private Date fecha;
 	private Boolean estadoAR;
+	private Boolean estadoManto;
 
 	public Cocedores() {
 	}
@@ -58,7 +59,7 @@ public class Cocedores implements java.io.Serializable {
 			Integer tempCoc04, BigDecimal concCoc04, Integer tempCoc05, BigDecimal concCoc05, Integer tempCoc06,
 			BigDecimal concCoc06, Integer tempCoc07, BigDecimal concCoc07, Integer tempCoc08, BigDecimal concCoc08,
 			Integer tempCoc09, BigDecimal concCoc09, Integer tempCoc10, BigDecimal concCoc10, String estadoA,
-			String estadoR, Integer folioCocedor, Date fecha, Boolean estadoAR) {
+			String estadoR, Integer folioCocedor, Date fecha, Boolean estadoAR, Boolean estadoManto) {
 		this.idCocedor = idCocedor;
 		this.folioPreparacionCocedores = folioPreparacionCocedores;
 		this.horaLimitesEspecificos = horaLimitesEspecificos;
@@ -96,6 +97,7 @@ public class Cocedores implements java.io.Serializable {
 		this.folioCocedor = folioCocedor;
 		this.fecha = fecha;
 		this.estadoAR = estadoAR;
+		this.estadoManto = estadoManto;
 	}
 
 	public int getIdCocedor() {
@@ -393,5 +395,15 @@ public class Cocedores implements java.io.Serializable {
 	public void setEstadoAR(Boolean estadoAR) {
 		this.estadoAR = estadoAR;
 	}
+
+	public Boolean getEstadoManto() {
+		return estadoManto;
+	}
+
+	public void setEstadoManto(Boolean estadoManto) {
+		this.estadoManto = estadoManto;
+	}
+	
+	
 
 }

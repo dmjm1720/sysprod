@@ -50,5 +50,6 @@ public interface ICocedoresDao {
 	void actualizarPromedioTempCoc10(int folio);
 	void actualizarPromedioConCoc10(int folio);
 	
+	void actualizarManto(int folio);
 
 }

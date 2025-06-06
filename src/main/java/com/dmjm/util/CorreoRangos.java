@@ -105,6 +105,8 @@ public class CorreoRangos extends Configuracion {
 			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta3());// PROPS
 			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta4());// PROPS
 			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta5());// PROPS
+			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta6());// PROPS
+			message.addRecipients(Message.RecipientType.TO, getMsgToAlerta7());// PROPS
 			message.addRecipients(Message.RecipientType.TO, getMsgToAdmin());// PROPS
 			message.addRecipients(Message.RecipientType.BCC, getDominioCorreo());// PROPS
 

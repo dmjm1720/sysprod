@@ -133,6 +133,9 @@ public class CocedoresBean implements Serializable {
 
 		primera();
 		getListarRegistroTurnos();
+		getListaLimpieza();
+		getListaPurgas();
+		getListaOrdenManto();
 
 		procesos = new ArrayList<>();
 		procesos.add("Cocedor 1");
@@ -272,6 +275,8 @@ public class CocedoresBean implements Serializable {
 
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		listarRegistroTurnos = rDao.listaRegistroTurnos(fecha);
+		IFolioPreparcionCocedoresDao folioPrepDao = new FolioPreparacionCocedoresDaoImpl();
+		this.folioPrepCocedor = folioPrepDao.folioCocedorActual(fecha);
 		return listarRegistroTurnos;
 	}
 
@@ -372,18 +377,24 @@ public class CocedoresBean implements Serializable {
 
 	public List<OrdenMantenimiento> getListaOrdenManto() {
 		IOrdenMantoDao oDao = new OrdenMantoDaoImpl();
+		IFolioPreparcionCocedoresDao folioPrepDao = new FolioPreparacionCocedoresDaoImpl();
+		this.folioPrepCocedor = folioPrepDao.folioCocedorActual(fecha);
 		listaOrdenManto = oDao.listaOrdenManto(folioPrepCocedor);
 		return listaOrdenManto;
 	}
 
 	public List<Limpieza> getListaLimpieza() {
 		ILimpiezaDao lDao = new LimpiezaDaoImpl();
+		IFolioPreparcionCocedoresDao folioPrepDao = new FolioPreparacionCocedoresDaoImpl();
+		this.folioPrepCocedor = folioPrepDao.folioCocedorActual(fecha);
 		listaLimpieza = lDao.listarLimpieza(folioPrepCocedor);
 		return listaLimpieza;
 	}
 
 	public List<Purgas> getListaPurgas() {
 		IPurgasDao pDao = new PurgasDaoImpl();
+		IFolioPreparcionCocedoresDao folioPrepDao = new FolioPreparacionCocedoresDaoImpl();
+		this.folioPrepCocedor = folioPrepDao.folioCocedorActual(fecha);
 		listaPurgas = pDao.listaPurgas(folioPrepCocedor);
 		return listaPurgas;
 	}
@@ -427,18 +438,28 @@ public class CocedoresBean implements Serializable {
 
 	}
 
-	public void actualizarCocedores() {
+	public void actualizarCocedores() throws SQLException {
 		ICocedoresDao cDao = new CocedoresDaoImpl();
 
 		String oper = cocedoresEditar.getOperacion().replaceAll("\\s+", "");
 		cocedoresEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
-		if (cocedoresEditar.getEstadoAR().equals(true)) {
-			cocedoresEditar.setEstadoA("X");
-			cocedoresEditar.setEstadoR(null);
+//		if (cocedoresEditar.getEstadoAR().equals(true)) {
+//			cocedoresEditar.setEstadoA("X");
+//			cocedoresEditar.setEstadoR(null);
+//		}
+//		if (cocedoresEditar.getEstadoAR().equals(false)) {
+//			cocedoresEditar.setEstadoR("X");
+//			cocedoresEditar.setEstadoA(null);
+//		}
+		
+		if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
+		    cocedoresEditar.setEstadoA("X");
+		    cocedoresEditar.setEstadoR(null);
 		}
-		if (cocedoresEditar.getEstadoAR().equals(false)) {
-			cocedoresEditar.setEstadoR("X");
-			cocedoresEditar.setEstadoA(null);
+
+		if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
+		    cocedoresEditar.setEstadoR("X");
+		    cocedoresEditar.setEstadoA(null);
 		}
 
 		cDao.actualizarCocedores(cocedoresEditar);
@@ -496,6 +517,9 @@ public class CocedoresBean implements Serializable {
 			IFolioPreparcionCocedoresDao folioPrepDao = new FolioPreparacionCocedoresDaoImpl();
 			this.folioPrepCocedor = folioPrepDao.folioCocedorActual(fecha);
 			getListarRegistroTurnos();
+			getListaLimpieza();
+			getListaPurgas();
+			getListaOrdenManto();
 		}
 
 	}
@@ -580,7 +604,8 @@ public class CocedoresBean implements Serializable {
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
+		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
+				"ENJUAGUE" };
 
 		FolioPreparacionCocedores f = new FolioPreparacionCocedores();
 		f.setIdFolioPrep(folioPrepCocedor);
@@ -612,7 +637,7 @@ public class CocedoresBean implements Serializable {
 		purgas.setNoCocedor(procesosGuardados);
 		purgas.setFolioPreparacionCocedores(f);
 		pDao.guardaPurgas(purgas);
-		selectedProcess=null;
+		selectedProcess = null;
 		purgas = new Purgas();
 	}
 
@@ -621,12 +646,17 @@ public class CocedoresBean implements Serializable {
 		String procesosGuardados = String.join(", ", selectedProcess);
 		purgasEditar.setNoCocedor(procesosGuardados);
 		pDao.actualizarPurgas(purgasEditar);
-		selectedProcess=null;
+		selectedProcess = null;
 		purgas = new Purgas();
 	}
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
+		// validación de mantenimiento
+		ICocedoresDao validaDao = new CocedoresDaoImpl();
+
+		validaDao.actualizarManto(folioPrepCocedor);
+		
 		IOrdenMantoDao iDao = new OrdenMantoDaoImpl();
 		FolioPreparacionCocedores f = new FolioPreparacionCocedores();
 		f.setIdFolioPrep(folioPrepCocedor);
@@ -643,7 +673,11 @@ public class CocedoresBean implements Serializable {
 
 	// **FILTRAR POR FECHA**//
 	public void filtrarPorFecha() {
-		getListaCocedores();
+		getListaCocedores(); // CAMBIAR PARAMETROS PARA EL REPORTE,
+		getListarRegistroTurnos();
+		getListaLimpieza();
+		getListaPurgas();
+		getListaOrdenManto();
 	}
 
 	// **DATOS DEL TURNO, NOMBRE**//
@@ -714,6 +748,9 @@ public class CocedoresBean implements Serializable {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		Usuarios u = new Usuarios();
 		u.setIdUsuario(buscarCoordinador(filterUsuario));
+		Operador o = new Operador();
+		o.setIdOperador(buscarOperador(filterOperador));
+		registroTurnosEditar.setOperador(o);
 		registroTurnosEditar.setUsuarios(u);
 		rDao.actualizarRegistroTurnos(registroTurnosEditar);
 		registroTurnosEditar = new RegistroTurnos();

@@ -118,5 +118,8 @@
 		<property name="estadoAR" type="java.lang.Boolean">
 			<column name="ESTADO_A_R" />
 		</property>
+		<property name="estadoManto" type="java.lang.Boolean">
+			<column name="ESTADO_MANTO" />
+		</property>
 	</class>
 </hibernate-mapping>

@@ -64,5 +64,17 @@
 		<mapping resource="com/dmjm/model/Operador.hbm.xml" />
 		<mapping resource="com/dmjm/model/RegistroTurnos.hbm.xml" />
 		<mapping resource="com/dmjm/model/Turnos.hbm.xml" />
+		
+	    <mapping resource="com/dmjm/model/EsterilizadorPlantaA.hbm.xml"/>
+		<mapping resource="com/dmjm/model/EsterilizadorPlantaB.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionEstA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionEstB.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoEstA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoEstB.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioProcesos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaEstA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaEstB.hbm.xml"/>
+
+
 	</session-factory>
 </hibernate-configuration>

@@ -7,28 +7,28 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.dmjm.dao.IFolioCocedoresDao;
-import com.dmjm.model.FolioCocedores;
+import com.dmjm.dao.IFolioProcesosDao;
+import com.dmjm.model.FolioProcesos;
 import com.dmjm.util.HibernateUtil;
 
-public class FoliosCocedoresDaoImpl implements IFolioCocedoresDao {
+public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 
 	@Override
-	public List<FolioCocedores> listaFolioCocedores() {
+	public List<FolioProcesos> listaFolioProcesos() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("FROM FolioCocedores", FolioCocedores.class).list();
+			return session.createQuery("FROM FolioProcesos", FolioProcesos.class).list();
 		}
 	}
 
 	@Override
-	public void guardarFolioCocedores(FolioCocedores fc) {
+	public void guardarFolioProcesos(FolioProcesos f) {
 		Session session = null;
 		try {
 
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.save(fc);
+			session.save(f);
 			transaction.commit();
 
 		} catch (HibernateException e) {
@@ -42,14 +42,14 @@ public class FoliosCocedoresDaoImpl implements IFolioCocedoresDao {
 	}
 
 	@Override
-	public void actualizarFolioCocedores(FolioCocedores fc) {
+	public void actualizarFolioProcesos(FolioProcesos f) {
 		Session session = null;
 		try {
 
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.update(fc);
+			session.update(f);
 			transaction.commit();
 
 		} catch (HibernateException e) {
@@ -66,7 +66,7 @@ public class FoliosCocedoresDaoImpl implements IFolioCocedoresDao {
 	public int buscarFolio(int year) {
 		int folio = 0;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			String hql = "SELECT COALESCE(MAX(f.folio), 0) + 1 FROM FolioCocedores f WHERE f.year = :year";
+			String hql = "SELECT COALESCE(MAX(f.folioEstPa), 0) + 1 FROM FolioProcesos f WHERE f.year = :year";
 			Query<Integer> query = session.createQuery(hql, Integer.class);
 			query.setParameter("year", year);
 
@@ -82,10 +82,10 @@ public class FoliosCocedoresDaoImpl implements IFolioCocedoresDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			Transaction t = session.beginTransaction();
 
-			String hql = "UPDATE FolioCocedores f SET f.folio = :folio WHERE f.year = : year";
+			String hql = "UPDATE FolioProcesos f SET f.folioEstPa = :folioEstPa WHERE f.year = : year";
 			@SuppressWarnings("rawtypes")
 			Query query = session.createQuery(hql);
-			query.setParameter("folio", folio);
+			query.setParameter("folioEstPa", folio);
 			query.setParameter("year", year);
 
 			query.executeUpdate();
@@ -94,6 +94,40 @@ public class FoliosCocedoresDaoImpl implements IFolioCocedoresDao {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public int buscarFolioB(int year) {
+		int folio = 0;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT COALESCE(MAX(f.folioEstPb), 0) + 1 FROM FolioProcesos f WHERE f.year = :year";
+			Query<Integer> query = session.createQuery(hql, Integer.class);
+			query.setParameter("year", year);
+
+			folio = query.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return folio;
+	}
+
+	@Override
+	public void actualizarFolioB(int year, int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			Transaction t = session.beginTransaction();
+
+			String hql = "UPDATE FolioProcesos f SET f.folioEstPb = :folioEstPb WHERE f.year = : year";
+			@SuppressWarnings("rawtypes")
+			Query query = session.createQuery(hql);
+			query.setParameter("folioEstPb", folio);
+			query.setParameter("year", year);
+
+			query.executeUpdate();
+			t.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
