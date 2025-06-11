@@ -141,9 +141,18 @@
 							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
 						</p:menuitem>
 
+						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
 						<p:menuitem value="Esterilizador planta B"
 							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
 						</p:menuitem>
+
+						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
 					</p:submenu>
 
 					<p:submenu label="usuarios" icon="pi pi-fw pi-user">
@@ -188,6 +197,25 @@
 						</p:menuitem>
 					</p:submenu>
 
+
+					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Esterilizador planta A"
+							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Esterilizador planta B"
+							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+					</p:submenu>
+
 					<p:divider layout="vertical" />
 
 					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
@@ -223,7 +251,6 @@
 							library="showcase" />
 					</f:facet>
 					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
-
 						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
 							icon="pi pi-fw pi-cog">
 						</p:menuitem>
@@ -239,7 +266,6 @@
 						<p:menuitem value="Reporte de Tolvas" outcome="RepTolvasGerencia"
 							icon="pi pi-fw pi-file">
 						</p:menuitem>
-
 					</p:submenu>
 
 					<p:submenu label="Lavadoras" icon="pi pi-fw pi-cog">
@@ -278,6 +304,25 @@
 						</p:menuitem>
 
 						<p:menuitem value="Operadores" outcome="Operadores"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+					</p:submenu>
+					
+					
+					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Esterilizador planta A"
+							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Esterilizador planta B"
+							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
 
@@ -408,7 +453,6 @@
 						<p:menuitem value="Operadores" outcome="Operadores"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
-
 					</p:submenu>
 
 					<p:divider layout="vertical" />
@@ -531,9 +575,60 @@
 					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
 						action="/index?faces-redirect=true"
 						actionListener="#{login.cerrarSesion()}" />
-
 				</p:menubar>
 
+
+				<!-- ESTERILIZADOR PLANTA A -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==11}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+
+					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Esterilizador planta A"
+							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+					</p:submenu>
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+
+
+				<!-- ESTERILIZADOR PLANTA B -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==12}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+
+					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+
+						<p:menuitem value="Esterilizador planta B"
+							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
 			</h:form>
 		</div>
 		<ui:insert name="top">

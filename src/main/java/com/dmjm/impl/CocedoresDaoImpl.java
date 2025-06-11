@@ -1,6 +1,7 @@
 package com.dmjm.impl;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -703,5 +704,52 @@ public class CocedoresDaoImpl extends Conexion implements ICocedoresDao {
 			LOGGER.error("ERROR AL ACTUALIZAR EL ESTADO DE MANTENIMIENTO: ", ex);
 		}
 	}
+
+	@Override
+	public void actualizarPromediosPorFila(int folio) {
+		try {
+			ConectarSysProd();
+			if (getCnSysProd() == null) {
+			    LOGGER.error("La conexión a la base de datos es nula.");
+			    return;
+			}
+
+			String sql = "UPDATE COCEDORES SET CONCENTRADO = (SELECT AVG(VALOR) AS PROM FROM "
+					+ "(SELECT CONC_COC_01 AS VALOR FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_01 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_02 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_02 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_03 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_03 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_04 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_04 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_05 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_05 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_06 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_06 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_07 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_07 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_08 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_08 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_09 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_09 IS NOT NULL "
+					+ "UNION ALL "
+					+ "SELECT CONC_COC_10 FROM COCEDORES WHERE ID_COCEDOR = ? AND CONC_COC_10 IS NOT NULL) AS DATOS) WHERE ID_COCEDOR = ?;";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			  // Asignar parámetros
+	        for (int i = 1; i <= 11; i++) {
+	            ps.setInt(i, folio);
+	        }
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL PROMEDIO: ", ex);
+		}
+
+	}
+
+	
 
 }

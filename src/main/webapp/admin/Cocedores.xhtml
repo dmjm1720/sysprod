@@ -79,97 +79,107 @@
 
 									<p:tab id="tRegTurnos" title="REGISTRAR TURNOS">
 
-										<h:panelGrid id="pgTurnos" columns="2"
-											styleClass="tabla fuente">
-											<p:outputLabel for="turno" value="Turno" />
-											<p:autoComplete id="turno" size="35" required="false"
-												requiredMessage="Turno requerido" autocomplete="off"
-												placeholder="Ingresa Turno" dropdown="true"
-												value="#{cocedoresBean.filterTurno}"
-												completeMethod="#{cocedoresBean.buscarNombreTurno}">
-											</p:autoComplete>
 
-											<p:outputLabel for="operador" value="Operador" />
-											<p:autoComplete id="operador" size="35" required="false"
-												requiredMessage="Operador requerido" autocomplete="off"
-												placeholder="Ingresa Operador" dropdown="true"
-												value="#{cocedoresBean.filterOperador}"
-												completeMethod="#{cocedoresBean.buscarNombreOperador}">
-											</p:autoComplete>
+										<p:splitter styleClass="mb-5"
+											widgetVar="splitter">
+											<p:splitterPanel size="20"
+												styleClass="flex align-items-center justify-content-center">
+												<h:panelGrid id="pgTurnos" columns="2"
+													styleClass="tabla fuente">
+													<p:outputLabel for="turno" value="Turno" />
+													<p:autoComplete id="turno" size="35" required="false"
+														requiredMessage="Turno requerido" autocomplete="off"
+														placeholder="Ingresa Turno" dropdown="true"
+														value="#{cocedoresBean.filterTurno}"
+														completeMethod="#{cocedoresBean.buscarNombreTurno}">
+													</p:autoComplete>
 
-											<p:outputLabel for="coord" value="Coordinador" />
-											<p:autoComplete id="coord" size="35" required="false"
-												requiredMessage="Coordinador requerido" autocomplete="off"
-												placeholder="Ingresa Coordinador" dropdown="true"
-												value="#{cocedoresBean.filterUsuario}"
-												completeMethod="#{cocedoresBean.buscarNombreCoordinador}">
-											</p:autoComplete>
+													<p:outputLabel for="operador" value="Operador" />
+													<p:autoComplete id="operador" size="35" required="false"
+														requiredMessage="Operador requerido" autocomplete="off"
+														placeholder="Ingresa Operador" dropdown="true"
+														value="#{cocedoresBean.filterOperador}"
+														completeMethod="#{cocedoresBean.buscarNombreOperador}">
+													</p:autoComplete>
 
-											<p:outputLabel for="reg" value="Registrar turno" />
-											<p:commandButton id="reg" value="REGISTRAR"
-												styleClass="fuente"
-												actionListener="#{cocedoresBean.guardarRegistroTurnos()}"
-												update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
-												style="width: 8rem; height: 2rem">
-											</p:commandButton>
-										</h:panelGrid>
+													<p:outputLabel for="coord" value="Coordinador" />
+													<p:autoComplete id="coord" size="35" required="false"
+														requiredMessage="Coordinador requerido" autocomplete="off"
+														placeholder="Ingresa Coordinador" dropdown="true"
+														value="#{cocedoresBean.filterUsuario}"
+														completeMethod="#{cocedoresBean.buscarNombreCoordinador}">
+													</p:autoComplete>
 
-
-										<br />
-										<br />
-										<br />
-										<p:outputLabel value="TURNOS REGISTRADOS" />
-										<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
-											var="turnos" sortMode="multiple" rowHover="true"
-											style="width: 40%" paginatorAlwaysVisible="true"
-											scrollable="true"
-											value="#{cocedoresBean.listarRegistroTurnos}"
-											emptyMessage="NO HAY REGISTROS">
-
-
-											<p:column headerText="Editar" width="1rem">
-												<div style="text-align: center">
-													<p:commandButton id="et" icon="pi pi-fw pi-pencil"
-														onclick="PF('dlgEditarTurnos').show()"
-														update="frmTurnos:pnlEditarTurnos"
-														styleClass="ui-button-warning">
-														<f:setPropertyActionListener value="#{turnos}"
-															target="#{cocedoresBean.registroTurnosEditar}" />
+													<p:outputLabel for="reg" value="Registrar turno" />
+													<p:commandButton id="reg" value="REGISTRAR"
+														styleClass="fuente"
+														actionListener="#{cocedoresBean.guardarRegistroTurnos()}"
+														update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
+														style="width: 8rem; height: 2rem">
 													</p:commandButton>
-													<p:tooltip id="toolTipET" for="et" value="Editar"
-														trackMouse="true" />
-												</div>
-											</p:column>
+												</h:panelGrid>
 
-											<p:column headerText="Turno" width="6rem" styleClass="fondo">
-												<h:outputText value="#{turnos.turnos.nombreTurno}"
-													style="color: #036FAB;font-weight: bold !important;" />
-											</p:column>
+											</p:splitterPanel>
+											<p:splitterPanel
+												styleClass="flex align-items-center justify-content-center">
+												<p:outputLabel value="TURNOS REGISTRADOS" />
+												<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
+													var="turnos" sortMode="multiple" rowHover="true"
+													style="width: 80%" paginatorAlwaysVisible="true"
+													scrollable="true"
+													value="#{cocedoresBean.listarRegistroTurnos}"
+													emptyMessage="NO HAY REGISTROS">
 
-											<p:column headerText="Fecha registro turno" width="8rem"
-												styleClass="fondo">
-												<h:outputText value="#{turnos.fecha}"
-													style="color: #036FAB;font-weight: bold !important;" />
-											</p:column>
 
-											<p:column headerText="Folio" width="6rem" styleClass="fondo">
-												<h:outputText value="#{turnos.folio}"
-													style="color: #036FAB;font-weight: bold !important;" />
-											</p:column>
+													<p:column headerText="Editar" width="2rem">
+														<div style="text-align: center">
+															<p:commandButton id="et" icon="pi pi-fw pi-pencil"
+																onclick="PF('dlgEditarTurnos').show()"
+																update="frmTurnos:pnlEditarTurnos"
+																styleClass="ui-button-warning">
+																<f:setPropertyActionListener value="#{turnos}"
+																	target="#{cocedoresBean.registroTurnosEditar}" />
+															</p:commandButton>
+															<p:tooltip id="toolTipET" for="et" value="Editar"
+																trackMouse="true" />
+														</div>
+													</p:column>
 
-											<p:column headerText="Operador" width="8rem"
-												styleClass="fondo">
-												<h:outputText value="#{turnos.operador.nombre}"
-													style="color: #036FAB;font-weight: bold !important;" />
-											</p:column>
+													<p:column headerText="Turno" width="6rem"
+														styleClass="fondo">
+														<h:outputText value="#{turnos.turnos.nombreTurno}"
+															style="color: #036FAB;font-weight: bold !important;" />
+													</p:column>
 
-											<p:column headerText="Coordinador" width="8rem"
-												styleClass="fondo">
-												<h:outputText value="#{turnos.usuarios.nombre}"
-													style="color: #036FAB;font-weight: bold !important;" />
-											</p:column>
+													<p:column headerText="Fecha registro turno" width="8rem"
+														styleClass="fondo">
+														<h:outputText value="#{turnos.fecha}"
+															style="color: #036FAB;font-weight: bold !important;" />
+													</p:column>
 
-										</p:dataTable>
+													<p:column headerText="Folio" width="6rem"
+														styleClass="fondo">
+														<h:outputText value="#{turnos.folio}"
+															style="color: #036FAB;font-weight: bold !important;" />
+													</p:column>
+
+													<p:column headerText="Operador" width="8rem"
+														styleClass="fondo">
+														<h:outputText value="#{turnos.operador.nombre}"
+															style="color: #036FAB;font-weight: bold !important;" />
+													</p:column>
+
+													<p:column headerText="Coordinador" width="8rem"
+														styleClass="fondo">
+														<h:outputText value="#{turnos.usuarios.nombre}"
+															style="color: #036FAB;font-weight: bold !important;" />
+													</p:column>
+
+												</p:dataTable>
+											</p:splitterPanel>
+										</p:splitter>
+
+
 
 									</p:tab>
 
@@ -427,6 +437,7 @@
 									<h:outputText value="#{item.tempCoc01}"
 										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
+								
 								<p:column
 									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
 									<h:outputText value="#{item.concCoc01}"
@@ -438,10 +449,11 @@
 									<h:outputText value="#{item.tempCoc02}"
 										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
+								
 								<p:column
 									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
 									<h:outputText value="#{item.concCoc02}"
-										sstyleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
 								<p:column
@@ -942,7 +954,7 @@
 							style="width: 5rem" />
 
 						<p:outputLabel for="conc" value="Concentración" />
-						<p:inputText id="conc" styleClass="camposCocedores"
+						<p:inputText id="conc" styleClass="camposCocedores" disabled="true"
 							value="#{cocedoresBean.cocedoresEditar.concentrado}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
@@ -1310,7 +1322,7 @@
 
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />
-						
+
 						<p:outputLabel for="coord" value="Coordinador" />
 						<p:autoComplete id="coord" size="35" required="false"
 							requiredMessage="Coordinador requerido" autocomplete="off"

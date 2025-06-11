@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -461,8 +460,14 @@ public class CocedoresBean implements Serializable {
 		    cocedoresEditar.setEstadoR("X");
 		    cocedoresEditar.setEstadoA(null);
 		}
-
+		
+		//**ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
+		ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
+	
 		cDao.actualizarCocedores(cocedoresEditar);
+		
+		actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
+		
 		actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
 
 		if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
@@ -707,13 +712,13 @@ public class CocedoresBean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre);
+		return tDao.completeOperador(nombre, "Cocedores");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre);
+		return tDao.buscarOperador(nombre,"Cocedores");
 	}
 
 	public void guardarRegistroTurnos() throws SQLException {

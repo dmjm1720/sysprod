@@ -8,8 +8,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
@@ -40,6 +43,7 @@ import com.dmjm.model.OrdenMantenimientoEstB;
 import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("esterilizadorBeanB")
 @ViewScoped
@@ -210,14 +214,14 @@ public class EsterilizadorPBBean implements Serializable {
 	
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
-		listaOperadores = oDao.listaOperadorCocedores();
+		listaOperadores = oDao.listaOperadorEstPlantaB();
 		return listaOperadores;
 	}
 
 	public void guardarOperador() {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		operador.setEstado("Activo");
-		operador.setProceso("Cocedores");
+		operador.setProceso("Est Planta B");
 		oDao.guardarOperador(operador);
 		operador = new Operador();
 
@@ -549,13 +553,13 @@ public class EsterilizadorPBBean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre);
+		return tDao.completeOperador(nombre, "Est Planta B");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre);
+		return tDao.buscarOperador(nombre, "Est Planta B");
 	}
 	
 
@@ -588,5 +592,22 @@ public class EsterilizadorPBBean implements Serializable {
 		getListaOrdenManto();
 	}
 
+	//**REPORTE ESTERILIZADORES**//
+		public void visualizarReporte() throws SQLException {
+			@SuppressWarnings("unused")
+			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+					.getRequest();
+
+			ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+			String ruta = null;
+
+			ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b.jasper");
+			reporte.getReporte(ruta, fecha.toString());
+
+			FacesContext.getCurrentInstance().responseComplete();
+
+		}
 
 }

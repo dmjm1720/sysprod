@@ -23,7 +23,7 @@
 
 				<div style="text-align: center">
 					<p:badge id="bp" size="small"
-						value="CAPTURA DE ESTERILIZADOR PLANTA A&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanA.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanA.fecha}&nbsp;&nbsp;&nbsp;"
+						value="CAPTURA DE ESTERILIZADOR PLANTA B&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanB.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanB.fecha}&nbsp;&nbsp;&nbsp;"
 						styleClass="fuenteTitulo" />
 
 				</div>
@@ -38,7 +38,7 @@
 
 
 
-						<p:tab id="pt" title="ESTERILIZADOR PLANTA A"
+						<p:tab id="pt" title="ESTERILIZADOR PLANTA B"
 							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
 
 							<script>
@@ -79,56 +79,55 @@
 
 									<p:tab id="tRegTurnos" title="REGISTRAR TURNOS">
 
-										<p:splitter styleClass="mb-5"
-											widgetVar="splitter">
+										<p:splitter styleClass="mb-5" widgetVar="splitter">
 											<p:splitterPanel size="20"
 												styleClass="flex align-items-center justify-content-center">
-												
+
 												<h:panelGrid id="pgTurnos" columns="2"
 													styleClass="tabla fuente">
 													<p:outputLabel for="turno" value="Turno" />
 													<p:autoComplete id="turno" size="35" required="false"
 														requiredMessage="Turno requerido" autocomplete="off"
 														placeholder="Ingresa Turno" dropdown="true"
-														value="#{esterilizadorBeanA.filterTurno}"
-														completeMethod="#{esterilizadorBeanA.buscarNombreTurno}">
+														value="#{esterilizadorBeanB.filterTurno}"
+														completeMethod="#{esterilizadorBeanB.buscarNombreTurno}">
 													</p:autoComplete>
 
 													<p:outputLabel for="operador" value="Operador" />
 													<p:autoComplete id="operador" size="35" required="false"
 														requiredMessage="Operador requerido" autocomplete="off"
 														placeholder="Ingresa Operador" dropdown="true"
-														value="#{esterilizadorBeanA.filterOperador}"
-														completeMethod="#{esterilizadorBeanA.buscarNombreOperador}">
+														value="#{esterilizadorBeanB.filterOperador}"
+														completeMethod="#{esterilizadorBeanB.buscarNombreOperador}">
 													</p:autoComplete>
 
 													<p:outputLabel for="coord" value="Coordinador" />
 													<p:autoComplete id="coord" size="35" required="false"
 														requiredMessage="Coordinador requerido" autocomplete="off"
 														placeholder="Ingresa Coordinador" dropdown="true"
-														value="#{esterilizadorBeanA.filterUsuario}"
-														completeMethod="#{esterilizadorBeanA.buscarNombreCoordinador}">
+														value="#{esterilizadorBeanB.filterUsuario}"
+														completeMethod="#{esterilizadorBeanB.buscarNombreCoordinador}">
 													</p:autoComplete>
 
 													<p:outputLabel for="reg" value="Registrar turno" />
 													<p:commandButton id="reg" value="REGISTRAR"
 														styleClass="fuente"
-														actionListener="#{esterilizadorBeanA.guardarRegistroTurnos()}"
+														actionListener="#{esterilizadorBeanB.guardarRegistroTurnos()}"
 														update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
 														style="width: 8rem; height: 2rem">
 													</p:commandButton>
 												</h:panelGrid>
+
 											</p:splitterPanel>
-											
+
 											<p:splitterPanel
 												styleClass="flex align-items-center justify-content-center">
-
 												<p:outputLabel value="TURNOS REGISTRADOS" />
 												<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
 													var="turnos" sortMode="multiple" rowHover="true"
 													style="width: 80%" paginatorAlwaysVisible="true"
 													scrollable="true"
-													value="#{esterilizadorBeanA.listarRegistroTurnos}"
+													value="#{esterilizadorBeanB.listarRegistroTurnos}"
 													emptyMessage="NO HAY REGISTROS">
 
 
@@ -139,7 +138,7 @@
 																update="frmTurnos:pnlEditarTurnos"
 																styleClass="ui-button-warning">
 																<f:setPropertyActionListener value="#{turnos}"
-																	target="#{esterilizadorBeanA.registroTurnosEditar}" />
+																	target="#{esterilizadorBeanB.registroTurnosEditar}" />
 															</p:commandButton>
 															<p:tooltip id="toolTipET" for="et" value="Editar"
 																trackMouse="true" />
@@ -180,7 +179,6 @@
 											</p:splitterPanel>
 										</p:splitter>
 
-
 									</p:tab>
 
 									<p:tab title="BUSCAR POR FECHAS">
@@ -194,13 +192,13 @@
 												placeholder="SELECCIONA FECHA"
 												inputStyleClass="font-size: .8rem !important pear"
 												inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
-												value="#{esterilizadorBeanA.fechaFiltro}"
+												value="#{esterilizadorBeanB.fechaFiltro}"
 												style="font-family: 'Poppins', sans-serif !important;"
 												styleClass="captura" />
 
 											<p:outputLabel value="Filtrar fecha" />
 											<p:commandButton value="FILTRAR" styleClass="fuente"
-												actionListener="#{esterilizadorBeanA.filtrarPorFecha()}"
+												actionListener="#{esterilizadorBeanB.filtrarPorFecha()}"
 												update="frmPrincipal:acco:tblCoc,frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
 									frmPrincipal:acco:fom, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos"
 												icon="pi pi-filter" style="width: 6rem; height: 2rem">
@@ -210,7 +208,7 @@
 											<p:outputLabel value="Visualirzar reporte PDF" />
 											<h:commandLink id="imp"
 												style="height: 30px; font-size: 12px;" target="_blank"
-												actionListener="#{esterilizadorBeanA.visualizarReporte()}">
+												actionListener="#{esterilizadorBeanB.visualizarReporte()}">
 												<h:graphicImage url="/resources/img/printer.png"
 													style="height: 1.8rem" />
 											</h:commandLink>
@@ -225,7 +223,7 @@
 
 											<p:commandButton value="REGISTRAR NUEVA HOJA"
 												styleClass="fuente"
-												actionListener="#{esterilizadorBeanA.guardarEsterilizador()}"
+												actionListener="#{esterilizadorBeanB.guardarEsterilizador()}"
 												update="frmPrincipal, frmPrincipal:msgs"
 												icon="pi pi-file-excel" style="width: 15rem; height: 2rem">
 											</p:commandButton>
@@ -242,11 +240,11 @@
 							<br />
 							<div style="text-align: center;">
 								<h:outputText id="fo" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanA.folioFecha}&nbsp;&nbsp;&nbsp;"
+									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanB.folioFecha}&nbsp;&nbsp;&nbsp;"
 									styleClass="fechaActual" />
 
 								<h:outputText id="fa" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanA.fecha}&nbsp;&nbsp;&nbsp;"
+									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanB.fecha}&nbsp;&nbsp;&nbsp;"
 									styleClass="fechaActual" />
 							</div>
 							<br />
@@ -259,11 +257,11 @@
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
 								scrollHeight="950" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
-								value="#{esterilizadorBeanA.listaEsterilizador}"
+								value="#{esterilizadorBeanB.listaEsterilizador}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:ajax event="page"
-									listener="#{esterilizadorBeanA.onPageChange}"
+									listener="#{esterilizadorBeanB.onPageChange}"
 									update="frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
 									frmPrincipal:acco:fom, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos" />
 
@@ -327,7 +325,7 @@
 											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
 											styleClass="ui-button-warning">
 											<f:setPropertyActionListener value="#{item}"
-												target="#{esterilizadorBeanA.esterilizadorEditarPlantaA}" />
+												target="#{esterilizadorBeanB.esterilizadorEditarPlantaB}" />
 
 										</p:commandButton>
 										<p:tooltip id="toolTipE" for="ed" value="Editar"
@@ -403,7 +401,7 @@
 								<p:column
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
 									<h:outputText value="#{item.presionSistema}"
-										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+										sstyleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
 								<p:column
@@ -432,7 +430,7 @@
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
 									styleClass="fuente camposLimpieza"
-									actionListener="#{esterilizadorBeanA.guardarLimpieza()}"
+									actionListener="#{esterilizadorBeanB.guardarLimpieza()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
 
@@ -443,11 +441,11 @@
 							<br />
 							<div style="text-align: left;">
 								<h:outputText id="fol" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanA.folioFecha}&nbsp;&nbsp;&nbsp;"
+									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanB.folioFecha}&nbsp;&nbsp;&nbsp;"
 									styleClass="fechaActual" />
 
 								<h:outputText id="fal" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanA.fecha}&nbsp;&nbsp;&nbsp;"
+									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanB.fecha}&nbsp;&nbsp;&nbsp;"
 									styleClass="fechaActual" />
 							</div>
 
@@ -458,8 +456,8 @@
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
 								scrollable="true"
-								currentPageReportTemplate="Total: #{esterilizadorBeanA.limpiezaEstA.size()}"
-								value="#{esterilizadorBeanA.limpiezaEstA}"
+								currentPageReportTemplate="Total: #{esterilizadorBeanB.limpiezaEstB.size()}"
+								value="#{esterilizadorBeanB.limpiezaEstB}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:column headerText="Editar" width="3rem" exportable="false">
@@ -468,7 +466,7 @@
 										update="frmEditarLimpieza:pnlEditarLimpieza"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{esterilizadorBeanA.limpiezaEditar}" />
+											target="#{esterilizadorBeanB.limpiezaEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
@@ -508,7 +506,7 @@
 							<h:panelGrid id="pgManto" columns="2" styleClass="tabla fuente">
 								<p:outputLabel for="no" value="SI / NO" />
 								<p:selectOneMenu id="no" styleClass="camposManto"
-									value="#{esterilizadorBeanA.ordenMantenimiento.siNo}">
+									value="#{esterilizadorBeanB.ordenMantenimiento.siNo}">
 									<f:selectItem itemLabel="Selecciona opción" itemValue="" />
 									<f:selectItem itemLabel="SI" itemValue="NO" />
 									<f:selectItem itemLabel="NO" itemValue="NO" />
@@ -516,13 +514,13 @@
 
 								<p:outputLabel value="No de Orden" />
 								<p:inputText id="om" styleClass="camposManto"
-									value="#{esterilizadorBeanA.ordenMantenimiento.noOrden}"
+									value="#{esterilizadorBeanB.ordenMantenimiento.noOrden}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
 								<pe:timePicker
-									value="#{esterilizadorBeanA.ordenMantenimiento.horaInicio}"
+									value="#{esterilizadorBeanB.ordenMantenimiento.horaInicio}"
 									styleClass="camposManto" showCloseButton="true"
 									showDeselectButton="true" hourFormat="24" showNowButton="true"
 									rows="3" size="8" showOn="button" widgetVar="tpomhi"
@@ -531,7 +529,7 @@
 
 								<p:outputLabel value="Hora Final" />
 								<pe:timePicker
-									value="#{esterilizadorBeanA.ordenMantenimiento.horaFin}"
+									value="#{esterilizadorBeanB.ordenMantenimiento.horaFin}"
 									styleClass="camposManto" showCloseButton="true"
 									showDeselectButton="true" hourFormat="24" showNowButton="true"
 									rows="3" size="8" showOn="button" widgetVar="tpomhf"
@@ -540,14 +538,14 @@
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
-									value="#{esterilizadorBeanA.ordenMantenimiento.descripcion}"
+									value="#{esterilizadorBeanB.ordenMantenimiento.descripcion}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 20rem" />
 
 								<p:outputLabel value="" />
 								<p:commandButton value="REGISTRAR NUEVA ORDEN"
 									styleClass="fuente camposManto"
-									actionListener="#{esterilizadorBeanA.guardarOrdenManto()}"
+									actionListener="#{esterilizadorBeanB.guardarOrdenManto()}"
 									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
 
@@ -560,11 +558,11 @@
 							<br />
 							<div style="text-align: left;">
 								<h:outputText id="fom" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanA.folioFecha}&nbsp;&nbsp;&nbsp;"
+									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanB.folioFecha}&nbsp;&nbsp;&nbsp;"
 									styleClass="fechaActual" />
 
 								<h:outputText id="fam" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanA.fecha}&nbsp;&nbsp;&nbsp;"
+									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanB.fecha}&nbsp;&nbsp;&nbsp;"
 									styleClass="fechaActual" />
 							</div>
 
@@ -574,8 +572,8 @@
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
 								scrollable="true"
-								currentPageReportTemplate="Total: #{esterilizadorBeanA.listaOrdenManto.size()}"
-								value="#{esterilizadorBeanA.listaOrdenManto}"
+								currentPageReportTemplate="Total: #{esterilizadorBeanB.listaOrdenManto.size()}"
+								value="#{esterilizadorBeanB.listaOrdenManto}"
 								emptyMessage="NO HAY REGISTROS">
 
 
@@ -585,7 +583,7 @@
 										update="frmEditarManto:pnlEditarManto"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{esterilizadorBeanA.ordenMantenimientoEditar}" />
+											target="#{esterilizadorBeanB.ordenMantenimientoEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
@@ -629,7 +627,7 @@
 
 			<!-- INICIA FORMULARIO PARA EDITAR -->
 			<h:form id="frmEditar">
-				<p:dialog header="Actualizar información de esterilizador planta A"
+				<p:dialog header="Actualizar información de esterilizador planta B"
 					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
 					closeOnEscape="true" minimizable="true" maximizable="true">
 					<h:panelGrid id="pnlEditar" columns="6">
@@ -638,85 +636,85 @@
 						<p:outputLabel for="horario" value="Horario" />
 						<p:inputText id="horario" styleClass="fuenteNaranja"
 							disabled="true"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.hora}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.hora}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="operacion" value="Operación" />
 						<p:inputText id="operacion" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.operacion}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.operacion}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="grenetina" value="% Grenetina" />
 						<p:inputText id="grenetina" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.porcentaje}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.porcentaje}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="pv" value="Presion Vapor (Kg/cm)." />
 						<p:inputText id="pv" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.presionVapor}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.presionVapor}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 
 						<p:outputLabel for="pva" value="Presion de Vacio cmHg" />
 						<p:inputText id="pva" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.presionVacio}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.presionVacio}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="pre" value="T °C  Precalentador" />
 						<p:inputText id="pre" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.precalentador}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.precalentador}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="est" value="T°C Esterilizador" />
 						<p:inputText id="est" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.esterilizador}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.esterilizador}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 
 						<p:outputLabel for="vald" value="T°C Valv. Diversora" />
 						<p:inputText id="vald" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.valvulaDiversora}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.esterilizador}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 
 						<p:outputLabel for="ba" value="Bomba Alim. (Hertz)" />
 						<p:inputText id="ba" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.bombaAlim}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.bombaAlim}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 
 						<p:outputLabel for="te" value="Tiempo de Est. (Seg)" />
 						<p:inputText id="te" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.tiempoEst}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.tiempoEst}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="bs" value="Bomba Salida (Hertz)" />
 						<p:inputText id="bs" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.bombaSalida}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.bombaSalida}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 
 						<p:outputLabel for="flh" value="Flujo Litros/hora" />
 						<p:inputText id="flh" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.flujoLitrosHora}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.flujoLitrosHora}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 
 						<p:outputLabel for="pres" value="Presion del sistema" />
 						<p:inputText id="pres" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.presionSistema}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.presionSistema}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
@@ -724,7 +722,7 @@
 
 						<p:outputLabel for="re" value="Redox ppm Entrada" />
 						<p:inputText id="re" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.redoxPpmEntrada}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.redoxPpmEntrada}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
@@ -732,7 +730,7 @@
 
 						<p:outputLabel for="rs" value="Redox ppm Salida" />
 						<p:inputText id="rs" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.redoxPpmSalida}"
+							value="#{esterilizadorBeanB.esterilizadorEditarPlantaB.redoxPpmSalida}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
@@ -746,7 +744,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{esterilizadorBeanA.actualizarEsterilizador()}"
+							actionListener="#{esterilizadorBeanB.actualizarEsterilizador()}"
 							oncomplete="PF('dlgEditar').hide()" />
 					</div>
 
@@ -765,13 +763,13 @@
 
 						<p:outputLabel for="pro" value="Proceso" />
 						<p:inputText id="pro" styleClass="camposLimpieza" readonly="true"
-							value="#{esterilizadorBeanA.limpiezaEditar.proceso}"
+							value="#{esterilizadorBeanB.limpiezaEditar.proceso}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
 						<pe:timePicker
-							value="#{esterilizadorBeanA.limpiezaEditar.horaInicial}"
+							value="#{esterilizadorBeanB.limpiezaEditar.horaInicial}"
 							styleClass="camposLimpieza" showCloseButton="true"
 							showDeselectButton="true" hourFormat="24" showNowButton="true"
 							rows="3" size="8" showOn="button" widgetVar="tphi"
@@ -780,7 +778,7 @@
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker
-							value="#{esterilizadorBeanA.limpiezaEditar.horaFinal}"
+							value="#{esterilizadorBeanB.limpiezaEditar.horaFinal}"
 							styleClass="camposLimpieza" showCloseButton="true"
 							showDeselectButton="true" hourFormat="24" showNowButton="true"
 							rows="3" size="8" showOn="button" widgetVar="tphf"
@@ -790,26 +788,26 @@
 
 						<p:outputLabel for="qui" value="Químico" />
 						<p:inputText id="qui" styleClass="camposLimpieza"
-							value="#{esterilizadorBeanA.limpiezaEditar.quimico}"
+							value="#{esterilizadorBeanB.limpiezaEditar.quimico}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 
 						<p:outputLabel for="lts" value="Litros usados"
-							rendered="#{esterilizadorBeanA.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{esterilizadorBeanB.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="lts" styleClass="camposLimpieza"
-							rendered="#{esterilizadorBeanA.limpiezaEditar.proceso ne 'ENJUAGUE'}"
-							value="#{esterilizadorBeanA.limpiezaEditar.litrosUsados}"
+							rendered="#{esterilizadorBeanB.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							value="#{esterilizadorBeanB.limpiezaEditar.litrosUsados}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 
 						<p:outputLabel for="lote" value="Lote"
-							rendered="#{esterilizadorBeanA.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{esterilizadorBeanB.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="lote" styleClass="camposLimpieza"
-							value="#{esterilizadorBeanA.limpiezaEditar.lote}"
+							value="#{esterilizadorBeanB.limpiezaEditar.lote}"
 							required="false"
-							rendered="#{esterilizadorBeanA.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							rendered="#{esterilizadorBeanB.limpiezaEditar.proceso ne 'ENJUAGUE'}"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 
@@ -819,7 +817,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{esterilizadorBeanA.actualizarLimpieza()}"
+							actionListener="#{esterilizadorBeanB.actualizarLimpieza()}"
 							oncomplete="PF('dlgEditarLimpieza').hide()" />
 					</div>
 
@@ -841,7 +839,7 @@
 
 						<p:outputLabel for="no" value="SI / NO" />
 						<p:selectOneMenu id="no" styleClass="camposManto"
-							value="#{esterilizadorBeanA.ordenMantenimientoEditar.siNo}">
+							value="#{esterilizadorBeanB.ordenMantenimientoEditar.siNo}">
 							<f:selectItem itemLabel="Selecciona opción" itemValue="" />
 							<f:selectItem itemLabel="SI" itemValue="SI" />
 							<f:selectItem itemLabel="NO" itemValue="NO" />
@@ -849,14 +847,14 @@
 
 						<p:outputLabel for="orden" value="No de Orden" />
 						<p:inputText id="orden" styleClass="camposManto"
-							value="#{esterilizadorBeanA.ordenMantenimientoEditar.noOrden}"
+							value="#{esterilizadorBeanB.ordenMantenimientoEditar.noOrden}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 8rem" />
 
 
 						<p:outputLabel value="Hora Inicio" />
 						<pe:timePicker
-							value="#{esterilizadorBeanA.ordenMantenimientoEditar.horaInicio}"
+							value="#{esterilizadorBeanB.ordenMantenimientoEditar.horaInicio}"
 							styleClass="camposManto" showCloseButton="true"
 							showDeselectButton="true" hourFormat="24" showNowButton="true"
 							rows="3" size="8" showOn="button" widgetVar="tpmhi"
@@ -865,7 +863,7 @@
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker
-							value="#{esterilizadorBeanA.ordenMantenimientoEditar.horaFin}"
+							value="#{esterilizadorBeanB.ordenMantenimientoEditar.horaFin}"
 							styleClass="camposManto" showCloseButton="true"
 							showDeselectButton="true" hourFormat="24" showNowButton="true"
 							rows="3" size="8" showOn="button" widgetVar="tpmhf"
@@ -874,7 +872,7 @@
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
-							value="#{esterilizadorBeanA.ordenMantenimientoEditar.descripcion}"
+							value="#{esterilizadorBeanB.ordenMantenimientoEditar.descripcion}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 					</h:panelGrid>
@@ -883,7 +881,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{esterilizadorBeanA.actualizarOrdenManto()}"
+							actionListener="#{esterilizadorBeanB.actualizarOrdenManto()}"
 							oncomplete="PF('dlgEditarManto').hide()" />
 					</div>
 
@@ -905,8 +903,8 @@
 						<p:autoComplete id="operador" size="35" required="false"
 							requiredMessage="Operador requerido" autocomplete="off"
 							placeholder="Ingresa Operador" dropdown="true"
-							value="#{esterilizadorBeanA.filterOperador}"
-							completeMethod="#{esterilizadorBeanA.buscarNombreOperador}">
+							value="#{esterilizadorBeanB.filterOperador}"
+							completeMethod="#{esterilizadorBeanB.buscarNombreOperador}">
 						</p:autoComplete>
 
 						<p:outputLabel value="" />
@@ -916,8 +914,8 @@
 						<p:autoComplete id="coord" size="35" required="false"
 							requiredMessage="Coordinador requerido" autocomplete="off"
 							placeholder="Ingresa coordinador" dropdown="true"
-							value="#{esterilizadorBeanA.filterUsuario}"
-							completeMethod="#{esterilizadorBeanA.buscarNombreCoordinador}">
+							value="#{esterilizadorBeanB.filterUsuario}"
+							completeMethod="#{esterilizadorBeanB.buscarNombreCoordinador}">
 						</p:autoComplete>
 
 					</h:panelGrid>
@@ -926,7 +924,7 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{esterilizadorBeanA.actualizarTurnos()}"
+							actionListener="#{esterilizadorBeanB.actualizarTurnos()}"
 							oncomplete="PF('dlgEditarTurnos').hide()" />
 					</div>
 

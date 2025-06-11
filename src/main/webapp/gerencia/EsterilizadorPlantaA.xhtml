@@ -403,7 +403,7 @@
 								<p:column
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
 									<h:outputText value="#{item.presionSistema}"
-										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+										sstyleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
 								<p:column
@@ -682,7 +682,7 @@
 
 						<p:outputLabel for="vald" value="T°C Valv. Diversora" />
 						<p:inputText id="vald" styleClass="camposCocedores"
-							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.valvulaDiversora}"
+							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.esterilizador}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 

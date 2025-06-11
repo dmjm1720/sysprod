@@ -19,14 +19,14 @@ import com.dmjm.util.HibernateUtil;
 public class OperadorDaoImpl extends Conexion implements IOperadorDao {
 
 	@Override
-	public List<String> completeOperador(String nombre) throws SQLException {
+	public List<String> completeOperador(String nombre, String depto) throws SQLException {
 		List<String> resultOperador = new ArrayList<>();
 		List<String> listarTodo = new ArrayList<>();
 
 		ConectarSysProd();
 
 		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM OPERADOR WHERE NOMBRE LIKE '" + nombre + "%'");
+				.prepareStatement("SELECT DISTINCT (NOMBRE) FROM OPERADOR WHERE NOMBRE LIKE '" + nombre + "%' AND PROCESO='"+ depto +"' AND ESTADO='Activo'");
 		ResultSet rs = st.executeQuery();
 		listarTodo = new ArrayList<>();
 		if (!rs.isBeforeFirst()) {
@@ -45,10 +45,10 @@ public class OperadorDaoImpl extends Conexion implements IOperadorDao {
 	}
 
 	@Override
-	public int buscarOperador(String nombre) throws SQLException {
+	public int buscarOperador(String nombre, String depto) throws SQLException {
 		ConectarSysProd();
 		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT ID_OPERADOR FROM OPERADOR WHERE NOMBRE = '" + nombre + "'");
+				.prepareStatement("SELECT ID_OPERADOR FROM OPERADOR WHERE NOMBRE = '" + nombre + "' AND PROCESO='"+ depto +"' AND ESTADO='Activo'");
 		ResultSet rs = st.executeQuery();
 		int operador = 0;
 		if (!rs.isBeforeFirst()) {
@@ -120,6 +120,24 @@ public class OperadorDaoImpl extends Conexion implements IOperadorDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery(
 					"FROM Operador WHERE Proceso='Cocedores' AND estado='Activo'",
+					Operador.class).list();
+		}
+	}
+
+	@Override
+	public List<Operador> listaOperadorEstPlantaA() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Operador WHERE Proceso='Est Planta A' AND estado='Activo'",
+					Operador.class).list();
+		}
+	}
+
+	@Override
+	public List<Operador> listaOperadorEstPlantaB() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Operador WHERE Proceso='Est Planta B' AND estado='Activo'",
 					Operador.class).list();
 		}
 	}
