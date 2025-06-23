@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-jun-2025 8:32:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.UltrafiltracionUno" table="ULTRAFILTRACION_UNO" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idUltrafiltracion" type="int">
+            <column name="ID_ULTRAFILTRACION" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="folioPreparacionUltraUno" class="com.dmjm.model.FolioPreparacionUltraUno" fetch="select">
+            <column name="ID_FOLIO_PREP" />
+        </many-to-one>
+        <property name="hora" type="string">
+            <column name="HORA" length="10" />
+        </property>
+        <property name="flujoEntrada" type="java.lang.Integer">
+            <column name="FLUJO_ENTRADA" />
+        </property>
+        <property name="temp01" type="big_decimal">
+            <column name="TEMP_01" precision="10" scale="1" />
+        </property>
+        <property name="concEntrada" type="big_decimal">
+            <column name="CONC_ENTRADA" precision="10" scale="1" />
+        </property>
+        <property name="presionPsi" type="big_decimal">
+            <column name="PRESION_PSI" precision="10" scale="1" />
+        </property>
+        <property name="flujoPerm" type="java.lang.Integer">
+            <column name="FLUJO_PERM" />
+        </property>
+        <property name="concSalida" type="big_decimal">
+            <column name="CONC_SALIDA" precision="10" scale="1" />
+        </property>
+        <property name="flujoSalida" type="java.lang.Integer">
+            <column name="FLUJO_SALIDA" />
+        </property>
+        <property name="concPermeado" type="big_decimal">
+            <column name="CONC_PERMEADO" precision="2" scale="1" />
+        </property>
+        <property name="estadoA" type="string">
+            <column name="ESTADO_A" length="2" />
+        </property>
+        <property name="estadoR" type="string">
+            <column name="ESTADO_R" length="2" />
+        </property>
+        <property name="estadoAR" type="java.lang.Boolean">
+            <column name="ESTADO_A_R" />
+        </property>
+        <property name="temp02" type="big_decimal">
+            <column name="TEMP_02" precision="10" scale="1" />
+        </property>
+        <property name="folioUltra" type="java.lang.Integer">
+            <column name="FOLIO_ULTRA" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" />
+        </property>
+        <property name="operacion" type="string">
+            <column name="OPERACION" length="25"/>
+        </property>
+    </class>
+</hibernate-mapping>

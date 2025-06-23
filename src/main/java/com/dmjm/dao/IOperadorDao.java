@@ -20,4 +20,8 @@ public interface IOperadorDao {
 	List<Operador> listaOperadorEstPlantaA();
 	
 	List<Operador> listaOperadorEstPlantaB();
+	
+	List<Operador> listaOperadorUltraUno();
+	
+	List<Operador> listaOperadorUltraDos();
 }

@@ -450,24 +450,24 @@ public class CocedoresBean implements Serializable {
 //			cocedoresEditar.setEstadoR("X");
 //			cocedoresEditar.setEstadoA(null);
 //		}
-		
+
 		if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
-		    cocedoresEditar.setEstadoA("X");
-		    cocedoresEditar.setEstadoR(null);
+			cocedoresEditar.setEstadoA("X");
+			cocedoresEditar.setEstadoR(null);
 		}
 
 		if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
-		    cocedoresEditar.setEstadoR("X");
-		    cocedoresEditar.setEstadoA(null);
+			cocedoresEditar.setEstadoR("X");
+			cocedoresEditar.setEstadoA(null);
 		}
-		
-		//**ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
+
+		// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
 		ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
-	
+
 		cDao.actualizarCocedores(cocedoresEditar);
-		
+
 		actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
-		
+
 		actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
 
 		if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
@@ -661,7 +661,7 @@ public class CocedoresBean implements Serializable {
 		ICocedoresDao validaDao = new CocedoresDaoImpl();
 
 		validaDao.actualizarManto(folioPrepCocedor);
-		
+
 		IOrdenMantoDao iDao = new OrdenMantoDaoImpl();
 		FolioPreparacionCocedores f = new FolioPreparacionCocedores();
 		f.setIdFolioPrep(folioPrepCocedor);
@@ -718,7 +718,7 @@ public class CocedoresBean implements Serializable {
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre,"Cocedores");
+		return tDao.buscarOperador(nombre, "Cocedores");
 	}
 
 	public void guardarRegistroTurnos() throws SQLException {
@@ -746,7 +746,15 @@ public class CocedoresBean implements Serializable {
 		o = new Operador();
 		t = new Turnos();
 		rt = new RegistroTurnos();
+		filterUsuario = null;
+		filterOperador = null;
+		filterTurno = null;
 
+	}
+	
+	public void borrarTurnos() {
+		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
+		rDao.borrarRegistroTurno(registroTurnosEditar);
 	}
 
 	public void actualizarTurnos() throws SQLException {
@@ -794,6 +802,23 @@ public class CocedoresBean implements Serializable {
 		reporte.getReporte(ruta, fec, folioPrep, folioFechaRep);
 
 		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		   HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+		    ReporteCocedores reporte = new ReporteCocedores();
+		    FacesContext facesContext = FacesContext.getCurrentInstance();
+		    ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		    String ruta = servletContext.getRealPath("/REP/cocedores_rep_excel.jasper");
+
+		    // Llamar a la versión que exporta a Excel
+		    reporte.getReporteExcel(ruta, fecha.toString(), folioPrepCocedor, folioFecha);
+
+		    FacesContext.getCurrentInstance().responseComplete();
 
 	}
 

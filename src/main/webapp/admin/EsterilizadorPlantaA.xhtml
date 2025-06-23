@@ -132,6 +132,20 @@
 													emptyMessage="NO HAY REGISTROS">
 
 
+													<p:column headerText="Borrar" width="2rem">
+														<div style="text-align: center">
+															<p:commandButton id="eb" icon="pi pi-fw pi-trash"
+																styleClass="ui-button-warning"
+																action="#{esterilizadorBeanA.borrarTurnos()}"
+																update="frmPrincipal:acco:tv:tRegTurnos">
+																<f:setPropertyActionListener value="#{turnos}"
+																	target="#{esterilizadorBeanA.registroTurnosEditar}" />
+															</p:commandButton>
+															<p:tooltip id="toolTipEB" for="eb" value="Borrar"
+																trackMouse="true" />
+														</div>
+													</p:column>
+
 													<p:column headerText="Editar" width="1rem">
 														<div style="text-align: center">
 															<p:commandButton id="et" icon="pi pi-fw pi-pencil"
@@ -201,8 +215,7 @@
 											<p:outputLabel value="Filtrar fecha" />
 											<p:commandButton value="FILTRAR" styleClass="fuente"
 												actionListener="#{esterilizadorBeanA.filtrarPorFecha()}"
-												update="frmPrincipal:acco:tblCoc,frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
-									frmPrincipal:acco:fom, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos"
+												update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos"
 												icon="pi pi-filter" style="width: 6rem; height: 2rem">
 											</p:commandButton>
 
@@ -212,6 +225,14 @@
 												style="height: 30px; font-size: 12px;" target="_blank"
 												actionListener="#{esterilizadorBeanA.visualizarReporte()}">
 												<h:graphicImage url="/resources/img/printer.png"
+													style="height: 1.8rem" />
+											</h:commandLink>
+											
+											<p:outputLabel value="Exportar reporte Excel" />
+											<h:commandLink id="impExcel"
+												style="height: 30px; font-size: 12px;" target="_blank"
+												actionListener="#{esterilizadorBeanA.visualizarReporteExcel()}">
+												<h:graphicImage url="/resources/img/excel.png"
 													style="height: 1.8rem" />
 											</h:commandLink>
 
@@ -240,32 +261,21 @@
 							<p:divider />
 							<br />
 							<br />
-							<div style="text-align: center;">
-								<h:outputText id="fo" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanA.folioFecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-
-								<h:outputText id="fa" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanA.fecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-							</div>
-							<br />
-							<br />
+							
 
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
 								var="item" sortMode="multiple" reflow="true"
 								paginatorTemplate="
 								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
-								scrollHeight="950" scrollWidth="100%"
+								scrollHeight="300" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
 								value="#{esterilizadorBeanA.listaEsterilizador}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:ajax event="page"
 									listener="#{esterilizadorBeanA.onPageChange}"
-									update="frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
-									frmPrincipal:acco:fom, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos" />
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos" />
 
 								<p:columnGroup type="header">
 
@@ -441,15 +451,6 @@
 							<p:divider />
 							<br />
 							<br />
-							<div style="text-align: left;">
-								<h:outputText id="fol" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanA.folioFecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-
-								<h:outputText id="fal" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanA.fecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-							</div>
 
 							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
 								var="item" sortMode="multiple" scrollHeight="650"
@@ -558,15 +559,6 @@
 							<p:divider />
 							<br />
 							<br />
-							<div style="text-align: left;">
-								<h:outputText id="fom" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{esterilizadorBeanA.folioFecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-
-								<h:outputText id="fam" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{esterilizadorBeanA.fecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-							</div>
 
 							<p:dataTable id="tblManto" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="50%"
@@ -646,7 +638,7 @@
 						<p:inputText id="operacion" styleClass="camposCocedores"
 							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.operacion}"
 							required="false" requiredMessage="Campo requerido"
-							style="width: 5rem" />
+							style="width: 8rem" />
 
 						<p:outputLabel for="grenetina" value="% Grenetina" />
 						<p:inputText id="grenetina" styleClass="camposCocedores"

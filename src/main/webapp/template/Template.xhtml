@@ -152,7 +152,24 @@
 						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
+					</p:submenu>
 
+					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Ultra Filtración II"
+							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra II"
+							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Ultra Filtración I"
+							outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra I"
+							outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+						</p:menuitem>
 					</p:submenu>
 
 					<p:submenu label="usuarios" icon="pi pi-fw pi-user">
@@ -213,6 +230,24 @@
 
 						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
 							icon="pi pi-fw pi-tags">
+						</p:menuitem>
+					</p:submenu>
+
+					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Ultra Filtración II"
+							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra II"
+							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Ultra Filtración I"
+							outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra I"
+							outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
 						</p:menuitem>
 					</p:submenu>
 
@@ -307,8 +342,8 @@
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
 					</p:submenu>
-					
-					
+
+
 					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Esterilizador planta A"
 							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
@@ -325,7 +360,24 @@
 						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
+					</p:submenu>
 
+					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Ultra Filtración II"
+							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra II"
+							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Ultra Filtración I"
+							outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra I"
+							outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+						</p:menuitem>
 					</p:submenu>
 
 					<p:divider layout="vertical" />
@@ -621,6 +673,61 @@
 						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
 							icon="pi pi-fw pi-tags">
 						</p:menuitem>
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+				
+				
+				
+				<!-- ULTRA FILTRACION I -->
+				
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==13}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					
+					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+
+						<p:menuitem value="Ultra Filtración I"
+							outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra I"
+							outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+				
+				<!-- ULTRA FILTRACION II -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==14}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					
+					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Ultra Filtración II"
+							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores Ultra II"
+							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+						</p:menuitem>
+
 					</p:submenu>
 
 					<p:divider layout="vertical" />

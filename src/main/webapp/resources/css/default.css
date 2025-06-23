@@ -397,3 +397,30 @@ a:link:hover, a:visited:hover {
 .columna {
 	background-color: #F8F8FF !important;
 }
+
+.prefiltro{
+	background-color: #FFFAFA !important;
+}
+
+.alimentacion{
+	background-color: #F0FFF0 !important;
+}
+
+.etapa1{
+	background-color: #FFFACD !important;
+}
+.etapa2{
+	background-color: #F5FFFA !important;
+}
+.etapa3{
+	background-color: #E0FFFF !important;
+}
+.etapa4{
+	background-color: #fdebd0 !important;
+}
+.concentrado{
+	background-color: #ebf5fb !important;
+}
+.concentradoPor{
+	background-color: #e9f7ef !important;
+}

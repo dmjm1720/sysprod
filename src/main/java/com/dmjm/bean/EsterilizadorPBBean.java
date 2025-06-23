@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -75,7 +76,7 @@ public class EsterilizadorPBBean implements Serializable {
 	private RegistroTurnos registroTurnos;
 	private RegistroTurnos registroTurnosEditar;
 	private List<RegistroTurnos> listarRegistroTurnos;
-	
+
 	private List<OrdenMantenimientoEstB> listaOrdenManto;
 	private OrdenMantenimientoEstB ordenMantenimiento;
 	private OrdenMantenimientoEstB ordenMantenimientoEditar;
@@ -97,12 +98,10 @@ public class EsterilizadorPBBean implements Serializable {
 		registroTurnos = new RegistroTurnos();
 		listarRegistroTurnos = new ArrayList<>();
 		registroTurnosEditar = new RegistroTurnos();
-		
-		
+
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoEstB();
 		ordenMantenimientoEditar = new OrdenMantenimientoEstB();
-
 
 		primera();
 		getListarRegistroTurnos();
@@ -139,6 +138,9 @@ public class EsterilizadorPBBean implements Serializable {
 	}
 
 	public LimpiezaEstB getLimpiezaEditar() {
+		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
+			limpiezaEditar.setQuimico("Agua");
+		}
 		return limpiezaEditar;
 	}
 
@@ -184,8 +186,6 @@ public class EsterilizadorPBBean implements Serializable {
 	public void setFolioPrepEst(int folioPrepEst) {
 		this.folioPrepEst = folioPrepEst;
 	}
-	
-	
 
 	public OrdenMantenimientoEstB getOrdenMantenimiento() {
 		return ordenMantenimiento;
@@ -203,7 +203,6 @@ public class EsterilizadorPBBean implements Serializable {
 		this.ordenMantenimientoEditar = ordenMantenimientoEditar;
 	}
 
-	
 	public List<OrdenMantenimientoEstB> getListaOrdenManto() {
 		IOrdenMantoEsterilizadorPalantaBDao oDao = new OrdenMantoEsterilizadorPlantaBImpl();
 		IFolioPreparacionEsterilizadorPlantaBDao folioPrepDao = new FolioPreparacionEsterilizadorPlantaBDaoImpl();
@@ -211,7 +210,7 @@ public class EsterilizadorPBBean implements Serializable {
 		listaOrdenManto = oDao.listaOrdenManto(folioPrepEst);
 		return listaOrdenManto;
 	}
-	
+
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		listaOperadores = oDao.listaOperadorEstPlantaB();
@@ -231,6 +230,11 @@ public class EsterilizadorPBBean implements Serializable {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		oDao.actualizarOperador(operadorEditar);
 		operadorEditar = new Operador();
+	}
+	
+	public void borrarTurnos() {
+		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
+		rDao.borrarRegistroTurno(registroTurnosEditar);
 	}
 
 	public Operador getOperador() {
@@ -500,7 +504,6 @@ public class EsterilizadorPBBean implements Serializable {
 		filterTurno = null;
 
 	}
-	
 
 	public void actualizarTurnos() throws SQLException {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
@@ -561,7 +564,6 @@ public class EsterilizadorPBBean implements Serializable {
 		IOperadorDao tDao = new OperadorDaoImpl();
 		return tDao.buscarOperador(nombre, "Est Planta B");
 	}
-	
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
@@ -583,7 +585,7 @@ public class EsterilizadorPBBean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoEstB();
 	}
-	
+
 	// **FILTRAR POR FECHA**//
 	public void filtrarPorFecha() {
 		getListaEsterilizador(); // CAMBIAR PARAMETROS PARA EL REPORTE,
@@ -592,22 +594,40 @@ public class EsterilizadorPBBean implements Serializable {
 		getListaOrdenManto();
 	}
 
-	//**REPORTE ESTERILIZADORES**//
-		public void visualizarReporte() throws SQLException {
-			@SuppressWarnings("unused")
-			HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-					.getRequest();
+	// **REPORTE ESTERILIZADORES**//
+	public void visualizarReporte() throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
 
-			ReporteEsterilizadores reporte = new ReporteEsterilizadores();
-			FacesContext facesContext = FacesContext.getCurrentInstance();
-			ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-			String ruta = null;
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
 
-			ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b.jasper");
-			reporte.getReporte(ruta, fecha.toString());
+		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b.jasper");
+		reporte.getReporte(ruta, fecha.toString());
 
-			FacesContext.getCurrentInstance().responseComplete();
+		FacesContext.getCurrentInstance().responseComplete();
 
-		}
+	}
+	
+	
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		   HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		    FacesContext facesContext = FacesContext.getCurrentInstance();
+		    ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		    String ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b_excel.jasper");
+
+		    // Llamar a la versión que exporta a Excel
+		    reporte.getReporteExcel(ruta, fecha.toString());
+
+		    FacesContext.getCurrentInstance().responseComplete();
+
+	}
 
 }

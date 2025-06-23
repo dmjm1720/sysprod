@@ -19,5 +19,13 @@ public interface IFolioProcesosDao {
 	int buscarFolioB(int year);
 
 	void actualizarFolioB(int year, int folio);
+	
+	int buscarFolioUltraUno(int year);
+
+	void actualizarFolioUltraUno(int year, int folio);
+
+	int buscarFolioUltraDos(int year);
+
+	void actualizarFolioUltraDos(int year, int folio);
 
 }

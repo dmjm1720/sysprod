@@ -35,7 +35,7 @@ public class FiltroUrl implements PhaseListener {
 
 		// Verificar autenticación
 		Object nombre = session.getAttribute("nombre");
-		Object rol = session.getAttribute("rol"); // Supongamos que se guarda el rol en sesión
+		Object rol = session.getAttribute("rol"); // El rol en sesión
 
 		if (nombre == null) {
 			if (!isLoginPage) {
@@ -93,7 +93,12 @@ public class FiltroUrl implements PhaseListener {
 			return true;
 		}else if (rol.equals("Esterilizador Planta B") && page.contains("/esterilizadorB/")) {
 			return true;
+		}else if (rol.equals("Ultra Filtración I") && page.contains("/ultra1/")) {
+			return true;
+		}else if (rol.equals("Ultra Filtración II") && page.contains("/ultra2/")) {
+			return true;
 		}
+		
 
 		return false;
 	}

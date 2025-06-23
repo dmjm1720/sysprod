@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -148,6 +149,9 @@ public class EsterilizadorPABean implements Serializable {
 	}
 
 	public LimpiezaEstA getLimpiezaEditar() {
+		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
+			limpiezaEditar.setQuimico("Agua");
+		}
 		return limpiezaEditar;
 	}
 
@@ -240,6 +244,11 @@ public class EsterilizadorPABean implements Serializable {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		oDao.actualizarOperador(operadorEditar);
 		operadorEditar = new Operador();
+	}
+	
+	public void borrarTurnos() {
+		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
+		rDao.borrarRegistroTurno(registroTurnosEditar);
 	}
 
 	public Operador getOperador() {
@@ -616,6 +625,24 @@ public class EsterilizadorPABean implements Serializable {
 		reporte.getReporte(ruta, fecha.toString());
 
 		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		   HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		    FacesContext facesContext = FacesContext.getCurrentInstance();
+		    ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		    String ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a_excel.jasper");
+
+		    // Llamar a la versión que exporta a Excel
+		    reporte.getReporteExcel(ruta, fecha.toString());
+
+		    FacesContext.getCurrentInstance().responseComplete();
 
 	}
 

@@ -38,37 +38,43 @@ public class CorreoRangos extends Configuracion {
 		String mediciones = null;
 		String textMeciones = null;
 		String porcentajes = null;
+		
+		String  humedadCalciosMedicionesPorcentajes="";
 
 		switch (banderaCalcios + "-" + banderaHumedad) {
 		case "FUERA DE RANGO-FUERA DE RANGO" -> {
 			mediciones = "Humedad: " + humedad + " y Calcios: " + calcios;
-			porcentajes = "Porcentaje Humedad: " + porcentajeHumedad + " y Porcentaje Calcios: " + porcentajeCalcios;
+			porcentajes = "Porcentaje de descuento por Humedad: " + porcentajeHumedad + " y Porcentaje de descuento por Calcios: " + porcentajeCalcios;
 			textMeciones = "Calcios y Humedad fuera de rangos en la tolva: ";
 			mensaje="El sistema ha detectado Calcios y Humedad fuera de rangos";
 		}
 		case "FUERA DE RANGO-OK" -> {
 			mediciones = "Calcios: " + calcios;
-			porcentajes = "Porcentaje Calcios: " + porcentajeCalcios;
+			porcentajes = "Porcentaje de descuento por Calcios: " + porcentajeCalcios;
 			textMeciones = "Calcios fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Calcios fuera de rangos";
+			humedadCalciosMedicionesPorcentajes = "Humedad: " + humedad + " Porcentaje de descuento por Humedad: " + porcentajeHumedad;
 		}
 		case "OK-FUERA DE RANGO" -> {
 			mediciones = "Humedad: " + humedad;
-			porcentajes = "Porcentaje Humedad: " + porcentajeHumedad;
+			porcentajes = "Porcentaje de descuento por Humedad: " + porcentajeHumedad;
 			textMeciones = "Humedad fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Humedad fuera de rangos";
+			humedadCalciosMedicionesPorcentajes = "Calcios: " + calcios + " Porcentaje de descuento por Calcios: " + porcentajeHumedad;
 		}
 		case "null-FUERA DE RANGO" -> {
 			mediciones = "Humedad: " + humedad;
-			porcentajes = "Porcentaje Humedad: " + porcentajeHumedad;
+			porcentajes = "Porcentaje de descuento por Humedad: " + porcentajeHumedad;
 			textMeciones = "Humedad fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Humedad fuera de rangos";
+			humedadCalciosMedicionesPorcentajes = "Calcios: " + calcios + " Porcentaje de descuento por Calcios: " + porcentajeHumedad;
 		}
 		case "FUERA DE RANGO-null" -> {
 			mediciones = "Calcios: " + calcios;
-			porcentajes = "Porcentaje Calcios: " + porcentajeCalcios;
+			porcentajes = "Porcentaje de descuento por Calcios: " + porcentajeCalcios;
 			textMeciones = "Calcios fuera de rango en la tolva: ";
 			mensaje="El sistema ha detectado Calcios fuera de rangos";
+			humedadCalciosMedicionesPorcentajes = "Humedad: " + humedad + " Porcentaje de descuento por Humedad: " + porcentajeHumedad;
 		}
 		default -> {
 			mediciones = "Valores dentro de los rangos esperados";
@@ -76,6 +82,7 @@ public class CorreoRangos extends Configuracion {
 		}
 		}
 
+		
 		try {
 			texto.setContent(
 					"<html><head><title></title></head><body><table width='678' height='315' border='0' bordercolor='#0000FF' bgcolor='#FFFFFF'><tr>"
@@ -83,7 +90,8 @@ public class CorreoRangos extends Configuracion {
 					+ "<tr><td colspan='3' bordercolor='#FFFFFF'><p align='left' style='font-family:arial; font-size:17px'><font color='#086A87'>"
 							+ mensaje + "</font><br><br><b><font color='#000000'>" + "Tolva: </b>" + tolva
 							+ "<br><b> Proveedor: </b>" + proveedor + " <br><b> No. Factura: </b>" + factura+ " <br> <b>No. Ticket: </b>"
-							+ noTicket + " <br><b> Tipo de piel: </b>"  + tipoPiel + " <br><font color='#E60013'><b>" + mediciones + "<br>" + porcentajes
+							+ noTicket + " <br><b> Tipo de piel: </b>"  + tipoPiel + " <br> <b>"+ humedadCalciosMedicionesPorcentajes  +" </b><br>"
+							+ "<font color='#E60013'><b>" + mediciones + "<br>" + porcentajes
 							+ "</font>"
 							+ " </font></b><br></tr><tr><td width='425' bordercolor='#FFFFFF'><p align='left' style='font-family:arial; font-size:17px'>"
 							+ "<br><font color='#17202a'>Sistema de Captura de Producci&oacute;n </font><br><font color='#17202a'>Coloidales Duch&eacute;, S.A. de C.V.</font>"

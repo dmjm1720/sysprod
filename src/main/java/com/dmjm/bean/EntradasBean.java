@@ -799,8 +799,8 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			Proveedores prov = new Proveedores();
 			prov = buscarMermaProveedor(proveedores.getIdProveedor());
-
-			LOGGER.info("Nombre del proveedor:" + prov.getNombre() + " Descuento por merma" + prov.getDescuentoMerma());
+			LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOGGER.info("Nombre del proveedor:" + prov.getNombre() + " Descuento por merma: " + prov.getDescuentoMerma());
 
 			double porcentaje15 = 0.0;
 			porcentaje15 = Double.valueOf(prov.getDescuentoMerma().toString());
@@ -996,6 +996,8 @@ public class EntradasBean extends Conexion implements Serializable {
 
 	// **ACTUALIZAR PERFIL CONTROL DE CALIDAD**//
 	public void actualizar() {
+		alertaCalcios="";
+		alertaHumedad="";
 		IEntradasDao eDao = new EntradasDaoImpl();
 		switch (us.getPerfiles().getNombrePerfil()) {
 		case "Coordinador" -> entradasEditar.setCoordinadorProduccion(us.getIniciales());
@@ -1462,7 +1464,10 @@ public class EntradasBean extends Conexion implements Serializable {
 			}
 
 		}
-
+		
+		entradasEditar = new Entradas();
+//		String script = "setTimeout(function() { window.location.href='Entradas.html'; }, 3000);";
+//		PrimeFaces.current().executeScript(script);
 	}
 
 	public void desbloquear(int id, int tolvaNo) {
@@ -1641,19 +1646,21 @@ public class EntradasBean extends Conexion implements Serializable {
 	public double descuentoHumedadTabla_AB(String porcentaje, String tabla) {
 		double resultado = 0.0;
 		String sql = "";
+		double porcentajeDecimal =0.0;
+		porcentajeDecimal= Double.parseDouble(porcentaje);
 		if (tabla.equals("A")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_A WHERE DE <= " + porcentaje + " AND HASTA >= "
-					+ porcentaje + " ORDER BY ID_HUMEDAD ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_A WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
+					+ porcentajeDecimal + " ORDER BY ID_HUMEDAD ASC";
 		} else if (tabla.equals("B")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_B WHERE DE <= " + porcentaje + " AND HASTA >= "
-					+ porcentaje + " ORDER BY ID_HUMEDAD ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_B WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
+					+ porcentajeDecimal + " ORDER BY ID_HUMEDAD ASC";
 		}
 
 		try {
 			ConectarSysProd();
 			PreparedStatement st = getCnSysProd().prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
-
+			
 			if (!rs.isBeforeFirst()) {
 				// LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje);
 				resultado = 0.0;
@@ -1664,14 +1671,14 @@ public class EntradasBean extends Conexion implements Serializable {
 					resultado = rs.getDouble("DESCUENTO");
 					// HUMEDAD HASTA >= 85.0 TABLA A
 					// HUMEDAD HASTA >= 80.0 TABLA B
-					if (Double.valueOf(porcentaje) >= 85.0 && tabla.equals("A")) {
+					if (Double.valueOf(porcentajeDecimal) >= 85.0 && tabla.equals("A")) {
 						entradasEditar.setRangoHumedad(1);
 						alertaHumedad = "FUERA DE RANGO";
-						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA A");
-					}else if (Double.valueOf(porcentaje) >= 80.0 && tabla.equals("B")) {
+						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentajeDecimal + " EN LA TABLA A");
+					}else if (Double.valueOf(porcentajeDecimal) >= 80.0 && tabla.equals("B")) {
 						entradasEditar.setRangoHumedad(1);
 						alertaHumedad = "FUERA DE RANGO";
-						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA B");
+						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentajeDecimal + " EN LA TABLA B");
 					} else {
 						entradasEditar.setRangoHumedad(0);
 						alertaHumedad = "OK";
@@ -1694,23 +1701,25 @@ public class EntradasBean extends Conexion implements Serializable {
 	// **PARA LOS DESCUENTOS EN LAS TABLAS DE LOS CALCIOS**//
 	public double descuentoCalciosTabla_AB(String porcentaje, String tabla) {
 		double resultado = 0.0;
+		double porcentajeDecimal =0.0;
+		porcentajeDecimal= Double.parseDouble(porcentaje);
 		String sql = "";
 		if (tabla.equals("A")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_A WHERE DE <= " + porcentaje + " AND HASTA >= "
-					+ porcentaje + " ORDER BY ID_CALCIOS ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_A WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
+					+ porcentajeDecimal + " ORDER BY ID_CALCIOS ASC";
 		} else if (tabla.equals("B")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_B WHERE DE <= " + porcentaje + " AND HASTA >= "
-					+ porcentaje + " ORDER BY ID_CALCIOS ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_B WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
+					+ porcentajeDecimal + " ORDER BY ID_CALCIOS ASC";
 		}
 
 		try {
 			ConectarSysProd();
 			PreparedStatement st = getCnSysProd().prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
-
+			
 			if (!rs.isBeforeFirst()) {
 				resultado = 0.0;
-				LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentaje);
+				LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentajeDecimal);
 				entradasEditar.setRangoCalcios(1);
 				alertaCalcios = "FUERA DE RANGO";
 			} else {
@@ -1718,14 +1727,14 @@ public class EntradasBean extends Conexion implements Serializable {
 
 					resultado = rs.getDouble("DESCUENTO");
 					// CALCIOS HASTA >= 1500.0 TABLA A y B
-					if (Double.valueOf(porcentaje) >= 1500.0 && tabla.equals("A")) {
+					if (Double.valueOf(porcentajeDecimal) >= 1500.0 && tabla.equals("A")) {
 						entradasEditar.setRangoCalcios(1);
 						alertaCalcios = "FUERA DE RANGO";
-						LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA A");
-					} else if (Double.valueOf(porcentaje) >= 1500.0 && tabla.equals("B")) {
+						LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentajeDecimal + " EN LA TABLA A");
+					} else if (Double.valueOf(porcentajeDecimal) >= 1500.0 && tabla.equals("B")) {
 						entradasEditar.setRangoCalcios(1);
 						alertaCalcios = "FUERA DE RANGO";
-						LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentaje + " EN LA TABLA B");
+						LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentajeDecimal + " EN LA TABLA B");
 					} else {
 						entradasEditar.setRangoCalcios(0);
 						alertaCalcios = "OK";
@@ -1965,7 +1974,7 @@ public class EntradasBean extends Conexion implements Serializable {
 				porcentaje15 = 0.0;
 			}
 
-			entradasEditar.setCalculoKgMerma(BigDecimal.valueOf((porcentaje15)));
+//			entradasEditar.setCalculoKgMerma(BigDecimal.valueOf((porcentaje15)));
 
 			eDao.actualizarPerfilCoord(entradasEditar);
 

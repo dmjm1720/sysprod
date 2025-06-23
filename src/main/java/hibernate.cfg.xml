@@ -75,6 +75,14 @@
 	    <mapping resource="com/dmjm/model/LimpiezaEstA.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/LimpiezaEstB.hbm.xml"/>
 
-
+	    <mapping resource="com/dmjm/model/FolioPreparacionUltraDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/CambioPrefiltro.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/UltrafiltracionUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionUltraUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/UltrafiltracionDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoUltraDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoUltraUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaUltraUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaUltraDos.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

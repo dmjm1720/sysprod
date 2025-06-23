@@ -13,9 +13,15 @@ public interface IRegistroTurnosDao {
 	
 	void actualizarRegistroTurnos(RegistroTurnos registro);
 	
+	void borrarRegistroTurno(RegistroTurnos registro);
+	
 	
 	List<RegistroTurnos> listaRegistroTurnosEstA(Date fecha);
 	
 	List<RegistroTurnos> listaRegistroTurnosEstB(Date fecha);
+	
+	List<RegistroTurnos> listaRegistroTurnosUltraUno(Date fecha);
+	
+	List<RegistroTurnos> listaRegistroTurnosUltraDos(Date fecha);
 
 }

@@ -3,19 +3,26 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 01-jun-2025 19:40:30 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.dmjm.model.FolioProcesos" table="FOLIO_PROCESOS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
-        <id name="idFolioProcesos" type="int">
-            <column name="ID_FOLIO_PROCESOS" />
-            <generator class="native" />
-        </id>
-        <property name="year" type="java.lang.Integer">
-            <column name="YEAR" />
-        </property>
-        <property name="folioEstPa" type="java.lang.Integer">
-            <column name="FOLIO_EST_PA" />
-        </property>
-        <property name="folioEstPb" type="java.lang.Integer">
-            <column name="FOLIO_EST_PB" />
-        </property>
-    </class>
+	<class name="com.dmjm.model.FolioProcesos" table="FOLIO_PROCESOS"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idFolioProcesos" type="int">
+			<column name="ID_FOLIO_PROCESOS" />
+			<generator class="native" />
+		</id>
+		<property name="year" type="java.lang.Integer">
+			<column name="YEAR" />
+		</property>
+		<property name="folioEstPa" type="java.lang.Integer">
+			<column name="FOLIO_EST_PA" />
+		</property>
+		<property name="folioEstPb" type="java.lang.Integer">
+			<column name="FOLIO_EST_PB" />
+		</property>
+		<property name="folioUltraUno" type="java.lang.Integer">
+			<column name="FOLIO_ULTRA_UNO" />
+		</property>
+		<property name="folioUltraDos" type="java.lang.Integer">
+			<column name="FOLIO_ULTRA_DOS" />
+		</property>
+	</class>
 </hibernate-mapping>

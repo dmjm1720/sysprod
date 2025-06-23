@@ -9,7 +9,6 @@ import org.hibernate.query.Query;
 
 import com.dmjm.dao.ILimpiezaDao;
 import com.dmjm.model.Limpieza;
-import com.dmjm.model.OrdenMantenimiento;
 import com.dmjm.util.HibernateUtil;
 
 public class LimpiezaDaoImpl implements ILimpiezaDao {

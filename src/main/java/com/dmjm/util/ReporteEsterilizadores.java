@@ -17,6 +17,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -61,6 +62,48 @@ public class ReporteEsterilizadores extends Conexion {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	
+	public void getReporteExcel(String ruta, String fecha) throws SQLException {
+	    ConectarSysProd();
+	    Map<String, Object> parameters = new HashMap<>();
+	    parameters.put("fecha", fecha);
+	    parameters.put(JRParameter.REPORT_LOCALE, new Locale("es", "MX")); // México
+
+	    try (Connection connection = getCnSysProd()) {
+	        File file = new File(ruta);
+	        if (!file.exists()) {
+	            throw new IOException("El archivo del reporte no se encuentra: " + ruta);
+	        }
+
+	        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+	                .getResponse();
+	        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	        response.setHeader("Content-Disposition", "attachment; filename=reporte.xlsx");
+
+	        JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(file.getPath());
+	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+	        // Exportar el reporte como Excel
+	        JRXlsxExporter exporter = new JRXlsxExporter();
+	        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+	        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+
+	        exporter.exportReport();
+	        FacesContext.getCurrentInstance().responseComplete();
+
+	    } catch (JRException | IOException e) {
+	        System.err.println("Error al generar el reporte: " + e.getMessage());
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            CerrarSysProd();
+	        } catch (SQLException e) {
+	            System.err.println("Error al cerrar la conexión: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+	    }
 	}
 
 }

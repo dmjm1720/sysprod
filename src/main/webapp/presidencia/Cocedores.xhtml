@@ -80,8 +80,7 @@
 									<p:tab id="tRegTurnos" title="REGISTRAR TURNOS">
 
 
-										<p:splitter styleClass="mb-5"
-											widgetVar="splitter">
+										<p:splitter styleClass="mb-5" widgetVar="splitter">
 											<p:splitterPanel size="20"
 												styleClass="flex align-items-center justify-content-center">
 												<h:panelGrid id="pgTurnos" columns="2"
@@ -130,7 +129,20 @@
 													value="#{cocedoresBean.listarRegistroTurnos}"
 													emptyMessage="NO HAY REGISTROS">
 
-
+													<p:column headerText="Borrar" width="2rem">
+														<div style="text-align: center">
+															<p:commandButton id="eb" icon="pi pi-fw pi-trash"
+																styleClass="ui-button-warning"
+																action="#{cocedoresBean.borrarTurnos()}"
+																update="frmPrincipal:acco:tv:tRegTurnos">
+																<f:setPropertyActionListener value="#{turnos}"
+																	target="#{cocedoresBean.registroTurnosEditar}" />
+															</p:commandButton>
+															<p:tooltip id="toolTipEB" for="eb" value="Borrar"
+																trackMouse="true" />
+														</div>
+													</p:column>
+													
 													<p:column headerText="Editar" width="2rem">
 														<div style="text-align: center">
 															<p:commandButton id="et" icon="pi pi-fw pi-pencil"
@@ -201,8 +213,7 @@
 											<p:outputLabel value="Filtrar fecha" />
 											<p:commandButton value="FILTRAR" styleClass="fuente"
 												actionListener="#{cocedoresBean.filtrarPorFecha()}"
-												update="frmPrincipal:acco:tblCoc,frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
-									frmPrincipal:acco:fom, frmPrincipal:acco:fap, frmPrincipal:acco:fop, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos"
+												update="frmPrincipal:acco:tblCoc,frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos"
 												icon="pi pi-filter" style="width: 6rem; height: 2rem">
 											</p:commandButton>
 
@@ -214,7 +225,15 @@
 												<h:graphicImage url="/resources/img/printer.png"
 													style="height: 1.8rem" />
 											</h:commandLink>
-
+											
+											
+											<p:outputLabel value="Exportar reporte Excel" />
+											<h:commandLink id="impExcel"
+												style="height: 30px; font-size: 12px;" target="_blank"
+												actionListener="#{cocedoresBean.visualizarReporteExcel()}">
+												<h:graphicImage url="/resources/img/excel.png"
+													style="height: 1.8rem" />
+											</h:commandLink>
 
 										</h:panelGrid>
 
@@ -240,127 +259,175 @@
 							<p:divider />
 							<br />
 							<br />
-							<div style="text-align: center;">
-								<h:outputText id="fo" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{cocedoresBean.folioFecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-
-								<h:outputText id="fa" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{cocedoresBean.fecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-							</div>
-							<br />
-							<br />
 
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
 								var="item" sortMode="multiple" reflow="true"
 								paginatorTemplate="
 								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
-								scrollHeight="950" scrollWidth="100%"
+								scrollHeight="300" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
 								value="#{cocedoresBean.listaCocedores}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:ajax event="page" listener="#{cocedoresBean.onPageChange}"
-									update="frmPrincipal:acco:fa, frmPrincipal:acco:fo, frmPrincipal:acco:fal, frmPrincipal:acco:fol, frmPrincipal:acco:fam, 
-									frmPrincipal:acco:fom, frmPrincipal:acco:fap, frmPrincipal:acco:fop, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos" />
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos" />
 
 								<p:columnGroup type="header">
 
 									<p:row>
-										<p:column rowspan="5" headerText="Editar" styleClass="datos" />
+										<p:column rowspan="5" headerText="Editar" styleClass="datos"
+											exportable="false" />
 									</p:row>
 
 									<p:row>
 										<p:column rowspan="3" headerText="HORA" styleClass="datos"
-											style="font-size: .6rem !important" />
+											style="font-size: .6rem !important" exportable="false" />
 										<p:column rowspan="4" headerText="OPERACIÓN"
-											styleClass="datos" style="font-size: .6rem !important" />
+											styleClass="datos" style="font-size: .6rem !important"
+											exportable="false" />
 									</p:row>
 
 
 									<p:row>
 										<p:column colspan="8" headerText="DATOS GENERALES"
-											styleClass="color" />
-										<p:column colspan="2" headerText="COC-01" styleClass="color" />
-										<p:column colspan="2" headerText="COC-02" styleClass="color" />
-										<p:column colspan="2" headerText="COC-03" styleClass="color" />
-										<p:column colspan="2" headerText="COC-04" styleClass="color" />
-										<p:column colspan="2" headerText="COC-05" styleClass="color" />
-										<p:column colspan="2" headerText="COC-06" styleClass="color" />
-										<p:column colspan="2" headerText="COC-07" styleClass="color" />
-										<p:column colspan="2" headerText="COC-08" styleClass="color" />
-										<p:column colspan="2" headerText="COC-09" styleClass="color" />
-										<p:column colspan="2" headerText="COC-10" styleClass="color" />
+											styleClass="color" exportable="false" />
+										<p:column colspan="2" headerText="COC-01" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-02" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-03" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-04" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-05" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-06" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-07" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-08" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-09" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-10" styleClass="color"
+											exportable="false" />
 									</p:row>
 
 									<p:row>
-										<p:column headerText="°C Ent H2O" styleClass="datos" />
-										<p:column headerText="Flujo L/hr" styleClass="datos" />
-										<p:column headerText="PH" styleClass="datos" />
-										<p:column headerText="NTU" styleClass="datos" />
-										<p:column headerText="Calcios (p.p.m)" styleClass="datos" />
-										<p:column headerText="Visc. (mp)" styleClass="datos" />
-										<p:column headerText="Cond. (ms)" styleClass="datos" />
-										<p:column headerText="% Conc. Sal Grl" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column headerText="Temp (°C)" styleClass="datos" />
-										<p:column headerText="Conc %" styleClass="datos" />
-										<p:column colspan="2" headerText="Estado" styleClass="datos" />
+										<p:column headerText="°C Ent H2O" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Flujo L/hr" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="PH" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="NTU" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Calcios (p.p.m)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Visc. (mp)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Cond. (ms)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="% Conc. Sal Grl" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column colspan="2" headerText="Estado" styleClass="datos"
+											exportable="false" />
 									</p:row>
 									<p:row>
 
-										<p:column headerText="LIMITES ESPECIFICOS" styleClass="datos" />
-										<p:column headerText="55-80 °C" styleClass="datos" />
-										<p:column headerText="Min. 400" styleClass="datos" />
-										<p:column headerText="2.7-4.0" styleClass="datos" />
-										<p:column headerText="---" styleClass="datos" />
-										<p:column headerText="---" styleClass="datos" />
-										<p:column headerText="---" styleClass="datos" />
-										<p:column headerText="---" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="LIMITES ESPECIFICOS" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="55-80 °C" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Min. 400" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="2.7-4.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" exportable="false" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" exportable="false" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
-										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
-										<p:column headerText="" styleClass="datos" />
-										<p:column headerText="Min 2.0" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
 										<p:column headerText="Aceptado" styleClass="datos"
-											style="font-size: .7rem !important" />
+											exportable="false" style="font-size: .7rem !important" />
 										<p:column headerText="Rechazado" styleClass="datos"
-											style="font-size: .7rem !important" />
+											exportable="false" style="font-size: .7rem !important" />
 									</p:row>
 
 								</p:columnGroup>
@@ -378,7 +445,6 @@
 										<p:tooltip id="toolTipE" for="ed" value="Editar"
 											trackMouse="true" />
 									</div>
-
 								</p:column>
 								<p:column headerText="Hora"
 									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
@@ -437,7 +503,7 @@
 									<h:outputText value="#{item.tempCoc01}"
 										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-								
+
 								<p:column
 									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
 									<h:outputText value="#{item.concCoc01}"
@@ -449,7 +515,7 @@
 									<h:outputText value="#{item.tempCoc02}"
 										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-								
+
 								<p:column
 									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
 									<h:outputText value="#{item.concCoc02}"
@@ -586,15 +652,7 @@
 							<p:divider />
 							<br />
 							<br />
-							<div style="text-align: left;">
-								<h:outputText id="fol" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{cocedoresBean.folioFecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
 
-								<h:outputText id="fal" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{cocedoresBean.fecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-							</div>
 
 							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
 								var="item" sortMode="multiple" scrollHeight="650"
@@ -703,15 +761,7 @@
 							<p:divider />
 							<br />
 							<br />
-							<div style="text-align: left;">
-								<h:outputText id="fom" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{cocedoresBean.folioFecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
 
-								<h:outputText id="fam" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{cocedoresBean.fecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-							</div>
 
 							<p:dataTable id="tblManto" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="50%"
@@ -827,15 +877,7 @@
 							<p:divider />
 							<br />
 							<br />
-							<div style="text-align: left;">
-								<h:outputText id="fop" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FOLIO #{cocedoresBean.folioFecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
 
-								<h:outputText id="fap" style="width: 20rem !important;"
-									value="&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{cocedoresBean.fecha}&nbsp;&nbsp;&nbsp;"
-									styleClass="fechaActual" />
-							</div>
 
 							<p:dataTable id="tblPurgas" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="40%"
@@ -914,7 +956,7 @@
 						<p:inputText id="opercion" styleClass="camposCocedores"
 							value="#{cocedoresBean.cocedoresEditar.operacion}"
 							required="false" requiredMessage="Campo requerido"
-							style="width: 5rem" />
+							style="width: 8rem" />
 
 						<p:outputLabel for="grados" value="Grados" />
 						<p:inputText id="grados" styleClass="camposCocedores"
@@ -954,7 +996,8 @@
 							style="width: 5rem" />
 
 						<p:outputLabel for="conc" value="Concentración" />
-						<p:inputText id="conc" styleClass="camposCocedores" disabled="true"
+						<p:inputText id="conc" styleClass="camposCocedores"
+							disabled="true"
 							value="#{cocedoresBean.cocedoresEditar.concentrado}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
