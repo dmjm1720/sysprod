@@ -142,7 +142,7 @@
 																trackMouse="true" />
 														</div>
 													</p:column>
-													
+
 													<p:column headerText="Editar" width="2rem">
 														<div style="text-align: center">
 															<p:commandButton id="et" icon="pi pi-fw pi-pencil"
@@ -225,8 +225,8 @@
 												<h:graphicImage url="/resources/img/printer.png"
 													style="height: 1.8rem" />
 											</h:commandLink>
-											
-											
+
+
 											<p:outputLabel value="Exportar reporte Excel" />
 											<h:commandLink id="impExcel"
 												style="height: 30px; font-size: 12px;" target="_blank"
@@ -676,6 +676,12 @@
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
 								</p:column>
+								<p:column headerText="Etapa de Limpieza" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
 								<p:column headerText="Proceso" width="10rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
@@ -699,6 +705,10 @@
 
 								<p:column headerText="Lote" width="10rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
 								</p:column>
 
 							</p:dataTable>

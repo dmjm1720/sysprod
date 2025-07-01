@@ -79,11 +79,10 @@
 
 									<p:tab id="tRegTurnos" title="REGISTRAR TURNOS">
 
-										<p:splitter styleClass="mb-5"
-											widgetVar="splitter">
+										<p:splitter styleClass="mb-5" widgetVar="splitter">
 											<p:splitterPanel size="20"
 												styleClass="flex align-items-center justify-content-center">
-												
+
 												<h:panelGrid id="pgTurnos" columns="2"
 													styleClass="tabla fuente">
 													<p:outputLabel for="turno" value="Turno" />
@@ -119,7 +118,7 @@
 													</p:commandButton>
 												</h:panelGrid>
 											</p:splitterPanel>
-											
+
 											<p:splitterPanel
 												styleClass="flex align-items-center justify-content-center">
 
@@ -227,7 +226,7 @@
 												<h:graphicImage url="/resources/img/printer.png"
 													style="height: 1.8rem" />
 											</h:commandLink>
-											
+
 											<p:outputLabel value="Exportar reporte Excel" />
 											<h:commandLink id="impExcel"
 												style="height: 30px; font-size: 12px;" target="_blank"
@@ -261,7 +260,7 @@
 							<p:divider />
 							<br />
 							<br />
-							
+
 
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
 								var="item" sortMode="multiple" reflow="true"
@@ -474,6 +473,12 @@
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
 								</p:column>
+								<p:column headerText="Etapa de Limpieza" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
 								<p:column headerText="Proceso" width="10rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
@@ -497,6 +502,10 @@
 
 								<p:column headerText="Lote" width="10rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
 								</p:column>
 
 							</p:dataTable>

@@ -231,7 +231,7 @@ public class EsterilizadorPBBean implements Serializable {
 		oDao.actualizarOperador(operadorEditar);
 		operadorEditar = new Operador();
 	}
-	
+
 	public void borrarTurnos() {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		rDao.borrarRegistroTurno(registroTurnosEditar);
@@ -449,8 +449,15 @@ public class EsterilizadorPBBean implements Serializable {
 		FolioPreparacionEstB f = new FolioPreparacionEstB();
 		f.setIdFolioPrep(folioPrepEst);
 
+		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
+		ILimpiezaEsterilizadorPlantaBDao validaDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
+		int noDeLimpieza = 0;
+		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepEst);
+
 		ILimpiezaEsterilizadorPlantaBDao lDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
 		for (String l : datosLimpieza) {
+			limpieza.setVoBo("PENDIENTE");
+			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionEstB(f);
 			limpieza.setProceso(l);
 			lDao.guardarLimpieza(limpieza);
@@ -606,27 +613,27 @@ public class EsterilizadorPBBean implements Serializable {
 		String ruta = null;
 
 		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b.jasper");
-		reporte.getReporte(ruta, fecha.toString());
+		reporte.getReporte(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
+
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
 
-		   HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
 
 		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
-		    FacesContext facesContext = FacesContext.getCurrentInstance();
-		    ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-		    String ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b_excel.jasper");
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b_excel.jasper");
 
-		    // Llamar a la versión que exporta a Excel
-		    reporte.getReporteExcel(ruta, fecha.toString());
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString());
 
-		    FacesContext.getCurrentInstance().responseComplete();
+		FacesContext.getCurrentInstance().responseComplete();
 
 	}
 

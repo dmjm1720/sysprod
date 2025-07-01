@@ -10,4 +10,10 @@ public interface ILimpiezaDao {
 	void guardarLimpieza(Limpieza limpieza);
 
 	void actualizarLimpieza(Limpieza limpieza);
+	
+	int validarNoLimpieza(int folioPrep);
+	
+	List<Limpieza> listarTodo();
+	
+	void actualizarTodoLimpieza();
 }

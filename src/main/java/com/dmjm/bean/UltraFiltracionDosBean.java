@@ -79,16 +79,14 @@ public class UltraFiltracionDosBean implements Serializable {
 	private RegistroTurnos registroTurnos;
 	private RegistroTurnos registroTurnosEditar;
 	private List<RegistroTurnos> listarRegistroTurnos;
-	
+
 	private List<LimpiezaUltraDos> listaLimpieza;
 	private LimpiezaUltraDos limpieza;
 	private LimpiezaUltraDos limpiezaEditar;
-	
-	
+
 	private List<OrdenMantenimientoUltraDos> listaOrdenManto;
 	private OrdenMantenimientoUltraDos ordenMantenimiento;
 	private OrdenMantenimientoUltraDos ordenMantenimientoEditar;
-	
 
 	@PostConstruct
 	public void init() {
@@ -107,12 +105,11 @@ public class UltraFiltracionDosBean implements Serializable {
 		registroTurnos = new RegistroTurnos();
 		listarRegistroTurnos = new ArrayList<>();
 		registroTurnosEditar = new RegistroTurnos();
-		
-		
+
 		listaLimpieza = new ArrayList<>();
 		limpieza = new LimpiezaUltraDos();
 		limpiezaEditar = new LimpiezaUltraDos();
-		
+
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoUltraDos();
 		ordenMantenimientoEditar = new OrdenMantenimientoUltraDos();
@@ -157,7 +154,6 @@ public class UltraFiltracionDosBean implements Serializable {
 		this.ultraFiltracionDos = ultraFiltracionDos;
 	}
 
-	
 	public void setUltraFiltracionDosEditar(UltrafiltracionDos ultraFiltracionDosEditar) {
 		this.ultraFiltracionDosEditar = ultraFiltracionDosEditar;
 	}
@@ -291,9 +287,6 @@ public class UltraFiltracionDosBean implements Serializable {
 	public void setFilterOperador(String filterOperador) {
 		this.filterOperador = filterOperador;
 	}
-	
-	
-	
 
 	public LimpiezaUltraDos getLimpieza() {
 		return limpieza;
@@ -313,8 +306,6 @@ public class UltraFiltracionDosBean implements Serializable {
 	public void setLimpiezaEditar(LimpiezaUltraDos limpiezaEditar) {
 		this.limpiezaEditar = limpiezaEditar;
 	}
-	
-	
 
 	public OrdenMantenimientoUltraDos getOrdenMantenimiento() {
 		return ordenMantenimiento;
@@ -347,18 +338,24 @@ public class UltraFiltracionDosBean implements Serializable {
 		listaLimpieza = lDao.listarLimpieza(folioPrepUltra);
 		return listaLimpieza;
 	}
-	
-	
+
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
+		String datosLimpieza[] = { "DESCONCETRACIÓN", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
 				"ENJUAGUE" };
 
 		FolioPreparacionUltraDos f = new FolioPreparacionUltraDos();
 		f.setIdFolioPrep(folioPrepUltra);
 
+		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
+		ILimpiezaUltraDosDao validaDao = new LimpiezaUltraDosDaoImpl();
+		int noDeLimpieza = 0;
+		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepUltra);
+		
 		ILimpiezaUltraDosDao lDao = new LimpiezaUltraDosDaoImpl();
 		for (String l : datosLimpieza) {
+			limpieza.setVoBo("PENDIENTE");
+			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionUltraDos(f);
 			limpieza.setProceso(l);
 			lDao.guardarLimpieza(limpieza);
@@ -372,14 +369,13 @@ public class UltraFiltracionDosBean implements Serializable {
 		lDao.actualizarLimpieza(limpiezaEditar);
 		limpieza = new LimpiezaUltraDos();
 	}
-	
-	
+
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
 		// validación de mantenimiento si hubo o no hubo
-		//ICocedoresDao validaDao = new CocedoresDaoImpl();
+		// ICocedoresDao validaDao = new CocedoresDaoImpl();
 
-		//validaDao.actualizarManto(folioPrepCocedor);
+		// validaDao.actualizarManto(folioPrepCocedor);
 
 		IOrdenMantoUltraDosDao iDao = new OrdenMantoUltraDosDaoImpl();
 
@@ -395,8 +391,6 @@ public class UltraFiltracionDosBean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoUltraDos();
 	}
-
-
 
 	public void guardarUltraDos() {
 
@@ -437,7 +431,7 @@ public class UltraFiltracionDosBean implements Serializable {
 		PrimeFaces.current().executeScript(script);
 
 	}
-	
+
 	public void borrarTurnos() {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		rDao.borrarRegistroTurno(registroTurnosEditar);
@@ -458,7 +452,7 @@ public class UltraFiltracionDosBean implements Serializable {
 			ultraFiltracionDosEditar.setEstadoR("X");
 			ultraFiltracionDosEditar.setEstadoA(null);
 		}
-		
+
 		cDao.actualizarUltrafiltracion(ultraFiltracionDosEditar);
 		actualizarPromedios(ultraFiltracionDosEditar.getFolioPreparacionUltraDos().getIdFolioPrep());
 
@@ -503,7 +497,7 @@ public class UltraFiltracionDosBean implements Serializable {
 	}
 
 	public void primera() {
-		
+
 		IFolioPreparacionUltraDosDao fDao = new FolioUltraDosDaoImpl();
 		FolioPreparacionUltraDos f = new FolioPreparacionUltraDos();
 		f = fDao.retornarFechaActual();
@@ -703,17 +697,14 @@ public class UltraFiltracionDosBean implements Serializable {
 		cambioEditar = new CambioPrefiltro();
 	}
 
-	
 	public List<CambioPrefiltro> getListaCambio() {
 		ICambioPrefiltroDao cDao = new CambioPrefiltroDaoImpl();
-		
+
 		IFolioPreparacionUltraDosDao folioPrepDao = new FolioUltraDosDaoImpl();
 		this.folioPrepUltra = folioPrepDao.fechaFolioActual(fecha);
 		listaCambio = cDao.listarCambioPrefiltro(folioPrepUltra);
 		return listaCambio;
 	}
-
-
 
 	public void actualizarCambio() {
 		ICambioPrefiltroDao cDao = new CambioPrefiltroDaoImpl();
@@ -743,7 +734,7 @@ public class UltraFiltracionDosBean implements Serializable {
 		String ruta = null;
 
 		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a.jasper");
-		reporte.getReporte(ruta, fecha.toString());
+		reporte.getReporte(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
 

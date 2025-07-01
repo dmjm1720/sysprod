@@ -21,10 +21,10 @@ public class FolioUltraUnoDaoImpl implements IFolioPreparacionUltraUnoDao {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
-			
+
 			f.setFolioUltraUno(folio);
 			f.setFecha(new Date());
-			
+
 			session.save(f);
 			transaction.commit();
 
@@ -50,7 +50,6 @@ public class FolioUltraUnoDaoImpl implements IFolioPreparacionUltraUnoDao {
 			String hql = "FROM FolioPreparacionUltraUno ORDER BY idFolioPrep DESC";
 			Query<FolioPreparacionUltraUno> query = session.createQuery(hql, FolioPreparacionUltraUno.class);
 
-
 			f = query.setMaxResults(1).getSingleResult();
 			tx.commit();
 		} catch (Exception e) {
@@ -70,11 +69,11 @@ public class FolioUltraUnoDaoImpl implements IFolioPreparacionUltraUnoDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			String hql = "SELECT f.folioUltraUno FROM FolioPreparacionUltraUno f WHERE f.fecha = :fecha";
 			Query<Integer> query = session.createQuery(hql, Integer.class);
-			
+
 			query.setParameter("fecha", fecha);
 			Optional<Integer> optionalResult = Optional.ofNullable(query.uniqueResult());
 			folio = optionalResult.orElse(0); // Provide a default value
-			
+
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
@@ -88,10 +87,9 @@ public class FolioUltraUnoDaoImpl implements IFolioPreparacionUltraUnoDao {
 			String hql = "SELECT f.idFolioPrep FROM FolioPreparacionUltraUno f WHERE f.fecha = :fecha";
 			Query<Integer> query = session.createQuery(hql, Integer.class);
 			query.setParameter("fecha", fecha);
-			
+
 			folio = Optional.ofNullable(query.uniqueResult()).orElse(0);
 
-			
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}

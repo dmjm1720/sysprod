@@ -609,14 +609,21 @@ public class CocedoresBean implements Serializable {
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
+		String datosLimpieza[] = { "DESCONCETRACIÓN", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
 				"ENJUAGUE" };
 
 		FolioPreparacionCocedores f = new FolioPreparacionCocedores();
 		f.setIdFolioPrep(folioPrepCocedor);
+		
+		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
+		ILimpiezaDao validaDao = new LimpiezaDaoImpl();
+		int noDeLimpieza = 0;
+		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepCocedor);
 
 		ILimpiezaDao lDao = new LimpiezaDaoImpl();
 		for (String l : datosLimpieza) {
+			limpieza.setNoLimpieza(noDeLimpieza);
+			limpieza.setVoBo("PENDIENTE");
 			limpieza.setFolioPreparacionCocedores(f);
 			limpieza.setProceso(l);
 			lDao.guardarLimpieza(limpieza);
@@ -781,7 +788,7 @@ public class CocedoresBean implements Serializable {
 		String ruta = null;
 
 		ruta = servletContext.getRealPath("/REP/cocedores_rep.jasper");
-		reporte.getReporte(ruta, fecha.toString(), folioPrepCocedor, folioFecha);
+		reporte.getReporte(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
 
@@ -799,7 +806,7 @@ public class CocedoresBean implements Serializable {
 
 		ruta = servletContext.getRealPath("/REP/cocedores_rep.jasper");
 
-		reporte.getReporte(ruta, fec, folioPrep, folioFechaRep);
+		reporte.getReporte(ruta, fec, folioFechaRep);
 
 		FacesContext.getCurrentInstance().responseComplete();
 

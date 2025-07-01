@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small" value="VISTO BUENO DE LIMPIEZAS"
+						styleClass="fuenteTitulo" />
+
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+
+						<p:tab title="ULTRAFILTRACIÓN I" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #3055D6; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza1" columns="2"
+								styleClass="tabla fuente">
+
+
+								<p:outputLabel value="" />
+								<p:commandButton value="DAR VISTO BUENO A LIMPIEZAS"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{voboBean.actualizarLimpiezaUltraUno()}"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblLimpieza1" icon="pi pi-fw pi-save"
+									style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblLimpieza1" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="500"
+								scrollWidth="65%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{voboBean.listarUltraUno.size()}"
+								value="#{voboBean.listarUltraUno}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Folio" width="3rem"
+									filterBy="#{item.folioPreparacionUltraUno.folioUltraUno}">
+									<div style="text-align: center">
+										<h:outputText
+											value="#{item.folioPreparacionUltraUno.folioUltraUno}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Fecha" width="6rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionUltraUno.fecha}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+
+								<p:column headerText="No. Limpieza" width="3rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Proceso" width="10rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hora inicial" width="10rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="10rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Químico" width="10rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Litros usados" width="10rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Lote" width="10rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="LIMPIEZA ULTRAFILTRACIÓN II" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #3055D6; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza2" columns="2"
+								styleClass="tabla fuente">
+
+
+								<p:outputLabel value="" />
+								<p:commandButton value="DAR VISTO BUENO A LIMPIEZAS"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{voboBean.actualizarLimpiezaUltraDos()}"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblLimpieza2" icon="pi pi-fw pi-save"
+									style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblLimpieza2" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="500"
+								scrollWidth="65%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{voboBean.listarUltraDos.size()}"
+								value="#{voboBean.listarUltraDos}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Folio" width="3rem"
+									filterBy="#{item.folioPreparacionUltraDos.folioUltraDos}">
+									<div style="text-align: center">
+										<h:outputText
+											value="#{item.folioPreparacionUltraDos.folioUltraDos}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Fecha" width="6rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionUltraDos.fecha}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+
+								<p:column headerText="No. Limpieza" width="3rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Proceso" width="10rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hora inicial" width="10rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="10rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Químico" width="10rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Litros usados" width="10rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Lote" width="10rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="LIMPIEZA ESTERILIZADOR PLANTA A" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #154360; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza3" columns="2"
+								styleClass="tabla fuente">
+
+
+								<p:outputLabel value="" />
+								<p:commandButton value="DAR VISTO BUENO A LIMPIEZAS"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{voboBean.actualizarLimpiezaEstA()}"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblLimpieza3" icon="pi pi-fw pi-save"
+									style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+							<p:dataTable id="tblLimpieza3" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="65%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{voboBean.listarEstA.size()}"
+								value="#{voboBean.listarEstA}" emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Folio" width="3rem"
+									filterBy="#{item.folioPreparacionEstA.folioEstA}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionEstA.folioEstA}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Fecha" width="6rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionEstA.fecha}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Proceso" width="10rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hora inicial" width="10rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="10rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Químico" width="10rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Litros usados" width="10rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Lote" width="10rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+
+						<p:tab title="LIMPIEZA ESTERILIZADOR PLANTA B" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #154360; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza4" columns="2"
+								styleClass="tabla fuente">
+
+
+								<p:outputLabel value="" />
+								<p:commandButton value="DAR VISTO BUENO A LIMPIEZAS"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{voboBean.actualizarLimpiezaEstB()}"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblLimpieza4" icon="pi pi-fw pi-save"
+									style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblLimpieza4" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="65%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{voboBean.listarEstB.size()}"
+								value="#{voboBean.listarEstB}" emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Folio" width="3rem"
+									filterBy="#{item.folioPreparacionEstB.folioEstB}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionEstB.folioEstB}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Fecha" width="6rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionEstB.fecha}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Proceso" width="10rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hora inicial" width="10rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="10rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Químico" width="10rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Litros usados" width="10rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Lote" width="10rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+
+						<p:tab title="LIMPIEZA COCEDORES" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #383838; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza5" columns="2"
+								styleClass="tabla fuente">
+
+
+								<p:outputLabel value="" />
+								<p:commandButton value="DAR VISTO BUENO A LIMPIEZAS"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{voboBean.actualizarLimpiezaCocedores()}"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblLimpieza5" icon="pi pi-fw pi-save"
+									style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblLimpieza5" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="65%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{voboBean.limpiezaCocedores.size()}"
+								value="#{voboBean.limpiezaCocedores}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Folio" width="3rem"
+									filterBy="#{item.folioPreparacionCocedor.folioCocedor}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionCocedores.folioCocedor}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Fecha" width="6rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioPreparacionCocedores.fecha}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Proceso" width="10rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hora inicial" width="10rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="10rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Químico" width="10rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Litros usados" width="10rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Lote" width="10rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+				</div>
+
+
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

@@ -15,7 +15,7 @@ public class DescuentosHumedadADaoImpl implements IDescuentoHumedadADao {
 
 	@Override
 	public List<DescuentoHumedadTablaA> listarDescuentos() {
-		@SuppressWarnings("JPQLValidation")
+		@SuppressWarnings({ "JPQLValidation", "unchecked" })
         List<DescuentoHumedadTablaA> descuentos = (List<DescuentoHumedadTablaA>) HibernateUtil.getSessionFactory().openSession().createQuery("From DescuentoHumedadTablaA").list();
         return descuentos;
 	}

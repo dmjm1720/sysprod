@@ -79,16 +79,14 @@ public class UltraFiltracionUnoBean implements Serializable {
 	private RegistroTurnos registroTurnos;
 	private RegistroTurnos registroTurnosEditar;
 	private List<RegistroTurnos> listarRegistroTurnos;
-	
+
 	private List<LimpiezaUltraUno> listaLimpieza;
 	private LimpiezaUltraUno limpieza;
 	private LimpiezaUltraUno limpiezaEditar;
-	
-	
+
 	private List<OrdenMantenimientoUltraUno> listaOrdenManto;
 	private OrdenMantenimientoUltraUno ordenMantenimiento;
 	private OrdenMantenimientoUltraUno ordenMantenimientoEditar;
-	
 
 	@PostConstruct
 	public void init() {
@@ -107,11 +105,11 @@ public class UltraFiltracionUnoBean implements Serializable {
 		registroTurnos = new RegistroTurnos();
 		listarRegistroTurnos = new ArrayList<>();
 		registroTurnosEditar = new RegistroTurnos();
-		
+
 		listaLimpieza = new ArrayList<>();
 		limpieza = new LimpiezaUltraUno();
 		limpiezaEditar = new LimpiezaUltraUno();
-		
+
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoUltraUno();
 		ordenMantenimientoEditar = new OrdenMantenimientoUltraUno();
@@ -156,7 +154,6 @@ public class UltraFiltracionUnoBean implements Serializable {
 		this.ultraFiltracionUno = ultraFiltracionUno;
 	}
 
-	
 	public void setUltraFiltracionUnoEditar(UltrafiltracionUno ultraFiltracionUnoEditar) {
 		this.ultraFiltracionUnoEditar = ultraFiltracionUnoEditar;
 	}
@@ -327,7 +324,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 	}
 
 	public List<OrdenMantenimientoUltraUno> getListaOrdenManto() {
-		
+
 		IOrdenMantoUltraUnoDao oDao = new OrdenMantoUltraUnoDaoImpl();
 		IFolioPreparacionUltraUnoDao folioPrepDao = new FolioUltraUnoDaoImpl();
 		this.folioPrepUltra = folioPrepDao.folioUltraUnoActual(fecha);
@@ -336,7 +333,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 	}
 
 	public List<LimpiezaUltraUno> getListaLimpieza() {
-		
+
 		ILimpiezaUltraUnoDao lDao = new LimpiezaUltraUnoDaoImpl();
 		IFolioPreparacionUltraUnoDao folioPrepDao = new FolioUltraUnoDaoImpl();
 		this.folioPrepUltra = folioPrepDao.folioUltraUnoActual(fecha);
@@ -344,18 +341,24 @@ public class UltraFiltracionUnoBean implements Serializable {
 		return listaLimpieza;
 
 	}
-	
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
+		String datosLimpieza[] = { "DESCONCETRACIÓN", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
 				"ENJUAGUE" };
 
 		FolioPreparacionUltraUno f = new FolioPreparacionUltraUno();
 		f.setIdFolioPrep(folioPrepUltra);
 
+		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
+		ILimpiezaUltraUnoDao validaDao = new LimpiezaUltraUnoDaoImpl();
+		int noDeLimpieza = 0;
+		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepUltra);
+
 		ILimpiezaUltraUnoDao lDao = new LimpiezaUltraUnoDaoImpl();
 		for (String l : datosLimpieza) {
+			limpieza.setVoBo("PENDIENTE");
+			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionUltraUno(f);
 			limpieza.setProceso(l);
 			lDao.guardarLimpieza(limpieza);
@@ -369,14 +372,13 @@ public class UltraFiltracionUnoBean implements Serializable {
 		lDao.actualizarLimpieza(limpiezaEditar);
 		limpieza = new LimpiezaUltraUno();
 	}
-	
-	
+
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
 		// validación de mantenimiento si hubo o no hubo
-		//ICocedoresDao validaDao = new CocedoresDaoImpl();
+		// ICocedoresDao validaDao = new CocedoresDaoImpl();
 
-		//validaDao.actualizarManto(folioPrepCocedor);
+		// validaDao.actualizarManto(folioPrepCocedor);
 
 		IOrdenMantoUltraUnoDao iDao = new OrdenMantoUltraUnoDaoImpl();
 
@@ -448,7 +450,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 			ultraFiltracionUnoEditar.setEstadoR("X");
 			ultraFiltracionUnoEditar.setEstadoA(null);
 		}
-		
+
 		cDao.actualizarUltrafiltracion(ultraFiltracionUnoEditar);
 		actualizarPromedios(ultraFiltracionUnoEditar.getFolioPreparacionUltraUno().getIdFolioPrep());
 
@@ -493,7 +495,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 	}
 
 	public void primera() {
-		
+
 		IFolioPreparacionUltraUnoDao fDao = new FolioUltraUnoDaoImpl();
 		FolioPreparacionUltraUno f = new FolioPreparacionUltraUno();
 		f = fDao.retornarFechaActual();
@@ -514,8 +516,6 @@ public class UltraFiltracionUnoBean implements Serializable {
 	}
 
 	public void actualizarPromedios(int folio) {
-
-		
 
 		IUltraFiltracionUnoDao flujoEnt = new UltraFiltracionUnoDaoImpl();
 		flujoEnt.actualizarPromedioFlujoEnt(folio);
@@ -575,7 +575,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 		filterTurno = null;
 
 	}
-	
+
 	public void borrarTurnos() {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		rDao.borrarRegistroTurno(registroTurnosEditar);
@@ -652,17 +652,14 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 	}
 
-	
 	public List<CambioPrefiltro> getListaCambio() {
 		ICambioPrefiltroDao cDao = new CambioPrefiltroDaoImpl();
-		
+
 		IFolioPreparacionUltraUnoDao folioPrepDao = new FolioUltraUnoDaoImpl();
 		this.folioPrepUltra = folioPrepDao.fechaFolioActual(fecha);
 		listaCambio = cDao.listarCambioPrefiltro(folioPrepUltra);
 		return listaCambio;
 	}
-
-
 
 	public void actualizarCambio() {
 		ICambioPrefiltroDao cDao = new CambioPrefiltroDaoImpl();
@@ -689,8 +686,27 @@ public class UltraFiltracionUnoBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a.jasper");
-		reporte.getReporte(ruta, fecha.toString());
+		ruta = servletContext.getRealPath("/REP/ultrafiltracion_uno.jasper");
+		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/ultrafiltracion_uno_excel.jasper");
+
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString());
 
 		FacesContext.getCurrentInstance().responseComplete();
 

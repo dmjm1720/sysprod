@@ -13,5 +13,6 @@ public interface IFolioPreparacionUltraUnoDao {
 	int fechaFolioActual(Date fecha);
 
 	int folioUltraUnoActual(Date fecha);
+	
 
 }

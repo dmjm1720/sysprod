@@ -15,7 +15,7 @@ public class DescuentosCalciosADaoImpl implements IDescuentoCalciosADao {
 
 	@Override
 	public List<DescuentoCalciosTablaA> listarDescuentos() {
-		@SuppressWarnings("JPQLValidation")
+		@SuppressWarnings({ "JPQLValidation", "unchecked" })
 		List<DescuentoCalciosTablaA> descuentos = (List<DescuentoCalciosTablaA>) HibernateUtil.getSessionFactory()
 				.openSession().createQuery("From DescuentoCalciosTablaA").list();
 		return descuentos;

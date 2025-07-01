@@ -13,6 +13,7 @@ import com.dmjm.util.HibernateUtil;
 
 public class DescuentosHumedadBDaoImpl implements IDescuentoHumedadBDao {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<DescuentoHumedadTablaB> listarDescuentos() {
 		@SuppressWarnings("JPQLValidation")

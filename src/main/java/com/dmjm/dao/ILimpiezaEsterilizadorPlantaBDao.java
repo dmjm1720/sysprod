@@ -10,4 +10,10 @@ public interface ILimpiezaEsterilizadorPlantaBDao {
 	void guardarLimpieza(LimpiezaEstB limpieza);
 
 	void actualizarLimpieza(LimpiezaEstB limpieza);
+
+	int validarNoLimpieza(int folioPrep);
+
+	List<LimpiezaEstB> listarTodo();
+	
+	void actualizarTodoLimpieza();
 }

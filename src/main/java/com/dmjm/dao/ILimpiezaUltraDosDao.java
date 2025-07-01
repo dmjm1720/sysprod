@@ -11,5 +11,11 @@ public interface ILimpiezaUltraDosDao {
 	void guardarLimpieza(LimpiezaUltraDos limpieza);
 
 	void actualizarLimpieza(LimpiezaUltraDos limpieza);
+	
+	int validarNoLimpieza(int folioPrep);
+	
+	List<LimpiezaUltraDos> listarTodo();
+	
+	void actualizarTodoLimpieza();
 
 }

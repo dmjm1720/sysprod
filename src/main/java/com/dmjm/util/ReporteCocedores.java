@@ -24,12 +24,11 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 public class ReporteCocedores extends Conexion {
 
-	public void getReporte(String ruta, String fecha, int folio, int folio_cocedor) throws SQLException {
+	public void getReporte(String ruta, String fecha, int folio) throws SQLException {
 		ConectarSysProd();
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("fecha", fecha);
 		parameters.put("folio", folio);
-		parameters.put("folio_cocedor", folio_cocedor);
 		parameters.put(JRParameter.REPORT_LOCALE, new Locale("es", "MX")); // México
 		try (Connection connection = getCnSysProd()) {
 			File file = new File(ruta);

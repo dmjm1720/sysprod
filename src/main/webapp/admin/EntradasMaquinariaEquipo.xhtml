@@ -37,7 +37,7 @@
 						<p:tab title="REGISTRO DE MAQUINARIA Y EQUIPO DE IMPORTACIÓN"
 							rendered="#{login.usuario.perfiles.nombrePerfil=='Coordinador' or login.usuario.perfiles.nombrePerfil=='Gerencia'}"
 							titleStyle="font-size: .8rem; background-color: #FFA500; color: #F5F5F5">
-							<h:panelGrid columns="4" cellpadding="4" styleClass="fuente">
+							<h:panelGrid columns="2" styleClass="fuente">
 
 								<p:outputLabel for="fact" value="FACTURA"
 									styleClass="mensajeBoton2" />
@@ -59,6 +59,8 @@
 									style="font-family: 'Poppins', sans-serif !important;"
 									styleClass="captura" />
 
+
+
 								<p:outputLabel for="pro" value="Proveedor" />
 								<p:autoComplete id="pro" size="35" required="false"
 									autocomplete="off" requiredMessage="Proiveedor requerido"
@@ -66,8 +68,7 @@
 									value="#{entMaqEqBean.filterProveedor}"
 									completeMethod="#{entMaqEqBean.buscarNombreProveedor}" />
 
-								<p:outputLabel for="cantidad"
-									value="Cantidad" />
+								<p:outputLabel for="cantidad" value="Cantidad" />
 								<p:inputText id="cantidad" disabled="false"
 									styleClass="otrosCampos"
 									value="#{entMaqEqBean.entradasImportacionMaq.cantidad}"
@@ -127,15 +128,30 @@
 								emptyMessage="NO HAY REGISTROS">
 
 								<!--Impresión de hoja de importación-->
-								<p:column headerText="Imprimir" width="3rem">
-									<h:commandLink id="imp" value=""
-										style="height: 30px;  font-size: 12px;" target="_blank"
-										actionListener="#{entMaqEqBean.visualizarReporte(item.idMaqEq, item.estadoImpresion)}">
-										<h:graphicImage url="/resources/img/printer.png"
-											value="Reporte" style="height: 1.8rem" />
-									</h:commandLink>
-									<p:tooltip id="toolTipI" for="imp"
-										value="Imprimir hoja de liberación" trackMouse="true" />
+								<p:column headerText="Imprimir" width="2rem">
+									<div style="text-align: center">
+										<h:commandLink id="imp" value=""
+											style="height: 30px;  font-size: 12px;" target="_blank"
+											actionListener="#{entMaqEqBean.visualizarReporte(item.idMaqEq, item.estadoImpresion)}">
+											<h:graphicImage url="/resources/img/printer.png"
+												value="Reporte" style="height: 1.8rem" />
+										</h:commandLink>
+										<p:tooltip id="toolTipI" for="imp"
+											value="Imprimir hoja de liberación" trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Editar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="et" icon="pi pi-fw pi-pencil"
+											oncomplete="PF('dlgEditarMaq').show()"
+											update="frmMaq:pnlEditarMaq" styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{entMaqEqBean.entradasImportacionMaqEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipET" for="et" value="Editar"
+											trackMouse="true" />
+									</div>
 								</p:column>
 
 								<p:column headerText="Liberar" width="3rem"
@@ -150,53 +166,61 @@
 
 
 								<p:column headerText="Factura" width="2rem">
-									<h:outputText value="#{item.factura}" style="color: #036FAB;" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.factura}" style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Cantidad" width="2rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.cantidad}" style="color: #036FAB;" />
+									</div>
 								</p:column>
 
 								<p:column headerText="Folio EA" width="3rem">
-									<h:outputText value="#{item.folioImportacion}"
-										style="color: #2196F3;" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.folioImportacion}"
+											style="color: #2196F3;" />
+									</div>
 								</p:column>
 
 								<p:column headerText="Fecha de entrada" width="7rem">
-									<h:outputText value="#{item.fechaEntrega}"
-										style="color: #2196F3;" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.fechaEntrega}"
+											style="color: #2196F3;" />
+									</div>
 								</p:column>
 
 								<p:column headerText="Nombre Proveedor" width="15rem">
-									<h:outputText value="#{item.proveedoresImportacion.nombre}"
-										style="color: #2196F3;" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.proveedoresImportacion.nombre}"
+											style="color: #2196F3;" />
+									</div>
 								</p:column>
 
 								<p:column
 									headerText="Identificación de la maquinaria y/o equipo"
 									width="7rem">
-									<h:outputText value="#{item.identificacionMaqEq}"
-										style="color: #2196F3;" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.identificacionMaqEq}"
+											style="color: #2196F3;" />
+									</div>
 								</p:column>
 
 								<p:column headerText="No de requerimiento extraordinario"
 									width="7rem">
-									<h:outputText value="#{item.noReqExtra}"
-										style="color: #2196F3;" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.noReqExtra}"
+											style="color: #2196F3;" />
+									</div>
 								</p:column>
 
 								<p:column headerText="Cuenta contable" width="5rem">
-									<h:outputText value="#{item.cuentasContables.cuenta}"
-										style="color: #2196F3;" />
+									<div style="text-align: center">
+										<h:outputText value="#{item.cuentasContables.cuenta}"
+											style="color: #2196F3;" />
+									</div>
 								</p:column>
 
-								<!-- 								<p:column headerText="Orden de compra" width="5rem"> -->
-								<!-- 									<h:outputText value="{item.oc}" style="color: #2196F3;" /> -->
-								<!-- 								</p:column> -->
-
-								<!-- 								<p:column headerText="Pedimento" width="5rem"> -->
-								<!-- 									<h:outputText value="{item.pedimento}" style="color: #2196F3;" /> -->
-								<!-- 								</p:column> -->
-
-								<!-- 								<p:column headerText="Importe" width="5rem"> -->
-								<!-- 									<h:outputText value="{item.importe}" style="color: #2196F3;" /> -->
-								<!-- 								</p:column> -->
 
 							</p:dataTable>
 
@@ -271,6 +295,85 @@
 							update="frmPrincipal, frmPrincipal:msgs"
 							actionListener="#{cuentasBean.actualizarCuentas()}"
 							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR MAQUINARIA-->
+			<h:form id="frmMaq">
+				<p:dialog header="Actualizar información" widgetVar="dlgEditarMaq"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEditarMaq" columns="2" styleClass="fuente">
+
+
+						<p:outputLabel for="fact" value="FACTURA"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="fact" disabled="false" styleClass="tolvas"
+									value="#{entMaqEqBean.entradasImportacionMaqEditar.factura}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="fea" value="Folio EA" />
+								<p:inputText id="fea" styleClass="otrosCampos"
+									value="#{entMaqEqBean.entradasImportacionMaqEditar.folioImportacion}"
+									required="false" requiredMessage="Campo requerido"
+									disabled="true" />
+
+								<p:outputLabel for="fecha" value="Fecha de entrada" />
+								<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="true"
+									disabled="false" placeholder="Fecha de entrada"
+									inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+									value="#{entMaqEqBean.entradasImportacionMaqEditar.fechaEntrega}"
+									style="font-family: 'Poppins', sans-serif !important;"
+									styleClass="captura" />
+
+
+
+								<p:outputLabel for="pro" value="Proveedor" />
+								<p:autoComplete id="pro" size="35" required="false"
+									autocomplete="off" requiredMessage="Proiveedor requerido"
+									placeholder="Ingresa proveedor" dropdown="true"
+									value="#{entMaqEqBean.filterProveedor}"
+									completeMethod="#{entMaqEqBean.buscarNombreProveedor}" />
+
+								<p:outputLabel for="cantidad" value="Cantidad" />
+								<p:inputText id="cantidad" disabled="false"
+									styleClass="otrosCampos"
+									value="#{entMaqEqBean.entradasImportacionMaqEditar.cantidad}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="mat"
+									value="Identificación de la maquinaraia y/o equipo" />
+								<p:inputTextarea id="mat" disabled="false"
+									styleClass="otrosCampos"
+									value="#{entMaqEqBean.entradasImportacionMaqEditar.identificacionMaqEq}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="req"
+									value="No. de requerimiento extraordinario" />
+								<p:inputTextarea id="req" disabled="false"
+									styleClass="otrosCampos"
+									value="#{entMaqEqBean.entradasImportacionMaqEditar.noReqExtra}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="cc" value="Cuenta contable" />
+								<p:autoComplete id="cc" size="35" required="false"
+									autocomplete="off" requiredMessage="Cuenta contable requerida"
+									placeholder="Ingresa cuenta contable" dropdown="true"
+									value="#{entMaqEqBean.filterCuenta}"
+									completeMethod="#{entMaqEqBean.buscarNombreCuenta}" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{entMaqEqBean.actualizar()}"
+							oncomplete="PF('dlgEditarMaq').hide()" />
 					</div>
 
 				</p:dialog>

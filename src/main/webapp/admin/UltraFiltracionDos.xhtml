@@ -524,8 +524,7 @@
 
 
 								<p:outputLabel value="Hora Inicio" />
-								<pe:timePicker
-									value="#{ultraDosBean.cambioEditar.horaInicio}"
+								<pe:timePicker value="#{ultraDosBean.cambioEditar.horaInicio}"
 									styleClass="camposManto" showCloseButton="true"
 									showDeselectButton="true" hourFormat="24" showNowButton="true"
 									rows="3" size="8" showOn="button" widgetVar="tpomhi"
@@ -533,8 +532,7 @@
 									requiredMessage="Customization is required!" />
 
 								<p:outputLabel value="Hora Final" />
-								<pe:timePicker
-									value="#{ultraDosBean.cambioEditar.horaFinal}"
+								<pe:timePicker value="#{ultraDosBean.cambioEditar.horaFinal}"
 									styleClass="camposManto" showCloseButton="true"
 									showDeselectButton="true" hourFormat="24" showNowButton="true"
 									rows="3" size="8" showOn="button" widgetVar="tpomhf"
@@ -609,7 +607,7 @@
 
 
 							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
-								var="item" sortMode="multiple" scrollHeight="650"
+								var="item" sortMode="multiple" scrollHeight="210"
 								scrollWidth="65%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
@@ -629,6 +627,12 @@
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
+								</p:column>
+								<p:column headerText="No. Limpieza" width="3rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
 								</p:column>
 								<p:column headerText="Proceso" width="10rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
@@ -653,6 +657,14 @@
 
 								<p:column headerText="Lote" width="10rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+								
+								<p:column headerText="Lote" width="10rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+								
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
 								</p:column>
 
 							</p:dataTable>
@@ -1028,7 +1040,7 @@
 
 						<p:outputLabel value="Hora Inicial" />
 						<pe:timePicker value="#{ultraDosBean.limpiezaEditar.horaInicial}"
-							styleClass="camposLimpieza" showCloseButton="true"
+							styleClass="camposLimpieza" showCloseButton="true" intervalMinutes="1"
 							showDeselectButton="true" hourFormat="24" showNowButton="true"
 							rows="3" size="8" showOn="button" widgetVar="tphi"
 							label="Custom time picker" required="false"
@@ -1036,9 +1048,9 @@
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker value="#{ultraDosBean.limpiezaEditar.horaFinal}"
-							styleClass="camposLimpieza" showCloseButton="true"
+							styleClass="camposLimpieza" showCloseButton="true" intervalMinutes="1"
 							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tphf"
+							rows="3" size="8" showOn="button" widgetVar="tphf" endMinutes="60"
 							label="Custom time picker" required="false"
 							requiredMessage="Customization is required!" />
 

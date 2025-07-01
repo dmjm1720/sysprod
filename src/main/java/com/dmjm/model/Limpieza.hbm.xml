@@ -31,5 +31,11 @@
 		<property name="proceso" type="string">
 			<column name="PROCESO" length="50" />
 		</property>
+		<property name="noLimpieza" type="java.lang.Integer">
+			<column name="NO_LIMPIEZA" />
+		</property>
+		<property name="voBo" type="string">
+			<column name="VOBO" length="20" />
+		</property>
 	</class>
 </hibernate-mapping>

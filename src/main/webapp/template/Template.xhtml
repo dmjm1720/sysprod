@@ -172,6 +172,12 @@
 						</p:menuitem>
 					</p:submenu>
 
+					<p:submenu label="VoBo Limpieza" icon="pi pi-fw pi-cog">
+						<p:menuitem value="VoBo" outcome="VoBoLimpieza"
+							icon="pi pi-fw pi-wrench">
+						</p:menuitem>
+					</p:submenu>
+
 					<p:submenu label="usuarios" icon="pi pi-fw pi-user">
 						<p:menuitem value="Usuarios" outcome="Usuarios"
 							icon="pi pi-fw pi-user">
@@ -681,18 +687,18 @@
 						action="/index?faces-redirect=true"
 						actionListener="#{login.cerrarSesion()}" />
 				</p:menubar>
-				
-				
-				
+
+
+
 				<!-- ULTRA FILTRACION I -->
-				
+
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==13}">
 					<f:facet name="start">
 						<p:graphicImage name="images/primefaces-logo.svg"
 							library="showcase" />
 					</f:facet>
-					
+
 					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
 
 						<p:menuitem value="Ultra Filtración I"
@@ -710,7 +716,7 @@
 						action="/index?faces-redirect=true"
 						actionListener="#{login.cerrarSesion()}" />
 				</p:menubar>
-				
+
 				<!-- ULTRA FILTRACION II -->
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==14}">
@@ -718,7 +724,7 @@
 						<p:graphicImage name="images/primefaces-logo.svg"
 							library="showcase" />
 					</f:facet>
-					
+
 					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Ultra Filtración II"
 							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">

@@ -18,41 +18,32 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
 
-import com.dmjm.dao.ICocedoresDao;
 import com.dmjm.dao.IEsterilizdorPlantaADao;
 import com.dmjm.dao.IFolioPreparacionEsterilizadorPlantaADao;
-import com.dmjm.dao.IFolioPreparcionCocedoresDao;
 import com.dmjm.dao.IFolioProcesosDao;
 import com.dmjm.dao.ILimpiezaEsterilizadorPlantaADao;
 import com.dmjm.dao.IOperadorDao;
-import com.dmjm.dao.IOrdenMantoDao;
 import com.dmjm.dao.IOrdenMantoEsterilizadorPalantaADao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
-import com.dmjm.impl.CocedoresDaoImpl;
 import com.dmjm.impl.EsterilizadorPlantaADaoImpl;
-import com.dmjm.impl.FolioPreparacionCocedoresDaoImpl;
 import com.dmjm.impl.FolioPreparacionEsterilizadorPlantaADaoImpl;
 import com.dmjm.impl.FolioProcesosDaoImpl;
 import com.dmjm.impl.LimpiezaEsterilizadorPlantaADaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
-import com.dmjm.impl.OrdenMantoDaoImpl;
 import com.dmjm.impl.OrdenMantoEsterilizadorPlantaAImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.model.EsterilizadorPlantaA;
-import com.dmjm.model.FolioPreparacionCocedores;
 import com.dmjm.model.FolioPreparacionEstA;
 import com.dmjm.model.LimpiezaEstA;
 import com.dmjm.model.Operador;
-import com.dmjm.model.OrdenMantenimiento;
 import com.dmjm.model.OrdenMantenimientoEstA;
 import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
-import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("esterilizadorBeanA")
@@ -85,7 +76,7 @@ public class EsterilizadorPABean implements Serializable {
 	private RegistroTurnos registroTurnos;
 	private RegistroTurnos registroTurnosEditar;
 	private List<RegistroTurnos> listarRegistroTurnos;
-	
+
 	private List<OrdenMantenimientoEstA> listaOrdenManto;
 	private OrdenMantenimientoEstA ordenMantenimiento;
 	private OrdenMantenimientoEstA ordenMantenimientoEditar;
@@ -107,12 +98,10 @@ public class EsterilizadorPABean implements Serializable {
 		registroTurnos = new RegistroTurnos();
 		listarRegistroTurnos = new ArrayList<>();
 		registroTurnosEditar = new RegistroTurnos();
-		
-		
+
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoEstA();
 		ordenMantenimientoEditar = new OrdenMantenimientoEstA();
-
 
 		primera();
 		getListarRegistroTurnos();
@@ -197,8 +186,6 @@ public class EsterilizadorPABean implements Serializable {
 	public void setFolioPrepEst(int folioPrepEst) {
 		this.folioPrepEst = folioPrepEst;
 	}
-	
-	
 
 	public OrdenMantenimientoEstA getOrdenMantenimiento() {
 		return ordenMantenimiento;
@@ -216,7 +203,6 @@ public class EsterilizadorPABean implements Serializable {
 		this.ordenMantenimientoEditar = ordenMantenimientoEditar;
 	}
 
-	
 	public List<OrdenMantenimientoEstA> getListaOrdenManto() {
 		IOrdenMantoEsterilizadorPalantaADao oDao = new OrdenMantoEsterilizadorPlantaAImpl();
 		IFolioPreparacionEsterilizadorPlantaADao folioPrepDao = new FolioPreparacionEsterilizadorPlantaADaoImpl();
@@ -224,7 +210,7 @@ public class EsterilizadorPABean implements Serializable {
 		listaOrdenManto = oDao.listaOrdenManto(folioPrepEst);
 		return listaOrdenManto;
 	}
-	
+
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		listaOperadores = oDao.listaOperadorEstPlantaA();
@@ -245,7 +231,7 @@ public class EsterilizadorPABean implements Serializable {
 		oDao.actualizarOperador(operadorEditar);
 		operadorEditar = new Operador();
 	}
-	
+
 	public void borrarTurnos() {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		rDao.borrarRegistroTurno(registroTurnosEditar);
@@ -463,8 +449,15 @@ public class EsterilizadorPABean implements Serializable {
 		FolioPreparacionEstA f = new FolioPreparacionEstA();
 		f.setIdFolioPrep(folioPrepEst);
 
+		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
+		ILimpiezaEsterilizadorPlantaADao validaDao = new LimpiezaEsterilizadorPlantaADaoImpl();
+		int noDeLimpieza = 0;
+		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepEst);
+
 		ILimpiezaEsterilizadorPlantaADao lDao = new LimpiezaEsterilizadorPlantaADaoImpl();
 		for (String l : datosLimpieza) {
+			limpieza.setVoBo("PENDIENTE");
+			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionEstA(f);
 			limpieza.setProceso(l);
 			lDao.guardarLimpieza(limpieza);
@@ -518,7 +511,6 @@ public class EsterilizadorPABean implements Serializable {
 		filterTurno = null;
 
 	}
-	
 
 	public void actualizarTurnos() throws SQLException {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
@@ -579,7 +571,6 @@ public class EsterilizadorPABean implements Serializable {
 		IOperadorDao tDao = new OperadorDaoImpl();
 		return tDao.buscarOperador(nombre, "Est Planta A");
 	}
-	
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
@@ -601,7 +592,7 @@ public class EsterilizadorPABean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoEstA();
 	}
-	
+
 	// **FILTRAR POR FECHA**//
 	public void filtrarPorFecha() {
 		getListaEsterilizador(); // CAMBIAR PARAMETROS PARA EL REPORTE,
@@ -609,8 +600,8 @@ public class EsterilizadorPABean implements Serializable {
 		getLimpiezaEstA();
 		getListaOrdenManto();
 	}
-	
-	//**REPORTE ESTERILIZADORES**//
+
+	// **REPORTE ESTERILIZADORES**//
 	public void visualizarReporte() throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -622,27 +613,27 @@ public class EsterilizadorPABean implements Serializable {
 		String ruta = null;
 
 		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a.jasper");
-		reporte.getReporte(ruta, fecha.toString());
+		reporte.getReporte(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
+
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
 
-		   HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
 
 		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
-		    FacesContext facesContext = FacesContext.getCurrentInstance();
-		    ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-		    String ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a_excel.jasper");
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a_excel.jasper");
 
-		    // Llamar a la versión que exporta a Excel
-		    reporte.getReporteExcel(ruta, fecha.toString());
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString());
 
-		    FacesContext.getCurrentInstance().responseComplete();
+		FacesContext.getCurrentInstance().responseComplete();
 
 	}
 

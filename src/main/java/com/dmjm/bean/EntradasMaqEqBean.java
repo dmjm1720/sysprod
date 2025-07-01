@@ -23,20 +23,17 @@ import com.dmjm.dao.IEntradasMaqEqDao;
 import com.dmjm.dao.IFolioDeImportacionDao;
 import com.dmjm.dao.IFoliosImportacion;
 import com.dmjm.dao.IMateriaDao;
-import com.dmjm.dao.IProveedoresDao;
 import com.dmjm.dao.IProveedoresImportacionDao;
 import com.dmjm.impl.CuentasContablesDaoImpl;
 import com.dmjm.impl.EntradasMaqEqImpl;
 import com.dmjm.impl.FolioDeImportacionDaoImpl;
 import com.dmjm.impl.FoliosImportacionDaoImpl;
 import com.dmjm.impl.MateriaDaoImpl;
-import com.dmjm.impl.ProveedoresDaoImpl;
 import com.dmjm.impl.ProveedoresImportacionDaoImpl;
 import com.dmjm.model.CuentasContables;
 import com.dmjm.model.EntradasMaquinariaEquipo;
 import com.dmjm.model.Proveedores;
 import com.dmjm.model.ProveedoresImportacion;
-import com.dmjm.util.ReporteImportacion;
 import com.dmjm.util.ReporteImportacionMaq;
 
 @Named(value = "entMaqEqBean")
@@ -47,6 +44,7 @@ public class EntradasMaqEqBean implements Serializable {
 
 	private List<EntradasMaquinariaEquipo> listaEntradasImp;
 	private EntradasMaquinariaEquipo entradasImportacionMaq;
+	private EntradasMaquinariaEquipo entradasImportacionMaqEditar;
 	private ProveedoresImportacion proveedoresImportacion;
 	private CuentasContables cuentasContables;
 
@@ -65,6 +63,7 @@ public class EntradasMaqEqBean implements Serializable {
 		proveedores = new Proveedores();
 		cuentasContables = new CuentasContables();
 		entradasImportacionMaq.setFolioImportacion(buscarFolioImportacion());
+		entradasImportacionMaqEditar = new EntradasMaquinariaEquipo();
 
 	}
 
@@ -122,6 +121,15 @@ public class EntradasMaqEqBean implements Serializable {
 
 	public void setFilterCuenta(String filterCuenta) {
 		this.filterCuenta = filterCuenta;
+	}
+	
+
+	public EntradasMaquinariaEquipo getEntradasImportacionMaqEditar() {
+		return entradasImportacionMaqEditar;
+	}
+
+	public void setEntradasImportacionMaqEditar(EntradasMaquinariaEquipo entradasImportacionMaqEditar) {
+		this.entradasImportacionMaqEditar = entradasImportacionMaqEditar;
 	}
 
 	public List<EntradasMaquinariaEquipo> getListaEntradasImp() {
@@ -269,6 +277,19 @@ public class EntradasMaqEqBean implements Serializable {
 	public void liberar(int id) {
 		IEntradasMaqEqDao eDao = new EntradasMaqEqImpl();
 		eDao.actualizarEstadoImpresion(id);
+	}
+	
+	public void actualizar() throws SQLException {
+		IEntradasMaqEqDao eDao = new EntradasMaqEqImpl();
+		
+		proveedoresImportacion.setIdProveedor(buscarProveedor(filterProveedor));
+		cuentasContables.setIdCuentaContable(buscarCuenta(filterCuenta));
+		
+		entradasImportacionMaqEditar.setProveedoresImportacion(proveedoresImportacion);
+		entradasImportacionMaqEditar.setCuentasContables(cuentasContables);
+		
+		eDao.actualizarEntradasImportacion(entradasImportacionMaqEditar);
+		entradasImportacionMaqEditar = new EntradasMaquinariaEquipo();
 	}
 
 }

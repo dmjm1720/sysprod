@@ -14,6 +14,8 @@ public class LimpiezaEstB implements java.io.Serializable {
 	private BigDecimal litrosUsados;
 	private String lote;
 	private String proceso;
+	private Integer noLimpieza;
+	private String voBo;
 
 	public LimpiezaEstB() {
 	}
@@ -23,7 +25,7 @@ public class LimpiezaEstB implements java.io.Serializable {
 	}
 
 	public LimpiezaEstB(int idLimpiezaEstB, FolioPreparacionEstB folioPreparacionEstB, Date horaInicial, Date horaFinal,
-			String quimico, BigDecimal litrosUsados, String lote, String proceso) {
+			String quimico, BigDecimal litrosUsados, String lote, String proceso, Integer noLimpieza, String voBo) {
 		this.idLimpiezaEstB = idLimpiezaEstB;
 		this.folioPreparacionEstB = folioPreparacionEstB;
 		this.horaInicial = horaInicial;
@@ -32,6 +34,8 @@ public class LimpiezaEstB implements java.io.Serializable {
 		this.litrosUsados = litrosUsados;
 		this.lote = lote;
 		this.proceso = proceso;
+		this.noLimpieza = noLimpieza;
+		this.voBo = voBo;
 	}
 
 	public int getIdLimpiezaEstB() {
@@ -96,6 +100,22 @@ public class LimpiezaEstB implements java.io.Serializable {
 
 	public void setProceso(String proceso) {
 		this.proceso = proceso;
+	}
+
+	public Integer getNoLimpieza() {
+		return noLimpieza;
+	}
+
+	public void setNoLimpieza(Integer noLimpieza) {
+		this.noLimpieza = noLimpieza;
+	}
+
+	public String getVoBo() {
+		return voBo;
+	}
+
+	public void setVoBo(String voBo) {
+		this.voBo = voBo;
 	}
 
 }
