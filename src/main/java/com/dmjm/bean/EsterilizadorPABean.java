@@ -1,12 +1,14 @@
 package com.dmjm.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -56,6 +58,8 @@ public class EsterilizadorPABean implements Serializable {
 	private EsterilizadorPlantaA esterilizadorPlantaA;
 	private EsterilizadorPlantaA esterilizadorEditarPlantaA;
 
+	private List<EsterilizadorPlantaA> listaFiltroEsterilizadoresPA;
+
 	private Date fecha;
 	private int folioFecha;
 	private int folioPrepEst;
@@ -103,6 +107,10 @@ public class EsterilizadorPABean implements Serializable {
 		ordenMantenimiento = new OrdenMantenimientoEstA();
 		ordenMantenimientoEditar = new OrdenMantenimientoEstA();
 
+		listaFiltroEsterilizadoresPA = new ArrayList<>();
+		IEsterilizdorPlantaADao lfDao = new EsterilizadorPlantaADaoImpl();
+		listaFiltroEsterilizadoresPA = lfDao.listaFiltroEsterilizador();
+
 		primera();
 		getListarRegistroTurnos();
 		getLimpiezaEstA();
@@ -111,6 +119,10 @@ public class EsterilizadorPABean implements Serializable {
 
 	public EsterilizadorPABean() {
 
+	}
+
+	public List<EsterilizadorPlantaA> getListaFiltroEsterilizadoresPA() {
+		return listaFiltroEsterilizadoresPA;
 	}
 
 	public EsterilizadorPlantaA getEsterilizadorPlantaA() {
@@ -339,16 +351,43 @@ public class EsterilizadorPABean implements Serializable {
 		String oper = esterilizadorEditarPlantaA.getOperacion().replaceAll("\\s+", "");
 		esterilizadorEditarPlantaA.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
 
-		cDao.actualizarEsterilizador(esterilizadorEditarPlantaA);
-		actualizarPromedios(esterilizadorEditarPlantaA.getFolioPreparacionEstA().getIdFolioPrep());
+		BigDecimal temp = Optional.ofNullable(esterilizadorEditarPlantaA.getEsterilizador()).orElse(BigDecimal.ZERO);
 
-		if (esterilizadorEditarPlantaA.getHora().equals("7:00")) {
-			IEsterilizdorPlantaADao aDao = new EsterilizadorPlantaADaoImpl();
-			aDao.actualizarEsterilizadorPromedio(esterilizadorEditarPlantaA.getOperacion(),
-					esterilizadorEditarPlantaA.getFolioPreparacionEstA().getIdFolioPrep());
+		if (temp.doubleValue() > 0) {
+			if (esterilizadorEditarPlantaA.getEsterilizador().longValue() < 100.0) {
+
+				String info = "La temperatura deber mayor o igual a 100 °C";
+
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else {
+
+				cDao.actualizarEsterilizador(esterilizadorEditarPlantaA);
+				actualizarPromedios(esterilizadorEditarPlantaA.getFolioPreparacionEstA().getIdFolioPrep());
+
+				if (esterilizadorEditarPlantaA.getHora().equals("7:00")) {
+					IEsterilizdorPlantaADao aDao = new EsterilizadorPlantaADaoImpl();
+					aDao.actualizarEsterilizadorPromedio(esterilizadorEditarPlantaA.getOperacion(),
+							esterilizadorEditarPlantaA.getFolioPreparacionEstA().getIdFolioPrep());
+				}
+				esterilizadorEditarPlantaA = new EsterilizadorPlantaA();
+				PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
+			}
+		} else {
+
+			cDao.actualizarEsterilizador(esterilizadorEditarPlantaA);
+			actualizarPromedios(esterilizadorEditarPlantaA.getFolioPreparacionEstA().getIdFolioPrep());
+
+			if (esterilizadorEditarPlantaA.getHora().equals("7:00")) {
+				IEsterilizdorPlantaADao aDao = new EsterilizadorPlantaADaoImpl();
+				aDao.actualizarEsterilizadorPromedio(esterilizadorEditarPlantaA.getOperacion(),
+						esterilizadorEditarPlantaA.getFolioPreparacionEstA().getIdFolioPrep());
+			}
+			esterilizadorEditarPlantaA = new EsterilizadorPlantaA();
+			PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
 		}
-		esterilizadorEditarPlantaA = new EsterilizadorPlantaA();
-
 	}
 
 	public List<EsterilizadorPlantaA> obtenerElementosDePagina(int pagina) {
@@ -637,4 +676,16 @@ public class EsterilizadorPABean implements Serializable {
 
 	}
 
+	public void validarTempEsterilizador() {
+		if (esterilizadorEditarPlantaA.getEsterilizador().longValue() < 100.0) {
+
+			String info = "La temperatura deber mayor o igual a 100 °C";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		}
+
+	}
 }

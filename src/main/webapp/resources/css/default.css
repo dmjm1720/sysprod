@@ -290,8 +290,9 @@ a:link:hover, a:visited:hover {
 }
 
 .fuenteCocedores {
-	font-size: .6rem !important;
-	font-weight: bold !important;
+	font-size: .8rem !important;
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto !important;
 }
 
 .fondoAmarillo {
@@ -382,7 +383,8 @@ a:link:hover, a:visited:hover {
 }
 
 .btn-rechazado {
-	border: 2rem !important; background-color : #FF0000 !important;
+	border: 2rem !important;
+	background-color: #FF0000 !important;
 	/* Rojo */
 	color: white !important;
 	background-color: #FF0000 !important;
@@ -398,29 +400,34 @@ a:link:hover, a:visited:hover {
 	background-color: #F8F8FF !important;
 }
 
-.prefiltro{
+.prefiltro {
 	background-color: #FFFAFA !important;
 }
 
-.alimentacion{
+.alimentacion {
 	background-color: #F0FFF0 !important;
 }
 
-.etapa1{
+.etapa1 {
 	background-color: #FFFACD !important;
 }
-.etapa2{
+
+.etapa2 {
 	background-color: #F5FFFA !important;
 }
-.etapa3{
+
+.etapa3 {
 	background-color: #E0FFFF !important;
 }
-.etapa4{
+
+.etapa4 {
 	background-color: #fdebd0 !important;
 }
-.concentrado{
+
+.concentrado {
 	background-color: #ebf5fb !important;
 }
-.concentradoPor{
+
+.concentradoPor {
 	background-color: #e9f7ef !important;
 }

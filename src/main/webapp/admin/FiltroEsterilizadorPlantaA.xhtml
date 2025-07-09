@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center"></div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+
+
+
+						<p:tab id="pt" title="RESUMEN ESTERILIZADOR PLANTA A"
+							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+							<div style="text-align: left"></div>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="300" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{esterilizadorBeanA.listaFiltroEsterilizadoresPA}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="page"
+									listener="#{esterilizadorBeanA.onPageChange}"
+									update="frmPrincipal" />
+
+								<p:columnGroup type="header">
+
+
+									<p:row>
+										<p:column rowspan="5" headerText="Ver reporte"
+											styleClass="datos" />
+										<p:column rowspan="5" headerText="Manto." styleClass="datos" />
+										<p:column rowspan="5" headerText="Limpieza" styleClass="datos" />
+										<p:column rowspan="5" headerText="Fecha" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column rowspan="2" headerText="HORA" styleClass="datos"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="2" headerText="OPERACIÓN"
+											styleClass="datos" style="font-size: .6rem !important" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="% Grenetina" styleClass="datos" />
+										<p:column headerText="Presion Vapor (Kg/cm)."
+											styleClass="datos" />
+										<p:column headerText="Presion de Vacio cmHg"
+											styleClass="datos" />
+										<p:column headerText="T °C  Precalentador" styleClass="datos" />
+										<p:column headerText="T °C  Esterilizador" styleClass="datos" />
+										<p:column headerText="T°C Valv. Diversora" styleClass="datos" />
+										<p:column headerText="Bomba Alim. (Hertz)" styleClass="datos" />
+										<p:column headerText="Tiempo de Est. (Seg)" styleClass="datos" />
+										<p:column headerText="Bomba Salida (Hertz)" styleClass="datos" />
+										<p:column headerText="Flujo Litros/hora" styleClass="datos" />
+										<p:column headerText="Presion del sistema" styleClass="datos" />
+										<p:column headerText="Redox ppm Entrada" styleClass="datos" />
+										<p:column headerText="Redox ppm Salida" styleClass="datos" />
+
+									</p:row>
+									<p:row>
+
+										<p:column headerText="LIMITES ESPECIFICOS" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="26% Min." styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="60°C Min." styleClass="datos" />
+										<p:column headerText="100°C Min." styleClass="datos" />
+										<p:column headerText="105°C Min." styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="6 Seg. Min" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+
+									</p:row>
+								</p:columnGroup>
+
+								<p:column exportable="false" styleClass="datos">
+									<div style="text-align: center"></div>
+								</p:column>
+
+								<p:column exportable="false" styleClass="datos">
+									<div style="text-align: center"></div>
+								</p:column>
+
+								<p:column exportable="false" styleClass="datos">
+									<div style="text-align: center"></div>
+								</p:column>
+
+
+								<p:column exportable="false" styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.fecha}" styleClass="datos" />
+
+									</div>
+								</p:column>
+
+								<p:column headerText="Hora" styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="7:00" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.operacion}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.porcentaje}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.presionVapor}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.presionVacio}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.precalentador}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.esterilizador}" styleClass="datos" />
+									</div>
+								</p:column>
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.valvulaDiversora}"
+											styleClass="datos" />
+									</div>
+								</p:column>
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.bombaAlim}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.tiempoEst}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.bombaSalida}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.flujoLitrosHora}"
+											styleClass="datos" />
+									</div>
+								</p:column>
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.presionSistema}"
+											styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.redoxPpmEntrada}"
+											styleClass="datos" />
+									</div>
+								</p:column>
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.redoxPpmSalida}"
+											styleClass="datos" />
+									</div>
+								</p:column>
+
+							</p:dataTable>
+
+						</p:tab>
+
+
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

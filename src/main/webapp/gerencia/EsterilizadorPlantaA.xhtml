@@ -473,7 +473,7 @@
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
 								</p:column>
-								<p:column headerText="Etapa de Limpieza" width="4rem">
+								<p:column headerText="No. de Limpieza" width="4rem">
 									<div style="text-align: center">
 										<h:outputText value="#{item.noLimpieza}"
 											style="color: #036FAB;" />
@@ -672,14 +672,14 @@
 						<p:inputText id="pre" styleClass="camposCocedores"
 							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.precalentador}"
 							required="false" requiredMessage="Campo requerido"
-							style="width: 5rem" />
+							style="width: 5rem">
+						</p:inputText>
 
 						<p:outputLabel for="est" value="T°C Esterilizador" />
 						<p:inputText id="est" styleClass="camposCocedores"
 							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.esterilizador}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
-
 
 						<p:outputLabel for="vald" value="T°C Valv. Diversora" />
 						<p:inputText id="vald" styleClass="camposCocedores"
@@ -737,6 +737,7 @@
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
+						<p:message id="mensaje" for="pre" />
 					</h:panelGrid>
 
 					<br />
@@ -746,9 +747,9 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
-							update="frmPrincipal, frmPrincipal:msgs"
+							update="frmPrincipal, frmPrincipal:msgs, frmEditar:mensaje"
 							actionListener="#{esterilizadorBeanA.actualizarEsterilizador()}"
-							oncomplete="PF('dlgEditar').hide()" />
+							/>
 					</div>
 
 				</p:dialog>
@@ -938,8 +939,6 @@
 
 		</ui:define>
 	</ui:composition>
-
-
 
 </h:body>
 </html>

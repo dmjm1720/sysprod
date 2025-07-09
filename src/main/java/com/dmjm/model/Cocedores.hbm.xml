@@ -37,8 +37,8 @@
 		<property name="viscocidad" type="big_decimal">
 			<column name="VISCOCIDAD" precision="10" scale="2" />
 		</property>
-		<property name="condensacion" type="big_decimal">
-			<column name="CONDENSACION" precision="10" scale="2" />
+		<property name="condensacion" type="java.lang.Integer">
+			<column name="CONDENSACION" />
 		</property>
 		<property name="concentrado" type="big_decimal">
 			<column name="CONCENTRADO" precision="10" scale="2" />

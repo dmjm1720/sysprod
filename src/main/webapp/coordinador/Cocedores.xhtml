@@ -142,7 +142,7 @@
 																trackMouse="true" />
 														</div>
 													</p:column>
-													
+
 													<p:column headerText="Editar" width="2rem">
 														<div style="text-align: center">
 															<p:commandButton id="et" icon="pi pi-fw pi-pencil"
@@ -225,8 +225,8 @@
 												<h:graphicImage url="/resources/img/printer.png"
 													style="height: 1.8rem" />
 											</h:commandLink>
-											
-											
+
+
 											<p:outputLabel value="Exportar reporte Excel" />
 											<h:commandLink id="impExcel"
 												style="height: 30px; font-size: 12px;" target="_blank"
@@ -376,7 +376,7 @@
 									</p:row>
 									<p:row>
 
-										<p:column headerText="LIMITES ESPECIFICOS" styleClass="datos"
+										<p:column headerText="LIMITES ESPECIFICOS" style="font-size: .6rem !important" styleClass="datos"
 											exportable="false" />
 										<p:column headerText="55-80 °C" styleClass="datos"
 											exportable="false" />
@@ -676,6 +676,12 @@
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
 								</p:column>
+								<p:column headerText="No. de Limpieza" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
 								<p:column headerText="Proceso" width="10rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
@@ -700,7 +706,7 @@
 								<p:column headerText="Lote" width="10rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
 								</p:column>
-								
+
 								<p:column headerText="VoBo" width="5rem">
 									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
 								</p:column>
@@ -975,7 +981,11 @@
 						<p:outputLabel for="ph" value="PH" />
 						<p:inputText id="ph" value="#{cocedoresBean.cocedoresEditar.ph}"
 							required="false" requiredMessage="Campo requerido"
-							styleClass="camposCocedores" style="width: 5rem" />
+							styleClass="camposCocedores" style="width: 5rem">
+							<p:ajax event="keyup" listener="#{cocedoresBean.validarPH()}"
+								update="mensaje" />
+
+						</p:inputText>
 
 						<p:outputLabel for="ntu" value="NTU" />
 						<p:inputText id="ntu" value="#{cocedoresBean.cocedoresEditar.ntu}"
@@ -1127,7 +1137,7 @@
 							value="#{cocedoresBean.cocedoresEditar.concCoc10}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
-
+						<p:message id="mensaje" for="ph" />
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />
 						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
@@ -1150,8 +1160,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{cocedoresBean.actualizarCocedores()}"
-							oncomplete="PF('dlgEditar').hide()" />
+							actionListener="#{cocedoresBean.actualizarCocedores()}" />
 					</div>
 
 				</p:dialog>

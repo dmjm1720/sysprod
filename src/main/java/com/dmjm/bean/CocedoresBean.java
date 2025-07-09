@@ -1,12 +1,14 @@
 package com.dmjm.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -16,6 +18,8 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.ToggleSelectEvent;
@@ -58,7 +62,7 @@ import com.dmjm.util.ReporteCocedores;
 public class CocedoresBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	private static final Logger LOGGER = LogManager.getLogger(CocedoresBean.class.getName());
 	private List<Cocedores> listaCocedores;
 	private Cocedores cocedores;
 	private Cocedores cocedoresEditar;
@@ -344,7 +348,7 @@ public class CocedoresBean implements Serializable {
 
 	public Limpieza getLimpiezaEditar() {
 		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
-			limpiezaEditar.setQuimico("Agua");
+			limpiezaEditar.setQuimico("AGUA");
 		}
 
 		return limpiezaEditar;
@@ -442,40 +446,76 @@ public class CocedoresBean implements Serializable {
 
 		String oper = cocedoresEditar.getOperacion().replaceAll("\\s+", "");
 		cocedoresEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
-//		if (cocedoresEditar.getEstadoAR().equals(true)) {
-//			cocedoresEditar.setEstadoA("X");
-//			cocedoresEditar.setEstadoR(null);
-//		}
-//		if (cocedoresEditar.getEstadoAR().equals(false)) {
-//			cocedoresEditar.setEstadoR("X");
-//			cocedoresEditar.setEstadoA(null);
-//		}
 
-		if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
-			cocedoresEditar.setEstadoA("X");
-			cocedoresEditar.setEstadoR(null);
+		// SE VALIDA CUANDO NO SEA NULL
+		BigDecimal ph = Optional.ofNullable(cocedoresEditar.getPh()).orElse(BigDecimal.ZERO);
+
+		if (ph.doubleValue() > 0) {
+			if (ph.doubleValue() < 2.7 || ph.doubleValue() > 4.0) {
+				LOGGER.warn("VALIDACIÓN DE PH: " + ph.doubleValue());
+				String info = "El Rango de PH debe estar entre 2.7 y 4.0";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else {
+
+				if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
+					cocedoresEditar.setEstadoA("X");
+					cocedoresEditar.setEstadoR(null);
+				}
+
+				if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
+					cocedoresEditar.setEstadoR("X");
+					cocedoresEditar.setEstadoA(null);
+				}
+
+				// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
+				ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
+
+				cDao.actualizarCocedores(cocedoresEditar);
+
+				actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
+
+				actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+
+				if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
+					ICocedoresDao aDao = new CocedoresDaoImpl();
+					aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
+							cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+				}
+				cocedoresEditar = new Cocedores();
+				PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
+			}
+		} else {
+
+			if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
+				cocedoresEditar.setEstadoA("X");
+				cocedoresEditar.setEstadoR(null);
+			}
+
+			if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
+				cocedoresEditar.setEstadoR("X");
+				cocedoresEditar.setEstadoA(null);
+			}
+
+			// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
+			ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
+
+			cDao.actualizarCocedores(cocedoresEditar);
+
+			actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
+
+			actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+
+			if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
+				ICocedoresDao aDao = new CocedoresDaoImpl();
+				aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
+						cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+			}
+			cocedoresEditar = new Cocedores();
+			PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
 		}
-
-		if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
-			cocedoresEditar.setEstadoR("X");
-			cocedoresEditar.setEstadoA(null);
-		}
-
-		// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
-		ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
-
-		cDao.actualizarCocedores(cocedoresEditar);
-
-		actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
-
-		actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
-
-		if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
-			ICocedoresDao aDao = new CocedoresDaoImpl();
-			aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
-					cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
-		}
-		cocedoresEditar = new Cocedores();
 
 	}
 
@@ -614,7 +654,7 @@ public class CocedoresBean implements Serializable {
 
 		FolioPreparacionCocedores f = new FolioPreparacionCocedores();
 		f.setIdFolioPrep(folioPrepCocedor);
-		
+
 		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
 		ILimpiezaDao validaDao = new LimpiezaDaoImpl();
 		int noDeLimpieza = 0;
@@ -758,7 +798,7 @@ public class CocedoresBean implements Serializable {
 		filterTurno = null;
 
 	}
-	
+
 	public void borrarTurnos() {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		rDao.borrarRegistroTurno(registroTurnosEditar);
@@ -811,21 +851,22 @@ public class CocedoresBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
+
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
 
-		   HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
 
-		    ReporteCocedores reporte = new ReporteCocedores();
-		    FacesContext facesContext = FacesContext.getCurrentInstance();
-		    ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-		    String ruta = servletContext.getRealPath("/REP/cocedores_rep_excel.jasper");
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/cocedores_rep_excel.jasper");
 
-		    // Llamar a la versión que exporta a Excel
-		    reporte.getReporteExcel(ruta, fecha.toString(), folioPrepCocedor, folioFecha);
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString(), folioPrepCocedor, folioFecha);
 
-		    FacesContext.getCurrentInstance().responseComplete();
+		FacesContext.getCurrentInstance().responseComplete();
 
 	}
 
@@ -872,6 +913,18 @@ public class CocedoresBean implements Serializable {
 		msg.setSeverity(FacesMessage.SEVERITY_INFO);
 
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void validarPH() {
+		BigDecimal ph = cocedoresEditar.getPh();
+		if (ph == null || ph.doubleValue() < 2.7 || ph.doubleValue() > 4.0) {
+			String info = "El Rango de PH debe estar entre 2.7 y 4.0";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+							+ "  timer: 8000\n" + "})");
+		}
 	}
 
 }

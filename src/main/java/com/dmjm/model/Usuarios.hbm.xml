@@ -37,5 +37,8 @@
 		<property name="rutaImgFirma" type="string">
 			<column name="RUTA_IMG_FIRMA" length="150" />
 		</property>
+		<property name="passVobo" type="string">
+			<column name="PASS_VOBO" length="150" />
+		</property>
 	</class>
 </hibernate-mapping>

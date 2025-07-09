@@ -20,7 +20,8 @@
 					skipDetailIfEqualsSummary="true" />
 
 				<div style="text-align: center">
-					<p:badge size="small" value="CAPTURA DE USUARIOS"  style="font-size: 1rem"/>
+					<p:badge size="small" value="CAPTURA DE USUARIOS"
+						style="font-size: 1rem" />
 				</div>
 
 				<p:divider />
@@ -83,7 +84,7 @@
 							titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
 							<p:dataTable id="tblUsuarios" styleClass="tabla fuente"
 								var="item" sortMode="multiple" scrollHeight="650"
-								scrollWidth="60%"
+								scrollWidth="80%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
@@ -94,19 +95,20 @@
 
 								<p:column headerText="Editar" width="3rem">
 									<div style="text-align: center">
-									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-										styleClass="ui-button-warning">
-										<f:setPropertyActionListener value="#{item}"
-											target="#{usuariosBean.usuarios}" />
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{usuariosBean.usuarios}" />
 
-									</p:commandButton>
-									<p:tooltip id="toolTipE" for="ed" value="Editar"
-										trackMouse="true" />
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
 									</div>
 								</p:column>
 
-								<p:column headerText="Nombre" width="10rem" filterBy="#{item.nombre}">
+								<p:column headerText="Nombre" width="10rem"
+									filterBy="#{item.nombre}">
 									<h:outputText value="#{item.nombre}" style="color: #036FAB;" />
 								</p:column>
 
@@ -122,7 +124,8 @@
 									<h:outputText value="#{item.fechaAlta}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Perfil" width="10rem" filterBy="#{item.perfiles.nombrePerfil}">
+								<p:column headerText="Perfil" width="10rem"
+									filterBy="#{item.perfiles.nombrePerfil}">
 									<h:outputText value="#{item.perfiles.nombrePerfil}"
 										style="color: #036FAB;" />
 								</p:column>
@@ -193,7 +196,7 @@
 						<p:outputLabel for="nombre" value="Nombre" />
 						<p:inputText id="nombre" value="#{usuariosBean.usuarios.nombre}"
 							required="false" requiredMessage="Campo requerido"
-							style="width: 12rem" />
+							style="width: 15rem" />
 						<p:message for="nombre" />
 
 						<p:outputLabel for="correo" value="Correo" />
@@ -225,11 +228,18 @@
 						<p:inputText id="usuario" value="#{usuariosBean.usuarios.usuario}"
 							required="false" requiredMessage="Campo requerido" />
 						<p:message for="usuario" />
-						
+
 						<p:outputLabel for="ruta" value="Ruta imagen firma" />
-						<p:inputText id="ruta" value="#{usuariosBean.usuarios.rutaImgFirma}"
-							required="false" requiredMessage="Campo requerido" />
+						<p:inputText id="ruta" style="width: 15rem"
+							value="#{usuariosBean.usuarios.rutaImgFirma}" required="false"
+							requiredMessage="Campo requerido" />
 						<p:message for="ruta" />
+
+						<p:outputLabel for="pass" value="Password visto bueno" />
+						<p:inputText id="pass"
+							value="#{usuariosBean.usuarios.passVobo}" required="false"
+							requiredMessage="Campo requerido" />
+						<p:message for="pass" />
 
 					</h:panelGrid>
 

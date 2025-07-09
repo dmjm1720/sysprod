@@ -16,7 +16,7 @@ public class Cocedores implements java.io.Serializable {
 	private Integer ntu;
 	private Integer calcios;
 	private BigDecimal viscocidad;
-	private BigDecimal condensacion;
+	private Integer condensacion;
 	private BigDecimal concentrado;
 	private Integer tempCoc01;
 	private BigDecimal concCoc01;
@@ -54,7 +54,7 @@ public class Cocedores implements java.io.Serializable {
 
 	public Cocedores(int idCocedor, FolioPreparacionCocedores folioPreparacionCocedores, String horaLimitesEspecificos,
 			String operacion, BigDecimal grados, Integer flujo, BigDecimal ph, Integer ntu, Integer calcios,
-			BigDecimal viscocidad, BigDecimal condensacion, BigDecimal concentrado, Integer tempCoc01,
+			BigDecimal viscocidad, Integer condensacion, BigDecimal concentrado, Integer tempCoc01,
 			BigDecimal concCoc01, Integer tempCoc02, BigDecimal concCoc02, Integer tempCoc03, BigDecimal concCoc03,
 			Integer tempCoc04, BigDecimal concCoc04, Integer tempCoc05, BigDecimal concCoc05, Integer tempCoc06,
 			BigDecimal concCoc06, Integer tempCoc07, BigDecimal concCoc07, Integer tempCoc08, BigDecimal concCoc08,
@@ -180,11 +180,11 @@ public class Cocedores implements java.io.Serializable {
 		this.viscocidad = viscocidad;
 	}
 
-	public BigDecimal getCondensacion() {
+	public Integer getCondensacion() {
 		return this.condensacion;
 	}
 
-	public void setCondensacion(BigDecimal condensacion) {
+	public void setCondensacion(Integer condensacion) {
 		this.condensacion = condensacion;
 	}
 

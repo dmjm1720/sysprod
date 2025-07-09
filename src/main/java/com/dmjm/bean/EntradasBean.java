@@ -627,9 +627,9 @@ public class EntradasBean extends Conexion implements Serializable {
 				|| preservacion.getIdPreservacion() == 0) {
 
 			String suc = "";
-			String fac = "";
-			String cer = "";
-			String trans = "";
+//			String fac = "";
+//			String cer = "";
+//			String trans = "";
 			String pro = "";
 			String mat = "";
 			String pre = "";
