@@ -8,6 +8,7 @@ public class FolioPreparacionUltraUno implements java.io.Serializable {
 	private int idFolioPrep;
 	private Date fecha;
 	private Integer folioUltraUno;
+	private String observaciones;
 
 	public FolioPreparacionUltraUno() {
 	}
@@ -16,10 +17,11 @@ public class FolioPreparacionUltraUno implements java.io.Serializable {
 		this.idFolioPrep = idFolioPrep;
 	}
 
-	public FolioPreparacionUltraUno(int idFolioPrep, Date fecha, Integer folioUltraUno) {
+	public FolioPreparacionUltraUno(int idFolioPrep, Date fecha, Integer folioUltraUno, String observaciones) {
 		this.idFolioPrep = idFolioPrep;
 		this.fecha = fecha;
 		this.folioUltraUno = folioUltraUno;
+		this.observaciones = observaciones;
 	}
 
 	public int getIdFolioPrep() {
@@ -44,6 +46,14 @@ public class FolioPreparacionUltraUno implements java.io.Serializable {
 
 	public void setFolioUltraUno(Integer folioUltraUno) {
 		this.folioUltraUno = folioUltraUno;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 
 }

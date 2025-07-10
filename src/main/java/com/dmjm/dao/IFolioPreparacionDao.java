@@ -5,5 +5,6 @@ public interface IFolioPreparacionDao {
 	int buscarFolio();
 	
 	void actualizarFolio(int folio);
+
 	
 }

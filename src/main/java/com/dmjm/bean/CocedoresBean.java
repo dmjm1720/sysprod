@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -99,16 +98,25 @@ public class CocedoresBean implements Serializable {
 	private List<Operador> listaOperadores;
 
 	private String[] selectedProcess;
+
+	private String[] selectedProcess2;
 	private List<String> procesos;
 
 	private List<String> cocedorNo;
+
+	private String cocedorSeleccionado;
+
+	private List<Integer> listaLimpiezas;
+
+	private int noLimpiezaSeleccionadaBorrar;
+	private int noLimpiezaVoBo;
 
 	public CocedoresBean() {
 
 	}
 
 	@PostConstruct
-	public void init() {
+	public void init() throws SQLException {
 		listaCocedores = new ArrayList<Cocedores>();
 		cocedores = new Cocedores();
 		cocedoresEditar = new Cocedores();
@@ -151,6 +159,8 @@ public class CocedoresBean implements Serializable {
 		procesos.add("Cocedor 8");
 		procesos.add("Cocedor 9");
 		procesos.add("Cocedor 10");
+
+		listaLimpiezas = new ArrayList<>();
 
 	}
 
@@ -258,6 +268,14 @@ public class CocedoresBean implements Serializable {
 		this.selectedProcess = selectedProcess;
 	}
 
+	public String[] getSelectedProcess2() {
+		return selectedProcess2;
+	}
+
+	public void setSelectedProcess2(String[] selectedProcess2) {
+		this.selectedProcess2 = selectedProcess2;
+	}
+
 	public List<String> getProcesos() {
 		return procesos;
 	}
@@ -272,6 +290,37 @@ public class CocedoresBean implements Serializable {
 
 	public void setCocedorNo(List<String> cocedorNo) {
 		this.cocedorNo = cocedorNo;
+	}
+
+	public String getCocedorSeleccionado() {
+		return cocedorSeleccionado;
+	}
+
+	public void setCocedorSeleccionado(String cocedorSeleccionado) {
+		this.cocedorSeleccionado = cocedorSeleccionado;
+	}
+
+	public List<Integer> getListaLimpiezas() throws SQLException {
+
+		ILimpiezaDao lDao = new LimpiezaDaoImpl();
+		listaLimpiezas = lDao.noLimpieza(folioPrepCocedor);
+		return listaLimpiezas;
+	}
+
+	public int getNoLimpiezaSeleccionadaBorrar() {
+		return noLimpiezaSeleccionadaBorrar;
+	}
+
+	public void setNoLimpiezaSeleccionadaBorrar(int noLimpiezaSeleccionadaBorrar) {
+		this.noLimpiezaSeleccionadaBorrar = noLimpiezaSeleccionadaBorrar;
+	}
+
+	public int getNoLimpiezaVoBo() {
+		return noLimpiezaVoBo;
+	}
+
+	public void setNoLimpiezaVoBo(int noLimpiezaVoBo) {
+		this.noLimpiezaVoBo = noLimpiezaVoBo;
 	}
 
 	public List<RegistroTurnos> getListarRegistroTurnos() {
@@ -448,76 +497,77 @@ public class CocedoresBean implements Serializable {
 		cocedoresEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
 
 		// SE VALIDA CUANDO NO SEA NULL
-		BigDecimal ph = Optional.ofNullable(cocedoresEditar.getPh()).orElse(BigDecimal.ZERO);
+		// BigDecimal ph =
+		// Optional.ofNullable(cocedoresEditar.getPh()).orElse(BigDecimal.ZERO);
 
-		if (ph.doubleValue() > 0) {
-			if (ph.doubleValue() < 2.7 || ph.doubleValue() > 4.0) {
-				LOGGER.warn("VALIDACIÓN DE PH: " + ph.doubleValue());
-				String info = "El Rango de PH debe estar entre 2.7 y 4.0";
-				PrimeFaces.current()
-						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
-								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
-								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
-			} else {
+//		if (ph.doubleValue() > 0) {
+//			if (ph.doubleValue() < 2.7 || ph.doubleValue() > 4.0) {
+//				LOGGER.warn("VALIDACIÓN DE PH: " + ph.doubleValue());
+//				String info = "El Rango de PH debe estar entre 2.7 y 4.0";
+//				PrimeFaces.current()
+//						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+//								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+//								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+//			} else {
+//
+//				if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
+//					cocedoresEditar.setEstadoA("X");
+//					cocedoresEditar.setEstadoR(null);
+//				}
+//
+//				if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
+//					cocedoresEditar.setEstadoR("X");
+//					cocedoresEditar.setEstadoA(null);
+//				}
+//
+//				// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
+//				ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
+//
+//				cDao.actualizarCocedores(cocedoresEditar);
+//
+//				actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
+//
+//				actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+//
+//				if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
+//					ICocedoresDao aDao = new CocedoresDaoImpl();
+//					aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
+//							cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+//				}
+//				cocedoresEditar = new Cocedores();
+//				PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
+//			}
+//		} else {
 
-				if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
-					cocedoresEditar.setEstadoA("X");
-					cocedoresEditar.setEstadoR(null);
-				}
-
-				if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
-					cocedoresEditar.setEstadoR("X");
-					cocedoresEditar.setEstadoA(null);
-				}
-
-				// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
-				ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
-
-				cDao.actualizarCocedores(cocedoresEditar);
-
-				actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
-
-				actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
-
-				if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
-					ICocedoresDao aDao = new CocedoresDaoImpl();
-					aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
-							cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
-				}
-				cocedoresEditar = new Cocedores();
-				PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
-			}
-		} else {
-
-			if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
-				cocedoresEditar.setEstadoA("X");
-				cocedoresEditar.setEstadoR(null);
-			}
-
-			if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
-				cocedoresEditar.setEstadoR("X");
-				cocedoresEditar.setEstadoA(null);
-			}
-
-			// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
-			ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
-
-			cDao.actualizarCocedores(cocedoresEditar);
-
-			actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
-
-			actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
-
-			if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
-				ICocedoresDao aDao = new CocedoresDaoImpl();
-				aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
-						cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
-			}
-			cocedoresEditar = new Cocedores();
-			PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
+		if (Boolean.TRUE.equals(cocedoresEditar.getEstadoAR())) {
+			cocedoresEditar.setEstadoA("X");
+			cocedoresEditar.setEstadoR(null);
 		}
 
+		if (Boolean.FALSE.equals(cocedoresEditar.getEstadoAR())) {
+			cocedoresEditar.setEstadoR("X");
+			cocedoresEditar.setEstadoA(null);
+		}
+
+		// **ACTUALIZAR EL PROMEDIO DE LOS COCEDORES POR FILA, CAMPO CONCENTRADO**//
+		ICocedoresDao actualizaPromFilaDao = new CocedoresDaoImpl();
+
+		cDao.actualizarCocedores(cocedoresEditar);
+
+		actualizaPromFilaDao.actualizarPromediosPorFila(cocedoresEditar.getIdCocedor());
+
+		actualizarPromedios(cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+
+		if (cocedoresEditar.getHoraLimitesEspecificos().equals("7:00")) {
+			ICocedoresDao aDao = new CocedoresDaoImpl();
+			aDao.actualizarCocedoresPromedio(cocedoresEditar.getOperacion(),
+					cocedoresEditar.getFolioPreparacionCocedores().getIdFolioPrep());
+		}
+		cocedoresEditar = new Cocedores();
+		PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
 	}
+
+//	}
 
 	public List<Cocedores> obtenerElementosDePagina(int pagina) {
 		int elementosPorPagina = 25; // Número de elementos por página
@@ -666,9 +716,12 @@ public class CocedoresBean implements Serializable {
 			limpieza.setVoBo("PENDIENTE");
 			limpieza.setFolioPreparacionCocedores(f);
 			limpieza.setProceso(l);
+			limpieza.setNoCocedor(cocedorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
 			limpieza = new Limpieza();
 		}
+
+		cocedorSeleccionado = null;
 
 	}
 
@@ -915,6 +968,30 @@ public class CocedoresBean implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	public void onToggleSelect2(ToggleSelectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Toggled: " + event.isSelected());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onItemSelect2(@SuppressWarnings("rawtypes") SelectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Item selected: " + event.getObject().toString());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public void onItemUnselect2(@SuppressWarnings("rawtypes") UnselectEvent event) {
+		FacesMessage msg = new FacesMessage();
+		msg.setSummary("Item unselected: " + event.getObject().toString());
+		msg.setSeverity(FacesMessage.SEVERITY_INFO);
+
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
 	public void validarPH() {
 		BigDecimal ph = cocedoresEditar.getPh();
 		if (ph == null || ph.doubleValue() < 2.7 || ph.doubleValue() > 4.0) {
@@ -925,6 +1002,21 @@ public class CocedoresBean implements Serializable {
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
 							+ "  timer: 8000\n" + "})");
 		}
+	}
+
+	public void deleteLimpieza() {
+		ILimpiezaDao iDao = new LimpiezaDaoImpl();
+		iDao.borrarLimpieza(folioPrepCocedor, noLimpiezaSeleccionadaBorrar);
+	}
+
+	public void borrarVoBo() {
+		ILimpiezaDao iDao = new LimpiezaDaoImpl();
+		iDao.borrarVoBo(folioPrepCocedor, noLimpiezaVoBo);
+	}
+
+	public void agregarVoBo() {
+		ILimpiezaDao iDao = new LimpiezaDaoImpl();
+		iDao.agregarVoBo(folioPrepCocedor, noLimpiezaVoBo);
 	}
 
 }

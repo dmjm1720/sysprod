@@ -8,6 +8,7 @@ public class FolioPreparacionEstB implements java.io.Serializable {
 	private int idFolioPrep;
 	private Date fecha;
 	private Integer folioEstB;
+	private String observaciones;
 
 	public FolioPreparacionEstB() {
 	}
@@ -16,10 +17,12 @@ public class FolioPreparacionEstB implements java.io.Serializable {
 		this.idFolioPrep = idFolioPrep;
 	}
 
-	public FolioPreparacionEstB(int idFolioPrep, Date fecha, Integer folioEstB) {
+	public FolioPreparacionEstB(int idFolioPrep, Date fecha, Integer folioEstB, String observaciones) {
 		this.idFolioPrep = idFolioPrep;
 		this.fecha = fecha;
 		this.folioEstB = folioEstB;
+
+		this.observaciones = observaciones;
 
 	}
 
@@ -45,6 +48,14 @@ public class FolioPreparacionEstB implements java.io.Serializable {
 
 	public void setFolioEstB(Integer folioEstB) {
 		this.folioEstB = folioEstB;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 
 }

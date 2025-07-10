@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-jun-2025 8:32:27 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.CambioPrefiltro" table="CAMBIO_PREFILTRO" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idPrefiltro" type="int">
+            <column name="ID_PREFILTRO" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="folioPreparacionUltraDos" class="com.dmjm.model.FolioPreparacionUltraDos" fetch="select">
+            <column name="ID_FOLIO_PREP" />
+        </many-to-one>
+        <property name="horaInicio" type="time">
+            <column name="HORA_INICIO" length="16" />
+        </property>
+        <property name="horaFinal" type="time">
+            <column name="HORA_FINAL" length="16" />
+        </property>
+    </class>
+</hibernate-mapping>

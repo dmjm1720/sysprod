@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 5/12/2024 02:38:02 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.CuentasContables" table="CUENTAS_CONTABLES" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idCuentaContable" type="int">
+            <column name="ID_CUENTA_CONTABLE" />
+            <generator class="native" />
+        </id>
+        <property name="cuenta" type="string">
+            <column name="CUENTA" length="50" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

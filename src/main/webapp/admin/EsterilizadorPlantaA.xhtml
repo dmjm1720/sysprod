@@ -516,14 +516,6 @@
 
 
 							<h:panelGrid id="pgManto" columns="2" styleClass="tabla fuente">
-								<p:outputLabel for="no" value="SI / NO" />
-								<p:selectOneMenu id="no" styleClass="camposManto"
-									value="#{esterilizadorBeanA.ordenMantenimiento.siNo}">
-									<f:selectItem itemLabel="Selecciona opción" itemValue="" />
-									<f:selectItem itemLabel="SI" itemValue="NO" />
-									<f:selectItem itemLabel="NO" itemValue="NO" />
-								</p:selectOneMenu>
-
 								<p:outputLabel value="No de Orden" />
 								<p:inputText id="om" styleClass="camposManto"
 									value="#{esterilizadorBeanA.ordenMantenimiento.noOrden}"
@@ -590,10 +582,6 @@
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
-								</p:column>
-
-								<p:column headerText="SI / NO" width="5rem">
-									<h:outputText value="#{item.siNo}" style="color: #036FAB;" />
 								</p:column>
 
 								<p:column headerText="No. de orden" width="5rem">
@@ -842,15 +830,6 @@
 					widgetVar="dlgEditarManto" showEffect="fade" closeOnEscape="true"
 					minimizable="true" maximizable="true" styleClass="tabla fuente">
 					<h:panelGrid id="pnlEditarManto" columns="2">
-
-
-						<p:outputLabel for="no" value="SI / NO" />
-						<p:selectOneMenu id="no" styleClass="camposManto"
-							value="#{esterilizadorBeanA.ordenMantenimientoEditar.siNo}">
-							<f:selectItem itemLabel="Selecciona opción" itemValue="" />
-							<f:selectItem itemLabel="SI" itemValue="SI" />
-							<f:selectItem itemLabel="NO" itemValue="NO" />
-						</p:selectOneMenu>
 
 						<p:outputLabel for="orden" value="No de Orden" />
 						<p:inputText id="orden" styleClass="camposManto"

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 01-jun-2025 19:40:30 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.EsterilizadorPlantaB"
+		table="ESTERILIZADOR_PLANTA_B" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idEsterilizdor" type="int">
+			<column name="ID_ESTERILIZDOR" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionEstB"
+			class="com.dmjm.model.FolioPreparacionEstB" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="hora" type="string">
+			<column name="HORA" length="10" />
+		</property>
+		<property name="operacion" type="string">
+			<column name="OPERACION" length="25" />
+		</property>
+		<property name="porcentaje" type="big_decimal">
+			<column name="PORCENTAJE" precision="10" scale="1" />
+		</property>
+		<property name="presionVapor" type="big_decimal">
+			<column name="PRESION_VAPOR" precision="10" scale="1" />
+		</property>
+		<property name="presionVacio" type="big_decimal">
+			<column name="PRESION_VACIO" precision="10" scale="1" />
+		</property>
+		<property name="precalentador" type="big_decimal">
+			<column name="PRECALENTADOR" precision="10" scale="1" />
+		</property>
+		<property name="esterilizador" type="big_decimal">
+			<column name="ESTERILIZADOR" precision="10" scale="1" />
+		</property>
+		<property name="valvulaDiversora" type="big_decimal">
+			<column name="VALVULA_DIVERSORA" precision="10" scale="1" />
+		</property>
+		<property name="bombaAlim" type="java.lang.Integer">
+			<column name="BOMBA_ALIM" />
+		</property>
+		<property name="tiempoEst" type="big_decimal">
+			<column name="TIEMPO_EST" precision="10" scale="1" />
+		</property>
+		<property name="bombaSalida" type="big_decimal">
+			<column name="BOMBA_SALIDA" precision="10" scale="1" />
+		</property>
+		<property name="flujoLitrosHora" type="java.lang.Integer">
+			<column name="FLUJO_LITROS_HORA" />
+		</property>
+		<property name="presionSistema" type="big_decimal">
+			<column name="PRESION_SISTEMA" precision="18" />
+		</property>
+		<property name="redoxPpmEntrada" type="java.lang.Integer">
+			<column name="REDOX_PPM_ENTRADA" />
+		</property>
+		<property name="redoxPpmSalida" type="java.lang.Integer">
+			<column name="REDOX_PPM_SALIDA" />
+		</property>
+		<property name="folioEsterilizador" type="java.lang.Integer">
+			<column name="FOLIO_ESTERILIZADOR" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+	</class>
+</hibernate-mapping>

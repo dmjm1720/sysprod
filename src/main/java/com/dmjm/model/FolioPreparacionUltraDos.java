@@ -8,6 +8,7 @@ public class FolioPreparacionUltraDos implements java.io.Serializable {
 	private int idFolioPrep;
 	private Date fecha;
 	private Integer folioUltraDos;
+	private String observaciones;
 
 	public FolioPreparacionUltraDos() {
 	}
@@ -16,10 +17,11 @@ public class FolioPreparacionUltraDos implements java.io.Serializable {
 		this.idFolioPrep = idFolioPrep;
 	}
 
-	public FolioPreparacionUltraDos(int idFolioPrep, Date fecha, Integer folioUltraDos) {
+	public FolioPreparacionUltraDos(int idFolioPrep, Date fecha, Integer folioUltraDos, String observaciones) {
 		this.idFolioPrep = idFolioPrep;
 		this.fecha = fecha;
 		this.folioUltraDos = folioUltraDos;
+		this.observaciones = observaciones;
 
 	}
 
@@ -45,6 +47,14 @@ public class FolioPreparacionUltraDos implements java.io.Serializable {
 
 	public void setFolioUltraDos(Integer folioUltraDos) {
 		this.folioUltraDos = folioUltraDos;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 
 }

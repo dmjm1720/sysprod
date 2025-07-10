@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/10/2024 03:42:38 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.DescuentoCalciosTablaB"
+		table="DESCUENTO_CALCIOS_TABLA_B" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idCalcios" type="int">
+			<column name="ID_CALCIOS" />
+			<generator class="native" />
+		</id>
+		<property name="descuento" type="string">
+			<column name="DESCUENTO" length="10" />
+		</property>
+		<property name="de" type="string">
+			<column name="DE" length="10" />
+		</property>
+		<property name="hasta" type="string">
+			<column name="HASTA" length="10" />
+		</property>
+	</class>
+</hibernate-mapping>

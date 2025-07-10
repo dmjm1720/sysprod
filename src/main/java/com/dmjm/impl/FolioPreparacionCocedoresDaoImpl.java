@@ -1,6 +1,10 @@
 package com.dmjm.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -9,9 +13,10 @@ import org.hibernate.query.Query;
 
 import com.dmjm.dao.IFolioPreparcionCocedoresDao;
 import com.dmjm.model.FolioPreparacionCocedores;
+import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
-public class FolioPreparacionCocedoresDaoImpl implements IFolioPreparcionCocedoresDao {
+public class FolioPreparacionCocedoresDaoImpl extends Conexion implements IFolioPreparcionCocedoresDao {
 
 	@Override
 	public int returnIDGuardarFolio(int folio) {
@@ -20,10 +25,10 @@ public class FolioPreparacionCocedoresDaoImpl implements IFolioPreparcionCocedor
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			Transaction transaction = session.beginTransaction();
-			
+
 			fpc.setFolioCocedor(folio);
 			fpc.setFecha(new Date());
-			
+
 			session.save(fpc);
 			transaction.commit();
 
@@ -48,7 +53,6 @@ public class FolioPreparacionCocedoresDaoImpl implements IFolioPreparcionCocedor
 			tx = session.beginTransaction();
 			String hql = "FROM FolioPreparacionCocedores ORDER BY idFolioPrep DESC";
 			Query<FolioPreparacionCocedores> query = session.createQuery(hql, FolioPreparacionCocedores.class);
-
 
 			fpc = query.setMaxResults(1).getSingleResult();
 			tx.commit();
@@ -91,6 +95,23 @@ public class FolioPreparacionCocedoresDaoImpl implements IFolioPreparcionCocedor
 			e.printStackTrace();
 		}
 		return folio;
+	}
+
+	@Override
+	public void actualizarNoCocedor(int folio, String noCocedor) {
+		try {
+			ConectarSysProd();
+			PreparedStatement ps = getCnSysProd()
+					.prepareStatement("UPDATE FOLIO_PREPARACION_COCEDORES SET NO_COCEDOR = ? WHERE ID_FOLIO_PREP = ?");
+			ps.setString(1, noCocedor);
+			ps.setLong(2, folio);
+
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			Logger.getLogger(FolioDeImportacionDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
 	}
 
 }

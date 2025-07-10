@@ -7,7 +7,6 @@ public class OrdenMantenimientoUltraDos implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int idOrdenMantoUltraDos;
 	private FolioPreparacionUltraDos folioPreparacionUltraDos;
-	private String siNo;
 	private Integer noOrden;
 	private Date horaInicio;
 	private Date horaFin;
@@ -21,10 +20,9 @@ public class OrdenMantenimientoUltraDos implements java.io.Serializable {
 	}
 
 	public OrdenMantenimientoUltraDos(int idOrdenMantoUltraDos, FolioPreparacionUltraDos folioPreparacionUltraDos,
-			String siNo, Integer noOrden, Date horaInicio, Date horaFin, String descripcion) {
+			Integer noOrden, Date horaInicio, Date horaFin, String descripcion) {
 		this.idOrdenMantoUltraDos = idOrdenMantoUltraDos;
 		this.folioPreparacionUltraDos = folioPreparacionUltraDos;
-		this.siNo = siNo;
 		this.noOrden = noOrden;
 		this.horaInicio = horaInicio;
 		this.horaFin = horaFin;
@@ -47,13 +45,6 @@ public class OrdenMantenimientoUltraDos implements java.io.Serializable {
 		this.folioPreparacionUltraDos = folioPreparacionUltraDos;
 	}
 
-	public String getSiNo() {
-		return this.siNo;
-	}
-
-	public void setSiNo(String siNo) {
-		this.siNo = siNo;
-	}
 
 	public Integer getNoOrden() {
 		return this.noOrden;

@@ -13,5 +13,7 @@ public interface IFolioPreparcionCocedoresDao {
 	int fechaFolioActual(Date fecha);
 	
 	int folioCocedorActual(Date fecha);
+	
+	void actualizarNoCocedor(int folio, String noCocedor);
 
 }

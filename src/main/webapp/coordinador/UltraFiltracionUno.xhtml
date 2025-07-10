@@ -133,7 +133,9 @@
 													<p:column headerText="Borrar" width="2rem">
 														<div style="text-align: center">
 															<p:commandButton id="eb" icon="pi pi-fw pi-trash"
-																styleClass="ui-button-warning" action="#{ultraUnoBean.borrarTurnos()}" update="frmPrincipal:acco:tv:tRegTurnos">
+																styleClass="ui-button-warning"
+																action="#{ultraUnoBean.borrarTurnos()}"
+																update="frmPrincipal:acco:tv:tRegTurnos">
 																<f:setPropertyActionListener value="#{turnos}"
 																	target="#{ultraUnoBean.registroTurnosEditar}" />
 															</p:commandButton>
@@ -141,7 +143,7 @@
 																trackMouse="true" />
 														</div>
 													</p:column>
-													
+
 													<p:column headerText="Editar" width="2rem">
 														<div style="text-align: center">
 															<p:commandButton id="et" icon="pi pi-fw pi-pencil"
@@ -224,6 +226,14 @@
 												<h:graphicImage url="/resources/img/printer.png"
 													style="height: 1.8rem" />
 											</h:commandLink>
+											
+											<p:outputLabel value="Exportar reporte Excel" />
+											<h:commandLink id="impExcel"
+												style="height: 30px; font-size: 12px;" target="_blank"
+												actionListener="#{ultraUnoBean.visualizarReporteExcel()}">
+												<h:graphicImage url="/resources/img/excel.png"
+													style="height: 1.8rem" />
+											</h:commandLink>
 
 
 										</h:panelGrid>
@@ -250,7 +260,7 @@
 							<p:divider />
 							<br />
 							<br />
-							
+
 
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
 								var="item" sortMode="multiple" reflow="true"
@@ -435,10 +445,10 @@
 							<p:divider />
 							<br />
 							<br />
-							
+
 
 							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
-								var="item" sortMode="multiple" scrollHeight="650"
+								var="item" sortMode="multiple" scrollHeight="210"
 								scrollWidth="65%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
@@ -458,6 +468,13 @@
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
+								</p:column>
+								
+								<p:column headerText="No. Limpieza" width="3rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
 								</p:column>
 								<p:column headerText="Proceso" width="10rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
@@ -483,6 +500,10 @@
 								<p:column headerText="Lote" width="10rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
 								</p:column>
+								
+								<p:column headerText="VoBo" width="5rem">
+									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								</p:column>
 
 							</p:dataTable>
 						</p:tab>
@@ -492,13 +513,6 @@
 
 
 							<h:panelGrid id="pgManto" columns="2" styleClass="tabla fuente">
-								<p:outputLabel for="no" value="SI / NO" />
-								<p:selectOneMenu id="no" styleClass="camposManto"
-									value="#{ultraUnoBean.ordenMantenimiento.siNo}">
-									<f:selectItem itemLabel="Selecciona opción" itemValue="" />
-									<f:selectItem itemLabel="SI" itemValue="NO" />
-									<f:selectItem itemLabel="NO" itemValue="NO" />
-								</p:selectOneMenu>
 
 								<p:outputLabel value="No de Orden" />
 								<p:inputText id="om" styleClass="camposManto"
@@ -544,7 +558,7 @@
 							<p:divider />
 							<br />
 							<br />
-							
+
 
 							<p:dataTable id="tblManto" styleClass="tabla fuente" var="item"
 								sortMode="multiple" scrollHeight="650" scrollWidth="50%"
@@ -567,10 +581,6 @@
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
-								</p:column>
-
-								<p:column headerText="SI / NO" width="5rem">
-									<h:outputText value="#{item.siNo}" style="color: #036FAB;" />
 								</p:column>
 
 								<p:column headerText="No. de orden" width="5rem">
@@ -609,6 +619,11 @@
 				<p:dialog header="Actualizar información de Ultrafiltración I"
 					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
 					closeOnEscape="true" minimizable="true" maximizable="true">
+					<p:column headerText="No. Limpieza" width="3rem">
+						<div style="text-align: center">
+							<h:outputText value="#{item.noLimpieza}" style="color: #036FAB;" />
+						</div>
+					</p:column>
 					<h:panelGrid id="pnlEditar" columns="4">
 
 
@@ -778,7 +793,7 @@
 			<!-- FINALIZA FORMULARIO PARA EDITAR LIMPIEZA-->
 
 
-			
+
 
 
 			<!-- INICIA FORMULARIO PARA EDITAR ORDEN DE MANTENIMIENTO-->
@@ -787,15 +802,6 @@
 					widgetVar="dlgEditarManto" showEffect="fade" closeOnEscape="true"
 					minimizable="true" maximizable="true" styleClass="tabla fuente">
 					<h:panelGrid id="pnlEditarManto" columns="2">
-
-
-						<p:outputLabel for="no" value="SI / NO" />
-						<p:selectOneMenu id="no" styleClass="camposManto"
-							value="#{ultraUnoBean.ordenMantenimientoEditar.siNo}">
-							<f:selectItem itemLabel="Selecciona opción" itemValue="" />
-							<f:selectItem itemLabel="SI" itemValue="SI" />
-							<f:selectItem itemLabel="NO" itemValue="NO" />
-						</p:selectOneMenu>
 
 						<p:outputLabel for="orden" value="No de Orden" />
 						<p:inputText id="orden" styleClass="camposManto"

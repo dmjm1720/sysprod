@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-may-2025 22:46:38 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.FolioCocedores" table="FOLIO_COCEDORES" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idFolioCocedores" type="int">
+            <column name="ID_FOLIO_COCEDORES" />
+            <generator class="native" />
+        </id>
+        <property name="year" type="java.lang.Integer">
+            <column name="YEAR" />
+        </property>
+        <property name="folio" type="java.lang.Integer">
+            <column name="FOLIO" />
+        </property>
+    </class>
+</hibernate-mapping>

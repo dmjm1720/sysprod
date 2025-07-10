@@ -14,40 +14,41 @@ public class FoliosPreparacionDaoImpl extends Conexion implements IFolioPreparac
 	@Override
 	public int buscarFolio() {
 		int folio = 0;
-        try {
+		try {
 
-            ConectarSysProd();
-            PreparedStatement st = getCnSysProd().prepareStatement("SELECT MAX(FOLIO)+1 FOLIO FROM FOLIOS_PREPARACION");
-            ResultSet rs = st.executeQuery();
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd().prepareStatement("SELECT MAX(FOLIO)+1 FOLIO FROM FOLIOS_PREPARACION");
+			ResultSet rs = st.executeQuery();
 
-            if (!rs.isBeforeFirst()) {
-            } else {
-                while (rs.next()) {
-                    folio = rs.getInt("FOLIO");
+			if (!rs.isBeforeFirst()) {
+			} else {
+				while (rs.next()) {
+					folio = rs.getInt("FOLIO");
 
-                }
-            }
+				}
+			}
 
-            CerrarSysProd();
+			CerrarSysProd();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(FoliosDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return folio;
+		} catch (SQLException ex) {
+			Logger.getLogger(FoliosDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return folio;
 	}
 
 	@Override
 	public void actualizarFolio(int folio) {
 
-        try {
-            ConectarSysProd();
-            PreparedStatement ps = getCnSysProd().prepareStatement("UPDATE FOLIOS_PREPARACION SET FOLIO='"+ folio +"'");
-            ps.executeUpdate();
-            CerrarSysProd();
-        } catch (SQLException ex) {
-            Logger.getLogger(FoliosDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-		
+		try {
+			ConectarSysProd();
+			PreparedStatement ps = getCnSysProd()
+					.prepareStatement("UPDATE FOLIOS_PREPARACION SET FOLIO='" + folio + "'");
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			Logger.getLogger(FoliosDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
 	}
 
 }

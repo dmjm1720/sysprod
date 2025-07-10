@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 22/11/2024 10:11:41 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.Lavadoras" table="LAVADORAS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idLavadora" type="int">
+            <column name="ID_LAVADORA" />
+            <generator class="native" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="NOMBRE" length="50" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="50" />
+        </property>
+        <property name="estado" type="java.lang.Integer">
+            <column name="ESTADO" />
+        </property>
+        <property name="etapa" type="string">
+            <column name="ETAPA" length="50" />
+        </property>
+                <property name="capacidadKilos" type="big_decimal">
+            <column name="CAPACIDAD_KILOS" precision="10" scale="4" />
+        </property>
+    </class>
+</hibernate-mapping>

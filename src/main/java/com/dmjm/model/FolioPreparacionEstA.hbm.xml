@@ -3,16 +3,21 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 01-jun-2025 19:40:30 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.dmjm.model.FolioPreparacionEstA" table="FOLIO_PREPARACION_EST_A" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
-        <id name="idFolioPrep" type="int">
-            <column name="ID_FOLIO_PREP" />
-            <generator class="native" />
-        </id>
-        <property name="fecha" type="date">
-            <column name="FECHA" length="10" />
-        </property>
-        <property name="folioEstA" type="java.lang.Integer">
-            <column name="FOLIO_EST_A" />
-        </property>
-    </class>
+	<class name="com.dmjm.model.FolioPreparacionEstA"
+		table="FOLIO_PREPARACION_EST_A" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idFolioPrep" type="int">
+			<column name="ID_FOLIO_PREP" />
+			<generator class="native" />
+		</id>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="folioEstA" type="java.lang.Integer">
+			<column name="FOLIO_EST_A" />
+		</property>
+		<property name="observaciones" type="string">
+			<column name="OBSERVACIONES" length="1000" />
+		</property>
+	</class>
 </hibernate-mapping>

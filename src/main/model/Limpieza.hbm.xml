@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-may-2025 22:46:38 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.Limpieza" table="LIMPIEZA"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idLimpieza" type="int">
+			<column name="ID_LIMPIEZA" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionCocedores"
+			class="com.dmjm.model.FolioPreparacionCocedores" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="horaInicial" type="time">
+			<column name="HORA_INICIAL" length="16" />
+		</property>
+		<property name="horaFinal" type="time">
+			<column name="HORA_FINAL" length="16" />
+		</property>
+		<property name="quimico" type="string">
+			<column name="QUIMICO" length="50" />
+		</property>
+		<property name="litrosUsados" type="big_decimal">
+			<column name="LITROS_USADOS" precision="10" scale="3" />
+		</property>
+		<property name="lote" type="string">
+			<column name="LOTE" length="50" />
+		</property>
+		<property name="proceso" type="string">
+			<column name="PROCESO" length="50" />
+		</property>
+		<property name="noLimpieza" type="java.lang.Integer">
+			<column name="NO_LIMPIEZA" />
+		</property>
+		<property name="voBo" type="string">
+			<column name="VOBO" length="20" />
+		</property>
+		<property name="noCocedor" type="string">
+			<column name="NO_COCEDOR" length="150" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10-may-2025 22:46:38 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.FolioPreparacionCocedores" table="FOLIO_PREPARACION_COCEDORES" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idFolioPrep" type="int">
+            <column name="ID_FOLIO_PREP" />
+            <generator class="native" />
+        </id>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" />
+        </property>
+        <property name="folioCocedor" type="java.lang.Integer">
+			<column name="FOLIO_COCEDOR" />
+		</property>
+        
+    </class>
+</hibernate-mapping>

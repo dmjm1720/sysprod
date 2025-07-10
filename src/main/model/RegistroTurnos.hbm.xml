@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-may-2025 22:10:55 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.RegistroTurnos"
+		table="REGISTRO_TURNOS" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idRegistroTurno" type="int">
+			<column name="ID_REGISTRO_TURNO" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="usuarios"
+			class="com.dmjm.model.Usuarios" fetch="select">
+			<column name="ID_COORDINADOR" />
+		</many-to-one>
+		<many-to-one name="operador"
+			class="com.dmjm.model.Operador" fetch="select">
+			<column name="ID_OPERADOR" />
+		</many-to-one>
+		<many-to-one name="turnos" class="com.dmjm.model.Turnos"
+			fetch="select">
+			<column name="ID_TURNO" />
+		</many-to-one>
+		<property name="folio" type="java.lang.Integer">
+			<column name="FOLIO" />
+		</property>
+		<property name="descProceso" type="string">
+			<column name="DESC_PROCESO" length="50" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+	</class>
+</hibernate-mapping>
