@@ -22,7 +22,7 @@ public interface ILimpiezaDao {
 	
 	void borrarLimpieza(int folio, int noLimpieza);
 	
-	void agregarVoBo(int folio, int noLimpieza);
+	void agregarVoBo(int folio, int noLimpieza, int idUsuario);
 	
 	void borrarVoBo(int folio, int noLimpieza);
 }

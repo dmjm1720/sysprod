@@ -56,9 +56,10 @@
 
 								<p:columnGroup type="header">
 									<p:row>
-										<p:column rowspan="5" headerText="Ver reporte"
+										<p:column rowspan="5" headerText="Reporte"
 											styleClass="datos" />
 										<p:column rowspan="5" headerText="Manto." styleClass="datos" />
+										<p:column rowspan="5" headerText="Limpieza" styleClass="datos" />
 										<p:column rowspan="5" headerText="Fecha" styleClass="datos" width="5rem"/>
 									</p:row>
 
@@ -119,7 +120,7 @@
 
 									</p:row>
 									<p:row>
-										<p:column headerText="LIMITES ESPECIFICOS" styleClass="datos" />
+										<p:column headerText="LIMITES ESPECIFICOS" style="font-size: .5rem !important" styleClass="datos" />
 										<p:column headerText="55-80 °C" styleClass="datos" />
 										<p:column headerText="Min. 400" styleClass="datos" />
 										<p:column headerText="2.7-4.0" styleClass="datos" />
@@ -168,6 +169,15 @@
 									<div style="text-align: center">
 										<p:graphicImage
 											value="/resources/img/#{item.estadoManto eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>		
+
+								<p:column>
+
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
 											style="width: 20px; height: 20px;" />
 									</div>
 								</p:column>

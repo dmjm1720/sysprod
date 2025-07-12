@@ -90,6 +90,8 @@ public class LoginBean implements Serializable {
 				ruta = "/sysprod/ultra1/UltraFiltracionUno.html";
 			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("Ultra Filtración II")) {
 				ruta = "/sysprod/ultra2/UltraFiltracionDos.html";
+			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("Inocuidad")) {
+				ruta = "/sysprod/inocuidad/Cocedores.html";
 			}
 			
 

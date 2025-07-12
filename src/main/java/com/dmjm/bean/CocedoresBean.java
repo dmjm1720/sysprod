@@ -110,6 +110,7 @@ public class CocedoresBean implements Serializable {
 
 	private int noLimpiezaSeleccionadaBorrar;
 	private int noLimpiezaVoBo;
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 
 	public CocedoresBean() {
 
@@ -710,12 +711,17 @@ public class CocedoresBean implements Serializable {
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepCocedor);
 
+		// validación de limpieza para agregar en la tabla de cocedores
+		ICocedoresDao vDao = new CocedoresDaoImpl();
+		vDao.actualizarLimpieza(folioPrepCocedor, 1);
+
 		ILimpiezaDao lDao = new LimpiezaDaoImpl();
 		for (String l : datosLimpieza) {
 			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setVoBo("PENDIENTE");
 			limpieza.setFolioPreparacionCocedores(f);
 			limpieza.setProceso(l);
+			limpieza.setIdUsuario(1028);
 			limpieza.setNoCocedor(cocedorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
 			limpieza = new Limpieza();
@@ -904,6 +910,8 @@ public class CocedoresBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
+	
+	
 
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
@@ -1005,6 +1013,9 @@ public class CocedoresBean implements Serializable {
 	}
 
 	public void deleteLimpieza() {
+		// validación de limpieza para agregar en la tabla de cocedores
+		ICocedoresDao vDao = new CocedoresDaoImpl();
+		vDao.actualizarLimpieza(folioPrepCocedor, 0);
 		ILimpiezaDao iDao = new LimpiezaDaoImpl();
 		iDao.borrarLimpieza(folioPrepCocedor, noLimpiezaSeleccionadaBorrar);
 	}
@@ -1015,8 +1026,9 @@ public class CocedoresBean implements Serializable {
 	}
 
 	public void agregarVoBo() {
+
 		ILimpiezaDao iDao = new LimpiezaDaoImpl();
-		iDao.agregarVoBo(folioPrepCocedor, noLimpiezaVoBo);
+		iDao.agregarVoBo(folioPrepCocedor, noLimpiezaVoBo, us.getIdUsuario());
 	}
 
 }

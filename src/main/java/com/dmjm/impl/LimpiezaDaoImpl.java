@@ -195,14 +195,15 @@ public class LimpiezaDaoImpl extends Conexion implements ILimpiezaDao {
 	}
 
 	@Override
-	public void agregarVoBo(int folio, int noLimpieza) {
+	public void agregarVoBo(int folio, int noLimpieza, int idUsuario) {
 		Session session = null;
 		Transaction tx = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 
-			Query<?> query = session.createSQLQuery("UPDATE LIMPIEZA SET VOBO = 'APROBADO' WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
+			Query<?> query = session.createSQLQuery("UPDATE LIMPIEZA SET VOBO = 'APROBADO', ID_USUARIO = :idUsuario WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
+			query.setParameter("idUsuario", idUsuario);
 			query.setParameter("folio", folio);
 			query.setParameter("noLimpieza", noLimpieza);
 			query.executeUpdate();
@@ -235,7 +236,7 @@ public class LimpiezaDaoImpl extends Conexion implements ILimpiezaDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 
-			Query<?> query = session.createSQLQuery("UPDATE LIMPIEZA SET VOBO = 'PENDIENTE' WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
+			Query<?> query = session.createSQLQuery("UPDATE LIMPIEZA SET VOBO = 'PENDIENTE', ID_USUARIO=1028 WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
 			query.setParameter("folio", folio);
 			query.setParameter("noLimpieza", noLimpieza);
 			query.executeUpdate();

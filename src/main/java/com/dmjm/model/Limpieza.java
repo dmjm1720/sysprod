@@ -17,6 +17,8 @@ public class Limpieza implements java.io.Serializable {
 	private Integer noLimpieza;
 	private String voBo;
 	private String noCocedor;
+	private Integer idUsuario;
+
 
 	public Limpieza() {
 	}
@@ -27,7 +29,7 @@ public class Limpieza implements java.io.Serializable {
 
 	public Limpieza(int idLimpieza, FolioPreparacionCocedores folioPreparacionCocedores, Date horaInicial,
 			Date horaFinal, String quimico, BigDecimal litrosUsados, String lote, String proceso, Integer noLimpieza,
-			String voBo, String noCocedor) {
+			String voBo, String noCocedor, Integer idUsuario) {
 		this.idLimpieza = idLimpieza;
 		this.folioPreparacionCocedores = folioPreparacionCocedores;
 		this.horaInicial = horaInicial;
@@ -39,6 +41,7 @@ public class Limpieza implements java.io.Serializable {
 		this.noLimpieza = noLimpieza;
 		this.voBo = voBo;
 		this.noCocedor = noCocedor;
+		this.idUsuario = idUsuario;
 	}
 
 	public int getIdLimpieza() {
@@ -127,6 +130,14 @@ public class Limpieza implements java.io.Serializable {
 
 	public void setNoCocedor(String noCocedor) {
 		this.noCocedor = noCocedor;
+	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 }

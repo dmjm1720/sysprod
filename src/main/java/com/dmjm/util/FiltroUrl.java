@@ -97,6 +97,8 @@ public class FiltroUrl implements PhaseListener {
 			return true;
 		}else if (rol.equals("Ultra Filtración II") && page.contains("/ultra2/")) {
 			return true;
+		}else if (rol.equals("Inocuidad") && page.contains("/inocuidad/")) {
+			return true;
 		}
 		
 

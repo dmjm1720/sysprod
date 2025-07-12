@@ -19,6 +19,10 @@
 		href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800;display=swap'"
 		rel="stylesheet"></link>
 	<script src="../resources/js/sweetalert2.js" type="text/javascript"></script>
+	<h:outputScript name="clockpicker/clockpicker.js"
+		library="primefaces-extensions" />
+	<h:outputStylesheet name="clockpicker/clockpicker.css"
+		library="primefaces-extensions" />
 
 
 	<title>Coloidales Duché</title>
@@ -123,65 +127,65 @@
 					</p:submenu>
 
 
-					<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Registro de cocedores" outcome="Cocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
 
-						<p:menuitem value="Resumen de cocedores" outcome="FiltroCocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+						<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Registro de cocedores" outcome="Cocedores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Operadores" outcome="Operadores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+							<p:menuitem value="Resumen de cocedores"
+								outcome="FiltroCocedores" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores" outcome="Operadores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+						</p:submenu>
+
+						<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Esterilizador planta A"
+								outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Resumen Est. planta A"
+								outcome="FiltroEsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Esterilizador planta B"
+								outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Ultra Filtración II"
+								outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra II"
+								outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Ultra Filtración I"
+								outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra I"
+								outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
 					</p:submenu>
 
-					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Esterilizador planta A"
-							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Resumen Est. planta A"
-							outcome="FiltroEsterilizadorPlantaA" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Esterilizador planta B"
-							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-					</p:submenu>
-
-					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Ultra Filtración II"
-							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Ultra II"
-							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Ultra Filtración I"
-							outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Ultra I"
-							outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-					</p:submenu>
-
-					<p:submenu label="VoBo Limpieza" icon="pi pi-fw pi-cog">
-						<p:menuitem value="VoBo" outcome="VoBoLimpieza"
-							icon="pi pi-fw pi-wrench">
-						</p:menuitem>
-					</p:submenu>
 
 					<p:submenu label="usuarios" icon="pi pi-fw pi-user">
 						<p:menuitem value="Usuarios" outcome="Usuarios"
@@ -211,56 +215,60 @@
 						</p:menuitem>
 					</p:submenu>
 
-					<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Registro de cocedores" outcome="Cocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
 
-						<p:menuitem value="Resumen de cocedores" outcome="FiltroCocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+						<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Registro de cocedores" outcome="Cocedores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Operadores" outcome="Operadores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+							<p:menuitem value="Resumen de cocedores"
+								outcome="FiltroCocedores" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores" outcome="Operadores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Esterilizador planta A"
+								outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Esterilizador planta B"
+								outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Ultra Filtración II"
+								outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra II"
+								outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Ultra Filtración I"
+								outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra I"
+								outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
 					</p:submenu>
 
-
-					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Esterilizador planta A"
-							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Esterilizador planta B"
-							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-					</p:submenu>
-
-					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Ultra Filtración II"
-							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Ultra II"
-							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Ultra Filtración I"
-							outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-
-						<p:menuitem value="Operadores Ultra I"
-							outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
-						</p:menuitem>
-					</p:submenu>
 
 					<p:divider layout="vertical" />
 
@@ -340,55 +348,63 @@
 						</p:menuitem>
 					</p:submenu>
 
-					<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Registro de cocedores" outcome="Cocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
 
-						<p:menuitem value="Resumen de cocedores" outcome="FiltroCocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+						<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Registro de cocedores" outcome="Cocedores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Operadores" outcome="Operadores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-					</p:submenu>
+							<p:menuitem value="Resumen de cocedores"
+								outcome="FiltroCocedores" icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
+							<p:menuitem value="Operadores" outcome="Operadores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Esterilizador planta A"
-							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
-						</p:menuitem>
+						</p:submenu>
 
-						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+						<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Esterilizador planta A"
+								outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Esterilizador planta B"
-							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
-						</p:menuitem>
+							<p:menuitem value="Resumen Est. planta A"
+								outcome="FiltroEsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-					</p:submenu>
+							<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Ultra Filtración II"
-							outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
-						</p:menuitem>
+							<p:menuitem value="Esterilizador planta B"
+								outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Operadores Ultra II"
-							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
-						</p:menuitem>
+							<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
 
-						<p:menuitem value="Ultra Filtración I"
-							outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
-						</p:menuitem>
+						<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Ultra Filtración II"
+								outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Operadores Ultra I"
-							outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
-						</p:menuitem>
+							<p:menuitem value="Operadores Ultra II"
+								outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Ultra Filtración I"
+								outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra I"
+								outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
 					</p:submenu>
 
 					<p:divider layout="vertical" />
@@ -504,18 +520,63 @@
 						</p:menuitem>
 					</p:submenu>
 
-					<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Registro de cocedores" outcome="Cocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
 
-						<p:menuitem value="Resumen de cocedores" outcome="FiltroCocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+						<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Registro de cocedores" outcome="Cocedores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
 
-						<p:menuitem value="Operadores" outcome="Operadores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+							<p:menuitem value="Resumen de cocedores"
+								outcome="FiltroCocedores" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores" outcome="Operadores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+						</p:submenu>
+
+						<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Esterilizador planta A"
+								outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Resumen Est. planta A"
+								outcome="FiltroEsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Esterilizador planta B"
+								outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Ultra Filtración II"
+								outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra II"
+								outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Ultra Filtración I"
+								outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra I"
+								outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
 					</p:submenu>
 
 					<p:divider layout="vertical" />
@@ -621,16 +682,18 @@
 						<p:graphicImage name="images/primefaces-logo.svg"
 							library="showcase" />
 					</f:facet>
-					<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Registro de cocedores" outcome="Cocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-						<p:menuitem value="Resumen de cocedores" outcome="FiltroCocedores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
-						<p:menuitem value="Operadores" outcome="Operadores"
-							icon="pi pi-fw pi-tags">
-						</p:menuitem>
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
+						<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Registro de cocedores" outcome="Cocedores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+							<p:menuitem value="Resumen de cocedores"
+								outcome="FiltroCocedores" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+							<p:menuitem value="Operadores" outcome="Operadores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
 					</p:submenu>
 
 					<p:divider layout="vertical" />
@@ -747,6 +810,87 @@
 						action="/index?faces-redirect=true"
 						actionListener="#{login.cerrarSesion()}" />
 				</p:menubar>
+
+
+				<!-- COORDINADOR -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==15}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Registro de Tolvas" outcome="Entradas"
+							icon="pi pi-fw pi-cog">
+						</p:menuitem>
+					</p:submenu>
+
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
+
+						<p:submenu label="Cocedores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Registro de cocedores" outcome="Cocedores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Resumen de cocedores"
+								outcome="FiltroCocedores" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores" outcome="Operadores"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+						</p:submenu>
+
+						<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Esterilizador planta A"
+								outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Resumen Est. planta A"
+								outcome="FiltroEsterilizadorPlantaA" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Esterilizador planta B"
+								outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+								icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Ultra Filtración II"
+								outcome="UltraFiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra II"
+								outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Ultra Filtración I"
+								outcome="UltraFiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+
+							<p:menuitem value="Operadores Ultra I"
+								outcome="OpeUltrafiltracionUno" icon="pi pi-fw pi-tags">
+							</p:menuitem>
+						</p:submenu>
+
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
 			</h:form>
 		</div>
 		<ui:insert name="top">

@@ -661,7 +661,8 @@
 
 								<p:spacer width="5rem" />
 								<p:selectOneMenu id="noLim"
-									value="#{cocedoresBean.noLimpiezaSeleccionadaBorrar}" dynamic="true">
+									value="#{cocedoresBean.noLimpiezaSeleccionadaBorrar}"
+									dynamic="true">
 									<f:selectItem itemLabel="NO. LIMPIEZA A ELIMINAR" itemValue="" />
 									<f:selectItems value="#{cocedoresBean.listaLimpiezas}" />
 								</p:selectOneMenu>
@@ -673,16 +674,19 @@
 
 								<p:spacer width="5rem" />
 								<p:selectOneMenu id="noLimVoBo"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
 									value="#{cocedoresBean.noLimpiezaVoBo}" dynamic="true">
 									<f:selectItem itemLabel="NO. LIMPIEZA Vo.Bo." itemValue="" />
 									<f:selectItems value="#{cocedoresBean.listaLimpiezas}" />
 								</p:selectOneMenu>
 
 								<p:commandButton value="AGREGAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
 									actionListener="#{cocedoresBean.agregarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
-									
+
 								<p:commandButton value="BORRAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
 									actionListener="#{cocedoresBean.borrarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
@@ -773,22 +777,18 @@
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
-								<pe:timePicker
+
+								<p:datePicker
 									value="#{cocedoresBean.ordenMantenimiento.horaInicio}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhi"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
+									showButtonBar="true" />
 
 								<p:outputLabel value="Hora Final" />
-								<pe:timePicker
+								<p:datePicker
 									value="#{cocedoresBean.ordenMantenimiento.horaFin}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhf"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+									showButtonBar="true" />
+
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
@@ -865,12 +865,9 @@
 							<h:panelGrid id="pgPurgas" columns="2" styleClass="tabla fuente">
 
 								<p:outputLabel value="Hora" />
-								<pe:timePicker value="#{cocedoresBean.purgas.hora}"
-									styleClass="camposPurgas" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="customTimeWidget"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+								<p:datePicker value="#{cocedoresBean.purgas.hora}"
+									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+									showButtonBar="true" />
 
 								<p:outputLabel for="operacion" value="Operación" />
 								<p:inputText id="operacion" styleClass="camposPurgas"
@@ -1213,20 +1210,15 @@
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
-						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaInicial}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tphi"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+						<p:datePicker value="#{cocedoresBean.limpiezaEditar.horaInicial}"
+							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+							showButtonBar="true" />
 
 						<p:outputLabel value="Hora Final" />
-						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaFinal}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tphf"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+						<p:datePicker value="#{cocedoresBean.limpiezaEditar.horaFinal}"
+							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+							showButtonBar="true" />
+
 
 
 						<p:outputLabel for="qui" value="Químico" />
@@ -1276,12 +1268,9 @@
 					<h:panelGrid id="pnlEditarPurgas" columns="2">
 
 						<p:outputLabel value="Hora" />
-						<pe:timePicker value="#{cocedoresBean.purgasEditar.hora}"
-							styleClass="camposPurgas" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tpphora"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+						<p:datePicker value="#{cocedoresBean.purgasEditar.hora}"
+							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+							showButtonBar="true" />
 
 						<p:outputLabel for="cm" value="CM" />
 						<p:inputText id="cm" styleClass="camposPurgas"
@@ -1344,22 +1333,16 @@
 
 
 						<p:outputLabel value="Hora Inicio" />
-						<pe:timePicker
+						<p:datePicker
 							value="#{cocedoresBean.ordenMantenimientoEditar.horaInicio}"
-							styleClass="camposManto" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tpmhi"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+							showButtonBar="true" />
 
 						<p:outputLabel value="Hora Final" />
-						<pe:timePicker
+						<p:datePicker
 							value="#{cocedoresBean.ordenMantenimientoEditar.horaFin}"
-							styleClass="camposManto" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tpmhf"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+							showButtonBar="true" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
