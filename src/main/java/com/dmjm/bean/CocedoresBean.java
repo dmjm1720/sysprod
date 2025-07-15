@@ -6,8 +6,10 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Observable;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -110,6 +112,10 @@ public class CocedoresBean implements Serializable {
 
 	private int noLimpiezaSeleccionadaBorrar;
 	private int noLimpiezaVoBo;
+
+	private List<FolioPreparacionCocedores> listaFolioCocedores;
+	private FolioPreparacionCocedores folioPreparacionCocedores;
+
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 
 	public CocedoresBean() {
@@ -142,12 +148,14 @@ public class CocedoresBean implements Serializable {
 		operador = new Operador();
 		operadorEditar = new Operador();
 		listaOperadores = new ArrayList<>();
+		folioPreparacionCocedores = new FolioPreparacionCocedores();
 
 		primera();
 		getListarRegistroTurnos();
 		getListaLimpieza();
 		getListaPurgas();
 		getListaOrdenManto();
+		getListaFolioCocedores();
 
 		procesos = new ArrayList<>();
 		procesos.add("Cocedor 1");
@@ -163,6 +171,20 @@ public class CocedoresBean implements Serializable {
 
 		listaLimpiezas = new ArrayList<>();
 
+	}
+
+	public FolioPreparacionCocedores getFolioPreparacionCocedores() {
+		return folioPreparacionCocedores;
+	}
+
+	public void setFolioPreparacionCocedores(FolioPreparacionCocedores folioPreparacionCocedores) {
+		this.folioPreparacionCocedores = folioPreparacionCocedores;
+	}
+
+	public List<FolioPreparacionCocedores> getListaFolioCocedores() {
+		IFolioPreparcionCocedoresDao lDao = new FolioPreparacionCocedoresDaoImpl();
+		listaFolioCocedores = lDao.listaFolioCocedores(folioPrepCocedor);
+		return listaFolioCocedores;
 	}
 
 	public String getRadioButton() {
@@ -416,6 +438,7 @@ public class CocedoresBean implements Serializable {
 		this.purgas = purgas;
 	}
 
+
 	public Purgas getPurgasEditar() {
 		if (purgasEditar != null && purgasEditar.getNoCocedor() != null) {
 			selectedProcess = purgasEditar.getNoCocedor().split(", ");
@@ -616,6 +639,7 @@ public class CocedoresBean implements Serializable {
 			getListaLimpieza();
 			getListaPurgas();
 			getListaOrdenManto();
+			getListaFolioCocedores();
 		}
 
 	}
@@ -719,6 +743,7 @@ public class CocedoresBean implements Serializable {
 		for (String l : datosLimpieza) {
 			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setVoBo("PENDIENTE");
+			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionCocedores(f);
 			limpieza.setProceso(l);
 			limpieza.setIdUsuario(1028);
@@ -789,6 +814,7 @@ public class CocedoresBean implements Serializable {
 		getListaLimpieza();
 		getListaPurgas();
 		getListaOrdenManto();
+		getListaFolioCocedores();
 	}
 
 	// **DATOS DEL TURNO, NOMBRE**//
@@ -910,8 +936,6 @@ public class CocedoresBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
 
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
@@ -1026,9 +1050,21 @@ public class CocedoresBean implements Serializable {
 	}
 
 	public void agregarVoBo() {
-
 		ILimpiezaDao iDao = new LimpiezaDaoImpl();
 		iDao.agregarVoBo(folioPrepCocedor, noLimpiezaVoBo, us.getIdUsuario());
+	}
+
+	public void guardarObservaciones() {
+		IFolioPreparcionCocedoresDao fDao = new FolioPreparacionCocedoresDaoImpl();
+		fDao.guardarObservacion(folioPrepCocedor, folioPreparacionCocedores.getObservaciones());
+		folioPreparacionCocedores = new FolioPreparacionCocedores();
+
+	}
+
+	public void obtenerObservacion() {
+		for (int i = 0; i < listaFolioCocedores.size(); i++) {
+			folioPreparacionCocedores.setObservaciones(listaFolioCocedores.get(i).getObservaciones());
+		}
 	}
 
 }

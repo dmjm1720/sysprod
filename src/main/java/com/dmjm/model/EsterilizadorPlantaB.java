@@ -25,6 +25,8 @@ public class EsterilizadorPlantaB implements java.io.Serializable {
 	private Integer redoxPpmSalida;
 	private Integer folioEsterilizador;
 	private Date fecha;
+	private Boolean estadoManto;
+	private Boolean estadoLimpieza;
 
 	public EsterilizadorPlantaB() {
 	}
@@ -37,7 +39,8 @@ public class EsterilizadorPlantaB implements java.io.Serializable {
 			String operacion, BigDecimal porcentaje, BigDecimal presionVapor, BigDecimal presionVacio,
 			BigDecimal precalentador, BigDecimal esterilizador, BigDecimal valvulaDiversora, Integer bombaAlim,
 			BigDecimal tiempoEst, BigDecimal bombaSalida, Integer flujoLitrosHora, BigDecimal presionSistema,
-			Integer redoxPpmEntrada, Integer redoxPpmSalida, Integer folioEsterilizador, Date fecha) {
+			Integer redoxPpmEntrada, Integer redoxPpmSalida, Integer folioEsterilizador, Date fecha, Boolean estadoAR,
+			Boolean estadoManto, Boolean estadoLimpieza) {
 		this.idEsterilizdor = idEsterilizdor;
 		this.folioPreparacionEstB = folioPreparacionEstB;
 		this.hora = hora;
@@ -57,6 +60,8 @@ public class EsterilizadorPlantaB implements java.io.Serializable {
 		this.redoxPpmSalida = redoxPpmSalida;
 		this.folioEsterilizador = folioEsterilizador;
 		this.fecha = fecha;
+		this.estadoManto = estadoManto;
+		this.estadoLimpieza = estadoLimpieza;
 	}
 
 	public int getIdEsterilizdor() {
@@ -210,7 +215,21 @@ public class EsterilizadorPlantaB implements java.io.Serializable {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	
-	
+
+	public Boolean getEstadoManto() {
+		return estadoManto;
+	}
+
+	public void setEstadoManto(Boolean estadoManto) {
+		this.estadoManto = estadoManto;
+	}
+
+	public Boolean getEstadoLimpieza() {
+		return estadoLimpieza;
+	}
+
+	public void setEstadoLimpieza(Boolean estadoLimpieza) {
+		this.estadoLimpieza = estadoLimpieza;
+	}
 
 }

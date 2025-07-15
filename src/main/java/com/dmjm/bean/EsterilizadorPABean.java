@@ -46,6 +46,7 @@ import com.dmjm.model.OrdenMantenimientoEstA;
 import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("esterilizadorBeanA")
@@ -85,6 +86,22 @@ public class EsterilizadorPABean implements Serializable {
 	private OrdenMantenimientoEstA ordenMantenimiento;
 	private OrdenMantenimientoEstA ordenMantenimientoEditar;
 
+	private List<Integer> listaLimpiezas;
+
+	private int noLimpiezaSeleccionadaBorrar;
+	private int noLimpiezaVoBo;
+
+	private List<FolioPreparacionEstA> listaFolioEstPA;
+	private FolioPreparacionEstA folioPrepEstPA;
+	private String cocedorSeleccionado;
+	private List<String> procesos;
+
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
+
+	public EsterilizadorPABean() {
+
+	}
+
 	@PostConstruct
 	public void init() {
 		listaEsterilizador = new ArrayList<>();
@@ -111,14 +128,65 @@ public class EsterilizadorPABean implements Serializable {
 		IEsterilizdorPlantaADao lfDao = new EsterilizadorPlantaADaoImpl();
 		listaFiltroEsterilizadoresPA = lfDao.listaFiltroEsterilizador();
 
+		listaLimpiezas = new ArrayList<>();
+		folioPrepEstPA = new FolioPreparacionEstA();
 		primera();
 		getListarRegistroTurnos();
 		getLimpiezaEstA();
 		getListaOrdenManto();
+		getListaFolioEstPA();
+		procesos = new ArrayList<>();
+		procesos.add("Cocedor 1");
+		procesos.add("Cocedor 2");
+		procesos.add("Cocedor 3");
+		procesos.add("Cocedor 4");
+		procesos.add("Cocedor 5");
+		procesos.add("Cocedor 6");
+		procesos.add("Cocedor 7");
+		procesos.add("Cocedor 8");
+		procesos.add("Cocedor 9");
+		procesos.add("Cocedor 10");
+
 	}
 
-	public EsterilizadorPABean() {
+	public List<String> getProcesos() {
+		return procesos;
+	}
 
+	public List<Integer> getListaLimpiezas() throws SQLException {
+		ILimpiezaEsterilizadorPlantaADao lDao = new LimpiezaEsterilizadorPlantaADaoImpl();
+		listaLimpiezas = lDao.noLimpieza(folioPrepEst);
+		return listaLimpiezas;
+	}
+
+	public List<FolioPreparacionEstA> getListaFolioEstPA() {
+		IFolioPreparacionEsterilizadorPlantaADao lDao = new FolioPreparacionEsterilizadorPlantaADaoImpl();
+		listaFolioEstPA = lDao.listaFolioEstA(folioPrepEst);
+		return listaFolioEstPA;
+	}
+
+	public FolioPreparacionEstA getFolioPrepEstPA() {
+		return folioPrepEstPA;
+	}
+
+	public void setFolioPrepEstPA(FolioPreparacionEstA folioPrepEstPA) {
+		this.folioPrepEstPA = folioPrepEstPA;
+	}
+
+	public int getNoLimpiezaSeleccionadaBorrar() {
+		return noLimpiezaSeleccionadaBorrar;
+	}
+
+	public void setNoLimpiezaSeleccionadaBorrar(int noLimpiezaSeleccionadaBorrar) {
+		this.noLimpiezaSeleccionadaBorrar = noLimpiezaSeleccionadaBorrar;
+	}
+
+	public int getNoLimpiezaVoBo() {
+		return noLimpiezaVoBo;
+	}
+
+	public void setNoLimpiezaVoBo(int noLimpiezaVoBo) {
+		this.noLimpiezaVoBo = noLimpiezaVoBo;
 	}
 
 	public List<EsterilizadorPlantaA> getListaFiltroEsterilizadoresPA() {
@@ -147,6 +215,14 @@ public class EsterilizadorPABean implements Serializable {
 
 	public void setFechaFiltro(Date fechaFiltro) {
 		this.fechaFiltro = fechaFiltro;
+	}
+
+	public String getCocedorSeleccionado() {
+		return cocedorSeleccionado;
+	}
+
+	public void setCocedorSeleccionado(String cocedorSeleccionado) {
+		this.cocedorSeleccionado = cocedorSeleccionado;
 	}
 
 	public LimpiezaEstA getLimpiezaEditar() {
@@ -435,6 +511,7 @@ public class EsterilizadorPABean implements Serializable {
 			getListarRegistroTurnos();
 			getLimpiezaEstA();
 			getListaOrdenManto();
+			getListaFolioEstPA();
 		}
 
 	}
@@ -492,13 +569,19 @@ public class EsterilizadorPABean implements Serializable {
 		ILimpiezaEsterilizadorPlantaADao validaDao = new LimpiezaEsterilizadorPlantaADaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepEst);
+		
+		// validación de limpieza para agregar en la tabla de cocedores
 
 		ILimpiezaEsterilizadorPlantaADao lDao = new LimpiezaEsterilizadorPlantaADaoImpl();
+		IEsterilizdorPlantaADao vDao = new EsterilizadorPlantaADaoImpl();
+		vDao.actualizarLimpieza(folioPrepEst, noDeLimpieza);
 		for (String l : datosLimpieza) {
 			limpieza.setVoBo("PENDIENTE");
 			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionEstA(f);
 			limpieza.setProceso(l);
+			limpieza.setIdUsuario(1028);
+			limpieza.setNoCocedor(cocedorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
 			limpieza = new LimpiezaEstA();
 		}
@@ -614,9 +697,9 @@ public class EsterilizadorPABean implements Serializable {
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
 		// validación de mantenimiento
-//		ICocedoresDao validaDao = new CocedoresDaoImpl();
-//
-//		validaDao.actualizarManto(folioPrepCocedor);
+		IEsterilizdorPlantaADao validaDao = new EsterilizadorPlantaADaoImpl();
+
+		validaDao.actualizarManto(folioPrepEst);
 
 		IOrdenMantoEsterilizadorPalantaADao iDao = new OrdenMantoEsterilizadorPlantaAImpl();
 		FolioPreparacionEstA f = new FolioPreparacionEstA();
@@ -638,6 +721,7 @@ public class EsterilizadorPABean implements Serializable {
 		getListarRegistroTurnos();
 		getLimpiezaEstA();
 		getListaOrdenManto();
+		getListaFolioEstPA();
 	}
 
 	// **REPORTE ESTERILIZADORES**//
@@ -657,6 +741,26 @@ public class EsterilizadorPABean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
+	
+	
+	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a.jasper");
+
+		reporte.getReporte(ruta, fec, folioFechaRep);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
 
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
@@ -688,4 +792,36 @@ public class EsterilizadorPABean implements Serializable {
 		}
 
 	}
+
+	public void deleteLimpieza() {
+		// validación de limpieza para agregar en la tabla de cocedores
+		IEsterilizdorPlantaADao vDao = new EsterilizadorPlantaADaoImpl();
+		vDao.actualizarLimpieza(folioPrepEst, 0);
+		ILimpiezaEsterilizadorPlantaADao iDao = new LimpiezaEsterilizadorPlantaADaoImpl();
+		iDao.borrarLimpieza(folioPrepEst, noLimpiezaSeleccionadaBorrar);
+
+	}
+
+	public void borrarVoBo() {
+		ILimpiezaEsterilizadorPlantaADao iDao = new LimpiezaEsterilizadorPlantaADaoImpl();
+		iDao.borrarVoBo(folioPrepEst, noLimpiezaVoBo);
+	}
+	
+	public void agregarVoBo() {
+		ILimpiezaEsterilizadorPlantaADao iDao = new LimpiezaEsterilizadorPlantaADaoImpl();
+		iDao.agregarVoBo(folioPrepEst, noLimpiezaVoBo, us.getIdUsuario());
+	}
+
+	public void guardarObservaciones() {
+		IFolioPreparacionEsterilizadorPlantaADao fDao = new FolioPreparacionEsterilizadorPlantaADaoImpl();
+		fDao.guardarObservacion(folioPrepEst, folioPrepEstPA.getObservaciones());
+		folioPrepEstPA = new FolioPreparacionEstA();
+	}
+
+	public void obtenerObservacion() {
+		for (int i = 0; i < listaFolioEstPA.size(); i++) {
+			folioPrepEstPA.setObservaciones(listaFolioEstPA.get(i).getObservaciones());
+		}
+	}
+
 }

@@ -65,5 +65,11 @@
 		<property name="fecha" type="date">
 			<column name="FECHA" length="10" />
 		</property>
+		<property name="estadoManto" type="java.lang.Boolean">
+			<column name="ESTADO_MANTO" />
+		</property>
+		<property name="estadoLimpieza" type="java.lang.Boolean">
+			<column name="ESTADO_LIMPIEZA" />
+		</property>
 	</class>
 </hibernate-mapping>

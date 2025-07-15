@@ -14,16 +14,14 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.primefaces.PrimeFaces;
 
-import com.dmjm.bean.EntradasBean;
 import com.dmjm.dao.ILimpiezaDao;
 import com.dmjm.model.Limpieza;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
 public class LimpiezaDaoImpl extends Conexion implements ILimpiezaDao {
-	
-	
-	private static final Logger LOGGER = LogManager.getLogger(EntradasBean.class.getName());
+
+	private static final Logger LOGGER = LogManager.getLogger(LimpiezaDaoImpl.class.getName());
 
 	@Override
 	public List<Limpieza> listarLimpieza(int folio) {
@@ -164,7 +162,8 @@ public class LimpiezaDaoImpl extends Conexion implements ILimpiezaDao {
 		try {
 			tx = session.beginTransaction();
 
-			Query<?> query = session.createQuery("DELETE FROM Limpieza WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
+			Query<?> query = session
+					.createQuery("DELETE FROM Limpieza WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
 			query.setParameter("folio", folio);
 			query.setParameter("noLimpieza", noLimpieza);
 
@@ -173,13 +172,13 @@ public class LimpiezaDaoImpl extends Conexion implements ILimpiezaDao {
 
 			if (rowsAffected > 0) {
 				LOGGER.info("Registro eliminado con éxito.");
-				
+
 				String info = "Se ha borrado la limpieza seleccionada: " + noLimpieza;
 
 				PrimeFaces.current()
 						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'info',\n"
-								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-								+ "  timer: 6000\n" + "})");
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 6000\n" + "})");
 			} else {
 				LOGGER.info("No se encontró el registro con ese ID.");
 
@@ -202,7 +201,8 @@ public class LimpiezaDaoImpl extends Conexion implements ILimpiezaDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 
-			Query<?> query = session.createSQLQuery("UPDATE LIMPIEZA SET VOBO = 'APROBADO', ID_USUARIO = :idUsuario WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
+			Query<?> query = session.createSQLQuery(
+					"UPDATE LIMPIEZA SET VOBO = 'APROBADO', ID_USUARIO = :idUsuario WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
 			query.setParameter("idUsuario", idUsuario);
 			query.setParameter("folio", folio);
 			query.setParameter("noLimpieza", noLimpieza);
@@ -236,13 +236,14 @@ public class LimpiezaDaoImpl extends Conexion implements ILimpiezaDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			tx = session.beginTransaction();
 
-			Query<?> query = session.createSQLQuery("UPDATE LIMPIEZA SET VOBO = 'PENDIENTE', ID_USUARIO=1028 WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
+			Query<?> query = session.createSQLQuery(
+					"UPDATE LIMPIEZA SET VOBO = 'PENDIENTE', ID_USUARIO=1028 WHERE ID_FOLIO_PREP = :folio AND NO_LIMPIEZA = :noLimpieza");
 			query.setParameter("folio", folio);
 			query.setParameter("noLimpieza", noLimpieza);
 			query.executeUpdate();
-			
+
 			tx.commit();
-			
+
 			String info = "Se ha borrado el Visto Bueno seleccionado";
 
 			PrimeFaces.current()

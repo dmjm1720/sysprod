@@ -2,7 +2,9 @@ package com.dmjm.impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -112,6 +114,48 @@ public class FolioPreparacionCocedoresDaoImpl extends Conexion implements IFolio
 			Logger.getLogger(FolioDeImportacionDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
 		}
 
+	}
+
+	@Override
+	public void guardarObservacion(int folio, String observacion) {
+		try {
+			ConectarSysProd();
+			PreparedStatement ps = getCnSysProd().prepareStatement(
+					"UPDATE FOLIO_PREPARACION_COCEDORES SET OBSERVACIONES = ? WHERE ID_FOLIO_PREP = ?");
+			ps.setString(1, observacion);
+			ps.setLong(2, folio);
+
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			Logger.getLogger(FolioDeImportacionDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
+
+	@Override
+	public List<FolioPreparacionCocedores> listaFolioCocedores(int folio) {
+		List<FolioPreparacionCocedores> lista = new ArrayList<>();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM FolioPreparacionCocedores WHERE idFolioPrep = :folio";
+			Query<FolioPreparacionCocedores> query = session.createQuery(hql, FolioPreparacionCocedores.class);
+			query.setParameter("folio", folio);
+			lista = query.getResultList();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return lista;
 	}
 
 }

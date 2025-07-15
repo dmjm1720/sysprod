@@ -190,7 +190,7 @@ a:link:hover, a:visited:hover {
 }
 
 .fuente {
-	font-size: .8rem !important;
+	font-size: .6rem !important;
 }
 
 .fuenteTitulo {
@@ -286,11 +286,10 @@ a:link:hover, a:visited:hover {
 
 .color {
 	color: #8B008B !important;
-	font-weight: bold !important;
 }
 
 .fuenteCocedores {
-	font-size: .8rem !important;
+	font-size: .6rem !important;
 	font-family: "IBM Plex Sans", sans-serif !important;
 	font-optical-sizing: auto !important;
 }

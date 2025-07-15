@@ -35,7 +35,120 @@
 
 					<p:accordionPanel id="acco" widgetVar="basic">
 
+						<p:tab id="tRegTurnos" title="OPERADORES / COORDINADORES EN TURNO"
+							titleStyle="font-size: .8rem; background-color: #283747; color: #F5F5F5">
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+								<p:splitterPanel size="20"
+									styleClass="flex align-items-center justify-content-center">
 
+									<h:panelGrid id="pgTurnos" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel for="turno" value="Turno" />
+										<p:autoComplete id="turno" size="35" required="false"
+											requiredMessage="Turno requerido" autocomplete="off"
+											placeholder="Ingresa Turno" dropdown="true"
+											value="#{esterilizadorBeanA.filterTurno}"
+											completeMethod="#{esterilizadorBeanA.buscarNombreTurno}">
+										</p:autoComplete>
+
+										<p:outputLabel for="operador" value="Operador" />
+										<p:autoComplete id="operador" size="35" required="false"
+											requiredMessage="Operador requerido" autocomplete="off"
+											placeholder="Ingresa Operador" dropdown="true"
+											value="#{esterilizadorBeanA.filterOperador}"
+											completeMethod="#{esterilizadorBeanA.buscarNombreOperador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="coord" value="Coordinador" />
+										<p:autoComplete id="coord" size="35" required="false"
+											requiredMessage="Coordinador requerido" autocomplete="off"
+											placeholder="Ingresa Coordinador" dropdown="true"
+											value="#{esterilizadorBeanA.filterUsuario}"
+											completeMethod="#{esterilizadorBeanA.buscarNombreCoordinador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="reg" value="Registrar turno" />
+										<p:commandButton id="reg" value="REGISTRAR"
+											styleClass="fuente"
+											actionListener="#{esterilizadorBeanA.guardarRegistroTurnos()}"
+											update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
+											style="width: 8rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<p:outputLabel value="TURNOS REGISTRADOS"
+										style="font-size: 1rem" />
+									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
+										var="turnos" sortMode="multiple" rowHover="true"
+										style="width: 80%" paginatorAlwaysVisible="true"
+										scrollable="true"
+										value="#{esterilizadorBeanA.listarRegistroTurnos}"
+										emptyMessage="NO HAY REGISTROS">
+
+										<p:column headerText="Borrar" width="2rem">
+											<div style="text-align: center">
+												<p:commandButton id="eb" icon="pi pi-fw pi-trash"
+													styleClass="ui-button-warning"
+													action="#{esterilizadorBeanA.borrarTurnos()}"
+													update="frmPrincipal:acco:tRegTurnos">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{esterilizadorBeanA.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipEB" for="eb" value="Borrar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+
+										<p:column headerText="Editar" width="1rem">
+											<div style="text-align: center">
+												<p:commandButton id="et" icon="pi pi-fw pi-pencil"
+													onclick="PF('dlgEditarTurnos').show()"
+													update="frmTurnos:pnlEditarTurnos"
+													styleClass="ui-button-warning">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{esterilizadorBeanA.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipET" for="et" value="Editar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+
+										<p:column headerText="Turno" width="6rem" styleClass="kilos">
+											<h:outputText value="#{turnos.turnos.nombreTurno}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Fecha registro turno" width="8rem"
+											styleClass="kilos">
+											<h:outputText value="#{turnos.fecha}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Folio" width="6rem" styleClass="kilos">
+											<h:outputText value="#{turnos.folio}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Operador" width="8rem"
+											styleClass="kilos">
+											<h:outputText value="#{turnos.operador.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Coordinador" width="8rem"
+											styleClass="kilos">
+											<h:outputText value="#{turnos.usuarios.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+									</p:dataTable>
+								</p:splitterPanel>
+							</p:splitter>
+
+						</p:tab>
 
 
 						<p:tab id="pt" title="ESTERILIZADOR PLANTA A"
@@ -72,175 +185,13 @@
                             clear: 'Borrar'
                         };
                     </script>
-							<div style="text-align: left">
 
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
 
-								<p:tabView id="tv" styleClass="filtros">
-
-									<p:tab id="tRegTurnos" title="REGISTRAR TURNOS">
-
-										<p:splitter styleClass="mb-5" widgetVar="splitter">
-											<p:splitterPanel size="20"
-												styleClass="flex align-items-center justify-content-center">
-
-												<h:panelGrid id="pgTurnos" columns="2"
-													styleClass="tabla fuente">
-													<p:outputLabel for="turno" value="Turno" />
-													<p:autoComplete id="turno" size="35" required="false"
-														requiredMessage="Turno requerido" autocomplete="off"
-														placeholder="Ingresa Turno" dropdown="true"
-														value="#{esterilizadorBeanA.filterTurno}"
-														completeMethod="#{esterilizadorBeanA.buscarNombreTurno}">
-													</p:autoComplete>
-
-													<p:outputLabel for="operador" value="Operador" />
-													<p:autoComplete id="operador" size="35" required="false"
-														requiredMessage="Operador requerido" autocomplete="off"
-														placeholder="Ingresa Operador" dropdown="true"
-														value="#{esterilizadorBeanA.filterOperador}"
-														completeMethod="#{esterilizadorBeanA.buscarNombreOperador}">
-													</p:autoComplete>
-
-													<p:outputLabel for="coord" value="Coordinador" />
-													<p:autoComplete id="coord" size="35" required="false"
-														requiredMessage="Coordinador requerido" autocomplete="off"
-														placeholder="Ingresa Coordinador" dropdown="true"
-														value="#{esterilizadorBeanA.filterUsuario}"
-														completeMethod="#{esterilizadorBeanA.buscarNombreCoordinador}">
-													</p:autoComplete>
-
-													<p:outputLabel for="reg" value="Registrar turno" />
-													<p:commandButton id="reg" value="REGISTRAR"
-														styleClass="fuente"
-														actionListener="#{esterilizadorBeanA.guardarRegistroTurnos()}"
-														update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
-														style="width: 8rem; height: 2rem">
-													</p:commandButton>
-												</h:panelGrid>
-											</p:splitterPanel>
-
-											<p:splitterPanel
-												styleClass="flex align-items-center justify-content-center">
-
-												<p:outputLabel value="TURNOS REGISTRADOS" />
-												<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
-													var="turnos" sortMode="multiple" rowHover="true"
-													style="width: 80%" paginatorAlwaysVisible="true"
-													scrollable="true"
-													value="#{esterilizadorBeanA.listarRegistroTurnos}"
-													emptyMessage="NO HAY REGISTROS">
-
-
-													<p:column headerText="Borrar" width="2rem">
-														<div style="text-align: center">
-															<p:commandButton id="eb" icon="pi pi-fw pi-trash"
-																styleClass="ui-button-warning"
-																action="#{esterilizadorBeanA.borrarTurnos()}"
-																update="frmPrincipal:acco:tv:tRegTurnos">
-																<f:setPropertyActionListener value="#{turnos}"
-																	target="#{esterilizadorBeanA.registroTurnosEditar}" />
-															</p:commandButton>
-															<p:tooltip id="toolTipEB" for="eb" value="Borrar"
-																trackMouse="true" />
-														</div>
-													</p:column>
-
-													<p:column headerText="Editar" width="1rem">
-														<div style="text-align: center">
-															<p:commandButton id="et" icon="pi pi-fw pi-pencil"
-																onclick="PF('dlgEditarTurnos').show()"
-																update="frmTurnos:pnlEditarTurnos"
-																styleClass="ui-button-warning">
-																<f:setPropertyActionListener value="#{turnos}"
-																	target="#{esterilizadorBeanA.registroTurnosEditar}" />
-															</p:commandButton>
-															<p:tooltip id="toolTipET" for="et" value="Editar"
-																trackMouse="true" />
-														</div>
-													</p:column>
-
-													<p:column headerText="Turno" width="6rem"
-														styleClass="kilos">
-														<h:outputText value="#{turnos.turnos.nombreTurno}"
-															style="color: #036FAB;font-weight: bold !important;" />
-													</p:column>
-
-													<p:column headerText="Fecha registro turno" width="8rem"
-														styleClass="kilos">
-														<h:outputText value="#{turnos.fecha}"
-															style="color: #036FAB;font-weight: bold !important;" />
-													</p:column>
-
-													<p:column headerText="Folio" width="6rem"
-														styleClass="kilos">
-														<h:outputText value="#{turnos.folio}"
-															style="color: #036FAB;font-weight: bold !important;" />
-													</p:column>
-
-													<p:column headerText="Operador" width="8rem"
-														styleClass="kilos">
-														<h:outputText value="#{turnos.operador.nombre}"
-															style="color: #036FAB;font-weight: bold !important;" />
-													</p:column>
-
-													<p:column headerText="Coordinador" width="8rem"
-														styleClass="kilos">
-														<h:outputText value="#{turnos.usuarios.nombre}"
-															style="color: #036FAB;font-weight: bold !important;" />
-													</p:column>
-
-												</p:dataTable>
-											</p:splitterPanel>
-										</p:splitter>
-
-
-									</p:tab>
-
-									<p:tab title="BUSCAR POR FECHAS">
-										<h:panelGrid id="pgFechas" columns="2"
-											styleClass="tabla fuente">
-
-
-											<p:outputLabel value="Selecciona fecha" />
-											<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
-												showTime="false" disabled="false" showIcon="true"
-												placeholder="SELECCIONA FECHA"
-												inputStyleClass="font-size: .8rem !important pear"
-												inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
-												value="#{esterilizadorBeanA.fechaFiltro}"
-												style="font-family: 'Poppins', sans-serif !important;"
-												styleClass="captura" />
-
-											<p:outputLabel value="Filtrar fecha" />
-											<p:commandButton value="FILTRAR" styleClass="fuente"
-												actionListener="#{esterilizadorBeanA.filtrarPorFecha()}"
-												update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos"
-												icon="pi pi-filter" style="width: 6rem; height: 2rem">
-											</p:commandButton>
-
-
-											<p:outputLabel value="Visualirzar reporte PDF" />
-											<h:commandLink id="imp"
-												style="height: 30px; font-size: 12px;" target="_blank"
-												actionListener="#{esterilizadorBeanA.visualizarReporte()}">
-												<h:graphicImage url="/resources/img/printer.png"
-													style="height: 1.8rem" />
-											</h:commandLink>
-
-											<p:outputLabel value="Exportar reporte Excel" />
-											<h:commandLink id="impExcel"
-												style="height: 30px; font-size: 12px;" target="_blank"
-												actionListener="#{esterilizadorBeanA.visualizarReporteExcel()}">
-												<h:graphicImage url="/resources/img/excel.png"
-													style="height: 1.8rem" />
-											</h:commandLink>
-
-
-										</h:panelGrid>
-
-									</p:tab>
-
-									<p:tab title="REGISTRAR NUEVA HOJA">
+								<p:splitterPanel size="5"
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgHoja" columns="1" styleClass="tabla fuente">
+										<p:outputLabel value="NUEVA HOJA" />
 										<div style="text-align: center">
 
 											<p:commandButton value="REGISTRAR NUEVA HOJA"
@@ -249,17 +200,77 @@
 												update="frmPrincipal, frmPrincipal:msgs"
 												icon="pi pi-file-excel" style="width: 15rem; height: 2rem">
 											</p:commandButton>
-
 										</div>
+									</h:panelGrid>
+								</p:splitterPanel>
 
-									</p:tab>
-								</p:tabView>
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgFechas" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel value="SELECCIONA FECHA" />
+										<br />
+										<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
+											showTime="false" disabled="false" showIcon="true"
+											placeholder="SELECCIONA FECHA"
+											inputStyleClass="font-size: .8rem !important pear"
+											inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+											value="#{esterilizadorBeanA.fechaFiltro}"
+											style="font-family: 'Poppins', sans-serif !important;"
+											styleClass="captura" />
 
-							</div>
-							<br />
-							<p:divider />
-							<br />
-							<br />
+										<p:commandButton value="BUSCAR" styleClass="fuente"
+											actionListener="#{esterilizadorBeanA.filtrarPorFecha()}"
+											update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos"
+											icon="pi pi-filter" style="width: 6rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgRep" columns="4" styleClass="tabla fuente">
+										<p:outputLabel value="IMPRIMIR" />
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{esterilizadorBeanA.visualizarReporte()}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+
+										<p:outputLabel value="EXPORTAR" />
+										<h:commandLink id="impExcel"
+											style="height: 30px; font-size: 12px;" target="_blank"
+											actionListener="#{esterilizadorBeanA.visualizarReporteExcel()}">
+											<h:graphicImage url="/resources/img/excel.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid columns="2">
+										<p:commandButton value="AGREGAR / EDITAR" styleClass="fuente"
+											oncomplete="PF('dlgAgregarObs').show()" icon="pi pi-book"
+											update="frmObservaciones:pnlAgregarObs"
+											actionListener="#{esterilizadorBeanA.obtenerObservacion()}"
+											style="width: 6rem; height: 2.5rem">
+										</p:commandButton>
+										<p:dataTable id="tblObs" styleClass="tabla2 fuenteCocedores"
+											var="itemObs" value="#{esterilizadorBeanA.listaFolioEstPA}"
+											emptyMessage="NO HAY REGISTROS">
+
+											<p:column headerText="Observaciones">
+												<h:outputText value="#{itemObs.observaciones}" />
+											</p:column>
+										</p:dataTable>
+
+									</h:panelGrid>
+
+								</p:splitterPanel>
+
+							</p:splitter>
 
 
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
@@ -274,7 +285,7 @@
 
 								<p:ajax event="page"
 									listener="#{esterilizadorBeanA.onPageChange}"
-									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tv:tblRegTurnos" />
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos" />
 
 								<p:columnGroup type="header">
 
@@ -434,9 +445,24 @@
 						<p:tab title="LIMPIEZA" menuTitle="Options"
 							titleStyle="font-size: .8rem; background-color: #008080; color: #F5F5F5">
 
-							<h:panelGrid id="pgLimpieza" columns="2"
+							<h:panelGrid id="pgLimpieza" columns="12"
 								styleClass="tabla fuente">
 
+								<p:selectOneMenu id="cocLimp"
+									value="#{esterilizadorBeanA.cocedorSeleccionado}"
+									dynamic="true">
+									<f:selectItem itemLabel="NO. COCEDOR" itemValue="" />
+									<f:selectItem itemLabel="Cocedor 1" itemValue="1" />
+									<f:selectItem itemLabel="Cocedor 2" itemValue="2" />
+									<f:selectItem itemLabel="Cocedor 3" itemValue="3" />
+									<f:selectItem itemLabel="Cocedor 4" itemValue="4" />
+									<f:selectItem itemLabel="Cocedor 5" itemValue="5" />
+									<f:selectItem itemLabel="Cocedor 6" itemValue="6" />
+									<f:selectItem itemLabel="Cocedor 7" itemValue="7" />
+									<f:selectItem itemLabel="Cocedor 8" itemValue="8" />
+									<f:selectItem itemLabel="Cocedor 9" itemValue="9" />
+									<f:selectItem itemLabel="Cocedor 10" itemValue="10" />
+								</p:selectOneMenu>
 
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
@@ -444,6 +470,38 @@
 									actionListener="#{esterilizadorBeanA.guardarLimpieza()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLim"
+									value="#{esterilizadorBeanA.noLimpiezaSeleccionadaBorrar}"
+									dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA A ELIMINAR" itemValue="" />
+									<f:selectItems value="#{esterilizadorBeanA.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="BORRAR"
+									actionListener="#{esterilizadorBeanA.deleteLimpieza()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLimVoBo"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									value="#{esterilizadorBeanA.noLimpiezaVoBo}" dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA Vo.Bo." itemValue="" />
+									<f:selectItems value="#{esterilizadorBeanA.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="AGREGAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{esterilizadorBeanA.agregarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+								<p:commandButton value="BORRAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{esterilizadorBeanA.borrarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
 							</h:panelGrid>
 							<br />
@@ -479,8 +537,11 @@
 											style="color: #036FAB;" />
 									</div>
 								</p:column>
-								<p:column headerText="Proceso" width="10rem">
+								<p:column headerText="Proceso" width="4rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="No. Cocedor" width="4rem">
+									<h:outputText value="#{item.noCocedor}" style="color: #036FAB;" />
 								</p:column>
 								<p:column headerText="Hora inicial" width="10rem">
 									<h:outputText value="#{item.horaInicial}"
@@ -523,22 +584,16 @@
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
-								<pe:timePicker
+								<p:datePicker
 									value="#{esterilizadorBeanA.ordenMantenimiento.horaInicio}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhi"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+									showButtonBar="true" />
 
 								<p:outputLabel value="Hora Final" />
-								<pe:timePicker
+								<p:datePicker
 									value="#{esterilizadorBeanA.ordenMantenimiento.horaFin}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhf"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
+									showButtonBar="true" />
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
@@ -667,10 +722,11 @@
 						<p:inputText id="est" styleClass="camposCocedores"
 							value="#{esterilizadorBeanA.esterilizadorEditarPlantaA.esterilizador}"
 							required="false" requiredMessage="Campo requerido"
-							style="width: 5rem" >
-							<p:ajax event="keyup" listener="#{esterilizadorBeanA.validarTempEsterilizador()}"
+							style="width: 5rem">
+							<p:ajax event="keyup"
+								listener="#{esterilizadorBeanA.validarTempEsterilizador()}"
 								update="mensaje" />
-							</p:inputText>
+						</p:inputText>
 
 						<p:outputLabel for="vald" value="T°C Valv. Diversora" />
 						<p:inputText id="vald" styleClass="camposCocedores"
@@ -739,8 +795,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs, frmEditar:mensaje"
-							actionListener="#{esterilizadorBeanA.actualizarEsterilizador()}"
-							/>
+							actionListener="#{esterilizadorBeanA.actualizarEsterilizador()}" />
 					</div>
 
 				</p:dialog>
@@ -763,22 +818,17 @@
 							style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
-						<pe:timePicker
+
+						<p:datePicker
 							value="#{esterilizadorBeanA.limpiezaEditar.horaInicial}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tphi"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
+							showButtonBar="true" />
 
 						<p:outputLabel value="Hora Final" />
-						<pe:timePicker
+						<p:datePicker
 							value="#{esterilizadorBeanA.limpiezaEditar.horaFinal}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tphf"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
+							showButtonBar="true" />
 
 
 						<p:outputLabel for="qui" value="Químico" />
@@ -837,25 +887,17 @@
 							required="false" requiredMessage="Campo requerido"
 							style="width: 8rem" />
 
-
 						<p:outputLabel value="Hora Inicio" />
-						<pe:timePicker
+						<p:datePicker
 							value="#{esterilizadorBeanA.ordenMantenimientoEditar.horaInicio}"
-							styleClass="camposManto" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tpmhi"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
+							showButtonBar="true" />
 
 						<p:outputLabel value="Hora Final" />
-						<pe:timePicker
+						<p:datePicker
 							value="#{esterilizadorBeanA.ordenMantenimientoEditar.horaFin}"
-							styleClass="camposManto" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tpmhf"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
-
+							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
+							showButtonBar="true" />
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
 							value="#{esterilizadorBeanA.ordenMantenimientoEditar.descripcion}"
@@ -918,6 +960,32 @@
 			</h:form>
 			<!-- FINALIZA FORMULARIO PARA EDITAR -->
 
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmObservaciones">
+				<p:dialog header="Agregar/Editar observación"
+					widgetVar="dlgAgregarObs" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
+
+						<p:inputTextarea id="textObs"
+							value="#{esterilizadorBeanA.folioPrepEstPA.observaciones}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{esterilizadorBeanA.guardarObservaciones()}"
+							oncomplete="PF('dlgAgregarObs').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
 
 		</ui:define>
 	</ui:composition>

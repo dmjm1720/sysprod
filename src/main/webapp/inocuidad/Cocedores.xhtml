@@ -37,11 +37,10 @@
 
 						<p:tab id="tRegTurnos" title="OPERADORES / COORDINADORES EN TURNO"
 							titleStyle="font-size: .8rem; background-color: #283747; color: #F5F5F5">
-
-
 							<p:splitter styleClass="mb-5" widgetVar="splitter">
 								<p:splitterPanel size="20"
 									styleClass="flex align-items-center justify-content-center">
+									
 									<h:panelGrid id="pgTurnos" columns="2"
 										styleClass="tabla fuente">
 										<p:outputLabel for="turno" value="Turno" />
@@ -76,8 +75,8 @@
 											style="width: 8rem; height: 2rem">
 										</p:commandButton>
 									</h:panelGrid>
-
 								</p:splitterPanel>
+								
 								<p:splitterPanel
 									styleClass="flex align-items-center justify-content-center">
 									<p:outputLabel value="TURNOS REGISTRADOS"
@@ -149,8 +148,6 @@
 								</p:splitterPanel>
 							</p:splitter>
 
-
-
 						</p:tab>
 
 
@@ -211,7 +208,7 @@
 									styleClass="flex align-items-center justify-content-center">
 									<h:panelGrid id="pgFechas" columns="2"
 										styleClass="tabla fuente">
-										<p:outputLabel value="BUSCAR NO. OPERACIÓN POR FECHA" />
+										<p:outputLabel value="SELECCIONA POR FECHA" />
 										<br />
 										<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
 											showTime="false" disabled="false" showIcon="true"
@@ -231,19 +228,17 @@
 
 								<p:splitterPanel
 									styleClass="flex align-items-center justify-content-center">
-									<h:panelGrid id="pgRep" columns="2" styleClass="tabla fuente">
+									<h:panelGrid id="pgRep" columns="4" styleClass="tabla fuente">
+
 										<p:outputLabel value="IMPRIMIR" />
-										<br />
 										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
 											target="_blank"
 											actionListener="#{cocedoresBean.visualizarReporte()}">
 											<h:graphicImage url="/resources/img/printer.png"
 												style="height: 1.8rem" />
 										</h:commandLink>
-										<br />
 
 										<p:outputLabel value="EXPORTAR" />
-										<br />
 										<h:commandLink id="impExcel"
 											style="height: 30px; font-size: 12px;" target="_blank"
 											actionListener="#{cocedoresBean.visualizarReporteExcel()}">
@@ -253,9 +248,30 @@
 									</h:panelGrid>
 								</p:splitterPanel>
 
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid columns="2">
+										<p:commandButton value="AGREGAR / EDITAR" styleClass="fuente"
+											oncomplete="PF('dlgAgregarObs').show()" icon="pi pi-book"
+											update="frmObservaciones:pnlAgregarObs"
+											actionListener="#{cocedoresBean.obtenerObservacion()}"
+											style="width: 6rem; height: 2.5rem">
+										</p:commandButton>
+										<p:dataTable id="tblObs" styleClass="tabla2 fuenteCocedores"
+											var="itemObs" value="#{cocedoresBean.listaFolioCocedores}"
+											emptyMessage="NO HAY REGISTROS">
+
+											<p:column headerText="Observaciones">
+												<h:outputText value="#{itemObs.observaciones}" />
+											</p:column>
+										</p:dataTable>
+
+									</h:panelGrid>
+
+								</p:splitterPanel>
+
 							</p:splitter>
-
-
 
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
 								var="item" sortMode="multiple" reflow="true"
@@ -268,7 +284,7 @@
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:ajax event="page" listener="#{cocedoresBean.onPageChange}"
-									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos" />
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblObs" />
 
 								<p:columnGroup type="header">
 
@@ -279,9 +295,9 @@
 
 									<p:row>
 										<p:column rowspan="3" headerText="HORA" styleClass="datos"
-											style="font-size: .6rem !important" exportable="false" />
-										<p:column rowspan="4" headerText="OPERACIÓN"
-											styleClass="datos" style="font-size: .6rem !important"
+											style="font-size: .4rem !important" exportable="false" />
+										<p:column rowspan="4" headerText="OPER."
+											styleClass="datos" style="font-size: .4rem !important"
 											exportable="false" />
 									</p:row>
 
@@ -373,8 +389,8 @@
 									</p:row>
 									<p:row>
 
-										<p:column headerText="LIMITES ESPECIFICOS"
-											style="font-size: .6rem !important" styleClass="datos"
+										<p:column headerText="LIM. ESPECIF."
+											style="font-size: .3rem !important" styleClass="datos"
 											exportable="false" />
 										<p:column headerText="55-80 °C" styleClass="datos"
 											exportable="false" />
@@ -422,10 +438,10 @@
 										<p:column headerText="" styleClass="datos" />
 										<p:column headerText="Min 2.0" styleClass="datos"
 											exportable="false" />
-										<p:column headerText="Aceptado" styleClass="datos"
-											exportable="false" style="font-size: .7rem !important" />
-										<p:column headerText="Rechazado" styleClass="datos"
-											exportable="false" style="font-size: .7rem !important" />
+										<p:column headerText="A" styleClass="datos"
+											exportable="false" style="font-size: .5rem !important" />
+										<p:column headerText="R" styleClass="datos"
+											exportable="false" style="font-size: .5rem !important" />
 									</p:row>
 
 								</p:columnGroup>
@@ -1400,6 +1416,33 @@
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
 							actionListener="#{cocedoresBean.actualizarTurnos()}"
 							oncomplete="PF('dlgEditarTurnos').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmObservaciones">
+				<p:dialog header="Agregar/Editar observación" widgetVar="dlgAgregarObs"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
+
+						<p:inputTextarea id="textObs"
+							value="#{cocedoresBean.folioPreparacionCocedores.observaciones}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cocedoresBean.guardarObservaciones()}"
+							oncomplete="PF('dlgAgregarObs').hide()" />
 					</div>
 
 				</p:dialog>
