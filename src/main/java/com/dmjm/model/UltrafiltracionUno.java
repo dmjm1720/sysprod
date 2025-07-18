@@ -1,6 +1,5 @@
 package com.dmjm.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -25,6 +24,8 @@ public class UltrafiltracionUno implements java.io.Serializable {
 	private Integer folioUltra;
 	private Date fecha;
 	private String operacion;
+	private Boolean estadoManto;
+	private Boolean estadoLimpieza;
 
 	public UltrafiltracionUno() {
 	}
@@ -36,7 +37,8 @@ public class UltrafiltracionUno implements java.io.Serializable {
 	public UltrafiltracionUno(int idUltrafiltracion, FolioPreparacionUltraUno folioPreparacionUltraUno, String hora,
 			Integer flujoEntrada, BigDecimal temp01, BigDecimal concEntrada, BigDecimal presionPsi, Integer flujoPerm,
 			BigDecimal concSalida, Integer flujoSalida, BigDecimal concPermeado, String estadoA, String estadoR,
-			Boolean estadoAR, BigDecimal temp02, Integer folioUltra, Date fecha, String operacion) {
+			Boolean estadoAR, BigDecimal temp02, Integer folioUltra, Date fecha, String operacion, Boolean estadoManto,
+			Boolean estadoLimpieza) {
 		this.idUltrafiltracion = idUltrafiltracion;
 		this.folioPreparacionUltraUno = folioPreparacionUltraUno;
 		this.hora = hora;
@@ -55,6 +57,8 @@ public class UltrafiltracionUno implements java.io.Serializable {
 		this.folioUltra = folioUltra;
 		this.fecha = fecha;
 		this.operacion = operacion;
+		this.folioUltra = folioUltra;
+		this.fecha = fecha;
 	}
 
 	public int getIdUltrafiltracion() {
@@ -199,6 +203,22 @@ public class UltrafiltracionUno implements java.io.Serializable {
 
 	public void setOperacion(String operacion) {
 		this.operacion = operacion;
+	}
+
+	public Boolean getEstadoManto() {
+		return estadoManto;
+	}
+
+	public void setEstadoManto(Boolean estadoManto) {
+		this.estadoManto = estadoManto;
+	}
+
+	public Boolean getEstadoLimpieza() {
+		return estadoLimpieza;
+	}
+
+	public void setEstadoLimpieza(Boolean estadoLimpieza) {
+		this.estadoLimpieza = estadoLimpieza;
 	}
 
 }

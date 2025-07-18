@@ -83,7 +83,7 @@
 										style="font-size: 1rem" />
 									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
 										var="turnos" sortMode="multiple" rowHover="true"
-										style="width: 80%" paginatorAlwaysVisible="true"
+										style="width: 85%" paginatorAlwaysVisible="true"
 										scrollable="true"
 										value="#{cocedoresBean.listarRegistroTurnos}"
 										emptyMessage="NO HAY REGISTROS">
@@ -116,18 +116,18 @@
 											</div>
 										</p:column>
 
-										<p:column headerText="Turno" width="6rem" styleClass="fondo">
+										<p:column headerText="Turno" width="5rem" styleClass="fondo">
 											<h:outputText value="#{turnos.turnos.nombreTurno}"
 												style="color: #036FAB;font-weight: bold !important;" />
 										</p:column>
 
-										<p:column headerText="Fecha registro turno" width="8rem"
+										<p:column headerText="Fecha registro turno" width="5rem"
 											styleClass="fondo">
 											<h:outputText value="#{turnos.fecha}"
 												style="color: #036FAB;font-weight: bold !important;" />
 										</p:column>
 
-										<p:column headerText="Folio" width="6rem" styleClass="fondo">
+										<p:column headerText="Folio" width="2rem" styleClass="fondo">
 											<h:outputText value="#{turnos.folio}"
 												style="color: #036FAB;font-weight: bold !important;" />
 										</p:column>
@@ -747,29 +747,29 @@
 											style="color: #036FAB;" />
 									</div>
 								</p:column>
-								<p:column headerText="Proceso" width="10rem">
+								<p:column headerText="Proceso" width="6rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Hora inicial" width="10rem">
+								<p:column headerText="Hora inicial" width="4rem">
 									<h:outputText value="#{item.horaInicial}"
 										style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Hora final" width="10rem">
+								<p:column headerText="Hora final" width="4rem">
 									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Químico" width="10rem">
+								<p:column headerText="Químico" width="6rem">
 									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Litros usados" width="10rem">
+								<p:column headerText="Litros usados" width="4rem">
 									<h:outputText value="#{item.litrosUsados}"
 										style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Lote" width="10rem">
+								<p:column headerText="Lote" width="6rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
 								</p:column>
 
@@ -839,7 +839,7 @@
 								emptyMessage="NO HAY REGISTROS">
 
 
-								<p:column headerText="Editar" width="3rem" exportable="false">
+								<p:column headerText="Editar" width="2rem" exportable="false">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
 										onclick="PF('dlgEditarManto').show()"
 										update="frmEditarManto:pnlEditarManto"
@@ -851,22 +851,22 @@
 										trackMouse="true" />
 								</p:column>
 
-								<p:column headerText="No. de orden" width="5rem">
+								<p:column headerText="No. de orden" width="3rem">
 									<h:outputText value="#{item.noOrden}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Hora inicial" width="5rem">
+								<p:column headerText="Hora inicial" width="3rem">
 									<h:outputText value="#{item.horaInicio}"
 										style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Hora final" width="5rem">
+								<p:column headerText="Hora final" width="3rem">
 									<h:outputText value="#{item.horaFin}" style="color: #036FAB;" />
 								</p:column>
 
 								<p:column headerText="Descripción" width="20rem">
 									<p:inputTextarea value="#{item.descripcion}" readonly="true"
-										style="color: #036FAB; width: 100%;" rows="6" />
+										style="color: #036FAB; width: 100%;" rows="4" />
 								</p:column>
 
 
@@ -938,7 +938,7 @@
 
 
 							<p:dataTable id="tblPurgas" styleClass="tabla fuente" var="item"
-								sortMode="multiple" scrollHeight="650" scrollWidth="40%"
+								sortMode="multiple" scrollHeight="650" scrollWidth="60%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
@@ -960,22 +960,22 @@
 										trackMouse="true" />
 								</p:column>
 
-								<p:column headerText="Hora" width="4rem">
+								<p:column headerText="Hora" width="3rem">
 									<h:outputText value="#{item.hora}" style="color: #036FAB;" />
 								</p:column>
-								<p:column headerText="Operación" width="4rem">
+								<p:column headerText="Operación" width="3rem">
 									<h:outputText value="#{item.operacion}" style="color: #036FAB;" />
 								</p:column>
-								<p:column headerText="CM" width="4rem">
+								<p:column headerText="CM" width="3rem">
 									<h:outputText value="#{item.cm}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Concentración" width="6rem">
+								<p:column headerText="Concentración" width="5rem">
 									<h:outputText value="#{item.concentrado}"
 										style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="pH" width="4rem">
+								<p:column headerText="pH" width="3rem">
 									<h:outputText value="#{item.ph}" style="color: #036FAB;" />
 								</p:column>
 

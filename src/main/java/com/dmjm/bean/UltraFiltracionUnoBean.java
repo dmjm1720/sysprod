@@ -88,6 +88,22 @@ public class UltraFiltracionUnoBean implements Serializable {
 	private OrdenMantenimientoUltraUno ordenMantenimiento;
 	private OrdenMantenimientoUltraUno ordenMantenimientoEditar;
 
+	private List<Integer> listaLimpiezas;
+
+	private int noLimpiezaSeleccionadaBorrar;
+	private int noLimpiezaVoBo;
+
+	private List<FolioPreparacionUltraUno> listaFolioUltraUno;
+	private FolioPreparacionUltraUno folioPrepUltraUno;
+	private String cocedorSeleccionado;
+	private List<String> procesos;
+
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
+
+	public UltraFiltracionUnoBean() {
+
+	}
+
 	@PostConstruct
 	public void init() {
 		listaUltrafiltracion = new ArrayList<>();
@@ -114,17 +130,65 @@ public class UltraFiltracionUnoBean implements Serializable {
 		ordenMantenimiento = new OrdenMantenimientoUltraUno();
 		ordenMantenimientoEditar = new OrdenMantenimientoUltraUno();
 
+		listaLimpiezas = new ArrayList<>();
+		folioPrepUltraUno = new FolioPreparacionUltraUno();
+
 		primera();
 		getListaUltrafiltracion(); // CAMBIAR PARAMETROS PARA EL REPORTE,
 		getListarRegistroTurnos();
 		getListaCambio();
 		getListaLimpieza();
 		getListaOrdenManto();
+		getListaFolioUltraUno();
 
 	}
+	
+	public List<String> getProcesos() {
+		return procesos;
+	}
 
-	public UltraFiltracionUnoBean() {
+	public String getCocedorSeleccionado() {
+		return cocedorSeleccionado;
+	}
 
+	public void setCocedorSeleccionado(String cocedorSeleccionado) {
+		this.cocedorSeleccionado = cocedorSeleccionado;
+	}
+
+	public FolioPreparacionUltraUno getFolioPrepUltraUno() {
+		return folioPrepUltraUno;
+	}
+
+	public void setFolioPrepUltraUno(FolioPreparacionUltraUno folioPrepUltraUno) {
+		this.folioPrepUltraUno = folioPrepUltraUno;
+	}
+
+	public List<FolioPreparacionUltraUno> getListaFolioUltraUno() {
+		IFolioPreparacionUltraUnoDao lDao = new FolioUltraUnoDaoImpl();
+		listaFolioUltraUno = lDao.listaDeFolioUltraUno(folioPrepUltra);
+		return listaFolioUltraUno;
+	}
+
+	public int getNoLimpiezaVoBo() {
+		return noLimpiezaVoBo;
+	}
+
+	public void setNoLimpiezaVoBo(int noLimpiezaVoBo) {
+		this.noLimpiezaVoBo = noLimpiezaVoBo;
+	}
+
+	public int getNoLimpiezaSeleccionadaBorrar() {
+		return noLimpiezaSeleccionadaBorrar;
+	}
+
+	public void setNoLimpiezaSeleccionadaBorrar(int noLimpiezaSeleccionadaBorrar) {
+		this.noLimpiezaSeleccionadaBorrar = noLimpiezaSeleccionadaBorrar;
+	}
+
+	public List<Integer> getListaLimpiezas() throws SQLException {
+		ILimpiezaUltraUnoDao lDao = new LimpiezaUltraUnoDaoImpl();
+		listaLimpiezas = lDao.noLimpieza(folioPrepUltra);
+		return listaLimpiezas;
 	}
 
 	public List<UltrafiltracionUno> getListaUltrafiltracion() {
@@ -354,13 +418,17 @@ public class UltraFiltracionUnoBean implements Serializable {
 		ILimpiezaUltraUnoDao validaDao = new LimpiezaUltraUnoDaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepUltra);
-
+		
 		ILimpiezaUltraUnoDao lDao = new LimpiezaUltraUnoDaoImpl();
+		IUltraFiltracionUnoDao vDao = new UltraFiltracionUnoDaoImpl();
+		vDao.actualizarLimpieza(folioPrepUltra, noDeLimpieza);
 		for (String l : datosLimpieza) {
 			limpieza.setVoBo("PENDIENTE");
 			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionUltraUno(f);
 			limpieza.setProceso(l);
+			limpieza.setIdUsuario(1028);
+			limpieza.setNoCocedor(cocedorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
 			limpieza = new LimpiezaUltraUno();
 		}
@@ -375,10 +443,11 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
+		
 		// validación de mantenimiento si hubo o no hubo
-		// ICocedoresDao validaDao = new CocedoresDaoImpl();
+		IUltraFiltracionUnoDao validaDao = new UltraFiltracionUnoDaoImpl();
 
-		// validaDao.actualizarManto(folioPrepCocedor);
+		validaDao.actualizarManto(folioPrepUltra);
 
 		IOrdenMantoUltraUnoDao iDao = new OrdenMantoUltraUnoDaoImpl();
 
@@ -510,6 +579,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 			getListaUltrafiltracion();
 			getListarRegistroTurnos();
 			getListaCambio();
+			getListaFolioUltraUno();
 
 		}
 
@@ -692,8 +762,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
+
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
 
@@ -710,6 +779,37 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 		FacesContext.getCurrentInstance().responseComplete();
 
+	}
+
+	public void deleteLimpieza() {
+		// validación de limpieza para agregar en la tabla de cocedores
+		IUltraFiltracionUnoDao vDao = new UltraFiltracionUnoDaoImpl();
+		vDao.actualizarLimpieza(folioPrepUltra, 0);
+		ILimpiezaUltraUnoDao iDao = new LimpiezaUltraUnoDaoImpl();
+		iDao.borrarLimpieza(folioPrepUltra, noLimpiezaSeleccionadaBorrar);
+
+	}
+
+	public void borrarVoBo() {
+		ILimpiezaUltraUnoDao iDao = new LimpiezaUltraUnoDaoImpl();
+		iDao.borrarVoBo(folioPrepUltra, noLimpiezaVoBo);
+	}
+
+	public void agregarVoBo() {
+		ILimpiezaUltraUnoDao iDao = new LimpiezaUltraUnoDaoImpl();
+		iDao.agregarVoBo(folioPrepUltra, noLimpiezaVoBo, us.getIdUsuario());
+	}
+
+	public void guardarObservaciones() {
+		IFolioPreparacionUltraUnoDao fDao = new FolioUltraUnoDaoImpl();
+		fDao.guardarObservacion(folioPrepUltra, folioPrepUltraUno.getObservaciones());
+		folioPrepUltraUno = new FolioPreparacionUltraUno();
+	}
+
+	public void obtenerObservacion() {
+		for (int i = 0; i < listaFolioUltraUno.size(); i++) {
+			folioPrepUltraUno.setObservaciones(listaFolioUltraUno.get(i).getObservaciones());
+		}
 	}
 
 }

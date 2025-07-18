@@ -44,6 +44,7 @@ import com.dmjm.model.OrdenMantenimientoEstB;
 import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("esterilizadorBeanB")
@@ -55,6 +56,8 @@ public class EsterilizadorPBBean implements Serializable {
 	private List<EsterilizadorPlantaB> listaEsterilizador;
 	private EsterilizadorPlantaB esterilizadorPlantaB;
 	private EsterilizadorPlantaB esterilizadorEditarPlantaB;
+	
+	private List<EsterilizadorPlantaB> listaFiltroEsterilizadoresPB;
 
 	private Date fecha;
 	private int folioFecha;
@@ -81,11 +84,29 @@ public class EsterilizadorPBBean implements Serializable {
 	private OrdenMantenimientoEstB ordenMantenimiento;
 	private OrdenMantenimientoEstB ordenMantenimientoEditar;
 
+	private List<Integer> listaLimpiezas;
+
+	private int noLimpiezaSeleccionadaBorrar;
+	private int noLimpiezaVoBo;
+
+	private List<FolioPreparacionEstB> listaFolioEstPB;
+	private FolioPreparacionEstB folioPrepEstPB;
+	private String cocedorSeleccionado;
+	private List<String> procesos;
+
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
+
+	public EsterilizadorPBBean() {
+
+	}
+
 	@PostConstruct
 	public void init() {
 		listaEsterilizador = new ArrayList<>();
 		esterilizadorPlantaB = new EsterilizadorPlantaB();
 		esterilizadorEditarPlantaB = new EsterilizadorPlantaB();
+		
+	
 
 		limpieza = new LimpiezaEstB();
 		limpiezaEstB = new ArrayList<>();
@@ -102,15 +123,71 @@ public class EsterilizadorPBBean implements Serializable {
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoEstB();
 		ordenMantenimientoEditar = new OrdenMantenimientoEstB();
+		
+		listaFiltroEsterilizadoresPB = new ArrayList<>();
+		IEsterilizdorPlantaBDao lfDao = new EsterilizadorPlantaBDaoImpl();
+		listaFiltroEsterilizadoresPB = lfDao.listaFiltroEsterilizador();
+
+		listaLimpiezas = new ArrayList<>();
+		folioPrepEstPB = new FolioPreparacionEstB();
 
 		primera();
 		getListarRegistroTurnos();
 		getLimpiezaEstB();
 		getListaOrdenManto();
+		getListaFolioEstPB();
 	}
 
-	public EsterilizadorPBBean() {
+	public List<String> getProcesos() {
+		return procesos;
+	}
 
+	public int getNoLimpiezaSeleccionadaBorrar() {
+		return noLimpiezaSeleccionadaBorrar;
+	}
+
+	public void setNoLimpiezaSeleccionadaBorrar(int noLimpiezaSeleccionadaBorrar) {
+		this.noLimpiezaSeleccionadaBorrar = noLimpiezaSeleccionadaBorrar;
+	}
+
+	public int getNoLimpiezaVoBo() {
+		return noLimpiezaVoBo;
+	}
+
+	public void setNoLimpiezaVoBo(int noLimpiezaVoBo) {
+		this.noLimpiezaVoBo = noLimpiezaVoBo;
+	}
+
+	public List<Integer> getListaLimpiezas() throws SQLException {
+		ILimpiezaEsterilizadorPlantaBDao lDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
+		listaLimpiezas = lDao.noLimpieza(folioPrepEst);
+		return listaLimpiezas;
+	}
+
+	public List<EsterilizadorPlantaB> getListaFiltroEsterilizadoresPB() {
+		return listaFiltroEsterilizadoresPB;
+	}
+
+	public FolioPreparacionEstB getFolioPrepEstPB() {
+		return folioPrepEstPB;
+	}
+
+	public void setFolioPrepEstPB(FolioPreparacionEstB folioPrepEstPB) {
+		this.folioPrepEstPB = folioPrepEstPB;
+	}
+
+	public String getCocedorSeleccionado() {
+		return cocedorSeleccionado;
+	}
+
+	public void setCocedorSeleccionado(String cocedorSeleccionado) {
+		this.cocedorSeleccionado = cocedorSeleccionado;
+	}
+
+	public List<FolioPreparacionEstB> getListaFolioEstPB() {
+		IFolioPreparacionEsterilizadorPlantaBDao lDao = new FolioPreparacionEsterilizadorPlantaBDaoImpl();
+		listaFolioEstPB = lDao.listaFolioEstB(folioPrepEst);
+		return listaFolioEstPB;
 	}
 
 	public EsterilizadorPlantaB getEsterilizadorPlantaB() {
@@ -396,6 +473,7 @@ public class EsterilizadorPBBean implements Serializable {
 			getListarRegistroTurnos();
 			getLimpiezaEstB();
 			getListaOrdenManto();
+			getListaFolioEstPB();
 		}
 
 	}
@@ -444,7 +522,7 @@ public class EsterilizadorPBBean implements Serializable {
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "ALCALINO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
+		String datosLimpieza[] = { "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
 
 		FolioPreparacionEstB f = new FolioPreparacionEstB();
 		f.setIdFolioPrep(folioPrepEst);
@@ -453,13 +531,18 @@ public class EsterilizadorPBBean implements Serializable {
 		ILimpiezaEsterilizadorPlantaBDao validaDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepEst);
-
+		
+		// validación de limpieza para agregar en la tabla de cocedores
 		ILimpiezaEsterilizadorPlantaBDao lDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
+		IEsterilizdorPlantaBDao vDao = new EsterilizadorPlantaBDaoImpl();
+		vDao.actualizarLimpieza(folioPrepEst, noDeLimpieza);
 		for (String l : datosLimpieza) {
 			limpieza.setVoBo("PENDIENTE");
 			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionEstB(f);
 			limpieza.setProceso(l);
+			limpieza.setIdUsuario(1028);
+			limpieza.setNoCocedor(cocedorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
 			limpieza = new LimpiezaEstB();
 		}
@@ -575,9 +658,9 @@ public class EsterilizadorPBBean implements Serializable {
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
 		// validación de mantenimiento
-//		ICocedoresDao validaDao = new CocedoresDaoImpl();
-//
-//		validaDao.actualizarManto(folioPrepCocedor);
+		IEsterilizdorPlantaBDao validaDao = new EsterilizadorPlantaBDaoImpl();
+
+		validaDao.actualizarManto(folioPrepEst);
 
 		IOrdenMantoEsterilizadorPalantaBDao iDao = new OrdenMantoEsterilizadorPlantaBImpl();
 		FolioPreparacionEstB f = new FolioPreparacionEstB();
@@ -599,6 +682,7 @@ public class EsterilizadorPBBean implements Serializable {
 		getListarRegistroTurnos();
 		getLimpiezaEstB();
 		getListaOrdenManto();
+		getListaFolioEstPB();
 	}
 
 	// **REPORTE ESTERILIZADORES**//
@@ -614,6 +698,24 @@ public class EsterilizadorPBBean implements Serializable {
 
 		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b.jasper");
 		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_b.jasper");
+
+		reporte.getReporte(ruta, fec, folioFechaRep);
 
 		FacesContext.getCurrentInstance().responseComplete();
 
@@ -635,6 +737,37 @@ public class EsterilizadorPBBean implements Serializable {
 
 		FacesContext.getCurrentInstance().responseComplete();
 
+	}
+	
+	public void deleteLimpieza() {
+		// validación de limpieza para agregar en la tabla de cocedores
+		IEsterilizdorPlantaBDao vDao = new EsterilizadorPlantaBDaoImpl();
+		vDao.actualizarLimpieza(folioPrepEst, 0);
+		ILimpiezaEsterilizadorPlantaBDao iDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
+		iDao.borrarLimpieza(folioPrepEst, noLimpiezaSeleccionadaBorrar);
+
+	}
+
+	public void borrarVoBo() {
+		ILimpiezaEsterilizadorPlantaBDao iDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
+		iDao.borrarVoBo(folioPrepEst, noLimpiezaVoBo);
+	}
+
+	public void agregarVoBo() {
+		ILimpiezaEsterilizadorPlantaBDao iDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
+		iDao.agregarVoBo(folioPrepEst, noLimpiezaVoBo, us.getIdUsuario());
+	}
+
+	public void guardarObservaciones() {
+		IFolioPreparacionEsterilizadorPlantaBDao fDao = new FolioPreparacionEsterilizadorPlantaBDaoImpl();
+		fDao.guardarObservacion(folioPrepEst, folioPrepEstPB.getObservaciones());
+		folioPrepEstPB = new FolioPreparacionEstB();
+	}
+
+	public void obtenerObservacion() {
+		for (int i = 0; i < listaFolioEstPB.size(); i++) {
+			folioPrepEstPB.setObservaciones(listaFolioEstPB.get(i).getObservaciones());
+		}
 	}
 
 }

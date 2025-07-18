@@ -3,106 +3,115 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 20-jun-2025 8:32:27 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.dmjm.model.UltrafiltracionDos" table="ULTRAFILTRACION_DOS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
-        <id name="idUltrafiltracion" type="int">
-            <column name="ID_ULTRAFILTRACION" />
-            <generator class="native" />
-        </id>
-        <many-to-one name="folioPreparacionUltraDos" class="com.dmjm.model.FolioPreparacionUltraDos" fetch="select">
-            <column name="ID_FOLIO_PREP" />
-        </many-to-one>
-        <property name="hora" type="string">
-            <column name="HORA" length="10" />
-        </property>
-        <property name="operacion" type="string">
-            <column name="OPERACION" length="25" />
-        </property>
-        <property name="presionEntrada" type="big_decimal">
-            <column name="PRESION_ENTRADA" precision="10" scale="1" />
-        </property>
-        <property name="presionSalida" type="big_decimal">
-            <column name="PRESION_SALIDA" precision="10" scale="1" />
-        </property>
-        <property name="flujoEnt" type="java.lang.Integer">
-            <column name="FLUJO_ENT" />
-        </property>
-        <property name="temp01" type="big_decimal">
-            <column name="TEMP_01" precision="10" scale="1" />
-        </property>
-        <property name="concEntrada" type="big_decimal">
-            <column name="CONC_ENTRADA" precision="10" scale="1" />
-        </property>
-        <property name="ph" type="big_decimal">
-            <column name="PH" precision="10" scale="1" />
-        </property>
-        <property name="presionBar" type="big_decimal">
-            <column name="PRESION_BAR" precision="10" scale="1" />
-        </property>
-        <property name="porcentajeBomba" type="big_decimal">
-            <column name="PORCENTAJE_BOMBA" precision="10" scale="1" />
-        </property>
-        <property name="temp02" type="big_decimal">
-            <column name="TEMP_02" precision="10" scale="1" />
-        </property>
-        <property name="presionPsi01" type="big_decimal">
-            <column name="PRESION_PSI_01" precision="10" scale="1" />
-        </property>
-        <property name="flujoPerm01" type="java.lang.Integer">
-            <column name="FLUJO_PERM_01" />
-        </property>
-        <property name="temp03" type="big_decimal">
-            <column name="TEMP_03" precision="10" scale="1" />
-        </property>
-        <property name="presionPsi02" type="big_decimal">
-            <column name="PRESION_PSI_02" precision="10" scale="1" />
-        </property>
-        <property name="flujoPerm02" type="java.lang.Integer">
-            <column name="FLUJO_PERM_02" />
-        </property>
-        <property name="temp04" type="big_decimal">
-            <column name="TEMP_04" precision="10" scale="1" />
-        </property>
-        <property name="presionPsi03" type="big_decimal">
-            <column name="PRESION_PSI_03" precision="10" scale="1" />
-        </property>
-        <property name="flujoPerm03" type="java.lang.Integer">
-            <column name="FLUJO_PERM_03" />
-        </property>
-        <property name="temp05" type="big_decimal">
-            <column name="TEMP_05" precision="10" scale="1" />
-        </property>
-        <property name="presionPsi04" type="big_decimal">
-            <column name="PRESION_PSI_04" precision="10" scale="1" />
-        </property>
-        <property name="flujoPerm04" type="java.lang.Integer">
-            <column name="FLUJO_PERM_04" />
-        </property>
-        <property name="concSalida" type="big_decimal">
-            <column name="CONC_SALIDA" precision="10" scale="1" />
-        </property>
-        <property name="ratio" type="java.lang.Integer">
-            <column name="RATIO" />
-        </property>
-        <property name="flujoSalida" type="java.lang.Integer">
-            <column name="FLUJO_SALIDA" />
-        </property>
-        <property name="concPermeado" type="big_decimal">
-            <column name="CONC_PERMEADO" precision="2" scale="1" />
-        </property>
-        <property name="estadoA" type="string">
-            <column name="ESTADO_A" length="2" />
-        </property>
-        <property name="estadoR" type="string">
-            <column name="ESTADO_R" length="2" />
-        </property>
-        <property name="estadoAR" type="java.lang.Boolean">
-            <column name="ESTADO_A_R" />
-        </property>
-        <property name="folioUltra" type="java.lang.Integer">
-            <column name="FOLIO_ULTRA" />
-        </property>
-        <property name="fecha" type="date">
-            <column name="FECHA" length="10" />
-        </property>
-    </class>
+	<class name="com.dmjm.model.UltrafiltracionDos"
+		table="ULTRAFILTRACION_DOS" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idUltrafiltracion" type="int">
+			<column name="ID_ULTRAFILTRACION" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionUltraDos"
+			class="com.dmjm.model.FolioPreparacionUltraDos" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="hora" type="string">
+			<column name="HORA" length="10" />
+		</property>
+		<property name="operacion" type="string">
+			<column name="OPERACION" length="25" />
+		</property>
+		<property name="presionEntrada" type="big_decimal">
+			<column name="PRESION_ENTRADA" precision="10" scale="1" />
+		</property>
+		<property name="presionSalida" type="big_decimal">
+			<column name="PRESION_SALIDA" precision="10" scale="1" />
+		</property>
+		<property name="flujoEnt" type="java.lang.Integer">
+			<column name="FLUJO_ENT" />
+		</property>
+		<property name="temp01" type="big_decimal">
+			<column name="TEMP_01" precision="10" scale="1" />
+		</property>
+		<property name="concEntrada" type="big_decimal">
+			<column name="CONC_ENTRADA" precision="10" scale="1" />
+		</property>
+		<property name="ph" type="big_decimal">
+			<column name="PH" precision="10" scale="1" />
+		</property>
+		<property name="presionBar" type="big_decimal">
+			<column name="PRESION_BAR" precision="10" scale="1" />
+		</property>
+		<property name="porcentajeBomba" type="big_decimal">
+			<column name="PORCENTAJE_BOMBA" precision="10" scale="1" />
+		</property>
+		<property name="temp02" type="big_decimal">
+			<column name="TEMP_02" precision="10" scale="1" />
+		</property>
+		<property name="presionPsi01" type="big_decimal">
+			<column name="PRESION_PSI_01" precision="10" scale="1" />
+		</property>
+		<property name="flujoPerm01" type="java.lang.Integer">
+			<column name="FLUJO_PERM_01" />
+		</property>
+		<property name="temp03" type="big_decimal">
+			<column name="TEMP_03" precision="10" scale="1" />
+		</property>
+		<property name="presionPsi02" type="big_decimal">
+			<column name="PRESION_PSI_02" precision="10" scale="1" />
+		</property>
+		<property name="flujoPerm02" type="java.lang.Integer">
+			<column name="FLUJO_PERM_02" />
+		</property>
+		<property name="temp04" type="big_decimal">
+			<column name="TEMP_04" precision="10" scale="1" />
+		</property>
+		<property name="presionPsi03" type="big_decimal">
+			<column name="PRESION_PSI_03" precision="10" scale="1" />
+		</property>
+		<property name="flujoPerm03" type="java.lang.Integer">
+			<column name="FLUJO_PERM_03" />
+		</property>
+		<property name="temp05" type="big_decimal">
+			<column name="TEMP_05" precision="10" scale="1" />
+		</property>
+		<property name="presionPsi04" type="big_decimal">
+			<column name="PRESION_PSI_04" precision="10" scale="1" />
+		</property>
+		<property name="flujoPerm04" type="java.lang.Integer">
+			<column name="FLUJO_PERM_04" />
+		</property>
+		<property name="concSalida" type="big_decimal">
+			<column name="CONC_SALIDA" precision="10" scale="1" />
+		</property>
+		<property name="ratio" type="java.lang.Integer">
+			<column name="RATIO" />
+		</property>
+		<property name="flujoSalida" type="java.lang.Integer">
+			<column name="FLUJO_SALIDA" />
+		</property>
+		<property name="concPermeado" type="big_decimal">
+			<column name="CONC_PERMEADO" precision="2" scale="1" />
+		</property>
+		<property name="estadoA" type="string">
+			<column name="ESTADO_A" length="2" />
+		</property>
+		<property name="estadoR" type="string">
+			<column name="ESTADO_R" length="2" />
+		</property>
+		<property name="estadoAR" type="java.lang.Boolean">
+			<column name="ESTADO_A_R" />
+		</property>
+		<property name="folioUltra" type="java.lang.Integer">
+			<column name="FOLIO_ULTRA" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="estadoManto" type="java.lang.Boolean">
+			<column name="ESTADO_MANTO" />
+		</property>
+		<property name="estadoLimpieza" type="java.lang.Boolean">
+			<column name="ESTADO_LIMPIEZA" />
+		</property>
+	</class>
 </hibernate-mapping>

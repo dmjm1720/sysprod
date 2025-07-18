@@ -560,7 +560,7 @@ public class EsterilizadorPABean implements Serializable {
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "ALCALINO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
+		String datosLimpieza[] = { "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
 
 		FolioPreparacionEstA f = new FolioPreparacionEstA();
 		f.setIdFolioPrep(folioPrepEst);
@@ -569,7 +569,7 @@ public class EsterilizadorPABean implements Serializable {
 		ILimpiezaEsterilizadorPlantaADao validaDao = new LimpiezaEsterilizadorPlantaADaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepEst);
-		
+
 		// validación de limpieza para agregar en la tabla de cocedores
 
 		ILimpiezaEsterilizadorPlantaADao lDao = new LimpiezaEsterilizadorPlantaADaoImpl();
@@ -741,8 +741,7 @@ public class EsterilizadorPABean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
+
 	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -760,7 +759,6 @@ public class EsterilizadorPABean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
 
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
@@ -806,7 +804,7 @@ public class EsterilizadorPABean implements Serializable {
 		ILimpiezaEsterilizadorPlantaADao iDao = new LimpiezaEsterilizadorPlantaADaoImpl();
 		iDao.borrarVoBo(folioPrepEst, noLimpiezaVoBo);
 	}
-	
+
 	public void agregarVoBo() {
 		ILimpiezaEsterilizadorPlantaADao iDao = new LimpiezaEsterilizadorPlantaADaoImpl();
 		iDao.agregarVoBo(folioPrepEst, noLimpiezaVoBo, us.getIdUsuario());

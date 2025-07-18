@@ -17,7 +17,7 @@ public interface IEsterilizdorPlantaBDao {
 	void actualizarEsterilizador(EsterilizadorPlantaB esterilizador);
 
 	void actualizarEsterilizadorPromedio(String operacion, int folio);
-	
+
 	void actualizarPromedioGrenetina(int folio);
 
 	void actualizarPromedioPresionVapor(int folio);
@@ -43,4 +43,8 @@ public interface IEsterilizdorPlantaBDao {
 	void actualizarPromedioRedoxEntrada(int folio);
 
 	void actualizarPromedioRedoxSalida(int folio);
+
+	void actualizarManto(int folio);
+
+	void actualizarLimpieza(int folio, int estado);
 }

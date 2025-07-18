@@ -427,7 +427,7 @@ public class EsterilizadorPlantaADaoImpl extends Conexion implements IEsterilizd
 
 			CerrarSysProd();
 		} catch (SQLException ex) {
-			LOGGER.error("ERROR AL ACTUALIZAR EL ESTADO DE MANTENIMIENTO: ", ex);
+			LOGGER.error("ERROR AL ACTUALIZAR EL ESTADO DE LIMPIEZA: ", ex);
 		}
 		
 	}

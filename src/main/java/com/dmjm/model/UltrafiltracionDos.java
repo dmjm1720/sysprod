@@ -39,6 +39,9 @@ public class UltrafiltracionDos implements java.io.Serializable {
 	private Boolean estadoAR;
 	private Integer folioUltra;
 	private Date fecha;
+	private Boolean estadoManto;
+	private Boolean estadoLimpieza;
+
 
 	public UltrafiltracionDos() {
 	}
@@ -53,7 +56,8 @@ public class UltrafiltracionDos implements java.io.Serializable {
 			BigDecimal presionPsi01, Integer flujoPerm01, BigDecimal temp03, BigDecimal presionPsi02,
 			Integer flujoPerm02, BigDecimal temp04, BigDecimal presionPsi03, Integer flujoPerm03, BigDecimal temp05,
 			BigDecimal presionPsi04, Integer flujoPerm04, BigDecimal concSalida, Integer ratio, Integer flujoSalida,
-			BigDecimal concPermeado, String estadoA, String estadoR, Boolean estadoAR, Integer folioUltra, Date fecha) {
+			BigDecimal concPermeado, String estadoA, String estadoR, Boolean estadoAR, Integer folioUltra, Date fecha,Boolean estadoManto,
+			Boolean estadoLimpieza) {
 		this.idUltrafiltracion = idUltrafiltracion;
 		this.folioPreparacionUltraDos = folioPreparacionUltraDos;
 		this.hora = hora;
@@ -351,6 +355,22 @@ public class UltrafiltracionDos implements java.io.Serializable {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	
+	public Boolean getEstadoManto() {
+		return estadoManto;
+	}
+
+	public void setEstadoManto(Boolean estadoManto) {
+		this.estadoManto = estadoManto;
+	}
+
+	public Boolean getEstadoLimpieza() {
+		return estadoLimpieza;
+	}
+
+	public void setEstadoLimpieza(Boolean estadoLimpieza) {
+		this.estadoLimpieza = estadoLimpieza;
 	}
 
 }

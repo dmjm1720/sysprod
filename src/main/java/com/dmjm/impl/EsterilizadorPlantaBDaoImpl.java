@@ -407,4 +407,45 @@ public class EsterilizadorPlantaBDaoImpl extends Conexion implements IEsterilizd
 		}
 	}
 
+	@Override
+	public void actualizarLimpieza(int folio, int estado) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE ESTERILIZADOR_PLANTA_B SET ESTADO_LIMPIEZA=? WHERE HORA='PROM.' AND ID_FOLIO_PREP=?;";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setInt(1, estado);
+			ps.setInt(2, folio);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL ESTADO DE LIMPIEZA: ", ex);
+		}
+		
+	}
+	
+	@Override
+	public void actualizarManto(int folio) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE ESTERILIZADOR_PLANTA_B SET ESTADO_MANTO=1 WHERE HORA='PROM.' AND ID_FOLIO_PREP=?;";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			ps.setInt(1, folio);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL ESTADO DE MANTENIMIENTO: ", ex);
+		}
+		
+	}
+
+	
+
+
 }

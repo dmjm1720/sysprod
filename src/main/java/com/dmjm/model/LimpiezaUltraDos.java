@@ -16,6 +16,8 @@ public class LimpiezaUltraDos implements java.io.Serializable {
 	private String proceso;
 	private Integer noLimpieza;
 	private String voBo;
+	private String noCocedor;
+	private Integer idUsuario;
 
 	public LimpiezaUltraDos() {
 	}
@@ -26,7 +28,7 @@ public class LimpiezaUltraDos implements java.io.Serializable {
 
 	public LimpiezaUltraDos(int idLimpiezaUltraDos, FolioPreparacionUltraDos folioPreparacionUltraDos, Date horaInicial,
 			Date horaFinal, String quimico, BigDecimal litrosUsados, String lote, String proceso, Integer noLimpieza,
-			String voBo) {
+			String voBo, String noCocedor, Integer idUsuario) {
 		this.idLimpiezaUltraDos = idLimpiezaUltraDos;
 		this.folioPreparacionUltraDos = folioPreparacionUltraDos;
 		this.horaInicial = horaInicial;
@@ -37,6 +39,8 @@ public class LimpiezaUltraDos implements java.io.Serializable {
 		this.proceso = proceso;
 		this.noLimpieza = noLimpieza;
 		this.voBo = voBo;
+		this.noCocedor = noCocedor;
+		this.idUsuario = idUsuario;
 	}
 
 	public int getIdLimpiezaUltraDos() {
@@ -117,6 +121,22 @@ public class LimpiezaUltraDos implements java.io.Serializable {
 
 	public void setVoBo(String voBo) {
 		this.voBo = voBo;
+	}
+
+	public String getNoCocedor() {
+		return noCocedor;
+	}
+
+	public void setNoCocedor(String noCocedor) {
+		this.noCocedor = noCocedor;
+	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 }
