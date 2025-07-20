@@ -11,4 +11,6 @@ public interface IOrdenMantoDao {
 	void guardarOrdenManto(OrdenMantenimiento mantenimiento);
 
 	void actualizarOrdenManto(OrdenMantenimiento OrdenMantenimiento);
+	
+	void borrarOrdenManto(OrdenMantenimiento mantenimiento);
 }

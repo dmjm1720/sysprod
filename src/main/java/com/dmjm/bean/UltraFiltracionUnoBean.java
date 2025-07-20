@@ -47,6 +47,7 @@ import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.UltrafiltracionUno;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("ultraUnoBean")
@@ -58,6 +59,8 @@ public class UltraFiltracionUnoBean implements Serializable {
 	private List<UltrafiltracionUno> listaUltrafiltracion;
 	private UltrafiltracionUno ultraFiltracionUno;
 	private UltrafiltracionUno ultraFiltracionUnoEditar;
+
+	private List<UltrafiltracionUno> listaFiltroUltraUno;
 
 	private Date fecha;
 	private int folioFecha;
@@ -130,6 +133,10 @@ public class UltraFiltracionUnoBean implements Serializable {
 		ordenMantenimiento = new OrdenMantenimientoUltraUno();
 		ordenMantenimientoEditar = new OrdenMantenimientoUltraUno();
 
+		listaFiltroUltraUno = new ArrayList<>();
+		IUltraFiltracionUnoDao lfDao = new UltraFiltracionUnoDaoImpl();
+		listaFiltroUltraUno = lfDao.listaFiltroUltrafiltracion();
+
 		listaLimpiezas = new ArrayList<>();
 		folioPrepUltraUno = new FolioPreparacionUltraUno();
 
@@ -142,7 +149,11 @@ public class UltraFiltracionUnoBean implements Serializable {
 		getListaFolioUltraUno();
 
 	}
-	
+
+	public List<UltrafiltracionUno> getListaFiltroUltraUno() {
+		return listaFiltroUltraUno;
+	}
+
 	public List<String> getProcesos() {
 		return procesos;
 	}
@@ -418,7 +429,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 		ILimpiezaUltraUnoDao validaDao = new LimpiezaUltraUnoDaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepUltra);
-		
+
 		ILimpiezaUltraUnoDao lDao = new LimpiezaUltraUnoDaoImpl();
 		IUltraFiltracionUnoDao vDao = new UltraFiltracionUnoDaoImpl();
 		vDao.actualizarLimpieza(folioPrepUltra, noDeLimpieza);
@@ -443,7 +454,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
-		
+
 		// validación de mantenimiento si hubo o no hubo
 		IUltraFiltracionUnoDao validaDao = new UltraFiltracionUnoDaoImpl();
 
@@ -758,6 +769,25 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 		ruta = servletContext.getRealPath("/REP/ultrafiltracion_uno.jasper");
 		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	
+	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/ultrafiltracion_uno.jasper");
+
+		reporte.getReporte(ruta, fec, folioFechaRep);
 
 		FacesContext.getCurrentInstance().responseComplete();
 

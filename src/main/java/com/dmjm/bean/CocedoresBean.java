@@ -722,7 +722,7 @@ public class CocedoresBean implements Serializable {
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "DESCONCETRACIÓN", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
+		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE",
 				"ENJUAGUE" };
 
 		FolioPreparacionCocedores f = new FolioPreparacionCocedores();
@@ -783,6 +783,12 @@ public class CocedoresBean implements Serializable {
 		selectedProcess = null;
 		purgas = new Purgas();
 	}
+	
+	public void borrarPurgas() {
+		IPurgasDao pDao = new PurgasDaoImpl();
+		pDao.borrarPurgas(purgas);
+		purgas = new Purgas();	
+	}
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
@@ -803,6 +809,12 @@ public class CocedoresBean implements Serializable {
 		IOrdenMantoDao iDao = new OrdenMantoDaoImpl();
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimiento();
+	}
+	
+	public void borrarOrdenManto() {
+		IOrdenMantoDao iDao = new OrdenMantoDaoImpl();
+		iDao.borrarOrdenManto(ordenMantenimientoEditar);
+		ordenMantenimientoEditar = new OrdenMantenimiento();
 	}
 
 	// **FILTRAR POR FECHA**//

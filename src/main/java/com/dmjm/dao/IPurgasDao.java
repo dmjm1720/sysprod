@@ -11,5 +11,7 @@ public interface IPurgasDao {
 	void guardaPurgas(Purgas purgas);
 
 	void actualizarPurgas(Purgas purgas);
+	
+	void borrarPurgas(Purgas purgas);
 
 }

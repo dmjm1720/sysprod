@@ -40,7 +40,7 @@
 							<p:splitter styleClass="mb-5" widgetVar="splitter">
 								<p:splitterPanel size="20"
 									styleClass="flex align-items-center justify-content-center">
-									
+
 									<h:panelGrid id="pgTurnos" columns="2"
 										styleClass="tabla fuente">
 										<p:outputLabel for="turno" value="Turno" />
@@ -76,7 +76,7 @@
 										</p:commandButton>
 									</h:panelGrid>
 								</p:splitterPanel>
-								
+
 								<p:splitterPanel
 									styleClass="flex align-items-center justify-content-center">
 									<p:outputLabel value="TURNOS REGISTRADOS"
@@ -296,9 +296,8 @@
 									<p:row>
 										<p:column rowspan="3" headerText="HORA" styleClass="datos"
 											style="font-size: .4rem !important" exportable="false" />
-										<p:column rowspan="4" headerText="OPER."
-											styleClass="datos" style="font-size: .4rem !important"
-											exportable="false" />
+										<p:column rowspan="4" headerText="OPER." styleClass="datos"
+											style="font-size: .4rem !important" exportable="false" />
 									</p:row>
 
 
@@ -438,10 +437,10 @@
 										<p:column headerText="" styleClass="datos" />
 										<p:column headerText="Min 2.0" styleClass="datos"
 											exportable="false" />
-										<p:column headerText="A" styleClass="datos"
-											exportable="false" style="font-size: .5rem !important" />
-										<p:column headerText="R" styleClass="datos"
-											exportable="false" style="font-size: .5rem !important" />
+										<p:column headerText="A" styleClass="datos" exportable="false"
+											style="font-size: .5rem !important" />
+										<p:column headerText="R" styleClass="datos" exportable="false"
+											style="font-size: .5rem !important" />
 									</p:row>
 
 								</p:columnGroup>
@@ -655,17 +654,23 @@
 
 								<p:selectOneMenu id="cocLimp"
 									value="#{cocedoresBean.cocedorSeleccionado}" dynamic="true">
-									<f:selectItem itemLabel="NO. COCEDOR" itemValue="" />
-									<f:selectItem itemLabel="Cocedor 1" itemValue="1" />
-									<f:selectItem itemLabel="Cocedor 2" itemValue="2" />
-									<f:selectItem itemLabel="Cocedor 3" itemValue="3" />
-									<f:selectItem itemLabel="Cocedor 4" itemValue="4" />
-									<f:selectItem itemLabel="Cocedor 5" itemValue="5" />
-									<f:selectItem itemLabel="Cocedor 6" itemValue="6" />
-									<f:selectItem itemLabel="Cocedor 7" itemValue="7" />
-									<f:selectItem itemLabel="Cocedor 8" itemValue="8" />
-									<f:selectItem itemLabel="Cocedor 9" itemValue="9" />
-									<f:selectItem itemLabel="Cocedor 10" itemValue="10" />
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="COCEDOR 1" itemValue="COCEDOR 1" />
+									<f:selectItem itemLabel="COCEDOR 2" itemValue="COCEDOR 2" />
+									<f:selectItem itemLabel="COCEDOR 3" itemValue="COCEDOR 3" />
+									<f:selectItem itemLabel="COCEDOR 4" itemValue="COCEDOR 4" />
+									<f:selectItem itemLabel="COCEDOR 5" itemValue="COCEDOR 5" />
+									<f:selectItem itemLabel="COCEDOR 6" itemValue="COCEDOR 6" />
+									<f:selectItem itemLabel="COCEDOR 7" itemValue="COCEDOR 7" />
+									<f:selectItem itemLabel="COCEDOR 8" itemValue="COCEDOR 8" />
+									<f:selectItem itemLabel="COCEDOR 9" itemValue="COCEDOR 9" />
+									<f:selectItem itemLabel="COCEDOR 10" itemValue="COCEDOR 10" />
+									<f:selectItem itemLabel="TANQUE INOXIDABLE OIRIENTE"
+										itemValue="TANQUE INOXIDABLE OIRIENTE" />
+									<f:selectItem itemLabel="TANQUE INOXIDABLE PONIENTE"
+										itemValue="TANQUE INOXIDABLE PONIENTE" />
+									<f:selectItem itemLabel="SEPARADOR ESTATICO"
+										itemValue="SEPARADOR ESTÁTICO" />
 								</p:selectOneMenu>
 
 
@@ -772,9 +777,11 @@
 								<p:column headerText="Lote" width="6rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
 								</p:column>
-
-								<p:column headerText="VoBo" width="5rem">
-									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								
+								<p:column headerText="VoBo" width="5rem"
+									styleClass="#{item.voBo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<h:outputText value="#{item.voBo}"
+										style="color: #FFFFFF;" />
 								</p:column>
 
 							</p:dataTable>
@@ -793,18 +800,16 @@
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
-
-								<p:datePicker
+								<pe:timePicker
 									value="#{cocedoresBean.ordenMantenimiento.horaInicio}"
-									timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
-									showButtonBar="true" />
+									mode="spinner" widgetVar="mm1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Hora Final" />
-								<p:datePicker
+								<pe:timePicker
 									value="#{cocedoresBean.ordenMantenimiento.horaFin}"
-									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-									showButtonBar="true" />
-
+									mode="spinner" widgetVar="mm2" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
@@ -838,6 +843,20 @@
 								value="#{cocedoresBean.listaOrdenManto}"
 								emptyMessage="NO HAY REGISTROS">
 
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="em" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{cocedoresBean.borrarOrdenManto()}"
+											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{cocedoresBean.ordenMantenimientoEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEM" for="em" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
 
 								<p:column headerText="Editar" width="2rem" exportable="false">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
@@ -881,9 +900,9 @@
 							<h:panelGrid id="pgPurgas" columns="2" styleClass="tabla fuente">
 
 								<p:outputLabel value="Hora" />
-								<p:datePicker value="#{cocedoresBean.purgas.hora}"
-									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-									showButtonBar="true" />
+								<pe:timePicker value="#{cocedoresBean.purgas.hora}"
+									mode="spinner" widgetVar="pp1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel for="operacion" value="Operación" />
 								<p:inputText id="operacion" styleClass="camposPurgas"
@@ -947,6 +966,21 @@
 								value="#{cocedoresBean.listaPurgas}"
 								emptyMessage="NO HAY REGISTROS">
 
+
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="bpur" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{cocedoresBean.borrarPurgas()}"
+											update="frmPrincipal:acco:tblPurgas, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{cocedoresBean.purgas}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEPur" for="bpur" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
 
 								<p:column headerText="Editar" width="3rem" exportable="false">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
@@ -1226,15 +1260,15 @@
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
-						<p:datePicker value="#{cocedoresBean.limpiezaEditar.horaInicial}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaInicial}"
+							mode="spinner" widgetVar="h1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
 
 						<p:outputLabel value="Hora Final" />
-						<p:datePicker value="#{cocedoresBean.limpiezaEditar.horaFinal}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
-
+						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaFinal}"
+							mode="spinner" widgetVar="h2" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 
 						<p:outputLabel for="qui" value="Químico" />
@@ -1284,9 +1318,9 @@
 					<h:panelGrid id="pnlEditarPurgas" columns="2">
 
 						<p:outputLabel value="Hora" />
-						<p:datePicker value="#{cocedoresBean.purgasEditar.hora}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+						<pe:timePicker value="#{cocedoresBean.purgasEditar.hora}"
+							mode="spinner" widgetVar="p1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel for="cm" value="CM" />
 						<p:inputText id="cm" styleClass="camposPurgas"
@@ -1349,16 +1383,16 @@
 
 
 						<p:outputLabel value="Hora Inicio" />
-						<p:datePicker
+						<pe:timePicker
 							value="#{cocedoresBean.ordenMantenimientoEditar.horaInicio}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+							mode="spinner" widgetVar="m1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
-						<p:datePicker
+						<pe:timePicker
 							value="#{cocedoresBean.ordenMantenimientoEditar.horaFin}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+							mode="spinner" widgetVar="m2" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
@@ -1425,9 +1459,9 @@
 
 			<!-- INICIA FORMULARIO PARA EDITAR -->
 			<h:form id="frmObservaciones">
-				<p:dialog header="Agregar/Editar observación" widgetVar="dlgAgregarObs"
-					showEffect="fade" closeOnEscape="true" minimizable="true"
-					maximizable="true">
+				<p:dialog header="Agregar/Editar observación"
+					widgetVar="dlgAgregarObs" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
 					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
 
 						<p:inputTextarea id="textObs"

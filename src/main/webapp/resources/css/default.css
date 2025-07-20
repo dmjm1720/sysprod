@@ -430,3 +430,12 @@ a:link:hover, a:visited:hover {
 .concentradoPor {
 	background-color: #e9f7ef !important;
 }
+
+
+.aprobado {
+	background-color: #2da08c !important;
+}
+
+.pendiente {
+	background-color: #dc672c !important;
+}
