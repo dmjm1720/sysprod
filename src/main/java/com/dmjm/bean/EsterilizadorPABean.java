@@ -714,6 +714,12 @@ public class EsterilizadorPABean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoEstA();
 	}
+	
+	public void borrarOrdenManto() {
+		IOrdenMantoEsterilizadorPalantaADao iDao = new OrdenMantoEsterilizadorPlantaAImpl();
+		iDao.borrarOrdenManto(ordenMantenimientoEditar);
+		ordenMantenimientoEditar = new OrdenMantenimientoEstA();
+	}
 
 	// **FILTRAR POR FECHA**//
 	public void filtrarPorFecha() {

@@ -10,6 +10,8 @@ public interface IOrdenMantoUltraUnoDao {
 	void guardarOrdenManto(OrdenMantenimientoUltraUno mantenimiento);
 
 	void actualizarOrdenManto(OrdenMantenimientoUltraUno OrdenMantenimiento);
+	
+	void borrarOrdenManto(OrdenMantenimientoUltraUno mantenimiento);
 
 
 }

@@ -13,10 +13,8 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IPerfilesDao;
-import com.dmjm.dao.ITransportistaDao;
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.impl.PerfilesDaoImpl;
-import com.dmjm.impl.TransportistaDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.model.Perfiles;
 import com.dmjm.model.Usuarios;

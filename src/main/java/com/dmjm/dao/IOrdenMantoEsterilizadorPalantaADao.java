@@ -10,4 +10,6 @@ public interface IOrdenMantoEsterilizadorPalantaADao {
 	void guardarOrdenManto(OrdenMantenimientoEstA mantenimiento);
 
 	void actualizarOrdenManto(OrdenMantenimientoEstA OrdenMantenimiento);
+	
+	void borrarOrdenManto(OrdenMantenimientoEstA mantenimiento);
 }

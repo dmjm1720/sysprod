@@ -474,6 +474,11 @@ public class UltraFiltracionUnoBean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoUltraUno();
 	}
+	
+	public void borrarOrdenManto() {
+		IOrdenMantoUltraUnoDao iDao = new OrdenMantoUltraUnoDaoImpl();
+		iDao.borrarOrdenManto(ordenMantenimientoEditar);
+	}
 
 	public void guardarUltraUno() {
 

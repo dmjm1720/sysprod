@@ -1,14 +1,16 @@
 package com.dmjm.bean;
 
-import com.dmjm.dao.IMateriaDao;
-import com.dmjm.impl.MateriaDaoImpl;
-import com.dmjm.model.Materia;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import com.dmjm.dao.IMateriaDao;
+import com.dmjm.impl.MateriaDaoImpl;
+import com.dmjm.model.Materia;
 
 @Named(value = "materiaBean")
 @ViewScoped

@@ -8,11 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import com.dmjm.dao.IProveedoresDao;
 import com.dmjm.dao.IProveedoresImportacionDao;
-import com.dmjm.impl.ProveedoresDaoImpl;
 import com.dmjm.impl.ProveedoresImportacionDaoImpl;
-import com.dmjm.model.Proveedores;
 import com.dmjm.model.ProveedoresImportacion;
 
 @Named(value = "provImpBean")

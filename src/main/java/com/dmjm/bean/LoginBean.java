@@ -1,7 +1,11 @@
 package com.dmjm.bean;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 
@@ -9,14 +13,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.model.Usuarios;
-
-import java.io.Serializable;
 
 @Named("login")
 @SessionScoped

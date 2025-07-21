@@ -3,8 +3,6 @@ package com.dmjm.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.naming.NamingException;
-
 import com.dmjm.model.CuentasContables;
 
 public interface ICuentasContablesDao {

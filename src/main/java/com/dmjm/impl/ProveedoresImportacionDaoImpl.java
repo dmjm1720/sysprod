@@ -12,7 +12,6 @@ import org.hibernate.Transaction;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IProveedoresImportacionDao;
-import com.dmjm.model.Proveedores;
 import com.dmjm.model.ProveedoresImportacion;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;

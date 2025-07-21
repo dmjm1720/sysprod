@@ -655,16 +655,16 @@
 								<p:selectOneMenu id="cocLimp"
 									value="#{cocedoresBean.cocedorSeleccionado}" dynamic="true">
 									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
-									<f:selectItem itemLabel="COCEDOR 1" itemValue="Cocedor 1" />
-									<f:selectItem itemLabel="COCEDOR 2" itemValue="Cocedor 2" />
-									<f:selectItem itemLabel="CP 3" itemValue="Cocedor 3" />
-									<f:selectItem itemLabel="Cocedor 4" itemValue="Cocedor 4" />
-									<f:selectItem itemLabel="Cocedor 5" itemValue="Cocedor 5" />
-									<f:selectItem itemLabel="Cocedor 6" itemValue="Cocedor 6" />
-									<f:selectItem itemLabel="Cocedor 7" itemValue="Cocedor 7" />
-									<f:selectItem itemLabel="Cocedor 8" itemValue="Cocedor 8" />
-									<f:selectItem itemLabel="Cocedor 9" itemValue="Cocedor 9" />
-									<f:selectItem itemLabel="Cocedor 10" itemValue="Cocedor 10" />
+									<f:selectItem itemLabel="COCEDOR 1" itemValue="COCEDOR 1" />
+									<f:selectItem itemLabel="COCEDOR 2" itemValue="COCEDOR 2" />
+									<f:selectItem itemLabel="COCEDOR 3" itemValue="COCEDOR 3" />
+									<f:selectItem itemLabel="COCEDOR 4" itemValue="COCEDOR 4" />
+									<f:selectItem itemLabel="COCEDOR 5" itemValue="COCEDOR 5" />
+									<f:selectItem itemLabel="COCEDOR 6" itemValue="COCEDOR 6" />
+									<f:selectItem itemLabel="COCEDOR 7" itemValue="COCEDOR 7" />
+									<f:selectItem itemLabel="COCEDOR 8" itemValue="COCEDOR 8" />
+									<f:selectItem itemLabel="COCEDOR 9" itemValue="COCEDOR 9" />
+									<f:selectItem itemLabel="COCEDOR 10" itemValue="COCEDOR 10" />
 									<f:selectItem itemLabel="TANQUE INOXIDABLE OIRIENTE"
 										itemValue="TANQUE INOXIDABLE OIRIENTE" />
 									<f:selectItem itemLabel="TANQUE INOXIDABLE PONIENTE"
@@ -777,9 +777,11 @@
 								<p:column headerText="Lote" width="6rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
 								</p:column>
-
-								<p:column headerText="VoBo" width="5rem">
-									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								
+								<p:column headerText="VoBo" width="5rem"
+									styleClass="#{item.voBo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<h:outputText value="#{item.voBo}"
+										style="color: #FFFFFF;" />
 								</p:column>
 
 							</p:dataTable>
@@ -798,18 +800,16 @@
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
-
-								<p:datePicker
+								<pe:timePicker
 									value="#{cocedoresBean.ordenMantenimiento.horaInicio}"
-									timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
-									showButtonBar="true" />
+									mode="spinner" widgetVar="mm1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Hora Final" />
-								<p:datePicker
+								<pe:timePicker
 									value="#{cocedoresBean.ordenMantenimiento.horaFin}"
-									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-									showButtonBar="true" />
-
+									mode="spinner" widgetVar="mm2" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
@@ -900,9 +900,9 @@
 							<h:panelGrid id="pgPurgas" columns="2" styleClass="tabla fuente">
 
 								<p:outputLabel value="Hora" />
-								<p:datePicker value="#{cocedoresBean.purgas.hora}"
-									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-									showButtonBar="true" />
+								<pe:timePicker value="#{cocedoresBean.purgas.hora}"
+									mode="spinner" widgetVar="pp1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel for="operacion" value="Operación" />
 								<p:inputText id="operacion" styleClass="camposPurgas"
@@ -1260,15 +1260,15 @@
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
-						<p:datePicker value="#{cocedoresBean.limpiezaEditar.horaInicial}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaInicial}"
+							mode="spinner" widgetVar="h1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
 
 						<p:outputLabel value="Hora Final" />
-						<p:datePicker value="#{cocedoresBean.limpiezaEditar.horaFinal}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
-
+						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaFinal}"
+							mode="spinner" widgetVar="h2" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 
 						<p:outputLabel for="qui" value="Químico" />
@@ -1318,9 +1318,9 @@
 					<h:panelGrid id="pnlEditarPurgas" columns="2">
 
 						<p:outputLabel value="Hora" />
-						<p:datePicker value="#{cocedoresBean.purgasEditar.hora}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+						<pe:timePicker value="#{cocedoresBean.purgasEditar.hora}"
+							mode="spinner" widgetVar="p1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel for="cm" value="CM" />
 						<p:inputText id="cm" styleClass="camposPurgas"
@@ -1383,16 +1383,16 @@
 
 
 						<p:outputLabel value="Hora Inicio" />
-						<p:datePicker
+						<pe:timePicker
 							value="#{cocedoresBean.ordenMantenimientoEditar.horaInicio}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+							mode="spinner" widgetVar="m1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
-						<p:datePicker
+						<pe:timePicker
 							value="#{cocedoresBean.ordenMantenimientoEditar.horaFin}"
-							timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-							showButtonBar="true" />
+							mode="spinner" widgetVar="m2" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"

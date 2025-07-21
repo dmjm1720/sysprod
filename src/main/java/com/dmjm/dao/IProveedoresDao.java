@@ -1,8 +1,9 @@
 package com.dmjm.dao;
 
-import com.dmjm.model.Proveedores;
 import java.sql.SQLException;
 import java.util.List;
+
+import com.dmjm.model.Proveedores;
 
 public interface IProveedoresDao {
 

@@ -1,18 +1,20 @@
 package com.dmjm.impl;
 
-import com.dmjm.dao.ITransportistaDao;
-import com.dmjm.model.Transportista;
-import com.dmjm.util.Conexion;
-import com.dmjm.util.HibernateUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.PrimeFaces;
+
+import com.dmjm.dao.ITransportistaDao;
+import com.dmjm.model.Transportista;
+import com.dmjm.util.Conexion;
+import com.dmjm.util.HibernateUtil;
 
 
 public class TransportistaDaoImpl extends Conexion implements ITransportistaDao {

@@ -23,6 +23,7 @@ import com.dmjm.dao.IFolioPreparacionEsterilizadorPlantaBDao;
 import com.dmjm.dao.IFolioProcesosDao;
 import com.dmjm.dao.ILimpiezaEsterilizadorPlantaBDao;
 import com.dmjm.dao.IOperadorDao;
+import com.dmjm.dao.IOrdenMantoEsterilizadorPalantaADao;
 import com.dmjm.dao.IOrdenMantoEsterilizadorPalantaBDao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
@@ -32,6 +33,7 @@ import com.dmjm.impl.FolioPreparacionEsterilizadorPlantaBDaoImpl;
 import com.dmjm.impl.FolioProcesosDaoImpl;
 import com.dmjm.impl.LimpiezaEsterilizadorPlantaBDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
+import com.dmjm.impl.OrdenMantoEsterilizadorPlantaAImpl;
 import com.dmjm.impl.OrdenMantoEsterilizadorPlantaBImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
@@ -40,6 +42,7 @@ import com.dmjm.model.EsterilizadorPlantaB;
 import com.dmjm.model.FolioPreparacionEstB;
 import com.dmjm.model.LimpiezaEstB;
 import com.dmjm.model.Operador;
+import com.dmjm.model.OrdenMantenimientoEstA;
 import com.dmjm.model.OrdenMantenimientoEstB;
 import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
@@ -674,6 +677,12 @@ public class EsterilizadorPBBean implements Serializable {
 		IOrdenMantoEsterilizadorPalantaBDao iDao = new OrdenMantoEsterilizadorPlantaBImpl();
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoEstB();
+	}
+	
+	public void borrarOrdenManto() {
+		IOrdenMantoEsterilizadorPalantaBDao iDao = new OrdenMantoEsterilizadorPlantaBImpl();
+		iDao.borrarOrdenManto(ordenMantenimientoEditar);
+		ordenMantenimientoEditar = new OrdenMantenimientoEstB();
 	}
 
 	// **FILTRAR POR FECHA**//

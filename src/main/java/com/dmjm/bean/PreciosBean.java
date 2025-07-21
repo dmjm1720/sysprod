@@ -1,5 +1,21 @@
 package com.dmjm.bean;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.primefaces.PrimeFaces;
+
 import com.dmjm.dao.IBitacoraPreciosDao;
 import com.dmjm.dao.IMateriaDao;
 import com.dmjm.dao.IPreciosDao;
@@ -13,21 +29,6 @@ import com.dmjm.model.Materia;
 import com.dmjm.model.Precios;
 import com.dmjm.model.Proveedores;
 import com.dmjm.model.Usuarios;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.primefaces.PrimeFaces;
 
 @Named(value = "preciosBean")
 @ViewScoped

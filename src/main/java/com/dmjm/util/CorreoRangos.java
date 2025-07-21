@@ -15,8 +15,6 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.dmjm.bean.EntradasBean;
-
 public class CorreoRangos extends Configuracion {
 
 	private static final Logger LOGGER = LogManager.getLogger(CorreoRangos.class.getName());

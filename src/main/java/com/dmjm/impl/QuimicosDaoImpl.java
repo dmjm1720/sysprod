@@ -3,7 +3,6 @@ package com.dmjm.impl;
 import java.util.List;
 
 import com.dmjm.dao.IQuimicosDao;
-import com.dmjm.model.PreparacionPieles;
 import com.dmjm.model.Quimicos;
 import com.dmjm.util.HibernateUtil;
 

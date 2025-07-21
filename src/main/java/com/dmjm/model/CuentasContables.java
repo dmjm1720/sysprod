@@ -1,9 +1,6 @@
 package com.dmjm.model;
 // Generated 5/12/2024 02:38:01 PM by Hibernate Tools 4.3.1
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class CuentasContables implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

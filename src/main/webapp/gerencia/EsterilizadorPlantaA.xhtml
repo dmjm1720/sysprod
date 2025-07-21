@@ -194,11 +194,10 @@
 										<p:outputLabel value="NUEVA HOJA" />
 										<div style="text-align: center">
 
-											<p:commandButton value="REGISTRAR NUEVA HOJA"
-												styleClass="fuente"
+											<p:commandButton value="" styleClass="fuente"
 												actionListener="#{esterilizadorBeanA.guardarEsterilizador()}"
 												update="frmPrincipal, frmPrincipal:msgs"
-												icon="pi pi-file-excel" style="width: 15rem; height: 2rem">
+												icon="pi pi-file-excel" style="width: 2rem; height: 2rem">
 											</p:commandButton>
 										</div>
 									</h:panelGrid>
@@ -448,22 +447,6 @@
 							<h:panelGrid id="pgLimpieza" columns="12"
 								styleClass="tabla fuente">
 
-								<p:selectOneMenu id="cocLimp"
-									value="#{esterilizadorBeanA.cocedorSeleccionado}"
-									dynamic="true">
-									<f:selectItem itemLabel="NO. COCEDOR" itemValue="" />
-									<f:selectItem itemLabel="Cocedor 1" itemValue="1" />
-									<f:selectItem itemLabel="Cocedor 2" itemValue="2" />
-									<f:selectItem itemLabel="Cocedor 3" itemValue="3" />
-									<f:selectItem itemLabel="Cocedor 4" itemValue="4" />
-									<f:selectItem itemLabel="Cocedor 5" itemValue="5" />
-									<f:selectItem itemLabel="Cocedor 6" itemValue="6" />
-									<f:selectItem itemLabel="Cocedor 7" itemValue="7" />
-									<f:selectItem itemLabel="Cocedor 8" itemValue="8" />
-									<f:selectItem itemLabel="Cocedor 9" itemValue="9" />
-									<f:selectItem itemLabel="Cocedor 10" itemValue="10" />
-								</p:selectOneMenu>
-
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
 									styleClass="fuente camposLimpieza"
@@ -540,9 +523,7 @@
 								<p:column headerText="Proceso" width="4rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
-								<p:column headerText="No. Cocedor" width="4rem">
-									<h:outputText value="#{item.noCocedor}" style="color: #036FAB;" />
-								</p:column>
+
 								<p:column headerText="Hora inicial" width="4rem">
 									<h:outputText value="#{item.horaInicial}"
 										style="color: #036FAB;" />
@@ -565,8 +546,10 @@
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="VoBo" width="5rem">
-									<h:outputText value="#{item.voBo}" style="color: #036FAB;" />
+								<p:column headerText="VoBo" width="5rem"
+									styleClass="#{item.voBo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<h:outputText value="#{item.voBo}"
+										style="color: #FFFFFF;" />
 								</p:column>
 
 							</p:dataTable>
@@ -584,16 +567,16 @@
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
-								<p:datePicker
+								<pe:timePicker
 									value="#{esterilizadorBeanA.ordenMantenimiento.horaInicio}"
-									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-									showButtonBar="true" />
+									mode="spinner" widgetVar="h1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Hora Final" />
-								<p:datePicker
+								<pe:timePicker
 									value="#{esterilizadorBeanA.ordenMantenimiento.horaFin}"
-									timeOnly="true" showIcon="true" pattern="HH:mm" hourFormat="24"
-									showButtonBar="true" />
+									mode="spinner" widgetVar="h2" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
@@ -626,7 +609,20 @@
 								value="#{esterilizadorBeanA.listaOrdenManto}"
 								emptyMessage="NO HAY REGISTROS">
 
-
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="em" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{esterilizadorBeanA.borrarOrdenManto()}"
+											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{esterilizadorBeanA.ordenMantenimientoEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEM" for="em" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+								
 								<p:column headerText="Editar" width="2rem" exportable="false">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
 										onclick="PF('dlgEditarManto').show()"
@@ -818,18 +814,16 @@
 							style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
-
-						<p:datePicker
+						<pe:timePicker
 							value="#{esterilizadorBeanA.limpiezaEditar.horaInicial}"
-							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
-							showButtonBar="true" />
+							mode="spinner" widgetVar="h3" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
-						<p:datePicker
+						<pe:timePicker
 							value="#{esterilizadorBeanA.limpiezaEditar.horaFinal}"
-							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
-							showButtonBar="true" />
-
+							mode="spinner" widgetVar="h4" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel for="qui" value="Químico" />
 						<p:inputText id="qui" styleClass="camposLimpieza"
@@ -888,16 +882,17 @@
 							style="width: 8rem" />
 
 						<p:outputLabel value="Hora Inicio" />
-						<p:datePicker
+						<pe:timePicker
 							value="#{esterilizadorBeanA.ordenMantenimientoEditar.horaInicio}"
-							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
-							showButtonBar="true" />
+							mode="spinner" widgetVar="h5" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
-						<p:datePicker
+						<pe:timePicker
 							value="#{esterilizadorBeanA.ordenMantenimientoEditar.horaFin}"
-							timeOnly="true" pattern="HH:mm" showIcon="true" hourFormat="24"
-							showButtonBar="true" />
+							mode="spinner" widgetVar="h6" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
 							value="#{esterilizadorBeanA.ordenMantenimientoEditar.descripcion}"

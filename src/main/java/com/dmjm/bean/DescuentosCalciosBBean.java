@@ -1,14 +1,16 @@
 package com.dmjm.bean;
 
-import com.dmjm.dao.IDescuentoCalciosBDao;
-import com.dmjm.impl.DescuentosCalciosBDaoImpl;
-import com.dmjm.model.DescuentoCalciosTablaB;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import com.dmjm.dao.IDescuentoCalciosBDao;
+import com.dmjm.impl.DescuentosCalciosBDaoImpl;
+import com.dmjm.model.DescuentoCalciosTablaB;
 
 @Named(value = "descuentoCB")
 @ViewScoped

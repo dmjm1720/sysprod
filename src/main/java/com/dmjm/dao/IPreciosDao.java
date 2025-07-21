@@ -1,7 +1,8 @@
 package com.dmjm.dao;
 
-import com.dmjm.model.Precios;
 import java.util.List;
+
+import com.dmjm.model.Precios;
 
 public interface IPreciosDao {
 

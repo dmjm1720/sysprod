@@ -1,14 +1,16 @@
 package com.dmjm.bean;
 
-import com.dmjm.dao.IProveedoresDao;
-import com.dmjm.impl.ProveedoresDaoImpl;
-import com.dmjm.model.Proveedores;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import com.dmjm.dao.IProveedoresDao;
+import com.dmjm.impl.ProveedoresDaoImpl;
+import com.dmjm.model.Proveedores;
 
 @Named(value = "proveedoresBean")
 @ViewScoped
