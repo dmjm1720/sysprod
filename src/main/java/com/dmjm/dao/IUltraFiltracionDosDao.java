@@ -66,4 +66,8 @@ public interface IUltraFiltracionDosDao {
 
 	void actualizarPromedioConcPermeado(int folio);
 
+	void actualizarManto(int folio);
+
+	void actualizarLimpieza(int folio, int estado);
+
 }

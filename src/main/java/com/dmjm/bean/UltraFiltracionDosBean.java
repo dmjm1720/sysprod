@@ -58,6 +58,8 @@ public class UltraFiltracionDosBean implements Serializable {
 	private List<UltrafiltracionDos> listaUltrafiltracion;
 	private UltrafiltracionDos ultraFiltracionDos;
 	private UltrafiltracionDos ultraFiltracionDosEditar;
+	
+	private List<UltrafiltracionDos> listaFiltroUltraDos;
 
 	private Date fecha;
 	private int folioFecha;
@@ -88,6 +90,22 @@ public class UltraFiltracionDosBean implements Serializable {
 	private OrdenMantenimientoUltraDos ordenMantenimiento;
 	private OrdenMantenimientoUltraDos ordenMantenimientoEditar;
 
+	private List<Integer> listaLimpiezas;
+
+	private int noLimpiezaSeleccionadaBorrar;
+	private int noLimpiezaVoBo;
+
+	private List<FolioPreparacionUltraDos> listaFolioUltraDos;
+	private FolioPreparacionUltraDos folioPrepUltraDos;
+	private String votatorSeleccionado;
+	private List<String> procesos;
+
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
+
+	public UltraFiltracionDosBean() {
+
+	}
+
 	@PostConstruct
 	public void init() {
 		listaUltrafiltracion = new ArrayList<>();
@@ -113,18 +131,70 @@ public class UltraFiltracionDosBean implements Serializable {
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoUltraDos();
 		ordenMantenimientoEditar = new OrdenMantenimientoUltraDos();
+		
+		listaFiltroUltraDos = new ArrayList<>();
+		IUltraFiltracionDosDao lfDao = new UltraFiltracionDosDaoImpl();
+		listaFiltroUltraDos = lfDao.listaFiltroUltrafiltracion();
 
+		listaLimpiezas = new ArrayList<>();
+		folioPrepUltraDos = new FolioPreparacionUltraDos();
 		primera();
 		getListaUltrafiltracion(); // CAMBIAR PARAMETROS PARA EL REPORTE,
 		getListarRegistroTurnos();
 		getListaCambio();
 		getListaLimpieza();
 		getListaOrdenManto();
+		getListaFolioUltraDos();
 
 	}
 
-	public UltraFiltracionDosBean() {
+	
+	public List<String> getProcesos() {
+		return procesos;
+	}
 
+	public String getVotatorSeleccionado() {
+		return votatorSeleccionado;
+	}
+
+	public void setVotatorSeleccionado(String votatorSeleccionado) {
+		this.votatorSeleccionado = votatorSeleccionado;
+	}
+
+	public FolioPreparacionUltraDos getFolioPrepUltraDos() {
+		return folioPrepUltraDos;
+	}
+
+	public void setFolioPrepUltraDos(FolioPreparacionUltraDos folioPrepUltraDos) {
+		this.folioPrepUltraDos = folioPrepUltraDos;
+	}
+
+	public List<FolioPreparacionUltraDos> getListaFolioUltraDos() {
+		IFolioPreparacionUltraDosDao lDao = new FolioUltraDosDaoImpl();
+		listaFolioUltraDos = lDao.listaDeFolioUltraDos(folioPrepUltra);
+		return listaFolioUltraDos;
+	}
+
+	public int getNoLimpiezaVoBo() {
+		return noLimpiezaVoBo;
+	}
+
+	public void setNoLimpiezaVoBo(int noLimpiezaVoBo) {
+		this.noLimpiezaVoBo = noLimpiezaVoBo;
+	}
+
+	public int getNoLimpiezaSeleccionadaBorrar() {
+		return noLimpiezaSeleccionadaBorrar;
+	}
+
+	public void setNoLimpiezaSeleccionadaBorrar(int noLimpiezaSeleccionadaBorrar) {
+		this.noLimpiezaSeleccionadaBorrar = noLimpiezaSeleccionadaBorrar;
+	}
+
+	public List<Integer> getListaLimpiezas() throws SQLException {
+		ILimpiezaUltraDosDao lDao = new LimpiezaUltraDosDaoImpl();
+		listaLimpiezas = lDao.noLimpieza(folioPrepUltra);
+		return listaLimpiezas;
 	}
 
 	public List<UltrafiltracionDos> getListaUltrafiltracion() {
@@ -351,13 +421,17 @@ public class UltraFiltracionDosBean implements Serializable {
 		ILimpiezaUltraDosDao validaDao = new LimpiezaUltraDosDaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepUltra);
-		
+
 		ILimpiezaUltraDosDao lDao = new LimpiezaUltraDosDaoImpl();
+		IUltraFiltracionDosDao vDao = new UltraFiltracionDosDaoImpl();
+		vDao.actualizarLimpieza(folioPrepUltra, noDeLimpieza);
 		for (String l : datosLimpieza) {
 			limpieza.setVoBo("PENDIENTE");
 			limpieza.setNoLimpieza(noDeLimpieza);
 			limpieza.setFolioPreparacionUltraDos(f);
 			limpieza.setProceso(l);
+			limpieza.setIdUsuario(1028);
+			limpieza.setNoCocedor(votatorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
 			limpieza = new LimpiezaUltraDos();
 		}
@@ -390,6 +464,11 @@ public class UltraFiltracionDosBean implements Serializable {
 		IOrdenMantoUltraDosDao iDao = new OrdenMantoUltraDosDaoImpl();
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoUltraDos();
+	}
+	
+	public void borrarOrdenManto() {
+		IOrdenMantoUltraDosDao iDao = new OrdenMantoUltraDosDaoImpl();
+		iDao.borrarOrdenManto(ordenMantenimientoEditar);
 	}
 
 	public void guardarUltraDos() {
@@ -514,6 +593,7 @@ public class UltraFiltracionDosBean implements Serializable {
 			getListaCambio();
 			getListaLimpieza();
 			getListaOrdenManto();
+			getListaFolioUltraDos();
 
 		}
 
@@ -717,7 +797,7 @@ public class UltraFiltracionDosBean implements Serializable {
 		getListaCambio(); // CAMBIAR PARAMETROS PARA EL REPORTE,
 		getListarRegistroTurnos();
 		getListaCambio();
-		getListaOrdenManto();
+		getListaLimpieza();
 		getListaOrdenManto();
 
 	}
@@ -738,6 +818,55 @@ public class UltraFiltracionDosBean implements Serializable {
 
 		FacesContext.getCurrentInstance().responseComplete();
 
+	}
+
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/ultrafiltracion_uno_excel.jasper");
+
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString());
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+
+	public void deleteLimpieza() {
+		// validación de limpieza para agregar en la tabla de cocedores
+		IUltraFiltracionDosDao vDao = new UltraFiltracionDosDaoImpl();
+		vDao.actualizarLimpieza(folioPrepUltra, 0);
+		ILimpiezaUltraDosDao iDao = new LimpiezaUltraDosDaoImpl();
+		iDao.borrarLimpieza(folioPrepUltra, noLimpiezaSeleccionadaBorrar);
+
+	}
+
+	public void borrarVoBo() {
+		ILimpiezaUltraDosDao iDao = new LimpiezaUltraDosDaoImpl();
+		iDao.borrarVoBo(folioPrepUltra, noLimpiezaVoBo);
+	}
+
+	public void agregarVoBo() {
+		ILimpiezaUltraDosDao iDao = new LimpiezaUltraDosDaoImpl();
+		iDao.agregarVoBo(folioPrepUltra, noLimpiezaVoBo, us.getIdUsuario());
+	}
+
+	public void guardarObservaciones() {
+		IFolioPreparacionUltraDosDao fDao = new FolioUltraDosDaoImpl();
+		fDao.guardarObservacion(folioPrepUltra, folioPrepUltraDos.getObservaciones());
+		folioPrepUltraDos = new FolioPreparacionUltraDos();
+	}
+
+	public void obtenerObservacion() {
+		for (int i = 0; i < listaFolioUltraDos.size(); i++) {
+			folioPrepUltraDos.setObservaciones(listaFolioUltraDos.get(i).getObservaciones());
+		}
 	}
 
 }

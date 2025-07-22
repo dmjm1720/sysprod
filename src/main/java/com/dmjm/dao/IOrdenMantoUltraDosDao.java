@@ -11,4 +11,6 @@ public interface IOrdenMantoUltraDosDao {
 
 	void actualizarOrdenManto(OrdenMantenimientoUltraDos OrdenMantenimiento);
 
+	void borrarOrdenManto(OrdenMantenimientoUltraDos mantenimiento);
+
 }

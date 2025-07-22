@@ -595,6 +595,8 @@ public class UltraFiltracionUnoBean implements Serializable {
 			getListaUltrafiltracion();
 			getListarRegistroTurnos();
 			getListaCambio();
+			getListaLimpieza();
+			getListaOrdenManto();
 			getListaFolioUltraUno();
 
 		}
@@ -758,6 +760,8 @@ public class UltraFiltracionUnoBean implements Serializable {
 		getListaCambio(); // CAMBIAR PARAMETROS PARA EL REPORTE,
 		getListarRegistroTurnos();
 		getListaCambio();
+		getListaLimpieza();
+		getListaOrdenManto();
 
 	}
 
