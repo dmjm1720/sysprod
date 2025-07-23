@@ -27,6 +27,7 @@ import com.dmjm.dao.IOrdenMantoUltraDosDao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUltraFiltracionDosDao;
+import com.dmjm.dao.IUltraFiltracionUnoDao;
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.impl.CambioPrefiltroDaoImpl;
 import com.dmjm.impl.FolioProcesosDaoImpl;
@@ -37,6 +38,7 @@ import com.dmjm.impl.OrdenMantoUltraDosDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UltraFiltracionDosDaoImpl;
+import com.dmjm.impl.UltraFiltracionUnoDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.model.CambioPrefiltro;
 import com.dmjm.model.FolioPreparacionUltraDos;
@@ -47,6 +49,7 @@ import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.UltrafiltracionDos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("ultraDosBean")
@@ -58,7 +61,7 @@ public class UltraFiltracionDosBean implements Serializable {
 	private List<UltrafiltracionDos> listaUltrafiltracion;
 	private UltrafiltracionDos ultraFiltracionDos;
 	private UltrafiltracionDos ultraFiltracionDosEditar;
-	
+
 	private List<UltrafiltracionDos> listaFiltroUltraDos;
 
 	private Date fecha;
@@ -97,7 +100,7 @@ public class UltraFiltracionDosBean implements Serializable {
 
 	private List<FolioPreparacionUltraDos> listaFolioUltraDos;
 	private FolioPreparacionUltraDos folioPrepUltraDos;
-	private String votatorSeleccionado;
+	private String etapaSeleccionada;
 	private List<String> procesos;
 
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
@@ -131,7 +134,7 @@ public class UltraFiltracionDosBean implements Serializable {
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoUltraDos();
 		ordenMantenimientoEditar = new OrdenMantenimientoUltraDos();
-		
+
 		listaFiltroUltraDos = new ArrayList<>();
 		IUltraFiltracionDosDao lfDao = new UltraFiltracionDosDaoImpl();
 		listaFiltroUltraDos = lfDao.listaFiltroUltrafiltracion();
@@ -148,17 +151,20 @@ public class UltraFiltracionDosBean implements Serializable {
 
 	}
 
-	
+	public List<UltrafiltracionDos> getListaFiltroUltraDos() {
+		return listaFiltroUltraDos;
+	}
+
 	public List<String> getProcesos() {
 		return procesos;
 	}
 
-	public String getVotatorSeleccionado() {
-		return votatorSeleccionado;
+	public String getEtapaSeleccionada() {
+		return etapaSeleccionada;
 	}
 
-	public void setVotatorSeleccionado(String votatorSeleccionado) {
-		this.votatorSeleccionado = votatorSeleccionado;
+	public void setEtapaSeleccionada(String etapaSeleccionada) {
+		this.etapaSeleccionada = etapaSeleccionada;
 	}
 
 	public FolioPreparacionUltraDos getFolioPrepUltraDos() {
@@ -431,11 +437,11 @@ public class UltraFiltracionDosBean implements Serializable {
 			limpieza.setFolioPreparacionUltraDos(f);
 			limpieza.setProceso(l);
 			limpieza.setIdUsuario(1028);
-			limpieza.setNoCocedor(votatorSeleccionado);
+			limpieza.setNoCocedor(etapaSeleccionada);
 			lDao.guardarLimpieza(limpieza);
 			limpieza = new LimpiezaUltraDos();
 		}
-
+		etapaSeleccionada = null;
 	}
 
 	public void actualizarLimpieza() {
@@ -447,9 +453,9 @@ public class UltraFiltracionDosBean implements Serializable {
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
 		// validación de mantenimiento si hubo o no hubo
-		// ICocedoresDao validaDao = new CocedoresDaoImpl();
+		IUltraFiltracionDosDao validaDao = new UltraFiltracionDosDaoImpl();
 
-		// validaDao.actualizarManto(folioPrepCocedor);
+		validaDao.actualizarManto(folioPrepUltra);
 
 		IOrdenMantoUltraDosDao iDao = new OrdenMantoUltraDosDaoImpl();
 
@@ -465,7 +471,7 @@ public class UltraFiltracionDosBean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoUltraDos();
 	}
-	
+
 	public void borrarOrdenManto() {
 		IOrdenMantoUltraDosDao iDao = new OrdenMantoUltraDosDaoImpl();
 		iDao.borrarOrdenManto(ordenMantenimientoEditar);
@@ -813,8 +819,26 @@ public class UltraFiltracionDosBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a.jasper");
+		ruta = servletContext.getRealPath("/REP/ultrafiltracion_dos.jasper");
 		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+
+	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/ultrafiltracion_dos.jasper");
+
+		reporte.getReporte(ruta, fec, folioFechaRep);
 
 		FacesContext.getCurrentInstance().responseComplete();
 
@@ -829,7 +853,7 @@ public class UltraFiltracionDosBean implements Serializable {
 		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-		String ruta = servletContext.getRealPath("/REP/ultrafiltracion_uno_excel.jasper");
+		String ruta = servletContext.getRealPath("/REP/ultrafiltracion_dos_excel.jasper");
 
 		// Llamar a la versión que exporta a Excel
 		reporte.getReporteExcel(ruta, fecha.toString());

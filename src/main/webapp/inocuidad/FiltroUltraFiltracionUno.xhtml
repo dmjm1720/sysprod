@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small"
+						value="CAPTURA DE ULTRAFILTRACIÓN I&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{ultraUnoBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{ultraUnoBean.fecha}&nbsp;&nbsp;&nbsp;"
+						styleClass="fuenteTitulo" />
+
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+
+
+
+						<p:tab id="pt" title="ULTRA FILTRACIÓN I"
+							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="300" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{ultraUnoBean.listaFiltroUltraUno}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="page" listener="#{ultraUnoBean.onPageChange}"
+									update="frmPrincipal" />
+
+								<p:columnGroup type="header">
+
+									<p:row>
+										<p:column rowspan="5" headerText="Ver reporte"
+											styleClass="datos" />
+										<p:column rowspan="5" headerText="Manto." styleClass="datos" />
+										<p:column rowspan="5" headerText="Limpieza" styleClass="datos" />
+										<p:column rowspan="5" headerText="Fecha" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column rowspan="3" headerText="HORA" styleClass="datos"
+											style="font-size: .6rem !important" />
+
+										<p:column rowspan="4" headerText="OPERACIÓN"
+											styleClass="datos" style="font-size: .6rem !important" />
+									</p:row>
+
+
+									<p:row>
+										<p:column colspan="3" headerText="ALIMENTACIÓN"
+											styleClass="color" />
+										<p:column colspan="3" headerText="ETAPA 1" styleClass="color" />
+										<p:column colspan="2" headerText="CONCENTRADO"
+											styleClass="color" />
+										<p:column colspan="1" headerText="% CONC. PERMEADO"
+											styleClass="color" />
+										<p:column colspan="2" headerText="ESTADO" styleClass="color" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="Flujo Ent. LPH" styleClass="datos" />
+										<p:column headerText="Temp. °C" styleClass="datos" />
+										<p:column headerText="% Conc. Entrada" styleClass="datos" />
+
+										<p:column headerText="Temp. °C" styleClass="datos" />
+										<p:column headerText="Presión PSI" styleClass="datos" />
+										<p:column headerText="Flujo Perm. LPH" styleClass="datos" />
+
+										<p:column headerText="Conc. Salida %" styleClass="datos" />
+										<p:column headerText="Flujo Salida" styleClass="datos" />
+										<p:column headerText="% Conc.  Permeado" styleClass="datos" />
+										<p:column headerText="A" styleClass="datos" />
+										<p:column headerText="R" styleClass="datos" />
+									</p:row>
+
+
+								</p:columnGroup>
+								<p:column>
+									<div style="text-align: center">
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{ultraUnoBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionUltraUno.idFolioPrep, item.folioUltra)}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+									</div>
+								</p:column>
+
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoManto eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Fecha" styleClass="datos">
+									<h:outputText value="#{item.fecha}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="Hora" styleClass="datos">
+									<h:outputText value="7:00" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="Operación" styleClass="datos">
+									<h:outputText value="#{item.operacion}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="Flujo Ent" styleClass="datos">
+									<h:outputText value="#{item.flujoEntrada}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="Temp" styleClass="datos">
+									<h:outputText value="#{item.temp01}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="Conc. entrada" styleClass="datos">
+									<h:outputText value="#{item.concEntrada }" styleClass="datos" />
+								</p:column>
+
+
+								<p:column headerText="Temp" styleClass="datos">
+									<h:outputText value="#{item.temp02}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="Presión PSI" styleClass="datos">
+									<h:outputText value="#{item.presionPsi}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="Flujo Perm" styleClass="datos">
+									<h:outputText value="#{item.flujoPerm}" styleClass="datos" />
+								</p:column>
+
+
+								<p:column headerText="Conc. Salida" styleClass="datos">
+									<h:outputText value="#{item.concSalida}" styleClass="datos" />
+								</p:column>
+
+
+								<p:column headerText="Flujo salida" styleClass="datos">
+									<h:outputText value="#{item.flujoSalida}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="% Concentrado" styleClass="datos">
+									<h:outputText value="#{item.concPermeado}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoA}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoR}" styleClass="datos" />
+									</div>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

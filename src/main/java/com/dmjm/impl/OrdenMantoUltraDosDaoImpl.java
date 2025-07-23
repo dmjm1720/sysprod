@@ -35,6 +35,12 @@ public class OrdenMantoUltraDosDaoImpl implements IOrdenMantoUltraDosDao {
 			Transaction transaction = session.beginTransaction();
 			session.save(mantenimiento);
 			transaction.commit();
+			String info = "Se ha guardado el registro de mantenimiento";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 		} finally {
@@ -55,6 +61,12 @@ public class OrdenMantoUltraDosDaoImpl implements IOrdenMantoUltraDosDao {
 			Transaction transaction = session.beginTransaction();
 			session.update(OrdenMantenimiento);
 			transaction.commit();
+			String info = "Se ha actualizado el registro de mantenimiento";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 		} finally {

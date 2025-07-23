@@ -551,19 +551,13 @@
 
 								<p:outputLabel value="Hora Inicio" />
 								<pe:timePicker value="#{ultraDosBean.cambioEditar.horaInicio}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhi"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									mode="spinner" widgetVar="h1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Hora Final" />
 								<pe:timePicker value="#{ultraDosBean.cambioEditar.horaFinal}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhf"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									mode="spinner" widgetVar="h2" showOn="button"
+									intervalMinutes="2" endMinutes="59" />
 
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE CAMBIO DE PREFILTROS"
@@ -617,7 +611,25 @@
 							<h:panelGrid id="pgLimpieza" columns="12"
 								styleClass="tabla fuente">
 
-
+								<p:selectOneMenu id="cocLimp"
+									value="#{ultraDosBean.etapaSeleccionada}" dynamic="true">
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="ETAPA 1" itemValue="ETAPA 1" />
+									<f:selectItem itemLabel="ETAPA 2" itemValue="ETAPA 2" />
+									<f:selectItem itemLabel="ETAPA 3" itemValue="ETAPA 3" />
+									<f:selectItem itemLabel="ETAPA 4" itemValue="ETAPA 4" />
+									<f:selectItem itemLabel="TANQUE DE SALIDA DE COLUMNAS"
+										itemValue="TANQUE DE SALIDA DE COLUMNAS" />
+									<f:selectItem itemLabel="TANQUE DE ALIMENTACIÓN"
+										itemValue="TANQUE DE ALIMENTACIÓN" />
+									<f:selectItem
+										itemLabel="TANQUE DE SALIDA DE LA ULTRAFILTRACIÓN"
+										itemValue="TANQUE DE SALIDA DE LA ULTRAFILTRACIÓN" />
+									<f:selectItem itemLabel="TUBERÍA ORIENTE DE ENVÍO A PLANTA A"
+										itemValue="TUBERÍA ORIENTE DE ENVÍO A PLANTA A" />
+									<f:selectItem itemLabel="TUBERÍA PONIENTE DE ENVÍO A PLANTA A"
+										itemValue="TUBERÍA PONIENTE DE ENVÍO A PLANTA A" />
+								</p:selectOneMenu>
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
 									styleClass="fuente camposLimpieza"
@@ -694,6 +706,9 @@
 								<p:column headerText="Proceso" width="5rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
+								<p:column headerText="Equipo" width="5rem">
+									<h:outputText value="#{item.noCocedor}" style="color: #036FAB;" />
+								</p:column>
 								<p:column headerText="Hora inicial" width="4rem">
 									<h:outputText value="#{item.horaInicial}"
 										style="color: #036FAB;" />
@@ -739,20 +754,14 @@
 								<p:outputLabel value="Hora Inicio" />
 								<pe:timePicker
 									value="#{ultraDosBean.ordenMantenimiento.horaInicio}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhi"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									mode="spinner" widgetVar="h3" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Hora Final" />
 								<pe:timePicker
 									value="#{ultraDosBean.ordenMantenimiento.horaFin}"
-									styleClass="camposManto" showCloseButton="true"
-									showDeselectButton="true" hourFormat="24" showNowButton="true"
-									rows="3" size="8" showOn="button" widgetVar="tpomhf"
-									label="Custom time picker" required="false"
-									requiredMessage="Customization is required!" />
+									mode="spinner" widgetVar="h4" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
@@ -1055,19 +1064,14 @@
 
 						<p:outputLabel value="Hora Inicial" />
 						<pe:timePicker value="#{ultraDosBean.cambioEditar.horaInicio}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tphipre"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							mode="spinner" widgetVar="h5" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker value="#{ultraDosBean.cambioEditar.horaFinal}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tphfpre"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							mode="spinner" widgetVar="h6" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
 					</h:panelGrid>
 
 					<div style="text-align: right">
@@ -1097,20 +1101,13 @@
 
 						<p:outputLabel value="Hora Inicial" />
 						<pe:timePicker value="#{ultraDosBean.limpiezaEditar.horaInicial}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							intervalMinutes="1" showDeselectButton="true" hourFormat="24"
-							showNowButton="true" rows="3" size="8" showOn="button"
-							widgetVar="tphi" label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							mode="spinner" widgetVar="h7" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker value="#{ultraDosBean.limpiezaEditar.horaFinal}"
-							styleClass="camposLimpieza" showCloseButton="true"
-							intervalMinutes="1" showDeselectButton="true" hourFormat="24"
-							showNowButton="true" rows="3" size="8" showOn="button"
-							widgetVar="tphf" endMinutes="60" label="Custom time picker"
-							required="false" requiredMessage="Customization is required!" />
-
+							mode="spinner" widgetVar="h8" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel for="qui" value="Químico" />
 						<p:inputText id="qui" styleClass="camposLimpieza"
@@ -1170,20 +1167,14 @@
 						<p:outputLabel value="Hora Inicio" />
 						<pe:timePicker
 							value="#{ultraDosBean.ordenMantenimientoEditar.horaInicio}"
-							styleClass="camposManto" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tpmhi"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							mode="spinner" widgetVar="h9" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker
 							value="#{ultraDosBean.ordenMantenimientoEditar.horaFin}"
-							styleClass="camposManto" showCloseButton="true"
-							showDeselectButton="true" hourFormat="24" showNowButton="true"
-							rows="3" size="8" showOn="button" widgetVar="tpmhf"
-							label="Custom time picker" required="false"
-							requiredMessage="Customization is required!" />
+							mode="spinner" widgetVar="h10" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
