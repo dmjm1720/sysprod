@@ -1,8 +1,9 @@
 package com.dmjm.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class RegistroTurnos implements java.io.Serializable {
+public class RegistroTurnos implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idRegistroTurno;

@@ -1,8 +1,9 @@
 package com.dmjm.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FoliosPreparacion implements java.io.Serializable {
+public class FoliosPreparacion implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idFolio;

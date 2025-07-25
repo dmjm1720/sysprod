@@ -12,12 +12,5 @@
 		<property name="nombrePerfil" type="string">
 			<column name="NOMBRE_PERFIL" length="50" />
 		</property>
-		<set name="usuarioses" table="USUARIOS" inverse="true" lazy="true"
-			fetch="select">
-			<key>
-				<column name="ID_PERFIL" />
-			</key>
-			<one-to-many class="com.dmjm.model.Usuarios" />
-		</set>
 	</class>
 </hibernate-mapping>

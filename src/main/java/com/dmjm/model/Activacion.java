@@ -1,36 +1,39 @@
 package com.dmjm.model;
 
-public class Activacion implements java.io.Serializable {
+import java.io.Serializable;
 
-    private int idActivacion;
-    private Integer estado;
+public class Activacion implements Serializable {
 
-    public Activacion() {
-    }
+	private static final long serialVersionUID = 1L;
+	private int idActivacion;
+	private Integer estado;
 
-    public Activacion(int idActivacion) {
-        this.idActivacion = idActivacion;
-    }
+	public Activacion() {
+	}
 
-    public Activacion(int idActivacion, Integer estado) {
-        this.idActivacion = idActivacion;
-        this.estado = estado;
-    }
+	public Activacion(int idActivacion) {
+		this.idActivacion = idActivacion;
+	}
 
-    public int getIdActivacion() {
-        return this.idActivacion;
-    }
+	public Activacion(int idActivacion, Integer estado) {
+		this.idActivacion = idActivacion;
+		this.estado = estado;
+	}
 
-    public void setIdActivacion(int idActivacion) {
-        this.idActivacion = idActivacion;
-    }
+	public int getIdActivacion() {
+		return this.idActivacion;
+	}
 
-    public Integer getEstado() {
-        return this.estado;
-    }
+	public void setIdActivacion(int idActivacion) {
+		this.idActivacion = idActivacion;
+	}
 
-    public void setEstado(Integer estado) {
-        this.estado = estado;
-    }
+	public Integer getEstado() {
+		return this.estado;
+	}
+
+	public void setEstado(Integer estado) {
+		this.estado = estado;
+	}
 
 }

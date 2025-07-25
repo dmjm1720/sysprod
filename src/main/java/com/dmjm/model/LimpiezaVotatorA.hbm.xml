@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.dmjm.model.LimpiezaVotatorA"
+		table="LIMPIEZA_VOTATOR_A" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idLimpiezaVotatorA" type="int">
+			<column name="ID_LIMPIEZA_VOTATOR_A" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionVotatorA"
+			class="com.dmjm.model.FolioPreparacionVotatorA" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="horaInicial" type="time">
+			<column name="HORA_INICIAL" length="16" />
+		</property>
+		<property name="horaFinal" type="time">
+			<column name="HORA_FINAL" length="16" />
+		</property>
+		<property name="quimico" type="string">
+			<column name="QUIMICO" length="50" />
+		</property>
+		<property name="litrosUsados" type="big_decimal">
+			<column name="LITROS_USADOS" precision="10" scale="3" />
+		</property>
+		<property name="um" type="string">
+			<column name="UM" length="50" />
+		</property>
+		<property name="temperatura" type="java.lang.Integer">
+			<column name="TEMPERATURA" />
+		</property>
+		<property name="lote" type="string">
+			<column name="LOTE" length="50" />
+		</property>
+		<property name="phFinal" type="big_decimal">
+			<column name="PH_FINAL" precision="10" scale="1" />
+		</property>
+		<property name="proceso" type="string">
+			<column name="PROCESO" length="50" />
+		</property>
+		<property name="noLimpieza" type="java.lang.Integer">
+			<column name="NO_LIMPIEZA" />
+		</property>
+		<property name="vobo" type="string">
+			<column name="VOBO" length="20" />
+		</property>
+		<property name="noVotator" type="string">
+			<column name="NO_VOTATOR" length="50" />
+		</property>
+		<property name="idUsuario" type="java.lang.Integer">
+			<column name="ID_USUARIO" />
+		</property>
+	</class>
+</hibernate-mapping>

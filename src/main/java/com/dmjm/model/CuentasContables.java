@@ -1,7 +1,8 @@
 package com.dmjm.model;
-// Generated 5/12/2024 02:38:01 PM by Hibernate Tools 4.3.1
 
-public class CuentasContables implements java.io.Serializable {
+import java.io.Serializable;
+
+public class CuentasContables implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idCuentaContable;

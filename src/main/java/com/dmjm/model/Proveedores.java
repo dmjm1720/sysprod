@@ -1,8 +1,9 @@
 package com.dmjm.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Proveedores implements java.io.Serializable {
+public class Proveedores implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idProveedor;

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.dmjm.model.FolioPreparacionVotatorB"
+		table="FOLIO_PREPARACION_VOTATOR_B" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idFolioPrep" type="int">
+			<column name="ID_FOLIO_PREP" />
+			<generator class="native" />
+		</id>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="folioVotatorB" type="java.lang.Integer">
+			<column name="FOLIO_VOTATOR_B" />
+		</property>
+		<property name="observaciones" type="string">
+			<column name="OBSERVACIONES" length="1000" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,7 +1,8 @@
 package com.dmjm.model;
 
+import java.io.Serializable;
 
-public class ProveedoresImportacion implements java.io.Serializable {
+public class ProveedoresImportacion implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idProveedor;

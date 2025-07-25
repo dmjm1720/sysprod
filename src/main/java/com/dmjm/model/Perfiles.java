@@ -1,14 +1,12 @@
 package com.dmjm.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.io.Serializable;
 
-public class Perfiles implements java.io.Serializable {
+public class Perfiles implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idPerfil;
 	private String nombrePerfil;
-	private Set usuarioses = new HashSet(0);
 
 	public Perfiles() {
 	}
@@ -17,10 +15,10 @@ public class Perfiles implements java.io.Serializable {
 		this.idPerfil = idPerfil;
 	}
 
-	public Perfiles(int idPerfil, String nombrePerfil, Set usuarioses) {
+	public Perfiles(int idPerfil, String nombrePerfil) {
 		this.idPerfil = idPerfil;
 		this.nombrePerfil = nombrePerfil;
-		this.usuarioses = usuarioses;
+
 	}
 
 	public int getIdPerfil() {
@@ -37,14 +35,6 @@ public class Perfiles implements java.io.Serializable {
 
 	public void setNombrePerfil(String nombrePerfil) {
 		this.nombrePerfil = nombrePerfil;
-	}
-
-	public Set getUsuarioses() {
-		return this.usuarioses;
-	}
-
-	public void setUsuarioses(Set usuarioses) {
-		this.usuarioses = usuarioses;
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.dmjm.model;
 
-public class DescuentoCalciosTablaA implements java.io.Serializable {
+import java.io.Serializable;
+
+public class DescuentoCalciosTablaA implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idCalcios;

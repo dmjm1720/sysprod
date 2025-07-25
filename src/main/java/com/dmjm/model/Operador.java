@@ -1,6 +1,8 @@
 package com.dmjm.model;
 
-public class Operador implements java.io.Serializable {
+import java.io.Serializable;
+
+public class Operador implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idOperador;

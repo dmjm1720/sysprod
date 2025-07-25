@@ -1,9 +1,10 @@
 package com.dmjm.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Limpieza implements java.io.Serializable {
+public class Limpieza implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idLimpieza;

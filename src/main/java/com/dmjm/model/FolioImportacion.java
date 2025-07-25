@@ -1,6 +1,8 @@
 package com.dmjm.model;
 
-public class FolioImportacion implements java.io.Serializable {
+import java.io.Serializable;
+
+public class FolioImportacion implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int idFolio;
