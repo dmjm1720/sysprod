@@ -14,7 +14,7 @@ public interface IVotatorADao {
 
 	void guardarVotator(VotatorA votator);
 
-	void actualizarCocedores(VotatorA votator);
+	void actualizarVotator(VotatorA votator);
 
 	void actualizarVotatorPromedio(String operacion, int folio);
 

@@ -79,7 +79,7 @@ public class VotatorADaoImpl extends Conexion implements IVotatorADao {
 	}
 
 	@Override
-	public void actualizarCocedores(VotatorA votator) {
+	public void actualizarVotator(VotatorA votator) {
 		Session session = null;
 		try {
 
