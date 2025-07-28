@@ -84,5 +84,16 @@
 	    <mapping resource="com/dmjm/model/OrdenMantenimientoUltraUno.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/LimpiezaUltraUno.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/LimpiezaUltraDos.hbm.xml"/>
+	    
+		<mapping resource="com/dmjm/model/LimpiezaVotatorA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionVotatorA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionVotatorB.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/VotatorA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/VotatorB.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaVotatorB.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoVotatorB.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoVotatorA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/ResumenVotatorA.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/ResumenVotatorB.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

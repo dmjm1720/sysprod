@@ -26,7 +26,7 @@ public class VotatorADaoImpl extends Conexion implements IVotatorADao {
 	public List<VotatorA> listaVotator() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery(
-					"FROM VotatorA v JOIN FETCH c.folioPreparacionVotatorA ORDER BY v.folioPreparacionVotatorA.idFolioPrep DESC",
+					"FROM VotatorA v JOIN FETCH v.folioPreparacionVotatorA ORDER BY v.folioPreparacionVotatorA.idFolioPrep DESC",
 					VotatorA.class).list();
 		}
 	}
@@ -364,7 +364,6 @@ public class VotatorADaoImpl extends Conexion implements IVotatorADao {
 
 	}
 
-
 	@Override
 	public void actualizarManto(int folio) {
 		try {
@@ -384,7 +383,6 @@ public class VotatorADaoImpl extends Conexion implements IVotatorADao {
 
 	}
 
-
 	@Override
 	public void actualizarLimpieza(int folio, int estado) {
 		try {
@@ -402,6 +400,43 @@ public class VotatorADaoImpl extends Conexion implements IVotatorADao {
 			LOGGER.error("ERROR AL ACTUALIZAR EL ESTADO DE LIMPIEZA: ", ex);
 		}
 
+	}
+
+	@Override
+	public List<String> listarOperaciones(int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        return session.createQuery(
+	            "SELECT DISTINCT v.operacion " +
+	            "FROM VotatorA v " +
+	            "WHERE v.folioPreparacionVotatorA.idFolioPrep = :idFolio " +
+	            "AND v.hora <> 'PROM.' " +
+	            "AND v.operacion IS NOT NULL",
+	            String.class)
+	            .setParameter("idFolio", folio)
+	            .list();
+	    }
+	}
+
+	@Override
+	public String obtenerPrimeraHora(String operacion, int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"SELECT v.hora " + "FROM VotatorA v " + "WHERE v.folioPreparacionVotatorA.idFolioPrep = :folio "
+							+ "AND v.operacion = :operacion " + "AND v.hora <> 'PROM.' " + "ORDER BY v.idVotator ASC",
+					String.class).setParameter("folio", folio).setParameter("operacion", operacion).setMaxResults(1)
+					.uniqueResult(); // o .list().stream().findFirst().orElse(null)
+		}
+	}
+
+	@Override
+	public String obtenerUltimaHora(String operacion, int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"SELECT v.hora " + "FROM VotatorA v " + "WHERE v.folioPreparacionVotatorA.idFolioPrep = :folio "
+							+ "AND v.operacion = :operacion " + "AND v.hora <> 'PROM.' " + "ORDER BY v.idVotator DESC",
+					String.class).setParameter("folio", folio).setParameter("operacion", operacion).setMaxResults(1)
+					.uniqueResult(); // o .list().stream().findFirst().orElse(null)
+		}
 	}
 
 }

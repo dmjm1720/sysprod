@@ -23,5 +23,9 @@ public interface IRegistroTurnosDao {
 	List<RegistroTurnos> listaRegistroTurnosUltraUno(Date fecha);
 	
 	List<RegistroTurnos> listaRegistroTurnosUltraDos(Date fecha);
+	
+	List<RegistroTurnos> listaRegistroTurnosVotatorA(Date fecha);
+	
+	List<RegistroTurnos> listaRegistroTurnosVotatorB(Date fecha);
 
 }

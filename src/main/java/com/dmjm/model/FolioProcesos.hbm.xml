@@ -24,5 +24,11 @@
 		<property name="folioUltraDos" type="java.lang.Integer">
 			<column name="FOLIO_ULTRA_DOS" />
 		</property>
+		<property name="folioVotatorA" type="java.lang.Integer">
+			<column name="FOLIO_VOTATOR_A" />
+		</property>
+		<property name="folioVotatorB" type="java.lang.Integer">
+			<column name="FOLIO_VOTATOR_B" />
+		</property>
 	</class>
 </hibernate-mapping>

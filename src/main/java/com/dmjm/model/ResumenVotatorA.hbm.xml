@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.dmjm.model.ResumenVotatorA" table="RESUMEN_VOTATOR_A" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idResumen" type="int">
+            <column name="ID_RESUMEN" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="folioPreparacionVotatorA" class="com.dmjm.model.FolioPreparacionVotatorA" fetch="select">
+            <column name="ID_FOLIO_PREP" />
+        </many-to-one>
+        <property name="noOperacion" type="string">
+            <column name="NO_OPERACION" length="25" />
+        </property>
+        <property name="fechaInicio" type="date">
+            <column name="FECHA_INICIO" length="10" />
+        </property>
+        <property name="horaInicio" type="time">
+            <column name="HORA_INICIO" length="16" />
+        </property>
+        <property name="fechaFinal" type="date">
+            <column name="FECHA_FINAL" length="10" />
+        </property>
+        <property name="horaFinal" type="time">
+            <column name="HORA_FINAL" length="16" />
+        </property>
+        <property name="tiempo" type="java.lang.Integer">
+            <column name="TIEMPO" />
+        </property>
+    </class>
+</hibernate-mapping>

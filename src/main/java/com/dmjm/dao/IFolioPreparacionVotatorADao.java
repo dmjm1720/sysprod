@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.dmjm.model.FolioPreparacionVotatorA;
-import com.dmjm.model.VotatorA;
 
 public interface IFolioPreparacionVotatorADao {
 

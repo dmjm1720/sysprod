@@ -45,4 +45,10 @@ public interface IVotatorADao {
 	void actualizarManto(int folio);
 
 	void actualizarLimpieza(int folio, int estado);
+	
+	List<String> listarOperaciones(int folio); //OBTENER LAS DIFERENTES OPERACIONES DE LA CAPTURA
+	
+	String obtenerPrimeraHora(String operacion, int folio); //OBTERNER LA PRIMERA HORA DE LA OPERACION
+	
+	String obtenerUltimaHora(String operacion, int folio);//OBTENER LA ULTIMA HORA DE LA OPERACION
 }

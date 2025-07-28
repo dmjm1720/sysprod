@@ -208,4 +208,50 @@ public class RegistroTurnoDaoImpl implements IRegistroTurnosDao {
 		
 	}
 
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosVotatorA(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'VOTATOR PLANTA A'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosVotatorB(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'VOTATOR PLANTA B'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
 }

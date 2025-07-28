@@ -11,6 +11,8 @@ public class FolioProcesos implements Serializable {
 	private Integer folioEstPb;
 	private Integer folioUltraUno;
 	private Integer folioUltraDos;
+	private Integer folioVotatorA;
+	private Integer folioVotatorB;
 
 	public FolioProcesos() {
 	}
@@ -20,13 +22,15 @@ public class FolioProcesos implements Serializable {
 	}
 
 	public FolioProcesos(int idFolioProcesos, Integer year, Integer folioEstPa, Integer folioEstPb,
-			Integer folioUltraUno, Integer folioUltraDos) {
+			Integer folioUltraUno, Integer folioUltraDos, Integer folioVotatorA, Integer folioVotatorB) {
 		this.idFolioProcesos = idFolioProcesos;
 		this.year = year;
 		this.folioEstPa = folioEstPa;
 		this.folioEstPb = folioEstPb;
 		this.folioUltraUno = folioUltraUno;
 		this.folioUltraDos = folioUltraDos;
+		this.folioVotatorA = folioVotatorA;
+		this.folioVotatorB = folioVotatorB;
 	}
 
 	public int getIdFolioProcesos() {
@@ -75,6 +79,22 @@ public class FolioProcesos implements Serializable {
 
 	public void setFolioUltraDos(Integer folioUltraDos) {
 		this.folioUltraDos = folioUltraDos;
+	}
+
+	public Integer getFolioVotatorA() {
+		return folioVotatorA;
+	}
+
+	public void setFolioVotatorA(Integer folioVotatorA) {
+		this.folioVotatorA = folioVotatorA;
+	}
+
+	public Integer getFolioVotatorB() {
+		return folioVotatorB;
+	}
+
+	public void setFolioVotatorB(Integer folioVotatorB) {
+		this.folioVotatorB = folioVotatorB;
 	}
 
 }

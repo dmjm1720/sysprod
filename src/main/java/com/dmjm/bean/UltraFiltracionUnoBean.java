@@ -372,8 +372,8 @@ public class UltraFiltracionUnoBean implements Serializable {
 	}
 
 	public LimpiezaUltraUno getLimpiezaEditar() {
-		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
-			limpiezaEditar.setQuimico("Agua");
+		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso()) || "DESCONCETRACIÓN".equals(limpiezaEditar.getProceso())) {
+			limpiezaEditar.setQuimico("AGUA");
 		}
 		return limpiezaEditar;
 	}

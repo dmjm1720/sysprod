@@ -38,7 +38,7 @@
 			<column name="VOBO" length="20" />
 		</property>
 		<property name="noCocedor" type="string">
-			<column name="NO_COCEDOR" length="20" />
+			<column name="NO_COCEDOR" length="50" />
 		</property>
 		<property name="idUsuario" type="java.lang.Integer">
 			<column name="ID_USUARIO" />

@@ -296,8 +296,8 @@
 									<p:row>
 										<p:column rowspan="3" headerText="HORA" styleClass="datos"
 											style="font-size: .4rem !important" exportable="false" />
-										<p:column rowspan="4" headerText="OPER." styleClass="datos"
-											style="font-size: .4rem !important" exportable="false" />
+										<p:column colspan="2" rowspan="4" headerText="OPERACIÓN" styleClass="datos"
+											style="font-size: .6rem !important" exportable="false" />
 									</p:row>
 
 
@@ -465,7 +465,7 @@
 										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fuenteNaranja'}" />
 								</p:column>
 
-								<p:column
+								<p:column colspan="2"
 									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
 									<h:outputText value="#{item.operacion}"
 										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
@@ -1277,19 +1277,19 @@
 
 
 						<p:outputLabel for="lts" value="Litros usados"
-							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}" />
 						<p:inputText id="lts" styleClass="camposLimpieza"
-							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}"
 							value="#{cocedoresBean.limpiezaEditar.litrosUsados}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 
 						<p:outputLabel for="lote" value="Lote"
-							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}" />
 						<p:inputText id="lote" styleClass="camposLimpieza"
 							value="#{cocedoresBean.limpiezaEditar.lote}" required="false"
-							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 

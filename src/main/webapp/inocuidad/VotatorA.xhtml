@@ -23,7 +23,7 @@
 
 				<div style="text-align: center">
 					<p:badge id="bp" size="small"
-						value="CAPTURA DE ULTRAFILTRACIÓN I&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{ultraUnoBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{ultraUnoBean.fecha}&nbsp;&nbsp;&nbsp;"
+						value="VOTATOR PLANTA A&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{votatorABean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{votatorABean.fecha}&nbsp;&nbsp;&nbsp;"
 						styleClass="fuenteTitulo" />
 
 				</div>
@@ -46,30 +46,30 @@
 										<p:autoComplete id="turno" size="35" required="false"
 											requiredMessage="Turno requerido" autocomplete="off"
 											placeholder="Ingresa Turno" dropdown="true"
-											value="#{ultraUnoBean.filterTurno}"
-											completeMethod="#{ultraUnoBean.buscarNombreTurno}">
+											value="#{votatorABean.filterTurno}"
+											completeMethod="#{votatorABean.buscarNombreTurno}">
 										</p:autoComplete>
 
 										<p:outputLabel for="operador" value="Operador" />
 										<p:autoComplete id="operador" size="35" required="false"
 											requiredMessage="Operador requerido" autocomplete="off"
 											placeholder="Ingresa Operador" dropdown="true"
-											value="#{ultraUnoBean.filterOperador}"
-											completeMethod="#{ultraUnoBean.buscarNombreOperador}">
+											value="#{votatorABean.filterOperador}"
+											completeMethod="#{votatorABean.buscarNombreOperador}">
 										</p:autoComplete>
 
 										<p:outputLabel for="coord" value="Coordinador" />
 										<p:autoComplete id="coord" size="35" required="false"
 											requiredMessage="Coordinador requerido" autocomplete="off"
 											placeholder="Ingresa Coordinador" dropdown="true"
-											value="#{ultraUnoBean.filterUsuario}"
-											completeMethod="#{ultraUnoBean.buscarNombreCoordinador}">
+											value="#{votatorABean.filterUsuario}"
+											completeMethod="#{votatorABean.buscarNombreCoordinador}">
 										</p:autoComplete>
 
 										<p:outputLabel for="reg" value="Registrar turno" />
 										<p:commandButton id="reg" value="REGISTRAR"
 											styleClass="fuente"
-											actionListener="#{ultraUnoBean.guardarRegistroTurnos()}"
+											actionListener="#{votatorABean.guardarRegistroTurnos()}"
 											update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
 											style="width: 8rem; height: 2rem">
 										</p:commandButton>
@@ -82,7 +82,7 @@
 									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
 										var="turnos" sortMode="multiple" rowHover="true"
 										style="width: 85%" paginatorAlwaysVisible="true"
-										scrollable="true" value="#{ultraUnoBean.listarRegistroTurnos}"
+										scrollable="true" value="#{votatorABean.listarRegistroTurnos}"
 										emptyMessage="NO HAY REGISTROS">
 
 
@@ -90,10 +90,10 @@
 											<div style="text-align: center">
 												<p:commandButton id="eb" icon="pi pi-fw pi-trash"
 													styleClass="ui-button-warning"
-													action="#{ultraUnoBean.borrarTurnos()}"
+													action="#{votatorABean.borrarTurnos()}"
 													update="frmPrincipal:acco:tRegTurnos">
 													<f:setPropertyActionListener value="#{turnos}"
-														target="#{ultraUnoBean.registroTurnosEditar}" />
+														target="#{votatorABean.registroTurnosEditar}" />
 												</p:commandButton>
 												<p:tooltip id="toolTipEB" for="eb" value="Borrar"
 													trackMouse="true" />
@@ -107,7 +107,7 @@
 													update="frmTurnos:pnlEditarTurnos"
 													styleClass="ui-button-warning">
 													<f:setPropertyActionListener value="#{turnos}"
-														target="#{ultraUnoBean.registroTurnosEditar}" />
+														target="#{votatorABean.registroTurnosEditar}" />
 												</p:commandButton>
 												<p:tooltip id="toolTipET" for="et" value="Editar"
 													trackMouse="true" />
@@ -149,7 +149,7 @@
 						</p:tab>
 
 
-						<p:tab id="pt" title="ULTRA FILTRACIÓN I"
+						<p:tab id="pt" title="VOTATOR PLANTA A"
 							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
 
 							<script>
@@ -191,7 +191,7 @@
 										<p:outputLabel value="NUEVA HOJA" />
 										<div style="text-align: center">
 											<p:commandButton value="" styleClass="fuente"
-												actionListener="#{ultraUnoBean.guardarUltraUno()}"
+												actionListener="#{votatorABean.guardarVotator()}"
 												update="frmPrincipal, frmPrincipal:msgs"
 												icon="pi pi-file-excel" style="width: 2rem; height: 2rem">
 											</p:commandButton>
@@ -210,12 +210,12 @@
 											placeholder="SELECCIONA FECHA"
 											inputStyleClass="font-size: .8rem !important pear"
 											inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
-											value="#{ultraUnoBean.fechaFiltro}"
+											value="#{votatorABean.fechaFiltro}"
 											style="font-family: 'Poppins', sans-serif !important;"
 											styleClass="captura" />
 
 										<p:commandButton value="BUSCAR" styleClass="fuente"
-											actionListener="#{ultraUnoBean.filtrarPorFecha()}"
+											actionListener="#{votatorABean.filtrarPorFecha()}"
 											update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos"
 											icon="pi pi-filter" style="width: 6rem; height: 2rem">
 										</p:commandButton>
@@ -229,7 +229,7 @@
 										<p:outputLabel value="IMPRIMIR" />
 										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
 											target="_blank"
-											actionListener="#{ultraUnoBean.visualizarReporte()}">
+											actionListener="#{votatorABean.visualizarReporte()}">
 											<h:graphicImage url="/resources/img/printer.png"
 												style="height: 1.8rem" />
 										</h:commandLink>
@@ -237,7 +237,7 @@
 										<p:outputLabel value="EXPORTAR" />
 										<h:commandLink id="impExcel"
 											style="height: 30px; font-size: 12px;" target="_blank"
-											actionListener="#{ultraUnoBean.visualizarReporteExcel()}">
+											actionListener="#{votatorABean.visualizarReporteExcel()}">
 											<h:graphicImage url="/resources/img/excel.png"
 												style="height: 1.8rem" />
 										</h:commandLink>
@@ -252,11 +252,11 @@
 										<p:commandButton value="AGREGAR / EDITAR" styleClass="fuente"
 											oncomplete="PF('dlgAgregarObs').show()" icon="pi pi-book"
 											update="frmObservaciones:pnlAgregarObs"
-											actionListener="#{ultraUnoBean.obtenerObservacion()}"
+											actionListener="#{votatorABean.obtenerObservacion()}"
 											style="width: 6rem; height: 2.5rem">
 										</p:commandButton>
 										<p:dataTable id="tblObs" styleClass="tabla2 fuenteCocedores"
-											var="itemObs" value="#{ultraUnoBean.listaFolioUltraUno}"
+											var="itemObs" value="#{votatorABean.listaFolioVotatorPA}"
 											emptyMessage="NO HAY REGISTROS">
 
 											<p:column headerText="Observaciones">
@@ -277,51 +277,114 @@
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
 								scrollHeight="300" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
-								value="#{ultraUnoBean.listaUltrafiltracion}"
+								value="#{votatorABean.listaVotator}"
 								emptyMessage="NO HAY REGISTROS">
 
-								<p:ajax event="page" listener="#{ultraUnoBean.onPageChange}"
+								<p:ajax event="page" listener="#{votatorABean.onPageChange}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos" />
 
 								<p:columnGroup type="header">
 
 									<p:row>
-										<p:column rowspan="5" headerText="Editar" styleClass="datos" />
+										<p:column rowspan="8" headerText="" styleClass="datos" />
 									</p:row>
 
 									<p:row>
-										<p:column rowspan="3" headerText="HORA" styleClass="datos"
+										<p:column rowspan="4" headerText="HORA" styleClass="color"
 											style="font-size: .6rem !important" />
 										<p:column rowspan="4" headerText="OPERACIÓN"
-											styleClass="datos" style="font-size: .6rem !important" />
-									</p:row>
-
-
-									<p:row>
-										<p:column colspan="3" headerText="ALIMENTACIÓN"
-											styleClass="color" />
-										<p:column colspan="3" headerText="ETAPA 1" styleClass="color" />
-										<p:column colspan="2" headerText="CONCENTRADO"
-											styleClass="color" />
-										<p:column colspan="1" headerText="% CONC. PERMEADO"
-											styleClass="color" />
-										<p:column colspan="2" headerText="ESTADO" styleClass="color" />
+											styleClass="color" style="font-size: .6rem !important" />
 									</p:row>
 
 									<p:row>
-										<p:column headerText="Flujo Ent. LPH" styleClass="datos" />
-										<p:column headerText="Temp. °C" styleClass="datos" />
-										<p:column headerText="% Conc. Entrada" styleClass="datos" />
+										<p:column colspan="12" headerText="VARIABLE"
+											styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="3" headerText="GRENETINA HÚMEDA"
+											styleClass="color" />
+										<p:column colspan="2" headerText="TEMPERATURA VOTATOR"
+											styleClass="color" />
+										<p:column colspan="4"
+											headerText="PRESIÓN EN EL SISTEMA DE ENFRIAMIENTO"
+											styleClass="color" />
+										<p:column colspan="2" headerText="VOTATOR" styleClass="color" />
+										<p:column colspan="1" headerText="SECO" styleClass="color" />
+										<p:column colspan="2" rowspan="5" headerText="ESTADO"
+											styleClass="color" />
+									</p:row>
 
-										<p:column headerText="Temp. °C" styleClass="datos" />
-										<p:column headerText="Presión PSI" styleClass="datos" />
-										<p:column headerText="Flujo Perm. LPH" styleClass="datos" />
+									<p:row>
+										<p:column headerText="Con. En Refactó-metro %"
+											styleClass="datos" />
+										<p:column headerText="pH" styleClass="datos" />
+										<p:column headerText="Redox (p.p.m.H2O2)" styleClass="datos" />
+										<p:column headerText="Entrada °C" styleClass="datos" />
+										<p:column headerText="Salida °C" styleClass="datos" />
+										<p:column headerText="Recep-tor (PSI)" styleClass="datos" />
+										<p:column headerText="Succión (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Descarga (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Aceite (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Motor (AMP.)" styleClass="datos" />
+										<p:column headerText="Bomba Alim. (HERTZ)" styleClass="datos" />
+										<p:column headerText="REDOX p.p.m. (ppm H2O2)"
+											styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="2" headerText="VARIABLE" styleClass="datos" />
+										<p:column headerText="1" styleClass="datos" />
+										<p:column headerText="2" styleClass="datos" />
+										<p:column headerText="3" styleClass="datos" />
+										<p:column headerText="4" styleClass="datos" />
+										<p:column headerText="5" styleClass="datos" />
+										<p:column headerText="6" styleClass="datos" />
+										<p:column headerText="7" styleClass="datos" />
+										<p:column headerText="8" styleClass="datos" />
+										<p:column headerText="9" styleClass="datos" />
+										<p:column headerText="10" styleClass="datos" />
+										<p:column headerText="11" styleClass="datos" />
+										<p:column headerText="12" styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="14" headerText="" styleClass="datos" />
+									</p:row>
 
-										<p:column headerText="Conc. Salida %" styleClass="datos" />
-										<p:column headerText="Flujo Salida" styleClass="datos" />
-										<p:column headerText="% Conc.  Permeado" styleClass="datos" />
+									<p:row>
+										<p:column colspan="2" headerText="LÍMITES ESPECÍFICOS"
+											styleClass="datos" />
+										<p:column headerText="28 - 32" styleClass="datos" />
+										<p:column headerText="5.0 - 7.5" styleClass="datos" />
+										<p:column headerText="700 - 1,800" styleClass="datos" />
+										<p:column headerText="38 - 42" styleClass="datos" />
+										<p:column headerText="13 - 20" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="Máx 2,500" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="Editar" styleClass="datos" />
+										<p:column colspan="2" headerText="LÍMITES DE REFERENCIA"
+											styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="20 - 26" styleClass="datos" />
+										<p:column headerText="0.8 - 1.5" styleClass="datos" />
+										<p:column headerText="7.0 - 12.0" styleClass="datos" />
+										<p:column headerText="3.0 - 4.0" styleClass="datos" />
+										<p:column headerText="50 - 80" styleClass="datos" />
+										<p:column headerText="Min. 30" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
 										<p:column headerText="A" styleClass="datos" />
 										<p:column headerText="R" styleClass="datos" />
+
 									</p:row>
 
 
@@ -334,7 +397,7 @@
 											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
 											styleClass="ui-button-warning">
 											<f:setPropertyActionListener value="#{item}"
-												target="#{ultraUnoBean.ultraFiltracionUnoEditar}" />
+												target="#{votatorABean.votatorEditar}" />
 
 										</p:commandButton>
 										<p:tooltip id="toolTipE" for="ed" value="Editar"
@@ -342,72 +405,87 @@
 									</div>
 
 								</p:column>
-								<p:column headerText="Hora"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
 									<h:outputText value="#{item.hora}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fuenteNaranja'}" />
 								</p:column>
 
-								<p:column headerText="Operación"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
 									<h:outputText value="#{item.operacion}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-								<p:column headerText="Flujo Ent"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
-									<h:outputText value="#{item.flujoEntrada}"
+									<h:outputText value="#{item.concRefractomentro}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-								<p:column headerText="Temp"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
-									<h:outputText value="#{item.temp01}"
+									<h:outputText value="#{item.ph}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-								<p:column headerText="Conc. entrada"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
-									<h:outputText value="#{item.concEntrada }"
+									<h:outputText value="#{item.redoxHumeda}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-
-								<p:column headerText="Temp"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
-									<h:outputText value="#{item.temp02}"
+									<h:outputText value="#{item.temEntVotator}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-								<p:column headerText="Presión PSI"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
-									<h:outputText value="#{item.presionPsi}"
+									<h:outputText value="#{item.tempSalVotator}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-								<p:column headerText="Flujo Perm"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
-									<h:outputText value="#{item.flujoPerm}"
+									<h:outputText value="#{item.receptorPsi}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-
-								<p:column headerText="Conc. Salida"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
-									<h:outputText value="#{item.concSalida}"
+									<h:outputText value="#{item.succion}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-
-								<p:column headerText="Flujo salida"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
-									<h:outputText value="#{item.flujoSalida}"
+									<h:outputText value="#{item.descarga}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-								<p:column headerText="% Concentrado"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
-									<h:outputText value="#{item.concPermeado}"
+									<h:outputText value="#{item.aceite}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									<h:outputText value="#{item.motor}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									<h:outputText value="#{item.bombaAlim}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									<h:outputText value="#{item.redoxSeco}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
@@ -440,40 +518,40 @@
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
 									styleClass="fuente camposLimpieza"
-									actionListener="#{ultraUnoBean.guardarLimpieza()}"
+									actionListener="#{votatorABean.guardarLimpieza()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
 
 
 								<p:spacer width="5rem" />
 								<p:selectOneMenu id="noLim"
-									value="#{ultraUnoBean.noLimpiezaSeleccionadaBorrar}"
+									value="#{votatorABean.noLimpiezaSeleccionadaBorrar}"
 									dynamic="true">
 									<f:selectItem itemLabel="NO. LIMPIEZA A ELIMINAR" itemValue="" />
-									<f:selectItems value="#{ultraUnoBean.listaLimpiezas}" />
+									<f:selectItems value="#{votatorABean.listaLimpiezas}" />
 								</p:selectOneMenu>
 
 								<p:commandButton value="BORRAR"
-									actionListener="#{ultraUnoBean.deleteLimpieza()}"
+									actionListener="#{votatorABean.deleteLimpieza()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
 
 								<p:spacer width="5rem" />
 								<p:selectOneMenu id="noLimVoBo"
 									rendered="#{login.usuario.perfiles.idPerfil==15}"
-									value="#{ultraUnoBean.noLimpiezaVoBo}" dynamic="true">
+									value="#{votatorABean.noLimpiezaVoBo}" dynamic="true">
 									<f:selectItem itemLabel="NO. LIMPIEZA Vo.Bo." itemValue="" />
-									<f:selectItems value="#{ultraUnoBean.listaLimpiezas}" />
+									<f:selectItems value="#{votatorABean.listaLimpiezas}" />
 								</p:selectOneMenu>
 
 								<p:commandButton value="AGREGAR"
 									rendered="#{login.usuario.perfiles.idPerfil==15}"
-									actionListener="#{ultraUnoBean.agregarVoBo()}"
+									actionListener="#{votatorABean.agregarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
 								<p:commandButton value="BORRAR"
 									rendered="#{login.usuario.perfiles.idPerfil==15}"
-									actionListener="#{ultraUnoBean.borrarVoBo()}"
+									actionListener="#{votatorABean.borrarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
 							</h:panelGrid>
@@ -490,8 +568,8 @@
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
 								scrollable="true"
-								currentPageReportTemplate="Total: #{ultraUnoBean.listaLimpieza.size()}"
-								value="#{ultraUnoBean.listaLimpieza}"
+								currentPageReportTemplate="Total: #{votatorABean.limpiezaVotatorA.size()}"
+								value="#{votatorABean.limpiezaVotatorA}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:column headerText="Editar" width="3rem" exportable="false">
@@ -500,7 +578,7 @@
 										update="frmEditarLimpieza:pnlEditarLimpieza"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{ultraUnoBean.limpiezaEditar}" />
+											target="#{votatorABean.limpiezaEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
@@ -539,8 +617,8 @@
 								</p:column>
 
 								<p:column headerText="VoBo" width="5rem"
-									styleClass="#{item.voBo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
-									<h:outputText value="#{item.voBo}" style="color: #FFFFFF;" />
+									styleClass="#{item.vobo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<h:outputText value="#{item.vobo}" style="color: #FFFFFF;" />
 								</p:column>
 
 							</p:dataTable>
@@ -554,34 +632,34 @@
 
 								<p:outputLabel value="No de Orden" />
 								<p:inputText id="om" styleClass="camposManto"
-									value="#{ultraUnoBean.ordenMantenimiento.noOrden}"
+									value="#{votatorABean.ordenMantenimiento.noOrden}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
 								<pe:timePicker
-									value="#{ultraUnoBean.ordenMantenimiento.horaInicio}"
+									value="#{votatorABean.ordenMantenimiento.horaInicio}"
 									mode="spinner" widgetVar="h5" showOn="button"
 									intervalMinutes="1" endMinutes="59" />
 
 
 								<p:outputLabel value="Hora Final" />
 								<pe:timePicker
-									value="#{ultraUnoBean.ordenMantenimiento.horaFin}"
+									value="#{votatorABean.ordenMantenimiento.horaFin}"
 									mode="spinner" widgetVar="h6" showOn="button"
 									intervalMinutes="1" endMinutes="59" />
 
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
-									value="#{ultraUnoBean.ordenMantenimiento.descripcion}"
+									value="#{votatorABean.ordenMantenimiento.descripcion}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 20rem" />
 
 								<p:outputLabel value="" />
 								<p:commandButton value="REGISTRAR NUEVA ORDEN"
 									styleClass="fuente camposManto"
-									actionListener="#{ultraUnoBean.guardarOrdenManto()}"
+									actionListener="#{votatorABean.guardarOrdenManto()}"
 									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
 
@@ -600,8 +678,8 @@
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
 								scrollable="true"
-								currentPageReportTemplate="Total: #{ultraUnoBean.listaOrdenManto.size()}"
-								value="#{ultraUnoBean.listaOrdenManto}"
+								currentPageReportTemplate="Total: #{votatorABean.listaOrdenManto.size()}"
+								value="#{votatorABean.listaOrdenManto}"
 								emptyMessage="NO HAY REGISTROS">
 
 
@@ -609,10 +687,10 @@
 									<div style="text-align: center">
 										<p:commandButton id="em" icon="pi pi-fw pi-trash"
 											styleClass="ui-button-warning"
-											action="#{ultraUnoBean.borrarOrdenManto()}"
+											action="#{votatorABean.borrarOrdenManto()}"
 											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
 											<f:setPropertyActionListener value="#{item}"
-												target="#{ultraUnoBean.ordenMantenimientoEditar}" />
+												target="#{votatorABean.ordenMantenimientoEditar}" />
 										</p:commandButton>
 										<p:tooltip id="toolTipEM" for="em" value="Borrar"
 											trackMouse="true" />
@@ -626,7 +704,7 @@
 										update="frmEditarManto:pnlEditarManto"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{ultraUnoBean.ordenMantenimientoEditar}" />
+											target="#{votatorABean.ordenMantenimientoEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
@@ -679,77 +757,77 @@
 						<p:outputLabel for="horario" value="Horario" />
 						<p:inputText id="horario" styleClass="fuenteNaranja"
 							disabled="true"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.hora}"
+							value="{votatorABean.ultraFiltracionUnoEditar.hora}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="operacion" value="Operación" />
 						<p:inputText id="operacion" styleClass="camposCocedores"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.operacion}"
+							value="{votatorABean.ultraFiltracionUnoEditar.operacion}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 8rem" />
 
 						<p:outputLabel for="flujoEnt" value="Flujo Ent. LPH" />
 						<p:inputText id="flujoEnt"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.flujoEntrada}"
+							value="{votatorABean.ultraFiltracionUnoEditar.flujoEntrada}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="tem01" value="Temp. °C" />
 						<p:inputText id="tem01"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.temp01}"
+							value="{votatorABean.ultraFiltracionUnoEditar.temp01}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="con" value="% Conc. Entrada" />
 						<p:inputText id="con"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.concEntrada}"
+							value="{votatorABean.ultraFiltracionUnoEditar.concEntrada}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="temp02" value="Temp. °C" />
 						<p:inputText id="temp02"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.temp02}"
+							value="{votatorABean.ultraFiltracionUnoEditar.temp02}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="psi" value="Presión PSI" />
 						<p:inputText id="psi"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.presionPsi}"
+							value="{votatorABean.ultraFiltracionUnoEditar.presionPsi}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="flujoPerm" value="Flujo Perm. LPH" />
 						<p:inputText id="flujoPerm"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.flujoPerm}"
+							value="{votatorABean.ultraFiltracionUnoEditar.flujoPerm}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="conSalida" value="Conc. Salida %" />
 						<p:inputText id="conSalida"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.concSalida}"
+							value="{votatorABean.ultraFiltracionUnoEditar.concSalida}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="flujoSalida" value="Flujo Salida" />
 						<p:inputText id="flujoSalida"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.flujoSalida}"
+							value="{votatorABean.ultraFiltracionUnoEditar.flujoSalida}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="concPerm" value="% Conc. Permeado" />
 						<p:inputText id="concPerm"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.concPermeado}"
+							value="{votatorABean.ultraFiltracionUnoEditar.concPermeado}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />
 						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
-							styleClass="#{ultraUnoBean.ultraFiltracionUnoEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+							styleClass="{votatorABean.ultraFiltracionUnoEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
 						<p:selectOneButton id="a"
-							value="#{ultraUnoBean.ultraFiltracionUnoEditar.estadoAR}"
-							styleClass="#{ultraUnoBean.ultraFiltracionUnoEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							value="{votatorABean.ultraFiltracionUnoEditar.estadoAR}"
+							styleClass="{votatorABean.ultraFiltracionUnoEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
 							<f:selectItem itemLabel="Aceptado" itemValue="true" />
 							<f:selectItem itemLabel="Rechazado" itemValue="false" />
 							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />
@@ -765,7 +843,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{ultraUnoBean.actualizarUltraUno()}"
+							actionListener="#{votatorABean.actualizarUltraUno()}"
 							oncomplete="PF('dlgEditar').hide()" />
 					</div>
 
@@ -784,41 +862,41 @@
 
 						<p:outputLabel for="pro" value="Proceso" />
 						<p:inputText id="pro" styleClass="camposLimpieza" readonly="true"
-							value="#{ultraUnoBean.limpiezaEditar.proceso}" required="false"
+							value="#{votatorABean.limpiezaEditar.proceso}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
-						<pe:timePicker value="#{ultraUnoBean.limpiezaEditar.horaInicial}"
+						<pe:timePicker value="#{votatorABean.limpiezaEditar.horaInicial}"
 							mode="spinner" widgetVar="h1" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 
 						<p:outputLabel value="Hora Final" />
-						<pe:timePicker value="#{ultraUnoBean.limpiezaEditar.horaFinal}"
+						<pe:timePicker value="#{votatorABean.limpiezaEditar.horaFinal}"
 							mode="spinner" widgetVar="h2" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 
 						<p:outputLabel for="qui" value="Químico" />
 						<p:inputText id="qui" styleClass="camposLimpieza"
-							value="#{ultraUnoBean.limpiezaEditar.quimico}" required="false"
+							value="#{votatorABean.limpiezaEditar.quimico}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 
 						<p:outputLabel for="lts" value="Litros usados"
-							rendered="#{ultraUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraUnoBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}" />
+							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="lts" styleClass="camposLimpieza"
-							rendered="#{ultraUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraUnoBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}"
-							value="#{ultraUnoBean.limpiezaEditar.litrosUsados}"
+							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							value="#{votatorABean.limpiezaEditar.litrosUsados}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 
 						<p:outputLabel for="lote" value="Lote"
-							rendered="#{ultraUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraUnoBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}" />
+							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="lote" styleClass="camposLimpieza"
-							value="#{ultraUnoBean.limpiezaEditar.lote}" required="false"
-							rendered="#{ultraUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraUnoBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}"
+							value="#{votatorABean.limpiezaEditar.lote}" required="false"
+							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 
@@ -828,7 +906,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{ultraUnoBean.actualizarLimpieza()}"
+							actionListener="#{votatorABean.actualizarLimpieza()}"
 							oncomplete="PF('dlgEditarLimpieza').hide()" />
 					</div>
 
@@ -849,25 +927,25 @@
 
 						<p:outputLabel for="orden" value="No de Orden" />
 						<p:inputText id="orden" styleClass="camposManto"
-							value="#{ultraUnoBean.ordenMantenimientoEditar.noOrden}"
+							value="#{votatorABean.ordenMantenimientoEditar.noOrden}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 8rem" />
 
 						<p:outputLabel value="Hora Inicio" />
 						<pe:timePicker
-							value="#{ultraUnoBean.ordenMantenimientoEditar.horaInicio}"
+							value="#{votatorABean.ordenMantenimientoEditar.horaInicio}"
 							mode="spinner" widgetVar="h3" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker
-							value="#{ultraUnoBean.ordenMantenimientoEditar.horaFin}"
+							value="#{votatorABean.ordenMantenimientoEditar.horaFin}"
 							mode="spinner" widgetVar="h4" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
-							value="#{ultraUnoBean.ordenMantenimientoEditar.descripcion}"
+							value="#{votatorABean.ordenMantenimientoEditar.descripcion}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 					</h:panelGrid>
@@ -876,7 +954,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{ultraUnoBean.actualizarOrdenManto()}"
+							actionListener="#{votatorABean.actualizarOrdenManto()}"
 							oncomplete="PF('dlgEditarManto').hide()" />
 					</div>
 
@@ -898,8 +976,8 @@
 						<p:autoComplete id="operador" size="35" required="false"
 							requiredMessage="Operador requerido" autocomplete="off"
 							placeholder="Ingresa Operador" dropdown="true"
-							value="#{ultraUnoBean.filterOperador}"
-							completeMethod="#{ultraUnoBean.buscarNombreOperador}">
+							value="#{votatorABean.filterOperador}"
+							completeMethod="#{votatorABean.buscarNombreOperador}">
 						</p:autoComplete>
 
 						<p:outputLabel value="" />
@@ -909,8 +987,8 @@
 						<p:autoComplete id="coord" size="35" required="false"
 							requiredMessage="Coordinador requerido" autocomplete="off"
 							placeholder="Ingresa coordinador" dropdown="true"
-							value="#{ultraUnoBean.filterUsuario}"
-							completeMethod="#{ultraUnoBean.buscarNombreCoordinador}">
+							value="#{votatorABean.filterUsuario}"
+							completeMethod="#{votatorABean.buscarNombreCoordinador}">
 						</p:autoComplete>
 
 					</h:panelGrid>
@@ -919,7 +997,7 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{ultraUnoBean.actualizarTurnos()}"
+							actionListener="#{votatorABean.actualizarTurnos()}"
 							oncomplete="PF('dlgEditarTurnos').hide()" />
 					</div>
 
@@ -935,7 +1013,7 @@
 					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
 
 						<p:inputTextarea id="textObs"
-							value="#{ultraUnoBean.folioPrepUltraUno.observaciones}"
+							value="#{votatorABean.folioPreparacionVotatorA.observaciones}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
@@ -945,7 +1023,7 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{ultraUnoBean.guardarObservaciones()}"
+							actionListener="#{votatorABean.guardarObservaciones()}"
 							oncomplete="PF('dlgAgregarObs').hide()" />
 					</div>
 

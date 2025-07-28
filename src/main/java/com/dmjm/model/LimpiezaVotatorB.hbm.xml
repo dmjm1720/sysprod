@@ -53,5 +53,6 @@
 		<property name="idUsuario" type="java.lang.Integer">
 			<column name="ID_USUARIO" />
 		</property>
+
 	</class>
 </hibernate-mapping>

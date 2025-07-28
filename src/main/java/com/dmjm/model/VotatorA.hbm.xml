@@ -3,76 +3,78 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="com.dmjm.model.VotatorA" table="VOTATOR_A" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
-        <id name="idVotator" type="int">
-            <column name="ID_VOTATOR" />
-            <generator class="native" />
-        </id>
-        <many-to-one name="folioPreparacionVotatorA" class="com.dmjm.model.FolioPreparacionVotatorA" fetch="select">
-            <column name="ID_FOLIO_PREP" />
-        </many-to-one>
-        <property name="hora" type="string">
-            <column name="HORA" length="10" />
-        </property>
-        <property name="operacion" type="string">
-            <column name="OPERACION" length="25" />
-        </property>
-        <property name="concRefractomentro" type="big_decimal">
-            <column name="CONC_REFRACTOMENTRO" precision="10" scale="1" />
-        </property>
-        <property name="ph" type="big_decimal">
-            <column name="PH" precision="10" scale="1" />
-        </property>
-        <property name="redoxHumeda" type="java.lang.Integer">
-            <column name="REDOX_HUMEDA" />
-        </property>
-        <property name="temEntVotator" type="java.lang.Integer">
-            <column name="TEM_ENT_VOTATOR" />
-        </property>
-        <property name="tempSalVotator" type="java.lang.Integer">
-            <column name="TEMP_SAL_VOTATOR" />
-        </property>
-        <property name="receptorPsi" type="big_decimal">
-            <column name="RECEPTOR_PSI" precision="10" scale="1" />
-        </property>
-        <property name="succion" type="big_decimal">
-            <column name="SUCCION" precision="10" scale="1" />
-        </property>
-        <property name="descarga" type="big_decimal">
-            <column name="DESCARGA" precision="10" scale="1" />
-        </property>
-        <property name="aceite" type="big_decimal">
-            <column name="ACEITE" precision="10" scale="1" />
-        </property>
-        <property name="motor" type="java.lang.Integer">
-            <column name="MOTOR" />
-        </property>
-        <property name="bombaAlim" type="java.lang.Integer">
-            <column name="BOMBA_ALIM" />
-        </property>
-        <property name="redoxSeco" type="java.lang.Integer">
-            <column name="REDOX_SECO" />
-        </property>
-        <property name="estadoA" type="string">
-            <column name="ESTADO_A" length="2" />
-        </property>
-        <property name="estadoR" type="string">
-            <column name="ESTADO_R" length="2" />
-        </property>
-        <property name="folioVotator" type="java.lang.Integer">
-            <column name="FOLIO_VOTATOR" />
-        </property>
-        <property name="fecha" type="date">
-            <column name="FECHA" length="10" />
-        </property>
-        <property name="estadoAR" type="java.lang.Boolean">
-            <column name="ESTADO_A_R" />
-        </property>
-        <property name="estadoManto" type="java.lang.Boolean">
-            <column name="ESTADO_MANTO" />
-        </property>
-        <property name="estadoLimpieza" type="java.lang.Boolean">
-            <column name="ESTADO_LIMPIEZA" />
-        </property>
-    </class>
+	<class name="com.dmjm.model.VotatorA" table="VOTATOR_A"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idVotator" type="int">
+			<column name="ID_VOTATOR" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionVotatorA"
+			class="com.dmjm.model.FolioPreparacionVotatorA" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="hora" type="string">
+			<column name="HORA" length="10" />
+		</property>
+		<property name="operacion" type="string">
+			<column name="OPERACION" length="25" />
+		</property>
+		<property name="concRefractomentro" type="big_decimal">
+			<column name="CONC_REFRACTOMENTRO" precision="10" scale="1" />
+		</property>
+		<property name="ph" type="big_decimal">
+			<column name="PH" precision="10" scale="1" />
+		</property>
+		<property name="redoxHumeda" type="java.lang.Integer">
+			<column name="REDOX_HUMEDA" />
+		</property>
+		<property name="temEntVotator" type="java.lang.Integer">
+			<column name="TEM_ENT_VOTATOR" />
+		</property>
+		<property name="tempSalVotator" type="java.lang.Integer">
+			<column name="TEMP_SAL_VOTATOR" />
+		</property>
+		<property name="receptorPsi" type="big_decimal">
+			<column name="RECEPTOR_PSI" precision="10" scale="1" />
+		</property>
+		<property name="succion" type="big_decimal">
+			<column name="SUCCION" precision="10" scale="1" />
+		</property>
+		<property name="descarga" type="big_decimal">
+			<column name="DESCARGA" precision="10" scale="1" />
+		</property>
+		<property name="aceite" type="big_decimal">
+			<column name="ACEITE" precision="10" scale="1" />
+		</property>
+		<property name="motor" type="java.lang.Integer">
+			<column name="MOTOR" />
+		</property>
+		<property name="bombaAlim" type="java.lang.Integer">
+			<column name="BOMBA_ALIM" />
+		</property>
+		<property name="redoxSeco" type="java.lang.Integer">
+			<column name="REDOX_SECO" />
+		</property>
+		<property name="estadoA" type="string">
+			<column name="ESTADO_A" length="2" />
+		</property>
+		<property name="estadoR" type="string">
+			<column name="ESTADO_R" length="2" />
+		</property>
+		<property name="folioVotator" type="java.lang.Integer">
+			<column name="FOLIO_VOTATOR" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="estadoAR" type="java.lang.Boolean">
+			<column name="ESTADO_A_R" />
+		</property>
+		<property name="estadoManto" type="java.lang.Boolean">
+			<column name="ESTADO_MANTO" />
+		</property>
+		<property name="estadoLimpieza" type="java.lang.Boolean">
+			<column name="ESTADO_LIMPIEZA" />
+		</property>
+	</class>
 </hibernate-mapping>

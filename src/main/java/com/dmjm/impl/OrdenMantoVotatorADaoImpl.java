@@ -17,7 +17,7 @@ public class OrdenMantoVotatorADaoImpl implements IOrdenMantoVotatorADao {
 	@Override
 	public List<OrdenMantenimientoVotatorA> listaOrdenManto(int folio) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-		    String hql = "FROM OrdenMantenimientoVotatorA c JOIN FETCH c.folioPreparacionVotatorA WHERE c.folioPreparacionEstA.idFolioPrep = :folio";
+		    String hql = "FROM OrdenMantenimientoVotatorA c JOIN FETCH c.folioPreparacionVotatorA WHERE c.folioPreparacionVotatorA.idFolioPrep = :folio";
 		    Query<OrdenMantenimientoVotatorA> query = session.createQuery(hql, OrdenMantenimientoVotatorA.class);
 		    query.setParameter("folio", folio);
 

@@ -227,7 +227,7 @@ public class EsterilizadorPABean implements Serializable {
 
 	public LimpiezaEstA getLimpiezaEditar() {
 		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
-			limpiezaEditar.setQuimico("Agua");
+			limpiezaEditar.setQuimico("AGUA");
 		}
 		return limpiezaEditar;
 	}

@@ -417,7 +417,8 @@ public class CocedoresBean implements Serializable {
 	}
 
 	public Limpieza getLimpiezaEditar() {
-		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
+		if (Objects.nonNull(limpiezaEditar) && ("ENJUAGUE".equals(limpiezaEditar.getProceso())
+				|| "LIMPIEZA MECÁNICA".equals(limpiezaEditar.getProceso()))) {
 			limpiezaEditar.setQuimico("AGUA");
 		}
 
@@ -435,7 +436,6 @@ public class CocedoresBean implements Serializable {
 	public void setPurgas(Purgas purgas) {
 		this.purgas = purgas;
 	}
-
 
 	public Purgas getPurgasEditar() {
 		if (purgasEditar != null && purgasEditar.getNoCocedor() != null) {
@@ -783,11 +783,11 @@ public class CocedoresBean implements Serializable {
 		selectedProcess = null;
 		purgas = new Purgas();
 	}
-	
+
 	public void borrarPurgas() {
 		IPurgasDao pDao = new PurgasDaoImpl();
 		pDao.borrarPurgas(purgas);
-		purgas = new Purgas();	
+		purgas = new Purgas();
 	}
 
 	// **ORDEN DE MANTENIMIENTO**//
@@ -810,7 +810,7 @@ public class CocedoresBean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimiento();
 	}
-	
+
 	public void borrarOrdenManto() {
 		IOrdenMantoDao iDao = new OrdenMantoDaoImpl();
 		iDao.borrarOrdenManto(ordenMantenimientoEditar);

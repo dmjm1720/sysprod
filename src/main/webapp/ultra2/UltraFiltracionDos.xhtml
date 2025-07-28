@@ -278,7 +278,7 @@
 								var="item" sortMode="multiple" reflow="true"
 								paginatorTemplate="
 								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								rows="25" paginator="true" liveScroll="false" rowHover="true"
 								scrollHeight="300" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
 								value="#{ultraDosBean.listaUltrafiltracion}"
@@ -289,15 +289,12 @@
 
 								<p:columnGroup type="header">
 
-									<p:row>
-										<p:column rowspan="5" headerText="Editar" styleClass="datos" />
-									</p:row>
 
 									<p:row>
-										<p:column rowspan="3" headerText="HORA" styleClass="datos"
-											style="font-size: .6rem !important" />
-										<p:column rowspan="4" headerText="OPERACIÓN"
-											styleClass="datos" style="font-size: .6rem !important" />
+										<p:column rowspan="5" headerText="Editar" styleClass="datos" />
+										<p:column rowspan="3" headerText="HORA" styleClass="datos" style="font-size: .6rem !important" />
+										<p:column rowspan="4" colspan="2" headerText="OPERACIÓN" styleClass="datos"
+											style="font-size: .6rem !important;" />
 									</p:row>
 
 
@@ -342,8 +339,8 @@
 										<p:column headerText="Ratio" styleClass="datos" />
 										<p:column headerText="Flujo Salida" styleClass="datos" />
 										<p:column headerText="% Conc.  Permeado" styleClass="datos" />
-										<p:column headerText="Aceptado" styleClass="datos" />
-										<p:column headerText="Rechazado" styleClass="datos" />
+										<p:column headerText="A" styleClass="datos" />
+										<p:column headerText="R" styleClass="datos" />
 									</p:row>
 
 
@@ -370,7 +367,7 @@
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fuenteNaranja'}" />
 								</p:column>
 
-								<p:column headerText="Operación"
+								<p:column colspan="2" headerText="Operación"
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
 									<h:outputText value="#{item.operacion}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
@@ -595,11 +592,11 @@
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
 								</p:column>
-								<p:column headerText="Proceso" width="10rem">
+								<p:column headerText="Hora inicial" width="10rem">
 									<h:outputText value="#{item.horaInicio}"
 										style="color: #036FAB;" />
 								</p:column>
-								<p:column headerText="Hora inicial" width="10rem">
+								<p:column headerText="Hora final" width="10rem">
 									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
 								</p:column>
 							</p:dataTable>
@@ -1093,7 +1090,6 @@
 					showEffect="fade" closeOnEscape="true" minimizable="true"
 					maximizable="true">
 					<h:panelGrid id="pnlEditarLimpieza" columns="2">
-
 						<p:outputLabel for="pro" value="Proceso" />
 						<p:inputText id="pro" styleClass="camposLimpieza" readonly="true"
 							value="#{ultraDosBean.limpiezaEditar.proceso}" required="false"
@@ -1116,19 +1112,19 @@
 
 
 						<p:outputLabel for="lts" value="Litros usados"
-							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}" />
 						<p:inputText id="lts" styleClass="camposLimpieza"
-							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}"
 							value="#{ultraDosBean.limpiezaEditar.litrosUsados}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 
 						<p:outputLabel for="lote" value="Lote"
-							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}" />
 						<p:inputText id="lote" styleClass="camposLimpieza"
 							value="#{ultraDosBean.limpiezaEditar.lote}" required="false"
-							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 
@@ -1173,8 +1169,8 @@
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker
 							value="#{ultraDosBean.ordenMantenimientoEditar.horaFin}"
-							mode="spinner" widgetVar="h10" showOn="button" intervalMinutes="1"
-							endMinutes="59" />
+							mode="spinner" widgetVar="h10" showOn="button"
+							intervalMinutes="1" endMinutes="59" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"

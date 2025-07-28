@@ -24,4 +24,8 @@ public interface IOperadorDao {
 	List<Operador> listaOperadorUltraUno();
 	
 	List<Operador> listaOperadorUltraDos();
+	
+	List<Operador> listaOperadorVotatorA();
+	
+	List<Operador> listaOperadorVotatorB();
 }

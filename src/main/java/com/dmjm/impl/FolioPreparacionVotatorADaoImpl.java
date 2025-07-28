@@ -15,7 +15,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.dmjm.dao.IFolioPreparacionVotatorADao;
-import com.dmjm.model.FolioPreparacionEstA;
 import com.dmjm.model.FolioPreparacionVotatorA;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;

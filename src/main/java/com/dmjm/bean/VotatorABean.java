@@ -2,8 +2,11 @@ package com.dmjm.bean;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +18,8 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
 
@@ -24,6 +29,7 @@ import com.dmjm.dao.ILimpiezaVotatorADao;
 import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IOrdenMantoVotatorADao;
 import com.dmjm.dao.IRegistroTurnosDao;
+import com.dmjm.dao.IResumenVotatorADao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.dao.IVotatorADao;
@@ -33,6 +39,7 @@ import com.dmjm.impl.LimpiezaVotatorADaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
 import com.dmjm.impl.OrdenMantoVotatorADaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
+import com.dmjm.impl.ResumenVotatorADaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.VotatorADaoImpl;
@@ -41,13 +48,14 @@ import com.dmjm.model.LimpiezaVotatorA;
 import com.dmjm.model.Operador;
 import com.dmjm.model.OrdenMantenimientoVotatorA;
 import com.dmjm.model.RegistroTurnos;
+import com.dmjm.model.ResumenVotatorA;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
 import com.dmjm.model.VotatorA;
 import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
-@Named("votatorA")
+@Named("votatorABean")
 @ViewScoped
 public class VotatorABean implements Serializable {
 
@@ -95,6 +103,7 @@ public class VotatorABean implements Serializable {
 	private List<String> procesos;
 
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
+	private static final Logger LOGGER = LogManager.getLogger(VotatorABean.class.getName());
 
 	public VotatorABean() {
 
@@ -225,7 +234,7 @@ public class VotatorABean implements Serializable {
 
 	public LimpiezaVotatorA getLimpiezaEditar() {
 		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
-			limpiezaEditar.setQuimico("Agua");
+			limpiezaEditar.setQuimico("AGUA");
 		}
 		return limpiezaEditar;
 	}
@@ -243,7 +252,7 @@ public class VotatorABean implements Serializable {
 				fecha = listaVotator.get(i).getFecha();
 			}
 		} else {
-			listaVotator = eDao.listaFiltroVotator();
+			listaVotator = eDao.listaVotator();
 		}
 
 		return listaVotator;
@@ -299,14 +308,14 @@ public class VotatorABean implements Serializable {
 
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
-		listaOperadores = oDao.listaOperadorEstPlantaA();
+		listaOperadores = oDao.listaOperadorVotatorA();
 		return listaOperadores;
 	}
 
 	public void guardarOperador() {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		operador.setEstado("Activo");
-		operador.setProceso("Est Planta A");
+		operador.setProceso("Votator Planta A");
 		oDao.guardarOperador(operador);
 		operador = new Operador();
 
@@ -385,7 +394,6 @@ public class VotatorABean implements Serializable {
 				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", ":00", "1:00", "2:00", "3:00", "4:00",
 				"5:00", "6:00", "PROM." };
 
-
 		IVotatorADao cDao = new VotatorADaoImpl();
 
 		votator = new VotatorA();
@@ -395,12 +403,11 @@ public class VotatorABean implements Serializable {
 		int folio = 0;
 		year = LocalDate.now().getYear();
 		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
-		
+
 		folio = folDao.buscarFolioVotatorA(year);
 
 		// **FOLIO_PREPARACION_VOTATOR_A**//
 
-		
 		IFolioPreparacionVotatorADao estDao = new FolioPreparacionVotatorADaoImpl();
 		FolioPreparacionVotatorA fpe = new FolioPreparacionVotatorA();
 		fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio));
@@ -423,7 +430,7 @@ public class VotatorABean implements Serializable {
 	}
 
 	public void actualizarVotator() {
-		
+
 		IVotatorADao cDao = new VotatorADaoImpl();
 
 		String oper = votatorEditar.getOperacion().replaceAll("\\s+", "");
@@ -495,46 +502,45 @@ public class VotatorABean implements Serializable {
 	public void actualizarPromedios(int folio) {
 		IVotatorADao conc_refractometro = new VotatorADaoImpl();
 		conc_refractometro.actualizarConcentradoRefractometro(folio);
-		
+
 		IVotatorADao ph = new VotatorADaoImpl();
 		ph.actualizarPH(folio);
-		
+
 		IVotatorADao redox = new VotatorADaoImpl();
 		redox.actualizarRedoxHumeda(folio);
-		
+
 		IVotatorADao temp_ent = new VotatorADaoImpl();
 		temp_ent.actualizarTempEntVotator(folio);
-		
+
 		IVotatorADao temp_sal = new VotatorADaoImpl();
 		temp_sal.actualizarTempSalVotator(folio);
-		
+
 		IVotatorADao receptor = new VotatorADaoImpl();
 		receptor.actualizarReceptorPSI(folio);
-		
+
 		IVotatorADao succion = new VotatorADaoImpl();
 		succion.actualizarSuccion(folio);
-		
+
 		IVotatorADao descarga = new VotatorADaoImpl();
 		descarga.actualizarDescarga(folio);
-		
+
 		IVotatorADao aceite = new VotatorADaoImpl();
 		aceite.actualizarAceite(folio);
-		
+
 		IVotatorADao motor = new VotatorADaoImpl();
 		motor.actualizarMotor(folio);
-		
+
 		IVotatorADao bomba_alim = new VotatorADaoImpl();
 		bomba_alim.actualizarBombaAlim(folio);
-		
+
 		IVotatorADao redox_seco = new VotatorADaoImpl();
 		redox_seco.actualizarRedoxSeco(folio);
-
 
 	}
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
+		String datosLimpieza[] = { "ENJUAGUE", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
 
 		FolioPreparacionVotatorA f = new FolioPreparacionVotatorA();
 		f.setIdFolioPrep(folioPrepVotator);
@@ -542,14 +548,14 @@ public class VotatorABean implements Serializable {
 		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
 
 		ILimpiezaVotatorADao validaDao = new LimpiezaVotatorADaoImpl();
-	 
+
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepVotator);
 
 		// validación de limpieza para agregar en la tabla de cocedores
 
 		ILimpiezaVotatorADao lDao = new LimpiezaVotatorADaoImpl();
-		
+
 		IVotatorADao vDao = new VotatorADaoImpl();
 		vDao.actualizarLimpieza(folioPrepVotator, noDeLimpieza);
 		for (String l : datosLimpieza) {
@@ -629,7 +635,7 @@ public class VotatorABean implements Serializable {
 	public List<RegistroTurnos> getListarRegistroTurnos() {
 
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
-		listarRegistroTurnos = rDao.listaRegistroTurnosEstA(fecha);
+		listarRegistroTurnos = rDao.listaRegistroTurnosVotatorA(fecha);
 		IFolioPreparacionVotatorADao folioPrepDao = new FolioPreparacionVotatorADaoImpl();
 		this.folioPrepVotator = folioPrepDao.folioVotatorAActual(fecha);
 		return listarRegistroTurnos;
@@ -662,13 +668,13 @@ public class VotatorABean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre, "Est Planta A");
+		return tDao.completeOperador(nombre, "Votator Planta A");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre, "Est Planta A");
+		return tDao.buscarOperador(nombre, "Votator Planta A");
 	}
 
 	// **ORDEN DE MANTENIMIENTO**//
@@ -760,7 +766,6 @@ public class VotatorABean implements Serializable {
 
 	}
 
-
 	public void deleteLimpieza() {
 		// validación de limpieza para agregar en la tabla de cocedores
 		IVotatorADao vDao = new VotatorADaoImpl();
@@ -790,6 +795,105 @@ public class VotatorABean implements Serializable {
 		for (int i = 0; i < listaFolioVotatorPA.size(); i++) {
 			folioPrepVotatorPA.setObservaciones(listaFolioVotatorPA.get(i).getObservaciones());
 		}
+	}
+
+	// VALIDACIONES DE RESUMEN
+
+	public void resumenVotator() throws ParseException {
+		IResumenVotatorADao rDao = new ResumenVotatorADaoImpl();
+		rDao.borrarResumen(folioPrepVotator);
+
+		IResumenVotatorADao gDao = new ResumenVotatorADaoImpl();
+		// OBTENER LAS DIFERENTES OPERACIONES DE LA CAPTURA
+		IVotatorADao operacionesDao = new VotatorADaoImpl();
+		List<String> listaOperaciones = operacionesDao.listarOperaciones(folioPrepVotator);
+		for (int i = 0; i < listaOperaciones.size(); i++) {
+			System.out.println(listaOperaciones.get(i));
+			LOGGER.info("OPERACION: " + listaOperaciones.get(i));
+			// OBTERNER LA PRIMERA HORA DE LA OPERACION
+			IVotatorADao primeraHoraDao = new VotatorADaoImpl();
+			LOGGER.info(
+					"PRIMERA HORA: " + primeraHoraDao.obtenerPrimeraHora(listaOperaciones.get(i), folioPrepVotator));
+
+			IVotatorADao ultimaHoraDao = new VotatorADaoImpl();
+			LOGGER.info("ULTIMA HORA: " + ultimaHoraDao.obtenerUltimaHora(listaOperaciones.get(i), folioPrepVotator));
+
+			ResumenVotatorA resumen = new ResumenVotatorA();
+			resumen.setNoOperacion(listaOperaciones.get(i));
+
+			String horaPStr = primeraHoraDao.obtenerPrimeraHora(listaOperaciones.get(i), folioPrepVotator);
+
+			if (horaPStr.equals(":00")) {
+				horaPStr = "00:00";
+			}
+
+			Boolean horaInicial = validarHora(horaPStr.trim());
+			if (horaInicial.equals(true)) {
+				resumen.setFechaInicio(sumarUnDia(fecha));
+			} else {
+				resumen.setFechaInicio(fecha);
+			}
+
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+			Date horaInicio = sdf.parse(horaPStr);
+
+			String horaUStr = ultimaHoraDao.obtenerUltimaHora(listaOperaciones.get(i), folioPrepVotator);
+			if (horaUStr.equals(":00")) {
+				horaUStr = "00:00";
+			}
+			Boolean horaFinal = validarHora(horaUStr.trim());
+
+			SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+			Date horaFin = sdf2.parse(horaUStr);
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(horaFin);
+			calendar.add(Calendar.HOUR_OF_DAY, 1); // suma una hora
+
+			Date horaFinMasUna = calendar.getTime();
+
+			resumen.setHoraInicio(horaInicio);
+			if (horaFinal.equals(true)) {
+				resumen.setFechaFinal(sumarUnDia(fecha));
+			} else {
+				resumen.setFechaFinal(fecha);
+			}
+
+			resumen.setHoraFinal(horaFinMasUna);
+
+			// Ajustar si se cruzó medianoche
+
+			int horaInicioH = horaInicio.getHours();
+			int horaFinH = horaFin.getHours();
+
+			// Ajustar si se cruzó medianoche
+			if (horaFinH < horaInicioH) {
+				horaFinH += 24;
+			}
+			int difHoras = horaFinH - horaInicioH;
+
+			resumen.setTiempo(difHoras + 1);
+			FolioPreparacionVotatorA f = new FolioPreparacionVotatorA();
+			f.setIdFolioPrep(folioPrepVotator);
+			resumen.setFolioPreparacionVotatorA(f);
+			gDao.guardarResumen(resumen);
+
+		}
+
+	}
+
+	public Date sumarUnDia(Date fecha) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fecha);
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+		return cal.getTime();
+	}
+
+	public Boolean validarHora(String hora) {
+		if (hora.equals(":00") || hora.equals("1:00") || hora.equals("2:00") || hora.equals("3:00")
+				|| hora.equals("4:00") || hora.equals("5:00") || hora.equals("6:00")) {
+			return true;
+		}
+		return false;
 	}
 
 }
