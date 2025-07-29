@@ -34,6 +34,6 @@ public interface IFolioProcesosDao {
 
 	int buscarFolioVotatorB(int year);
 
-	void actualizarFolioVotatorb(int year, int folio);
+	void actualizarFolioVotatorB(int year, int folio);
 
 }

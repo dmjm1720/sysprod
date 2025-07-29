@@ -196,6 +196,7 @@
 												icon="pi pi-file-excel" style="width: 2rem; height: 2rem">
 											</p:commandButton>
 										</div>
+
 									</h:panelGrid>
 								</p:splitterPanel>
 
@@ -216,7 +217,7 @@
 
 										<p:commandButton value="BUSCAR" styleClass="fuente"
 											actionListener="#{votatorABean.filtrarPorFecha()}"
-											update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos"
+											update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblResumen"
 											icon="pi pi-filter" style="width: 6rem; height: 2rem">
 										</p:commandButton>
 									</h:panelGrid>
@@ -281,7 +282,7 @@
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:ajax event="page" listener="#{votatorABean.onPageChange}"
-									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos" />
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblResumen" />
 
 								<p:columnGroup type="header">
 
@@ -410,30 +411,29 @@
 									<h:outputText value="#{item.hora}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fuenteNaranja'}" />
 								</p:column>
-
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
 									<h:outputText value="#{item.operacion}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
+
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
 									<h:outputText value="#{item.concRefractomentro}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
 									<h:outputText value="#{item.ph}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
 									<h:outputText value="#{item.redoxHumeda}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
+
 
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
@@ -447,44 +447,42 @@
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
+
 								<p:column headerText=""
-									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
 									<h:outputText value="#{item.receptorPsi}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
 									<h:outputText value="#{item.succion}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
 									<h:outputText value="#{item.descarga}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-
 								<p:column headerText=""
-									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
 									<h:outputText value="#{item.aceite}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-								
+
+
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
 									<h:outputText value="#{item.motor}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-								
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
 									<h:outputText value="#{item.bombaAlim}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-								
+
 								<p:column headerText=""
-									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
 									<h:outputText value="#{item.redoxSeco}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
@@ -504,16 +502,75 @@
 											styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 									</div>
 								</p:column>
-
 							</p:dataTable>
 						</p:tab>
 
+						<p:tab title="RESUMEN DE TIEMPOS VOTATOR A" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #FC9322; color: #F5F5F5">
+							<p:commandButton value="ACTUALIZAR RESUMEN" styleClass="fuente"
+								actionListener="#{votatorABean.resumenVotator()}"
+								update="frmPrincipal:acco:tblResumen" icon="pi pi-file-excel"
+								style="width: 10rem; height: 2rem">
+							</p:commandButton>
+							<p:dataTable id="tblResumen" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="210" scrollWidth="40%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{votatorABean.listaResumenVotator.size()}"
+								value="#{votatorABean.listaResumenVotator}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="No. Operación" width="4rem">
+									<h:outputText value="#{item.noOperacion}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Fecha inicio" width="4rem">
+									<h:outputText value="#{item.fechaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora inicio" width="4rem">
+									<h:outputText value="#{item.horaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Fecha final" width="4rem">
+									<h:outputText value="#{item.fechaFinal}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="4rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Tiempo" width="4rem">
+									<h:outputText value="#{item.tiempo}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
 
 						<p:tab title="LIMPIEZA" menuTitle="Options"
 							titleStyle="font-size: .8rem; background-color: #008080; color: #F5F5F5">
 
 							<h:panelGrid id="pgLimpieza" columns="12"
 								styleClass="tabla fuente">
+
+								<p:selectOneMenu id="cocLimp"
+									value="#{votatorABean.cocedorSeleccionado}" dynamic="true">
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="TANQUE NORTE Y TUBERÍA"
+										itemValue="TANQUE NORTE Y TUBERÍA" />
+									<f:selectItem itemLabel="TANQUE SUR Y TUBERÍA"
+										itemValue="TANQUE SUR Y TUBERÍA" />
+									<f:selectItem itemLabel="TANQUE FUERTE Y TUBERÍA"
+										itemValue="TANQUE FUERTE Y TUBERÍA" />
+									<f:selectItem itemLabel="TANQUE Y TUBERÍA DE ENZIMA"
+										itemValue="TANQUE Y TUBERÍA DE ENZIMA" />
+								</p:selectOneMenu>
 
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
@@ -593,6 +650,9 @@
 								<p:column headerText="Proceso" width="5rem">
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
+								<p:column headerText="Equipo" width="5rem">
+									<h:outputText value="#{item.noVotator}" style="color: #036FAB;" />
+								</p:column>
 
 								<p:column headerText="Hora inicial" width="4rem">
 									<h:outputText value="#{item.horaInicial}"
@@ -603,17 +663,27 @@
 									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Químico" width="6rem">
+								<p:column headerText="P. Químico" width="6rem">
 									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="Litros usados" width="4rem">
+								<p:column headerText="Cantidad usada" width="4rem">
 									<h:outputText value="#{item.litrosUsados}"
 										style="color: #036FAB;" />
 								</p:column>
 
+								<p:column headerText="Unidad de medida" width="4rem">
+									<h:outputText value="#{item.um}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Temperatura" width="4rem">
+									<h:outputText value="#{item.temperatura}"
+										style="color: #036FAB;" />
+								</p:column>
 								<p:column headerText="Lote" width="6rem">
 									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="pH Final" width="4rem">
+									<h:outputText value="#{item.phFinal}" style="color: #036FAB;" />
 								</p:column>
 
 								<p:column headerText="VoBo" width="5rem"
@@ -746,88 +816,98 @@
 				<p:dialog header="Actualizar información de Ultrafiltración I"
 					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
 					closeOnEscape="true" minimizable="true" maximizable="true">
-					<p:column headerText="No. Limpieza" width="3rem">
-						<div style="text-align: center">
-							<h:outputText value="#{item.noLimpieza}" style="color: #036FAB;" />
-						</div>
-					</p:column>
 					<h:panelGrid id="pnlEditar" columns="4">
 
 
 						<p:outputLabel for="horario" value="Horario" />
 						<p:inputText id="horario" styleClass="fuenteNaranja"
-							disabled="true"
-							value="{votatorABean.ultraFiltracionUnoEditar.hora}"
+							disabled="true" value="#{votatorABean.votatorEditar.hora}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="operacion" value="Operación" />
 						<p:inputText id="operacion" styleClass="camposCocedores"
-							value="{votatorABean.ultraFiltracionUnoEditar.operacion}"
-							required="false" requiredMessage="Campo requerido"
-							style="width: 8rem" />
+							value="#{votatorABean.votatorEditar.operacion}" required="false"
+							requiredMessage="Campo requerido" style="width: 8rem" />
 
-						<p:outputLabel for="flujoEnt" value="Flujo Ent. LPH" />
-						<p:inputText id="flujoEnt"
-							value="{votatorABean.ultraFiltracionUnoEditar.flujoEntrada}"
-							required="false" requiredMessage="Campo requerido"
-							styleClass="camposCocedores" style="width: 5rem" />
-
-						<p:outputLabel for="tem01" value="Temp. °C" />
-						<p:inputText id="tem01"
-							value="{votatorABean.ultraFiltracionUnoEditar.temp01}"
-							required="false" requiredMessage="Campo requerido"
-							styleClass="camposCocedores" style="width: 5rem" />
-
-						<p:outputLabel for="con" value="% Conc. Entrada" />
+						<p:outputLabel for="con" value="Con. En Refactó-metro %" />
 						<p:inputText id="con"
-							value="{votatorABean.ultraFiltracionUnoEditar.concEntrada}"
+							value="#{votatorABean.votatorEditar.concRefractomentro}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
-						<p:outputLabel for="temp02" value="Temp. °C" />
-						<p:inputText id="temp02"
-							value="{votatorABean.ultraFiltracionUnoEditar.temp02}"
+						<p:outputLabel for="ph" value="pH" />
+						<p:inputText id="ph" value="#{votatorABean.votatorEditar.ph}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
-						<p:outputLabel for="psi" value="Presión PSI" />
-						<p:inputText id="psi"
-							value="{votatorABean.ultraFiltracionUnoEditar.presionPsi}"
+						<p:outputLabel for="redox" value="Redox (p.p.m.H2O2)" />
+						<p:inputText id="redox"
+							value="#{votatorABean.votatorEditar.redoxHumeda}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
-						<p:outputLabel for="flujoPerm" value="Flujo Perm. LPH" />
-						<p:inputText id="flujoPerm"
-							value="{votatorABean.ultraFiltracionUnoEditar.flujoPerm}"
+						<p:outputLabel for="ent" value="Entrada °C" />
+						<p:inputText id="ent"
+							value="#{votatorABean.votatorEditar.temEntVotator}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
-						<p:outputLabel for="conSalida" value="Conc. Salida %" />
-						<p:inputText id="conSalida"
-							value="{votatorABean.ultraFiltracionUnoEditar.concSalida}"
+						<p:outputLabel for="sal" value="Salida °C" />
+						<p:inputText id="sal"
+							value="#{votatorABean.votatorEditar.tempSalVotator}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
-						<p:outputLabel for="flujoSalida" value="Flujo Salida" />
-						<p:inputText id="flujoSalida"
-							value="{votatorABean.ultraFiltracionUnoEditar.flujoSalida}"
+						<p:outputLabel for="recep" value="Recep-tor (PSI)" />
+						<p:inputText id="recep"
+							value="#{votatorABean.votatorEditar.receptorPsi}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
-						<p:outputLabel for="concPerm" value="% Conc. Permeado" />
-						<p:inputText id="concPerm"
-							value="{votatorABean.ultraFiltracionUnoEditar.concPermeado}"
-							required="false" requiredMessage="Campo requerido"
-							styleClass="camposCocedores" style="width: 5rem" />
+						<p:outputLabel for="succ" value="Succión (Kg/cm²)" />
+						<p:inputText id="succ"
+							value="#{votatorABean.votatorEditar.succion}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="desc" value="Descarga (Kg/cm²)" />
+						<p:inputText id="desc"
+							value="#{votatorABean.votatorEditar.descarga}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="aceite" value="Aceite (Kg/cm²)" />
+						<p:inputText id="aceite"
+							value="#{votatorABean.votatorEditar.aceite}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="motor" value="Motor (AMP.)" />
+						<p:inputText id="motor"
+							value="#{votatorABean.votatorEditar.motor}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="bomba" value="Bomba Alim. (HERTZ)" />
+						<p:inputText id="bomba"
+							value="#{votatorABean.votatorEditar.bombaAlim}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="red" value="REDOX p.p.m. (ppm H2O2)" />
+						<p:inputText id="red"
+							value="#{votatorABean.votatorEditar.redoxSeco}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
 
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />
 						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
-							styleClass="{votatorABean.ultraFiltracionUnoEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+							styleClass="{votatorABean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
 						<p:selectOneButton id="a"
-							value="{votatorABean.ultraFiltracionUnoEditar.estadoAR}"
-							styleClass="{votatorABean.ultraFiltracionUnoEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							value="{votatorABean.votatorEditar.estadoAR}"
+							styleClass="{votatorABean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
 							<f:selectItem itemLabel="Aceptado" itemValue="true" />
 							<f:selectItem itemLabel="Rechazado" itemValue="false" />
 							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />
@@ -843,7 +923,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{votatorABean.actualizarUltraUno()}"
+							actionListener="#{votatorABean.actualizarVotator()}"
 							oncomplete="PF('dlgEditar').hide()" />
 					</div>
 
@@ -877,13 +957,13 @@
 							endMinutes="59" />
 
 
-						<p:outputLabel for="qui" value="Químico" />
+						<p:outputLabel for="qui" value="P. Químico" />
 						<p:inputText id="qui" styleClass="camposLimpieza"
 							value="#{votatorABean.limpiezaEditar.quimico}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 
-						<p:outputLabel for="lts" value="Litros usados"
+						<p:outputLabel for="lts" value="Cantidad Usada"
 							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="lts" styleClass="camposLimpieza"
 							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
@@ -891,6 +971,16 @@
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
+						<p:outputLabel for="um" value="Unidad de medida" />
+						<p:inputText id="um" styleClass="camposLimpieza"
+							value="#{votatorABean.limpiezaEditar.um}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+						<p:outputLabel for="tem" value="Temperatura" />
+						<p:inputText id="tem" styleClass="camposLimpieza"
+							value="#{votatorABean.limpiezaEditar.temperatura}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
 
 						<p:outputLabel for="lote" value="Lote"
 							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
@@ -899,6 +989,10 @@
 							rendered="#{votatorABean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
+						<p:outputLabel for="phf" value="pH Final" />
+						<p:inputText id="phf" styleClass="camposLimpieza"
+							value="#{votatorABean.limpiezaEditar.phFinal}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
 
 					</h:panelGrid>
 

@@ -23,58 +23,58 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
 
-import com.dmjm.dao.IFolioPreparacionVotatorADao;
+import com.dmjm.dao.IFolioPreparacionVotatorBDao;
 import com.dmjm.dao.IFolioProcesosDao;
-import com.dmjm.dao.ILimpiezaVotatorADao;
+import com.dmjm.dao.ILimpiezaVotatorBDao;
 import com.dmjm.dao.IOperadorDao;
-import com.dmjm.dao.IOrdenMantoVotatorADao;
+import com.dmjm.dao.IOrdenMantoVotatorBDao;
 import com.dmjm.dao.IRegistroTurnosDao;
-import com.dmjm.dao.IResumenVotatorADao;
+import com.dmjm.dao.IResumenVotatorBDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
-import com.dmjm.dao.IVotatorADao;
-import com.dmjm.impl.FolioPreparacionVotatorADaoImpl;
+import com.dmjm.dao.IVotatorBDao;
+import com.dmjm.impl.FolioPreparacionVotatorBDaoImpl;
 import com.dmjm.impl.FolioProcesosDaoImpl;
-import com.dmjm.impl.LimpiezaVotatorADaoImpl;
+import com.dmjm.impl.LimpiezaVotatorBDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
-import com.dmjm.impl.OrdenMantoVotatorADaoImpl;
+import com.dmjm.impl.OrdenMantoVotatorBDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
-import com.dmjm.impl.ResumenVotatorADaoImpl;
+import com.dmjm.impl.ResumenVotatorBDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
-import com.dmjm.impl.VotatorADaoImpl;
-import com.dmjm.model.FolioPreparacionVotatorA;
-import com.dmjm.model.LimpiezaVotatorA;
+import com.dmjm.impl.VotatorBDaoImpl;
+import com.dmjm.model.FolioPreparacionVotatorB;
+import com.dmjm.model.LimpiezaVotatorB;
 import com.dmjm.model.Operador;
-import com.dmjm.model.OrdenMantenimientoVotatorA;
+import com.dmjm.model.OrdenMantenimientoVotatorB;
 import com.dmjm.model.RegistroTurnos;
-import com.dmjm.model.ResumenVotatorA;
+import com.dmjm.model.ResumenVotatorB;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
-import com.dmjm.model.VotatorA;
+import com.dmjm.model.VotatorB;
 import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
-@Named("votatorABean")
+@Named("votatorBBean")
 @ViewScoped
-public class VotatorABean implements Serializable {
+public class VotatorBBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<VotatorA> listaVotator;
-	private VotatorA votator;
-	private VotatorA votatorEditar;
+	private List<VotatorB> listaVotator;
+	private VotatorB votator;
+	private VotatorB votatorEditar;
 
-	private List<VotatorA> listaFiltroVotatorPA;
+	private List<VotatorB> listaFiltroVotatorPB;
 
 	private Date fecha;
 	private int folioFecha;
 	private int folioPrepVotator;
 	private Date fechaFiltro;
 
-	private LimpiezaVotatorA limpieza;
-	private List<LimpiezaVotatorA> limpiezaVotatorA;
-	private LimpiezaVotatorA limpiezaEditar;
+	private LimpiezaVotatorB limpieza;
+	private List<LimpiezaVotatorB> limpiezaVotatorB;
+	private LimpiezaVotatorB limpiezaEditar;
 
 	private String filterTurno;
 	private String filterUsuario;
@@ -88,38 +88,38 @@ public class VotatorABean implements Serializable {
 	private RegistroTurnos registroTurnosEditar;
 	private List<RegistroTurnos> listarRegistroTurnos;
 
-	private List<OrdenMantenimientoVotatorA> listaOrdenManto;
-	private OrdenMantenimientoVotatorA ordenMantenimiento;
-	private OrdenMantenimientoVotatorA ordenMantenimientoEditar;
+	private List<OrdenMantenimientoVotatorB> listaOrdenManto;
+	private OrdenMantenimientoVotatorB ordenMantenimiento;
+	private OrdenMantenimientoVotatorB ordenMantenimientoEditar;
 
 	private List<Integer> listaLimpiezas;
 
 	private int noLimpiezaSeleccionadaBorrar;
 	private int noLimpiezaVoBo;
 
-	private List<FolioPreparacionVotatorA> listaFolioVotatorPA;
-	private FolioPreparacionVotatorA folioPrepVotatorPA;
+	private List<FolioPreparacionVotatorB> listaFolioVotatorPB;
+	private FolioPreparacionVotatorB folioPrepVotatorPB;
 	private String cocedorSeleccionado;
 	private List<String> procesos;
 	
-	private List<ResumenVotatorA> listaResumenVotator;
+	private List<ResumenVotatorB> listaResumenVotator;
 
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
-	private static final Logger LOGGER = LogManager.getLogger(VotatorABean.class.getName());
+	private static final Logger LOGGER = LogManager.getLogger(VotatorBBean.class.getName());
 
-	public VotatorABean() {
+	public VotatorBBean() {
 
 	}
 
 	@PostConstruct
 	public void init() {
 		listaVotator = new ArrayList<>();
-		votator = new VotatorA();
-		votatorEditar = new VotatorA();
+		votator = new VotatorB();
+		votatorEditar = new VotatorB();
 
-		limpieza = new LimpiezaVotatorA();
-		limpiezaVotatorA = new ArrayList<>();
-		limpiezaEditar = new LimpiezaVotatorA();
+		limpieza = new LimpiezaVotatorB();
+		limpiezaVotatorB = new ArrayList<>();
+		limpiezaEditar = new LimpiezaVotatorB();
 
 		operador = new Operador();
 		operadorEditar = new Operador();
@@ -130,22 +130,22 @@ public class VotatorABean implements Serializable {
 		registroTurnosEditar = new RegistroTurnos();
 
 		listaOrdenManto = new ArrayList<>();
-		ordenMantenimiento = new OrdenMantenimientoVotatorA();
-		ordenMantenimientoEditar = new OrdenMantenimientoVotatorA();
+		ordenMantenimiento = new OrdenMantenimientoVotatorB();
+		ordenMantenimientoEditar = new OrdenMantenimientoVotatorB();
 
-		listaFiltroVotatorPA = new ArrayList<>();
-		IVotatorADao lfDao = new VotatorADaoImpl();
-		listaFiltroVotatorPA = lfDao.listaFiltroVotator();
+		listaFiltroVotatorPB = new ArrayList<>();
+		IVotatorBDao lfDao = new VotatorBDaoImpl();
+		listaFiltroVotatorPB = lfDao.listaFiltroVotator();
 
 		listaLimpiezas = new ArrayList<>();
-		folioPrepVotatorPA = new FolioPreparacionVotatorA();
+		folioPrepVotatorPB = new FolioPreparacionVotatorB();
 		listaResumenVotator = new ArrayList<>();
 		
 		primera();
 		getListarRegistroTurnos();
-		getLimpiezaVotatorA();
+		getLimpiezaVotatorB();
 		getListaOrdenManto();
-		getListaFolioVotatorPA();
+		getListaFolioVotatorPB();
 		getListaResumenVotator();
 		procesos = new ArrayList<>();
 		procesos.add("Cocedor 1");
@@ -163,8 +163,8 @@ public class VotatorABean implements Serializable {
 
 	
 	
-	public List<ResumenVotatorA> getListaResumenVotator() {
-		IResumenVotatorADao rDao = new ResumenVotatorADaoImpl();
+	public List<ResumenVotatorB> getListaResumenVotator() {
+		IResumenVotatorBDao rDao = new ResumenVotatorBDaoImpl();
 		listaResumenVotator = rDao.listaResumen(folioPrepVotator);
 		return listaResumenVotator;
 	}
@@ -174,23 +174,23 @@ public class VotatorABean implements Serializable {
 	}
 
 	public List<Integer> getListaLimpiezas() throws SQLException {
-		ILimpiezaVotatorADao lDao = new LimpiezaVotatorADaoImpl();
+		ILimpiezaVotatorBDao lDao = new LimpiezaVotatorBDaoImpl();
 		listaLimpiezas = lDao.noLimpieza(folioPrepVotator);
 		return listaLimpiezas;
 	}
 
-	public List<FolioPreparacionVotatorA> getListaFolioVotatorPA() {
-		IFolioPreparacionVotatorADao lDao = new FolioPreparacionVotatorADaoImpl();
-		listaFolioVotatorPA = lDao.listaFolioVotatorA(folioPrepVotator);
-		return listaFolioVotatorPA;
+	public List<FolioPreparacionVotatorB> getListaFolioVotatorPB() {
+		IFolioPreparacionVotatorBDao lDao = new FolioPreparacionVotatorBDaoImpl();
+		listaFolioVotatorPB = lDao.listaFolioVotatorB(folioPrepVotator);
+		return listaFolioVotatorPB;
 	}
 
-	public FolioPreparacionVotatorA getFolioPreparacionVotatorA() {
-		return folioPrepVotatorPA;
+	public FolioPreparacionVotatorB getFolioPreparacionVotatorB() {
+		return folioPrepVotatorPB;
 	}
 
-	public void setFolioPreparacionVotatorA(FolioPreparacionVotatorA folioPrepVotatorPA) {
-		this.folioPrepVotatorPA = folioPrepVotatorPA;
+	public void setFolioPreparacionVotatorB(FolioPreparacionVotatorB folioPrepVotatorPB) {
+		this.folioPrepVotatorPB = folioPrepVotatorPB;
 	}
 
 	public int getNoLimpiezaSeleccionadaBorrar() {
@@ -209,23 +209,23 @@ public class VotatorABean implements Serializable {
 		this.noLimpiezaVoBo = noLimpiezaVoBo;
 	}
 
-	public List<VotatorA> getListaFiltroVotatorPA() {
-		return listaFiltroVotatorPA;
+	public List<VotatorB> getListaFiltroVotatorPB() {
+		return listaFiltroVotatorPB;
 	}
 
-	public VotatorA getVotator() {
+	public VotatorB getVotator() {
 		return votator;
 	}
 
-	public void setVotator(VotatorA votator) {
+	public void setVotator(VotatorB votator) {
 		this.votator = votator;
 	}
 
-	public VotatorA getVotatorEditar() {
+	public VotatorB getVotatorEditar() {
 		return votatorEditar;
 	}
 
-	public void setVotatorEditar(VotatorA votatorEditar) {
+	public void setVotatorEditar(VotatorB votatorEditar) {
 		this.votatorEditar = votatorEditar;
 	}
 
@@ -245,19 +245,19 @@ public class VotatorABean implements Serializable {
 		this.cocedorSeleccionado = cocedorSeleccionado;
 	}
 
-	public LimpiezaVotatorA getLimpiezaEditar() {
+	public LimpiezaVotatorB getLimpiezaEditar() {
 		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())) {
 			limpiezaEditar.setQuimico("AGUA");
 		}
 		return limpiezaEditar;
 	}
 
-	public void setLimpiezaEditar(LimpiezaVotatorA limpiezaEditar) {
+	public void setLimpiezaEditar(LimpiezaVotatorB limpiezaEditar) {
 		this.limpiezaEditar = limpiezaEditar;
 	}
 
-	public List<VotatorA> getListaVotator() {
-		IVotatorADao eDao = new VotatorADaoImpl();
+	public List<VotatorB> getListaVotator() {
+		IVotatorBDao eDao = new VotatorBDaoImpl();
 		if (fechaFiltro != null) {
 			listaVotator = eDao.listaPorFechaVotator(fechaFiltro);
 			for (int i = 0; i < 1; i++) {
@@ -295,40 +295,40 @@ public class VotatorABean implements Serializable {
 		this.folioPrepVotator = folioPrepVotator;
 	}
 
-	public OrdenMantenimientoVotatorA getOrdenMantenimiento() {
+	public OrdenMantenimientoVotatorB getOrdenMantenimiento() {
 		return ordenMantenimiento;
 	}
 
-	public void setOrdenMantenimiento(OrdenMantenimientoVotatorA ordenMantenimiento) {
+	public void setOrdenMantenimiento(OrdenMantenimientoVotatorB ordenMantenimiento) {
 		this.ordenMantenimiento = ordenMantenimiento;
 	}
 
-	public OrdenMantenimientoVotatorA getOrdenMantenimientoEditar() {
+	public OrdenMantenimientoVotatorB getOrdenMantenimientoEditar() {
 		return ordenMantenimientoEditar;
 	}
 
-	public void setOrdenMantenimientoEditar(OrdenMantenimientoVotatorA ordenMantenimientoEditar) {
+	public void setOrdenMantenimientoEditar(OrdenMantenimientoVotatorB ordenMantenimientoEditar) {
 		this.ordenMantenimientoEditar = ordenMantenimientoEditar;
 	}
 
-	public List<OrdenMantenimientoVotatorA> getListaOrdenManto() {
-		IOrdenMantoVotatorADao oDao = new OrdenMantoVotatorADaoImpl();
-		IFolioPreparacionVotatorADao folioPrepDao = new FolioPreparacionVotatorADaoImpl();
-		this.folioPrepVotator = folioPrepDao.folioVotatorAActual(fecha);
+	public List<OrdenMantenimientoVotatorB> getListaOrdenManto() {
+		IOrdenMantoVotatorBDao oDao = new OrdenMantoVotatorBDaoImpl();
+		IFolioPreparacionVotatorBDao folioPrepDao = new FolioPreparacionVotatorBDaoImpl();
+		this.folioPrepVotator = folioPrepDao.folioVotatorBActual(fecha);
 		listaOrdenManto = oDao.listaOrdenManto(folioPrepVotator);
 		return listaOrdenManto;
 	}
 
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
-		listaOperadores = oDao.listaOperadorVotatorA();
+		listaOperadores = oDao.listaOperadorVotatorB();
 		return listaOperadores;
 	}
 
 	public void guardarOperador() {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		operador.setEstado("Activo");
-		operador.setProceso("Votator Planta A");
+		operador.setProceso("Votator Planta B");
 		oDao.guardarOperador(operador);
 		operador = new Operador();
 
@@ -407,9 +407,9 @@ public class VotatorABean implements Serializable {
 				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", ":00", "1:00", "2:00", "3:00", "4:00",
 				"5:00", "6:00", "PROM." };
 
-		IVotatorADao cDao = new VotatorADaoImpl();
+		IVotatorBDao cDao = new VotatorBDaoImpl();
 
-		votator = new VotatorA();
+		votator = new VotatorB();
 
 		// **FOLIO_COCEDORES**//
 		int year = 0;
@@ -417,52 +417,52 @@ public class VotatorABean implements Serializable {
 		year = LocalDate.now().getYear();
 		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
 
-		folio = folDao.buscarFolioVotatorA(year);
+		folio = folDao.buscarFolioVotatorB(year);
 
-		// **FOLIO_PREPARACION_VOTATOR_A**//
+		// **FOLIO_PREPARACION_VOTATOR_B**//
 
-		IFolioPreparacionVotatorADao estDao = new FolioPreparacionVotatorADaoImpl();
-		FolioPreparacionVotatorA fpe = new FolioPreparacionVotatorA();
+		IFolioPreparacionVotatorBDao estDao = new FolioPreparacionVotatorBDaoImpl();
+		FolioPreparacionVotatorB fpe = new FolioPreparacionVotatorB();
 		fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio));
 
 		for (String lista : listaHora) {
 			votator.setFolioVotator(folio);
 			votator.setHora(lista);
-			votator.setFolioPreparacionVotatorA(fpe);
+			votator.setFolioPreparacionVotatorB(fpe);
 			votator.setFecha(new Date());
 			cDao.guardarVotator(votator);
-			votator = new VotatorA();
+			votator = new VotatorB();
 		}
 		// **ACTUALIZAR FOLIO_PROCESOS**//
 		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-		folioDao.actualizarFolioVotatorA(year, folio);
+		folioDao.actualizarFolioVotatorB(year, folio);
 
-		String script = "setTimeout(function() { window.location.href='VotatorA.html'; }, 3000);";
+		String script = "setTimeout(function() { window.location.href='VotatorB.html'; }, 3000);";
 		PrimeFaces.current().executeScript(script);
 
 	}
 
 	public void actualizarVotator() {
 
-		IVotatorADao cDao = new VotatorADaoImpl();
+		IVotatorBDao cDao = new VotatorBDaoImpl();
 
 		String oper = votatorEditar.getOperacion().replaceAll("\\s+", "");
 		votatorEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
 
 		cDao.actualizarVotator(votatorEditar);
-		actualizarPromedios(votatorEditar.getFolioPreparacionVotatorA().getFolioVotatorA());
+		actualizarPromedios(votatorEditar.getFolioPreparacionVotatorB().getFolioVotatorB());
 
 		if (votatorEditar.getHora().equals("7:00")) {
-			IVotatorADao aDao = new VotatorADaoImpl();
+			IVotatorBDao aDao = new VotatorBDaoImpl();
 			aDao.actualizarVotatorPromedio(votatorEditar.getOperacion(),
-					votatorEditar.getFolioPreparacionVotatorA().getIdFolioPrep());
+					votatorEditar.getFolioPreparacionVotatorB().getIdFolioPrep());
 		}
-		votatorEditar = new VotatorA();
+		votatorEditar = new VotatorB();
 		PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
 
 	}
 
-	public List<VotatorA> obtenerElementosDePagina(int pagina) {
+	public List<VotatorB> obtenerElementosDePagina(int pagina) {
 		int elementosPorPagina = 25; // Número de elementos por página
 		int inicio = pagina * elementosPorPagina;
 		int fin = Math.min(inicio + elementosPorPagina, listaVotator.size());
@@ -475,7 +475,7 @@ public class VotatorABean implements Serializable {
 		int nuevaPagina = event.getPage();
 
 		// Obtener la lista de elementos en la página actual
-		List<VotatorA> paginaActual = obtenerElementosDePagina(nuevaPagina);
+		List<VotatorB> paginaActual = obtenerElementosDePagina(nuevaPagina);
 
 		// Obtener la fecha del primer elemento de la nueva página
 		if (!paginaActual.isEmpty()) {
@@ -483,71 +483,71 @@ public class VotatorABean implements Serializable {
 			this.fecha = paginaActual.get(0).getFecha();
 			// **FOLIO DE LA FECHA ACTUAL**//
 			if (this.fecha != null) {
-				IFolioPreparacionVotatorADao fDao = new FolioPreparacionVotatorADaoImpl();
+				IFolioPreparacionVotatorBDao fDao = new FolioPreparacionVotatorBDaoImpl();
 				this.folioFecha = fDao.fechaFolioActual(fecha);
-				IFolioPreparacionVotatorADao folioPrepDao = new FolioPreparacionVotatorADaoImpl();
-				this.folioPrepVotator = folioPrepDao.folioVotatorAActual(fecha);
+				IFolioPreparacionVotatorBDao folioPrepDao = new FolioPreparacionVotatorBDaoImpl();
+				this.folioPrepVotator = folioPrepDao.folioVotatorBActual(fecha);
 			}
 
 		}
 	}
 
 	public void primera() {
-		IFolioPreparacionVotatorADao fDao = new FolioPreparacionVotatorADaoImpl();
-		FolioPreparacionVotatorA f = new FolioPreparacionVotatorA();
+		IFolioPreparacionVotatorBDao fDao = new FolioPreparacionVotatorBDaoImpl();
+		FolioPreparacionVotatorB f = new FolioPreparacionVotatorB();
 		f = fDao.retornarFechaActual();
 		this.fecha = f.getFecha();
 
 		// **FOLIO DE LA FECHA ACTUAL**//
 		if (this.fecha != null) {
-			IFolioPreparacionVotatorADao folioDao = new FolioPreparacionVotatorADaoImpl();
+			IFolioPreparacionVotatorBDao folioDao = new FolioPreparacionVotatorBDaoImpl();
 			this.folioFecha = folioDao.fechaFolioActual(fecha);
-			IFolioPreparacionVotatorADao folioPrepDao = new FolioPreparacionVotatorADaoImpl();
-			this.folioPrepVotator = folioPrepDao.folioVotatorAActual(fecha);
+			IFolioPreparacionVotatorBDao folioPrepDao = new FolioPreparacionVotatorBDaoImpl();
+			this.folioPrepVotator = folioPrepDao.folioVotatorBActual(fecha);
 			getListarRegistroTurnos();
-			getLimpiezaVotatorA();
+			getLimpiezaVotatorB();
 			getListaOrdenManto();
-			getListaFolioVotatorPA();
+			getListaFolioVotatorPB();
 			getListaResumenVotator();
 		}
 
 	}
 
 	public void actualizarPromedios(int folio) {
-		IVotatorADao conc_refractometro = new VotatorADaoImpl();
+		IVotatorBDao conc_refractometro = new VotatorBDaoImpl();
 		conc_refractometro.actualizarConcentradoRefractometro(folio);
 
-		IVotatorADao ph = new VotatorADaoImpl();
+		IVotatorBDao ph = new VotatorBDaoImpl();
 		ph.actualizarPH(folio);
 
-		IVotatorADao redox = new VotatorADaoImpl();
+		IVotatorBDao redox = new VotatorBDaoImpl();
 		redox.actualizarRedoxHumeda(folio);
 
-		IVotatorADao temp_ent = new VotatorADaoImpl();
+		IVotatorBDao temp_ent = new VotatorBDaoImpl();
 		temp_ent.actualizarTempEntVotator(folio);
 
-		IVotatorADao temp_sal = new VotatorADaoImpl();
+		IVotatorBDao temp_sal = new VotatorBDaoImpl();
 		temp_sal.actualizarTempSalVotator(folio);
 
-		IVotatorADao receptor = new VotatorADaoImpl();
+		IVotatorBDao receptor = new VotatorBDaoImpl();
 		receptor.actualizarReceptorPSI(folio);
 
-		IVotatorADao succion = new VotatorADaoImpl();
+		IVotatorBDao succion = new VotatorBDaoImpl();
 		succion.actualizarSuccion(folio);
 
-		IVotatorADao descarga = new VotatorADaoImpl();
+		IVotatorBDao descarga = new VotatorBDaoImpl();
 		descarga.actualizarDescarga(folio);
 
-		IVotatorADao aceite = new VotatorADaoImpl();
+		IVotatorBDao aceite = new VotatorBDaoImpl();
 		aceite.actualizarAceite(folio);
 
-		IVotatorADao motor = new VotatorADaoImpl();
+		IVotatorBDao motor = new VotatorBDaoImpl();
 		motor.actualizarMotor(folio);
 
-		IVotatorADao bomba_alim = new VotatorADaoImpl();
+		IVotatorBDao bomba_alim = new VotatorBDaoImpl();
 		bomba_alim.actualizarBombaAlim(folio);
 
-		IVotatorADao redox_seco = new VotatorADaoImpl();
+		IVotatorBDao redox_seco = new VotatorBDaoImpl();
 		redox_seco.actualizarRedoxSeco(folio);
 
 	}
@@ -556,48 +556,48 @@ public class VotatorABean implements Serializable {
 	public void guardarLimpieza() {
 		String datosLimpieza[] = { "ENJUAGUE", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
 
-		FolioPreparacionVotatorA f = new FolioPreparacionVotatorA();
+		FolioPreparacionVotatorB f = new FolioPreparacionVotatorB();
 		f.setIdFolioPrep(folioPrepVotator);
 
 		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
 
-		ILimpiezaVotatorADao validaDao = new LimpiezaVotatorADaoImpl();
+		ILimpiezaVotatorBDao validaDao = new LimpiezaVotatorBDaoImpl();
 
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepVotator);
 
 		// validación de limpieza para agregar en la tabla de cocedores
 
-		ILimpiezaVotatorADao lDao = new LimpiezaVotatorADaoImpl();
+		ILimpiezaVotatorBDao lDao = new LimpiezaVotatorBDaoImpl();
 
-		IVotatorADao vDao = new VotatorADaoImpl();
+		IVotatorBDao vDao = new VotatorBDaoImpl();
 		vDao.actualizarLimpieza(folioPrepVotator, noDeLimpieza);
 		for (String l : datosLimpieza) {
 			limpieza.setVobo("PENDIENTE");
 			limpieza.setNoLimpieza(noDeLimpieza);
-			limpieza.setFolioPreparacionVotatorA(f);
+			limpieza.setFolioPreparacionVotatorB(f);
 			limpieza.setProceso(l);
 			limpieza.setIdUsuario(1028);
 			limpieza.setNoVotator(cocedorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
-			limpieza = new LimpiezaVotatorA();
+			limpieza = new LimpiezaVotatorB();
 		}
 
 	}
 
-	public List<LimpiezaVotatorA> getLimpiezaVotatorA() {
-		ILimpiezaVotatorADao lDao = new LimpiezaVotatorADaoImpl();
+	public List<LimpiezaVotatorB> getLimpiezaVotatorB() {
+		ILimpiezaVotatorBDao lDao = new LimpiezaVotatorBDaoImpl();
 
-		IFolioPreparacionVotatorADao folioPrepDao = new FolioPreparacionVotatorADaoImpl();
-		this.folioPrepVotator = folioPrepDao.folioVotatorAActual(fecha);
-		limpiezaVotatorA = lDao.listarLimpieza(folioPrepVotator);
-		return limpiezaVotatorA;
+		IFolioPreparacionVotatorBDao folioPrepDao = new FolioPreparacionVotatorBDaoImpl();
+		this.folioPrepVotator = folioPrepDao.folioVotatorBActual(fecha);
+		limpiezaVotatorB = lDao.listarLimpieza(folioPrepVotator);
+		return limpiezaVotatorB;
 	}
 
 	public void actualizarLimpieza() {
-		ILimpiezaVotatorADao lDao = new LimpiezaVotatorADaoImpl();
+		ILimpiezaVotatorBDao lDao = new LimpiezaVotatorBDaoImpl();
 		lDao.actualizarLimpieza(limpiezaEditar);
-		limpiezaEditar = new LimpiezaVotatorA();
+		limpiezaEditar = new LimpiezaVotatorB();
 	}
 
 	public void guardarRegistroTurnos() throws SQLException {
@@ -617,7 +617,7 @@ public class VotatorABean implements Serializable {
 
 		rt.setFecha(fecha);
 		rt.setFolio(folioFecha);
-		rt.setDescProceso("VOTATOR PLANTA A");
+		rt.setDescProceso("VOTATOR PLANTA B");
 
 		rDao.guardaRegistroTurnos(rt);
 
@@ -649,9 +649,9 @@ public class VotatorABean implements Serializable {
 	public List<RegistroTurnos> getListarRegistroTurnos() {
 
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
-		listarRegistroTurnos = rDao.listaRegistroTurnosVotatorA(fecha);
-		IFolioPreparacionVotatorADao folioPrepDao = new FolioPreparacionVotatorADaoImpl();
-		this.folioPrepVotator = folioPrepDao.folioVotatorAActual(fecha);
+		listarRegistroTurnos = rDao.listaRegistroTurnosVotatorB(fecha);
+		IFolioPreparacionVotatorBDao folioPrepDao = new FolioPreparacionVotatorBDaoImpl();
+		this.folioPrepVotator = folioPrepDao.folioVotatorBActual(fecha);
 		return listarRegistroTurnos;
 	}
 
@@ -682,48 +682,48 @@ public class VotatorABean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre, "Votator Planta A");
+		return tDao.completeOperador(nombre, "Votator Planta B");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre, "Votator Planta A");
+		return tDao.buscarOperador(nombre, "Votator Planta B");
 	}
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
 		// validación de mantenimiento
-		IVotatorADao validaDao = new VotatorADaoImpl();
+		IVotatorBDao validaDao = new VotatorBDaoImpl();
 		validaDao.actualizarManto(folioPrepVotator);
 
-		IOrdenMantoVotatorADao iDao = new OrdenMantoVotatorADaoImpl();
-		FolioPreparacionVotatorA f = new FolioPreparacionVotatorA();
+		IOrdenMantoVotatorBDao iDao = new OrdenMantoVotatorBDaoImpl();
+		FolioPreparacionVotatorB f = new FolioPreparacionVotatorB();
 		f.setIdFolioPrep(folioPrepVotator);
-		ordenMantenimiento.setFolioPreparacionVotatorA(f);
+		ordenMantenimiento.setFolioPreparacionVotatorB(f);
 		iDao.guardarOrdenManto(ordenMantenimiento);
-		ordenMantenimiento = new OrdenMantenimientoVotatorA();
+		ordenMantenimiento = new OrdenMantenimientoVotatorB();
 	}
 
 	public void actualizarOrdenManto() {
-		IOrdenMantoVotatorADao iDao = new OrdenMantoVotatorADaoImpl();
+		IOrdenMantoVotatorBDao iDao = new OrdenMantoVotatorBDaoImpl();
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
-		ordenMantenimiento = new OrdenMantenimientoVotatorA();
+		ordenMantenimiento = new OrdenMantenimientoVotatorB();
 	}
 
 	public void borrarOrdenManto() {
-		IOrdenMantoVotatorADao iDao = new OrdenMantoVotatorADaoImpl();
+		IOrdenMantoVotatorBDao iDao = new OrdenMantoVotatorBDaoImpl();
 		iDao.borrarOrdenManto(ordenMantenimientoEditar);
-		ordenMantenimientoEditar = new OrdenMantenimientoVotatorA();
+		ordenMantenimientoEditar = new OrdenMantenimientoVotatorB();
 	}
 
 	// **FILTRAR POR FECHA**//
 	public void filtrarPorFecha() {
 		getListaVotator(); // CAMBIAR PARAMETROS PARA EL REPORTE,
 		getListarRegistroTurnos();
-		getLimpiezaVotatorA();
+		getLimpiezaVotatorB();
 		getListaOrdenManto();
-		getListaFolioVotatorPA();
+		getListaFolioVotatorPB();
 		getListaResumenVotator();
 	}
 
@@ -783,57 +783,57 @@ public class VotatorABean implements Serializable {
 
 	public void deleteLimpieza() {
 		// validación de limpieza para agregar en la tabla de cocedores
-		IVotatorADao vDao = new VotatorADaoImpl();
+		IVotatorBDao vDao = new VotatorBDaoImpl();
 		vDao.actualizarLimpieza(folioPrepVotator, 0);
-		ILimpiezaVotatorADao iDao = new LimpiezaVotatorADaoImpl();
+		ILimpiezaVotatorBDao iDao = new LimpiezaVotatorBDaoImpl();
 		iDao.borrarLimpieza(folioPrepVotator, noLimpiezaSeleccionadaBorrar);
 
 	}
 
 	public void borrarVoBo() {
-		ILimpiezaVotatorADao iDao = new LimpiezaVotatorADaoImpl();
+		ILimpiezaVotatorBDao iDao = new LimpiezaVotatorBDaoImpl();
 		iDao.borrarVoBo(folioPrepVotator, noLimpiezaVoBo);
 	}
 
 	public void agregarVoBo() {
-		ILimpiezaVotatorADao iDao = new LimpiezaVotatorADaoImpl();
+		ILimpiezaVotatorBDao iDao = new LimpiezaVotatorBDaoImpl();
 		iDao.agregarVoBo(folioPrepVotator, noLimpiezaVoBo, us.getIdUsuario());
 	}
 
 	public void guardarObservaciones() {
-		IFolioPreparacionVotatorADao fDao = new FolioPreparacionVotatorADaoImpl();
-		fDao.guardarObservacion(folioPrepVotator, folioPrepVotatorPA.getObservaciones());
-		folioPrepVotatorPA = new FolioPreparacionVotatorA();
+		IFolioPreparacionVotatorBDao fDao = new FolioPreparacionVotatorBDaoImpl();
+		fDao.guardarObservacion(folioPrepVotator, folioPrepVotatorPB.getObservaciones());
+		folioPrepVotatorPB = new FolioPreparacionVotatorB();
 	}
 
 	public void obtenerObservacion() {
-		for (int i = 0; i < listaFolioVotatorPA.size(); i++) {
-			folioPrepVotatorPA.setObservaciones(listaFolioVotatorPA.get(i).getObservaciones());
+		for (int i = 0; i < listaFolioVotatorPB.size(); i++) {
+			folioPrepVotatorPB.setObservaciones(listaFolioVotatorPB.get(i).getObservaciones());
 		}
 	}
 
 	// VALIDACIONES DE RESUMEN
 
 	public void resumenVotator() throws ParseException {
-		IResumenVotatorADao rDao = new ResumenVotatorADaoImpl();
+		IResumenVotatorBDao rDao = new ResumenVotatorBDaoImpl();
 		rDao.borrarResumen(folioPrepVotator);
 
-		IResumenVotatorADao gDao = new ResumenVotatorADaoImpl();
+		IResumenVotatorBDao gDao = new ResumenVotatorBDaoImpl();
 		// OBTENER LAS DIFERENTES OPERACIONES DE LA CAPTURA
-		IVotatorADao operacionesDao = new VotatorADaoImpl();
+		IVotatorBDao operacionesDao = new VotatorBDaoImpl();
 		List<String> listaOperaciones = operacionesDao.listarOperaciones(folioPrepVotator);
 		for (int i = 0; i < listaOperaciones.size(); i++) {
 			System.out.println(listaOperaciones.get(i));
 			LOGGER.info("OPERACION: " + listaOperaciones.get(i));
 			// OBTERNER LA PRIMERA HORA DE LA OPERACION
-			IVotatorADao primeraHoraDao = new VotatorADaoImpl();
+			IVotatorBDao primeraHoraDao = new VotatorBDaoImpl();
 			LOGGER.info(
 					"PRIMERA HORA: " + primeraHoraDao.obtenerPrimeraHora(listaOperaciones.get(i), folioPrepVotator));
 
-			IVotatorADao ultimaHoraDao = new VotatorADaoImpl();
+			IVotatorBDao ultimaHoraDao = new VotatorBDaoImpl();
 			LOGGER.info("ULTIMA HORA: " + ultimaHoraDao.obtenerUltimaHora(listaOperaciones.get(i), folioPrepVotator));
 
-			ResumenVotatorA resumen = new ResumenVotatorA();
+			ResumenVotatorB resumen = new ResumenVotatorB();
 			resumen.setNoOperacion(listaOperaciones.get(i));
 
 			String horaPStr = primeraHoraDao.obtenerPrimeraHora(listaOperaciones.get(i), folioPrepVotator);
@@ -887,9 +887,9 @@ public class VotatorABean implements Serializable {
 			int difHoras = horaFinH - horaInicioH;
 
 			resumen.setTiempo(difHoras + 1);
-			FolioPreparacionVotatorA f = new FolioPreparacionVotatorA();
+			FolioPreparacionVotatorB f = new FolioPreparacionVotatorB();
 			f.setIdFolioPrep(folioPrepVotator);
-			resumen.setFolioPreparacionVotatorA(f);
+			resumen.setFolioPreparacionVotatorB(f);
 			gDao.guardarResumen(resumen);
 
 		}

@@ -248,14 +248,14 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 	}
 
 	@Override
-	public void actualizarFolioVotatorb(int year, int folio) {
+	public void actualizarFolioVotatorB(int year, int folio) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			Transaction t = session.beginTransaction();
 
 			String hql = "UPDATE FolioProcesos f SET f.folioVotatorB = :folioVotatorB WHERE f.year = : year";
 			@SuppressWarnings("rawtypes")
 			Query query = session.createQuery(hql);
-			query.setParameter("folioVotatorA", folio);
+			query.setParameter("folioVotatorB", folio);
 			query.setParameter("year", year);
 
 			query.executeUpdate();
