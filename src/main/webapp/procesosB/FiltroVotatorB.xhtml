@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small"
+						value="VOTATOR PLANTA B&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{votatorBBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{votatorBBean.fecha}&nbsp;&nbsp;&nbsp;"
+						styleClass="fuenteTitulo" />
+
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+
+
+
+						<p:tab id="pt" title="VOTATOR PLANTA B"
+							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="300" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{votatorBBean.listaFiltroVotatorPB}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="page" listener="#{votatorBBean.onPageChange}"
+									update="frmPrincipal" />
+
+								<p:columnGroup type="header">
+
+									<p:row>
+										<p:column rowspan="8" colspan="4" headerText=""
+											styleClass="datos" />
+
+									</p:row>
+
+									<p:row>
+
+										<p:column rowspan="4" headerText="HORA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="4" headerText="OPERACIÓN"
+											styleClass="color" style="font-size: .6rem !important" />
+
+									</p:row>
+
+									<p:row>
+										<p:column colspan="12" headerText="VARIABLE"
+											styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="3" headerText="GRENETINA HÚMEDA"
+											styleClass="color" />
+										<p:column colspan="2" headerText="TEMPERATURA VOTATOR"
+											styleClass="color" />
+										<p:column colspan="4"
+											headerText="PRESIÓN EN EL SISTEMA DE ENFRIAMIENTO"
+											styleClass="color" />
+										<p:column colspan="2" headerText="VOTATOR" styleClass="color" />
+										<p:column colspan="1" headerText="SECO" styleClass="color" />
+										<p:column colspan="2" rowspan="5" headerText="ESTADO"
+											styleClass="color" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="Con. En Refactó-metro %"
+											styleClass="datos" />
+										<p:column headerText="pH" styleClass="datos" />
+										<p:column headerText="Redox (p.p.m.H2O2)" styleClass="datos" />
+										<p:column headerText="Entrada °C" styleClass="datos" />
+										<p:column headerText="Salida °C" styleClass="datos" />
+										<p:column headerText="Recep-tor (PSI)" styleClass="datos" />
+										<p:column headerText="Succión (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Descarga (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Aceite (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Motor (AMP.)" styleClass="datos" />
+										<p:column headerText="Bomba Alim. (HERTZ)" styleClass="datos" />
+										<p:column headerText="REDOX p.p.m. (ppm H2O2)"
+											styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="2" headerText="VARIABLE" styleClass="datos" />
+										<p:column headerText="1" styleClass="datos" />
+										<p:column headerText="2" styleClass="datos" />
+										<p:column headerText="3" styleClass="datos" />
+										<p:column headerText="4" styleClass="datos" />
+										<p:column headerText="5" styleClass="datos" />
+										<p:column headerText="6" styleClass="datos" />
+										<p:column headerText="7" styleClass="datos" />
+										<p:column headerText="8" styleClass="datos" />
+										<p:column headerText="9" styleClass="datos" />
+										<p:column headerText="10" styleClass="datos" />
+										<p:column headerText="11" styleClass="datos" />
+										<p:column headerText="12" styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="14" headerText="" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column colspan="2" headerText="LÍMITES ESPECÍFICOS"
+											styleClass="datos" />
+										<p:column headerText="28 - 32" styleClass="datos" />
+										<p:column headerText="5.0 - 7.5" styleClass="datos" />
+										<p:column headerText="700 - 1,800" styleClass="datos" />
+										<p:column headerText="38 - 42" styleClass="datos" />
+										<p:column headerText="13 - 20" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="Máx 2,500" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="Ver reporte" styleClass="datos" />
+										<p:column headerText="Manto." styleClass="datos" />
+										<p:column headerText="Limpieza" styleClass="datos" />
+										<p:column headerText="FECHA" styleClass="datos" />
+										<p:column colspan="2" headerText="LÍMITES DE REFERENCIA"
+											styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="20 - 26" styleClass="datos" />
+										<p:column headerText="0.8 - 1.5" styleClass="datos" />
+										<p:column headerText="7.0 - 12.0" styleClass="datos" />
+										<p:column headerText="3.0 - 4.0" styleClass="datos" />
+										<p:column headerText="50 - 80" styleClass="datos" />
+										<p:column headerText="Min. 30" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="A" styleClass="datos" />
+										<p:column headerText="R" styleClass="datos" />
+
+									</p:row>
+
+
+								</p:columnGroup>
+								<p:column>
+									<div style="text-align: center">
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{votatorBBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionVotatorB.idFolioPrep, item.folioVotator)}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+									</div>
+								</p:column>
+
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoManto eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.fecha}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.hora}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.operacion}" styleClass="datos" />
+								</p:column>
+
+
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.concRefractomentro}"
+										styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.ph}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.redoxHumeda}" styleClass="datos" />
+								</p:column>
+
+
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.temEntVotator}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.tempSalVotator}" styleClass="datos" />
+								</p:column>
+
+
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.receptorPsi}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.succion}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.descarga}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.aceite}" styleClass="datos" />
+								</p:column>
+
+
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.motor}" styleClass="datos" />
+								</p:column>
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.bombaAlim}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="" styleClass="datos">
+									<h:outputText value="#{item.redoxSeco}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoA}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoR}" styleClass="datos" />
+									</div>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+
+					</p:accordionPanel>
+
+
+				</div>
+
+
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

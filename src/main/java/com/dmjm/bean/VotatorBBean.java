@@ -321,7 +321,7 @@ public class VotatorBBean implements Serializable {
 
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
-		listaOperadores = oDao.listaOperadorVotatorB();
+		listaOperadores = oDao.listaOperadorEstPlantaB();
 		return listaOperadores;
 	}
 
@@ -682,13 +682,13 @@ public class VotatorBBean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre, "Votator Planta B");
+		return tDao.completeOperador(nombre, "Est Planta B");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre, "Votator Planta B");
+		return tDao.buscarOperador(nombre, "Est Planta B");
 	}
 
 	// **ORDEN DE MANTENIMIENTO**//

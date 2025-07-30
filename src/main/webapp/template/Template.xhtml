@@ -218,9 +218,6 @@
 							<p:menuitem value="Resumen Votator B" outcome="FiltroVotatorB"
 								icon="pi pi-fw pi-server">
 							</p:menuitem>
-							<p:menuitem value="Operador Votator B" outcome="OpeVotatorB"
-								icon="pi pi-fw pi-server">
-							</p:menuitem>
 						</p:submenu>
 
 					</p:submenu>
@@ -843,24 +840,37 @@
 				</p:menubar>
 
 
-				<!-- ESTERILIZADOR PLANTA A -->
+				<!-- PROCESOS PLANTA A -->
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==11}">
 					<f:facet name="start">
 						<p:graphicImage name="images/primefaces-logo.svg"
 							library="showcase" />
 					</f:facet>
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
 
-					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
-						<p:menuitem value="Esterilizador planta A"
-							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-server">
-						</p:menuitem>
-						<p:menuitem value="Esterilizador planta A"
-							outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-server">
-						</p:menuitem>
-						<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
-							icon="pi pi-fw pi-server">
-						</p:menuitem>
+						<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Esterilizador planta A"
+								outcome="EsterilizadorPlantaA" icon="pi pi-fw pi-server">
+							</p:menuitem>
+							<p:menuitem value="Resumen Est. planta A"
+								outcome="FiltroEsterilizadorPlantaA" icon="pi pi-fw pi-server">
+							</p:menuitem>
+							<p:menuitem value="Operadores Planta A" outcome="OpePlantaA"
+								icon="pi pi-fw pi-server">
+							</p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Votator" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Votator A" outcome="VotatorA"
+								icon="pi pi-fw pi-server">
+							</p:menuitem>
+							<p:menuitem value="Resumen Votator A" outcome="FiltroVotatorA"
+								icon="pi pi-fw pi-server">
+							</p:menuitem>
+						</p:submenu>
+
+
 					</p:submenu>
 					<p:divider layout="vertical" />
 
@@ -871,7 +881,7 @@
 
 
 
-				<!-- ESTERILIZADOR PLANTA B -->
+				<!-- PROCESOS PLANTA B -->
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==12}">
 					<f:facet name="start">
@@ -879,21 +889,32 @@
 							library="showcase" />
 					</f:facet>
 
-					<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+					<p:submenu label="Procesos" icon="pi pi-fw pi-cog">
+					
+						<p:submenu label="Esterilizadores" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Esterilizador planta B"
+								outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-server">
+							</p:menuitem>
 
-						<p:menuitem value="Esterilizador planta B"
-							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-server">
-						</p:menuitem>
+							<p:menuitem value="Resumen Est. planta B"
+								outcome="FiltroEsterilizadorPlantaB" icon="pi pi-fw pi-server">
+							</p:menuitem>
 
-						<p:menuitem value="Esterilizador planta B"
-							outcome="EsterilizadorPlantaB" icon="pi pi-fw pi-server">
-						</p:menuitem>
+							<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
+								icon="pi pi-fw pi-server">
+							</p:menuitem>
+						</p:submenu>
 
-						<p:menuitem value="Operadores Planta B" outcome="OpePlantaB"
-							icon="pi pi-fw pi-server">
-						</p:menuitem>
+						<p:submenu label="Votator" icon="pi pi-fw pi-cog">
+							<p:menuitem value="Votator B" outcome="VotatorB"
+								icon="pi pi-fw pi-server">
+							</p:menuitem>
+							<p:menuitem value="Resumen Votator B" outcome="FiltroVotatorB"
+								icon="pi pi-fw pi-server">
+							</p:menuitem>
+						</p:submenu>
+						
 					</p:submenu>
-
 					<p:divider layout="vertical" />
 
 					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"

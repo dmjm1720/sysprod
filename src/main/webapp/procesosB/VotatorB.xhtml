@@ -1,0 +1,1135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small"
+						value="VOTATOR PLANTA B&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{votatorBBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{votatorBBean.fecha}&nbsp;&nbsp;&nbsp;"
+						styleClass="fuenteTitulo" />
+
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab id="tRegTurnos" title="OPERADORES / COORDINADORES EN TURNO"
+							titleStyle="font-size: .8rem; background-color: #283747; color: #F5F5F5">
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+								<p:splitterPanel size="20"
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgTurnos" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel for="turno" value="Turno" />
+										<p:autoComplete id="turno" size="35" required="false"
+											requiredMessage="Turno requerido" autocomplete="off"
+											placeholder="Ingresa Turno" dropdown="true"
+											value="#{votatorBBean.filterTurno}"
+											completeMethod="#{votatorBBean.buscarNombreTurno}">
+										</p:autoComplete>
+
+										<p:outputLabel for="operador" value="Operador" />
+										<p:autoComplete id="operador" size="35" required="false"
+											requiredMessage="Operador requerido" autocomplete="off"
+											placeholder="Ingresa Operador" dropdown="true"
+											value="#{votatorBBean.filterOperador}"
+											completeMethod="#{votatorBBean.buscarNombreOperador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="coord" value="Coordinador" />
+										<p:autoComplete id="coord" size="35" required="false"
+											requiredMessage="Coordinador requerido" autocomplete="off"
+											placeholder="Ingresa Coordinador" dropdown="true"
+											value="#{votatorBBean.filterUsuario}"
+											completeMethod="#{votatorBBean.buscarNombreCoordinador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="reg" value="Registrar turno" />
+										<p:commandButton id="reg" value="REGISTRAR"
+											styleClass="fuente"
+											actionListener="#{votatorBBean.guardarRegistroTurnos()}"
+											update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
+											style="width: 8rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<p:outputLabel value="TURNOS REGISTRADOS" />
+									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
+										var="turnos" sortMode="multiple" rowHover="true"
+										style="width: 85%" paginatorAlwaysVisible="true"
+										scrollable="true" value="#{votatorBBean.listarRegistroTurnos}"
+										emptyMessage="NO HAY REGISTROS">
+
+
+										<p:column headerText="Borrar" width="2rem">
+											<div style="text-align: center">
+												<p:commandButton id="eb" icon="pi pi-fw pi-trash"
+													styleClass="ui-button-warning"
+													action="#{votatorBBean.borrarTurnos()}"
+													update="frmPrincipal:acco:tRegTurnos">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{votatorBBean.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipEB" for="eb" value="Borrar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+
+										<p:column headerText="Editar" width="2rem">
+											<div style="text-align: center">
+												<p:commandButton id="et" icon="pi pi-fw pi-pencil"
+													onclick="PF('dlgEditarTurnos').show()"
+													update="frmTurnos:pnlEditarTurnos"
+													styleClass="ui-button-warning">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{votatorBBean.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipET" for="et" value="Editar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+
+										<p:column headerText="Turno" width="5rem" styleClass="fondo">
+											<h:outputText value="#{turnos.turnos.nombreTurno}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Fecha registro turno" width="5rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.fecha}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Folio" width="2rem" styleClass="fondo">
+											<h:outputText value="#{turnos.folio}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Operador" width="8rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.operador.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Coordinador" width="8rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.usuarios.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+									</p:dataTable>
+								</p:splitterPanel>
+							</p:splitter>
+
+						</p:tab>
+
+
+						<p:tab id="pt" title="VOTATOR PLANTA B"
+							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+
+								<p:splitterPanel size="5"
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgHoja" columns="1" styleClass="tabla fuente">
+										<p:outputLabel value="NUEVA HOJA" />
+										<div style="text-align: center">
+											<p:commandButton value="" styleClass="fuente"
+												actionListener="#{votatorBBean.guardarVotator()}"
+												update="frmPrincipal, frmPrincipal:msgs"
+												icon="pi pi-file-excel" style="width: 2rem; height: 2rem">
+											</p:commandButton>
+										</div>
+
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgFechas" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel value="SELECCIONA FECHA" />
+										<br />
+										<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
+											showTime="false" disabled="false" showIcon="true"
+											placeholder="SELECCIONA FECHA"
+											inputStyleClass="font-size: .8rem !important pear"
+											inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+											value="#{votatorBBean.fechaFiltro}"
+											style="font-family: 'Poppins', sans-serif !important;"
+											styleClass="captura" />
+
+										<p:commandButton value="BUSCAR" styleClass="fuente"
+											actionListener="#{votatorBBean.filtrarPorFecha()}"
+											update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblResumen"
+											icon="pi pi-filter" style="width: 6rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgRep" columns="4" styleClass="tabla fuente">
+
+										<p:outputLabel value="IMPRIMIR" />
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{votatorBBean.visualizarReporte()}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+
+										<p:outputLabel value="EXPORTAR" />
+										<h:commandLink id="impExcel"
+											style="height: 30px; font-size: 12px;" target="_blank"
+											actionListener="#{votatorBBean.visualizarReporteExcel()}">
+											<h:graphicImage url="/resources/img/excel.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+
+									</h:panelGrid>
+								</p:splitterPanel>
+
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid columns="2">
+										<p:commandButton value="AGREGAR / EDITAR" styleClass="fuente"
+											oncomplete="PF('dlgAgregarObs').show()" icon="pi pi-book"
+											update="frmObservaciones:pnlAgregarObs"
+											actionListener="#{votatorBBean.obtenerObservacion()}"
+											style="width: 6rem; height: 2.5rem">
+										</p:commandButton>
+										<p:dataTable id="tblObs" styleClass="tabla2 fuenteCocedores"
+											var="itemObs" value="#{votatorBBean.listaFolioVotatorPB}"
+											emptyMessage="NO HAY REGISTROS">
+
+											<p:column headerText="Observaciones">
+												<h:outputText value="#{itemObs.observaciones}" />
+											</p:column>
+										</p:dataTable>
+
+									</h:panelGrid>
+
+								</p:splitterPanel>
+
+							</p:splitter>
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="300" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{votatorBBean.listaVotator}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="page" listener="#{votatorBBean.onPageChange}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblResumen" />
+
+								<p:columnGroup type="header">
+
+									<p:row>
+										<p:column rowspan="8" headerText="" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column rowspan="4" headerText="HORA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="4" headerText="OPERACIÓN"
+											styleClass="color" style="font-size: .6rem !important" />
+									</p:row>
+
+									<p:row>
+										<p:column colspan="12" headerText="VARIABLE"
+											styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="3" headerText="GRENETINA HÚMEDA"
+											styleClass="color" />
+										<p:column colspan="2" headerText="TEMPERATURA VOTATOR"
+											styleClass="color" />
+										<p:column colspan="4"
+											headerText="PRESIÓN EN EL SISTEMA DE ENFRIAMIENTO"
+											styleClass="color" />
+										<p:column colspan="2" headerText="VOTATOR" styleClass="color" />
+										<p:column colspan="1" headerText="SECO" styleClass="color" />
+										<p:column colspan="2" rowspan="5" headerText="ESTADO"
+											styleClass="color" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="Con. En Refactó-metro %"
+											styleClass="datos" />
+										<p:column headerText="pH" styleClass="datos" />
+										<p:column headerText="Redox (p.p.m.H2O2)" styleClass="datos" />
+										<p:column headerText="Entrada °C" styleClass="datos" />
+										<p:column headerText="Salida °C" styleClass="datos" />
+										<p:column headerText="Recep-tor (PSI)" styleClass="datos" />
+										<p:column headerText="Succión (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Descarga (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Aceite (Kg/cm²)" styleClass="datos" />
+										<p:column headerText="Motor (AMP.)" styleClass="datos" />
+										<p:column headerText="Bomba Alim. (HERTZ)" styleClass="datos" />
+										<p:column headerText="REDOX p.p.m. (ppm H2O2)"
+											styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="2" headerText="VARIABLE" styleClass="datos" />
+										<p:column headerText="1" styleClass="datos" />
+										<p:column headerText="2" styleClass="datos" />
+										<p:column headerText="3" styleClass="datos" />
+										<p:column headerText="4" styleClass="datos" />
+										<p:column headerText="5" styleClass="datos" />
+										<p:column headerText="6" styleClass="datos" />
+										<p:column headerText="7" styleClass="datos" />
+										<p:column headerText="8" styleClass="datos" />
+										<p:column headerText="9" styleClass="datos" />
+										<p:column headerText="10" styleClass="datos" />
+										<p:column headerText="11" styleClass="datos" />
+										<p:column headerText="12" styleClass="datos" />
+									</p:row>
+									<p:row>
+										<p:column colspan="14" headerText="" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column colspan="2" headerText="LÍMITES ESPECÍFICOS"
+											styleClass="datos" />
+										<p:column headerText="28 - 32" styleClass="datos" />
+										<p:column headerText="5.0 - 7.5" styleClass="datos" />
+										<p:column headerText="700 - 1,800" styleClass="datos" />
+										<p:column headerText="38 - 42" styleClass="datos" />
+										<p:column headerText="13 - 20" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="Máx 2,500" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="Editar" styleClass="datos" />
+										<p:column colspan="2" headerText="LÍMITES DE REFERENCIA"
+											styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="20 - 26" styleClass="datos" />
+										<p:column headerText="0.8 - 1.5" styleClass="datos" />
+										<p:column headerText="7.0 - 12.0" styleClass="datos" />
+										<p:column headerText="3.0 - 4.0" styleClass="datos" />
+										<p:column headerText="50 - 80" styleClass="datos" />
+										<p:column headerText="Min. 30" styleClass="datos" />
+										<p:column headerText="-" styleClass="datos" />
+										<p:column headerText="A" styleClass="datos" />
+										<p:column headerText="R" styleClass="datos" />
+
+									</p:row>
+
+
+								</p:columnGroup>
+								<p:column exportable="false"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'normal'}">
+									<div style="text-align: center">
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											rendered="#{item.hora ne 'PROM.'}"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{votatorBBean.votatorEditar}" />
+
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
+									</div>
+
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.hora}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fuenteNaranja'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.operacion}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.concRefractomentro}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.ph}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.redoxHumeda}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
+									<h:outputText value="#{item.temEntVotator}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
+									<h:outputText value="#{item.tempSalVotator}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.receptorPsi}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.succion}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.descarga}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.aceite}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									<h:outputText value="#{item.motor}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									<h:outputText value="#{item.bombaAlim}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.redoxSeco}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoA}"
+											styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
+								</p:column>
+
+								<p:column
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoR}"
+											styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="RESUMEN DE TIEMPOS VOTATOR B" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #FC9322; color: #F5F5F5">
+							<p:commandButton value="ACTUALIZAR RESUMEN" styleClass="fuente"
+								actionListener="#{votatorBBean.resumenVotator()}"
+								update="frmPrincipal:acco:tblResumen" icon="pi pi-file-excel"
+								style="width: 10rem; height: 2rem">
+							</p:commandButton>
+							<p:dataTable id="tblResumen" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="210" scrollWidth="40%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{votatorBBean.listaResumenVotator.size()}"
+								value="#{votatorBBean.listaResumenVotator}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="No. Operación" width="4rem">
+									<h:outputText value="#{item.noOperacion}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Fecha inicio" width="4rem">
+									<h:outputText value="#{item.fechaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora inicio" width="4rem">
+									<h:outputText value="#{item.horaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Fecha final" width="4rem">
+									<h:outputText value="#{item.fechaFinal}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="4rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Tiempo" width="4rem">
+									<h:outputText value="#{item.tiempo}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="LIMPIEZA" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #008080; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza" columns="12"
+								styleClass="tabla fuente">
+
+								<p:selectOneMenu id="cocLimp"
+									value="#{votatorBBean.cocedorSeleccionado}" dynamic="true">
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="TANQUE ORIENTE Y TUBERÍA"
+										itemValue="TANQUE ORIENTE Y TUBERÍA" />
+									<f:selectItem itemLabel="TANQUE PONIENTE Y TUBERÍA"
+										itemValue="TANQUE PONIENTE Y TUBERÍA" />
+									<f:selectItem itemLabel="TANQUE FUERTE Y TUBERÍA"
+										itemValue="TANQUE FUERTE Y TUBERÍA" />
+									<f:selectItem itemLabel="TANQUE Y TUBERÍA DE ENZIMA"
+										itemValue="TANQUE Y TUBERÍA DE ENZIMA" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="" />
+								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{votatorBBean.guardarLimpieza()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLim"
+									value="#{votatorBBean.noLimpiezaSeleccionadaBorrar}"
+									dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA A ELIMINAR" itemValue="" />
+									<f:selectItems value="#{votatorBBean.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="BORRAR"
+									actionListener="#{votatorBBean.deleteLimpieza()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLimVoBo"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									value="#{votatorBBean.noLimpiezaVoBo}" dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA Vo.Bo." itemValue="" />
+									<f:selectItems value="#{votatorBBean.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="AGREGAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{votatorBBean.agregarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+								<p:commandButton value="BORRAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{votatorBBean.borrarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="210"
+								scrollWidth="80%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{votatorBBean.limpiezaVotatorB.size()}"
+								value="#{votatorBBean.limpiezaVotatorB}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarLimpieza').show()"
+										update="frmEditarLimpieza:pnlEditarLimpieza"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{votatorBBean.limpiezaEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="No. Limpieza" width="3rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Proceso" width="5rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Equipo" width="5rem">
+									<h:outputText value="#{item.noVotator}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora inicial" width="4rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="4rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="P. Químico" width="6rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Cantidad usada" width="4rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Unidad de medida" width="4rem">
+									<h:outputText value="#{item.um}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Temperatura" width="4rem">
+									<h:outputText value="#{item.temperatura}"
+										style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Lote" width="6rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="pH Final" width="4rem">
+									<h:outputText value="#{item.phFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem"
+									styleClass="#{item.vobo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<h:outputText value="#{item.vobo}" style="color: #FFFFFF;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="ORDEN DE MANTENIMIENTO"
+							titleStyle="font-size: .8rem; background-color: #696969; color: #F5F5F5">
+
+
+							<h:panelGrid id="pgManto" columns="2" styleClass="tabla fuente">
+
+								<p:outputLabel value="No de Orden" />
+								<p:inputText id="om" styleClass="camposManto"
+									value="#{votatorBBean.ordenMantenimiento.noOrden}"
+									required="false" requiredMessage="Campo requerido"
+									style="width: 8rem" />
+
+								<p:outputLabel value="Hora Inicio" />
+								<pe:timePicker
+									value="#{votatorBBean.ordenMantenimiento.horaInicio}"
+									mode="spinner" widgetVar="h5" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+
+								<p:outputLabel value="Hora Final" />
+								<pe:timePicker
+									value="#{votatorBBean.ordenMantenimiento.horaFin}"
+									mode="spinner" widgetVar="h6" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+
+								<p:outputLabel value="Descripción" />
+								<p:inputTextarea id="desc" styleClass="camposManto"
+									value="#{votatorBBean.ordenMantenimiento.descripcion}"
+									required="false" requiredMessage="Campo requerido"
+									style="width: 20rem" />
+
+								<p:outputLabel value="" />
+								<p:commandButton value="REGISTRAR NUEVA ORDEN"
+									styleClass="fuente camposManto"
+									actionListener="#{votatorBBean.guardarOrdenManto()}"
+									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+
+							</h:panelGrid>
+
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblManto" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="50%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{votatorBBean.listaOrdenManto.size()}"
+								value="#{votatorBBean.listaOrdenManto}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="em" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{votatorBBean.borrarOrdenManto()}"
+											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{votatorBBean.ordenMantenimientoEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEM" for="em" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarManto').show()"
+										update="frmEditarManto:pnlEditarManto"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{votatorBBean.ordenMantenimientoEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="No. de orden" width="3rem">
+									<h:outputText value="#{item.noOrden}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora inicial" width="3rem">
+									<h:outputText value="#{item.horaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="3rem">
+									<h:outputText value="#{item.horaFin}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Descripción" width="20rem">
+									<p:inputTextarea value="#{item.descripcion}" readonly="true"
+										style="color: #036FAB; width: 100%;" rows="6" />
+								</p:column>
+
+
+							</p:dataTable>
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="Actualizar información de Ultrafiltración I"
+					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
+					closeOnEscape="true" minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="4">
+
+
+						<p:outputLabel for="horario" value="Horario" />
+						<p:inputText id="horario" styleClass="fuenteNaranja"
+							disabled="true" value="#{votatorBBean.votatorEditar.hora}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="operacion" value="Operación" />
+						<p:inputText id="operacion" styleClass="camposCocedores"
+							value="#{votatorBBean.votatorEditar.operacion}" required="false"
+							requiredMessage="Campo requerido" style="width: 8rem" />
+
+						<p:outputLabel for="con" value="Con. En Refactó-metro %" />
+						<p:inputText id="con"
+							value="#{votatorBBean.votatorEditar.concRefractomentro}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="ph" value="pH" />
+						<p:inputText id="ph" value="#{votatorBBean.votatorEditar.ph}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="redox" value="Redox (p.p.m.H2O2)" />
+						<p:inputText id="redox"
+							value="#{votatorBBean.votatorEditar.redoxHumeda}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="ent" value="Entrada °C" />
+						<p:inputText id="ent"
+							value="#{votatorBBean.votatorEditar.temEntVotator}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="sal" value="Salida °C" />
+						<p:inputText id="sal"
+							value="#{votatorBBean.votatorEditar.tempSalVotator}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="recep" value="Recep-tor (PSI)" />
+						<p:inputText id="recep"
+							value="#{votatorBBean.votatorEditar.receptorPsi}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="succ" value="Succión (Kg/cm²)" />
+						<p:inputText id="succ"
+							value="#{votatorBBean.votatorEditar.succion}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="desc" value="Descarga (Kg/cm²)" />
+						<p:inputText id="desc"
+							value="#{votatorBBean.votatorEditar.descarga}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="aceite" value="Aceite (Kg/cm²)" />
+						<p:inputText id="aceite"
+							value="#{votatorBBean.votatorEditar.aceite}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="motor" value="Motor (AMP.)" />
+						<p:inputText id="motor"
+							value="#{votatorBBean.votatorEditar.motor}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="bomba" value="Bomba Alim. (HERTZ)" />
+						<p:inputText id="bomba"
+							value="#{votatorBBean.votatorEditar.bombaAlim}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel for="red" value="REDOX p.p.m. (ppm H2O2)" />
+						<p:inputText id="red"
+							value="#{votatorBBean.votatorEditar.redoxSeco}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
+							styleClass="{votatorBBean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+						<p:selectOneButton id="a"
+							value="{votatorBBean.votatorEditar.estadoAR}"
+							styleClass="{votatorBBean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							<f:selectItem itemLabel="Aceptado" itemValue="true" />
+							<f:selectItem itemLabel="Rechazado" itemValue="false" />
+							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />
+						</p:selectOneButton>
+
+					</h:panelGrid>
+
+					<br />
+					<br />
+					<br />
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{votatorBBean.actualizarVotator()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR LIMPIEZA-->
+			<h:form id="frmEditarLimpieza">
+				<p:dialog header="Actualizar información de Limpieza"
+					styleClass="tabla fuente" widgetVar="dlgEditarLimpieza"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEditarLimpieza" columns="2">
+
+						<p:outputLabel for="pro" value="Proceso" />
+						<p:inputText id="pro" styleClass="camposLimpieza" readonly="true"
+							value="#{votatorBBean.limpiezaEditar.proceso}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+						<p:outputLabel value="Hora Inicial" />
+						<pe:timePicker value="#{votatorBBean.limpiezaEditar.horaInicial}"
+							mode="spinner" widgetVar="h1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+
+						<p:outputLabel value="Hora Final" />
+						<pe:timePicker value="#{votatorBBean.limpiezaEditar.horaFinal}"
+							mode="spinner" widgetVar="h2" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+
+						<p:outputLabel for="qui" value="P. Químico" />
+						<p:inputText id="qui" styleClass="camposLimpieza"
+							value="#{votatorBBean.limpiezaEditar.quimico}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+
+						<p:outputLabel for="lts" value="Cantidad Usada"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+						<p:inputText id="lts" styleClass="camposLimpieza"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							value="#{votatorBBean.limpiezaEditar.litrosUsados}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+						<p:outputLabel for="um" value="Unidad de medida" />
+						<p:inputText id="um" styleClass="camposLimpieza"
+							value="#{votatorBBean.limpiezaEditar.um}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+						<p:outputLabel for="tem" value="Temperatura" />
+						<p:inputText id="tem" styleClass="camposLimpieza"
+							value="#{votatorBBean.limpiezaEditar.temperatura}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+						<p:outputLabel for="lote" value="Lote"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+						<p:inputText id="lote" styleClass="camposLimpieza"
+							value="#{votatorBBean.limpiezaEditar.lote}" required="false"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+						<p:outputLabel for="phf" value="pH Final" />
+						<p:inputText id="phf" styleClass="camposLimpieza"
+							value="#{votatorBBean.limpiezaEditar.phFinal}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{votatorBBean.actualizarLimpieza()}"
+							oncomplete="PF('dlgEditarLimpieza').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR LIMPIEZA-->
+
+
+
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR ORDEN DE MANTENIMIENTO-->
+			<h:form id="frmEditarManto">
+				<p:dialog header="Actualizar información de orden de Mantenimiento"
+					widgetVar="dlgEditarManto" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true" styleClass="tabla fuente">
+					<h:panelGrid id="pnlEditarManto" columns="2">
+
+						<p:outputLabel for="orden" value="No de Orden" />
+						<p:inputText id="orden" styleClass="camposManto"
+							value="#{votatorBBean.ordenMantenimientoEditar.noOrden}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+						<p:outputLabel value="Hora Inicio" />
+						<pe:timePicker
+							value="#{votatorBBean.ordenMantenimientoEditar.horaInicio}"
+							mode="spinner" widgetVar="h3" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel value="Hora Final" />
+						<pe:timePicker
+							value="#{votatorBBean.ordenMantenimientoEditar.horaFin}"
+							mode="spinner" widgetVar="h4" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel value="Descripción" />
+						<p:inputTextarea id="desc" styleClass="camposManto"
+							value="#{votatorBBean.ordenMantenimientoEditar.descripcion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{votatorBBean.actualizarOrdenManto()}"
+							oncomplete="PF('dlgEditarManto').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR PURGAS-->
+
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmTurnos">
+				<p:dialog header="Actualizar información del turno"
+					widgetVar="dlgEditarTurnos" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditarTurnos" columns="2" styleClass="fuente">
+
+
+						<p:outputLabel for="operador" value="Operador" />
+						<p:autoComplete id="operador" size="35" required="false"
+							requiredMessage="Operador requerido" autocomplete="off"
+							placeholder="Ingresa Operador" dropdown="true"
+							value="#{votatorBBean.filterOperador}"
+							completeMethod="#{votatorBBean.buscarNombreOperador}">
+						</p:autoComplete>
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+
+						<p:outputLabel for="coord" value="Coordinador" />
+						<p:autoComplete id="coord" size="35" required="false"
+							requiredMessage="Coordinador requerido" autocomplete="off"
+							placeholder="Ingresa coordinador" dropdown="true"
+							value="#{votatorBBean.filterUsuario}"
+							completeMethod="#{votatorBBean.buscarNombreCoordinador}">
+						</p:autoComplete>
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{votatorBBean.actualizarTurnos()}"
+							oncomplete="PF('dlgEditarTurnos').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmObservaciones">
+				<p:dialog header="Agregar/Editar observación"
+					widgetVar="dlgAgregarObs" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
+
+						<p:inputTextarea id="textObs"
+							value="#{votatorBBean.folioPreparacionVotatorB.observaciones}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{votatorBBean.guardarObservaciones()}"
+							oncomplete="PF('dlgAgregarObs').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>
