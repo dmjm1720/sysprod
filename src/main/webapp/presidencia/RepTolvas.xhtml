@@ -63,7 +63,8 @@
 							<div style="text-align: center">
 								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
 									icon="pi pi-file-excel" style="width: 8rem; height: 3rem">
-									<p:dataExporter type="xls" target="frmPrincipal:acco:tblClientes"
+									<p:dataExporter type="xls"
+										target="frmPrincipal:acco:tblClientes"
 										fileName="REPORTE DE TOLVAS" />
 								</p:commandButton>
 							</div>
@@ -71,10 +72,9 @@
 							<p:dataTable id="tblClientes" styleClass="tabla fuente"
 								var="item" scrollHeight="650" scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-								rowsPerPageTemplate="50,100,200,500" rows="50"
-								paginator="true" liveScroll="true" rowHover="true"
-								paginatorAlwaysVisible="true" scrollable="true"
-								filterBy="#{item.proveedores.nombre}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true" filterBy="#{item.proveedores.nombre}"
 								currentPageReportTemplate="Total: #{entradasBean.listarEntradas.size()}"
 								value="#{entradasBean.listarEntradas}"
 								emptyMessage="NO HAY REGISTROS">
@@ -159,6 +159,9 @@
 								<p:column headerText="Cerdo Mexicano" width="3rem">
 									<h:outputText value="#{item.cerdoMexicano}" />
 								</p:column>
+								<p:column headerText="Cerdo Americano" width="3rem">
+									<h:outputText value="#{item.cerdoAmericano}" />
+								</p:column>
 								<p:column headerText="Cachete" width="3rem">
 									<h:outputText value="#{item.orejaCachete}" />
 								</p:column>
@@ -234,6 +237,9 @@
 								<p:column headerText="Precio cerdo Mexicano" width="5rem">
 									<h:outputText value="#{item.precioCm}" />
 								</p:column>
+								<p:column headerText="Precio cerdo Americano" width="5rem">
+									<h:outputText value="#{item.precioCa}" />
+								</p:column>
 								<p:column headerText="Precio cachete" width="5rem">
 									<h:outputText value="#{item.precioCo}" />
 								</p:column>
@@ -258,6 +264,9 @@
 								</p:column>
 								<p:column headerText="Precio cuero en sangre" width="5rem">
 									<h:outputText value="#{item.precioCe}" />
+								</p:column>
+								<p:column headerText="Precio KG Merma" width="5rem">
+									<h:outputText value="#{item.kgCalidadMateria}" />
 								</p:column>
 								<p:column headerText="Subtotal" width="5rem">
 									<h:outputText value="#{item.subtotal}" />
