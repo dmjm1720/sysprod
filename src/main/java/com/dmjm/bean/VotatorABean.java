@@ -738,7 +738,7 @@ public class VotatorABean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a.jasper");
+		ruta = servletContext.getRealPath("/REP/votator_rep_a.jasper");
 		reporte.getReporte(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
@@ -755,7 +755,7 @@ public class VotatorABean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a.jasper");
+		ruta = servletContext.getRealPath("/REP/votator_rep_a.jasper");
 
 		reporte.getReporte(ruta, fec, folioFechaRep);
 
@@ -772,7 +772,7 @@ public class VotatorABean implements Serializable {
 		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
-		String ruta = servletContext.getRealPath("/REP/esterilizadores_rep_a_excel.jasper");
+		String ruta = servletContext.getRealPath("/REP/votator_rep_a_excel.jasper");
 
 		// Llamar a la versión que exporta a Excel
 		reporte.getReporteExcel(ruta, fecha.toString());
