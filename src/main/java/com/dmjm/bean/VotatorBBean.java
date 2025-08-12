@@ -404,7 +404,7 @@ public class VotatorBBean implements Serializable {
 	public void guardarVotator() {
 
 		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
-				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", ":00", "1:00", "2:00", "3:00", "4:00",
+				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
 				"5:00", "6:00", "PROM." };
 
 		IVotatorBDao cDao = new VotatorBDaoImpl();
@@ -732,7 +732,13 @@ public class VotatorBBean implements Serializable {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-
+		//ACTUALIZAR EL RESUMEN
+		try {
+			resumenVotator();
+		} catch (ParseException e) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL RESUMEN");
+			e.printStackTrace();
+		}
 		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
@@ -749,7 +755,13 @@ public class VotatorBBean implements Serializable {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-
+		//ACTUALIZAR EL RESUMEN
+		try {
+			resumenVotator();
+		} catch (ParseException e) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL RESUMEN");
+			e.printStackTrace();
+		}
 		ReporteCocedores reporte = new ReporteCocedores();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
@@ -768,7 +780,13 @@ public class VotatorBBean implements Serializable {
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-
+		//ACTUALIZAR EL RESUMEN
+		try {
+			resumenVotator();
+		} catch (ParseException e) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL RESUMEN");
+			e.printStackTrace();
+		}
 		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
@@ -904,7 +922,7 @@ public class VotatorBBean implements Serializable {
 	}
 
 	public Boolean validarHora(String hora) {
-		if (hora.equals(":00") || hora.equals("1:00") || hora.equals("2:00") || hora.equals("3:00")
+		if (hora.equals("00:00") || hora.equals("1:00") || hora.equals("2:00") || hora.equals("3:00")
 				|| hora.equals("4:00") || hora.equals("5:00") || hora.equals("6:00")) {
 			return true;
 		}

@@ -1,6 +1,10 @@
 package com.dmjm.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,11 +15,11 @@ import org.hibernate.query.Query;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IResumenVotatorADao;
-import com.dmjm.model.Purgas;
 import com.dmjm.model.ResumenVotatorA;
+import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
-public class ResumenVotatorADaoImpl implements IResumenVotatorADao {
+public class ResumenVotatorADaoImpl extends Conexion implements IResumenVotatorADao {
 	private static final Logger LOGGER = LogManager.getLogger(ResumenVotatorADaoImpl.class.getName());
 
 	@Override
@@ -48,33 +52,26 @@ public class ResumenVotatorADaoImpl implements IResumenVotatorADao {
 	@Override
 	public void borrarResumen(int folio) {
 
-		Session session = null;
-		Transaction transaction = null;
+		String sql = "DELETE FROM RESUMEN_VOTATOR_A WHERE ID_FOLIO_PREP = ?";
 
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			transaction = session.beginTransaction();
+			ConectarSysProd();
 
-			List<ResumenVotatorA> resumenes = session
-					.createQuery("FROM ResumenVotatorA r WHERE r.folioPreparacionVotatorA.folioVotatorA = :folio",
-							ResumenVotatorA.class)
-					.setParameter("folio", folio).getResultList();
+			try (PreparedStatement ps = getCnSysProd().prepareStatement(sql)) {
+				ps.setLong(1, folio);
 
-			for (ResumenVotatorA r : resumenes) {
-				session.delete(r);
+				int filasBorradas = ps.executeUpdate();
+				LOGGER.info("SE HA BORRADO EL FOLIO: " + folio + " FILAS BORRADAS: " + filasBorradas);
 			}
 
-			transaction.commit();
-			LOGGER.info("VOTATOR A, FOLIO DEL RESUMEN ENCONTRADO Y BORRADO: " + folio);
-
-		} catch (HibernateException e) {
-			if (transaction != null && transaction.isActive()) {
-				transaction.rollback();
-			}
-			LOGGER.fatal("VOTATOR A, NO SE PUDO BORRAR EL FOLIO DEL RESUMEN: " + e.getMessage());
+		} catch (SQLException ex) {
+			LOGGER.info("NO SE HA BORRADO EL FOLIO: " + folio);
 		} finally {
-			if (session != null) {
-				session.close();
+			try {
+				CerrarSysProd();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -82,11 +79,11 @@ public class ResumenVotatorADaoImpl implements IResumenVotatorADao {
 	@Override
 	public List<ResumenVotatorA> listaResumen(int folio) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-		    String hql = "FROM ResumenVotatorA r JOIN FETCH r.folioPreparacionVotatorA WHERE r.folioPreparacionVotatorA.idFolioPrep = :folio";
-		    Query<ResumenVotatorA> query = session.createQuery(hql, ResumenVotatorA.class);
-		    query.setParameter("folio", folio);
+			String hql = "FROM ResumenVotatorA r JOIN FETCH r.folioPreparacionVotatorA WHERE r.folioPreparacionVotatorA.idFolioPrep = :folio";
+			Query<ResumenVotatorA> query = session.createQuery(hql, ResumenVotatorA.class);
+			query.setParameter("folio", folio);
 
-		    return query.list();
+			return query.list();
 		}
 	}
 }

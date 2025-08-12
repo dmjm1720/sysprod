@@ -1,5 +1,7 @@
 package com.dmjm.impl;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,9 +14,10 @@ import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IResumenVotatorBDao;
 import com.dmjm.model.ResumenVotatorB;
+import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
-public class ResumenVotatorBDaoImpl implements IResumenVotatorBDao {
+public class ResumenVotatorBDaoImpl extends Conexion implements IResumenVotatorBDao {
 	private static final Logger LOGGER = LogManager.getLogger(ResumenVotatorBDaoImpl.class.getName());
 
 	@Override
@@ -47,33 +50,26 @@ public class ResumenVotatorBDaoImpl implements IResumenVotatorBDao {
 	@Override
 	public void borrarResumen(int folio) {
 
-		Session session = null;
-		Transaction transaction = null;
+		String sql = "DELETE FROM RESUMEN_VOTATOR_B WHERE ID_FOLIO_PREP = ?";
 
 		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			transaction = session.beginTransaction();
+			ConectarSysProd();
 
-			List<ResumenVotatorB> resumenes = session
-					.createQuery("FROM ResumenVotatorB r WHERE r.folioPreparacionVotatorB.folioVotatorB = :folio",
-							ResumenVotatorB.class)
-					.setParameter("folio", folio).getResultList();
+			try (PreparedStatement ps = getCnSysProd().prepareStatement(sql)) {
+				ps.setLong(1, folio);
 
-			for (ResumenVotatorB r : resumenes) {
-				session.delete(r);
+				int filasBorradas = ps.executeUpdate();
+				LOGGER.info("SE HA BORRADO EL FOLIO: " + folio + " FILAS BORRADAS: " + filasBorradas);
 			}
 
-			transaction.commit();
-			LOGGER.info("VOTATOR B, FOLIO DEL RESUMEN ENCONTRADO Y BORRADO: " + folio);
-
-		} catch (HibernateException e) {
-			if (transaction != null && transaction.isActive()) {
-				transaction.rollback();
-			}
-			LOGGER.fatal("VOTATOR B, NO SE PUDO BORRAR EL FOLIO DEL RESUMEN: " + e.getMessage());
+		} catch (SQLException ex) {
+			LOGGER.info("NO SE HA BORRADO EL FOLIO: " + folio);
 		} finally {
-			if (session != null) {
-				session.close();
+			try {
+				CerrarSysProd();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
