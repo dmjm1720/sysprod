@@ -905,10 +905,10 @@
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />
 						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
-							styleClass="{votatorABean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+							styleClass="#{votatorABean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
 						<p:selectOneButton id="a"
-							value="{votatorABean.votatorEditar.estadoAR}"
-							styleClass="{votatorABean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							value="#{votatorABean.votatorEditar.estadoAR}"
+							styleClass="#{votatorABean.votatorEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
 							<f:selectItem itemLabel="Aceptado" itemValue="true" />
 							<f:selectItem itemLabel="Rechazado" itemValue="false" />
 							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />

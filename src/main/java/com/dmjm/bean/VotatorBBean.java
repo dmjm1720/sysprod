@@ -449,6 +449,16 @@ public class VotatorBBean implements Serializable {
 		String oper = votatorEditar.getOperacion().replaceAll("\\s+", "");
 		votatorEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
 
+		if (Boolean.TRUE.equals(votatorEditar.getEstadoAR())) {
+			votatorEditar.setEstadoA("X");
+			votatorEditar.setEstadoR(null);
+		}
+
+		if (Boolean.FALSE.equals(votatorEditar.getEstadoAR())) {
+			votatorEditar.setEstadoR("X");
+			votatorEditar.setEstadoA(null);
+		}
+		
 		cDao.actualizarVotator(votatorEditar);
 		actualizarPromedios(votatorEditar.getFolioPreparacionVotatorB().getFolioVotatorB());
 
