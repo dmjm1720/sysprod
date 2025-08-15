@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.ICambioPrefiltroDao;
 import com.dmjm.model.CambioPrefiltro;
@@ -34,6 +35,12 @@ public class CambioPrefiltroDaoImpl implements ICambioPrefiltroDao {
 			Transaction transaction = session.beginTransaction();
 			session.save(cambio);
 			transaction.commit();
+			String info = "Se ha registrado un nuevo prefiltro";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 		} finally {
@@ -53,6 +60,12 @@ public class CambioPrefiltroDaoImpl implements ICambioPrefiltroDao {
 			Transaction transaction = session.beginTransaction();
 			session.update(cambio);
 			transaction.commit();
+			String info = "Se ha actualizado la información del prefiltro";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 		} finally {
@@ -60,6 +73,32 @@ public class CambioPrefiltroDaoImpl implements ICambioPrefiltroDao {
 				session.close();
 			}
 		}
+	}
+
+	@Override
+	public void borrarrCambioPre(CambioPrefiltro cambio) {
+		Session session = null;
+		try {
+
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.delete(cambio);
+			transaction.commit();
+			String info = "Se ha borrado la información del  prefiltro";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
 	}
 
 }

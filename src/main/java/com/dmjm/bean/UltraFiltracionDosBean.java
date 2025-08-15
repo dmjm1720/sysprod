@@ -70,6 +70,7 @@ public class UltraFiltracionDosBean implements Serializable {
 	private CambioPrefiltro cambio;
 	private List<CambioPrefiltro> listaCambio;
 	private CambioPrefiltro cambioEditar;
+	private CambioPrefiltro cambioBorrar;
 
 	private String filterTurno;
 	private String filterUsuario;
@@ -115,6 +116,7 @@ public class UltraFiltracionDosBean implements Serializable {
 
 		cambio = new CambioPrefiltro();
 		cambioEditar = new CambioPrefiltro();
+		cambioBorrar = new CambioPrefiltro();
 		listaCambio = new ArrayList<>();
 
 		operador = new Operador();
@@ -147,6 +149,14 @@ public class UltraFiltracionDosBean implements Serializable {
 		getListaOrdenManto();
 		getListaFolioUltraDos();
 
+	}
+
+	public CambioPrefiltro getCambioBorrar() {
+		return cambioBorrar;
+	}
+
+	public void setCambioBorrar(CambioPrefiltro cambioBorrar) {
+		this.cambioBorrar = cambioBorrar;
 	}
 
 	public List<UltrafiltracionDos> getListaFiltroUltraDos() {
@@ -371,7 +381,8 @@ public class UltraFiltracionDosBean implements Serializable {
 	}
 
 	public LimpiezaUltraDos getLimpiezaEditar() {
-		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso()) || "DESCONCETRACIÓN".equals(limpiezaEditar.getProceso())) {
+		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())
+				|| "DESCONCETRACIÓN".equals(limpiezaEditar.getProceso())) {
 			limpiezaEditar.setQuimico("AGUA");
 		}
 		return limpiezaEditar;
@@ -518,6 +529,11 @@ public class UltraFiltracionDosBean implements Serializable {
 	public void borrarTurnos() {
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
 		rDao.borrarRegistroTurno(registroTurnosEditar);
+	}
+
+	public void borrarPrefiltros() {
+		ICambioPrefiltroDao cDao = new CambioPrefiltroDaoImpl();
+		cDao.borrarrCambioPre(cambioBorrar);
 	}
 
 	public void actualizarUltraDos() {

@@ -10,4 +10,6 @@ public interface ICambioPrefiltroDao {
 	void guardarCambioPre(CambioPrefiltro cambio);
 
 	void actualizarCambioPre(CambioPrefiltro cambio);
+	
+	void borrarrCambioPre(CambioPrefiltro cambio);
 }
