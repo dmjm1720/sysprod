@@ -40,6 +40,7 @@ public class PreciosBean implements Serializable {
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 	private List<Precios> listarPrecios;
 	private Precios precios;
+	private Precios precioAnterior;
 
 	private String filterProveedor;
 	private String filterMateria;
@@ -51,6 +52,7 @@ public class PreciosBean implements Serializable {
 	public void init() {
 		listarPrecios = new ArrayList<>();
 		precios = new Precios();
+		precioAnterior = new Precios();
 		proveedores = new Proveedores();
 		materia = new Materia();
 		precios.setFechaActualizacion(new Date());
@@ -60,6 +62,14 @@ public class PreciosBean implements Serializable {
 		IPreciosDao pDao = new PreciosDaoImpl();
 		listarPrecios = pDao.listarPrecios();
 		return listarPrecios;
+	}
+
+	public Precios getPrecioAnterior() {
+		return precioAnterior;
+	}
+
+	public void setPrecioAnterior(Precios precioAnterior) {
+		this.precioAnterior = precioAnterior;
 	}
 
 	public Precios getPrecios() {
@@ -109,16 +119,41 @@ public class PreciosBean implements Serializable {
 
 		precios.setProveedores(proveedores);
 		precios.setMateria(materia);
+		
+		
 
 		pDao.guardarPrecios(precios);
-	
+		
+		IBitacoraPreciosDao bDao = new BitacoraPreciosDaoImpl();
+		BitacoraPrecios b = new BitacoraPrecios();
+		b.setIdMateria(precios.getMateria().getIdMateria());
+		b.setIdProveedor(precios.getProveedores().getIdProveedor());
+		b.setFechaActualizacion(new Date());
+		b.setActualizadoPor(us.getIdUsuario());
+		b.setFechaSistema(new Date());
+		b.setNuevoPrecio(new BigDecimal(precios.getPrecioActual()));
+		b.setTipo("NUEVO");
+
+		bDao.guardarBitacoraPrecios(b);
+
+		LOGGER.warn("============================================");
+		LOGGER.warn("SE HA REGISTRADO UN NUEVO PRECIO");
+		LOGGER.warn("MATERIA: " + buscarNombreMateria(filterMateria) + "->PROVEEDOR: "
+				+ buscarNombreProveedor(filterProveedor) + "->NUEVO PRECIO: "
+				+ new BigDecimal(precios.getPrecioActual()) + "->FECHA DE CREACIÓN: "
+				+ precios.getFechaActualizacion() + " ->FECHA DE SISTEMA: " + new Date()
+				+ " ->CREADO POR: " + us.getNombre());
+
+		LOGGER.warn("============================================");
+
+
 		precios = new Precios();
 		proveedores = new Proveedores();
 		materia = new Materia();
 		filterMateria = null;
 		filterProveedor = null;
 
-		String info = "SE HA ACTUALIZADO EL PRECIO CORRECTAMENTE";
+		String info = "Se ha actualizado el precio correctamente";
 		PrimeFaces.current()
 				.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 						+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
@@ -149,30 +184,48 @@ public class PreciosBean implements Serializable {
 		return mDao.buscarMateria(nombre);
 	}
 
+	public void preUpdate(String preAnterior) {
+		LOGGER.info("PRECIO ANTERIOR: " + preAnterior);
+		precioAnterior.setPrecioActual(preAnterior);
+	}
+
 	public void actualizarPrecio() {
 		IPreciosDao pDao = new PreciosDaoImpl();
-		//precios.setFechaActualizacion(new Date());
 		pDao.actualizarPrecios(precios);
-		
+
 		IBitacoraPreciosDao bDao = new BitacoraPreciosDaoImpl();
-		bDao.guardarBitacoraPrecios(
-				new BitacoraPrecios(precios.getMateria().getIdMateria(), precios.getProveedores().getIdProveedor(),
-						new BigDecimal(precios.getPrecioActual()), precios.getFechaActualizacion(), us.getIdUsuario()));
-		
-		LOGGER.warn("============================================");
-		LOGGER.warn("Se ha realizado una actualización de precios");
-		LOGGER.warn("Id Materia: " + precios.getMateria().getIdMateria() + "->Id Proveedor: " + precios.getProveedores().getIdProveedor() + "->Nuevo precio: " +
-				new BigDecimal(precios.getPrecioActual()) + "->Fecha de actualización: " + precios.getFechaActualizacion() + "->Actualizado por: " + us.getIdUsuario());
-		LOGGER.warn("============================================");
+		BitacoraPrecios b = new BitacoraPrecios();
+		b.setIdMateria(precios.getMateria().getIdMateria());
+		b.setIdProveedor(precios.getProveedores().getIdProveedor());
+		b.setPrecioAnterior(new BigDecimal(precioAnterior.getPrecioActual()));
+		b.setFechaActualizacion(precios.getFechaActualizacion());
+		b.setActualizadoPor(us.getIdUsuario());
+		b.setFechaSistema(new Date());
+		b.setNuevoPrecio(new BigDecimal(precios.getPrecioActual()));
+		b.setTipo("ACTUALIZACIÓN");
 
+		bDao.guardarBitacoraPrecios(b);
 
-		LOGGER.info("ACTUALIZACIÓN DE PRECIO:" + precios.getPrecioActual() + " ID: " + precios.getIdPrecios()
-				+ " POR EL USUARIO: " + us.getUsuario() + " " + us.getIniciales());
+		LOGGER.warn("============================================");
+		LOGGER.warn("SE HA REALIZADO UNA ACTUALIZACIÓN DE PRECIOS");
+		LOGGER.warn("MATERIA: " + precios.getMateria().getTipo() + "->PROVEEDOR: "
+				+ precios.getProveedores().getNombre() + "->NUEVO PRECIO: "
+				+ new BigDecimal(precios.getPrecioActual()) + "->FECHA DE ACTUALIZACIÓN: "
+				+ precios.getFechaActualizacion() + " ->FECHA DE SISTEMA: " + b.getFechaSistema()
+				+ " ->ACTUALIZADOR POR: " + us.getNombre());
+
+		LOGGER.info("PRECIO ANTERIOR: " + precioAnterior.getPrecioActual());
+		LOGGER.info("ACTUALIZACIÓN DE PRECIO:" + b.getNuevoPrecio() + " ID: " + precios.getIdPrecios()
+				+ " POR EL USUARIO: " + us.getUsuario() + " ->" + us.getIniciales() + " ->" + us.getNombre());
+
+		LOGGER.warn("============================================");
 		String info = "SE HA ACTUALIZADO EL PRECIO CORRECTAMENTE";
 		PrimeFaces.current()
 				.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 						+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 						+ "  timer: 8000\n" + "})");
+		precios = new Precios();
+		precioAnterior = new Precios();
 	}
 
 }

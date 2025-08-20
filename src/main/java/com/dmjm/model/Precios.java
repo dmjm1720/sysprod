@@ -26,6 +26,7 @@ public class Precios implements Serializable {
 		this.proveedores = proveedores;
 		this.precioActual = precioActual;
 		this.fechaActualizacion = fechaActualizacion;
+
 	}
 
 	public int getIdPrecios() {

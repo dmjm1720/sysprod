@@ -14,8 +14,8 @@
         <property name="idProveedor" type="java.lang.Integer">
             <column name="ID_PROVEEDOR" />
         </property>
-        <property name="precioActual" type="big_decimal">
-            <column name="PRECIO_ACTUAL" precision="10" scale="4" />
+        <property name="precioAnterior" type="big_decimal">
+            <column name="PRECIO_ANTERIOR" precision="10" scale="4" />
         </property>
         <property name="fechaActualizacion" type="timestamp">
             <column name="FECHA_ACTUALIZACION" length="23" />
@@ -23,5 +23,14 @@
         <property name="actualizadoPor" type="java.lang.Integer">
             <column name="ACTUALIZADO_POR" />
         </property>
+        <property name="fechaSistema" type="timestamp">
+			<column name="FECHA_SISTEMA" length="23" />
+		</property>
+		<property name="nuevoPrecio" type="big_decimal">
+			<column name="NUEVO_PRECIO" precision="10" scale="4" />
+		</property>
+			<property name="tipo" type="string">
+			<column name="TIPO" length="50" />
+		</property>
     </class>
 </hibernate-mapping>

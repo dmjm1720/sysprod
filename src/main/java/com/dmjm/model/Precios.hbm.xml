@@ -23,5 +23,6 @@
 		<property name="fechaActualizacion" type="timestamp">
 			<column name="FECHA_ACTUALIZACION" length="23" />
 		</property>
+		
 	</class>
 </hibernate-mapping>
