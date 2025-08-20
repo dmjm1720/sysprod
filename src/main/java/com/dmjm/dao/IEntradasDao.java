@@ -7,6 +7,8 @@ import com.dmjm.model.Entradas;
 public interface IEntradasDao {
 
     List<Entradas> listarEntradas();
+    
+    List<Entradas> listarEntradasPrecios();
 
     void guardarEntradas(Entradas entradas);
 

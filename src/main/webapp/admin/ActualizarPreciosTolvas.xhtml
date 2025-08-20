@@ -36,7 +36,7 @@
 								scrollable="true" filterBy="#{item.proveedores.nombre}"
 								rowStyleClass="#{item.estado=='1' ? 'calidad' :null} #{item.estado=='2' ? 'liberado' :null} #{item.estado=='3' ? 'nohumedad' :null}"
 								currentPageReportTemplate="Total: #{entradasBean.listarEntradas.size()}"
-								value="#{entradasBean.listarEntradas}"
+								value="#{entradasBean.listarEntradasPrecios}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:column headerText="Detalle" width="3rem"
@@ -50,24 +50,6 @@
 									<p:tooltip id="toolTipD" for="det"
 										value="Ver detalle de la captura" trackMouse="true" />
 								</p:column>
-
-
-								<!--Impresión de hoja de liberación, gerencia y contador: otro con detalle de pagos (Contador)-->
-								<p:column headerText="Imprimir" width="3rem"
-									style="text-align: center"
-									rendered="#{login.usuario.perfiles.idPerfil!=2 and login.usuario.perfiles.idPerfil!=3}">
-									<h:commandLink id="imp" value=""
-										style="height: 30px;  font-size: 12px;" target="_blank"
-										actionListener="#{entradasBean.visualizarReporte(item.idEntrada, item.tolvas, item.estado, item.gerenciaProduccion)}">
-										<f:setPropertyActionListener value="#{item}"
-											target="#{entradasBean.entradasDetalle}" />
-										<h:graphicImage url="/resources/img/printer.png"
-											value="Reporte" style="height: 1.8rem" />
-									</h:commandLink>
-									<p:tooltip id="toolTipI" for="imp"
-										value="Imprimir hoja de liberación" trackMouse="true" />
-								</p:column>
-
 
 
 								<p:column headerText="Ver documentos" width="5rem"
@@ -94,12 +76,26 @@
 											style="width: 20px; height: 20px;" />
 									</div>
 								</p:column>
-
+								
+								<!--Impresión de hoja de liberación, gerencia y contador: otro con detalle de pagos (Contador)-->
+								<p:column headerText="Imprimir" width="3rem"
+									style="text-align: center"
+									rendered="#{login.usuario.perfiles.idPerfil!=2 and login.usuario.perfiles.idPerfil!=3}">
+									<h:commandLink id="imp" value=""
+										style="height: 30px;  font-size: 12px;" target="_blank"
+										actionListener="#{entradasBean.visualizarReporte(item.idEntrada, item.tolvas, item.estado, item.gerenciaProduccion)}">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{entradasBean.entradasDetalle}" />
+										<h:graphicImage url="/resources/img/printer.png"
+											value="Reporte" style="height: 1.8rem" />
+									</h:commandLink>
+									<p:tooltip id="toolTipI" for="imp"
+										value="Imprimir hoja de liberación" trackMouse="true" />
+								</p:column>
 								<p:column headerText="Actualizar precio" width="3rem">
-
 									<p:commandButton id="ed1" icon="pi pi-fw pi-pencil"
 										styleClass="ui-button-warning"
-										actionListener="#{entradasBean.actualizarPrecio()}">
+										action="#{entradasBean.actualizarPrecio()}">
 										<f:setPropertyActionListener value="#{item}"
 											target="#{entradasBean.entradasEditar}" />
 										<f:setPropertyActionListener
@@ -113,12 +109,11 @@
 										<f:setPropertyActionListener
 											value="#{item.preservacion.nombre}"
 											target="#{entradasBean.filterPreservacion}" />
-
 									</p:commandButton>
-
 									<p:tooltip id="toolTipE" for="ed1" value="Actualizar precio"
 										trackMouse="true" />
 								</p:column>
+
 								<p:column headerText="Tolvas" width="3rem"
 									filterBy="#{item.tolvas}">
 									<h:outputText value="#{item.tolvas}" />

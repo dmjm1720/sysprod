@@ -34,6 +34,7 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.file.UploadedFile;
 
+import com.dmjm.dao.IBitacoraPreciosDao;
 import com.dmjm.dao.IEntradasDao;
 import com.dmjm.dao.IFoliosDao;
 import com.dmjm.dao.IMateriaDao;
@@ -41,6 +42,7 @@ import com.dmjm.dao.IPreciosDao;
 import com.dmjm.dao.IPreservacionDao;
 import com.dmjm.dao.IProveedoresDao;
 import com.dmjm.dao.ITransportistaDao;
+import com.dmjm.impl.BitacoraPreciosDaoImpl;
 import com.dmjm.impl.EntradasDaoImpl;
 import com.dmjm.impl.FoliosDaoImpl;
 import com.dmjm.impl.MateriaDaoImpl;
@@ -48,6 +50,7 @@ import com.dmjm.impl.PreciosDaoImpl;
 import com.dmjm.impl.PreservacionDaoImpl;
 import com.dmjm.impl.ProveedoresDaoImpl;
 import com.dmjm.impl.TransportistaDaoImpl;
+import com.dmjm.model.BitacoraPrecios;
 import com.dmjm.model.Entradas;
 import com.dmjm.model.Materia;
 import com.dmjm.model.Preservacion;
@@ -69,6 +72,7 @@ public class EntradasBean extends Conexion implements Serializable {
 	private static final Logger LOGGER = LogManager.getLogger(EntradasBean.class.getName());
 
 	private List<Entradas> listarEntradas;
+	private List<Entradas> listarEntradasPrecios;
 	private Entradas entradas;
 	private Materia materia;
 	private Preservacion preservacion;
@@ -131,6 +135,7 @@ public class EntradasBean extends Conexion implements Serializable {
 	@PostConstruct
 	public void init() {
 		listarEntradas = new ArrayList<>();
+		listarEntradasPrecios = new ArrayList<>();
 		entradas = new Entradas();
 		materia = new Materia();
 		preservacion = new Preservacion();
@@ -295,6 +300,12 @@ public class EntradasBean extends Conexion implements Serializable {
 		IEntradasDao eDao = new EntradasDaoImpl();
 		listarEntradas = eDao.listarEntradas();
 		return listarEntradas;
+	}
+
+	public List<Entradas> getListarEntradasPrecios() {
+		IEntradasDao eDao = new EntradasDaoImpl();
+		listarEntradasPrecios = eDao.listarEntradasPrecios();
+		return listarEntradasPrecios;
 	}
 
 	public Entradas getEntradasEditar() {
@@ -800,7 +811,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			Proveedores prov = new Proveedores();
 			prov = buscarMermaProveedor(proveedores.getIdProveedor());
 			LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-			LOGGER.info("Nombre del proveedor:" + prov.getNombre() + " Descuento por merma: " + prov.getDescuentoMerma());
+			LOGGER.info(
+					"Nombre del proveedor:" + prov.getNombre() + " Descuento por merma: " + prov.getDescuentoMerma());
 
 			double porcentaje15 = 0.0;
 			porcentaje15 = Double.valueOf(prov.getDescuentoMerma().toString());
@@ -996,8 +1008,8 @@ public class EntradasBean extends Conexion implements Serializable {
 
 	// **ACTUALIZAR PERFIL CONTROL DE CALIDAD**//
 	public void actualizar() {
-		alertaCalcios="";
-		alertaHumedad="";
+		alertaCalcios = "";
+		alertaHumedad = "";
 		IEntradasDao eDao = new EntradasDaoImpl();
 		switch (us.getPerfiles().getNombrePerfil()) {
 		case "Coordinador" -> entradasEditar.setCoordinadorProduccion(us.getIniciales());
@@ -1464,17 +1476,21 @@ public class EntradasBean extends Conexion implements Serializable {
 			}
 
 		}
-		
+
 		entradasEditar = new Entradas();
 //		String script = "setTimeout(function() { window.location.href='Entradas.html'; }, 3000);";
 //		PrimeFaces.current().executeScript(script);
 	}
+
 	
 	
-	// **ACTUALIZAR PERFIL CONTROL DE CALIDAD**//
+	// **ACTUALIZAR PERFIL PRECIOS**//
 	public void actualizarPrecio() {
-		alertaCalcios="";
-		alertaHumedad="";
+
+		LOGGER.warn(">>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<");
+		LOGGER.info("INICIA LA ACTUALIZACIÓN DE PRECIOS");
+		alertaCalcios = "";
+		alertaHumedad = "";
 		IEntradasDao eDao = new EntradasDaoImpl();
 		switch (us.getPerfiles().getNombrePerfil()) {
 		case "Coordinador" -> entradasEditar.setCoordinadorProduccion(us.getIniciales());
@@ -1483,6 +1499,18 @@ public class EntradasBean extends Conexion implements Serializable {
 		default -> {
 		}
 		}
+		
+		
+		IBitacoraPreciosDao bDao = new BitacoraPreciosDaoImpl();
+		BitacoraPrecios b = new BitacoraPrecios();
+		b.setIdMateria(entradasEditar.getMateria().getIdMateria());
+		b.setIdProveedor(entradasEditar.getProveedores().getIdProveedor());
+		b.setFechaActualizacion(new Date());
+		b.setActualizadoPor(us.getIdUsuario());
+		b.setFechaSistema(new Date());
+		b.setTipo("TOLVA NO. " + entradasEditar.getTolvas());
+
+		bDao.guardarBitacoraPrecios(b);
 
 		// **BUSCAR ACTUALIZACIÓN DE PRECIO**//
 		LOGGER.warn(">>>>>>>>>>>>>>>>>>INICIA BUSCAR ACTUALIZACIÓN DE PRECIO<<<<<<<<<<<<<<<<<<");
@@ -1704,53 +1732,6 @@ public class EntradasBean extends Conexion implements Serializable {
 			}
 			LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>>FINALIZA VALIDACIÓN DE DESCUENTOS<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 			// **FINALIZA VALIDAR LOS DESCUENTOS POR ALCALINIDAD Y HUMEDAD**//
-
-			// MANDAR CORREO EN CASO DE //
-			switch (alertaCalcios + "-" + alertaHumedad) {
-			case "FUERA DE RANGO-FUERA DE RANGO" -> {
-				CorreoRangos cr = new CorreoRangos();
-				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
-						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
-						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
-			}
-			case "FUERA DE RANGO-OK" -> {
-				CorreoRangos cr = new CorreoRangos();
-				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
-						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
-						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
-			}
-			case "OK-FUERA DE RANGO" -> {
-				CorreoRangos cr = new CorreoRangos();
-				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
-						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
-						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
-			}
-			case "null-FUERA DE RANGO" -> {
-				CorreoRangos cr = new CorreoRangos();
-				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
-						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
-						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
-			}
-			case "FUERA DE RANGO-null" -> {
-				CorreoRangos cr = new CorreoRangos();
-				cr.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-						entradasEditar.getMateria().getTipo(), alertaHumedad, humedad, alertaCalcios, calcios,
-						Double.valueOf(entradasEditar.getDescuentoHumedad().toString()),
-						Double.valueOf(entradasEditar.getDescuentoCalcio().toString()));
-			}
-			default -> {
-
-			}
-			}
 		}
 
 		// VALIDAR EL PROVEEDOR SI TIENE DESCUENTO EN LA MERMA
@@ -1941,12 +1922,20 @@ public class EntradasBean extends Conexion implements Serializable {
 			}
 
 		}
-		
-		entradasEditar = new Entradas();
-//		String script = "setTimeout(function() { window.location.href='Entradas.html'; }, 3000);";
-//		PrimeFaces.current().executeScript(script);
-	}
 
+		
+		String info = "Se ha actualizado el precio de la Tolva";
+
+		PrimeFaces.current()
+				.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+						+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+						+ "  timer: 8000\n" + "})");
+
+		entradasEditar = new Entradas();
+		LOGGER.info("FINALIZA LA ACTUALIZACIÓN DE PRECIOS");
+		LOGGER.warn(">>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<");
+
+	}
 
 	public void desbloquear(int id, int tolvaNo) {
 		try {
@@ -2124,21 +2113,21 @@ public class EntradasBean extends Conexion implements Serializable {
 	public double descuentoHumedadTabla_AB(String porcentaje, String tabla) {
 		double resultado = 0.0;
 		String sql = "";
-		double porcentajeDecimal =0.0;
-		porcentajeDecimal= Double.parseDouble(porcentaje);
+		double porcentajeDecimal = 0.0;
+		porcentajeDecimal = Double.parseDouble(porcentaje);
 		if (tabla.equals("A")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_A WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
-					+ porcentajeDecimal + " ORDER BY ID_HUMEDAD ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_A WHERE DE <= " + porcentajeDecimal
+					+ " AND HASTA >= " + porcentajeDecimal + " ORDER BY ID_HUMEDAD ASC";
 		} else if (tabla.equals("B")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_B WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
-					+ porcentajeDecimal + " ORDER BY ID_HUMEDAD ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_HUMEDAD_TABLA_B WHERE DE <= " + porcentajeDecimal
+					+ " AND HASTA >= " + porcentajeDecimal + " ORDER BY ID_HUMEDAD ASC";
 		}
 
 		try {
 			ConectarSysProd();
 			PreparedStatement st = getCnSysProd().prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
-			
+
 			if (!rs.isBeforeFirst()) {
 				// LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentaje);
 				resultado = 0.0;
@@ -2153,7 +2142,7 @@ public class EntradasBean extends Conexion implements Serializable {
 						entradasEditar.setRangoHumedad(1);
 						alertaHumedad = "FUERA DE RANGO";
 						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentajeDecimal + " EN LA TABLA A");
-					}else if (Double.valueOf(porcentajeDecimal) >= 80.0 && tabla.equals("B")) {
+					} else if (Double.valueOf(porcentajeDecimal) >= 80.0 && tabla.equals("B")) {
 						entradasEditar.setRangoHumedad(1);
 						alertaHumedad = "FUERA DE RANGO";
 						LOGGER.error("HUMEDAD FUERA DE RANGO PERMITIDO: " + porcentajeDecimal + " EN LA TABLA B");
@@ -2179,22 +2168,22 @@ public class EntradasBean extends Conexion implements Serializable {
 	// **PARA LOS DESCUENTOS EN LAS TABLAS DE LOS CALCIOS**//
 	public double descuentoCalciosTabla_AB(String porcentaje, String tabla) {
 		double resultado = 0.0;
-		double porcentajeDecimal =0.0;
-		porcentajeDecimal= Double.parseDouble(porcentaje);
+		double porcentajeDecimal = 0.0;
+		porcentajeDecimal = Double.parseDouble(porcentaje);
 		String sql = "";
 		if (tabla.equals("A")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_A WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
-					+ porcentajeDecimal + " ORDER BY ID_CALCIOS ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_A WHERE DE <= " + porcentajeDecimal
+					+ " AND HASTA >= " + porcentajeDecimal + " ORDER BY ID_CALCIOS ASC";
 		} else if (tabla.equals("B")) {
-			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_B WHERE DE <= " + porcentajeDecimal + " AND HASTA >= "
-					+ porcentajeDecimal + " ORDER BY ID_CALCIOS ASC";
+			sql = "SELECT  TOP(1) DESCUENTO FROM DESCUENTO_CALCIOS_TABLA_B WHERE DE <= " + porcentajeDecimal
+					+ " AND HASTA >= " + porcentajeDecimal + " ORDER BY ID_CALCIOS ASC";
 		}
 
 		try {
 			ConectarSysProd();
 			PreparedStatement st = getCnSysProd().prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
-			
+
 			if (!rs.isBeforeFirst()) {
 				resultado = 0.0;
 				LOGGER.error("CALCIOS FUERA DE RANGO PERMITIDO: " + porcentajeDecimal);

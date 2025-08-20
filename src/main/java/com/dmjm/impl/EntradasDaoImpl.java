@@ -268,4 +268,14 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 		return entradas;
 	}
 
+	@Override
+	public List<Entradas> listarEntradasPrecios() {
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Query<Entradas> query = session.createQuery("FROM Entradas WHERE estado=2 ORDER BY idEntrada DESC", Entradas.class);
+		List<Entradas> entradas = query.list();
+		session.close();
+		return entradas;
+	}
+
 }
