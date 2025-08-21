@@ -30,7 +30,7 @@
 			<column name="NUEVO_PRECIO" precision="10" scale="4" />
 		</property>
 			<property name="tipo" type="string">
-			<column name="TIPO" length="50" />
+			<column name="TIPO" length="500" />
 		</property>
     </class>
 </hibernate-mapping>

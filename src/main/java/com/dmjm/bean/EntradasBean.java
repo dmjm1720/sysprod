@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,7 +60,9 @@ import com.dmjm.model.Transportista;
 import com.dmjm.model.Usuarios;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.Correo;
+import com.dmjm.util.CorreoPrecios;
 import com.dmjm.util.CorreoRangos;
+import com.dmjm.util.PrecioMateria;
 import com.dmjm.util.ReporteLiberacion;
 import com.dmjm.util.ReporteLiberacionSF;
 
@@ -1482,8 +1485,8 @@ public class EntradasBean extends Conexion implements Serializable {
 //		PrimeFaces.current().executeScript(script);
 	}
 
-	
-	
+//****//	
+
 	// **ACTUALIZAR PERFIL PRECIOS**//
 	public void actualizarPrecio() {
 
@@ -1499,19 +1502,10 @@ public class EntradasBean extends Conexion implements Serializable {
 		default -> {
 		}
 		}
-		
-		
-		IBitacoraPreciosDao bDao = new BitacoraPreciosDaoImpl();
-		BitacoraPrecios b = new BitacoraPrecios();
-		b.setIdMateria(entradasEditar.getMateria().getIdMateria());
-		b.setIdProveedor(entradasEditar.getProveedores().getIdProveedor());
-		b.setFechaActualizacion(new Date());
-		b.setActualizadoPor(us.getIdUsuario());
-		b.setFechaSistema(new Date());
-		b.setTipo("TOLVA NO. " + entradasEditar.getTolvas());
 
-		bDao.guardarBitacoraPrecios(b);
+		
 
+		List<PrecioMateria> listaActualizacion = new ArrayList<>();
 		// **BUSCAR ACTUALIZACIÓN DE PRECIO**//
 		LOGGER.warn(">>>>>>>>>>>>>>>>>>INICIA BUSCAR ACTUALIZACIÓN DE PRECIO<<<<<<<<<<<<<<<<<<");
 		if (Double.parseDouble(entradasEditar.getCarnazaConPelo().toString()) != ceros) {
@@ -1520,6 +1514,10 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar.setPrecioCcp(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 1)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioCcp());
+			// AGREGAR A LA LISTA
+			listaActualizacion
+					.add(new PrecioMateria(entradasEditar.getPrecioCcp().toString(), "CUERO INTEGRAL SALADO CON PELO"));
+
 		} else {
 			entradasEditar.setPrecioCcp(BigDecimal.valueOf(ceros));
 		}
@@ -1529,6 +1527,8 @@ public class EntradasBean extends Conexion implements Serializable {
 					+ entradasEditar.getProveedores().getNombre());
 			entradas.setPrecioC1(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 2)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioC1());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioC1().toString(), "CARNAZA COMPLETA"));
 		} else {
 			entradasEditar.setPrecioC1(BigDecimal.valueOf(ceros));
 		}
@@ -1539,6 +1539,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioC2(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 3)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioC2());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioC2().toString(), "CARNAZA PEDAZOS"));
 		} else {
 			entradasEditar.setPrecioC2(BigDecimal.valueOf(ceros));
 		}
@@ -1549,6 +1551,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioCs(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 4)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioCs());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioCs().toString(), "CARNAZA SALADA"));
 		} else {
 			entradasEditar.setPrecioCs(BigDecimal.valueOf(ceros));
 		}
@@ -1559,6 +1563,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioDr(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 5)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioDr());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioDr().toString(), "DESBARBE / RECORTES"));
 		} else {
 			entradasEditar.setPrecioDr(BigDecimal.valueOf(ceros));
 		}
@@ -1569,6 +1575,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioCm(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 6)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioCm());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioCm().toString(), "CERDO MEXICANO"));
 		} else {
 			entradasEditar.setPrecioCm(BigDecimal.valueOf(ceros));
 		}
@@ -1579,6 +1587,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioCo(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 7)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioCo());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioCo().toString(), "CACHETE"));
 		} else {
 			entradasEditar.setPrecioCo(BigDecimal.valueOf(ceros));
 		}
@@ -1589,6 +1599,9 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioPc(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 8)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioPc());
+			// AGREGAR A LA LISTA
+			listaActualizacion
+					.add(new PrecioMateria(entradasEditar.getPrecioPc().toString(), "RECORTE DE CUERO CON PELO"));
 		} else {
 			entradasEditar.setPrecioPc(BigDecimal.valueOf(ceros));
 		}
@@ -1599,6 +1612,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioP(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 9)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioP());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioP().toString(), "PEDACERÍA"));
 		} else {
 			entradasEditar.setPrecioP(BigDecimal.valueOf(ceros));
 		}
@@ -1609,6 +1624,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar.setPrecioDa(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 10)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioDa());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioDa().toString(), "DESCARNE ADHERIDO"));
 		} else {
 			entradasEditar.setPrecioDa(BigDecimal.valueOf(ceros));
 		}
@@ -1619,6 +1636,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar.setPrecioDs(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 11)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioDs());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioDs().toString(), "DESCARNE SEPARADO"));
 		} else {
 			entradasEditar.setPrecioDs(BigDecimal.valueOf(ceros));
 		}
@@ -1629,6 +1648,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar.setPrecioCdi(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 12)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioCdi());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioCdi().toString(), "CUERO DEPILADO"));
 		} else {
 			entradasEditar.setPrecioCdi(BigDecimal.valueOf(ceros));
 		}
@@ -1639,6 +1660,8 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar
 					.setPrecioG(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 13)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioG());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioG().toString(), "GARRA Y FALDA"));
 		} else {
 			entradas.setPrecioG(BigDecimal.valueOf(ceros));
 		}
@@ -1649,20 +1672,26 @@ public class EntradasBean extends Conexion implements Serializable {
 			entradasEditar.setPrecioCe(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 14)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioCe());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioCe().toString(), "CUERO EN SANGRE"));
 		} else {
 
 			entradasEditar.setPrecioCe(BigDecimal.valueOf(ceros));
 		}
+
 		if (Double.parseDouble(entradasEditar.getCerdoAmericano().toString()) != ceros) {
 			LOGGER.info("Dato15: " + entradasEditar.getCerdoAmericano().toString() + " CERDO AMERICANO >>>Proveedor: "
 					+ entradasEditar.getProveedores().getNombre());
 			entradasEditar.setPrecioCa(
 					BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 15)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioCa());
+			// AGREGAR A LA LISTA
+			listaActualizacion.add(new PrecioMateria(entradasEditar.getPrecioCa().toString(), "CERDO AMERICANO"));
 		} else {
 
 			entradasEditar.setPrecioCa(BigDecimal.valueOf(ceros));
 		}
+
 		LOGGER.warn(">>>>>>>>>>>>>>>>>>FIN BUSCAR ACTUALIZACIÓN DE PRECIO<<<<<<<<<<<<<<<<<<");
 		@SuppressWarnings("unused")
 		int banderaGerencia = 0;
@@ -1891,38 +1920,28 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		LOGGER.info(
 				"->PRECIO: " + kg_porcentaje + " ->SUBTOTAL:" + sumaSubtotal + " ->IVA:" + iva + " ->TOTAL:" + tCatura);
-
-		if (us.getPerfiles().getIdPerfil() == 4) {
-			if (entradasEditar.getFechaLiberacion() == null || entradasEditar.getFechaLiberacion().equals("")) {
-				String info = "Te hace falta la fecha de liberación";
-
-				PrimeFaces.current()
-						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
-								+ "  title: '¡Advertencia!',\n" + "  text: '" + info + "',\n"
-								+ "  showConfirmButton: true,\n" + "  timer: 8000\n" + "})");
-				LOGGER.error("No hay fecha de liberación");
-			} else {
-				eDao.actualizarEntradas(entradasEditar);
-				Correo c = new Correo();
-
-				if (banderaControlCalidad == 1) {
-					c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-							entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-							entradasEditar.getMateria().getTipo(), banderaGerencia, banderaControlCalidad);
-				}
-			}
-		} else {
-			eDao.actualizarEntradas(entradasEditar);
-			Correo c = new Correo();
-
-			if (banderaControlCalidad == 1) {
-				c.enviarNotificacion(entradasEditar.getTolvas(), entradasEditar.getTicketBasculaToluca(),
-						entradasEditar.getProveedores().getNombre(), entradasEditar.getFactura(),
-						entradasEditar.getMateria().getTipo(), banderaGerencia, banderaControlCalidad);
-			}
-
+		List<String> listaPreciosActualizacion = new ArrayList<>();
+		for (PrecioMateria p : listaActualizacion) {
+			listaPreciosActualizacion.add(p.getMateriaNombre()+ " ->$"+ p.getPrecio());
 		}
 
+		String[] arreglo = listaPreciosActualizacion.toArray(new String[0]);
+		LOGGER.info(Arrays.toString(arreglo));
+		
+		IBitacoraPreciosDao bDao = new BitacoraPreciosDaoImpl();
+		BitacoraPrecios b = new BitacoraPrecios();
+		b.setIdMateria(entradasEditar.getMateria().getIdMateria());
+		b.setIdProveedor(entradasEditar.getProveedores().getIdProveedor());
+		b.setFechaActualizacion(new Date());
+		b.setActualizadoPor(us.getIdUsuario());
+		b.setFechaSistema(new Date());
+		b.setTipo("TOLVA NO. " + entradasEditar.getTolvas() + " | " + Arrays.toString(arreglo));
+
+		bDao.guardarBitacoraPrecios(b);
+		
+		CorreoPrecios c = new CorreoPrecios();
+		c.enviarNotificacion(Arrays.toString(arreglo), filterProveedor, entradasEditar.getTolvas());
+		
 		
 		String info = "Se ha actualizado el precio de la Tolva";
 
