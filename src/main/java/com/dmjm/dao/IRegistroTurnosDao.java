@@ -6,26 +6,27 @@ import java.util.List;
 import com.dmjm.model.RegistroTurnos;
 
 public interface IRegistroTurnosDao {
-	
+
 	List<RegistroTurnos> listaRegistroTurnos(Date fecha);
-	
+
 	void guardaRegistroTurnos(RegistroTurnos registro);
-	
+
 	void actualizarRegistroTurnos(RegistroTurnos registro);
-	
+
 	void borrarRegistroTurno(RegistroTurnos registro);
-	
-	
+
 	List<RegistroTurnos> listaRegistroTurnosEstA(Date fecha);
-	
+
 	List<RegistroTurnos> listaRegistroTurnosEstB(Date fecha);
-	
+
 	List<RegistroTurnos> listaRegistroTurnosUltraUno(Date fecha);
-	
+
 	List<RegistroTurnos> listaRegistroTurnosUltraDos(Date fecha);
-	
+
 	List<RegistroTurnos> listaRegistroTurnosVotatorA(Date fecha);
-	
+
 	List<RegistroTurnos> listaRegistroTurnosVotatorB(Date fecha);
+
+	List<RegistroTurnos> listaRegistroTurnosMolienda(Date fecha);
 
 }

@@ -1,0 +1,1492 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small"
+						value="MOLIENDA EN PRODUCTO TERMIANDO&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{cocedoresBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{moliendaBean.fecha}&nbsp;&nbsp;&nbsp;"
+						styleClass="fuenteTitulo" />
+
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab id="tRegTurnos" title="OPERADORES / COORDINADORES EN TURNO"
+							titleStyle="font-size: .8rem; background-color: #283747; color: #F5F5F5">
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+								<p:splitterPanel size="20"
+									styleClass="flex align-items-center justify-content-center">
+
+									<h:panelGrid id="pgTurnos" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel for="turno" value="Turno" />
+										<p:autoComplete id="turno" size="35" required="false"
+											requiredMessage="Turno requerido" autocomplete="off"
+											placeholder="Ingresa Turno" dropdown="true"
+											value="#{moliendaBean.filterTurno}"
+											completeMethod="#{moliendaBean.buscarNombreTurno}">
+										</p:autoComplete>
+
+										<p:outputLabel for="operador" value="Operador" />
+										<p:autoComplete id="operador" size="35" required="false"
+											requiredMessage="Operador requerido" autocomplete="off"
+											placeholder="Ingresa Operador" dropdown="true"
+											value="#{moliendaBean.filterOperador}"
+											completeMethod="#{cocedoresBean.buscarNombreOperador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="coord" value="Coordinador" />
+										<p:autoComplete id="coord" size="35" required="false"
+											requiredMessage="Coordinador requerido" autocomplete="off"
+											placeholder="Ingresa Coordinador" dropdown="true"
+											value="#{moliendaBean.filterUsuario}"
+											completeMethod="#{moliendaBean.buscarNombreCoordinador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="reg" value="Registrar turno" />
+										<p:commandButton id="reg" value="REGISTRAR"
+											styleClass="fuente"
+											actionListener="#{moliendaBean.guardarRegistroTurnos()}"
+											update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
+											style="width: 8rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<p:outputLabel value="TURNOS REGISTRADOS"
+										style="font-size: 1rem" />
+									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
+										var="turnos" sortMode="multiple" rowHover="true"
+										style="width: 85%" paginatorAlwaysVisible="true"
+										scrollable="true"
+										value="#{moliendaBean.listarRegistroTurnos}"
+										emptyMessage="NO HAY REGISTROS">
+
+										<p:column headerText="Borrar" width="2rem">
+											<div style="text-align: center">
+												<p:commandButton id="eb" icon="pi pi-fw pi-trash"
+													styleClass="ui-button-warning"
+													action="#{cocedoresBean.borrarTurnos()}"
+													update="frmPrincipal:acco:tblRegTurnos">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{cocedoresBean.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipEB" for="eb" value="Borrar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+
+										<p:column headerText="Editar" width="2rem">
+											<div style="text-align: center">
+												<p:commandButton id="et" icon="pi pi-fw pi-pencil"
+													onclick="PF('dlgEditarTurnos').show()"
+													update="frmTurnos:pnlEditarTurnos"
+													styleClass="ui-button-warning">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{cocedoresBean.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipET" for="et" value="Editar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+
+										<p:column headerText="Turno" width="5rem" styleClass="fondo">
+											<h:outputText value="#{turnos.turnos.nombreTurno}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Fecha registro turno" width="5rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.fecha}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Folio" width="2rem" styleClass="fondo">
+											<h:outputText value="#{turnos.folio}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Operador" width="8rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.operador.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Coordinador" width="8rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.usuarios.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+									</p:dataTable>
+								</p:splitterPanel>
+							</p:splitter>
+
+						</p:tab>
+
+
+						<p:tab id="pt" title="MOLIENDA EN PRODUCTO TERMIANDO DE GRENETINA"
+							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+
+							<script>
+			                       					 PrimeFaces.locales['es'] = {
+							                            closeText: 'Cerrar',
+							                            prevText: 'Anterior',
+							                            nextText: 'Siguiente',
+							                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+							                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+							                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+							                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+							                            weekHeader: 'Semana',
+							                            firstDay: 1,
+							                            isRTL: false,
+							                            showMonthAfterYear: false,
+							                            yearSuffix: '',
+							                            timeOnlyTitle: 'Sólo hora',
+							                            timeText: 'Tiempo',
+							                            hourText: 'Hora',
+							                            minuteText: 'Minuto',
+							                            secondText: 'Segundo',
+							                            millisecondText: 'Milisegundo',
+							                            currentText: 'Fecha actual',
+							                            ampm: false,
+							                            month: 'Mes',
+							                            week: 'Semana',
+							                            day: 'Día',
+							                            allDayText: 'Todo el día',
+							                            today: 'Hoy',
+							                            clear: 'Borrar'
+			                       						 };
+			                    </script>
+
+
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+
+								<p:splitterPanel size="5"
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgHoja" columns="1" styleClass="tabla fuente">
+										<p:outputLabel value="NUEVA HOJA" />
+										<div style="text-align: center">
+											<p:commandButton value="" styleClass="fuente"
+												actionListener="#{cocedoresBean.guardarCocedores()}"
+												update="frmPrincipal, frmPrincipal:msgs"
+												icon="pi pi-file-excel" style="width: 2rem; height: 2rem">
+											</p:commandButton>
+
+										</div>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgFechas" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel value="SELECCIONA POR FECHA" />
+										<br />
+										<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
+											showTime="false" disabled="false" showIcon="true"
+											placeholder="SELECCIONA FECHA"
+											inputStyleClass="font-size: .8rem !important pear"
+											inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+											value="#{cocedoresBean.fechaFiltro}"
+											style="font-family: 'Poppins', sans-serif !important;"
+											styleClass="captura" />
+										<p:commandButton value="BUSCAR" styleClass="fuente"
+											actionListener="#{cocedoresBean.filtrarPorFecha()}"
+											update="frmPrincipal:acco:tblCoc,frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos"
+											icon="pi pi-filter" style="width: 6rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgRep" columns="4" styleClass="tabla fuente">
+
+										<p:outputLabel value="IMPRIMIR" />
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{cocedoresBean.visualizarReporte()}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+
+										<p:outputLabel value="EXPORTAR" />
+										<h:commandLink id="impExcel"
+											style="height: 30px; font-size: 12px;" target="_blank"
+											actionListener="#{cocedoresBean.visualizarReporteExcel()}">
+											<h:graphicImage url="/resources/img/excel.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid columns="2">
+										<p:commandButton value="AGREGAR / EDITAR" styleClass="fuente"
+											oncomplete="PF('dlgAgregarObs').show()" icon="pi pi-book"
+											update="frmObservaciones:pnlAgregarObs"
+											actionListener="#{cocedoresBean.obtenerObservacion()}"
+											style="width: 6rem; height: 2.5rem">
+										</p:commandButton>
+										<p:dataTable id="tblObs" styleClass="tabla2 fuenteCocedores"
+											var="itemObs" value="#{cocedoresBean.listaFolioCocedores}"
+											emptyMessage="NO HAY REGISTROS">
+
+											<p:column headerText="Observaciones">
+												<h:outputText value="#{itemObs.observaciones}" />
+											</p:column>
+										</p:dataTable>
+
+									</h:panelGrid>
+
+								</p:splitterPanel>
+
+							</p:splitter>
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="300" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{cocedoresBean.listaCocedores}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="page" listener="#{cocedoresBean.onPageChange}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:acco:tblPurgas, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblObs" />
+
+								<p:columnGroup type="header">
+
+									<p:row>
+										<p:column rowspan="5" headerText="Editar" styleClass="datos"
+											exportable="false" />
+									</p:row>
+
+									<p:row>
+										<p:column rowspan="3" headerText="HORA" styleClass="datos"
+											style="font-size: .4rem !important" exportable="false" />
+										<p:column colspan="2" rowspan="4" headerText="OPERACIÓN" styleClass="datos"
+											style="font-size: .6rem !important" exportable="false" />
+									</p:row>
+
+
+									<p:row>
+										<p:column colspan="8" headerText="DATOS GENERALES"
+											styleClass="color" exportable="false" />
+										<p:column colspan="2" headerText="COC-01" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-02" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-03" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-04" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-05" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-06" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-07" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-08" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-09" styleClass="color"
+											exportable="false" />
+										<p:column colspan="2" headerText="COC-10" styleClass="color"
+											exportable="false" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="°C Ent H2O" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Flujo L/hr" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="PH" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="NTU" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Calcios (p.p.m)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Visc. (mp)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Cond. (ms)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="% Conc. Sal Grl" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Temp (°C)" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Conc %" styleClass="datos"
+											exportable="false" />
+										<p:column colspan="2" headerText="Estado" styleClass="datos"
+											exportable="false" />
+									</p:row>
+									<p:row>
+
+										<p:column headerText="LIM. ESPECIF."
+											style="font-size: .3rem !important" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="55-80 °C" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Min. 400" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="2.7-4.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="---" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" exportable="false" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" exportable="false" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="Min 2.0" styleClass="datos"
+											exportable="false" />
+										<p:column headerText="A" styleClass="datos" exportable="false"
+											style="font-size: .5rem !important" />
+										<p:column headerText="R" styleClass="datos" exportable="false"
+											style="font-size: .5rem !important" />
+									</p:row>
+
+								</p:columnGroup>
+								<p:column exportable="false"
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'normal'}">
+									<div style="text-align: center">
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											rendered="#{item.horaLimitesEspecificos ne 'PROM.'}"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{cocedoresBean.cocedoresEditar}" />
+
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+								<p:column headerText="Hora"
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.horaLimitesEspecificos}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fuenteNaranja'}" />
+								</p:column>
+
+								<p:column colspan="2"
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.operacion}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.grados}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.flujo}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.ph}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.ntu}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.calcios}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.viscocidad}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.condensacion}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.concentrado}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc01}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc01}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc02}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc02}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc03}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc03}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc04}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc04}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc05}"
+										tyleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc05}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc06}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc06}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc07}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc07}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc08}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc08}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc09}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc09}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'temperatura'}">
+									<h:outputText value="#{item.tempCoc10}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<h:outputText value="#{item.concCoc10}"
+										styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : ''}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoA}"
+											styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
+								</p:column>
+								<p:column
+									styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ?
+										'promedio' : ''}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoR}"
+											styleClass="#{item.horaLimitesEspecificos eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
+								</p:column>
+
+							</p:dataTable>
+
+
+
+						</p:tab>
+
+
+						<p:tab title="LIMPIEZA" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #008080; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza" columns="12"
+								styleClass="tabla fuente">
+
+								<p:selectOneMenu id="cocLimp"
+									value="#{cocedoresBean.cocedorSeleccionado}" dynamic="true">
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="COCEDOR 1" itemValue="COCEDOR 1" />
+									<f:selectItem itemLabel="COCEDOR 2" itemValue="COCEDOR 2" />
+									<f:selectItem itemLabel="COCEDOR 3" itemValue="COCEDOR 3" />
+									<f:selectItem itemLabel="COCEDOR 4" itemValue="COCEDOR 4" />
+									<f:selectItem itemLabel="COCEDOR 5" itemValue="COCEDOR 5" />
+									<f:selectItem itemLabel="COCEDOR 6" itemValue="COCEDOR 6" />
+									<f:selectItem itemLabel="COCEDOR 7" itemValue="COCEDOR 7" />
+									<f:selectItem itemLabel="COCEDOR 8" itemValue="COCEDOR 8" />
+									<f:selectItem itemLabel="COCEDOR 9" itemValue="COCEDOR 9" />
+									<f:selectItem itemLabel="COCEDOR 10" itemValue="COCEDOR 10" />
+									<f:selectItem itemLabel="TANQUE INOXIDABLE OIRIENTE"
+										itemValue="TANQUE INOXIDABLE OIRIENTE" />
+									<f:selectItem itemLabel="TANQUE INOXIDABLE PONIENTE"
+										itemValue="TANQUE INOXIDABLE PONIENTE" />
+									<f:selectItem itemLabel="SEPARADOR ESTATICO"
+										itemValue="SEPARADOR ESTÁTICO" />
+								</p:selectOneMenu>
+
+
+								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{cocedoresBean.guardarLimpieza()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLim"
+									value="#{cocedoresBean.noLimpiezaSeleccionadaBorrar}"
+									dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA A ELIMINAR" itemValue="" />
+									<f:selectItems value="#{cocedoresBean.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="BORRAR"
+									actionListener="#{cocedoresBean.deleteLimpieza()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLimVoBo"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									value="#{cocedoresBean.noLimpiezaVoBo}" dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA Vo.Bo." itemValue="" />
+									<f:selectItems value="#{cocedoresBean.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="AGREGAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{cocedoresBean.agregarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+								<p:commandButton value="BORRAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{cocedoresBean.borrarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="80%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{cocedoresBean.listaLimpieza.size()}"
+								value="#{cocedoresBean.listaLimpieza}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarLimpieza').show()"
+										update="frmEditarLimpieza:pnlEditarLimpieza"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{cocedoresBean.limpiezaEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+								<p:column headerText="No. de Limpieza" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="No. Cocedor" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noCocedor}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Proceso" width="6rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora inicial" width="4rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="4rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Químico" width="6rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Litros usados" width="4rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Lote" width="6rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+								
+								<p:column headerText="VoBo" width="5rem"
+									styleClass="#{item.voBo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<h:outputText value="#{item.voBo}"
+										style="color: #FFFFFF;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="ORDEN DE MANTENIMIENTO"
+							titleStyle="font-size: .8rem; background-color: #696969; color: #F5F5F5">
+
+
+							<h:panelGrid id="pgManto" columns="2" styleClass="tabla fuente">
+
+								<p:outputLabel value="No de Orden" />
+								<p:inputText id="om" styleClass="camposManto"
+									value="#{cocedoresBean.ordenMantenimiento.noOrden}"
+									required="false" requiredMessage="Campo requerido"
+									style="width: 8rem" />
+
+								<p:outputLabel value="Hora Inicio" />
+								<pe:timePicker
+									value="#{cocedoresBean.ordenMantenimiento.horaInicio}"
+									mode="spinner" widgetVar="mm1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+								<p:outputLabel value="Hora Final" />
+								<pe:timePicker
+									value="#{cocedoresBean.ordenMantenimiento.horaFin}"
+									mode="spinner" widgetVar="mm2" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+								<p:outputLabel value="Descripción" />
+								<p:inputTextarea id="desc" styleClass="camposManto"
+									value="#{cocedoresBean.ordenMantenimiento.descripcion}"
+									required="false" requiredMessage="Campo requerido"
+									style="width: 20rem" />
+
+								<p:outputLabel value="" />
+								<p:commandButton value="REGISTRAR NUEVA ORDEN"
+									styleClass="fuente camposManto"
+									actionListener="#{cocedoresBean.guardarOrdenManto()}"
+									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblManto" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="50%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{cocedoresBean.listaOrdenManto.size()}"
+								value="#{cocedoresBean.listaOrdenManto}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="em" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{cocedoresBean.borrarOrdenManto()}"
+											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{cocedoresBean.ordenMantenimientoEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEM" for="em" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Editar" width="2rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarManto').show()"
+										update="frmEditarManto:pnlEditarManto"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{cocedoresBean.ordenMantenimientoEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="No. de orden" width="3rem">
+									<h:outputText value="#{item.noOrden}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora inicial" width="3rem">
+									<h:outputText value="#{item.horaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="3rem">
+									<h:outputText value="#{item.horaFin}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Descripción" width="20rem">
+									<p:inputTextarea value="#{item.descripcion}" readonly="true"
+										style="color: #036FAB; width: 100%;" rows="4" />
+								</p:column>
+
+
+							</p:dataTable>
+						</p:tab>
+
+
+						<p:tab title="PURGAS"
+							titleStyle="font-size: .8rem; background-color: #800080; color: #F5F5F5">
+
+
+							<h:panelGrid id="pgPurgas" columns="2" styleClass="tabla fuente">
+
+								<p:outputLabel value="Hora" />
+								<pe:timePicker value="#{cocedoresBean.purgas.hora}"
+									mode="spinner" widgetVar="pp1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+								<p:outputLabel for="operacion" value="Operación" />
+								<p:inputText id="operacion" styleClass="camposPurgas"
+									value="#{cocedoresBean.purgas.operacion}" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="cm" value="CM" />
+								<p:inputText id="cm" value="#{cocedoresBean.purgas.cm}"
+									styleClass="camposPurgas" required="false"
+									requiredMessage="Campo requerido" />
+
+
+								<p:outputLabel for="con" value="Concentración" />
+								<p:inputText id="con" styleClass="camposPurgas"
+									value="#{cocedoresBean.purgas.concentrado}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="phph" value="PH" />
+								<p:inputText id="phph" styleClass="camposPurgas"
+									value="#{cocedoresBean.purgas.ph}" required="false"
+									requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="c0" value="No Cocedor" />
+								<p:selectCheckboxMenu id="c0" multiple="true"
+									panelStyleClass="fuente" styleClass="fuente"
+									emptyLabel="SELECCIONA LOS COCEDORES..." updateLabel="true"
+									style="min-width: 15rem" panelStyle="width: 20rem"
+									scrollHeight="250" value="#{cocedoresBean.selectedProcess}">
+									<p:ajax event="change"
+										listener="#{cocedoresBean.onToggleSelect}" />
+									<p:ajax event="change" listener="#{cocedoresBean.onItemSelect}" />
+									<p:ajax event="itemUnselect"
+										listener="#{cocedoresBean.onItemUnselect}" />
+									<f:selectItems value="#{cocedoresBean.procesos}" />
+								</p:selectCheckboxMenu>
+
+								<p:outputLabel value="" />
+								<p:commandButton value="NUEVO REGISTRO DE PURGAS"
+									styleClass="fuente camposPurgas"
+									actionListener="#{cocedoresBean.guardarPurgas()}"
+									update="frmPrincipal:acco:tblPurgas, frmPrincipal:acco:pgPurgas"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+
+
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblPurgas" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="60%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{cocedoresBean.listaPurgas.size()}"
+								value="#{cocedoresBean.listaPurgas}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="bpur" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{cocedoresBean.borrarPurgas()}"
+											update="frmPrincipal:acco:tblPurgas, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{cocedoresBean.purgas}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEPur" for="bpur" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarPurgas').show()"
+										update="frmEditarPurgas:pnlEditarPurgas"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{cocedoresBean.purgasEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="Hora" width="3rem">
+									<h:outputText value="#{item.hora}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Operación" width="3rem">
+									<h:outputText value="#{item.operacion}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="CM" width="3rem">
+									<h:outputText value="#{item.cm}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Concentración" width="5rem">
+									<h:outputText value="#{item.concentrado}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="pH" width="3rem">
+									<h:outputText value="#{item.ph}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="No. cocedor" width="15rem">
+									<h:outputText value="#{item.noCocedor}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="Actualizar información de cocedores"
+					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
+					closeOnEscape="true" minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="4">
+
+
+						<p:outputLabel for="horario" value="Horario" />
+						<p:inputText id="horario" styleClass="fuenteNaranja"
+							disabled="true"
+							value="#{cocedoresBean.cocedoresEditar.horaLimitesEspecificos}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="opercion" value="Operación" />
+						<p:inputText id="opercion" styleClass="camposCocedores"
+							value="#{cocedoresBean.cocedoresEditar.operacion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+						<p:outputLabel for="grados" value="Grados" />
+						<p:inputText id="grados" styleClass="camposCocedores"
+							value="#{cocedoresBean.cocedoresEditar.grados}" required="false"
+							requiredMessage="Campo requerido" style="width: 5rem" />
+
+						<p:outputLabel for="flujo" value="Flujo" />
+						<p:inputText id="flujo" styleClass="camposCocedores"
+							value="#{cocedoresBean.cocedoresEditar.flujo}" required="false"
+							requiredMessage="Campo requerido" style="width: 5rem" />
+
+						<p:outputLabel for="ph" value="PH" />
+						<p:inputText id="ph" value="#{cocedoresBean.cocedoresEditar.ph}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem">
+						</p:inputText>
+
+						<p:outputLabel for="ntu" value="NTU" />
+						<p:inputText id="ntu" value="#{cocedoresBean.cocedoresEditar.ntu}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="calcios" value="Calcios" />
+						<p:inputText id="calcios" styleClass="camposCocedores"
+							value="#{cocedoresBean.cocedoresEditar.calcios}" required="false"
+							requiredMessage="Campo requerido" style="width: 5rem" />
+
+						<p:outputLabel for="visc" value="Viscosidad" />
+						<p:inputText id="visc" styleClass="camposCocedores"
+							value="#{cocedoresBean.cocedoresEditar.viscocidad}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="cond" value="Conductividad" />
+						<p:inputText id="cond" styleClass="camposCocedores"
+							value="#{cocedoresBean.cocedoresEditar.condensacion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc" value="Concentración" />
+						<p:inputText id="conc" styleClass="camposCocedores"
+							disabled="true"
+							value="#{cocedoresBean.cocedoresEditar.concentrado}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp01" value="Temperatura 01" />
+						<p:inputText id="temp01" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc01}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc01" value="Concentración 01" />
+						<p:inputText id="conc01" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc01}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp02" value="Temperatura 02" />
+						<p:inputText id="temp02" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc02}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc02" value="Concentración 02" />
+						<p:inputText id="conc02" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc02}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp03" value="Temperatura 03" />
+						<p:inputText id="temp03" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc03}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc03" value="Concentración 03" />
+						<p:inputText id="conc03" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc03}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+
+						<p:outputLabel for="temp04" value="Temperatura 04" />
+						<p:inputText id="temp04" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc04}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc04" value="Concentración 04" />
+						<p:inputText id="conc04" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc04}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+
+						<p:outputLabel for="temp05" value="Temperatura 05" />
+						<p:inputText id="temp05" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc05}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc05" value="Concentración 05" />
+						<p:inputText id="conc05" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc05}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp06" value="Temperatura 06" />
+						<p:inputText id="temp06" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc06}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc06" value="Concentración 06" />
+						<p:inputText id="conc06" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc06}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp07" value="Temperatura 07" />
+						<p:inputText id="temp07" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc07}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc07" value="Concentración 07" />
+						<p:inputText id="conc07" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc07}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp08" value="Temperatura 08" />
+						<p:inputText id="temp08" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc08}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc08" value="Concentración 08" />
+						<p:inputText id="conc08" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc08}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp09" value="Temperatura 09" />
+						<p:inputText id="temp09" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc09}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc09" value="Concentración 09" />
+						<p:inputText id="conc09" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc09}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="temp10" value="Temperatura 10" />
+						<p:inputText id="temp10" styleClass="camposCocedoresT"
+							value="#{cocedoresBean.cocedoresEditar.tempCoc10}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="conc10" value="Concentración 10" />
+						<p:inputText id="conc10" styleClass="camposCocedoresC"
+							value="#{cocedoresBean.cocedoresEditar.concCoc10}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+						<p:message id="mensaje" for="ph" />
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
+							styleClass="#{cocedoresBean.cocedoresEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+						<p:selectOneButton id="a"
+							value="#{cocedoresBean.cocedoresEditar.estadoAR}"
+							styleClass="#{cocedoresBean.cocedoresEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							<f:selectItem itemLabel="Aceptado" itemValue="true" />
+							<f:selectItem itemLabel="Rechazado" itemValue="false" />
+							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />
+						</p:selectOneButton>
+
+					</h:panelGrid>
+
+					<br />
+					<br />
+					<br />
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cocedoresBean.actualizarCocedores()}" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR LIMPIEZA-->
+			<h:form id="frmEditarLimpieza">
+				<p:dialog header="Actualizar información de Limpieza"
+					styleClass="tabla fuente" widgetVar="dlgEditarLimpieza"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEditarLimpieza" columns="2">
+
+						<p:outputLabel for="pro" value="Proceso" />
+						<p:inputText id="pro" styleClass="camposLimpieza" readonly="true"
+							value="#{cocedoresBean.limpiezaEditar.proceso}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+						<p:outputLabel value="Hora Inicial" />
+						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaInicial}"
+							mode="spinner" widgetVar="h1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+
+						<p:outputLabel value="Hora Final" />
+						<pe:timePicker value="#{cocedoresBean.limpiezaEditar.horaFinal}"
+							mode="spinner" widgetVar="h2" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+
+						<p:outputLabel for="qui" value="Químico" />
+						<p:inputText id="qui" styleClass="camposLimpieza"
+							value="#{cocedoresBean.limpiezaEditar.quimico}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+
+						<p:outputLabel for="lts" value="Litros usados"
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}" />
+						<p:inputText id="lts" styleClass="camposLimpieza"
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}"
+							value="#{cocedoresBean.limpiezaEditar.litrosUsados}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+
+						<p:outputLabel for="lote" value="Lote"
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}" />
+						<p:inputText id="lote" styleClass="camposLimpieza"
+							value="#{cocedoresBean.limpiezaEditar.lote}" required="false"
+							rendered="#{cocedoresBean.limpiezaEditar.proceso ne 'ENJUAGUE' and cocedoresBean.limpiezaEditar.proceso ne 'LIMPIEZA MECÁNICA'}"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cocedoresBean.actualizarLimpieza()}"
+							oncomplete="PF('dlgEditarLimpieza').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR LIMPIEZA-->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR PURGAS-->
+			<h:form id="frmEditarPurgas">
+				<p:dialog header="Actualizar información de Purgas"
+					styleClass="tabla fuente" widgetVar="dlgEditarPurgas"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEditarPurgas" columns="2">
+
+						<p:outputLabel value="Hora" />
+						<pe:timePicker value="#{cocedoresBean.purgasEditar.hora}"
+							mode="spinner" widgetVar="p1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel for="cm" value="CM" />
+						<p:inputText id="cm" styleClass="camposPurgas"
+							value="#{cocedoresBean.purgasEditar.cm}" required="false"
+							requiredMessage="Campo requerido" />
+
+						<p:outputLabel for="con" value="Concentración" />
+						<p:inputText id="con" styleClass="camposPurgas"
+							value="#{cocedoresBean.purgasEditar.concentrado}"
+							required="false" requiredMessage="Campo requerido" />
+
+						<p:outputLabel for="php" value="PH" />
+						<p:inputText id="php" styleClass="camposPurgas"
+							value="#{cocedoresBean.purgasEditar.ph}" required="false"
+							requiredMessage="Campo requerido" />
+
+
+						<p:outputLabel for="c1" value="No Cocedor" />
+						<p:selectCheckboxMenu id="c1" multiple="true"
+							panelStyleClass="fuente" styleClass="fuente"
+							emptyLabel="SELECCIONA LOS COCEDORES..." updateLabel="true"
+							style="min-width: 15rem" panelStyle="width: 20rem"
+							scrollHeight="250" value="#{cocedoresBean.selectedProcess}">
+							<p:ajax event="change" listener="#{cocedoresBean.onToggleSelect}" />
+							<p:ajax event="change" listener="#{cocedoresBean.onItemSelect}" />
+							<p:ajax event="itemUnselect"
+								listener="#{cocedoresBean.onItemUnselect}" />
+							<f:selectItems value="#{cocedoresBean.procesos}" />
+						</p:selectCheckboxMenu>
+
+
+					</h:panelGrid>
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							styleClass="camposPurgas"
+							actionListener="#{cocedoresBean.actualizarPurgas()}"
+							oncomplete="PF('dlgEditarPurgas').hide()" />
+					</div>
+
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR PURGAS-->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR ORDEN DE MANTENIMIENTO-->
+			<h:form id="frmEditarManto">
+				<p:dialog header="Actualizar información de orden de Mantenimiento"
+					widgetVar="dlgEditarManto" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true" styleClass="tabla fuente">
+					<h:panelGrid id="pnlEditarManto" columns="2">
+
+						<p:outputLabel for="orden" value="No de Orden" />
+						<p:inputText id="orden" styleClass="camposManto"
+							value="#{cocedoresBean.ordenMantenimientoEditar.noOrden}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+
+						<p:outputLabel value="Hora Inicio" />
+						<pe:timePicker
+							value="#{cocedoresBean.ordenMantenimientoEditar.horaInicio}"
+							mode="spinner" widgetVar="m1" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel value="Hora Final" />
+						<pe:timePicker
+							value="#{cocedoresBean.ordenMantenimientoEditar.horaFin}"
+							mode="spinner" widgetVar="m2" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel value="Descripción" />
+						<p:inputTextarea id="desc" styleClass="camposManto"
+							value="#{cocedoresBean.ordenMantenimientoEditar.descripcion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cocedoresBean.actualizarOrdenManto()}"
+							oncomplete="PF('dlgEditarManto').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR PURGAS-->
+
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmTurnos">
+				<p:dialog header="Actualizar información del turno"
+					widgetVar="dlgEditarTurnos" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditarTurnos" columns="2" styleClass="fuente">
+
+
+						<p:outputLabel for="operador" value="Operador" />
+						<p:autoComplete id="operador" size="35" required="false"
+							requiredMessage="Operador requerido" autocomplete="off"
+							placeholder="Ingresa Operador" dropdown="true"
+							value="#{cocedoresBean.filterOperador}"
+							completeMethod="#{cocedoresBean.buscarNombreOperador}">
+						</p:autoComplete>
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+
+						<p:outputLabel for="coord" value="Coordinador" />
+						<p:autoComplete id="coord" size="35" required="false"
+							requiredMessage="Coordinador requerido" autocomplete="off"
+							placeholder="Ingresa coordinador" dropdown="true"
+							value="#{cocedoresBean.filterUsuario}"
+							completeMethod="#{cocedoresBean.buscarNombreCoordinador}">
+						</p:autoComplete>
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cocedoresBean.actualizarTurnos()}"
+							oncomplete="PF('dlgEditarTurnos').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmObservaciones">
+				<p:dialog header="Agregar/Editar observación"
+					widgetVar="dlgAgregarObs" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
+
+						<p:inputTextarea id="textObs"
+							value="#{cocedoresBean.folioPreparacionCocedores.observaciones}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{cocedoresBean.guardarObservaciones()}"
+							oncomplete="PF('dlgAgregarObs').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

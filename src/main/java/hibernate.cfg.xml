@@ -95,5 +95,14 @@
 	    <mapping resource="com/dmjm/model/OrdenMantenimientoVotatorA.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/ResumenVotatorA.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/ResumenVotatorB.hbm.xml"/>
+	    
+	    <mapping resource="com/dmjm/model/Mallas.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/CribasImanes.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/Molienda.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaMolienda.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/Remolienda.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioGeneral.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionMolienda.hbm.xml"/>
+	    
 	</session-factory>
 </hibernate-configuration>

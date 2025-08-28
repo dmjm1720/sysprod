@@ -254,4 +254,27 @@ public class RegistroTurnoDaoImpl implements IRegistroTurnosDao {
 	    return lista;
 	}
 
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosMolienda(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'MOLIENDA'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
 }

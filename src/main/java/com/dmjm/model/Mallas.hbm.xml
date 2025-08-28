@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25-ago-2025 12:48:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.Mallas" table="MALLAS" schema="dbo"
+		catalog="SYSPROD" optimistic-lock="version">
+		<id name="idMalla" type="int">
+			<column name="ID_MALLA" />
+			<generator class="native" />
+		</id>
+		<property name="malla" type="java.lang.Integer">
+			<column name="MALLA" />
+		</property>
+		<property name="descripcion" type="string">
+			<column name="DESCRIPCION" length="50" />
+		</property>
+		<property name="kgSaco" type="java.lang.Integer">
+			<column name="KG_SACO" />
+		</property>
+	</class>
+</hibernate-mapping>

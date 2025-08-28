@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25-ago-2025 12:48:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.Molienda" table="MOLIENDA"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idMolienda" type="int">
+			<column name="ID_MOLIENDA" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionMolienda"
+			class="com.dmjm.model.FolioPreparacionMolienda" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="folio" type="java.lang.Integer">
+			<column name="FOLIO" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="operacion" type="string">
+			<column name="OPERACION" length="25" />
+		</property>
+		<property name="moliendaHoraInicial" type="time">
+			<column name="MOLIENDA_HORA_INICIAL" length="16" />
+		</property>
+		<property name="moliendaHoraFinal" type="time">
+			<column name="MOLIENDA_HORA_FINAL" length="16" />
+		</property>
+		<property name="secadoHoraInicial" type="time">
+			<column name="SECADO_HORA_INICIAL" length="16" />
+		</property>
+		<property name="secadoHoraFinal" type="time">
+			<column name="SECADO_HORA_FINAL" length="16" />
+		</property>
+		<property name="m100Sacos" type="java.lang.Integer">
+			<column name="M100_SACOS" />
+		</property>
+		<property name="m100KgRestos" type="java.lang.Integer">
+			<column name="M100_KG_RESTOS" />
+		</property>
+		<property name="m100KgTotales" type="java.lang.Integer">
+			<column name="M100_KG_TOTALES" />
+		</property>
+		<property name="m60Sacos" type="java.lang.Integer">
+			<column name="M60_SACOS" />
+		</property>
+		<property name="m60KgRestos" type="java.lang.Integer">
+			<column name="M60_KG_RESTOS" />
+		</property>
+		<property name="m60KgTotales" type="java.lang.Integer">
+			<column name="M60_KG_TOTALES" />
+		</property>
+		<property name="m30Sacos" type="java.lang.Integer">
+			<column name="M30_SACOS" />
+		</property>
+		<property name="m30KgRestos" type="java.lang.Integer">
+			<column name="M30_KG_RESTOS" />
+		</property>
+		<property name="m30KgTotales" type="java.lang.Integer">
+			<column name="M30_KG_TOTALES" />
+		</property>
+		<property name="m8Sacos" type="java.lang.Integer">
+			<column name="M8_SACOS" />
+		</property>
+		<property name="m8KgRestos" type="java.lang.Integer">
+			<column name="M8_KG_RESTOS" />
+		</property>
+		<property name="m8KgTotales" type="java.lang.Integer">
+			<column name="M8_KG_TOTALES" />
+		</property>
+		<property name="ghSacos" type="java.lang.Integer">
+			<column name="GH_SACOS" />
+		</property>
+		<property name="ghKgRestos" type="java.lang.Integer">
+			<column name="GH_KG_RESTOS" />
+		</property>
+		<property name="ghKgTotales" type="java.lang.Integer">
+			<column name="GH_KG_TOTALES" />
+		</property>
+		<property name="total" type="java.lang.Integer">
+			<column name="TOTAL" />
+		</property>
+		<property name="fechaFolioPrep" type="java.lang.Integer">
+			<column name="FECHA_FOLIO_PREP" />
+		</property>
+	</class>
+</hibernate-mapping>

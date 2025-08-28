@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25-ago-2025 12:48:39 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.CribasImanes" table="CRIBAS_IMANES"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idCribasImanes" type="int">
+			<column name="ID_CRIBAS_IMANES" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionMolienda"
+			class="com.dmjm.model.FolioPreparacionMolienda" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="cribasInspeccionadas" type="string">
+			<column name="CRIBAS_INSPECCIONADAS" length="25" />
+		</property>
+		<property name="turno" type="java.lang.Integer">
+			<column name="TURNO" />
+		</property>
+		<property name="apertura" type="string">
+			<column name="APERTURA" length="10" />
+		</property>
+		<property name="integridad" type="string">
+			<column name="INTEGRIDAD" length="10" />
+		</property>
+		<property name="hallazgosCriba" type="string">
+			<column name="HALLAZGOS_CRIBA" length="250" />
+		</property>
+		<property name="hallazgosImanes30Mesh" type="string">
+			<column name="HALLAZGOS_IMANES_30_MESH" length="250" />
+		</property>
+		<property name="hallazgosImanes60Mesh"
+			type="java.lang.Integer">
+			<column name="HALLAZGOS_IMANES_60_MESH" />
+		</property>
+	</class>
+</hibernate-mapping>
