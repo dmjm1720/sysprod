@@ -28,4 +28,6 @@ public interface IOperadorDao {
 	List<Operador> listaOperadorVotatorA();
 	
 	List<Operador> listaOperadorVotatorB();
+	
+	List<Operador> listaOperadorMolienda();
 }

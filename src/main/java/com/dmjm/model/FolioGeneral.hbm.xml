@@ -9,8 +9,11 @@
 			<column name="ID_FOLIO_GENERAL" />
 			<generator class="native" />
 		</id>
-		<property name="folioMolienda" type="java.lang.Integer">
-			<column name="FOLIO_MOLIENDA" />
+		<property name="folio" type="java.lang.Integer">
+			<column name="FOLIO" />
+		</property>
+		<property name="tipo" type="string">
+			<column name="TIPO" length="50" />
 		</property>
 	</class>
 </hibernate-mapping>

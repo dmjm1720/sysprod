@@ -178,4 +178,13 @@ public class OperadorDaoImpl extends Conexion implements IOperadorDao {
 		}
 	}
 
+	@Override
+	public List<Operador> listaOperadorMolienda() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Operador WHERE Proceso='Molienda' AND estado='Activo'",
+					Operador.class).list();
+		}
+	}
+
 }
