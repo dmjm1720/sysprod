@@ -827,6 +827,11 @@ public class EntradasBean extends Conexion implements Serializable {
 			// SE TOMA EL PORCENTAJE DE LA MERMA DEL PROVEEDOR
 			entradas.setCalculoKgMerma(BigDecimal.valueOf((porcentaje15)));
 
+			// VALIDAR NUEVAMENTE EL FOLIO
+			LOGGER.info("FOLIO DE LA TOLVA ANTES DE REALIZAR NUEVAMENTE LA BÚSQUEDA:  " + entradas.getTolvas());
+			entradas.setTolvas(buscarFolio());
+			LOGGER.info("FOLIO DE LA TOLVA DESPUÉS DE REALIZAR LA BÚSQUEDA:  " + entradas.getTolvas());
+
 			eDao.guardarEntradas(entradas);
 
 			IFoliosDao fDao = new FoliosDaoImpl();
@@ -1503,8 +1508,6 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 		}
 
-		
-
 		List<PrecioMateria> listaActualizacion = new ArrayList<>();
 		// **BUSCAR ACTUALIZACIÓN DE PRECIO**//
 		LOGGER.warn(">>>>>>>>>>>>>>>>>>INICIA BUSCAR ACTUALIZACIÓN DE PRECIO<<<<<<<<<<<<<<<<<<");
@@ -1922,12 +1925,12 @@ public class EntradasBean extends Conexion implements Serializable {
 				"->PRECIO: " + kg_porcentaje + " ->SUBTOTAL:" + sumaSubtotal + " ->IVA:" + iva + " ->TOTAL:" + tCatura);
 		List<String> listaPreciosActualizacion = new ArrayList<>();
 		for (PrecioMateria p : listaActualizacion) {
-			listaPreciosActualizacion.add(p.getMateriaNombre()+ " ->$"+ p.getPrecio());
+			listaPreciosActualizacion.add(p.getMateriaNombre() + " ->$" + p.getPrecio());
 		}
 
 		String[] arreglo = listaPreciosActualizacion.toArray(new String[0]);
 		LOGGER.info(Arrays.toString(arreglo));
-		
+
 		IBitacoraPreciosDao bDao = new BitacoraPreciosDaoImpl();
 		BitacoraPrecios b = new BitacoraPrecios();
 		b.setIdMateria(entradasEditar.getMateria().getIdMateria());
@@ -1938,11 +1941,10 @@ public class EntradasBean extends Conexion implements Serializable {
 		b.setTipo("TOLVA NO. " + entradasEditar.getTolvas() + " | " + Arrays.toString(arreglo));
 
 		bDao.guardarBitacoraPrecios(b);
-		
+
 		CorreoPrecios c = new CorreoPrecios();
 		c.enviarNotificacion(Arrays.toString(arreglo), filterProveedor, entradasEditar.getTolvas());
-		
-		
+
 		String info = "Se ha actualizado el precio de la Tolva";
 
 		PrimeFaces.current()
