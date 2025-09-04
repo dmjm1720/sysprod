@@ -35,6 +35,7 @@ import com.dmjm.dao.IPurgasDao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
+import com.dmjm.dao.IValidacionFolioDao;
 import com.dmjm.impl.CocedoresDaoImpl;
 import com.dmjm.impl.FolioPreparacionCocedoresDaoImpl;
 import com.dmjm.impl.FoliosCocedoresDaoImpl;
@@ -45,6 +46,7 @@ import com.dmjm.impl.PurgasDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
+import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.Cocedores;
 import com.dmjm.model.FolioPreparacionCocedores;
 import com.dmjm.model.Limpieza;
@@ -475,40 +477,55 @@ public class CocedoresBean implements Serializable {
 
 	public void guardarCocedores() {
 
-		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
-				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
-				"5:00", "6:00", "PROM." };
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_COCEDORES");
+		if (validacion) {
+			LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");
+			String info = "Ya existe una hoja con la misma fecha";
 
-		ICocedoresDao cDao = new CocedoresDaoImpl();
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+							+ "  timer: 8000\n" + "})");
+			String script = "setTimeout(function() { window.location.href='Cocedores.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
+		} else {
+			LOGGER.info("SE GUARDA LA NUEVA HOJA");
+			String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+					"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
+					"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-		cocedores = new Cocedores();
+			ICocedoresDao cDao = new CocedoresDaoImpl();
 
-		// **FOLIO_COCEDORES**//
-		int year = 0;
-		int folio = 0;
-		year = LocalDate.now().getYear();
-		IFolioCocedoresDao folDao = new FoliosCocedoresDaoImpl();
-		folio = folDao.buscarFolio(year);
-
-		// **FOLIO_PREPARACION_COCEDORES**//
-		IFolioPreparcionCocedoresDao fDao = new FolioPreparacionCocedoresDaoImpl();
-		FolioPreparacionCocedores fpc = new FolioPreparacionCocedores();
-		fpc.setIdFolioPrep(fDao.returnIDGuardarFolio(folio));
-
-		for (String lista : listaHora) {
-			cocedores.setFolioCocedor(folio);
-			cocedores.setHoraLimitesEspecificos(lista);
-			cocedores.setFolioPreparacionCocedores(fpc);
-			cocedores.setFecha(new Date());
-			cDao.guardarCocedores(cocedores);
 			cocedores = new Cocedores();
-		}
-		// **ACTUALIZAR FOLIO_COCEDORES**//
-		IFolioCocedoresDao folioDao = new FoliosCocedoresDaoImpl();
-		folioDao.actualizarFolio(year, folio);
 
-		String script = "setTimeout(function() { window.location.href='Cocedores.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
+			// **FOLIO_COCEDORES**//
+			int year = 0;
+			int folio = 0;
+			year = LocalDate.now().getYear();
+			IFolioCocedoresDao folDao = new FoliosCocedoresDaoImpl();
+			folio = folDao.buscarFolio(year);
+
+			// **FOLIO_PREPARACION_COCEDORES**//
+			IFolioPreparcionCocedoresDao fDao = new FolioPreparacionCocedoresDaoImpl();
+			FolioPreparacionCocedores fpc = new FolioPreparacionCocedores();
+			fpc.setIdFolioPrep(fDao.returnIDGuardarFolio(folio));
+
+			for (String lista : listaHora) {
+				cocedores.setFolioCocedor(folio);
+				cocedores.setHoraLimitesEspecificos(lista);
+				cocedores.setFolioPreparacionCocedores(fpc);
+				cocedores.setFecha(new Date());
+				cDao.guardarCocedores(cocedores);
+				cocedores = new Cocedores();
+			}
+			// **ACTUALIZAR FOLIO_COCEDORES**//
+			IFolioCocedoresDao folioDao = new FoliosCocedoresDaoImpl();
+			folioDao.actualizarFolio(year, folio);
+
+			String script = "setTimeout(function() { window.location.href='Cocedores.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
+		}
 
 	}
 

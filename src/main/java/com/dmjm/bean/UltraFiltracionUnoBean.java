@@ -15,6 +15,8 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
 
@@ -28,6 +30,7 @@ import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUltraFiltracionUnoDao;
 import com.dmjm.dao.IUsuarioDao;
+import com.dmjm.dao.IValidacionFolioDao;
 import com.dmjm.impl.CambioPrefiltroDaoImpl;
 import com.dmjm.impl.FolioProcesosDaoImpl;
 import com.dmjm.impl.FolioUltraUnoDaoImpl;
@@ -38,6 +41,7 @@ import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UltraFiltracionUnoDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
+import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.CambioPrefiltro;
 import com.dmjm.model.FolioPreparacionUltraUno;
 import com.dmjm.model.LimpiezaUltraUno;
@@ -53,7 +57,7 @@ import com.dmjm.util.ReporteEsterilizadores;
 @Named("ultraUnoBean")
 @ViewScoped
 public class UltraFiltracionUnoBean implements Serializable {
-
+	private static final Logger LOGGER = LogManager.getLogger(UltraFiltracionUnoBean.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	private List<UltrafiltracionUno> listaUltrafiltracion;
@@ -482,6 +486,20 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 	public void guardarUltraUno() {
 
+			IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+			boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_ULTRA_UNO");
+			if (validacion) {
+				LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");
+				String info = "Ya existe una hoja con la misma fecha";
+
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+								+ "  timer: 8000\n" + "})");
+				String script = "setTimeout(function() { window.location.href='UltraFiltracionUno.html'; }, 3000);";
+				PrimeFaces.current().executeScript(script);
+			} else {
+		
 		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
 				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
 				"5:00", "6:00", "PROM." };
@@ -517,7 +535,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 		String script = "setTimeout(function() { window.location.href='UltraFiltracionUno.html'; }, 3000);";
 		PrimeFaces.current().executeScript(script);
-
+			}
 	}
 
 	public void actualizarUltraUno() {

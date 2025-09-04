@@ -56,11 +56,11 @@ public class CorreoPrecios extends Configuracion {
 
 			message.setFrom(new InternetAddress(getDominioCorreo()));// PROPS
 
-			message.addRecipients(Message.RecipientType.TO, "ghernandez@duche.com");// PROPS
-			message.addRecipients(Message.RecipientType.BCC, "ggutierrez@duche.com");// PROPS
-			message.addRecipients(Message.RecipientType.TO, "llbudd@duche.com");// PROPS
-			message.addRecipients(Message.RecipientType.TO, "wbudd@duche.com");// PROPS
-			message.addRecipients(Message.RecipientType.TO, "gelatin@duche.com");// PROPS
+			//message.addRecipients(Message.RecipientType.TO, "ghernandez@duche.com");// PROPS
+			//message.addRecipients(Message.RecipientType.BCC, "ggutierrez@duche.com");// PROPS
+			//message.addRecipients(Message.RecipientType.TO, "llbudd@duche.com");// PROPS
+			//message.addRecipients(Message.RecipientType.TO, "wbudd@duche.com");// PROPS
+			//message.addRecipients(Message.RecipientType.TO, "gelatin@duche.com");// PROPS
 			message.addRecipients(Message.RecipientType.BCC, getDominioCorreo());// PROPS
 
 			message.setSubject("Actualización de precios en la Tolva: " + tolva);

@@ -17,6 +17,8 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
 
@@ -29,6 +31,7 @@ import com.dmjm.dao.IOrdenMantoEsterilizadorPalantaADao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
+import com.dmjm.dao.IValidacionFolioDao;
 import com.dmjm.impl.EsterilizadorPlantaADaoImpl;
 import com.dmjm.impl.FolioPreparacionEsterilizadorPlantaADaoImpl;
 import com.dmjm.impl.FolioProcesosDaoImpl;
@@ -38,6 +41,7 @@ import com.dmjm.impl.OrdenMantoEsterilizadorPlantaAImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
+import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.EsterilizadorPlantaA;
 import com.dmjm.model.FolioPreparacionEstA;
 import com.dmjm.model.LimpiezaEstA;
@@ -52,7 +56,7 @@ import com.dmjm.util.ReporteEsterilizadores;
 @Named("esterilizadorBeanA")
 @ViewScoped
 public class EsterilizadorPABean implements Serializable {
-
+	private static final Logger LOGGER = LogManager.getLogger(EsterilizadorPABean.class.getName());
 	private static final long serialVersionUID = 1L;
 
 	private List<EsterilizadorPlantaA> listaEsterilizador;
@@ -382,6 +386,20 @@ public class EsterilizadorPABean implements Serializable {
 	}
 
 	public void guardarEsterilizador() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_EST_A");
+		if (validacion) {
+			LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");
+			String info = "Ya existe una hoja con la misma fecha";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+							+ "  timer: 8000\n" + "})");
+			String script = "setTimeout(function() { window.location.href='EsterilizadorPlantaA.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
+		} else {
+		
 
 		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
 				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
@@ -418,7 +436,7 @@ public class EsterilizadorPABean implements Serializable {
 
 		String script = "setTimeout(function() { window.location.href='EsterilizadorPlantaA.html'; }, 3000);";
 		PrimeFaces.current().executeScript(script);
-
+		}
 	}
 
 	public void actualizarEsterilizador() {

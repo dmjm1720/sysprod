@@ -1917,7 +1917,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradasEditar.setIva(BigDecimal.valueOf(iva));
 		entradasEditar.setTotalCaptura(BigDecimal.valueOf(tCatura));
 		// **CALCULOS DE LOS PRECIOS**//
-
+		eDao.actualizarEntradas(entradasEditar);
 		LOGGER.info(
 				"->PRECIO: " + kg_porcentaje + " ->SUBTOTAL:" + sumaSubtotal + " ->IVA:" + iva + " ->TOTAL:" + tCatura);
 		List<String> listaPreciosActualizacion = new ArrayList<>();

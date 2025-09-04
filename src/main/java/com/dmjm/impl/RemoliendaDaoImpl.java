@@ -10,11 +10,10 @@ import org.hibernate.query.Query;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IRemoliendaDao;
-import com.dmjm.model.Molienda;
 import com.dmjm.model.Remolienda;
 import com.dmjm.util.HibernateUtil;
 
-public class IRemoliendaDaoImpl implements IRemoliendaDao {
+public class RemoliendaDaoImpl implements IRemoliendaDao {
 
 	@Override
 	public List<Remolienda> listaRemolienda() {
