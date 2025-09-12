@@ -2,7 +2,7 @@
 	url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300&display=swap')
 	;
 
-/*@import url('https://fonts.googleapis.com/css2?family=Rajdhani&display=swap');*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import
 	url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap')
 	;
@@ -431,7 +431,6 @@ a:link:hover, a:visited:hover {
 	background-color: #e9f7ef !important;
 }
 
-
 .aprobado {
 	background-color: #2da08c !important;
 }
@@ -439,3 +438,80 @@ a:link:hover, a:visited:hover {
 .pendiente {
 	background-color: #dc672c !important;
 }
+
+.table_component {
+	overflow: auto;
+	width: 100%;
+}
+
+.table_component table {
+	border: 1px solid #dededf;
+	height: 100%;
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	border-spacing: 1px;
+	text-align: center;
+}
+
+.table_component caption {
+	caption-side: top;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: bold;
+}
+
+.table_component th {
+	border: 1px solid #dededf;
+	background-color: #eceff1;
+	color: #000000;
+	padding: 5px;
+}
+
+.table_component td {
+	border: 1px solid #dededf;
+	background-color: #ffffff;
+	color: #000000;
+	padding: 5px;
+}
+
+.bra {
+	color: #2AA63E;
+	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	text-align: right; /* alinea a la derecha */
+	font-size: 0.6rem; /* tamaño más compacto */
+	padding-right: 0.5rem; /* pequeño margen a la derecha */
+}
+
+.bs {
+	color: #34A6F4;
+	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	text-align: right; /* alinea a la derecha */
+	font-size: 0.6rem; /* tamaño más compacto */
+	padding-right: 0.5rem; /* pequeño margen a la derecha */
+}
+
+.gh {
+	color: #9810FA;
+	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	text-align: right; /* alinea a la derecha */
+	font-size: 0.6rem; /* tamaño más compacto */
+	padding-right: 0.5rem; /* pequeño margen a la derecha */
+}
+
+.bloqueo {
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	background-color: #B0C4DE !important;
+	font-size: bold;
+}
+
+.editar {
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	background-color: #f9f06b!important;
+	font-size: bold;
+}
+
+
+

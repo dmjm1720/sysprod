@@ -1295,6 +1295,23 @@ public class EntradasBean extends Conexion implements Serializable {
 			}
 			}
 		}
+		//PORCENTAJE MERMA PROVEEDORES//
+		Proveedores prov = new Proveedores();
+		prov = buscarMermaProveedor(entradasEditar.getProveedores().getIdProveedor());
+		LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		LOGGER.info(
+				"Nombre del proveedor:" + prov.getNombre() + " Descuento por merma: " + prov.getDescuentoMerma());
+
+//		double porcentaje15 = 0.0;
+//		porcentaje15 = Double.valueOf(prov.getDescuentoMerma().toString());
+//
+//		if (Double.parseDouble(entradasEditar.getPorcentajeMerma().toString()) < porcentaje15) {
+//			porcentaje15 = 0.0;
+//		}
+//
+//		// SE TOMA EL PORCENTAJE DE LA MERMA DEL PROVEEDOR
+//		entradasEditar.setCalculoKgMerma(BigDecimal.valueOf((porcentaje15)));
+		
 
 		// VALIDAR EL PROVEEDOR SI TIENE DESCUENTO EN LA MERMA
 		double porcentajeDescuentoProv = 0.0;

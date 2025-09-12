@@ -6,7 +6,7 @@ import java.util.List;
 import com.dmjm.model.FolioPreparacionMolienda;
 
 public interface IFolioPreparacionMoliendaDao {
-	int returnIDGuardarFolio(int folio);
+	int returnIDGuardarFolio(int folio, Date fecha);
 
 	FolioPreparacionMolienda retornarFechaActual();
 
@@ -17,4 +17,10 @@ public interface IFolioPreparacionMoliendaDao {
 	void guardarObservacion(int folio, String observacion);
 
 	List<FolioPreparacionMolienda> listaFolioMolienda(int folio);
+
+	FolioPreparacionMolienda folioMoliendaMinimo();
+
+	FolioPreparacionMolienda folioMoliendaMaximo();
+	
+	FolioPreparacionMolienda folioMoliendaFiltro(int folio);
 }

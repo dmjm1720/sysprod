@@ -85,5 +85,36 @@
 		<property name="fechaFolioPrep" type="java.lang.Integer">
 			<column name="FECHA_FOLIO_PREP" />
 		</property>
+		<property name="kg100" type="java.lang.Integer">
+			<column name="KG100" />
+		</property>
+		<property name="kg60" type="java.lang.Integer">
+			<column name="KG60" />
+		</property>
+		<property name="kg30" type="java.lang.Integer">
+			<column name="KG30" />
+		</property>
+		<property name="kg8" type="java.lang.Integer">
+			<column name="KG8" />
+		</property>
+		<property name="kg200" type="java.lang.Integer">
+			<column name="KG200" />
+		</property>
+		<property name="lote" type="string">
+			<column name="LOTE" length="50" />
+		</property>
+		<property name="seleccion" type="string">
+			<column name="SELECCION" length="50" />
+		</property>
+
+		<property name="m200Sacos" type="java.lang.Integer">
+			<column name="M200_SACOS" />
+		</property>
+		<property name="m200KgRestos" type="java.lang.Integer">
+			<column name="M200_KG_RESTOS" />
+		</property>
+		<property name="m200KgTotales" type="java.lang.Integer">
+			<column name="M200_KG_TOTALES" />
+		</property>
 	</class>
 </hibernate-mapping>

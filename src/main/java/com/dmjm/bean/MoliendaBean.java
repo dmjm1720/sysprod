@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -24,6 +26,7 @@ import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
+import com.dmjm.dao.IValidacionFolioDao;
 import com.dmjm.impl.FolioGeneralDaoImpl;
 import com.dmjm.impl.FolioPreparacionMoliendaDaoImpl;
 import com.dmjm.impl.MoliendaDaoImpl;
@@ -31,6 +34,7 @@ import com.dmjm.impl.OperadorDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
+import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.FolioPreparacionMolienda;
 import com.dmjm.model.Molienda;
 import com.dmjm.model.Operador;
@@ -55,6 +59,14 @@ public class MoliendaBean implements Serializable {
 	private int folioPreMolienda;
 	private Date fechaFiltro;
 	private int folioPrepMolienda;
+	private String bandera;
+
+	private List<FolioPreparacionMolienda> listaFolioMolienda;
+	private FolioPreparacionMolienda folioPreparacionMolienda;
+
+	private int folioMinimo;
+	private int folioMaximo;
+	private int folioSeleccionado;
 
 	// TURNOS//
 	private String filterTurno;
@@ -82,6 +94,9 @@ public class MoliendaBean implements Serializable {
 		listarRegistroTurnos = new ArrayList<>();
 		registroTurnosEditar = new RegistroTurnos();
 
+		listaFolioMolienda = new ArrayList<>();
+		folioPreparacionMolienda = new FolioPreparacionMolienda();
+
 		registroTurnos = new RegistroTurnos();
 		listarRegistroTurnos = new ArrayList<>();
 		registroTurnosEditar = new RegistroTurnos();
@@ -89,28 +104,86 @@ public class MoliendaBean implements Serializable {
 		operador = new Operador();
 		operadorEditar = new Operador();
 		listaOperadores = new ArrayList<>();
+		folioMin();
+		folioMax();
+		folioSeleccionado = folioMaximo;
 
 		primera();
+		listaInicialFechaActual();
 
 	}
 
 	public List<Molienda> getListaMolienda() {
 
-		IMoliendaDao eDao = new MoliendaDaoImpl();
-		if (fechaFiltro != null) {
-			listaMolienda = eDao.listaPorFechaMolienda(fechaFiltro);
-			for (int i = 0; i < 1; i++) {
-				folioFecha = listaMolienda.get(i).getFolio();
-				fecha = listaMolienda.get(i).getFecha();
-				SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
-				fechaHoja = formato.format(fecha);
-			}
-		} else {
-
-			listaMolienda = eDao.listaMolienda();
-
-		}
 		return listaMolienda;
+	}
+
+	public int getFolioMinimo() {
+		return folioMinimo;
+	}
+
+	public void setFolioMinimo(int folioMinimo) {
+		this.folioMinimo = folioMinimo;
+	}
+
+	public int getFolioMaximo() {
+		return folioMaximo;
+	}
+
+	public void setFolioMaximo(int folioMaximo) {
+		this.folioMaximo = folioMaximo;
+	}
+
+	public int getFolioSeleccionado() {
+		return folioSeleccionado;
+	}
+
+	public void setFolioSeleccionado(int folioSeleccionado) {
+		this.folioSeleccionado = folioSeleccionado;
+	}
+
+	public FolioPreparacionMolienda getFolioPreparacionMolienda() {
+		return folioPreparacionMolienda;
+	}
+
+	public void setFolioPreparacionMolienda(FolioPreparacionMolienda folioPreparacionMolienda) {
+		this.folioPreparacionMolienda = folioPreparacionMolienda;
+	}
+
+	public List<FolioPreparacionMolienda> getListaFolioMolienda() {
+		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
+		listaFolioMolienda = lDao.listaFolioMolienda(folioPrepMolienda);
+		return listaFolioMolienda;
+	}
+
+	public int folioMin() {
+		this.folioMinimo = 0;
+		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f = lDao.folioMoliendaMinimo();
+
+		folioMinimo = f.getFolioMolienda();
+
+		return folioMinimo;
+	}
+
+	public int folioMax() {
+		this.folioMaximo = 0;
+		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f = lDao.folioMoliendaMaximo();
+
+		folioMaximo = f.getFolioMolienda();
+
+		return folioMaximo;
+	}
+
+	public String getBandera() {
+		return bandera;
+	}
+
+	public void setBandera(String bandera) {
+		this.bandera = bandera;
 	}
 
 	public Molienda getMolienda() {
@@ -206,6 +279,7 @@ public class MoliendaBean implements Serializable {
 	}
 
 	public void setMoliendaEditar(Molienda moliendaEditar) {
+
 		this.moliendaEditar = moliendaEditar;
 	}
 
@@ -233,6 +307,16 @@ public class MoliendaBean implements Serializable {
 		this.fechaHoja = fechaHoja;
 	}
 
+	public void initEditar() {
+		moliendaEditar = new Molienda();
+		moliendaEditar.setKg200(20);
+		moliendaEditar.setKg100(25);
+		moliendaEditar.setKg60(25);
+		moliendaEditar.setKg30(25);
+		moliendaEditar.setKg8(25);
+
+	}
+
 	public List<RegistroTurnos> getListarRegistroTurnos() {
 
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
@@ -240,6 +324,112 @@ public class MoliendaBean implements Serializable {
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		this.folioPreMolienda = folioPrepDao.folioMoliendaActual(fecha);
 		return listarRegistroTurnos;
+	}
+
+	// CALCULOS//
+
+	public void calcularInfo200GH() {
+		moliendaEditar.setGhKgTotales(moliendaEditar.getGhSacos() * moliendaEditar.getKg200());
+		calcularTotalesGH();
+	}
+
+	public void calcularInfo200() {
+		moliendaEditar.setM200KgTotales(moliendaEditar.getM200Sacos() * moliendaEditar.getKg200());
+		calcularTotales();
+	}
+
+	public void calcularInfo100() {
+		moliendaEditar.setM100KgTotales(moliendaEditar.getM100Sacos() * moliendaEditar.getKg100());
+		calcularTotales();
+	}
+
+	public void calcularInfo60() {
+		moliendaEditar.setM60KgTotales(moliendaEditar.getM60Sacos() * moliendaEditar.getKg60());
+		calcularTotales();
+	}
+
+	public void calcularInfo30() {
+		moliendaEditar.setM30KgTotales(moliendaEditar.getM30Sacos() * moliendaEditar.getKg30());
+		calcularTotales();
+	}
+
+	public void calcularInfo8() {
+		moliendaEditar.setM8KgTotales(moliendaEditar.getM8Sacos() * moliendaEditar.getKg8());
+		calcularTotales();
+	}
+
+	public void calcularInfoR200GH() {
+		int sacos = Objects.requireNonNullElse(moliendaEditar.getGhSacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(moliendaEditar.getGhKgRestos(), 0);
+
+		moliendaEditar.setGhKgTotales((sacos * moliendaEditar.getKg200()) + kgRestos);
+
+		calcularTotalesGH();
+	}
+
+	public void calcularInfoR200() {
+		int sacos = Objects.requireNonNullElse(moliendaEditar.getM200Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(moliendaEditar.getM200KgRestos(), 0);
+
+		moliendaEditar.setM200KgTotales((sacos * moliendaEditar.getKg200()) + kgRestos);
+
+		calcularTotales();
+	}
+
+	public void calcularInfoR100() {
+
+		int sacos = Objects.requireNonNullElse(moliendaEditar.getM100Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(moliendaEditar.getM100KgRestos(), 0);
+
+		moliendaEditar.setM100KgTotales((sacos * moliendaEditar.getKg100()) + kgRestos);
+
+		calcularTotales();
+	}
+
+	public void calcularInfoR60() {
+
+		int sacos = Objects.requireNonNullElse(moliendaEditar.getM60Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(moliendaEditar.getM60KgRestos(), 0);
+
+		moliendaEditar.setM60KgTotales((sacos * moliendaEditar.getKg60()) + kgRestos);
+
+		calcularTotales();
+	}
+
+	public void calcularInfoR30() {
+
+		int sacos = Objects.requireNonNullElse(moliendaEditar.getM30Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(moliendaEditar.getM30KgRestos(), 0);
+
+		moliendaEditar.setM30KgTotales((sacos * moliendaEditar.getKg30()) + kgRestos);
+
+		calcularTotales();
+	}
+
+	public void calcularInfoR8() {
+
+		int sacos = Objects.requireNonNullElse(moliendaEditar.getM8Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(moliendaEditar.getM8KgRestos(), 0);
+
+		moliendaEditar.setM8KgTotales((sacos * moliendaEditar.getKg8()) + kgRestos);
+
+		calcularTotales();
+	}
+
+	public void calcularTotales() {
+		Optional<Integer> kg200 = Optional.ofNullable(moliendaEditar.getM200KgTotales());
+		Optional<Integer> kg100 = Optional.ofNullable(moliendaEditar.getM100KgTotales());
+		Optional<Integer> kg60 = Optional.ofNullable(moliendaEditar.getM60KgTotales());
+		Optional<Integer> kg30 = Optional.ofNullable(moliendaEditar.getM30KgTotales());
+		Optional<Integer> kg8 = Optional.ofNullable(moliendaEditar.getM8KgTotales());
+		moliendaEditar.setTotal(kg200.orElse(0) + kg100.orElse(0) + kg60.orElse(0) + kg30.orElse(0) + kg8.orElse(0));
+
+	}
+
+	public void calcularTotalesGH() {
+		Optional<Integer> kg200 = Optional.ofNullable(moliendaEditar.getGhKgTotales());
+		moliendaEditar.setTotal(kg200.orElse(0));
+
 	}
 
 	// TURNOS//
@@ -356,36 +546,89 @@ public class MoliendaBean implements Serializable {
 	// MOLIENDA //
 	public void guardarMolienda() {
 
-		IMoliendaDao cDao = new MoliendaDaoImpl();
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_MOLIENDA");
+		if (validacion) {
+			LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");
+			String info = "Ya existe una hoja con la misma fecha";
 
-		molienda = new Molienda();
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+							+ "  timer: 8000\n" + "})");
+			String script = "setTimeout(function() { window.location.href='VotatorB.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
+		} else {
 
-		// **FOLIO_MOLIENDA**//
-		int year = 0;
-		int folio = 0;
-		year = LocalDate.now().getYear();
-		IFolioGeneralDao folDao = new FolioGeneralDaoImpl();
-		folio = folDao.buscarFolio("MOLIENDA");
+			// VALIDAMOS LAS FECHAS FALTANTES
+			List<Date> listarFechas = new ArrayList<>();
+			listarFechas = buscarFechasFaltantes();
 
-		// **FOLIO_PREPARACION_MOLIENDA**//
-		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
-		FolioPreparacionMolienda fpc = new FolioPreparacionMolienda();
-		fpc.setIdFolioPrep(fDao.returnIDGuardarFolio(folio));
+			for (Date fec : listarFechas) {
 
-		molienda.setFolio(folio);
-		molienda.setFolioPreparacionMolienda(fpc);
-		molienda.setFecha(new Date());
-		cDao.guardarMolienda(molienda);
-		molienda = new Molienda();
+				IMoliendaDao cDao = new MoliendaDaoImpl();
 
-		// **ACTUALIZAR FOLIO_MOLIENDA**//
+				molienda = new Molienda();
 
-		IFolioGeneralDao folioDao = new FolioGeneralDaoImpl();
-		folioDao.actualizarFolio("MOLIENDA", folio);
+				// **FOLIO_MOLIENDA**//
+				int folio = 0;
+				IFolioGeneralDao folDao = new FolioGeneralDaoImpl();
+				folio = folDao.buscarFolio("MOLIENDA");
 
+				// **FOLIO_PREPARACION_MOLIENDA**//
+				IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
+				FolioPreparacionMolienda fpc = new FolioPreparacionMolienda();
+				fpc.setIdFolioPrep(fDao.returnIDGuardarFolio(folio, fec));
+
+				molienda.setFolio(folio);
+				molienda.setFolioPreparacionMolienda(fpc);
+				molienda.setFecha(fec);
+				cDao.guardarMolienda(molienda);
+				molienda = new Molienda();
+
+				// **ACTUALIZAR FOLIO_MOLIENDA**//
+
+				IFolioGeneralDao folioDao = new FolioGeneralDaoImpl();
+				folioDao.actualizarFolio("MOLIENDA", folio);
+			}
+		}
 		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
 		PrimeFaces.current().executeScript(script);
+	}
 
+	public void guardarInfoMolienda() {
+		IMoliendaDao cDao = new MoliendaDaoImpl();
+
+		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+		fpm.setIdFolioPrep(2);
+		moliendaEditar.setFolio(folioFecha);
+		moliendaEditar.setFolioPreparacionMolienda(fpm);
+		moliendaEditar.setFecha(fecha);
+		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
+
+		cDao.guardarMolienda(moliendaEditar);
+		moliendaEditar = new Molienda();
+
+	}
+
+	public void actualizarInfoMolienda() {
+		IMoliendaDao cDao = new MoliendaDaoImpl();
+
+		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+		fpm.setIdFolioPrep(2);
+		moliendaEditar.setFolio(folioFecha);
+		moliendaEditar.setFolioPreparacionMolienda(fpm);
+		moliendaEditar.setFecha(fecha);
+		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
+
+		cDao.actualizarMolienda(moliendaEditar);
+		moliendaEditar = new Molienda();
+		bandera = "";
+
+	}
+
+	public void banderaEditar(String acccion) {
+		bandera = acccion;
 	}
 
 	public void primera() {
@@ -406,7 +649,7 @@ public class MoliendaBean implements Serializable {
 			getListarRegistroTurnos();
 //			getLimpiezaVotatorB();
 //			getListaOrdenManto();
-//			getListaFolioVotatorPB();
+			getListaFolioMolienda();
 //			getListaResumenVotator();
 		}
 
@@ -443,4 +686,40 @@ public class MoliendaBean implements Serializable {
 	}
 
 	// MOLIENDA //
+
+	public void listaInicialFechaActual() {
+		IMoliendaDao eDao = new MoliendaDaoImpl();
+		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f = lDao.folioMoliendaMaximo();
+		listaMolienda = new ArrayList<>();
+		listaMolienda = eDao.listaPorFechaMolienda(f.getFecha());
+
+		folioFecha = f.getFolioMolienda();
+		fecha = f.getFecha();
+		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+		fechaHoja = formato.format(fecha);
+	}
+
+	public void listar() {
+		System.out.println("El folio seleccionado es: " + folioSeleccionado);
+
+		IMoliendaDao eDao = new MoliendaDaoImpl();
+		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f = lDao.folioMoliendaFiltro(folioSeleccionado);
+		listaMolienda = new ArrayList<>();
+		listaMolienda = eDao.listaPorFechaMolienda(f.getFecha());
+
+		folioFecha = f.getFolioMolienda();
+		fecha = f.getFecha();
+		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+		fechaHoja = formato.format(fecha);
+	}
+
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_MOLIENDA", "MOLIENDA");
+	}
+
 }

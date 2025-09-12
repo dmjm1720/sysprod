@@ -53,7 +53,7 @@ public class MoliendaDaoImpl extends Conexion implements IMoliendaDao {
 			session.save(molienda);
 			transaction.commit();
 
-			String info = "Se ha registrado un nuevo registro de Molienda";
+			String info = "Se ha guardado un nuevo registro de Molienda";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"

@@ -21,7 +21,7 @@ import com.dmjm.util.HibernateUtil;
 public class FolioPreparacionMoliendaDaoImpl extends Conexion implements IFolioPreparacionMoliendaDao {
 
 	@Override
-	public int returnIDGuardarFolio(int folio) {
+	public int returnIDGuardarFolio(int folio, Date fecha) {
 		Session session = null;
 		FolioPreparacionMolienda fpc = new FolioPreparacionMolienda();
 		try {
@@ -29,7 +29,7 @@ public class FolioPreparacionMoliendaDaoImpl extends Conexion implements IFolioP
 			Transaction transaction = session.beginTransaction();
 
 			fpc.setFolioMolienda(folio);
-			fpc.setFecha(new Date());
+			fpc.setFecha(fecha);
 
 			session.save(fpc);
 			transaction.commit();
@@ -139,6 +139,86 @@ public class FolioPreparacionMoliendaDaoImpl extends Conexion implements IFolioP
 
 		}
 		return lista;
+	}
+
+	@Override
+	public FolioPreparacionMolienda folioMoliendaMinimo() {
+		FolioPreparacionMolienda fpc = new FolioPreparacionMolienda();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM FolioPreparacionMolienda ORDER BY idFolioPrep ASC";
+			Query<FolioPreparacionMolienda> query = session.createQuery(hql, FolioPreparacionMolienda.class);
+
+			fpc = query.setMaxResults(1).getSingleResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return fpc;
+	}
+
+	@Override
+	public FolioPreparacionMolienda folioMoliendaMaximo() {
+		FolioPreparacionMolienda fpc = new FolioPreparacionMolienda();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM FolioPreparacionMolienda ORDER BY idFolioPrep DESC";
+			Query<FolioPreparacionMolienda> query = session.createQuery(hql, FolioPreparacionMolienda.class);
+
+			fpc = query.setMaxResults(1).getSingleResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return fpc;
+	}
+
+	@Override
+	public FolioPreparacionMolienda folioMoliendaFiltro(int folio) {
+		FolioPreparacionMolienda fpc = new FolioPreparacionMolienda();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM FolioPreparacionMolienda WHERE folioMolienda = :folio";
+			Query<FolioPreparacionMolienda> query = session.createQuery(hql, FolioPreparacionMolienda.class);
+			query.setParameter("folio", folio);
+			List<FolioPreparacionMolienda> resultados = query.setMaxResults(1).getResultList();
+			if (!resultados.isEmpty()) {
+			    fpc = resultados.get(0);
+			} else {
+			    fpc = null; 
+			}
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return fpc;
 	}
 
 }
