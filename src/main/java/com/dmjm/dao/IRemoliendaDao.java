@@ -13,11 +13,11 @@ public interface IRemoliendaDao {
 
 	List<Remolienda> listaPorFechaRemolienda(Date fecha);
 
-	void guardarMolienda(Remolienda remolienda);
+	void guardarRemolienda(Remolienda remolienda);
 
-	void actualizarMolienda(Remolienda remolienda);
+	void actualizarRemolienda(Remolienda remolienda);
 
-	void borrarMolienda(Remolienda remolienda);
+	void borrarRemolienda(Remolienda remolienda);
 	
 
 }

@@ -43,13 +43,6 @@ public class Molienda implements java.io.Serializable {
 	private Integer m200KgTotales;
 
 	public Molienda() {
-	    // Inicialización por defecto de kilos
-//	    this.kg200 = 20;
-//	    this.kg100 = 25;
-//	    this.kg60 = 25;
-//	    this.kg30 = 25;
-//	    this.kg8 = 25;
-
 	    // Inicialización de sacos y restos en 0
 	    this.m100Sacos = 0;
 	    this.m100KgRestos = 0;
@@ -77,6 +70,8 @@ public class Molienda implements java.io.Serializable {
 
 	    this.total = 0;
 	}
+	
+
 
 	public Molienda(int idMolienda) {
 		this.idMolienda = idMolienda;

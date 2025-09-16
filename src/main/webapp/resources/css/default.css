@@ -462,15 +462,15 @@ a:link:hover, a:visited:hover {
 }
 
 .table_component th {
-	border: 1px solid #dededf;
-	background-color: #eceff1;
+	border: 1px solid rgb(0, 0, 0) !important;
+	background-color: #eceff1 !important;
 	color: #000000;
 	padding: 5px;
 }
 
 .table_component td {
-	border: 1px solid #dededf;
-	background-color: #ffffff;
+	border: 1px solid #dededf !important;
+	background-color: #ffffff !important;
 	color: #000000;
 	padding: 5px;
 }
@@ -511,6 +511,13 @@ a:link:hover, a:visited:hover {
 	font-optical-sizing: auto;
 	background-color: #f9f06b!important;
 	font-size: bold;
+}
+
+
+.spinner-folio input {
+    color: #5a81ff !important;      /* color de fuente */
+    font-weight: bold !important;   /* opcional */
+    font-size: 1.5rem !important;     /* opcional */
 }
 
 

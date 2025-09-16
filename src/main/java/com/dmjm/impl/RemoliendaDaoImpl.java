@@ -42,7 +42,7 @@ public class RemoliendaDaoImpl implements IRemoliendaDao {
 	}
 
 	@Override
-	public void guardarMolienda(Remolienda remolienda) {
+	public void guardarRemolienda(Remolienda remolienda) {
 		Session session = null;
 		try {
 
@@ -69,7 +69,7 @@ public class RemoliendaDaoImpl implements IRemoliendaDao {
 	}
 
 	@Override
-	public void actualizarMolienda(Remolienda remolienda) {
+	public void actualizarRemolienda(Remolienda remolienda) {
 		Session session = null;
 		try {
 
@@ -96,7 +96,7 @@ public class RemoliendaDaoImpl implements IRemoliendaDao {
 	}
 
 	@Override
-	public void borrarMolienda(Remolienda remolienda) {
+	public void borrarRemolienda(Remolienda remolienda) {
 		Session session = null;
 		try {
 

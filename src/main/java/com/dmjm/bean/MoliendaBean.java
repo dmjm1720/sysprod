@@ -3,7 +3,6 @@ package com.dmjm.bean;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +23,7 @@ import com.dmjm.dao.IFolioPreparacionMoliendaDao;
 import com.dmjm.dao.IMoliendaDao;
 import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IRegistroTurnosDao;
+import com.dmjm.dao.IRemoliendaDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.dao.IValidacionFolioDao;
@@ -32,6 +32,7 @@ import com.dmjm.impl.FolioPreparacionMoliendaDaoImpl;
 import com.dmjm.impl.MoliendaDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
+import com.dmjm.impl.RemoliendaDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
@@ -39,6 +40,7 @@ import com.dmjm.model.FolioPreparacionMolienda;
 import com.dmjm.model.Molienda;
 import com.dmjm.model.Operador;
 import com.dmjm.model.RegistroTurnos;
+import com.dmjm.model.Remolienda;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
 
@@ -50,9 +52,12 @@ public class MoliendaBean implements Serializable {
 
 	private static final Logger LOGGER = LogManager.getLogger(MoliendaBean.class.getName());
 
+	private List<Remolienda> listaRemolienda;
 	private List<Molienda> listaMolienda;
 	private Molienda molienda;
 	private Molienda moliendaEditar;
+	private Remolienda remolienda;
+	private Remolienda remoliendaEditar;
 	private Date fecha;
 	private String fechaHoja;
 	private int folioFecha;
@@ -88,8 +93,12 @@ public class MoliendaBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		listaMolienda = new ArrayList<>();
+		listaRemolienda = new ArrayList<>();
 		molienda = new Molienda();
 		moliendaEditar = new Molienda();
+		remolienda = new Remolienda();
+		remoliendaEditar = new Remolienda();
+
 		registroTurnos = new RegistroTurnos();
 		listarRegistroTurnos = new ArrayList<>();
 		registroTurnosEditar = new RegistroTurnos();
@@ -110,12 +119,33 @@ public class MoliendaBean implements Serializable {
 
 		primera();
 		listaInicialFechaActual();
+		listaRemoliendaInicialFechaActual();
 
+	}
+
+	public Remolienda getRemolienda() {
+		return remolienda;
+	}
+
+	public void setRemolienda(Remolienda remolienda) {
+		this.remolienda = remolienda;
+	}
+
+	public Remolienda getRemoliendaEditar() {
+		return remoliendaEditar;
+	}
+
+	public void setRemoliendaEditar(Remolienda remoliendaEditar) {
+		this.remoliendaEditar = remoliendaEditar;
 	}
 
 	public List<Molienda> getListaMolienda() {
 
 		return listaMolienda;
+	}
+
+	public List<Remolienda> getListaRemolienda() {
+		return listaRemolienda;
 	}
 
 	public int getFolioMinimo() {
@@ -317,6 +347,16 @@ public class MoliendaBean implements Serializable {
 
 	}
 
+	public void initEditarRem() {
+		remoliendaEditar = new Remolienda();
+		remoliendaEditar.setKg200(20);
+		remoliendaEditar.setKg100(25);
+		remoliendaEditar.setKg60(25);
+		remoliendaEditar.setKg30(25);
+		remoliendaEditar.setKg8(25);
+
+	}
+
 	public List<RegistroTurnos> getListarRegistroTurnos() {
 
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
@@ -429,6 +469,112 @@ public class MoliendaBean implements Serializable {
 	public void calcularTotalesGH() {
 		Optional<Integer> kg200 = Optional.ofNullable(moliendaEditar.getGhKgTotales());
 		moliendaEditar.setTotal(kg200.orElse(0));
+
+	}
+
+	// REMOLIENDA//
+
+	public void calcularInfo200GHREM() {
+		remoliendaEditar.setGhKgTotales(remoliendaEditar.getGhSacos() * remoliendaEditar.getKg200());
+		calcularTotalesRR();
+	}
+
+	public void calcularInfo200REM() {
+		remoliendaEditar.setM200KgTotales(remoliendaEditar.getM200Sacos() * remoliendaEditar.getKg200());
+		calcularTotalesRR();
+	}
+
+	public void calcularInfo100REM() {
+		remoliendaEditar.setM100KgTotales(remoliendaEditar.getM100Sacos() * remoliendaEditar.getKg100());
+		calcularTotalesRR();
+	}
+
+	public void calcularInfo60REM() {
+		remoliendaEditar.setM60KgTotales(remoliendaEditar.getM60Sacos() * remoliendaEditar.getKg60());
+		calcularTotalesRR();
+	}
+
+	public void calcularInfo30REM() {
+		remoliendaEditar.setM30KgTotales(remoliendaEditar.getM30Sacos() * remoliendaEditar.getKg30());
+		calcularTotalesRR();
+	}
+
+	public void calcularInfo8REM() {
+		remoliendaEditar.setM8KgTotales(remoliendaEditar.getM8Sacos() * remoliendaEditar.getKg8());
+		calcularTotalesRR();
+	}
+
+	public void calcularInfoR200GHREM() {
+		int sacos = Objects.requireNonNullElse(remoliendaEditar.getGhSacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(remoliendaEditar.getGhKgRestos(), 0);
+
+		remoliendaEditar.setGhKgTotales((sacos * remoliendaEditar.getKg200()) + kgRestos);
+
+		calcularTotalesRR();
+	}
+
+	public void calcularInfoR200REM() {
+		int sacos = Objects.requireNonNullElse(remoliendaEditar.getM200Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(remoliendaEditar.getM200KgRestos(), 0);
+
+		remoliendaEditar.setM200KgTotales((sacos * remoliendaEditar.getKg200()) + kgRestos);
+
+		calcularTotalesRR();
+	}
+
+	public void calcularInfoR100REM() {
+
+		int sacos = Objects.requireNonNullElse(remoliendaEditar.getM100Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(remoliendaEditar.getM100KgRestos(), 0);
+
+		remoliendaEditar.setM100KgTotales((sacos * remoliendaEditar.getKg100()) + kgRestos);
+
+		calcularTotalesRR();
+	}
+
+	public void calcularInfoR60REM() {
+
+		int sacos = Objects.requireNonNullElse(remoliendaEditar.getM60Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(remoliendaEditar.getM60KgRestos(), 0);
+
+		remoliendaEditar.setM60KgTotales((sacos * remoliendaEditar.getKg60()) + kgRestos);
+
+		calcularTotalesRR();
+	}
+
+	public void calcularInfoR30REM() {
+
+		int sacos = Objects.requireNonNullElse(remoliendaEditar.getM30Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(remoliendaEditar.getM30KgRestos(), 0);
+
+		remoliendaEditar.setM30KgTotales((sacos * remoliendaEditar.getKg30()) + kgRestos);
+
+		calcularTotalesRR();
+	}
+
+	public void calcularInfoR8REM() {
+
+		int sacos = Objects.requireNonNullElse(remoliendaEditar.getM8Sacos(), 0);
+		int kgRestos = Objects.requireNonNullElse(remoliendaEditar.getM8KgRestos(), 0);
+
+		remoliendaEditar.setM8KgTotales((sacos * remoliendaEditar.getKg8()) + kgRestos);
+
+		calcularTotalesRR();
+	}
+
+	public void calcularTotalesRR() {
+		Optional<Integer> kg200 = Optional.ofNullable(remoliendaEditar.getM200KgTotales());
+		Optional<Integer> kg100 = Optional.ofNullable(remoliendaEditar.getM100KgTotales());
+		Optional<Integer> kg60 = Optional.ofNullable(remoliendaEditar.getM60KgTotales());
+		Optional<Integer> kg30 = Optional.ofNullable(remoliendaEditar.getM30KgTotales());
+		Optional<Integer> kg8 = Optional.ofNullable(remoliendaEditar.getM8KgTotales());
+		remoliendaEditar.setTotal(kg200.orElse(0) + kg100.orElse(0) + kg60.orElse(0) + kg30.orElse(0) + kg8.orElse(0));
+
+	}
+
+	public void calcularTotalesGHRR() {
+		Optional<Integer> kg200 = Optional.ofNullable(remoliendaEditar.getGhKgTotales());
+		remoliendaEditar.setTotal(kg200.orElse(0));
 
 	}
 
@@ -608,6 +754,8 @@ public class MoliendaBean implements Serializable {
 
 		cDao.guardarMolienda(moliendaEditar);
 		moliendaEditar = new Molienda();
+		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
+		PrimeFaces.current().executeScript(script);
 
 	}
 
@@ -624,6 +772,44 @@ public class MoliendaBean implements Serializable {
 		cDao.actualizarMolienda(moliendaEditar);
 		moliendaEditar = new Molienda();
 		bandera = "";
+		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
+		PrimeFaces.current().executeScript(script);
+
+	}
+
+	public void guardarInfoRemolienda() {
+		IRemoliendaDao cDao = new RemoliendaDaoImpl();
+
+		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+		fpm.setIdFolioPrep(2);
+		remoliendaEditar.setFolio(folioFecha);
+		remoliendaEditar.setFolioPreparacionMolienda(fpm);
+		remoliendaEditar.setFecha(fecha);
+		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
+
+		cDao.guardarRemolienda(remoliendaEditar);
+		remoliendaEditar = new Remolienda();
+		bandera = "";
+		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
+		PrimeFaces.current().executeScript(script);
+
+	}
+
+	public void actualizarInfoRemolienda() {
+		IRemoliendaDao cDao = new RemoliendaDaoImpl();
+
+		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+		fpm.setIdFolioPrep(2);
+		remoliendaEditar.setFolio(folioFecha);
+		remoliendaEditar.setFolioPreparacionMolienda(fpm);
+		remoliendaEditar.setFecha(fecha);
+		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
+
+		cDao.actualizarRemolienda(remoliendaEditar);
+		remoliendaEditar = new Remolienda();
+		bandera = "";
+		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
+		PrimeFaces.current().executeScript(script);
 
 	}
 
@@ -701,15 +887,35 @@ public class MoliendaBean implements Serializable {
 		fechaHoja = formato.format(fecha);
 	}
 
+	public void listaRemoliendaInicialFechaActual() {
+		IRemoliendaDao eDao = new RemoliendaDaoImpl();
+		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f = lDao.folioMoliendaMaximo();
+		listaRemolienda = new ArrayList<>();
+		listaRemolienda = eDao.listaPorFechaRemolienda(f.getFecha());
+
+		folioFecha = f.getFolioMolienda();
+		fecha = f.getFecha();
+		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+		fechaHoja = formato.format(fecha);
+	}
+
 	public void listar() {
 		System.out.println("El folio seleccionado es: " + folioSeleccionado);
 
 		IMoliendaDao eDao = new MoliendaDaoImpl();
+		IRemoliendaDao rDao = new RemoliendaDaoImpl();
+		
 		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+
 		f = lDao.folioMoliendaFiltro(folioSeleccionado);
 		listaMolienda = new ArrayList<>();
 		listaMolienda = eDao.listaPorFechaMolienda(f.getFecha());
+		
+		listaRemolienda = new ArrayList<>();
+		listaRemolienda = rDao.listaPorFechaRemolienda(f.getFecha());
 
 		folioFecha = f.getFolioMolienda();
 		fecha = f.getFecha();
@@ -719,7 +925,7 @@ public class MoliendaBean implements Serializable {
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_MOLIENDA", "MOLIENDA");
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_MOLIENDA");
 	}
 
 }
