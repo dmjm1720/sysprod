@@ -7,7 +7,7 @@ import com.dmjm.model.FolioPreparacionVotatorA;
 
 public interface IFolioPreparacionVotatorADao {
 
-	int returnIDGuardarFolio(int folio);
+	int returnIDGuardarFolio(int folio, Date fecha);
 
 	FolioPreparacionVotatorA retornarFechaActual();
 

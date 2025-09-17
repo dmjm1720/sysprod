@@ -400,7 +400,12 @@ public class EsterilizadorPABean implements Serializable {
 			PrimeFaces.current().executeScript(script);
 		} else {
 		
+			// VALIDAMOS LAS FECHAS FALTANTES
+						List<Date> listarFechas = new ArrayList<>();
+						listarFechas = buscarFechasFaltantes();
 
+						for (Date fec : listarFechas) {
+			
 		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
 				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
 				"5:00", "6:00", "PROM." };
@@ -420,20 +425,20 @@ public class EsterilizadorPABean implements Serializable {
 
 		IFolioPreparacionEsterilizadorPlantaADao estDao = new FolioPreparacionEsterilizadorPlantaADaoImpl();
 		FolioPreparacionEstA fpe = new FolioPreparacionEstA();
-		fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio));
+		fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio, fec)); //FECHA DEL FOLIO FALTANTE
 
 		for (String lista : listaHora) {
 			esterilizadorPlantaA.setFolioEsterilizador(folio);
 			esterilizadorPlantaA.setHora(lista);
 			esterilizadorPlantaA.setFolioPreparacionEstA(fpe);
-			esterilizadorPlantaA.setFecha(new Date());
+			esterilizadorPlantaA.setFecha(fec); //FECHA DEL FOLIO FALTANTE
 			cDao.guardarEsterilizador(esterilizadorPlantaA);
 			esterilizadorPlantaA = new EsterilizadorPlantaA();
 		}
 		// **ACTUALIZAR FOLIO_PROCESOS**//
 		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
 		folioDao.actualizarFolio(year, folio);
-
+						}
 		String script = "setTimeout(function() { window.location.href='EsterilizadorPlantaA.html'; }, 3000);";
 		PrimeFaces.current().executeScript(script);
 		}
@@ -844,6 +849,11 @@ public class EsterilizadorPABean implements Serializable {
 		for (int i = 0; i < listaFolioEstPA.size(); i++) {
 			folioPrepEstPA.setObservaciones(listaFolioEstPA.get(i).getObservaciones());
 		}
+	}
+	
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_EST_A");
 	}
 
 }

@@ -376,7 +376,8 @@ public class UltraFiltracionUnoBean implements Serializable {
 	}
 
 	public LimpiezaUltraUno getLimpiezaEditar() {
-		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso()) || "DESCONCETRACIÓN".equals(limpiezaEditar.getProceso())) {
+		if (Objects.nonNull(limpiezaEditar) && "ENJUAGUE".equals(limpiezaEditar.getProceso())
+				|| "DESCONCETRACIÓN".equals(limpiezaEditar.getProceso())) {
 			limpiezaEditar.setQuimico("AGUA");
 		}
 		return limpiezaEditar;
@@ -478,7 +479,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoUltraUno();
 	}
-	
+
 	public void borrarOrdenManto() {
 		IOrdenMantoUltraUnoDao iDao = new OrdenMantoUltraUnoDaoImpl();
 		iDao.borrarOrdenManto(ordenMantenimientoEditar);
@@ -486,56 +487,62 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 	public void guardarUltraUno() {
 
-			IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-			boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_ULTRA_UNO");
-			if (validacion) {
-				LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");
-				String info = "Ya existe una hoja con la misma fecha";
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_ULTRA_UNO");
+		if (validacion) {
+			LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");
+			String info = "Ya existe una hoja con la misma fecha";
 
-				PrimeFaces.current()
-						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
-								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
-								+ "  timer: 8000\n" + "})");
-				String script = "setTimeout(function() { window.location.href='UltraFiltracionUno.html'; }, 3000);";
-				PrimeFaces.current().executeScript(script);
-			} else {
-		
-		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
-				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
-				"5:00", "6:00", "PROM." };
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
+							+ "  timer: 8000\n" + "})");
+			String script = "setTimeout(function() { window.location.href='UltraFiltracionUno.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
+		} else {
 
-		IUltraFiltracionUnoDao cDao = new UltraFiltracionUnoDaoImpl();
+			// VALIDAMOS LAS FECHAS FALTANTES
+			List<Date> listarFechas = new ArrayList<>();
+			listarFechas = buscarFechasFaltantes();
 
-		ultraFiltracionUno = new UltrafiltracionUno();
+			for (Date fec : listarFechas) {
 
-		// **FOLIO_COCEDORES**//
-		int year = 0;
-		int folio = 0;
-		year = LocalDate.now().getYear();
-		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
-		folio = folDao.buscarFolioUltraUno(year);
+				String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+						"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
+						"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-		// **FOLIO_PREPARACION ULTRA**//
+				IUltraFiltracionUnoDao cDao = new UltraFiltracionUnoDaoImpl();
 
-		IFolioPreparacionUltraUnoDao ultraDao = new FolioUltraUnoDaoImpl();
-		FolioPreparacionUltraUno fpe = new FolioPreparacionUltraUno();
-		fpe.setIdFolioPrep(ultraDao.returnIDGuardarFolio(folio));
+				ultraFiltracionUno = new UltrafiltracionUno();
 
-		for (String lista : listaHora) {
-			ultraFiltracionUno.setFolioUltra(folio);
-			ultraFiltracionUno.setHora(lista);
-			ultraFiltracionUno.setFolioPreparacionUltraUno(fpe);
-			ultraFiltracionUno.setFecha(new Date());
-			cDao.guardarUltrafiltracion(ultraFiltracionUno);
-			ultraFiltracionUno = new UltrafiltracionUno();
-		}
-		// **ACTUALIZAR FOLIO_PROCESOS**//
-		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-		folioDao.actualizarFolioUltraUno(year, folio);
+				// **FOLIO_COCEDORES**//
+				int year = 0;
+				int folio = 0;
+				year = LocalDate.now().getYear();
+				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
+				folio = folDao.buscarFolioUltraUno(year);
 
-		String script = "setTimeout(function() { window.location.href='UltraFiltracionUno.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
+				// **FOLIO_PREPARACION ULTRA**//
+
+				IFolioPreparacionUltraUnoDao ultraDao = new FolioUltraUnoDaoImpl();
+				FolioPreparacionUltraUno fpe = new FolioPreparacionUltraUno();
+				fpe.setIdFolioPrep(ultraDao.returnIDGuardarFolio(folio, fec)); //FECHA DEL FOLIO FALTANTE
+
+				for (String lista : listaHora) {
+					ultraFiltracionUno.setFolioUltra(folio);
+					ultraFiltracionUno.setHora(lista);
+					ultraFiltracionUno.setFolioPreparacionUltraUno(fpe);
+					ultraFiltracionUno.setFecha(fec); //FECHA DEL FOLIO FALTANTE
+					cDao.guardarUltrafiltracion(ultraFiltracionUno);
+					ultraFiltracionUno = new UltrafiltracionUno();
+				}
+				// **ACTUALIZAR FOLIO_PROCESOS**//
+				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
+				folioDao.actualizarFolioUltraUno(year, folio);
 			}
+			String script = "setTimeout(function() { window.location.href='UltraFiltracionUno.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
+		}
 	}
 
 	public void actualizarUltraUno() {
@@ -800,8 +807,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
+
 	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -867,6 +873,11 @@ public class UltraFiltracionUnoBean implements Serializable {
 		for (int i = 0; i < listaFolioUltraUno.size(); i++) {
 			folioPrepUltraUno.setObservaciones(listaFolioUltraUno.get(i).getObservaciones());
 		}
+	}
+
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_ULTRA_UNO");
 	}
 
 }

@@ -7,7 +7,7 @@ import com.dmjm.model.FolioPreparacionEstB;
 
 public interface IFolioPreparacionEsterilizadorPlantaBDao {
 
-	int returnIDGuardarFolio(int folio);
+	int returnIDGuardarFolio(int folio, Date fecha);
 
 	FolioPreparacionEstB retornarFechaActual();
 

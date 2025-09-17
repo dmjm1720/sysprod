@@ -60,7 +60,7 @@ public class EsterilizadorPBBean implements Serializable {
 	private List<EsterilizadorPlantaB> listaEsterilizador;
 	private EsterilizadorPlantaB esterilizadorPlantaB;
 	private EsterilizadorPlantaB esterilizadorEditarPlantaB;
-	
+
 	private List<EsterilizadorPlantaB> listaFiltroEsterilizadoresPB;
 
 	private Date fecha;
@@ -109,8 +109,6 @@ public class EsterilizadorPBBean implements Serializable {
 		listaEsterilizador = new ArrayList<>();
 		esterilizadorPlantaB = new EsterilizadorPlantaB();
 		esterilizadorEditarPlantaB = new EsterilizadorPlantaB();
-		
-	
 
 		limpieza = new LimpiezaEstB();
 		limpiezaEstB = new ArrayList<>();
@@ -127,7 +125,7 @@ public class EsterilizadorPBBean implements Serializable {
 		listaOrdenManto = new ArrayList<>();
 		ordenMantenimiento = new OrdenMantenimientoEstB();
 		ordenMantenimientoEditar = new OrdenMantenimientoEstB();
-		
+
 		listaFiltroEsterilizadoresPB = new ArrayList<>();
 		IEsterilizdorPlantaBDao lfDao = new EsterilizadorPlantaBDaoImpl();
 		listaFiltroEsterilizadoresPB = lfDao.listaFiltroEsterilizador();
@@ -389,42 +387,48 @@ public class EsterilizadorPBBean implements Serializable {
 			String script = "setTimeout(function() { window.location.href='EsterilizadorPlantaB.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		} else {
-		
-		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
-				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
-				"5:00", "6:00", "PROM." };
 
-		IEsterilizdorPlantaBDao cDao = new EsterilizadorPlantaBDaoImpl();
+			// VALIDAMOS LAS FECHAS FALTANTES
+			List<Date> listarFechas = new ArrayList<>();
+			listarFechas = buscarFechasFaltantes();
 
-		esterilizadorPlantaB = new EsterilizadorPlantaB();
+			for (Date fec : listarFechas) {
 
-		// **FOLIO_COCEDORES**//
-		int year = 0;
-		int folio = 0;
-		year = LocalDate.now().getYear();
-		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
-		folio = folDao.buscarFolioB(year);
+				String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+						"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
+						"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-		// **FOLIO_PREPARACION_EST_A**//
+				IEsterilizdorPlantaBDao cDao = new EsterilizadorPlantaBDaoImpl();
 
-		IFolioPreparacionEsterilizadorPlantaBDao estDao = new FolioPreparacionEsterilizadorPlantaBDaoImpl();
-		FolioPreparacionEstB fpe = new FolioPreparacionEstB();
-		fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio));
+				esterilizadorPlantaB = new EsterilizadorPlantaB();
 
-		for (String lista : listaHora) {
-			esterilizadorPlantaB.setFolioEsterilizador(folio);
-			esterilizadorPlantaB.setHora(lista);
-			esterilizadorPlantaB.setFolioPreparacionEstB(fpe);
-			esterilizadorPlantaB.setFecha(new Date());
-			cDao.guardarEsterilizador(esterilizadorPlantaB);
-			esterilizadorPlantaB = new EsterilizadorPlantaB();
-		}
-		// **ACTUALIZAR FOLIO_PROCESOS**//
-		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-		folioDao.actualizarFolioB(year, folio);
+				// **FOLIO_COCEDORES**//
+				int year = 0;
+				int folio = 0;
+				year = LocalDate.now().getYear();
+				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
+				folio = folDao.buscarFolioB(year);
 
-		String script = "setTimeout(function() { window.location.href='EsterilizadorPlantaB.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
+				// **FOLIO_PREPARACION_EST_A**//
+
+				IFolioPreparacionEsterilizadorPlantaBDao estDao = new FolioPreparacionEsterilizadorPlantaBDaoImpl();
+				FolioPreparacionEstB fpe = new FolioPreparacionEstB();
+				fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio, fec)); // FECHA DEL FOLIO FALTANTE
+
+				for (String lista : listaHora) {
+					esterilizadorPlantaB.setFolioEsterilizador(folio);
+					esterilizadorPlantaB.setHora(lista);
+					esterilizadorPlantaB.setFolioPreparacionEstB(fpe);
+					esterilizadorPlantaB.setFecha(fec); // FECHA DEL FOLIO FALTANTE
+					cDao.guardarEsterilizador(esterilizadorPlantaB);
+					esterilizadorPlantaB = new EsterilizadorPlantaB();
+				}
+				// **ACTUALIZAR FOLIO_PROCESOS**//
+				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
+				folioDao.actualizarFolioB(year, folio);
+			}
+			String script = "setTimeout(function() { window.location.href='EsterilizadorPlantaB.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
 		}
 	}
 
@@ -549,7 +553,7 @@ public class EsterilizadorPBBean implements Serializable {
 		ILimpiezaEsterilizadorPlantaBDao validaDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepEst);
-		
+
 		// validación de limpieza para agregar en la tabla de cocedores
 		ILimpiezaEsterilizadorPlantaBDao lDao = new LimpiezaEsterilizadorPlantaBDaoImpl();
 		IEsterilizdorPlantaBDao vDao = new EsterilizadorPlantaBDaoImpl();
@@ -693,7 +697,7 @@ public class EsterilizadorPBBean implements Serializable {
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
 		ordenMantenimiento = new OrdenMantenimientoEstB();
 	}
-	
+
 	public void borrarOrdenManto() {
 		IOrdenMantoEsterilizadorPalantaBDao iDao = new OrdenMantoEsterilizadorPlantaBImpl();
 		iDao.borrarOrdenManto(ordenMantenimientoEditar);
@@ -726,7 +730,7 @@ public class EsterilizadorPBBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
+
 	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -762,7 +766,7 @@ public class EsterilizadorPBBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
+
 	public void deleteLimpieza() {
 		// validación de limpieza para agregar en la tabla de cocedores
 		IEsterilizdorPlantaBDao vDao = new EsterilizadorPlantaBDaoImpl();
@@ -792,6 +796,11 @@ public class EsterilizadorPBBean implements Serializable {
 		for (int i = 0; i < listaFolioEstPB.size(); i++) {
 			folioPrepEstPB.setObservaciones(listaFolioEstPB.get(i).getObservaciones());
 		}
+	}
+
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_EST_B");
 	}
 
 }

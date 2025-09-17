@@ -22,7 +22,7 @@ import com.dmjm.util.HibernateUtil;
 public class FolioPreparacionEsterilizadorPlantaBDaoImpl extends Conexion implements IFolioPreparacionEsterilizadorPlantaBDao {
 
 	@Override
-	public int returnIDGuardarFolio(int folio) {
+	public int returnIDGuardarFolio(int folio, Date fecha) {
 		Session session = null;
 		FolioPreparacionEstB f = new FolioPreparacionEstB();
 		try {
@@ -30,7 +30,7 @@ public class FolioPreparacionEsterilizadorPlantaBDaoImpl extends Conexion implem
 			Transaction transaction = session.beginTransaction();
 			
 			f.setFolioEstB(folio);
-			f.setFecha(new Date());
+			f.setFecha(fecha);
 			
 			session.save(f);
 			transaction.commit();

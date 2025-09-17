@@ -106,10 +106,6 @@ public class MoliendaBean implements Serializable {
 		listaFolioMolienda = new ArrayList<>();
 		folioPreparacionMolienda = new FolioPreparacionMolienda();
 
-		registroTurnos = new RegistroTurnos();
-		listarRegistroTurnos = new ArrayList<>();
-		registroTurnosEditar = new RegistroTurnos();
-
 		operador = new Operador();
 		operadorEditar = new Operador();
 		listaOperadores = new ArrayList<>();
@@ -191,8 +187,9 @@ public class MoliendaBean implements Serializable {
 		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f = lDao.folioMoliendaMinimo();
+		Optional<Integer> min = Optional.ofNullable(f.getFolioMolienda());
 
-		folioMinimo = f.getFolioMolienda();
+		folioMinimo = min.orElse(0);
 
 		return folioMinimo;
 	}
@@ -203,7 +200,9 @@ public class MoliendaBean implements Serializable {
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f = lDao.folioMoliendaMaximo();
 
-		folioMaximo = f.getFolioMolienda();
+		Optional<Integer> max = Optional.ofNullable(f.getFolioMolienda());
+
+		folioMaximo = max.orElse(0);
 
 		return folioMaximo;
 	}
@@ -702,7 +701,7 @@ public class MoliendaBean implements Serializable {
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
 							+ "  timer: 8000\n" + "})");
-			String script = "setTimeout(function() { window.location.href='VotatorB.html'; }, 3000);";
+			String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		} else {
 
@@ -726,11 +725,11 @@ public class MoliendaBean implements Serializable {
 				FolioPreparacionMolienda fpc = new FolioPreparacionMolienda();
 				fpc.setIdFolioPrep(fDao.returnIDGuardarFolio(folio, fec));
 
-				molienda.setFolio(folio);
-				molienda.setFolioPreparacionMolienda(fpc);
-				molienda.setFecha(fec);
-				cDao.guardarMolienda(molienda);
-				molienda = new Molienda();
+//				molienda.setFolio(folio);
+//				molienda.setFolioPreparacionMolienda(fpc);
+//				molienda.setFecha(fec);
+//				cDao.guardarMolienda(molienda);
+//				molienda = new Molienda();
 
 				// **ACTUALIZAR FOLIO_MOLIENDA**//
 
@@ -744,9 +743,10 @@ public class MoliendaBean implements Serializable {
 
 	public void guardarInfoMolienda() {
 		IMoliendaDao cDao = new MoliendaDaoImpl();
-
+		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-		fpm.setIdFolioPrep(2);
+		
+		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
 		moliendaEditar.setFolio(folioFecha);
 		moliendaEditar.setFolioPreparacionMolienda(fpm);
 		moliendaEditar.setFecha(fecha);
@@ -762,11 +762,11 @@ public class MoliendaBean implements Serializable {
 	public void actualizarInfoMolienda() {
 		IMoliendaDao cDao = new MoliendaDaoImpl();
 
-		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-		fpm.setIdFolioPrep(2);
-		moliendaEditar.setFolio(folioFecha);
-		moliendaEditar.setFolioPreparacionMolienda(fpm);
-		moliendaEditar.setFecha(fecha);
+//		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+//		fpm.setIdFolioPrep(2);
+		//moliendaEditar.setFolio(folioFecha);
+		//moliendaEditar.setFolioPreparacionMolienda(fpm);
+		//moliendaEditar.setFecha(fecha);
 		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
 
 		cDao.actualizarMolienda(moliendaEditar);
@@ -776,12 +776,24 @@ public class MoliendaBean implements Serializable {
 		PrimeFaces.current().executeScript(script);
 
 	}
+	
+	public void borrarMolienda() {
+		IMoliendaDao bDao = new MoliendaDaoImpl();
+		bDao.borrarMolienda(moliendaEditar);
+	}
+	
+	public void borrarRemolienda() {
+		IRemoliendaDao bDao = new RemoliendaDaoImpl();
+		bDao.borrarRemolienda(remoliendaEditar);
+	}
+
 
 	public void guardarInfoRemolienda() {
 		IRemoliendaDao cDao = new RemoliendaDaoImpl();
-
+		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-		fpm.setIdFolioPrep(2);
+		
+		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
 		remoliendaEditar.setFolio(folioFecha);
 		remoliendaEditar.setFolioPreparacionMolienda(fpm);
 		remoliendaEditar.setFecha(fecha);
@@ -798,11 +810,11 @@ public class MoliendaBean implements Serializable {
 	public void actualizarInfoRemolienda() {
 		IRemoliendaDao cDao = new RemoliendaDaoImpl();
 
-		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-		fpm.setIdFolioPrep(2);
-		remoliendaEditar.setFolio(folioFecha);
-		remoliendaEditar.setFolioPreparacionMolienda(fpm);
-		remoliendaEditar.setFecha(fecha);
+//		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+//		fpm.setIdFolioPrep(2);
+//		remoliendaEditar.setFolio(folioFecha);
+//		remoliendaEditar.setFolioPreparacionMolienda(fpm);
+//		remoliendaEditar.setFecha(fecha);
 		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
 
 		cDao.actualizarRemolienda(remoliendaEditar);
@@ -821,17 +833,23 @@ public class MoliendaBean implements Serializable {
 		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f = fDao.retornarFechaActual();
-		this.fecha = f.getFecha();
+
+		Optional<Date> fHoy = Optional.ofNullable(f.getFecha());
+
+		this.fecha = fHoy.orElse(new Date());
 
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+
 		fechaHoja = formato.format(fecha);
 
 		// **FOLIO DE LA FECHA ACTUAL**//
 		if (this.fecha != null) {
 			IFolioPreparacionMoliendaDao folioDao = new FolioPreparacionMoliendaDaoImpl();
-			this.folioFecha = folioDao.fechaFolioActual(fecha);
+			Optional<Integer> folFec = Optional.ofNullable(folioDao.fechaFolioActual(fecha));
+			this.folioFecha = folFec.orElse(0);
 			IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
-			this.folioPrepMolienda = folioPrepDao.folioMoliendaActual(fecha);
+			Optional<Integer> folPrep = Optional.ofNullable(folioPrepDao.folioMoliendaActual(fecha));
+			this.folioPrepMolienda = folPrep.orElse(0);
 			getListarRegistroTurnos();
 //			getLimpiezaVotatorB();
 //			getListaOrdenManto();
@@ -880,9 +898,13 @@ public class MoliendaBean implements Serializable {
 		f = lDao.folioMoliendaMaximo();
 		listaMolienda = new ArrayList<>();
 		listaMolienda = eDao.listaPorFechaMolienda(f.getFecha());
+		
+		Optional<Integer> fFol = Optional.ofNullable(f.getFolioMolienda());
+		folioFecha = fFol.orElse(0);
 
-		folioFecha = f.getFolioMolienda();
-		fecha = f.getFecha();
+		Optional<Date> fFec = Optional.ofNullable(f.getFecha());
+		fecha = fFec.orElse(new Date());
+		
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		fechaHoja = formato.format(fecha);
 	}
@@ -895,8 +917,12 @@ public class MoliendaBean implements Serializable {
 		listaRemolienda = new ArrayList<>();
 		listaRemolienda = eDao.listaPorFechaRemolienda(f.getFecha());
 
-		folioFecha = f.getFolioMolienda();
-		fecha = f.getFecha();
+		Optional<Integer> fFol = Optional.ofNullable(f.getFolioMolienda());
+		folioFecha = fFol.orElse(0);
+
+		Optional<Date> fFec = Optional.ofNullable(f.getFecha());
+		fecha = fFec.orElse(new Date());
+
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		fechaHoja = formato.format(fecha);
 	}
@@ -906,14 +932,14 @@ public class MoliendaBean implements Serializable {
 
 		IMoliendaDao eDao = new MoliendaDaoImpl();
 		IRemoliendaDao rDao = new RemoliendaDaoImpl();
-		
+
 		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 
 		f = lDao.folioMoliendaFiltro(folioSeleccionado);
 		listaMolienda = new ArrayList<>();
 		listaMolienda = eDao.listaPorFechaMolienda(f.getFecha());
-		
+
 		listaRemolienda = new ArrayList<>();
 		listaRemolienda = rDao.listaPorFechaRemolienda(f.getFecha());
 

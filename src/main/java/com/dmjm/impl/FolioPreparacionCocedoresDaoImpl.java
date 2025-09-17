@@ -21,7 +21,7 @@ import com.dmjm.util.HibernateUtil;
 public class FolioPreparacionCocedoresDaoImpl extends Conexion implements IFolioPreparcionCocedoresDao {
 
 	@Override
-	public int returnIDGuardarFolio(int folio) {
+	public int returnIDGuardarFolio(int folio, Date fecha) {
 		Session session = null;
 		FolioPreparacionCocedores fpc = new FolioPreparacionCocedores();
 		try {
@@ -29,7 +29,7 @@ public class FolioPreparacionCocedoresDaoImpl extends Conexion implements IFolio
 			Transaction transaction = session.beginTransaction();
 
 			fpc.setFolioCocedor(folio);
-			fpc.setFecha(new Date());
+			fpc.setFecha(fecha);
 
 			session.save(fpc);
 			transaction.commit();

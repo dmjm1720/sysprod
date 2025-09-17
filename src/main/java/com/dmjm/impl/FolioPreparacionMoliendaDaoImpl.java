@@ -76,8 +76,10 @@ public class FolioPreparacionMoliendaDaoImpl extends Conexion implements IFolioP
 			String hql = "SELECT f.folioMolienda FROM FolioPreparacionMolienda f WHERE f.fecha = :fecha";
 			Query<Integer> query = session.createQuery(hql, Integer.class);
 			query.setParameter("fecha", fecha);
-
-			folio = query.uniqueResult();
+			Integer result = query.uniqueResult();
+	        if (result != null) {
+	            folio = result;
+	        }
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
@@ -91,8 +93,10 @@ public class FolioPreparacionMoliendaDaoImpl extends Conexion implements IFolioP
 			String hql = "SELECT f.idFolioPrep FROM FolioPreparacionMolienda f WHERE f.fecha = :fecha";
 			Query<Integer> query = session.createQuery(hql, Integer.class);
 			query.setParameter("fecha", fecha);
-
-			folio = query.uniqueResult();
+			Integer result = query.uniqueResult();
+	        if (result != null) {
+	            folio = result;
+	        }
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}

@@ -506,42 +506,48 @@ public class UltraFiltracionDosBean implements Serializable {
 			String script = "setTimeout(function() { window.location.href='UltraFiltracionDos.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		} else {
-		
-		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
-				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
-				"5:00", "6:00", "PROM." };
 
-		IUltraFiltracionDosDao cDao = new UltraFiltracionDosDaoImpl();
+			// VALIDAMOS LAS FECHAS FALTANTES
+			List<Date> listarFechas = new ArrayList<>();
+			listarFechas = buscarFechasFaltantes();
 
-		ultraFiltracionDos = new UltrafiltracionDos();
+			for (Date fec : listarFechas) {
 
-		// **FOLIO_COCEDORES**//
-		int year = 0;
-		int folio = 0;
-		year = LocalDate.now().getYear();
-		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
-		folio = folDao.buscarFolioUltraDos(year);
+				String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+						"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
+						"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-		// **FOLIO_PREPARACION ULTRA**//
+				IUltraFiltracionDosDao cDao = new UltraFiltracionDosDaoImpl();
 
-		IFolioPreparacionUltraDosDao ultraDao = new FolioUltraDosDaoImpl();
-		FolioPreparacionUltraDos fpe = new FolioPreparacionUltraDos();
-		fpe.setIdFolioPrep(ultraDao.returnIDGuardarFolio(folio));
+				ultraFiltracionDos = new UltrafiltracionDos();
 
-		for (String lista : listaHora) {
-			ultraFiltracionDos.setFolioUltra(folio);
-			ultraFiltracionDos.setHora(lista);
-			ultraFiltracionDos.setFolioPreparacionUltraDos(fpe);
-			ultraFiltracionDos.setFecha(new Date());
-			cDao.guardarUltrafiltracion(ultraFiltracionDos);
-			ultraFiltracionDos = new UltrafiltracionDos();
-		}
-		// **ACTUALIZAR FOLIO_PROCESOS**//
-		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-		folioDao.actualizarFolioUltraDos(year, folio);
+				// **FOLIO_COCEDORES**//
+				int year = 0;
+				int folio = 0;
+				year = LocalDate.now().getYear();
+				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
+				folio = folDao.buscarFolioUltraDos(year);
 
-		String script = "setTimeout(function() { window.location.href='UltraFiltracionDos.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
+				// **FOLIO_PREPARACION ULTRA**//
+
+				IFolioPreparacionUltraDosDao ultraDao = new FolioUltraDosDaoImpl();
+				FolioPreparacionUltraDos fpe = new FolioPreparacionUltraDos();
+				fpe.setIdFolioPrep(ultraDao.returnIDGuardarFolio(folio, fec)); //FECHA DEL FOLIO FALTANTE
+
+				for (String lista : listaHora) {
+					ultraFiltracionDos.setFolioUltra(folio);
+					ultraFiltracionDos.setHora(lista);
+					ultraFiltracionDos.setFolioPreparacionUltraDos(fpe);
+					ultraFiltracionDos.setFecha(fec); //FECHA DEL FOLIO FALTANTE
+					cDao.guardarUltrafiltracion(ultraFiltracionDos);
+					ultraFiltracionDos = new UltrafiltracionDos();
+				}
+				// **ACTUALIZAR FOLIO_PROCESOS**//
+				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
+				folioDao.actualizarFolioUltraDos(year, folio);
+			}
+			String script = "setTimeout(function() { window.location.href='UltraFiltracionDos.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
 		}
 	}
 
@@ -924,6 +930,11 @@ public class UltraFiltracionDosBean implements Serializable {
 		for (int i = 0; i < listaFolioUltraDos.size(); i++) {
 			folioPrepUltraDos.setObservaciones(listaFolioUltraDos.get(i).getObservaciones());
 		}
+	}
+
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_ULTRA_DOS");
 	}
 
 }

@@ -94,7 +94,7 @@
 													action="#{moliendaBean.borrarTurnos()}"
 													update="frmPrincipal:acco:tblRegTurnos">
 													<f:setPropertyActionListener value="#{turnos}"
-														target="#{modeliendaBean.registroTurnosEditar}" />
+														target="#{moliendaBean.registroTurnosEditar}" />
 												</p:commandButton>
 												<p:tooltip id="toolTipEB" for="eb" value="Borrar"
 													trackMouse="true" />
@@ -456,7 +456,8 @@
 									</p:commandButton>
 
 									<p:commandButton id="edtrash" icon="pi pi-fw pi-trash"
-										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									action="#{moliendaBean.borrarMolienda()}"
+										update="frmPrincipal:acco:tblCoc"
 										styleClass="ui-button-danger">
 										<f:setPropertyActionListener value="#{item}"
 											target="#{moliendaBean.moliendaEditar}" />
@@ -872,7 +873,8 @@
 									</p:commandButton>
 
 									<p:commandButton id="edtrash" icon="pi pi-fw pi-trash"
-										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+										action="#{moliendaBean.borrarRemolienda()}"
+										update="frmPrincipal:acco:tblCocr"
 										styleClass="ui-button-danger">
 										<f:setPropertyActionListener value="#{item}"
 											target="#{moliendaBean.remoliendaEditar}" />

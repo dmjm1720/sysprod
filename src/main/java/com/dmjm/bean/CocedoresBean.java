@@ -490,39 +490,46 @@ public class CocedoresBean implements Serializable {
 			String script = "setTimeout(function() { window.location.href='Cocedores.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		} else {
-			LOGGER.info("SE GUARDA LA NUEVA HOJA");
-			String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
-					"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
-					"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-			ICocedoresDao cDao = new CocedoresDaoImpl();
+			// VALIDAMOS LAS FECHAS FALTANTES
+			List<Date> listarFechas = new ArrayList<>();
+			listarFechas = buscarFechasFaltantes();
 
-			cocedores = new Cocedores();
+			for (Date fec : listarFechas) {
 
-			// **FOLIO_COCEDORES**//
-			int year = 0;
-			int folio = 0;
-			year = LocalDate.now().getYear();
-			IFolioCocedoresDao folDao = new FoliosCocedoresDaoImpl();
-			folio = folDao.buscarFolio(year);
+				LOGGER.info("SE GUARDA LA NUEVA HOJA");
+				String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+						"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
+						"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-			// **FOLIO_PREPARACION_COCEDORES**//
-			IFolioPreparcionCocedoresDao fDao = new FolioPreparacionCocedoresDaoImpl();
-			FolioPreparacionCocedores fpc = new FolioPreparacionCocedores();
-			fpc.setIdFolioPrep(fDao.returnIDGuardarFolio(folio));
+				ICocedoresDao cDao = new CocedoresDaoImpl();
 
-			for (String lista : listaHora) {
-				cocedores.setFolioCocedor(folio);
-				cocedores.setHoraLimitesEspecificos(lista);
-				cocedores.setFolioPreparacionCocedores(fpc);
-				cocedores.setFecha(new Date());
-				cDao.guardarCocedores(cocedores);
 				cocedores = new Cocedores();
-			}
-			// **ACTUALIZAR FOLIO_COCEDORES**//
-			IFolioCocedoresDao folioDao = new FoliosCocedoresDaoImpl();
-			folioDao.actualizarFolio(year, folio);
 
+				// **FOLIO_COCEDORES**//
+				int year = 0;
+				int folio = 0;
+				year = LocalDate.now().getYear();
+				IFolioCocedoresDao folDao = new FoliosCocedoresDaoImpl();
+				folio = folDao.buscarFolio(year);
+
+				// **FOLIO_PREPARACION_COCEDORES**//
+				IFolioPreparcionCocedoresDao fDao = new FolioPreparacionCocedoresDaoImpl();
+				FolioPreparacionCocedores fpc = new FolioPreparacionCocedores();
+				fpc.setIdFolioPrep(fDao.returnIDGuardarFolio(folio, fec)); // FECHA DEL FOLIO FALTANTE
+
+				for (String lista : listaHora) {
+					cocedores.setFolioCocedor(folio);
+					cocedores.setHoraLimitesEspecificos(lista);
+					cocedores.setFolioPreparacionCocedores(fpc);
+					cocedores.setFecha(fec); // FECHA DEL FOLIO FALTANTE
+					cDao.guardarCocedores(cocedores);
+					cocedores = new Cocedores();
+				}
+				// **ACTUALIZAR FOLIO_COCEDORES**//
+				IFolioCocedoresDao folioDao = new FoliosCocedoresDaoImpl();
+				folioDao.actualizarFolio(year, folio);
+			}
 			String script = "setTimeout(function() { window.location.href='Cocedores.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		}
@@ -1092,6 +1099,11 @@ public class CocedoresBean implements Serializable {
 		for (int i = 0; i < listaFolioCocedores.size(); i++) {
 			folioPreparacionCocedores.setObservaciones(listaFolioCocedores.get(i).getObservaciones());
 		}
+	}
+
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_COCEDORES");
 	}
 
 }

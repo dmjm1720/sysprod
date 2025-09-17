@@ -22,7 +22,7 @@ import com.dmjm.util.HibernateUtil;
 public class FolioPreparacionVotatorADaoImpl extends Conexion implements IFolioPreparacionVotatorADao {
 
 	@Override
-	public int returnIDGuardarFolio(int folio) {
+	public int returnIDGuardarFolio(int folio, Date fecha) {
 		Session session = null;
 		FolioPreparacionVotatorA f = new FolioPreparacionVotatorA();
 		try {
@@ -30,7 +30,7 @@ public class FolioPreparacionVotatorADaoImpl extends Conexion implements IFolioP
 			Transaction transaction = session.beginTransaction();
 			
 			f.setFolioVotatorA(folio);
-			f.setFecha(new Date());
+			f.setFecha(fecha);
 			
 			session.save(f);
 			transaction.commit();

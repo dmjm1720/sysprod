@@ -7,7 +7,7 @@ import com.dmjm.model.FolioPreparacionUltraDos;
 
 public interface IFolioPreparacionUltraDosDao {
 
-	int returnIDGuardarFolio(int folio);
+	int returnIDGuardarFolio(int folio, Date fecha);
 
 	FolioPreparacionUltraDos retornarFechaActual();
 

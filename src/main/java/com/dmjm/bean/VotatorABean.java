@@ -62,7 +62,7 @@ import com.dmjm.util.ReporteEsterilizadores;
 public class VotatorABean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<VotatorA> listaVotator;
 	private VotatorA votator;
 	private VotatorA votatorEditar;
@@ -103,7 +103,7 @@ public class VotatorABean implements Serializable {
 	private FolioPreparacionVotatorA folioPrepVotatorPA;
 	private String cocedorSeleccionado;
 	private List<String> procesos;
-	
+
 	private List<ResumenVotatorA> listaResumenVotator;
 
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
@@ -142,7 +142,7 @@ public class VotatorABean implements Serializable {
 		listaLimpiezas = new ArrayList<>();
 		folioPrepVotatorPA = new FolioPreparacionVotatorA();
 		listaResumenVotator = new ArrayList<>();
-		
+
 		primera();
 		getListarRegistroTurnos();
 		getLimpiezaVotatorA();
@@ -163,8 +163,6 @@ public class VotatorABean implements Serializable {
 
 	}
 
-	
-	
 	public List<ResumenVotatorA> getListaResumenVotator() {
 		IResumenVotatorADao rDao = new ResumenVotatorADaoImpl();
 		listaResumenVotator = rDao.listaResumen(folioPrepVotator);
@@ -418,43 +416,49 @@ public class VotatorABean implements Serializable {
 			String script = "setTimeout(function() { window.location.href='VotatorA.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		} else {
-		
-		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
-				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
-				"5:00", "6:00", "PROM." };
 
-		IVotatorADao cDao = new VotatorADaoImpl();
+			// VALIDAMOS LAS FECHAS FALTANTES
+			List<Date> listarFechas = new ArrayList<>();
+			listarFechas = buscarFechasFaltantes();
 
-		votator = new VotatorA();
+			for (Date fec : listarFechas) {
 
-		// **FOLIO_COCEDORES**//
-		int year = 0;
-		int folio = 0;
-		year = LocalDate.now().getYear();
-		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
+				String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+						"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
+						"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-		folio = folDao.buscarFolioVotatorA(year);
+				IVotatorADao cDao = new VotatorADaoImpl();
 
-		// **FOLIO_PREPARACION_VOTATOR_A**//
+				votator = new VotatorA();
 
-		IFolioPreparacionVotatorADao estDao = new FolioPreparacionVotatorADaoImpl();
-		FolioPreparacionVotatorA fpe = new FolioPreparacionVotatorA();
-		fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio));
+				// **FOLIO_COCEDORES**//
+				int year = 0;
+				int folio = 0;
+				year = LocalDate.now().getYear();
+				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
 
-		for (String lista : listaHora) {
-			votator.setFolioVotator(folio);
-			votator.setHora(lista);
-			votator.setFolioPreparacionVotatorA(fpe);
-			votator.setFecha(new Date());
-			cDao.guardarVotator(votator);
-			votator = new VotatorA();
-		}
-		// **ACTUALIZAR FOLIO_PROCESOS**//
-		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-		folioDao.actualizarFolioVotatorA(year, folio);
+				folio = folDao.buscarFolioVotatorA(year);
 
-		String script = "setTimeout(function() { window.location.href='VotatorA.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
+				// **FOLIO_PREPARACION_VOTATOR_A**//
+
+				IFolioPreparacionVotatorADao estDao = new FolioPreparacionVotatorADaoImpl();
+				FolioPreparacionVotatorA fpe = new FolioPreparacionVotatorA();
+				fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio, fec)); //FECHA DEL FOLIO FALTANTE
+
+				for (String lista : listaHora) {
+					votator.setFolioVotator(folio);
+					votator.setHora(lista);
+					votator.setFolioPreparacionVotatorA(fpe);
+					votator.setFecha(fec); //FECHA DEL FOLIO FALTANTE
+					cDao.guardarVotator(votator);
+					votator = new VotatorA();
+				}
+				// **ACTUALIZAR FOLIO_PROCESOS**//
+				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
+				folioDao.actualizarFolioVotatorA(year, folio);
+			}
+			String script = "setTimeout(function() { window.location.href='VotatorA.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
 		}
 	}
 
@@ -465,7 +469,6 @@ public class VotatorABean implements Serializable {
 		String oper = votatorEditar.getOperacion().replaceAll("\\s+", "");
 		votatorEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
 
-
 		if (Boolean.TRUE.equals(votatorEditar.getEstadoAR())) {
 			votatorEditar.setEstadoA("X");
 			votatorEditar.setEstadoR(null);
@@ -475,7 +478,7 @@ public class VotatorABean implements Serializable {
 			votatorEditar.setEstadoR("X");
 			votatorEditar.setEstadoA(null);
 		}
-		
+
 		cDao.actualizarVotator(votatorEditar);
 		actualizarPromedios(votatorEditar.getFolioPreparacionVotatorA().getFolioVotatorA());
 
@@ -760,7 +763,7 @@ public class VotatorABean implements Serializable {
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-		//ACTUALIZAR EL RESUMEN
+		// ACTUALIZAR EL RESUMEN
 		try {
 			resumenVotator();
 		} catch (ParseException e) {
@@ -783,7 +786,7 @@ public class VotatorABean implements Serializable {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-		//ACTUALIZAR EL RESUMEN
+		// ACTUALIZAR EL RESUMEN
 		try {
 			resumenVotator();
 		} catch (ParseException e) {
@@ -808,7 +811,7 @@ public class VotatorABean implements Serializable {
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-		//ACTUALIZAR EL RESUMEN
+		// ACTUALIZAR EL RESUMEN
 		try {
 			resumenVotator();
 		} catch (ParseException e) {
@@ -957,5 +960,11 @@ public class VotatorABean implements Serializable {
 		}
 		return false;
 	}
+	
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_VOTATOR_A");
+	}
+
 
 }

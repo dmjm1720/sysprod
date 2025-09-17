@@ -22,7 +22,7 @@ import com.dmjm.util.HibernateUtil;
 public class FolioUltraDosDaoImpl extends Conexion implements IFolioPreparacionUltraDosDao {
 
 	@Override
-	public int returnIDGuardarFolio(int folio) {
+	public int returnIDGuardarFolio(int folio, Date fecha) {
 		Session session = null;
 		FolioPreparacionUltraDos f = new FolioPreparacionUltraDos();
 		try {
@@ -30,7 +30,7 @@ public class FolioUltraDosDaoImpl extends Conexion implements IFolioPreparacionU
 			Transaction transaction = session.beginTransaction();
 
 			f.setFolioUltraDos(folio);
-			f.setFecha(new Date());
+			f.setFecha(fecha);
 
 			session.save(f);
 			transaction.commit();

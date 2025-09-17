@@ -103,7 +103,7 @@ public class VotatorBBean implements Serializable {
 	private FolioPreparacionVotatorB folioPrepVotatorPB;
 	private String cocedorSeleccionado;
 	private List<String> procesos;
-	
+
 	private List<ResumenVotatorB> listaResumenVotator;
 
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
@@ -142,7 +142,7 @@ public class VotatorBBean implements Serializable {
 		listaLimpiezas = new ArrayList<>();
 		folioPrepVotatorPB = new FolioPreparacionVotatorB();
 		listaResumenVotator = new ArrayList<>();
-		
+
 		primera();
 		getListarRegistroTurnos();
 		getLimpiezaVotatorB();
@@ -163,8 +163,6 @@ public class VotatorBBean implements Serializable {
 
 	}
 
-	
-	
 	public List<ResumenVotatorB> getListaResumenVotator() {
 		IResumenVotatorBDao rDao = new ResumenVotatorBDaoImpl();
 		listaResumenVotator = rDao.listaResumen(folioPrepVotator);
@@ -404,7 +402,7 @@ public class VotatorBBean implements Serializable {
 	}
 
 	public void guardarVotator() {
-		
+
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
 		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_VOTATOR_B");
 		if (validacion) {
@@ -419,42 +417,48 @@ public class VotatorBBean implements Serializable {
 			PrimeFaces.current().executeScript(script);
 		} else {
 
-		String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00",
-				"17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00", "3:00", "4:00",
-				"5:00", "6:00", "PROM." };
+			// VALIDAMOS LAS FECHAS FALTANTES
+			List<Date> listarFechas = new ArrayList<>();
+			listarFechas = buscarFechasFaltantes();
 
-		IVotatorBDao cDao = new VotatorBDaoImpl();
+			for (Date fec : listarFechas) {
 
-		votator = new VotatorB();
+				String listaHora[] = { "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+						"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
+						"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-		// **FOLIO_COCEDORES**//
-		int year = 0;
-		int folio = 0;
-		year = LocalDate.now().getYear();
-		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
+				IVotatorBDao cDao = new VotatorBDaoImpl();
 
-		folio = folDao.buscarFolioVotatorB(year);
+				votator = new VotatorB();
 
-		// **FOLIO_PREPARACION_VOTATOR_B**//
+				// **FOLIO_COCEDORES**//
+				int year = 0;
+				int folio = 0;
+				year = LocalDate.now().getYear();
+				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
 
-		IFolioPreparacionVotatorBDao estDao = new FolioPreparacionVotatorBDaoImpl();
-		FolioPreparacionVotatorB fpe = new FolioPreparacionVotatorB();
-		fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio));
+				folio = folDao.buscarFolioVotatorB(year);
 
-		for (String lista : listaHora) {
-			votator.setFolioVotator(folio);
-			votator.setHora(lista);
-			votator.setFolioPreparacionVotatorB(fpe);
-			votator.setFecha(new Date());
-			cDao.guardarVotator(votator);
-			votator = new VotatorB();
-		}
-		// **ACTUALIZAR FOLIO_PROCESOS**//
-		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-		folioDao.actualizarFolioVotatorB(year, folio);
+				// **FOLIO_PREPARACION_VOTATOR_B**//
 
-		String script = "setTimeout(function() { window.location.href='VotatorB.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
+				IFolioPreparacionVotatorBDao estDao = new FolioPreparacionVotatorBDaoImpl();
+				FolioPreparacionVotatorB fpe = new FolioPreparacionVotatorB();
+				fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio, fec)); //FECHA DEL FOLIO FALTANTE
+
+				for (String lista : listaHora) {
+					votator.setFolioVotator(folio);
+					votator.setHora(lista);
+					votator.setFolioPreparacionVotatorB(fpe);
+					votator.setFecha(fec); //FECHA DEL FOLIO FALTANTE
+					cDao.guardarVotator(votator);
+					votator = new VotatorB();
+				}
+				// **ACTUALIZAR FOLIO_PROCESOS**//
+				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
+				folioDao.actualizarFolioVotatorB(year, folio);
+			}
+			String script = "setTimeout(function() { window.location.href='VotatorB.html'; }, 3000);";
+			PrimeFaces.current().executeScript(script);
 		}
 	}
 
@@ -474,7 +478,7 @@ public class VotatorBBean implements Serializable {
 			votatorEditar.setEstadoR("X");
 			votatorEditar.setEstadoA(null);
 		}
-		
+
 		cDao.actualizarVotator(votatorEditar);
 		actualizarPromedios(votatorEditar.getFolioPreparacionVotatorB().getFolioVotatorB());
 
@@ -758,7 +762,7 @@ public class VotatorBBean implements Serializable {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-		//ACTUALIZAR EL RESUMEN
+		// ACTUALIZAR EL RESUMEN
 		try {
 			resumenVotator();
 		} catch (ParseException e) {
@@ -781,7 +785,7 @@ public class VotatorBBean implements Serializable {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-		//ACTUALIZAR EL RESUMEN
+		// ACTUALIZAR EL RESUMEN
 		try {
 			resumenVotator();
 		} catch (ParseException e) {
@@ -806,7 +810,7 @@ public class VotatorBBean implements Serializable {
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-		//ACTUALIZAR EL RESUMEN
+		// ACTUALIZAR EL RESUMEN
 		try {
 			resumenVotator();
 		} catch (ParseException e) {
@@ -953,6 +957,11 @@ public class VotatorBBean implements Serializable {
 			return true;
 		}
 		return false;
+	}
+
+	public List<Date> buscarFechasFaltantes() {
+		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_VOTATOR_B");
 	}
 
 }

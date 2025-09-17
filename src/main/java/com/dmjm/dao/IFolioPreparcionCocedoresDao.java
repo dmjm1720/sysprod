@@ -7,7 +7,7 @@ import com.dmjm.model.FolioPreparacionCocedores;
 
 public interface IFolioPreparcionCocedoresDao {
 	
-	int returnIDGuardarFolio (int folio);
+	int returnIDGuardarFolio (int folio, Date fecha);
 	
 	FolioPreparacionCocedores retornarFechaActual();
 	

@@ -22,7 +22,7 @@ import com.dmjm.util.HibernateUtil;
 public class FolioUltraUnoDaoImpl extends Conexion implements IFolioPreparacionUltraUnoDao {
 
 	@Override
-	public int returnIDGuardarFolio(int folio) {
+	public int returnIDGuardarFolio(int folio, Date fecha) {
 		Session session = null;
 		FolioPreparacionUltraUno f = new FolioPreparacionUltraUno();
 		try {
@@ -30,7 +30,7 @@ public class FolioUltraUnoDaoImpl extends Conexion implements IFolioPreparacionU
 			Transaction transaction = session.beginTransaction();
 
 			f.setFolioUltraUno(folio);
-			f.setFecha(new Date());
+			f.setFecha(fecha);
 
 			session.save(f);
 			transaction.commit();
