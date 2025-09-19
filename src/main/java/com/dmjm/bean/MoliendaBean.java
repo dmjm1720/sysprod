@@ -365,7 +365,7 @@ public class MoliendaBean implements Serializable {
 		return listarRegistroTurnos;
 	}
 
-	// CALCULOS//
+	// MOLIENDA//
 
 	public void calcularInfo200GH() {
 		moliendaEditar.setGhKgTotales(moliendaEditar.getGhSacos() * moliendaEditar.getKg200());
@@ -475,7 +475,7 @@ public class MoliendaBean implements Serializable {
 
 	public void calcularInfo200GHREM() {
 		remoliendaEditar.setGhKgTotales(remoliendaEditar.getGhSacos() * remoliendaEditar.getKg200());
-		calcularTotalesRR();
+		calcularTotalesGHRR();
 	}
 
 	public void calcularInfo200REM() {
@@ -509,7 +509,7 @@ public class MoliendaBean implements Serializable {
 
 		remoliendaEditar.setGhKgTotales((sacos * remoliendaEditar.getKg200()) + kgRestos);
 
-		calcularTotalesRR();
+		calcularTotalesGHRR();
 	}
 
 	public void calcularInfoR200REM() {
@@ -518,7 +518,7 @@ public class MoliendaBean implements Serializable {
 
 		remoliendaEditar.setM200KgTotales((sacos * remoliendaEditar.getKg200()) + kgRestos);
 
-		calcularTotalesRR();
+		calcularTotalesGHRR();
 	}
 
 	public void calcularInfoR100REM() {
@@ -745,54 +745,43 @@ public class MoliendaBean implements Serializable {
 		IMoliendaDao cDao = new MoliendaDaoImpl();
 		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-		
+
 		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
 		moliendaEditar.setFolio(folioFecha);
 		moliendaEditar.setFolioPreparacionMolienda(fpm);
 		moliendaEditar.setFecha(fecha);
-		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
-
+		moliendaEditar.setFechaFolioPrep(folioFecha);
 		cDao.guardarMolienda(moliendaEditar);
 		moliendaEditar = new Molienda();
-		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
-
+		bandera = "";
+		listar();
 	}
 
 	public void actualizarInfoMolienda() {
 		IMoliendaDao cDao = new MoliendaDaoImpl();
-
-//		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-//		fpm.setIdFolioPrep(2);
-		//moliendaEditar.setFolio(folioFecha);
-		//moliendaEditar.setFolioPreparacionMolienda(fpm);
-		//moliendaEditar.setFecha(fecha);
-		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
-
 		cDao.actualizarMolienda(moliendaEditar);
 		moliendaEditar = new Molienda();
 		bandera = "";
-		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
-
+		listar();
 	}
-	
+
 	public void borrarMolienda() {
 		IMoliendaDao bDao = new MoliendaDaoImpl();
 		bDao.borrarMolienda(moliendaEditar);
+		listar();
 	}
-	
+
 	public void borrarRemolienda() {
 		IRemoliendaDao bDao = new RemoliendaDaoImpl();
 		bDao.borrarRemolienda(remoliendaEditar);
+		listar();
 	}
-
 
 	public void guardarInfoRemolienda() {
 		IRemoliendaDao cDao = new RemoliendaDaoImpl();
 		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-		
+
 		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
 		remoliendaEditar.setFolio(folioFecha);
 		remoliendaEditar.setFolioPreparacionMolienda(fpm);
@@ -802,27 +791,15 @@ public class MoliendaBean implements Serializable {
 		cDao.guardarRemolienda(remoliendaEditar);
 		remoliendaEditar = new Remolienda();
 		bandera = "";
-		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
-
+		listar();
 	}
 
 	public void actualizarInfoRemolienda() {
 		IRemoliendaDao cDao = new RemoliendaDaoImpl();
-
-//		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
-//		fpm.setIdFolioPrep(2);
-//		remoliendaEditar.setFolio(folioFecha);
-//		remoliendaEditar.setFolioPreparacionMolienda(fpm);
-//		remoliendaEditar.setFecha(fecha);
-		// moliendaEditar.setFechaFolioPrep(fecha); //revisar
-
 		cDao.actualizarRemolienda(remoliendaEditar);
 		remoliendaEditar = new Remolienda();
 		bandera = "";
-		String script = "setTimeout(function() { window.location.href='Molienda.html'; }, 3000);";
-		PrimeFaces.current().executeScript(script);
-
+		listar();
 	}
 
 	public void banderaEditar(String acccion) {
@@ -898,13 +875,13 @@ public class MoliendaBean implements Serializable {
 		f = lDao.folioMoliendaMaximo();
 		listaMolienda = new ArrayList<>();
 		listaMolienda = eDao.listaPorFechaMolienda(f.getFecha());
-		
+
 		Optional<Integer> fFol = Optional.ofNullable(f.getFolioMolienda());
 		folioFecha = fFol.orElse(0);
 
 		Optional<Date> fFec = Optional.ofNullable(f.getFecha());
 		fecha = fFec.orElse(new Date());
-		
+
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		fechaHoja = formato.format(fecha);
 	}

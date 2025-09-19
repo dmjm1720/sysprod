@@ -479,7 +479,7 @@ a:link:hover, a:visited:hover {
 	color: #2AA63E;
 	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
-	font-size: 0.6rem; /* tamaño más compacto */
+	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
 }
 
@@ -487,7 +487,7 @@ a:link:hover, a:visited:hover {
 	color: #34A6F4;
 	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
-	font-size: 0.6rem; /* tamaño más compacto */
+	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
 }
 
@@ -495,7 +495,7 @@ a:link:hover, a:visited:hover {
 	color: #9810FA;
 	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
-	font-size: 0.6rem; /* tamaño más compacto */
+	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
 }
 

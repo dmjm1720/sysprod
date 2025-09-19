@@ -456,7 +456,7 @@
 									</p:commandButton>
 
 									<p:commandButton id="edtrash" icon="pi pi-fw pi-trash"
-									action="#{moliendaBean.borrarMolienda()}"
+										action="#{moliendaBean.borrarMolienda()}"
 										update="frmPrincipal:acco:tblCoc"
 										styleClass="ui-button-danger">
 										<f:setPropertyActionListener value="#{item}"
@@ -655,9 +655,9 @@
 																action="#{moliendaBean.banderaEditar('guardar')}"
 																actionListener="#{moliendaBean.initEditarRem()}"
 																style="width: 6rem; height: 2.5rem; text-decoration: none"
-																update="frmEditargh:pnlEditargh" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditargh:pnlEditargh"
-																	onevent="function(e){ if(e.status=='success'){PF('dlgEditargh').show();} }" />
+																update="frmEditarghRR:pnlEditarghRR" styleClass="fuente">
+																<f:ajax execute="@this" render="frmEditarghRR:pnlEditarghRR"
+																	onevent="function(e){ if(e.status=='success'){PF('dlgEditarghRR').show();} }" />
 																<h:graphicImage library="images" name="process.png"
 																	alt="add" />
 															</h:commandLink></th>
@@ -750,7 +750,7 @@
 							</p:splitter>
 
 							<p:dataTable id="tblCocr" styleClass="tabla2 fuenteCocedores"
-								var="item" sortMode="multiple" reflow="true"
+								var="itemr" sortMode="multiple" reflow="true"
 								paginatorTemplate="
 								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
@@ -772,7 +772,7 @@
 									<p:row>
 										<p:column rowspan="4" colspan="2" headerText="FOLIO"
 											styleClass="datos" exportable="false" />
-										<p:column rowspan="4" colspan="2" headerText="FECHA"
+										<p:column rowspan="4" colspan="3" headerText="FECHA"
 											styleClass="datos" exportable="false" />
 										<p:column rowspan="4" colspan="3"
 											headerText="REMOLIENDA / REPROCESO" styleClass="datos"
@@ -853,22 +853,22 @@
 								</p:columnGroup>
 								<p:column colspan="3" exportable="false">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-										rendered="#{!item.operacion.contains('GH')}"
+										rendered="#{!itemr.operacion.contains('GH')}"
 										action="#{moliendaBean.banderaEditar('editar')}"
 										onclick="PF('dlgEditarRR').show()"
 										update="frmEditarRR:pnlEditarRR"
 										styleClass="ui-button-warning mr-2">
-										<f:setPropertyActionListener value="#{item}"
+										<f:setPropertyActionListener value="#{itemr}"
 											target="#{moliendaBean.remoliendaEditar}" />
 									</p:commandButton>
 
 									<p:commandButton id="edgh" icon="pi pi-fw pi-pencil"
-										rendered="#{item.operacion.contains('GH')}"
+										rendered="#{itemr.operacion.contains('GH')}"
 										action="#{moliendaBean.banderaEditar('editar')}"
-										onclick="PF('dlgEditargh').show()"
-										update="frmEditargh:pnlEditargh"
+										onclick="PF('dlgEditarghRR').show()"
+										update="frmEditarghRR:pnlEditarghRR"
 										styleClass="ui-button-warning mr-2">
-										<f:setPropertyActionListener value="#{item}"
+										<f:setPropertyActionListener value="#{itemr}"
 											target="#{moliendaBean.remoliendaEditar}" />
 									</p:commandButton>
 
@@ -876,131 +876,130 @@
 										action="#{moliendaBean.borrarRemolienda()}"
 										update="frmPrincipal:acco:tblCocr"
 										styleClass="ui-button-danger">
-										<f:setPropertyActionListener value="#{item}"
+										<f:setPropertyActionListener value="#{itemr}"
 											target="#{moliendaBean.remoliendaEditar}" />
 
 									</p:commandButton>
 								</p:column>
 
 								<p:column colspan="2" headerText="folio">
-									<h:outputText value="#{item.folio}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.folio}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
-								<p:column colspan="2" headerText="fecha">
-									<h:outputText value="#{item.fecha}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" >
+								<p:column colspan="3" headerText="fecha">
+									<h:outputText value="#{itemr.fecha}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
 
 										<f:convertDateTime pattern="dd-MM-yyyy" />
 									</h:outputText>
 								</p:column>
 								<p:column colspan="3" headerText="remolienda">
-									<h:outputText value="#{item.remoliendaReproceso}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.remoliendaReproceso}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 								<p:column colspan="4" headerText="operación">
-									<h:outputText value="#{item.operacion}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.operacion}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="hr inicial">
-									<h:outputText value="#{item.moliendaHoraInicial}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.moliendaHoraInicial}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
-									<h:outputText value="#{item.moliendaHoraFinal}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.moliendaHoraFinal}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="hr inicial">
-									<h:outputText value="#{item.secadoHoraInicial}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.secadoHoraInicial}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
-									<h:outputText value="#{item.secadoHoraFinal}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.secadoHoraFinal}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 
 								<p:column colspan="2" headerText="sacos">
-									<h:outputText value="#{item.m100Sacos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m100Sacos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="restos">
-									<h:outputText value="#{item.m100KgRestos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m100KgRestos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="totales">
-									<h:outputText value="#{item.m100KgTotales}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m100KgTotales}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="sacos">
-									<h:outputText value="#{item.m60Sacos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m60Sacos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="restos">
-									<h:outputText value="#{item.m60KgRestos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m60KgRestos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="totales">
-									<h:outputText value="#{item.m60KgTotales}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m60KgTotales}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="sacos">
-									<h:outputText value="#{item.m30Sacos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m30Sacos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="restos">
-									<h:outputText value="#{item.m30KgRestos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m30KgRestos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="totales">
-									<h:outputText value="#{item.m30KgTotales}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m30KgTotales}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="sacos">
-									<h:outputText value="#{item.m8Sacos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m8Sacos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="restos">
 									<h:outputText value="#{item.m8KgRestos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="totales">
-									<h:outputText value="#{item.m8KgTotales}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.m8KgTotales}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
-
 								<p:column colspan="2" headerText="sacos">
-									<h:outputText value="#{item.ghSacos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.ghSacos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="restos">
-									<h:outputText value="#{item.ghKgRestos}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.ghKgRestos}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="totales">
-									<h:outputText value="#{item.ghKgTotales}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.ghKgTotales}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 								<p:column colspan="2" headerText="totales">
-									<h:outputText value="#{item.total}"
-										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
+									<h:outputText value="#{itemr.total}"
+										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}" />
 								</p:column>
 
 							</p:dataTable>
@@ -1491,14 +1490,14 @@
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.bandera eq 'guardar'}"
 								style="widht: 20rem; height: 2rem" title="Guardar"
-								update="frmPrincipal, frmPrincipal:msgs"
+								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarInfoMolienda()}"
 								oncomplete="PF('dlgEditar').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.bandera eq 'editar'}"
 								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
-								update="frmPrincipal, frmPrincipal:msgs"
+								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarInfoMolienda()}"
 								oncomplete="PF('dlgEditar').hide()" />
 						</div>
@@ -1669,14 +1668,14 @@
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.bandera eq 'guardar'}"
 								style="widht: 20rem; height: 2rem" title="Guardar"
-								update="frmPrincipal, frmPrincipal:msgs"
+								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarInfoMolienda()}"
 								oncomplete="PF('dlgEditargh').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.bandera eq 'editar'}"
 								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
-								update="frmPrincipal, frmPrincipal:msgs"
+								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarInfoMolienda()}"
 								oncomplete="PF('dlgEditargh').hide()" />
 						</div>
@@ -1745,11 +1744,12 @@
 									</tr>
 									<tr>
 										<th colspan="3"><h:form>
-												<p:selectOneRadio id="line" value="#{moliendaBean.remoliendaEditar.remoliendaReproceso}"
+												<p:selectOneRadio id="line"
+													value="#{moliendaBean.remoliendaEditar.remoliendaReproceso}"
 													layout="lineDirection">
 													<f:selectItem itemLabel="REMOLIENDA" itemValue="RM" />
 													<f:selectItem itemLabel="REPROCESO" itemValue="RP" />
-													  <p:ajax event="change" process="@this" update="@form"/>
+													<p:ajax event="change" process="@this" update="@form" />
 												</p:selectOneRadio>
 											</h:form></th>
 									</tr>
@@ -1927,14 +1927,14 @@
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.bandera eq 'guardar'}"
 								style="widht: 20rem; height: 2rem" title="Guardar"
-								update="frmPrincipal, frmPrincipal:msgs"
+								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarInfoRemolienda()}"
 								oncomplete="PF('dlgEditarRR').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.bandera eq 'editar'}"
 								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
-								update="frmPrincipal, frmPrincipal:msgs"
+								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarInfoRemolienda()}"
 								oncomplete="PF('dlgEditarRR').hide()" />
 						</div>
@@ -1944,6 +1944,191 @@
 			<!-- FINALIZA FORMULARIO PARA EDITAR RR-->
 
 
+			<!-- INICIA FORMULARIO PARA EDITAR REM GH-->
+			<h:form id="frmEditarghRR">
+				<p:dialog header="Grenetina Hidrolizada" styleClass="tabla fuente"
+					width="850px" widgetVar="dlgEditarghRR" showEffect="fade"
+					closeOnEscape="true" minimizable="true" maximizable="true">
+
+					<p:panel id="pnlEditarghRR">
+						<div class="table_component" role="region" tabindex="0">
+
+							<table>
+								<caption>MOLIENDA EN PRODUCTO TERMINADO (GRENETINA
+									HIDROLIZADA)</caption>
+								<thead>
+									<tr>
+										<th>FOLIO</th>
+										<th><p:inputText id="folio" readonly="true"
+												styleClass="bloqueo" value="#{moliendaBean.folioFecha}"
+												required="false" style="width: 5rem" /></th>
+										<th>FECHA</th>
+										<th><p:inputText id="fecha" styleClass="bloqueo"
+												readonly="true" value="#{moliendaBean.fechaHoja}"
+												required="false" style="width: 5rem" /></th>
+									</tr>
+
+								</thead>
+								<tbody></tbody>
+							</table>
+
+						</div>
+
+						<br />
+						<p:divider></p:divider>
+						<br />
+
+						<div class="table_component" role="region" tabindex="0">
+							<table>
+
+								<thead>
+									<tr>
+										<th>OPERACIÓN</th>
+										<th><p:inputText id="operacion" styleClass="editar"
+												onkeyup="this.value = this.value.toUpperCase();"
+												value="#{moliendaBean.remoliendaEditar.operacion}"
+												required="false" requiredMessage="Campo requerido"
+												style="width: 10rem" /></th>
+										<th><p:selectOneMenu id="gh" styleClass="editar"
+												style="font-size: .8rem"
+												value="#{moliendaBean.remoliendaEditar.seleccion}"
+												dynamic="true">
+												<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+												<f:selectItem itemLabel="GRENETINA DE PIEL DE RETAL"
+													itemValue="GRENETINA DE PIEL DE RETAL" />
+												<f:selectItem itemLabel="GRENETINA DE PIEL DE CERDO"
+													itemValue="GRENETINA DE PIEL DE CERDO" />
+											</p:selectOneMenu></th>
+									</tr>
+									<tr>
+										<th colspan="3"><h:form>
+												<p:selectOneRadio id="line"
+													value="#{moliendaBean.remoliendaEditar.remoliendaReproceso}"
+													layout="lineDirection">
+													<f:selectItem itemLabel="REMOLIENDA" itemValue="RM" />
+													<f:selectItem itemLabel="REPROCESO" itemValue="RP" />
+													<p:ajax event="change" process="@this" update="@form" />
+												</p:selectOneRadio>
+											</h:form></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+
+						</div>
+						<br />
+						<div class="table_component" role="region" tabindex="0">
+							<table>
+
+								<thead>
+									<tr>
+										<th>HR. INICIAL</th>
+										<th><pe:timePicker styleClass="editar"
+												value="#{moliendaBean.remoliendaEditar.secadoHoraInicial}"
+												mode="spinner" widgetVar="mol1" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></th>
+										<th>HR. FINAL</th>
+										<th><pe:timePicker styleClass="editar"
+												value="#{moliendaBean.remoliendaEditar.secadoHoraFinal}"
+												mode="spinner" widgetVar="mol2" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+
+						<br />
+						<p:divider></p:divider>
+						<br />
+
+
+
+						<div class="table_component" role="region" tabindex="0">
+							<table>
+
+								<thead>
+									<tr>
+										<th>SACOS COMPLETOS</th>
+										<th>PESO SACO EN KG.</th>
+										<th>KG. RESTOS</th>
+										<th>TOTAL DE KG.</th>
+									</tr>
+									<tr>
+										<td><p:inputText id="m200" styleClass="editar"
+												value="#{moliendaBean.remoliendaEditar.ghSacos}"
+												required="false" style="width: 5rem">
+												<p:ajax event="keyup" update="mt200, mtt"
+													listener="#{moliendaBean.calcularInfo200GHREM()}" />
+											</p:inputText></td>
+										<td><p:inputText id="mKr200" readonly="true"
+												styleClass="bloqueo"
+												value="#{moliendaBean.remoliendaEditar.kg200}"
+												required="false" style="width: 5rem" /></td>
+										<td><p:inputText id="mpr200" styleClass="editar"
+												value="#{moliendaBean.remoliendaEditar.ghKgRestos}"
+												required="false" style="width: 5rem">
+												<p:ajax event="keyup" update="mt200, mtt"
+													listener="#{moliendaBean.calcularInfoR200GHREM()}" />
+											</p:inputText></td>
+										<td><p:inputText id="mt200" readonly="true"
+												styleClass="bloqueo"
+												value="#{moliendaBean.remoliendaEditar.ghKgTotales}"
+												required="false" style="width: 5rem" /></td>
+									</tr>
+
+
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+
+						<br />
+						<p:divider></p:divider>
+						<br />
+						<div class="table_component" role="region" tabindex="0">
+							<table>
+
+								<thead>
+									<tr>
+										<th></th>
+										<th>KG. TOTALES DE ESTA OPERACIÓN:</th>
+										<th><p:inputText id="mtt" readonly="true"
+												styleClass="bloqueo"
+												value="#{moliendaBean.remoliendaEditar.total}"
+												required="false" requiredMessage="Campo requerido"
+												style="width: 10rem" /></th>
+
+									</tr>
+
+								</thead>
+								<tbody></tbody>
+							</table>
+
+						</div>
+						<br />
+						<br />
+						<br />
+
+						<div style="text-align: center">
+							<p:commandButton icon="pi pi-save" value="GUARDAR"
+								rendered="#{moliendaBean.bandera eq 'guardar'}"
+								style="widht: 20rem; height: 2rem" title="Guardar"
+								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
+								actionListener="#{moliendaBean.guardarInfoRemolienda()}"
+								oncomplete="PF('dlgEditarghRR').hide()" />
+
+							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+								rendered="#{moliendaBean.bandera eq 'editar'}"
+								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
+								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
+								actionListener="#{moliendaBean.actualizarInfoRemolienda()}"
+								oncomplete="PF('dlgEditarghRR').hide()" />
+						</div>
+					</p:panel>
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR GH -->
 
 			<!-- INICIA FORMULARIO PARA EDITAR LIMPIEZA-->
 			<h:form id="frmEditarLimpieza">
