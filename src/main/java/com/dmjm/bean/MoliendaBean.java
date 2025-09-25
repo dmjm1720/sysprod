@@ -20,6 +20,7 @@ import org.primefaces.event.data.PageEvent;
 
 import com.dmjm.dao.IFolioGeneralDao;
 import com.dmjm.dao.IFolioPreparacionMoliendaDao;
+import com.dmjm.dao.IGelatinaDao;
 import com.dmjm.dao.IMoliendaDao;
 import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IRegistroTurnosDao;
@@ -29,6 +30,7 @@ import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.dao.IValidacionFolioDao;
 import com.dmjm.impl.FolioGeneralDaoImpl;
 import com.dmjm.impl.FolioPreparacionMoliendaDaoImpl;
+import com.dmjm.impl.GelatinaDaoImpl;
 import com.dmjm.impl.MoliendaDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
@@ -37,6 +39,7 @@ import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.FolioPreparacionMolienda;
+import com.dmjm.model.GelatinaPorMoler;
 import com.dmjm.model.Molienda;
 import com.dmjm.model.Operador;
 import com.dmjm.model.RegistroTurnos;
@@ -65,6 +68,7 @@ public class MoliendaBean implements Serializable {
 	private Date fechaFiltro;
 	private int folioPrepMolienda;
 	private String bandera;
+	private String banderaGelatina;
 
 	private List<FolioPreparacionMolienda> listaFolioMolienda;
 	private FolioPreparacionMolienda folioPreparacionMolienda;
@@ -86,6 +90,13 @@ public class MoliendaBean implements Serializable {
 	private Operador operadorEditar;
 	private List<Operador> listaOperadores;
 
+	// GELATINA POR MOLER
+
+	private GelatinaPorMoler gelatina;
+	private GelatinaPorMoler gelatinaEditar;
+	private GelatinaPorMoler gelatinaBorrar;
+	private List<GelatinaPorMoler> listaGelatina;
+
 	public MoliendaBean() {
 		// TODO Auto-generated constructor stub
 	}
@@ -105,6 +116,11 @@ public class MoliendaBean implements Serializable {
 
 		listaFolioMolienda = new ArrayList<>();
 		folioPreparacionMolienda = new FolioPreparacionMolienda();
+
+		listaGelatina = new ArrayList<>();
+		gelatina = new GelatinaPorMoler();
+		gelatinaEditar = new GelatinaPorMoler();
+		gelatinaBorrar = new GelatinaPorMoler();
 
 		operador = new Operador();
 		operadorEditar = new Operador();
@@ -176,6 +192,26 @@ public class MoliendaBean implements Serializable {
 		this.folioPreparacionMolienda = folioPreparacionMolienda;
 	}
 
+	public GelatinaPorMoler getGelatina() {
+		return gelatina;
+	}
+
+	public void setGelatina(GelatinaPorMoler gelatina) {
+		this.gelatina = gelatina;
+	}
+
+	public GelatinaPorMoler getGelatinaEditar() {
+		return gelatinaEditar;
+	}
+
+	public void setGelatinaEditar(GelatinaPorMoler gelatinaEditar) {
+		this.gelatinaEditar = gelatinaEditar;
+	}
+
+	public List<GelatinaPorMoler> getListaGelatina() {
+		return listaGelatina;
+	}
+
 	public List<FolioPreparacionMolienda> getListaFolioMolienda() {
 		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
 		listaFolioMolienda = lDao.listaFolioMolienda(folioPrepMolienda);
@@ -213,6 +249,16 @@ public class MoliendaBean implements Serializable {
 
 	public void setBandera(String bandera) {
 		this.bandera = bandera;
+	}
+	
+	
+
+	public String getBanderaGelatina() {
+		return banderaGelatina;
+	}
+
+	public void setBanderaGelatina(String banderaGelatina) {
+		this.banderaGelatina = banderaGelatina;
 	}
 
 	public Molienda getMolienda() {
@@ -334,6 +380,16 @@ public class MoliendaBean implements Serializable {
 
 	public void setFechaHoja(String fechaHoja) {
 		this.fechaHoja = fechaHoja;
+	}
+	
+	
+
+	public GelatinaPorMoler getGelatinaBorrar() {
+		return gelatinaBorrar;
+	}
+
+	public void setGelatinaBorrar(GelatinaPorMoler gelatinaBorrar) {
+		this.gelatinaBorrar = gelatinaBorrar;
 	}
 
 	public void initEditar() {
@@ -805,6 +861,10 @@ public class MoliendaBean implements Serializable {
 	public void banderaEditar(String acccion) {
 		bandera = acccion;
 	}
+	
+	public void banderaEditarGelatina(String accion) {
+		banderaGelatina = accion;
+	}
 
 	public void primera() {
 		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
@@ -884,6 +944,10 @@ public class MoliendaBean implements Serializable {
 
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		fechaHoja = formato.format(fecha);
+
+		listaGelatina = new ArrayList<>();
+		IGelatinaDao gDao = new GelatinaDaoImpl();
+		listaGelatina = gDao.listaGeltatina(folioFecha);
 	}
 
 	public void listaRemoliendaInicialFechaActual() {
@@ -924,11 +988,81 @@ public class MoliendaBean implements Serializable {
 		fecha = f.getFecha();
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		fechaHoja = formato.format(fecha);
+
+		IGelatinaDao gDao = new GelatinaDaoImpl();
+		listaGelatina = new ArrayList<>();
+		listaGelatina = gDao.listaGeltatina(folioFecha);
 	}
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
 		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_MOLIENDA");
 	}
+
+	public void guardarGelatina() {
+		IGelatinaDao gDao = new GelatinaDaoImpl();
+
+		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+
+		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
+
+		gelatinaEditar.setFolioPreparacionMolienda(fpm);
+		gelatinaEditar.setFecha(fecha);
+		gelatinaEditar.setFolio(folioFecha);
+		gDao.guardarGelatina(gelatinaEditar);
+		listar();
+
+		gelatinaEditar = new GelatinaPorMoler();
+	}
+
+	public void actualizarGelatina() {
+		IGelatinaDao gDao = new GelatinaDaoImpl();
+		gDao.actualizarGelatina(gelatinaEditar);
+		gelatinaEditar = new GelatinaPorMoler();
+	}
+	
+	public void borrarGelatina() {
+		IGelatinaDao gDao = new GelatinaDaoImpl();
+		gDao.borrarGelatina(gelatinaBorrar);
+		listar();
+		gelatinaEditar = new GelatinaPorMoler();
+	}
+
+	public void calcularTotalesGelatina() {
+
+		Optional<Integer> kgTolvaA = Optional.ofNullable(gelatinaEditar.getKgTolvaA());
+		Optional<Integer> kgTolvaB = Optional.ofNullable(gelatinaEditar.getKgTolvaB());
+		Optional<Integer> kgTolvaC = Optional.ofNullable(gelatinaEditar.getKgTolvaC());
+
+		gelatinaEditar.setKgTotal(kgTolvaA.orElse(0) + kgTolvaB.orElse(0) + kgTolvaC.orElse(0));
+
+	}
+	
+	
+	public int getTotalKgTolvaA() {
+	    return listaGelatina.stream()
+	            .mapToInt(g -> g.getKgTolvaA() != null ? g.getKgTolvaA() : 0)
+	            .sum();
+	}
+
+	public int getTotalKgTolvaB() {
+	    return listaGelatina.stream()
+	            .mapToInt(g -> g.getKgTolvaB() != null ? g.getKgTolvaB() : 0)
+	            .sum();
+	}
+
+	public int getTotalKgTolvaC() {
+	    return listaGelatina.stream()
+	            .mapToInt(g -> g.getKgTolvaC() != null ? g.getKgTolvaC() : 0)
+	            .sum();
+	}
+
+	public int getTotalKg() {
+	    return listaGelatina.stream()
+	            .mapToInt(g -> g.getKgTotal() != null ? g.getKgTotal() : 0)
+	            .sum();
+	}
+
 
 }

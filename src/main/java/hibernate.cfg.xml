@@ -103,6 +103,7 @@
 	    <mapping resource="com/dmjm/model/Remolienda.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/FolioGeneral.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/FolioPreparacionMolienda.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/GelatinaPorMoler.hbm.xml"/>
 	    
 	</session-factory>
 </hibernate-configuration>

@@ -491,6 +491,30 @@ a:link:hover, a:visited:hover {
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
 }
 
+.bscen {
+	color: #34A6F4;
+	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	text-align: center; /* alinea a la derecha */
+	font-size: 0.8rem; /* tamaño más compacto */
+	padding-right: 0.5rem; /* pequeño margen a la derecha */
+}
+
+.bstot {
+	color: #073b5e;
+	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	text-align: right; /* alinea a la derecha */
+	font-size: 0.8rem; /* tamaño más compacto */
+	padding-right: 0.5rem; /* pequeño margen a la derecha */
+}
+
+.bstotkg {
+	color: #87036a;
+	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	text-align: right; /* alinea a la derecha */
+	font-size: 0.8rem; /* tamaño más compacto */
+	padding-right: 0.5rem; /* pequeño margen a la derecha */
+}
+
 .gh {
 	color: #9810FA;
 	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */

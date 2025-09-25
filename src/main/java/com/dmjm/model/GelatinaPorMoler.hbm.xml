@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/09/2025 07:40:34 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.GelatinaPorMoler" table="GELATINA_POR_MOLER" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idGelatina" type="int">
+            <column name="ID_GELATINA" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="folioPreparacionMolienda" class="com.dmjm.model.FolioPreparacionMolienda" fetch="select">
+            <column name="ID_FOLIO_PREP" />
+        </many-to-one>
+        <property name="folio" type="java.lang.Integer">
+            <column name="FOLIO" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" />
+        </property>
+        <property name="operacion" type="string">
+            <column name="OPERACION" length="50" />
+        </property>
+        <property name="kgTolvaA" type="java.lang.Integer">
+            <column name="KG_TOLVA_A" />
+        </property>
+        <property name="kgTolvaB" type="java.lang.Integer">
+            <column name="KG_TOLVA_B" />
+        </property>
+        <property name="kgTolvaC" type="java.lang.Integer">
+            <column name="KG_TOLVA_C" />
+        </property>
+        <property name="kgTotal" type="java.lang.Integer">
+            <column name="KG_TOTAL" />
+        </property>
+    </class>
+</hibernate-mapping>

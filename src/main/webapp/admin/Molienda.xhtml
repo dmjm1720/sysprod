@@ -289,7 +289,7 @@
 																	max="#{moliendaBean.folioMaximo}"
 																	min="#{moliendaBean.folioMinimo}" step="1">
 																	<p:ajax listener="#{moliendaBean.listar()}"
-																		update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblCocr, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblObs" />
+																		update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblCocr, frmPrincipal:acco:tblGelatina, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblObs" />
 																</p:spinner>
 															</div>
 
@@ -656,7 +656,8 @@
 																actionListener="#{moliendaBean.initEditarRem()}"
 																style="width: 6rem; height: 2.5rem; text-decoration: none"
 																update="frmEditarghRR:pnlEditarghRR" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditarghRR:pnlEditarghRR"
+																<f:ajax execute="@this"
+																	render="frmEditarghRR:pnlEditarghRR"
 																	onevent="function(e){ if(e.status=='success'){PF('dlgEditarghRR').show();} }" />
 																<h:graphicImage library="images" name="process.png"
 																	alt="add" />
@@ -1004,9 +1005,116 @@
 
 							</p:dataTable>
 
-
-
 						</p:tab>
+
+
+						<p:tab title="GELATINA POR MOLER" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #075e53; color: #F5F5F5">
+
+							<h:panelGrid id="pGelatian" columns="12"
+								styleClass="tabla fuente">
+								<p:commandButton value="NUEVO REGISTRO"
+									action="#{moliendaBean.banderaEditarGelatina('guardar')}"
+									update="frmGelatina:pnlAgregarGPM"
+									styleClass="fuente camposLimpieza"
+									onclick="PF('dlgAgregarGPM').show()" icon="pi pi-fw pi-save"
+									style="width: 8rem; height: 2rem" />
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblGelatina" styleClass="tabla fuente"
+								var="gelatina" sortMode="multiple" scrollHeight="650"
+								scrollWidth="50%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{moliendaBean.listaGelatina.size()}"
+								value="#{moliendaBean.listaGelatina}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgAgregarGPM').show()"
+										action="#{moliendaBean.banderaEditarGelatina('editar')}"
+										update="frmGelatina:pnlAgregarGPM"
+										styleClass="ui-button-warning mr-2">
+										<f:setPropertyActionListener value="#{gelatina}"
+											target="#{moliendaBean.gelatinaEditar}" />
+									</p:commandButton>
+									<p:commandButton id="edbgpm" icon="pi pi-fw pi-trash"
+										action="#{moliendaBean.borrarGelatina()}"
+										update="frmPrincipal:acco:tblGelatina">
+										<f:setPropertyActionListener value="#{gelatina}"
+											target="#{moliendaBean.gelatinaBorrar}" />
+									</p:commandButton>
+
+								</p:column>
+
+								<p:column headerText="FOLIO" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{gelatina.folio}" styleClass="bs" />
+									</div>
+								</p:column>
+								<p:column headerText="FECHA" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{gelatina.fecha}" styleClass="bs" />
+									</div>
+								</p:column>
+								<p:column headerText="OPERACIÓN" width="6rem">
+									<h:outputText value="#{gelatina.operacion}" styleClass="bs" />
+									<f:facet name="footer">
+										<h:outputText value="TOTALES:" styleClass="bstot" />
+									</f:facet>
+								</p:column>
+
+								<p:column headerText="KG. TOLVA A" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{gelatina.kgTolvaA}" styleClass="bscen" />
+									</div>
+									<f:facet name="footer">
+										<h:outputText value="#{moliendaBean.totalKgTolvaA}"
+											styleClass="bstot" />
+									</f:facet>
+								</p:column>
+
+								<p:column headerText="KG. TOLVA B" width="4rem">
+									<div style="text-align: center">
+										<h:outputText value="#{gelatina.kgTolvaB}" styleClass="bscen" />
+									</div>
+									<f:facet name="footer">
+										<h:outputText value="#{moliendaBean.totalKgTolvaB}"
+											styleClass="bstot" />
+									</f:facet>
+								</p:column>
+
+								<p:column headerText="KG. TOLVA C" width="6rem">
+									<div style="text-align: center">
+										<h:outputText value="#{gelatina.kgTolvaC}" styleClass="bscen" />
+									</div>
+									<f:facet name="footer">
+										<h:outputText value="#{moliendaBean.totalKgTolvaC}"
+											styleClass="bstot" />
+									</f:facet>
+								</p:column>
+
+								<p:column headerText="KG. TOTAL" width="6rem">
+									<div style="text-align: center">
+										<h:outputText value="#{gelatina.kgTotal}" styleClass="bscen" />
+									</div>
+									<f:facet name="footer">
+										<h:outputText value="#{moliendaBean.totalKg}"
+											styleClass="bstotkg" />
+									</f:facet>
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
 						<p:tab title="LIMPIEZA" menuTitle="Options"
 							titleStyle="font-size: .8rem; background-color: #008080; color: #F5F5F5">
 
@@ -2310,6 +2418,82 @@
 				</p:dialog>
 			</h:form>
 			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR GELATINA POR MOLER -->
+			<h:form id="frmGelatina">
+				<p:dialog header="Gelatina por moler" widgetVar="dlgAgregarGPM"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlAgregarGPM" columns="2" styleClass="fuente">
+
+						<p:outputLabel value="FOLIO" />
+						<p:inputText value="#{moliendaBean.folioFecha}"
+							styleClass="bloqueo" readonly="true" />
+
+						<p:outputLabel value="FECHA" />
+						<p:inputText value="#{moliendaBean.fechaHoja}"
+							styleClass="bloqueo" readonly="true" />
+
+						<p:outputLabel value="OPERACIÓN" />
+						<p:inputText value="#{moliendaBean.gelatinaEditar.operacion}"
+							onkeyup="this.value = this.value.toUpperCase();"
+							styleClass="editar" />
+
+
+						<p:outputLabel value="TOLVA A" />
+						<p:inputText value="#{moliendaBean.gelatinaEditar.kgTolvaA}"
+							styleClass="editar">
+							<p:ajax event="keyup" update="kgTot"
+								listener="#{moliendaBean.calcularTotalesGelatina()}" />
+						</p:inputText>
+
+						<p:outputLabel value="TOLVA B" />
+						<p:inputText value="#{moliendaBean.gelatinaEditar.kgTolvaB}"
+							styleClass="editar">
+							<p:ajax event="keyup" update="kgTot"
+								listener="#{moliendaBean.calcularTotalesGelatina()}" />
+						</p:inputText>
+
+						<p:outputLabel value="TOLVA C" />
+						<p:inputText value="#{moliendaBean.gelatinaEditar.kgTolvaC}"
+							styleClass="editar">
+							<p:ajax event="keyup" update="kgTot"
+								listener="#{moliendaBean.calcularTotalesGelatina()}" />
+						</p:inputText>
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+
+						<p:outputLabel value="TOTAL DE KILOS POR MOLER" />
+						<p:inputText id="kgTot" value="#{moliendaBean.gelatinaEditar.kgTotal}"
+							styleClass="bloqueo" readonly="true" />
+
+						<div style="text-align: right">
+
+							<p:commandButton icon="pi pi-save" value="GUARDAR"
+								rendered="#{moliendaBean.banderaGelatina eq 'guardar'}"
+								style="widht: 20rem; height: 2rem" title="Guardar"
+								update="frmPrincipal:acco:tblGelatina, frmPrincipal:msgs"
+								actionListener="#{moliendaBean.guardarGelatina()}"
+								oncomplete="PF('dlgAgregarGPM').hide()" />
+
+							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+								rendered="#{moliendaBean.banderaGelatina eq 'editar'}"
+								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
+								update="frmPrincipal:acco:tblGelatina, frmPrincipal:msgs"
+								actionListener="#{moliendaBean.actualizarGelatina()}"
+								oncomplete="PF('dlgAgregarGPM').hide()" />
+
+						</div>
+					</h:panelGrid>
+
+
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR GELATINA POR MOLER-->
 
 
 		</ui:define>
