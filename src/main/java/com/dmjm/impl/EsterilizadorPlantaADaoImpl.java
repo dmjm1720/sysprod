@@ -331,7 +331,7 @@ public class EsterilizadorPlantaADaoImpl extends Conexion implements IEsterilizd
 		try {
 			ConectarSysProd();
 
-			String sql = "UPDATE ESTERILIZADOR_PLANTA_A  SET FLUJO_LITROS_HORA = (SELECT COALESCE(AVG(PRESION_VAPOR), 0) FROM ESTERILIZADOR_PLANTA_A WHERE ID_FOLIO_PREP=? AND HORA NOT IN ('PROM.')) WHERE HORA='PROM.' AND ID_FOLIO_PREP=?";
+			String sql = "UPDATE ESTERILIZADOR_PLANTA_A  SET FLUJO_LITROS_HORA = (SELECT COALESCE(AVG(FLUJO_LITROS_HORA), 0) FROM ESTERILIZADOR_PLANTA_A WHERE ID_FOLIO_PREP=? AND HORA NOT IN ('PROM.')) WHERE HORA='PROM.' AND ID_FOLIO_PREP=?";
 			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
 
 			ps.setInt(1, folio);

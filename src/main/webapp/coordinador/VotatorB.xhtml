@@ -972,13 +972,17 @@
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
-						<p:outputLabel for="um" value="Unidad de medida" />
+						<p:outputLabel for="um" value="Unidad de medida"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="um" styleClass="camposLimpieza"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
 							value="#{votatorBBean.limpiezaEditar.um}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
-						<p:outputLabel for="tem" value="Temperatura" />
+						<p:outputLabel for="tem" value="Temperatura"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="tem" styleClass="camposLimpieza"
+							rendered="#{votatorBBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
 							value="#{votatorBBean.limpiezaEditar.temperatura}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
