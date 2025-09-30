@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -21,6 +22,8 @@ import org.primefaces.event.data.PageEvent;
 import com.dmjm.dao.IFolioGeneralDao;
 import com.dmjm.dao.IFolioPreparacionMoliendaDao;
 import com.dmjm.dao.IGelatinaDao;
+import com.dmjm.dao.ILimpiezaDao;
+import com.dmjm.dao.ILimpiezaMoliendaDao;
 import com.dmjm.dao.IMoliendaDao;
 import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IRegistroTurnosDao;
@@ -31,6 +34,8 @@ import com.dmjm.dao.IValidacionFolioDao;
 import com.dmjm.impl.FolioGeneralDaoImpl;
 import com.dmjm.impl.FolioPreparacionMoliendaDaoImpl;
 import com.dmjm.impl.GelatinaDaoImpl;
+import com.dmjm.impl.LimpiezaDaoImpl;
+import com.dmjm.impl.LimpiezaMoliendaDaoImpl;
 import com.dmjm.impl.MoliendaDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
@@ -40,6 +45,8 @@ import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.FolioPreparacionMolienda;
 import com.dmjm.model.GelatinaPorMoler;
+import com.dmjm.model.Limpieza;
+import com.dmjm.model.LimpiezaMolienda;
 import com.dmjm.model.Molienda;
 import com.dmjm.model.Operador;
 import com.dmjm.model.RegistroTurnos;
@@ -54,7 +61,7 @@ public class MoliendaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOGGER = LogManager.getLogger(MoliendaBean.class.getName());
-
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 	private List<Remolienda> listaRemolienda;
 	private List<Molienda> listaMolienda;
 	private Molienda molienda;
@@ -97,6 +104,15 @@ public class MoliendaBean implements Serializable {
 	private GelatinaPorMoler gelatinaBorrar;
 	private List<GelatinaPorMoler> listaGelatina;
 
+	// LIMPIEZA MOLIENDA
+	private LimpiezaMolienda limpiezaMolienda;
+	private List<LimpiezaMolienda> listaLimpiezaMolienda;
+	private LimpiezaMolienda limpiezaMoliendaEditar;
+	private List<Integer> listaLimpiezas;
+	private int noLimpiezaSeleccionadaBorrar;
+	private int noLimpiezaVoBo;
+	private String norteSur;
+
 	public MoliendaBean() {
 		// TODO Auto-generated constructor stub
 	}
@@ -129,10 +145,75 @@ public class MoliendaBean implements Serializable {
 		folioMax();
 		folioSeleccionado = folioMaximo;
 
+		limpiezaMolienda = new LimpiezaMolienda();
+		limpiezaMoliendaEditar = new LimpiezaMolienda();
+		listaLimpiezaMolienda = new ArrayList<>();
+		listaLimpiezas = new ArrayList<>();
+
 		primera();
 		listaInicialFechaActual();
 		listaRemoliendaInicialFechaActual();
+		getListaLimpiezaMolienda();
 
+	}
+	
+	
+
+	public int getNoLimpiezaSeleccionadaBorrar() {
+		return noLimpiezaSeleccionadaBorrar;
+	}
+
+	public void setNoLimpiezaSeleccionadaBorrar(int noLimpiezaSeleccionadaBorrar) {
+		this.noLimpiezaSeleccionadaBorrar = noLimpiezaSeleccionadaBorrar;
+	}
+
+	public int getNoLimpiezaVoBo() {
+		return noLimpiezaVoBo;
+	}
+
+	public void setNoLimpiezaVoBo(int noLimpiezaVoBo) {
+		this.noLimpiezaVoBo = noLimpiezaVoBo;
+	}
+
+	public String getNorteSur() {
+		return norteSur;
+	}
+
+	public void setNorteSur(String norteSur) {
+		this.norteSur = norteSur;
+	}
+
+	public List<Integer> getListaLimpiezas() throws SQLException {
+		ILimpiezaMoliendaDao lDao = new LimpiezaMoliendaDaoImpl();
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+
+		listaLimpiezas = lDao.noLimpieza(folioPrepDao.folioMoliendaActual(fecha));
+		return listaLimpiezas;
+	}
+
+	public List<LimpiezaMolienda> getListaLimpiezaMolienda() {
+		ILimpiezaMoliendaDao lDao = new LimpiezaMoliendaDaoImpl();
+
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+
+		listaLimpiezaMolienda = lDao.listarLimpieza(folioPrepDao.folioMoliendaActual(fecha));
+		return listaLimpiezaMolienda;
+	}
+
+	public LimpiezaMolienda getLimpiezaMolienda() {
+		return limpiezaMolienda;
+	}
+
+	public void setLimpiezaMolienda(LimpiezaMolienda limpiezaMolienda) {
+		this.limpiezaMolienda = limpiezaMolienda;
+	}
+
+	public LimpiezaMolienda getLimpiezaMoliendaEditar() {
+		return limpiezaMoliendaEditar;
+	}
+
+	public void setLimpiezaMoliendaEditar(LimpiezaMolienda limpiezaMoliendaEditar) {
+		this.limpiezaMoliendaEditar = limpiezaMoliendaEditar;
 	}
 
 	public Remolienda getRemolienda() {
@@ -250,8 +331,6 @@ public class MoliendaBean implements Serializable {
 	public void setBandera(String bandera) {
 		this.bandera = bandera;
 	}
-	
-	
 
 	public String getBanderaGelatina() {
 		return banderaGelatina;
@@ -381,8 +460,6 @@ public class MoliendaBean implements Serializable {
 	public void setFechaHoja(String fechaHoja) {
 		this.fechaHoja = fechaHoja;
 	}
-	
-	
 
 	public GelatinaPorMoler getGelatinaBorrar() {
 		return gelatinaBorrar;
@@ -861,7 +938,7 @@ public class MoliendaBean implements Serializable {
 	public void banderaEditar(String acccion) {
 		bandera = acccion;
 	}
-	
+
 	public void banderaEditarGelatina(String accion) {
 		banderaGelatina = accion;
 	}
@@ -992,6 +1069,12 @@ public class MoliendaBean implements Serializable {
 		IGelatinaDao gDao = new GelatinaDaoImpl();
 		listaGelatina = new ArrayList<>();
 		listaGelatina = gDao.listaGeltatina(folioFecha);
+		
+//		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
+//		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
+//		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
+		getListaLimpiezaMolienda();
+		
 	}
 
 	public List<Date> buscarFechasFaltantes() {
@@ -1021,7 +1104,7 @@ public class MoliendaBean implements Serializable {
 		gDao.actualizarGelatina(gelatinaEditar);
 		gelatinaEditar = new GelatinaPorMoler();
 	}
-	
+
 	public void borrarGelatina() {
 		IGelatinaDao gDao = new GelatinaDaoImpl();
 		gDao.borrarGelatina(gelatinaBorrar);
@@ -1038,31 +1121,86 @@ public class MoliendaBean implements Serializable {
 		gelatinaEditar.setKgTotal(kgTolvaA.orElse(0) + kgTolvaB.orElse(0) + kgTolvaC.orElse(0));
 
 	}
-	
-	
+
 	public int getTotalKgTolvaA() {
-	    return listaGelatina.stream()
-	            .mapToInt(g -> g.getKgTolvaA() != null ? g.getKgTolvaA() : 0)
-	            .sum();
+		return listaGelatina.stream().mapToInt(g -> g.getKgTolvaA() != null ? g.getKgTolvaA() : 0).sum();
 	}
 
 	public int getTotalKgTolvaB() {
-	    return listaGelatina.stream()
-	            .mapToInt(g -> g.getKgTolvaB() != null ? g.getKgTolvaB() : 0)
-	            .sum();
+		return listaGelatina.stream().mapToInt(g -> g.getKgTolvaB() != null ? g.getKgTolvaB() : 0).sum();
 	}
 
 	public int getTotalKgTolvaC() {
-	    return listaGelatina.stream()
-	            .mapToInt(g -> g.getKgTolvaC() != null ? g.getKgTolvaC() : 0)
-	            .sum();
+		return listaGelatina.stream().mapToInt(g -> g.getKgTolvaC() != null ? g.getKgTolvaC() : 0).sum();
 	}
 
 	public int getTotalKg() {
-	    return listaGelatina.stream()
-	            .mapToInt(g -> g.getKgTotal() != null ? g.getKgTotal() : 0)
-	            .sum();
+		return listaGelatina.stream().mapToInt(g -> g.getKgTotal() != null ? g.getKgTotal() : 0).sum();
 	}
 
+	// **LIMPIEZA**//
+	public void guardarLimpieza() {
+		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "LIMPIEZA QUÍMNICA", "ENJUAGUE", "DESINFECCIÓN", "ENJUAGUE" };
 
+		
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+
+		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
+		ILimpiezaMoliendaDao validaDao = new LimpiezaMoliendaDaoImpl();
+		int noDeLimpieza = 0;
+		noDeLimpieza = validaDao.validarNoLimpieza(f.getIdFolioPrep());
+
+		// validación de limpieza para agregar en la tabla de cocedores
+
+		ILimpiezaMoliendaDao lDao = new LimpiezaMoliendaDaoImpl();
+
+		IMoliendaDao vDao = new MoliendaDaoImpl();
+		// vDao.actualizarLimpieza(folioPrepMolienda, noDeLimpieza); REVISAR CUANDO
+		// TENGA STATUS
+		for (String l : datosLimpieza) {
+			limpiezaMolienda.setNoLimpieza(noDeLimpieza);
+			limpiezaMolienda.setTolvasPullman(norteSur);
+			limpiezaMolienda.setFolioPreparacionMolienda(f);
+			limpiezaMolienda.setProceso(l);
+			limpiezaMolienda.setIdUsuario(1028);
+			limpiezaMolienda.setVobo("PENDIENTE");
+			lDao.guardarLimpiezaMolienda(limpiezaMolienda);
+			limpiezaMolienda = new LimpiezaMolienda();
+		}
+		norteSur = null;
+	}
+	
+	public void deleteLimpieza() {
+		// validación de limpieza para agregar en la tabla de cocedores
+
+		IMoliendaDao vDao = new MoliendaDaoImpl();
+		//vDao.actualizarLimpieza(folioPrepCocedor, 0);//VALIDAR
+		ILimpiezaMoliendaDao iDao = new LimpiezaMoliendaDaoImpl();
+
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		iDao.borrarLimpieza(folioPrepDao.folioMoliendaActual(fecha), noLimpiezaSeleccionadaBorrar);
+	}
+	
+	public void agregarVoBo() {
+		ILimpiezaMoliendaDao iDao = new LimpiezaMoliendaDaoImpl();
+
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		iDao.agregarVoBo(folioPrepDao.folioMoliendaActual(fecha), noLimpiezaVoBo, us.getIdUsuario());
+	}
+	
+	public void borrarVoBo() {
+		ILimpiezaMoliendaDao iDao = new LimpiezaMoliendaDaoImpl();
+
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		iDao.borrarVoBo(folioPrepDao.folioMoliendaActual(fecha), noLimpiezaVoBo);
+	}
+
+	public void actualizarLimpieza() {
+		ILimpiezaMoliendaDao lDao = new LimpiezaMoliendaDaoImpl();
+		lDao.actualizarLimpiezaMolienda(limpiezaMoliendaEditar);
+		limpiezaMoliendaEditar = new LimpiezaMolienda();
+	}
 }
