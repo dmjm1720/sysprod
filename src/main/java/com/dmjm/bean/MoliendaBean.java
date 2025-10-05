@@ -19,36 +19,39 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
 
+import com.dmjm.dao.ICribasDao;
 import com.dmjm.dao.IFolioGeneralDao;
 import com.dmjm.dao.IFolioPreparacionMoliendaDao;
 import com.dmjm.dao.IGelatinaDao;
-import com.dmjm.dao.ILimpiezaDao;
 import com.dmjm.dao.ILimpiezaMoliendaDao;
 import com.dmjm.dao.IMoliendaDao;
 import com.dmjm.dao.IOperadorDao;
+import com.dmjm.dao.IOrdenMantenimientoMoliendaDao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.IRemoliendaDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.dao.IValidacionFolioDao;
+import com.dmjm.impl.CribasImanesDaoImpl;
 import com.dmjm.impl.FolioGeneralDaoImpl;
 import com.dmjm.impl.FolioPreparacionMoliendaDaoImpl;
 import com.dmjm.impl.GelatinaDaoImpl;
-import com.dmjm.impl.LimpiezaDaoImpl;
 import com.dmjm.impl.LimpiezaMoliendaDaoImpl;
 import com.dmjm.impl.MoliendaDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
+import com.dmjm.impl.OrdenMantoMoliendaDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.RemoliendaDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
+import com.dmjm.model.CribasImanes;
 import com.dmjm.model.FolioPreparacionMolienda;
 import com.dmjm.model.GelatinaPorMoler;
-import com.dmjm.model.Limpieza;
 import com.dmjm.model.LimpiezaMolienda;
 import com.dmjm.model.Molienda;
 import com.dmjm.model.Operador;
+import com.dmjm.model.OrdenMantenimientoMolienda;
 import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Remolienda;
 import com.dmjm.model.Turnos;
@@ -113,6 +116,17 @@ public class MoliendaBean implements Serializable {
 	private int noLimpiezaVoBo;
 	private String norteSur;
 
+	// MANTENIMIENTO
+	private List<OrdenMantenimientoMolienda> listaOrdenManto;
+	private OrdenMantenimientoMolienda ordenManto;
+	private OrdenMantenimientoMolienda ordenMantoEditar;
+
+	// CRIBAS IMANES
+
+	private List<CribasImanes> listaCribasImanes;
+	private CribasImanes cribasImanes;
+	private CribasImanes cribasImanesEditar;
+
 	public MoliendaBean() {
 		// TODO Auto-generated constructor stub
 	}
@@ -150,14 +164,68 @@ public class MoliendaBean implements Serializable {
 		listaLimpiezaMolienda = new ArrayList<>();
 		listaLimpiezas = new ArrayList<>();
 
+		listaOrdenManto = new ArrayList<>();
+		ordenManto = new OrdenMantenimientoMolienda();
+		ordenMantoEditar = new OrdenMantenimientoMolienda();
+
+		listaCribasImanes = new ArrayList<>();
+		cribasImanes = new CribasImanes();
+		cribasImanesEditar = new CribasImanes();
+
 		primera();
 		listaInicialFechaActual();
 		listaRemoliendaInicialFechaActual();
 		getListaLimpiezaMolienda();
+		getListaOrdenManto();
+		getCribasImanes();
 
 	}
-	
-	
+
+	public CribasImanes getCribasImanes() {
+		return cribasImanes;
+	}
+
+	public void setCribasImanes(CribasImanes cribasImanes) {
+		this.cribasImanes = cribasImanes;
+	}
+
+	public CribasImanes getCribasImanesEditar() {
+		return cribasImanesEditar;
+	}
+
+	public void setCribasImanesEditar(CribasImanes cribasImanesEditar) {
+		this.cribasImanesEditar = cribasImanesEditar;
+	}
+
+	public List<CribasImanes> getListaCribasImanes() {
+		ICribasDao cDao = new CribasImanesDaoImpl();
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		listaCribasImanes = cDao.listaCribasImanes(folioPrepDao.folioMoliendaActual(fecha));
+		return listaCribasImanes;
+	}
+
+	public OrdenMantenimientoMolienda getOrdenManto() {
+		return ordenManto;
+	}
+
+	public void setOrdenManto(OrdenMantenimientoMolienda ordenManto) {
+		this.ordenManto = ordenManto;
+	}
+
+	public OrdenMantenimientoMolienda getOrdenMantoEditar() {
+		return ordenMantoEditar;
+	}
+
+	public void setOrdenMantoEditar(OrdenMantenimientoMolienda ordenMantoEditar) {
+		this.ordenMantoEditar = ordenMantoEditar;
+	}
+
+	public List<OrdenMantenimientoMolienda> getListaOrdenManto() {
+		IOrdenMantenimientoMoliendaDao oDao = new OrdenMantoMoliendaDaoImpl();
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		listaOrdenManto = oDao.listaOrdenManto(folioPrepDao.folioMoliendaActual(fecha));
+		return listaOrdenManto;
+	}
 
 	public int getNoLimpiezaSeleccionadaBorrar() {
 		return noLimpiezaSeleccionadaBorrar;
@@ -1069,12 +1137,13 @@ public class MoliendaBean implements Serializable {
 		IGelatinaDao gDao = new GelatinaDaoImpl();
 		listaGelatina = new ArrayList<>();
 		listaGelatina = gDao.listaGeltatina(folioFecha);
-		
+
 //		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
 //		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 //		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
 		getListaLimpiezaMolienda();
-		
+		getListaOrdenManto();
+		getCribasImanes();
 	}
 
 	public List<Date> buscarFechasFaltantes() {
@@ -1142,9 +1211,8 @@ public class MoliendaBean implements Serializable {
 	public void guardarLimpieza() {
 		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "LIMPIEZA QUÍMNICA", "ENJUAGUE", "DESINFECCIÓN", "ENJUAGUE" };
 
-		
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
-		
+
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
 
@@ -1172,25 +1240,25 @@ public class MoliendaBean implements Serializable {
 		}
 		norteSur = null;
 	}
-	
+
 	public void deleteLimpieza() {
 		// validación de limpieza para agregar en la tabla de cocedores
 
 		IMoliendaDao vDao = new MoliendaDaoImpl();
-		//vDao.actualizarLimpieza(folioPrepCocedor, 0);//VALIDAR
+		// vDao.actualizarLimpieza(folioPrepCocedor, 0);//VALIDAR
 		ILimpiezaMoliendaDao iDao = new LimpiezaMoliendaDaoImpl();
 
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		iDao.borrarLimpieza(folioPrepDao.folioMoliendaActual(fecha), noLimpiezaSeleccionadaBorrar);
 	}
-	
+
 	public void agregarVoBo() {
 		ILimpiezaMoliendaDao iDao = new LimpiezaMoliendaDaoImpl();
 
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		iDao.agregarVoBo(folioPrepDao.folioMoliendaActual(fecha), noLimpiezaVoBo, us.getIdUsuario());
 	}
-	
+
 	public void borrarVoBo() {
 		ILimpiezaMoliendaDao iDao = new LimpiezaMoliendaDaoImpl();
 
@@ -1203,4 +1271,52 @@ public class MoliendaBean implements Serializable {
 		lDao.actualizarLimpiezaMolienda(limpiezaMoliendaEditar);
 		limpiezaMoliendaEditar = new LimpiezaMolienda();
 	}
+
+	public void guardarOrdenManto() {
+		IOrdenMantenimientoMoliendaDao oDao = new OrdenMantoMoliendaDaoImpl();
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+		ordenManto.setFolioPreparacionMolienda(f);
+		oDao.guardarOrdenManto(ordenManto);
+		ordenManto = new OrdenMantenimientoMolienda();
+
+	}
+
+	public void actualizarOrdenManto() {
+		IOrdenMantenimientoMoliendaDao oDao = new OrdenMantoMoliendaDaoImpl();
+		oDao.actualizarOrdenManto(ordenMantoEditar);
+		ordenMantoEditar = new OrdenMantenimientoMolienda();
+	}
+
+	public void borrarOrdenManto() {
+		IOrdenMantenimientoMoliendaDao oDao = new OrdenMantoMoliendaDaoImpl();
+		oDao.borrarrOrdenManto(ordenMantoEditar);
+		ordenMantoEditar = new OrdenMantenimientoMolienda();
+	}
+	
+	public void guardarCribasImanes() {
+		ICribasDao cDao = new CribasImanesDaoImpl();
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+		
+		cribasImanes.setFolioPreparacionMolienda(f);
+		cDao.guardarCribasImanes(cribasImanes);
+		cribasImanes = new CribasImanes();
+		
+	}
+	
+	public void actualizarCribasImanes() {
+		ICribasDao cDao = new CribasImanesDaoImpl();
+		cDao.actualizarCribasImanes(cribasImanesEditar);
+		cribasImanesEditar = new CribasImanes();
+	}
+	
+	public void borrarCribasImanes() {
+		ICribasDao cDao = new CribasImanesDaoImpl();
+		cDao.borrarCribasImanes(cribasImanesEditar);
+		cribasImanesEditar = new CribasImanes();
+	}
+	
 }

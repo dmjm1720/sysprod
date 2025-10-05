@@ -16,12 +16,6 @@
 			<!--Formulario principal-->
 
 			<h:form id="frmPrincipal">
-				<!--                    <p:blockUI widgetVar="loading" trigger="btnBuscar" block="frmPrincipal:a1:tblClientes">
-                                            <h:panelGrid styleClass="custom-painelgrid-center">
-                                                <h:outputText value="Buscando..." />
-                                                <p:graphicImage value="../resources/img/cargando.gif" />
-                                            </h:panelGrid>
-                                        </p:blockUI>-->
 
 				<p:growl id="msgs" showDetail="true"
 					skipDetailIfEqualsSummary="true" />
@@ -155,17 +149,22 @@
 									<h:outputText value="#{item.nacionalImportacion}"
 										style="color: #036FAB;" />
 								</p:column>
-								<p:column headerText="Descuento humedad tabla A" width="10rem">
+								<p:column headerText="Descuento humedad tabla A" width="5rem">
 									<h:outputText value="#{item.descuentoHumedadTablaA}"
 										style="color: #036FAB;" />
 								</p:column>
-								<p:column headerText="Descuento humedad tabla B" width="10rem">
+								<p:column headerText="Descuento humedad tabla B" width="5rem">
 									<h:outputText value="#{item.descuentoHumedadTablaB}"
 										style="color: #036FAB;" />
 								</p:column>
-								<p:column headerText="Descuento por merma" width="10rem">
+								<p:column headerText="Descuento por merma" width="5rem">
 									<h:outputText value="#{item.descuentoMerma}"
 										style="color: #036FAB; font-weight:bold" />
+								</p:column>
+
+								<p:column headerText="IVA MP" width="20rem">
+									<h:inputTextarea value="#{item.materiaPrima}" disabled="true" readonly="true" rows="2" 
+										style="color: #036FAB; font-weight:bold; width:20rem" />
 								</p:column>
 
 							</p:dataTable>
@@ -239,7 +238,7 @@
 
 						<p:outputLabel for="nacimp" value="Nacional / Importado" />
 						<p:selectOneMenu id="nacimp" required="false"
-							style="width: 200px;" requiredMessage="Nacional o Importado"
+							style="width: 20rem;" requiredMessage="Nacional o Importado"
 							value="#{proveedoresBean.proveedores.nacionalImportacion}">
 							<f:selectItem itemLabel="SELECCIONA" itemValue="" />
 							<f:selectItem itemLabel="NACIONAL" itemValue="NACIONAL" />
@@ -265,6 +264,11 @@
 							style="width: 20rem" />
 
 
+						<p:outputLabel for="descIVA" value="IVA MP" />
+						<p:inputText id="descIVA"
+							value="#{proveedoresBean.proveedores.materiaPrima}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
 
 					</h:panelGrid>
 

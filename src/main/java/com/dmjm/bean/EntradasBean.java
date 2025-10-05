@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -62,9 +63,12 @@ import com.dmjm.util.Conexion;
 import com.dmjm.util.Correo;
 import com.dmjm.util.CorreoPrecios;
 import com.dmjm.util.CorreoRangos;
+import com.dmjm.util.IvaMateriaPrima;
 import com.dmjm.util.PrecioMateria;
 import com.dmjm.util.ReporteLiberacion;
 import com.dmjm.util.ReporteLiberacionSF;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Named(value = "entradasBean")
 @ViewScoped
@@ -135,6 +139,8 @@ public class EntradasBean extends Conexion implements Serializable {
 	private String alertaCalcios;
 	private String alertaHumedad;
 
+	private IvaMateriaPrima ivaMateriaPrima;
+
 	@PostConstruct
 	public void init() {
 		listarEntradas = new ArrayList<>();
@@ -169,6 +175,16 @@ public class EntradasBean extends Conexion implements Serializable {
 		entradasCertificado = new Entradas();
 		file = "";
 
+		ivaMateriaPrima = new IvaMateriaPrima();
+
+	}
+
+	public IvaMateriaPrima getIvaMateriaPrima() {
+		return ivaMateriaPrima;
+	}
+
+	public void setIvaMateriaPrima(IvaMateriaPrima ivaMateriaPrima) {
+		this.ivaMateriaPrima = ivaMateriaPrima;
 	}
 
 	public Entradas getEntradas() {
@@ -1295,12 +1311,11 @@ public class EntradasBean extends Conexion implements Serializable {
 			}
 			}
 		}
-		//PORCENTAJE MERMA PROVEEDORES//
+		// PORCENTAJE MERMA PROVEEDORES//
 		Proveedores prov = new Proveedores();
 		prov = buscarMermaProveedor(entradasEditar.getProveedores().getIdProveedor());
 		LOGGER.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		LOGGER.info(
-				"Nombre del proveedor:" + prov.getNombre() + " Descuento por merma: " + prov.getDescuentoMerma());
+		LOGGER.info("Nombre del proveedor:" + prov.getNombre() + " Descuento por merma: " + prov.getDescuentoMerma());
 
 //		double porcentaje15 = 0.0;
 //		porcentaje15 = Double.valueOf(prov.getDescuentoMerma().toString());
@@ -1311,7 +1326,6 @@ public class EntradasBean extends Conexion implements Serializable {
 //
 //		// SE TOMA EL PORCENTAJE DE LA MERMA DEL PROVEEDOR
 //		entradasEditar.setCalculoKgMerma(BigDecimal.valueOf((porcentaje15)));
-		
 
 		// VALIDAR EL PROVEEDOR SI TIENE DESCUENTO EN LA MERMA
 		double porcentajeDescuentoProv = 0.0;
@@ -1422,28 +1436,28 @@ public class EntradasBean extends Conexion implements Serializable {
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCerdoAmericano().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioCa().toString())));
 
-		double tax = .16;
+		//double tax = .16;
 		double sumaSubtotal = 0.0;
 		double iva = 0.0;
-		iva = (tax * (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())) + (tax
-				* (Double.valueOf(entradasEditar.getPrecioCalcC1().toString()))
-				+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcC2().toString())) + (tax
-						* (Double.valueOf(entradasEditar.getPrecioCalcCs().toString()))
-						+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcDr().toString())) + (tax
-								* (Double.valueOf(entradasEditar.getPrecioCalcCm().toString()))
-								+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcCo().toString())) + (tax
-										* (Double.valueOf(entradasEditar.getPrecioCalcPc().toString()))
-										+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcP().toString())) + (tax
-												* (Double.valueOf(entradasEditar.getPrecioCalcDa().toString()))
-												+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcDs().toString()))
-														+ (tax * (Double
-																.valueOf(entradasEditar.getPrecioCalcCdi().toString()))
-																+ (tax * (Double.valueOf(
-																		entradasEditar.getPrecioCalcG().toString()))
-																		+ (tax * (Double.valueOf(
-																				entradasEditar.getPrecioCalcCa()
-																						.toString()))))))))))))))));
 
+		ivaMP(entradasEditar.getProveedores().getMateriaPrima());
+
+		
+		iva = (ivaMateriaPrima.getIvaCueroIntegralSaladoConPelo() * (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())) 
+				+ (ivaMateriaPrima.getIvaCarnazaCompleta() * (Double.valueOf(entradasEditar.getPrecioCalcC1().toString())) 
+						+ (ivaMateriaPrima.getIvaCarnazaPedazos() * (Double.valueOf(entradasEditar.getPrecioCalcC2().toString())) 
+								+ (ivaMateriaPrima.getIvaCarnazaSalada() * (Double.valueOf(entradasEditar.getPrecioCalcCs().toString())) 
+										+ (ivaMateriaPrima.getIvaDesbarbeRecortes() * (Double.valueOf(entradasEditar.getPrecioCalcDr().toString())) 
+												+ (ivaMateriaPrima.getIvaCerdoMexicano() * (Double.valueOf(entradasEditar.getPrecioCalcCm().toString())) 
+														+ (ivaMateriaPrima.getIvaCachete() * (Double.valueOf(entradasEditar.getPrecioCalcCo().toString())) 
+																+ (ivaMateriaPrima.getIvaRecorteConPelo() * (Double.valueOf(entradasEditar.getPrecioCalcPc().toString())) 
+																		+ (ivaMateriaPrima.getIvaPedaceria()	* (Double.valueOf(entradasEditar.getPrecioCalcP().toString())) 	
+																				+ (ivaMateriaPrima.getIvaDescarneAdherido() * (Double.valueOf(entradasEditar.getPrecioCalcDa().toString())) 
+																						+ (ivaMateriaPrima.getIvaDescarneSeparado() * (Double.valueOf(entradasEditar.getPrecioCalcDs().toString()))	
+																								+ (ivaMateriaPrima.getIvaCueroDepilado() * (Double.valueOf(entradasEditar.getPrecioCalcCdi().toString())) 
+																										+ (ivaMateriaPrima.getIvaGarraFalda() * (Double.valueOf(entradasEditar.getPrecioCalcG().toString())) 
+																												+ (ivaMateriaPrima.getIvaCueroEnSangre() * (Double.valueOf(entradasEditar.getPrecioCalcCe().toString())) 
+																														+ (ivaMateriaPrima.getIvaCerdoAmericano() * (Double.valueOf(entradasEditar.getPrecioCalcCa().toString())))))))))))))))));
 		sumaSubtotal = Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())
 				+ Double.valueOf(entradasEditar.getPrecioCalcC1().toString())
 				+ Double.valueOf(entradasEditar.getPrecioCalcC2().toString())
@@ -2555,6 +2569,44 @@ public class EntradasBean extends Conexion implements Serializable {
 		}
 
 		return null;
+	}
+
+	public void ivaMP(String json) {
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			@SuppressWarnings("unchecked")
+			Map<String, Integer> datos = mapper.readValue(json, Map.class);
+			ivaMateriaPrima = new IvaMateriaPrima();
+			for (Map.Entry<String, Integer> entry : datos.entrySet()) {
+				LOGGER.info(entry.getKey() + " = " + entry.getValue());
+
+				switch (entry.getKey()) {
+				case "CUERO_INTEGRAL_SALADO_CON_PELO" ->
+					ivaMateriaPrima.setIvaCueroIntegralSaladoConPelo(entry.getValue() / 100);
+				case "CARNAZA_COMPLETA" -> ivaMateriaPrima.setIvaCarnazaCompleta(entry.getValue() / 100);
+				case "CARNAZA_PEDAZOS" -> ivaMateriaPrima.setIvaCarnazaPedazos(entry.getValue() / 100);
+				case "CARNAZA_SALADA" -> ivaMateriaPrima.setIvaCarnazaSalada(entry.getValue() / 100);
+				case "DESBARBE_RECORTES" -> ivaMateriaPrima.setIvaDesbarbeRecortes(entry.getValue() / 100);
+				case "CERDO_MEXICANO" -> ivaMateriaPrima.setIvaCerdoMexicano(entry.getValue() / 100);
+				case "CACHETE" -> ivaMateriaPrima.setIvaCachete(entry.getValue() / 100);
+				case "RECORTE_DE_CUERO_CON_PELO" -> ivaMateriaPrima.setIvaRecorteConPelo(entry.getValue() / 100);
+				case "PEDACERIA" -> ivaMateriaPrima.setIvaPedaceria(entry.getValue() / 100);
+				case "DESCARNE_ADHERIDO" -> ivaMateriaPrima.setIvaDescarneAdherido(entry.getValue() / 100);
+				case "DESCARNE_SEPARADO" -> ivaMateriaPrima.setIvaDescarneSeparado(entry.getValue() / 100);
+				case "GARRA_Y_FALDA" -> ivaMateriaPrima.setIvaGarraFalda(entry.getValue() / 100);
+				case "CUERO_EN_SANGRE" -> ivaMateriaPrima.setIvaCueroEnSangre(entry.getValue() / 100);
+				case "CERDO_AMERICANO" -> ivaMateriaPrima.setIvaCerdoAmericano(entry.getValue() / 100);
+				default -> {
+				}
+				}
+
+			}
+
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

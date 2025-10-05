@@ -591,7 +591,7 @@
 
 						<p:tab id="ptr"
 							title="MOLIENDA EN PRODUCTO TERMIANDO DE REPROCESO O REMOLIENDA"
-							titleStyle="font-size: .8rem; background-color: #FF692A; color: #F5F5F5">
+							titleStyle="font-size: .8rem; background-color: #08295e; color: #F5F5F5">
 
 							<script>
 			                       					 PrimeFaces.locales['es'] = {
@@ -1206,12 +1206,12 @@
 									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="TOLVAS PULLMAN" width="6rem">
+								<p:column headerText="TOLVAS PALLMAN" width="6rem">
 									<h:outputText value="#{item.tolvasPullman}"
 										style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="HOARA INICIAL" width="4rem">
+								<p:column headerText="HORA INICIAL" width="4rem">
 									<h:outputText value="#{item.horaInicial}"
 										style="color: #036FAB;" />
 								</p:column>
@@ -1244,6 +1244,88 @@
 
 							</p:dataTable>
 						</p:tab>
+						
+						<p:tab title="CRIBAS E IMANES"
+							titleStyle="font-size: .8rem; background-color: #73185e; color: #F5F5F5">
+
+
+							<h:panelGrid id="pgPall" columns="2" styleClass="tabla fuente">
+
+
+								<p:outputLabel value="" />
+								<p:commandButton value="REGISTRAR NUEVA ORDEN"
+									styleClass="fuente camposManto"
+									action="#{moliendaBean.guardarOrdenManto()}"
+									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+							</h:panelGrid>
+
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblCI" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="50%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{moliendaBean.listaOrdenManto.size()}"
+								value="#{moliendaBean.listaOrdenManto}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="em" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{moliendaBean.borrarOrdenManto()}"
+											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{moliendaBean.ordenMantoEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEM" for="em" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Editar" width="2rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarManto').show()"
+										update="frmEditarManto:pnlEditarManto"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{moliendaBean.ordenMantoEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="FOLIO" width="3rem">
+									<h:outputText value="INFO" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="FECHA" width="3rem">
+									<h:outputText value="INFO"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="OPERACIÓN" width="3rem">
+									<h:outputText value="INFO" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="TOLVA" width="20rem">
+									<h:outputText value="INFO" readonly="true"
+										style="color: #036FAB; width: 100%;" rows="4" />
+								</p:column>
+
+
+							</p:dataTable>
+						</p:tab>
+						
 
 						<p:tab title="ORDEN DE MANTENIMIENTO"
 							titleStyle="font-size: .8rem; background-color: #696969; color: #F5F5F5">
@@ -1253,32 +1335,32 @@
 
 								<p:outputLabel value="No de Orden" />
 								<p:inputText id="om" styleClass="camposManto"
-									value="#{cocedoresBean.ordenMantenimiento.noOrden}"
+									value="#{moliendaBean.ordenManto.noOrden}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
 								<pe:timePicker
-									value="#{cocedoresBean.ordenMantenimiento.horaInicio}"
+									value="#{moliendaBean.ordenManto.horaInicio}"
 									mode="spinner" widgetVar="mm1" showOn="button"
 									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Hora Final" />
 								<pe:timePicker
-									value="#{cocedoresBean.ordenMantenimiento.horaFin}"
+									value="#{moliendaBean.ordenManto.horaFin}"
 									mode="spinner" widgetVar="mm2" showOn="button"
 									intervalMinutes="1" endMinutes="59" />
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
-									value="#{cocedoresBean.ordenMantenimiento.descripcion}"
+									value="#{moliendaBean.ordenManto.descripcion}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 20rem" />
 
 								<p:outputLabel value="" />
 								<p:commandButton value="REGISTRAR NUEVA ORDEN"
 									styleClass="fuente camposManto"
-									actionListener="#{cocedoresBean.guardarOrdenManto()}"
+									action="#{moliendaBean.guardarOrdenManto()}"
 									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
 
@@ -1296,8 +1378,8 @@
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
 								scrollable="true"
-								currentPageReportTemplate="Total: #{cocedoresBean.listaOrdenManto.size()}"
-								value="#{cocedoresBean.listaOrdenManto}"
+								currentPageReportTemplate="Total: #{moliendaBean.listaOrdenManto.size()}"
+								value="#{moliendaBean.listaOrdenManto}"
 								emptyMessage="NO HAY REGISTROS">
 
 
@@ -1305,10 +1387,10 @@
 									<div style="text-align: center">
 										<p:commandButton id="em" icon="pi pi-fw pi-trash"
 											styleClass="ui-button-warning"
-											action="#{cocedoresBean.borrarOrdenManto()}"
+											action="#{moliendaBean.borrarOrdenManto()}"
 											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
 											<f:setPropertyActionListener value="#{item}"
-												target="#{cocedoresBean.ordenMantenimientoEditar}" />
+												target="#{moliendaBean.ordenMantoEditar}" />
 										</p:commandButton>
 										<p:tooltip id="toolTipEM" for="em" value="Borrar"
 											trackMouse="true" />
@@ -1321,7 +1403,7 @@
 										update="frmEditarManto:pnlEditarManto"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{cocedoresBean.ordenMantenimientoEditar}" />
+											target="#{moliendaBean.ordenMantoEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
@@ -2314,26 +2396,26 @@
 
 						<p:outputLabel for="orden" value="No de Orden" />
 						<p:inputText id="orden" styleClass="camposManto"
-							value="#{cocedoresBean.ordenMantenimientoEditar.noOrden}"
+							value="#{moliendaBean.ordenMantoEditar.noOrden}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 8rem" />
 
 
 						<p:outputLabel value="Hora Inicio" />
 						<pe:timePicker
-							value="#{cocedoresBean.ordenMantenimientoEditar.horaInicio}"
+							value="#{moliendaBean.ordenMantoEditar.horaInicio}"
 							mode="spinner" widgetVar="m1" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker
-							value="#{cocedoresBean.ordenMantenimientoEditar.horaFin}"
+							value="#{moliendaBean.ordenMantoEditar.horaFin}"
 							mode="spinner" widgetVar="m2" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
-							value="#{cocedoresBean.ordenMantenimientoEditar.descripcion}"
+							value="#{moliendaBean.ordenMantoEditar.descripcion}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 					</h:panelGrid>
@@ -2342,7 +2424,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{cocedoresBean.actualizarOrdenManto()}"
+							actionListener="#{moliendaBean.actualizarOrdenManto()}"
 							oncomplete="PF('dlgEditarManto').hide()" />
 					</div>
 

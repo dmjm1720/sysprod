@@ -104,6 +104,7 @@
 	    <mapping resource="com/dmjm/model/FolioGeneral.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/FolioPreparacionMolienda.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/GelatinaPorMoler.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoMolienda.hbm.xml"/>
 	    
 	</session-factory>
 </hibernate-configuration>

@@ -15,6 +15,7 @@ public class Proveedores implements Serializable {
 	private Integer estado;
 	private String nacionalImportacion;
 	private BigDecimal descuentoMerma;
+	private String materiaPrima;
 
 	public Proveedores() {
 	}
@@ -24,7 +25,8 @@ public class Proveedores implements Serializable {
 	}
 
 	public Proveedores(int idProveedor, String nombre, String razonSocial, String origen,
-			Integer descuentoHumedadTablaA, Integer descuentoHumedadTablaB, Integer estado, String nacionalImportacion,BigDecimal descuentoMerma) {
+			Integer descuentoHumedadTablaA, Integer descuentoHumedadTablaB, Integer estado, String nacionalImportacion,
+			BigDecimal descuentoMerma, String materiaPrima) {
 		this.idProveedor = idProveedor;
 		this.nombre = nombre;
 		this.razonSocial = razonSocial;
@@ -34,6 +36,7 @@ public class Proveedores implements Serializable {
 		this.estado = estado;
 		this.nacionalImportacion = nacionalImportacion;
 		this.descuentoMerma = descuentoMerma;
+		this.materiaPrima = materiaPrima;
 
 	}
 
@@ -108,8 +111,13 @@ public class Proveedores implements Serializable {
 	public void setDescuentoMerma(BigDecimal descuentoMerma) {
 		this.descuentoMerma = descuentoMerma;
 	}
-	
-	
 
+	public String getMateriaPrima() {
+		return materiaPrima;
+	}
+
+	public void setMateriaPrima(String materiaPrima) {
+		this.materiaPrima = materiaPrima;
+	}
 
 }
