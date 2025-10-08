@@ -13,6 +13,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +58,7 @@ import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Remolienda;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("moliendaBean")
 @ViewScoped
@@ -79,6 +82,7 @@ public class MoliendaBean implements Serializable {
 	private int folioPrepMolienda;
 	private String bandera;
 	private String banderaGelatina;
+	private String banderaCribas;
 
 	private List<FolioPreparacionMolienda> listaFolioMolienda;
 	private FolioPreparacionMolienda folioPreparacionMolienda;
@@ -105,6 +109,9 @@ public class MoliendaBean implements Serializable {
 	private GelatinaPorMoler gelatina;
 	private GelatinaPorMoler gelatinaEditar;
 	private GelatinaPorMoler gelatinaBorrar;
+	private GelatinaPorMoler gelatinaA;
+	private GelatinaPorMoler gelatinaB;
+	private GelatinaPorMoler gelatinaC;
 	private List<GelatinaPorMoler> listaGelatina;
 
 	// LIMPIEZA MOLIENDA
@@ -151,6 +158,9 @@ public class MoliendaBean implements Serializable {
 		gelatina = new GelatinaPorMoler();
 		gelatinaEditar = new GelatinaPorMoler();
 		gelatinaBorrar = new GelatinaPorMoler();
+		gelatinaA = new GelatinaPorMoler();
+		gelatinaB = new GelatinaPorMoler();
+		gelatinaC = new GelatinaPorMoler();
 
 		operador = new Operador();
 		operadorEditar = new Operador();
@@ -177,8 +187,40 @@ public class MoliendaBean implements Serializable {
 		listaRemoliendaInicialFechaActual();
 		getListaLimpiezaMolienda();
 		getListaOrdenManto();
-		getCribasImanes();
+		getListaCribasImanes();
 
+	}
+
+	public String getBanderaCribas() {
+		return banderaCribas;
+	}
+
+	public void setBanderaCribas(String banderaCribas) {
+		this.banderaCribas = banderaCribas;
+	}
+
+	public GelatinaPorMoler getGelatinaA() {
+		return gelatinaA;
+	}
+
+	public void setGelatinaA(GelatinaPorMoler gelatinaA) {
+		this.gelatinaA = gelatinaA;
+	}
+
+	public GelatinaPorMoler getGelatinaB() {
+		return gelatinaB;
+	}
+
+	public void setGelatinaB(GelatinaPorMoler gelatinaB) {
+		this.gelatinaB = gelatinaB;
+	}
+
+	public GelatinaPorMoler getGelatinaC() {
+		return gelatinaC;
+	}
+
+	public void setGelatinaC(GelatinaPorMoler gelatinaC) {
+		this.gelatinaC = gelatinaC;
 	}
 
 	public CribasImanes getCribasImanes() {
@@ -1011,6 +1053,14 @@ public class MoliendaBean implements Serializable {
 		banderaGelatina = accion;
 	}
 
+	public void banderEditarCribas(String acccion) {
+		if (acccion.equals("guardar")) {
+			cribasImanes = new CribasImanes();
+		} else {
+			banderaCribas = acccion;
+		}
+	}
+
 	public void primera() {
 		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
@@ -1143,7 +1193,7 @@ public class MoliendaBean implements Serializable {
 //		fpm.setIdFolioPrep(fDao.folioMoliendaActual(fecha));
 		getListaLimpiezaMolienda();
 		getListaOrdenManto();
-		getCribasImanes();
+		getListaCribasImanes();
 	}
 
 	public List<Date> buscarFechasFaltantes() {
@@ -1152,7 +1202,9 @@ public class MoliendaBean implements Serializable {
 	}
 
 	public void guardarGelatina() {
-		IGelatinaDao gDao = new GelatinaDaoImpl();
+		IGelatinaDao gDaoA = new GelatinaDaoImpl();
+		IGelatinaDao gDaoB = new GelatinaDaoImpl();
+		IGelatinaDao gDaoC = new GelatinaDaoImpl();
 
 		IFolioPreparacionMoliendaDao fDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda fpm = new FolioPreparacionMolienda();
@@ -1162,10 +1214,43 @@ public class MoliendaBean implements Serializable {
 		gelatinaEditar.setFolioPreparacionMolienda(fpm);
 		gelatinaEditar.setFecha(fecha);
 		gelatinaEditar.setFolio(folioFecha);
-		gDao.guardarGelatina(gelatinaEditar);
+
+		// A
+		gelatinaA.setFolioPreparacionMolienda(fpm);
+		gelatinaA.setFecha(fecha);
+		gelatinaA.setFolio(folioFecha);
+		gelatinaA.setTolva("A");
+		gelatinaA.setKgTotal(gelatinaEditar.getKgTolvaA());
+		gelatinaA.setOperacion(gelatinaEditar.getOperacionA());
+
+		gDaoA.guardarGelatina(gelatinaA);
+
+		// B
+		gelatinaB.setFolioPreparacionMolienda(fpm);
+		gelatinaB.setFecha(fecha);
+		gelatinaB.setFolio(folioFecha);
+		gelatinaB.setTolva("B");
+		gelatinaB.setKgTotal(gelatinaEditar.getKgTolvaB());
+		gelatinaB.setOperacion(gelatinaEditar.getOperacionB());
+
+		gDaoA.guardarGelatina(gelatinaB);
+
+		// C
+		gelatinaC.setFolioPreparacionMolienda(fpm);
+		gelatinaC.setFecha(fecha);
+		gelatinaC.setFolio(folioFecha);
+		gelatinaC.setTolva("C");
+		gelatinaC.setKgTotal(gelatinaEditar.getKgTolvaC());
+		gelatinaC.setOperacion(gelatinaEditar.getOperacionC());
+
+		gDaoA.guardarGelatina(gelatinaC);
+
 		listar();
 
 		gelatinaEditar = new GelatinaPorMoler();
+		gelatinaA = new GelatinaPorMoler();
+		gelatinaB = new GelatinaPorMoler();
+		gelatinaC = new GelatinaPorMoler();
 	}
 
 	public void actualizarGelatina() {
@@ -1294,29 +1379,48 @@ public class MoliendaBean implements Serializable {
 		oDao.borrarrOrdenManto(ordenMantoEditar);
 		ordenMantoEditar = new OrdenMantenimientoMolienda();
 	}
-	
+
 	public void guardarCribasImanes() {
 		ICribasDao cDao = new CribasImanesDaoImpl();
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
-		
+
 		cribasImanes.setFolioPreparacionMolienda(f);
+		cribasImanes.setFecha(fecha);
 		cDao.guardarCribasImanes(cribasImanes);
 		cribasImanes = new CribasImanes();
-		
+
 	}
-	
+
 	public void actualizarCribasImanes() {
 		ICribasDao cDao = new CribasImanesDaoImpl();
-		cDao.actualizarCribasImanes(cribasImanesEditar);
+		cDao.actualizarCribasImanes(cribasImanes);
 		cribasImanesEditar = new CribasImanes();
 	}
-	
+
 	public void borrarCribasImanes() {
 		ICribasDao cDao = new CribasImanesDaoImpl();
 		cDao.borrarCribasImanes(cribasImanesEditar);
 		cribasImanesEditar = new CribasImanes();
 	}
 	
+	
+	public void visualizarReporte() throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/molienda_rep.jasper");
+		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+
 }

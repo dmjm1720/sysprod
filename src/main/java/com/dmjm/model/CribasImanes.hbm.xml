@@ -35,8 +35,8 @@
 			<column name="HALLAZGOS_IMANES_30_MESH" length="250" />
 		</property>
 		<property name="hallazgosImanes60Mesh"
-			type="java.lang.Integer">
-			<column name="HALLAZGOS_IMANES_60_MESH" />
+			type="string">
+			<column name="HALLAZGOS_IMANES_60_MESH" length="250" />
 		</property>
 	</class>
 </hibernate-mapping>

@@ -9,11 +9,15 @@ public class GelatinaPorMoler implements java.io.Serializable {
 	private FolioPreparacionMolienda folioPreparacionMolienda;
 	private Integer folio;
 	private Date fecha;
-	private String operacion;
+	private String operacionA;
 	private Integer kgTolvaA;
 	private Integer kgTolvaB;
 	private Integer kgTolvaC;
 	private Integer kgTotal;
+	private String operacionB;
+	private String operacionC;
+	private String tolva;
+	private String operacion;
 
 	public GelatinaPorMoler() {
 	}
@@ -22,21 +26,37 @@ public class GelatinaPorMoler implements java.io.Serializable {
 		this.idGelatina = idGelatina;
 	}
 
+	
+
 	public GelatinaPorMoler(int idGelatina, FolioPreparacionMolienda folioPreparacionMolienda, Integer folio,
-			Date fecha, String operacion, Integer kgTolvaA, Integer kgTolvaB, Integer kgTolvaC, Integer kgTotal) {
+			Date fecha, String operacionA, Integer kgTolvaA, Integer kgTolvaB, Integer kgTolvaC, Integer kgTotal,
+			String operacionB, String operacionC, String tolva, String operacion) {
+
 		this.idGelatina = idGelatina;
 		this.folioPreparacionMolienda = folioPreparacionMolienda;
 		this.folio = folio;
 		this.fecha = fecha;
-		this.operacion = operacion;
+		this.operacionA = operacionA;
 		this.kgTolvaA = kgTolvaA;
 		this.kgTolvaB = kgTolvaB;
 		this.kgTolvaC = kgTolvaC;
 		this.kgTotal = kgTotal;
+		this.operacionB = operacionB;
+		this.operacionC = operacionC;
+		this.tolva = tolva;
+		this.operacion = operacion;
+	}
+
+	public String getOperacion() {
+		return operacion;
+	}
+
+	public void setOperacion(String operacion) {
+		this.operacion = operacion;
 	}
 
 	public int getIdGelatina() {
-		return this.idGelatina;
+		return idGelatina;
 	}
 
 	public void setIdGelatina(int idGelatina) {
@@ -44,7 +64,7 @@ public class GelatinaPorMoler implements java.io.Serializable {
 	}
 
 	public FolioPreparacionMolienda getFolioPreparacionMolienda() {
-		return this.folioPreparacionMolienda;
+		return folioPreparacionMolienda;
 	}
 
 	public void setFolioPreparacionMolienda(FolioPreparacionMolienda folioPreparacionMolienda) {
@@ -52,7 +72,7 @@ public class GelatinaPorMoler implements java.io.Serializable {
 	}
 
 	public Integer getFolio() {
-		return this.folio;
+		return folio;
 	}
 
 	public void setFolio(Integer folio) {
@@ -60,23 +80,23 @@ public class GelatinaPorMoler implements java.io.Serializable {
 	}
 
 	public Date getFecha() {
-		return this.fecha;
+		return fecha;
 	}
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 
-	public String getOperacion() {
-		return this.operacion;
+	public String getOperacionA() {
+		return operacionA;
 	}
 
-	public void setOperacion(String operacion) {
-		this.operacion = operacion;
+	public void setOperacionA(String operacionA) {
+		this.operacionA = operacionA;
 	}
 
 	public Integer getKgTolvaA() {
-		return this.kgTolvaA;
+		return kgTolvaA;
 	}
 
 	public void setKgTolvaA(Integer kgTolvaA) {
@@ -84,7 +104,7 @@ public class GelatinaPorMoler implements java.io.Serializable {
 	}
 
 	public Integer getKgTolvaB() {
-		return this.kgTolvaB;
+		return kgTolvaB;
 	}
 
 	public void setKgTolvaB(Integer kgTolvaB) {
@@ -92,7 +112,7 @@ public class GelatinaPorMoler implements java.io.Serializable {
 	}
 
 	public Integer getKgTolvaC() {
-		return this.kgTolvaC;
+		return kgTolvaC;
 	}
 
 	public void setKgTolvaC(Integer kgTolvaC) {
@@ -100,11 +120,36 @@ public class GelatinaPorMoler implements java.io.Serializable {
 	}
 
 	public Integer getKgTotal() {
-		return this.kgTotal;
+		return kgTotal;
 	}
 
 	public void setKgTotal(Integer kgTotal) {
 		this.kgTotal = kgTotal;
 	}
+
+	public String getOperacionB() {
+		return operacionB;
+	}
+
+	public void setOperacionB(String operacionB) {
+		this.operacionB = operacionB;
+	}
+
+	public String getOperacionC() {
+		return operacionC;
+	}
+
+	public void setOperacionC(String operacionC) {
+		this.operacionC = operacionC;
+	}
+
+	public String getTolva() {
+		return tolva;
+	}
+
+	public void setTolva(String tolva) {
+		this.tolva = tolva;
+	}
+	
 
 }
