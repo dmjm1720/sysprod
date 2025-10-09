@@ -59,6 +59,7 @@ import com.dmjm.model.Remolienda;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
 import com.dmjm.util.ReporteEsterilizadores;
+import com.dmjm.util.ReporteMolienda;
 
 @Named("moliendaBean")
 @ViewScoped
@@ -1411,13 +1412,33 @@ public class MoliendaBean implements Serializable {
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
 
-		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		ReporteMolienda reporte = new ReporteMolienda();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
 		ruta = servletContext.getRealPath("/REP/molienda_rep.jasper");
 		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+
+		ReporteMolienda reporte = new ReporteMolienda();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/molienda_rep.jasper");
+
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
 

@@ -236,13 +236,10 @@
 																<h:graphicImage library="images" name="printer.png"
 																	alt="add" />
 															</h:commandLink></th>
-														<th><h:commandLink id="exportar" value="EXPORTAR"
-																action="#{moliendaBean.banderaEditar('guardar')}"
-																actionListener="#{moliendaBean.initEditar()}"
+														<th><h:commandLink id="exportar" value="EXPORTAR" target="_blank"
+																actionListener="#{moliendaBean.visualizarReporteExcel()}"
 																style="width: 6rem; height: 2.5rem; text-decoration: none"
 																update="frmEditargh:pnlEditargh" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditargh:pnlEditargh"
-																	onevent="function(e){ if(e.status=='success'){PF('dlgEditargh').show();} }" />
 																<h:graphicImage library="images" name="excel-file.png"
 																	alt="add" />
 															</h:commandLink></th>
