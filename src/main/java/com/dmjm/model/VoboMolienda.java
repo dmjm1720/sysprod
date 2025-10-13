@@ -11,6 +11,7 @@ public class VoboMolienda implements java.io.Serializable {
 	private String voboDos;
 	private int idUsuarioTres;
 	private String voboTres;
+	private int folio;
 
 	public VoboMolienda() {
 	}
@@ -18,12 +19,9 @@ public class VoboMolienda implements java.io.Serializable {
 	public VoboMolienda(int idVobo) {
 		this.idVobo = idVobo;
 	}
-	
-	
-	
 
-	public VoboMolienda(int idVobo, FolioPreparacionMolienda folioPreparacionMolienda, int idUsuarioUno,
-			String voboUno, int idUsuarioDos, String voboDos, int idUsuarioTres, String voboTres) {
+	public VoboMolienda(int idVobo, FolioPreparacionMolienda folioPreparacionMolienda, int idUsuarioUno, String voboUno,
+			int idUsuarioDos, String voboDos, int idUsuarioTres, String voboTres, int folio) {
 		this.idVobo = idVobo;
 		this.folioPreparacionMolienda = folioPreparacionMolienda;
 		this.idUsuarioUno = idUsuarioUno;
@@ -32,6 +30,15 @@ public class VoboMolienda implements java.io.Serializable {
 		this.voboDos = voboDos;
 		this.idUsuarioTres = idUsuarioTres;
 		this.voboTres = voboTres;
+		this.folio = folio;
+	}
+
+	public int getFolio() {
+		return folio;
+	}
+
+	public void setFolio(int folio) {
+		this.folio = folio;
 	}
 
 	public int getIdVobo() {

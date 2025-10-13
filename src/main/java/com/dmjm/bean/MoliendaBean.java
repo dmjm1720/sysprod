@@ -1483,6 +1483,7 @@ public class MoliendaBean implements Serializable {
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+		vobo.setFolio(folioFecha);
 		getListaDeVoboMolienda();
 		if (listaDeVoboMolienda.isEmpty()) {
 			switch (us.getPerfiles().getNombrePerfil()) {
@@ -1493,7 +1494,7 @@ public class MoliendaBean implements Serializable {
 				vobo.setIdUsuarioTres(0);
 			}
 
-			case "Inocuidad" -> {
+			case "Calidad" -> {
 				vobo.setVoboDos("AUTORIZADO");
 				vobo.setIdUsuarioUno(0);
 				vobo.setIdUsuarioDos(us.getIdUsuario());
@@ -1523,7 +1524,7 @@ public class MoliendaBean implements Serializable {
 				vobo.setVoboUno("AUTORIZADO");
 				vobo.setIdUsuarioUno(us.getIdUsuario());
 			}
-			case "Inocuidad" -> {
+			case "Calidad" -> {
 				vobo.setVoboDos("AUTORIZADO");
 				vobo.setIdUsuarioDos(us.getIdUsuario());
 			}

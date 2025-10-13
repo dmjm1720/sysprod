@@ -31,5 +31,8 @@
 		<property name="voboTres" type="string">
 			<column name="VOBO_TRES" length="50" />
 		</property>
+		<property name="folio" type="java.lang.Integer">
+			<column name="FOLIO" />
+		</property>
 	</class>
 </hibernate-mapping>
