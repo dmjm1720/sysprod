@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.dmjm.model.VoboMolienda" table="VOBO_MOLIENDA"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idVobo" type="int">
+			<column name="ID_VOBO" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionMolienda"
+			class="com.dmjm.model.FolioPreparacionMolienda" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="idUsuarioUno" type="java.lang.Integer">
+			<column name="ID_USUARIO_UNO" />
+		</property>
+		<property name="voboUno" type="string">
+			<column name="VOBO_UNO" length="50" />
+		</property>
+		<property name="idUsuarioDos" type="java.lang.Integer">
+			<column name="ID_USUARIO_DOS" />
+		</property>
+		<property name="voboDos" type="string">
+			<column name="VOBO_DOS" length="50" />
+		</property>
+		<property name="idUsuarioTres" type="java.lang.Integer">
+			<column name="ID_USUARIO_TRES" />
+		</property>
+		<property name="voboTres" type="string">
+			<column name="VOBO_TRES" length="50" />
+		</property>
+	</class>
+</hibernate-mapping>

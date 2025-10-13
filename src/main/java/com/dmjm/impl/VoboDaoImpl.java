@@ -8,17 +8,17 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.primefaces.PrimeFaces;
 
-import com.dmjm.dao.ICribasDao;
-import com.dmjm.model.CribasImanes;
+import com.dmjm.dao.IVoboMoliendaDao;
+import com.dmjm.model.VoboMolienda;
 import com.dmjm.util.HibernateUtil;
 
-public class CribasImanesDaoImpl implements ICribasDao {
+public class VoboDaoImpl implements IVoboMoliendaDao {
 
 	@Override
-	public List<CribasImanes> listaCribasImanes(int folio) {
+	public List<VoboMolienda> listaVoboMolienda(int folio) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-		    String hql = "FROM CribasImanes c JOIN FETCH c.folioPreparacionMolienda WHERE c.folioPreparacionMolienda.idFolioPrep = :folio";
-		    Query<CribasImanes> query = session.createQuery(hql, CribasImanes.class);
+		    String hql = "FROM VoboMolienda c JOIN FETCH c.folioPreparacionMolienda WHERE c.folioPreparacionMolienda.idFolioPrep = :folio";
+		    Query<VoboMolienda> query = session.createQuery(hql, VoboMolienda.class);
 		    query.setParameter("folio", folio);
 
 		    return query.list();
@@ -26,16 +26,16 @@ public class CribasImanesDaoImpl implements ICribasDao {
 	}
 
 	@Override
-	public void guardarCribasImanes(CribasImanes cribasImanes) {
+	public void guardarVoboMolienda(VoboMolienda vobo) {
 		Session session = null;
 		try {
 
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.save(cribasImanes);
+			session.save(vobo);
 			transaction.commit();
-			String info = "Se ha guardado el registro Cribas, Imanes";
+			String info = "Se ha guardado el registro de Vo.Bo.";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
@@ -52,16 +52,41 @@ public class CribasImanesDaoImpl implements ICribasDao {
 	}
 
 	@Override
-	public void actualizarCribasImanes(CribasImanes cribasImanes) {
+	public void actualizarVoboMolienda(VoboMolienda vobo) {
 		Session session = null;
 		try {
 
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.update(cribasImanes);
+			session.update(vobo);
 			transaction.commit();
-			String info = "Se ha acualizado el registro de Cribas, Imanes";
+			String info = "Se ha actualizado el registro de Vo.Bo.";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public void borrarVoboMolienda(VoboMolienda vobo) {
+		Session session = null;
+		try {
+
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.delete(vobo);
+			transaction.commit();
+			String info = "Se ha borrado el registro de Vo.Bo.";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
@@ -78,53 +103,14 @@ public class CribasImanesDaoImpl implements ICribasDao {
 	}
 
 	@Override
-	public void borrarCribasImanes(CribasImanes cribasImanes) {
-		Session session = null;
-		try {
+	public VoboMolienda molienda(int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+		    String hql = "FROM VoboMolienda c JOIN FETCH c.folioPreparacionMolienda WHERE c.folioPreparacionMolienda.idFolioPrep = :folio";
+		    Query<VoboMolienda> query = session.createQuery(hql, VoboMolienda.class);
+		    query.setParameter("folio", folio);
 
-			session = HibernateUtil.getSessionFactory().openSession();
-
-			Transaction transaction = session.beginTransaction();
-			session.delete(cribasImanes);
-			transaction.commit();
-			String info = "Se ha borrado el registro de Cribas, Imanes";
-
-			PrimeFaces.current()
-					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
-							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-							+ "  timer: 8000\n" + "})");
-		} catch (HibernateException e) {
-			session.getTransaction().rollback();
-		} finally {
-			if (session != null) {
-				session.close();
-			}
+		    return query.uniqueResult();
 		}
-
-	}
-
-	@Override
-	public int validarNoLimpieza(int folioprep) {
-		int folio = 1; // Valor por defecto
-		Session session = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			Query<?> query = session.createSQLQuery("SELECT COALESCE(MAX(NO_LIMPIEZA), 0) + 1 "
-					+ "FROM CRIBAS_IMANES " + "WHERE ID_FOLIO_PREP = :idFolioPrep");
-			query.setParameter("idFolioPrep", folioprep);
-
-			Object result = query.uniqueResult();
-			if (result != null) {
-				folio = ((Number) result).intValue();
-			}
-		} catch (Exception e) {
-			e.printStackTrace(); //
-		} finally {
-			if (session != null) {
-				session.close();
-			}
-		}
-		return folio;
 	}
 
 }

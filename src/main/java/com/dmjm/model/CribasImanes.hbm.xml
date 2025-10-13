@@ -23,7 +23,7 @@
 			<column name="TURNO" />
 		</property>
 		<property name="apertura" type="string">
-			<column name="APERTURA" length="10" />
+			<column name="APERTURA" length="100" />
 		</property>
 		<property name="integridad" type="string">
 			<column name="INTEGRIDAD" length="10" />
@@ -37,6 +37,9 @@
 		<property name="hallazgosImanes60Mesh"
 			type="string">
 			<column name="HALLAZGOS_IMANES_60_MESH" length="250" />
+		</property>
+			<property name="noLimpieza" type="java.lang.Integer">
+			<column name="NO_LIMPIEZA" />
 		</property>
 	</class>
 </hibernate-mapping>

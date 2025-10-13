@@ -15,6 +15,7 @@ public class CribasImanes implements java.io.Serializable {
 	private String hallazgosCriba;
 	private String hallazgosImanes30Mesh;
 	private String hallazgosImanes60Mesh;
+	private Integer noLimpieza;
 
 	public CribasImanes() {
 	}
@@ -27,7 +28,7 @@ public class CribasImanes implements java.io.Serializable {
 
 	public CribasImanes(int idCribasImanes, FolioPreparacionMolienda folioPreparacionMolienda, Date fecha,
 			String cribasInspeccionadas, Integer turno, String apertura, String integridad, String hallazgosCriba,
-			String hallazgosImanes30Mesh, String hallazgosImanes60Mesh) {
+			String hallazgosImanes30Mesh, String hallazgosImanes60Mesh, Integer noLimpieza) {
 
 		this.idCribasImanes = idCribasImanes;
 		this.folioPreparacionMolienda = folioPreparacionMolienda;
@@ -39,6 +40,7 @@ public class CribasImanes implements java.io.Serializable {
 		this.hallazgosCriba = hallazgosCriba;
 		this.hallazgosImanes30Mesh = hallazgosImanes30Mesh;
 		this.hallazgosImanes60Mesh = hallazgosImanes60Mesh;
+		this.noLimpieza = noLimpieza;
 	}
 
 	public int getIdCribasImanes() {
@@ -119,6 +121,14 @@ public class CribasImanes implements java.io.Serializable {
 
 	public void setHallazgosImanes60Mesh(String hallazgosImanes60Mesh) {
 		this.hallazgosImanes60Mesh = hallazgosImanes60Mesh;
+	}
+
+	public Integer getNoLimpieza() {
+		return noLimpieza;
+	}
+
+	public void setNoLimpieza(Integer noLimpieza) {
+		this.noLimpieza = noLimpieza;
 	}
 
 }

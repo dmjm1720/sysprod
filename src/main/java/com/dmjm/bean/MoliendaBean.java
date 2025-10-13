@@ -34,6 +34,7 @@ import com.dmjm.dao.IRemoliendaDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.dao.IValidacionFolioDao;
+import com.dmjm.dao.IVoboMoliendaDao;
 import com.dmjm.impl.CribasImanesDaoImpl;
 import com.dmjm.impl.FolioGeneralDaoImpl;
 import com.dmjm.impl.FolioPreparacionMoliendaDaoImpl;
@@ -47,6 +48,7 @@ import com.dmjm.impl.RemoliendaDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
+import com.dmjm.impl.VoboDaoImpl;
 import com.dmjm.model.CribasImanes;
 import com.dmjm.model.FolioPreparacionMolienda;
 import com.dmjm.model.GelatinaPorMoler;
@@ -58,7 +60,7 @@ import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Remolienda;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
-import com.dmjm.util.ReporteEsterilizadores;
+import com.dmjm.model.VoboMolienda;
 import com.dmjm.util.ReporteMolienda;
 
 @Named("moliendaBean")
@@ -130,10 +132,14 @@ public class MoliendaBean implements Serializable {
 	private OrdenMantenimientoMolienda ordenMantoEditar;
 
 	// CRIBAS IMANES
-
 	private List<CribasImanes> listaCribasImanes;
 	private CribasImanes cribasImanes;
 	private CribasImanes cribasImanesEditar;
+
+	// VOBO
+	private List<VoboMolienda> listaDeVoboMolienda;
+	private VoboMolienda vobo;
+	private VoboMolienda voboEditar;
 
 	public MoliendaBean() {
 		// TODO Auto-generated constructor stub
@@ -183,13 +189,40 @@ public class MoliendaBean implements Serializable {
 		cribasImanes = new CribasImanes();
 		cribasImanesEditar = new CribasImanes();
 
+		listaDeVoboMolienda = new ArrayList<>();
+		vobo = new VoboMolienda();
+		voboEditar = new VoboMolienda();
+
 		primera();
 		listaInicialFechaActual();
 		listaRemoliendaInicialFechaActual();
 		getListaLimpiezaMolienda();
 		getListaOrdenManto();
 		getListaCribasImanes();
+		getListaDeVoboMolienda();
+	}
 
+	public VoboMolienda getVobo() {
+		return vobo;
+	}
+
+	public void setVobo(VoboMolienda vobo) {
+		this.vobo = vobo;
+	}
+
+	public VoboMolienda getVoboEditar() {
+		return voboEditar;
+	}
+
+	public void setVoboEditar(VoboMolienda voboEditar) {
+		this.voboEditar = voboEditar;
+	}
+
+	public List<VoboMolienda> getListaDeVoboMolienda() {
+		IVoboMoliendaDao vDao = new VoboDaoImpl();
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		listaDeVoboMolienda = vDao.listaVoboMolienda(folioPrepDao.folioMoliendaActual(fecha));
+		return listaDeVoboMolienda;
 	}
 
 	public String getBanderaCribas() {
@@ -1056,6 +1089,7 @@ public class MoliendaBean implements Serializable {
 
 	public void banderEditarCribas(String acccion) {
 		if (acccion.equals("guardar")) {
+			banderaCribas = acccion;
 			cribasImanes = new CribasImanes();
 		} else {
 			banderaCribas = acccion;
@@ -1195,6 +1229,7 @@ public class MoliendaBean implements Serializable {
 		getListaLimpiezaMolienda();
 		getListaOrdenManto();
 		getListaCribasImanes();
+		getListaDeVoboMolienda();
 	}
 
 	public List<Date> buscarFechasFaltantes() {
@@ -1386,7 +1421,9 @@ public class MoliendaBean implements Serializable {
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+		ICribasDao cribDao = new CribasImanesDaoImpl();
 
+		cribasImanes.setNoLimpieza(cribDao.validarNoLimpieza(f.getIdFolioPrep()));
 		cribasImanes.setFolioPreparacionMolienda(f);
 		cribasImanes.setFecha(fecha);
 		cDao.guardarCribasImanes(cribasImanes);
@@ -1405,8 +1442,7 @@ public class MoliendaBean implements Serializable {
 		cDao.borrarCribasImanes(cribasImanesEditar);
 		cribasImanesEditar = new CribasImanes();
 	}
-	
-	
+
 	public void visualizarReporte() throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -1423,14 +1459,12 @@ public class MoliendaBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
+
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
 
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
 				.getRequest();
-
 
 		ReporteMolienda reporte = new ReporteMolienda();
 		FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -1441,6 +1475,71 @@ public class MoliendaBean implements Serializable {
 		reporte.getReporteExcel(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+
+	public void guardarActualizarVobo() {
+		IVoboMoliendaDao vDao = new VoboDaoImpl();
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+		getListaDeVoboMolienda();
+		if (listaDeVoboMolienda.isEmpty()) {
+			switch (us.getPerfiles().getNombrePerfil()) {
+			case "Gerencia", "Coordinador" -> {
+				vobo.setVoboUno("AUTORIZADO");
+				vobo.setIdUsuarioUno(us.getIdUsuario());
+				vobo.setIdUsuarioDos(0);
+				vobo.setIdUsuarioTres(0);
+			}
+
+			case "Inocuidad" -> {
+				vobo.setVoboDos("AUTORIZADO");
+				vobo.setIdUsuarioUno(0);
+				vobo.setIdUsuarioDos(us.getIdUsuario());
+				vobo.setIdUsuarioTres(0);
+			}
+			case "Almacén" -> {
+				vobo.setVoboTres("AUTORIZADO");
+				vobo.setIdUsuarioUno(0);
+				vobo.setIdUsuarioTres(0);
+				vobo.setIdUsuarioTres(us.getIdUsuario());
+			}
+			default -> {
+			}
+			}
+			// vobo.setIdUsuarioUno(1);
+			vobo.setFolioPreparacionMolienda(f);
+			vDao.guardarVoboMolienda(vobo);
+
+		} else if (listaDeVoboMolienda.size() == 1) {
+
+			String perfil = us.getPerfiles().getNombrePerfil();
+			IVoboMoliendaDao Dao = new VoboDaoImpl();
+			vobo = Dao.molienda(folioPrepDao.folioMoliendaActual(fecha));
+
+			switch (perfil) {
+			case "Gerencia", "Coordinador" -> {
+				vobo.setVoboUno("AUTORIZADO");
+				vobo.setIdUsuarioUno(us.getIdUsuario());
+			}
+			case "Inocuidad" -> {
+				vobo.setVoboDos("AUTORIZADO");
+				vobo.setIdUsuarioDos(us.getIdUsuario());
+			}
+			case "Almacén" -> {
+				vobo.setVoboTres("AUTORIZADO");
+				vobo.setIdUsuarioTres(us.getIdUsuario());
+			}
+
+			}
+
+			vDao.actualizarVoboMolienda(vobo);
+		}
+
+	}
+
+	public void borrarVobo() {
 
 	}
 
