@@ -1269,7 +1269,7 @@ public class MoliendaBean implements Serializable {
 		gelatinaB.setKgTotal(gelatinaEditar.getKgTolvaB());
 		gelatinaB.setOperacion(gelatinaEditar.getOperacionB());
 
-		gDaoA.guardarGelatina(gelatinaB);
+		gDaoB.guardarGelatina(gelatinaB);
 
 		// C
 		gelatinaC.setFolioPreparacionMolienda(fpm);
@@ -1279,14 +1279,16 @@ public class MoliendaBean implements Serializable {
 		gelatinaC.setKgTotal(gelatinaEditar.getKgTolvaC());
 		gelatinaC.setOperacion(gelatinaEditar.getOperacionC());
 
-		gDaoA.guardarGelatina(gelatinaC);
+		gDaoC.guardarGelatina(gelatinaC);
 
-		listar();
+		
 
 		gelatinaEditar = new GelatinaPorMoler();
 		gelatinaA = new GelatinaPorMoler();
 		gelatinaB = new GelatinaPorMoler();
 		gelatinaC = new GelatinaPorMoler();
+		
+		listar();
 	}
 
 	public void actualizarGelatina() {
@@ -1301,6 +1303,8 @@ public class MoliendaBean implements Serializable {
 		listar();
 		gelatinaEditar = new GelatinaPorMoler();
 	}
+	
+
 
 	public void calcularTotalesGelatina() {
 
@@ -1330,7 +1334,7 @@ public class MoliendaBean implements Serializable {
 
 	// **LIMPIEZA**//
 	public void guardarLimpieza() {
-		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "LIMPIEZA QUÍMNICA", "ENJUAGUE", "DESINFECCIÓN", "ENJUAGUE" };
+		String datosLimpieza[] = { "LIMPIEZA MECÁNICA", "LIMPIEZA QUÍMICA", "ENJUAGUE", "DESINFECCIÓN", "ENJUAGUE" };
 
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 
@@ -1494,7 +1498,7 @@ public class MoliendaBean implements Serializable {
 				vobo.setIdUsuarioTres(0);
 			}
 
-			case "Calidad" -> {
+			case "Control de calidad" -> {
 				vobo.setVoboDos("AUTORIZADO");
 				vobo.setIdUsuarioUno(0);
 				vobo.setIdUsuarioDos(us.getIdUsuario());
@@ -1524,7 +1528,7 @@ public class MoliendaBean implements Serializable {
 				vobo.setVoboUno("AUTORIZADO");
 				vobo.setIdUsuarioUno(us.getIdUsuario());
 			}
-			case "Calidad" -> {
+			case "Control de calidad" -> {
 				vobo.setVoboDos("AUTORIZADO");
 				vobo.setIdUsuarioDos(us.getIdUsuario());
 			}
