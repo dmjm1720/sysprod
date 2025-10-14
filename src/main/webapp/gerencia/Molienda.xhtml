@@ -150,7 +150,7 @@
 						</p:tab>
 
 
-						<p:tab id="pt" title="MOLIENDA EN PRODUCTO TERMIANDO DE GRENETINA"
+						<p:tab id="pt" title="MOLIENDA EN PRODUCTO TERMINADO DE GRENETINA"
 							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
 
 							<script>
@@ -572,7 +572,7 @@
 						</p:tab>
 
 						<p:tab id="ptr"
-							title="MOLIENDA EN PRODUCTO TERMIANDO DE REPROCESO O REMOLIENDA"
+							title="MOLIENDA EN PRODUCTO TERMINADO DE REPROCESO O REMOLIENDA"
 							titleStyle="font-size: .8rem; background-color: #08295e; color: #F5F5F5">
 
 							<script>
@@ -1087,7 +1087,7 @@
 
 								<p:selectOneMenu id="cocLimp" value="#{moliendaBean.norteSur}"
 									dynamic="true">
-									<f:selectItem itemLabel="SELECCIONA TOLVA PULLMAN" itemValue="" />
+									<f:selectItem itemLabel="SELECCIONA TOLVA PALLMAN" itemValue="" />
 									<f:selectItem itemLabel="NORTE" itemValue="NORTE" />
 									<f:selectItem itemLabel="SUR" itemValue="SUR" />
 								</p:selectOneMenu>
@@ -1129,6 +1129,14 @@
 									rendered="#{login.usuario.perfiles.idPerfil==15}"
 									actionListener="#{moliendaBean.borrarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+
+								<h:commandLink id="impRL" style="height: 30px; font-size: 12px;"
+									target="_blank"
+									actionListener="#{moliendaBean.visualizarReporteLimpieza()}">
+									<h:graphicImage url="/resources/img/printer.png"
+										style="height: 1.8rem" />
+								</h:commandLink>
 
 							</h:panelGrid>
 							<br />
@@ -1212,7 +1220,7 @@
 						<p:tab title="CRIBAS E IMANES"
 							titleStyle="font-size: .8rem; background-color: #73185e; color: #F5F5F5">
 
-							<h:panelGrid id="pgCImanes" columns="2" styleClass="tabla fuente">
+							<h:panelGrid id="pgCImanes" columns="4" styleClass="tabla fuente">
 
 								<p:outputLabel value="" />
 								<p:commandButton id="ecribas" icon="pi pi-fw pi-save"
@@ -1220,6 +1228,13 @@
 									action="#{moliendaBean.banderEditarCribas('guardar')}"
 									oncomplete="PF('dlgEditarCribas').show()"
 									update="frmEditarCribas" styleClass="ui-button-warning" />
+									<p:outputLabel value="" />
+									<h:commandLink id="impC" style="height: 30px; font-size: 12px;"
+									target="_blank"
+									actionListener="#{moliendaBean.visualizarReporteLimpiezaCribas()}">
+									<h:graphicImage url="/resources/img/printer.png"
+										style="height: 1.8rem" />
+								</h:commandLink>
 
 							</h:panelGrid>
 

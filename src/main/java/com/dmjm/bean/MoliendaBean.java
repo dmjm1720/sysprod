@@ -1463,6 +1463,51 @@ public class MoliendaBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
+	
+	public void visualizarReporteLimpieza() throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteMolienda reporte = new ReporteMolienda();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+		
+		
+		ruta = servletContext.getRealPath("/REP/reporte_limpieza_molienda.jasper");
+		reporte.getReporte(ruta, fecha.toString(), f.getIdFolioPrep());
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	
+	public void visualizarReporteLimpiezaCribas() throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteMolienda reporte = new ReporteMolienda();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
+		
+		
+		ruta = servletContext.getRealPath("/REP/rep_limpieza_pallman.jasper");
+		reporte.getReporte(ruta, fecha.toString(), f.getIdFolioPrep());
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
 
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")

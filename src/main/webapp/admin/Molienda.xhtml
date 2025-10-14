@@ -1130,6 +1130,14 @@
 									actionListener="#{moliendaBean.borrarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
+
+								<h:commandLink id="impRL" style="height: 30px; font-size: 12px;"
+									target="_blank"
+									actionListener="#{moliendaBean.visualizarReporteLimpieza()}">
+									<h:graphicImage url="/resources/img/printer.png"
+										style="height: 1.8rem" />
+								</h:commandLink>
+
 							</h:panelGrid>
 							<br />
 							<p:divider />
@@ -1171,7 +1179,7 @@
 								</p:column>
 
 								<p:column headerText="TOLVAS PALLMAN" width="6rem">
-									<h:outputText value="#{item.tolvasPALLMAN}"
+									<h:outputText value="#{item.tolvasPullman}"
 										style="color: #036FAB;" />
 								</p:column>
 
@@ -1212,7 +1220,7 @@
 						<p:tab title="CRIBAS E IMANES"
 							titleStyle="font-size: .8rem; background-color: #73185e; color: #F5F5F5">
 
-							<h:panelGrid id="pgCImanes" columns="2" styleClass="tabla fuente">
+							<h:panelGrid id="pgCImanes" columns="4" styleClass="tabla fuente">
 
 								<p:outputLabel value="" />
 								<p:commandButton id="ecribas" icon="pi pi-fw pi-save"
@@ -1220,6 +1228,13 @@
 									action="#{moliendaBean.banderEditarCribas('guardar')}"
 									oncomplete="PF('dlgEditarCribas').show()"
 									update="frmEditarCribas" styleClass="ui-button-warning" />
+									<p:outputLabel value="" />
+									<h:commandLink id="impC" style="height: 30px; font-size: 12px;"
+									target="_blank"
+									actionListener="#{moliendaBean.visualizarReporteLimpiezaCribas()}">
+									<h:graphicImage url="/resources/img/printer.png"
+										style="height: 1.8rem" />
+								</h:commandLink>
 
 							</h:panelGrid>
 
