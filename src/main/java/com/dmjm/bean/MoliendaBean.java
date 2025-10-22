@@ -1345,7 +1345,7 @@ public class MoliendaBean implements Serializable {
 		ILimpiezaMoliendaDao validaDao = new LimpiezaMoliendaDaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(f.getIdFolioPrep());
-
+		int turnos = limpiezaMolienda.getTurno();
 		// validación de limpieza para agregar en la tabla de cocedores
 
 		ILimpiezaMoliendaDao lDao = new LimpiezaMoliendaDaoImpl();
@@ -1360,6 +1360,7 @@ public class MoliendaBean implements Serializable {
 			limpiezaMolienda.setProceso(l);
 			limpiezaMolienda.setIdUsuario(1028);
 			limpiezaMolienda.setVobo("PENDIENTE");
+			limpiezaMolienda.setTurno(turnos);
 			lDao.guardarLimpiezaMolienda(limpiezaMolienda);
 			limpiezaMolienda = new LimpiezaMolienda();
 		}

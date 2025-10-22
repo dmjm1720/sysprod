@@ -1339,6 +1339,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		LOGGER.info("Tipo de moneda: " + entradasEditar.getTipoMoneda());
 
 		double porcentajeDeMerma = 0.0;
+
 		porcentajeDeMerma = Double.valueOf(entradasEditar.getPorcentajeMerma().toString());
 		LOGGER.warn("**********************************************************************");
 		LOGGER.info("El porcentaje la merma es de: " + porcentajeDeMerma);
@@ -1359,13 +1360,21 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		}
 
+		// VALIDAR SI EL PROVEEDOR TIENE 0, NO SE CALCULA EN EL P0RCENTAJE DE LA MERMA
+		if (prov.getDescuentoMerma().toString().equals("0.0")) {
+			LOGGER.warn("NO APLICA DESCUENTO PARA CALIDAD DE LA MATERIA, TIENE EL PROVEEDOR: "
+					+ entradasEditar.getProveedores().getDescuentoMerma());
+			porcentajeDeMerma = 0.0;
+		}
+
 		if (entradasEditar.getTipoMoneda().equals("USD")) {
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgNetos().toString())
 					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
 							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgNetos().toString())) / 100);
-			LOGGER.info("KG MERMA: " + kg_porcentaje + " Tipo de moneda: " + entradasEditar.getTipoMoneda());
+			LOGGER.info("KG CALIDADA DE LA MATERIA: " + kg_porcentaje + " TIPO DE MONEDA: "
+					+ entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		} else {
 
@@ -1386,7 +1395,8 @@ public class EntradasBean extends Conexion implements Serializable {
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgEmbarcados().toString())) / 100);
 
-			LOGGER.info("KG MERMA: " + kg_porcentaje + " Tipo de moneda: " + entradasEditar.getTipoMoneda());
+			LOGGER.info("KG CALIDAD DE LA MATERIA: " + kg_porcentaje + " TIPO DE MONEDA: "
+					+ entradasEditar.getTipoMoneda());
 			entradasEditar.setKgCalidadMateria(BigDecimal.valueOf(kg_porcentaje));
 		}
 
@@ -1436,91 +1446,87 @@ public class EntradasBean extends Conexion implements Serializable {
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCerdoAmericano().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioCa().toString())));
 
-		double tax = .16;
+		// double tax = .16;
 		double sumaSubtotal = 0.0;
 		double iva = 0.0;
-		
-		iva = tax * Double.valueOf(this.entradasEditar.getPrecioCalcCcp().toString()).doubleValue() + tax * 
-			      Double.valueOf(this.entradasEditar.getPrecioCalcC1().toString()).doubleValue() + 
-			      tax * Double.valueOf(this.entradasEditar.getPrecioCalcC2().toString()).doubleValue() + tax * 
-			      Double.valueOf(this.entradasEditar.getPrecioCalcCs().toString()).doubleValue() + 
-			      tax * Double.valueOf(this.entradasEditar.getPrecioCalcDr().toString()).doubleValue() + tax * 
-			      Double.valueOf(this.entradasEditar.getPrecioCalcCm().toString()).doubleValue() + 
-			      tax * Double.valueOf(this.entradasEditar.getPrecioCalcCo().toString()).doubleValue() + tax * 
-			      Double.valueOf(this.entradasEditar.getPrecioCalcPc().toString()).doubleValue() + 
-			      tax * Double.valueOf(this.entradasEditar.getPrecioCalcP().toString()).doubleValue() + tax * 
-			      Double.valueOf(this.entradasEditar.getPrecioCalcDa().toString()).doubleValue() + 
-			      tax * Double.valueOf(this.entradasEditar.getPrecioCalcDs().toString()).doubleValue() + 
-			      tax * 
-			      Double.valueOf(this.entradasEditar.getPrecioCalcCdi().toString()).doubleValue() + 
-			      tax * Double.valueOf(
-			        this.entradasEditar.getPrecioCalcG().toString()).doubleValue() + 
-			      tax * Double.valueOf(
-			        this.entradasEditar.getPrecioCalcCa()
-			        .toString()).doubleValue();
 
-		//ivaMP(entradasEditar.getProveedores().getMateriaPrima());
+//		iva = tax * Double.valueOf(this.entradasEditar.getPrecioCalcCcp().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcC1().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcC2().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcCs().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcDr().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcCm().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcCo().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcPc().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcP().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcDa().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcDs().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcCdi().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcG().toString()).doubleValue()
+//				+ tax * Double.valueOf(this.entradasEditar.getPrecioCalcCa().toString()).doubleValue();
 
-//		iva = (ivaMateriaPrima.getIvaCueroIntegralSaladoConPelo()
-//				* (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString()))
-//				+ (ivaMateriaPrima.getIvaCarnazaCompleta()
-//						* (Double.valueOf(entradasEditar.getPrecioCalcC1().toString()))
-//						+ (ivaMateriaPrima.getIvaCarnazaPedazos()
-//								* (Double.valueOf(entradasEditar.getPrecioCalcC2().toString()))
-//								+ (ivaMateriaPrima.getIvaCarnazaSalada()
-//										* (Double.valueOf(entradasEditar.getPrecioCalcCs().toString()))
-//										+ (ivaMateriaPrima.getIvaDesbarbeRecortes()
-//												* (Double.valueOf(entradasEditar.getPrecioCalcDr().toString()))
-//												+ (ivaMateriaPrima.getIvaCerdoMexicano()
-//														* (Double.valueOf(entradasEditar.getPrecioCalcCm().toString()))
-//														+ (ivaMateriaPrima.getIvaCachete()
-//																* (Double.valueOf(
-//																		entradasEditar.getPrecioCalcCo().toString()))
-//																+ (ivaMateriaPrima.getIvaRecorteConPelo()
-//																		* (Double.valueOf(entradasEditar
-//																				.getPrecioCalcPc().toString()))
-//																		+ (ivaMateriaPrima.getIvaPedaceria()
-//																				* (Double.valueOf(entradasEditar
-//																						.getPrecioCalcP().toString()))
-//																				+ (ivaMateriaPrima
-//																						.getIvaDescarneAdherido()
-//																						* (Double.valueOf(entradasEditar
-//																								.getPrecioCalcDa()
-//																								.toString()))
-//																						+ (ivaMateriaPrima
-//																								.getIvaDescarneSeparado()
-//																								* (Double.valueOf(
-//																										entradasEditar
-//																												.getPrecioCalcDs()
-//																												.toString()))
-//																								+ (ivaMateriaPrima
-//																										.getIvaCueroDepilado()
-//																										* (Double
-//																												.valueOf(
-//																														entradasEditar
-//																																.getPrecioCalcCdi()
-//																																.toString()))
-//																										+ (ivaMateriaPrima
-//																												.getIvaGarraFalda()
-//																												* (Double
-//																														.valueOf(
-//																																entradasEditar
-//																																		.getPrecioCalcG()
-//																																		.toString()))
-//																												+ (ivaMateriaPrima
-//																														.getIvaCueroEnSangre()
-//																														* (Double
-//																																.valueOf(
-//																																		entradasEditar
-//																																				.getPrecioCalcCe()
-//																																				.toString()))
-//																														+ (ivaMateriaPrima
-//																																.getIvaCerdoAmericano()
-//																																* (Double
-//																																		.valueOf(
-//																																				entradasEditar
-//																																						.getPrecioCalcCa()
-//																																						.toString())))))))))))))))));
+		ivaMP(entradasEditar.getProveedores().getMateriaPrima());
+
+		iva = (ivaMateriaPrima.getIvaCueroIntegralSaladoConPelo()
+				* (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString()))
+				+ (ivaMateriaPrima.getIvaCarnazaCompleta()
+						* (Double.valueOf(entradasEditar.getPrecioCalcC1().toString()))
+						+ (ivaMateriaPrima.getIvaCarnazaPedazos()
+								* (Double.valueOf(entradasEditar.getPrecioCalcC2().toString()))
+								+ (ivaMateriaPrima.getIvaCarnazaSalada()
+										* (Double.valueOf(entradasEditar.getPrecioCalcCs().toString()))
+										+ (ivaMateriaPrima.getIvaDesbarbeRecortes()
+												* (Double.valueOf(entradasEditar.getPrecioCalcDr().toString()))
+												+ (ivaMateriaPrima.getIvaCerdoMexicano()
+														* (Double.valueOf(entradasEditar.getPrecioCalcCm().toString()))
+														+ (ivaMateriaPrima.getIvaCachete()
+																* (Double.valueOf(
+																		entradasEditar.getPrecioCalcCo().toString()))
+																+ (ivaMateriaPrima.getIvaRecorteConPelo()
+																		* (Double.valueOf(entradasEditar
+																				.getPrecioCalcPc().toString()))
+																		+ (ivaMateriaPrima.getIvaPedaceria()
+																				* (Double.valueOf(entradasEditar
+																						.getPrecioCalcP().toString()))
+																				+ (ivaMateriaPrima
+																						.getIvaDescarneAdherido()
+																						* (Double.valueOf(entradasEditar
+																								.getPrecioCalcDa()
+																								.toString()))
+																						+ (ivaMateriaPrima
+																								.getIvaDescarneSeparado()
+																								* (Double.valueOf(
+																										entradasEditar
+																												.getPrecioCalcDs()
+																												.toString()))
+																								+ (ivaMateriaPrima
+																										.getIvaCueroDepilado()
+																										* (Double
+																												.valueOf(
+																														entradasEditar
+																																.getPrecioCalcCdi()
+																																.toString()))
+																										+ (ivaMateriaPrima
+																												.getIvaGarraFalda()
+																												* (Double
+																														.valueOf(
+																																entradasEditar
+																																		.getPrecioCalcG()
+																																		.toString()))
+																												+ (ivaMateriaPrima
+																														.getIvaCueroEnSangre()
+																														* (Double
+																																.valueOf(
+																																		entradasEditar
+																																				.getPrecioCalcCe()
+																																				.toString()))
+																														+ (ivaMateriaPrima
+																																.getIvaCerdoAmericano()
+																																* (Double
+																																		.valueOf(
+																																				entradasEditar
+																																						.getPrecioCalcCa()
+																																						.toString())))))))))))))))));
 		sumaSubtotal = Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())
 				+ Double.valueOf(entradasEditar.getPrecioCalcC1().toString())
 				+ Double.valueOf(entradasEditar.getPrecioCalcC2().toString())
@@ -1892,6 +1898,15 @@ public class EntradasBean extends Conexion implements Serializable {
 
 		}
 
+		// VALIDAR SI EL PROVEEDOR TIENE 0, NO SE CALCULA EN EL P0RCENTAJE DE LA MERMA
+		// PORCENTAJE MERMA PROVEEDORES//
+		Proveedores prov = new Proveedores();
+		prov = buscarMermaProveedor(entradasEditar.getProveedores().getIdProveedor());
+		if (prov.getDescuentoMerma().toString().equals("0.0")) {
+			LOGGER.warn("NO APLICA DESCUENTO PARA CALIDAD DE LA MATERIA, TIENE EL PROVEEDOR: "
+					+ entradasEditar.getProveedores().getDescuentoMerma());
+			porcentajeDeMerma = 0.0;
+		}
 		if (entradasEditar.getTipoMoneda().equals("USD")) {
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgNetos().toString())
 					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
@@ -1969,88 +1984,91 @@ public class EntradasBean extends Conexion implements Serializable {
 				BigDecimal.valueOf((kg_porcentaje * Double.valueOf(entradasEditar.getCerdoAmericano().toString()) / 100)
 						* Double.valueOf(entradasEditar.getPrecioCa().toString())));
 
-		double tax = .16;
+		// double tax = .16;
 		double sumaSubtotal = 0.0;
 		double iva = 0.0;
-		//ivaMP(entradasEditar.getProveedores().getMateriaPrima());
-		iva = (tax * (Double.valueOf(entradasEditar.getPrecioCalcCe().toString())) +(tax * (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())) + (tax
-				* (Double.valueOf(entradasEditar.getPrecioCalcC1().toString()))
-				+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcC2().toString())) + (tax
-						* (Double.valueOf(entradasEditar.getPrecioCalcCs().toString()))
-						+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcDr().toString())) + (tax
-								* (Double.valueOf(entradasEditar.getPrecioCalcCm().toString()))
-								+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcCo().toString())) + (tax
-										* (Double.valueOf(entradasEditar.getPrecioCalcPc().toString()))
-										+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcP().toString())) + (tax
-												* (Double.valueOf(entradasEditar.getPrecioCalcDa().toString()))
-												+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcDs().toString()))
-														+ (tax * (Double
-																.valueOf(entradasEditar.getPrecioCalcCdi().toString()))
-																+ (tax * (Double.valueOf(
-																		entradasEditar.getPrecioCalcG().toString()))
-																		+ (tax * (Double.valueOf(
-																				entradasEditar.getPrecioCalcCa()
-																						.toString())))))))))))))))));
-//		iva = (ivaMateriaPrima.getIvaCueroIntegralSaladoConPelo()
+
+//		iva = (tax * (Double.valueOf(entradasEditar.getPrecioCalcCe().toString())) + (tax
 //				* (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString()))
-//				+ (ivaMateriaPrima.getIvaCarnazaCompleta()
-//						* (Double.valueOf(entradasEditar.getPrecioCalcC1().toString()))
-//						+ (ivaMateriaPrima.getIvaCarnazaPedazos()
-//								* (Double.valueOf(entradasEditar.getPrecioCalcC2().toString()))
-//								+ (ivaMateriaPrima.getIvaCarnazaSalada()
-//										* (Double.valueOf(entradasEditar.getPrecioCalcCs().toString()))
-//										+ (ivaMateriaPrima.getIvaDesbarbeRecortes()
-//												* (Double.valueOf(entradasEditar.getPrecioCalcDr().toString()))
-//												+ (ivaMateriaPrima.getIvaCerdoMexicano()
-//														* (Double.valueOf(entradasEditar.getPrecioCalcCm().toString()))
-//														+ (ivaMateriaPrima.getIvaCachete()
-//																* (Double.valueOf(
-//																		entradasEditar.getPrecioCalcCo().toString()))
-//																+ (ivaMateriaPrima.getIvaRecorteConPelo()
-//																		* (Double.valueOf(entradasEditar
-//																				.getPrecioCalcPc().toString()))
-//																		+ (ivaMateriaPrima.getIvaPedaceria()
-//																				* (Double.valueOf(entradasEditar
-//																						.getPrecioCalcP().toString()))
-//																				+ (ivaMateriaPrima
-//																						.getIvaDescarneAdherido()
-//																						* (Double.valueOf(entradasEditar
-//																								.getPrecioCalcDa()
-//																								.toString()))
-//																						+ (ivaMateriaPrima
-//																								.getIvaDescarneSeparado()
-//																								* (Double.valueOf(
-//																										entradasEditar
-//																												.getPrecioCalcDs()
-//																												.toString()))
-//																								+ (ivaMateriaPrima
-//																										.getIvaCueroDepilado()
-//																										* (Double
-//																												.valueOf(
-//																														entradasEditar
-//																																.getPrecioCalcCdi()
-//																																.toString()))
-//																										+ (ivaMateriaPrima
-//																												.getIvaGarraFalda()
-//																												* (Double
-//																														.valueOf(
-//																																entradasEditar
-//																																		.getPrecioCalcG()
-//																																		.toString()))
-//																												+ (ivaMateriaPrima
-//																														.getIvaCueroEnSangre()
-//																														* (Double
-//																																.valueOf(
-//																																		entradasEditar
-//																																				.getPrecioCalcCe()
-//																																				.toString()))
-//																														+ (ivaMateriaPrima
-//																																.getIvaCerdoAmericano()
-//																																* (Double
-//																																		.valueOf(
-//																																				entradasEditar
-//																																						.getPrecioCalcCa()
-//																																						.toString())))))))))))))))));
+//				+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcC1().toString())) + (tax
+//						* (Double.valueOf(entradasEditar.getPrecioCalcC2().toString()))
+//						+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcCs().toString())) + (tax
+//								* (Double.valueOf(entradasEditar.getPrecioCalcDr().toString()))
+//								+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcCm().toString())) + (tax
+//										* (Double.valueOf(entradasEditar.getPrecioCalcCo().toString()))
+//										+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcPc().toString())) + (tax
+//												* (Double.valueOf(entradasEditar.getPrecioCalcP().toString()))
+//												+ (tax * (Double.valueOf(entradasEditar.getPrecioCalcDa().toString()))
+//														+ (tax * (Double
+//																.valueOf(entradasEditar.getPrecioCalcDs().toString()))
+//																+ (tax * (Double.valueOf(
+//																		entradasEditar.getPrecioCalcCdi().toString()))
+//																		+ (tax * (Double.valueOf(entradasEditar
+//																				.getPrecioCalcG().toString()))
+//																				+ (tax * (Double.valueOf(entradasEditar
+//																						.getPrecioCalcCa()
+//																						.toString())))))))))))))))));
+		ivaMP(entradasEditar.getProveedores().getMateriaPrima());
+		iva = (ivaMateriaPrima.getIvaCueroIntegralSaladoConPelo()
+				* (Double.valueOf(entradasEditar.getPrecioCalcCcp().toString()))
+				+ (ivaMateriaPrima.getIvaCarnazaCompleta()
+						* (Double.valueOf(entradasEditar.getPrecioCalcC1().toString()))
+						+ (ivaMateriaPrima.getIvaCarnazaPedazos()
+								* (Double.valueOf(entradasEditar.getPrecioCalcC2().toString()))
+								+ (ivaMateriaPrima.getIvaCarnazaSalada()
+										* (Double.valueOf(entradasEditar.getPrecioCalcCs().toString()))
+										+ (ivaMateriaPrima.getIvaDesbarbeRecortes()
+												* (Double.valueOf(entradasEditar.getPrecioCalcDr().toString()))
+												+ (ivaMateriaPrima.getIvaCerdoMexicano()
+														* (Double.valueOf(entradasEditar.getPrecioCalcCm().toString()))
+														+ (ivaMateriaPrima.getIvaCachete()
+																* (Double.valueOf(
+																		entradasEditar.getPrecioCalcCo().toString()))
+																+ (ivaMateriaPrima.getIvaRecorteConPelo()
+																		* (Double.valueOf(entradasEditar
+																				.getPrecioCalcPc().toString()))
+																		+ (ivaMateriaPrima.getIvaPedaceria()
+																				* (Double.valueOf(entradasEditar
+																						.getPrecioCalcP().toString()))
+																				+ (ivaMateriaPrima
+																						.getIvaDescarneAdherido()
+																						* (Double.valueOf(entradasEditar
+																								.getPrecioCalcDa()
+																								.toString()))
+																						+ (ivaMateriaPrima
+																								.getIvaDescarneSeparado()
+																								* (Double.valueOf(
+																										entradasEditar
+																												.getPrecioCalcDs()
+																												.toString()))
+																								+ (ivaMateriaPrima
+																										.getIvaCueroDepilado()
+																										* (Double
+																												.valueOf(
+																														entradasEditar
+																																.getPrecioCalcCdi()
+																																.toString()))
+																										+ (ivaMateriaPrima
+																												.getIvaGarraFalda()
+																												* (Double
+																														.valueOf(
+																																entradasEditar
+																																		.getPrecioCalcG()
+																																		.toString()))
+																												+ (ivaMateriaPrima
+																														.getIvaCueroEnSangre()
+																														* (Double
+																																.valueOf(
+																																		entradasEditar
+																																				.getPrecioCalcCe()
+																																				.toString()))
+																														+ (ivaMateriaPrima
+																																.getIvaCerdoAmericano()
+																																* (Double
+																																		.valueOf(
+																																				entradasEditar
+																																						.getPrecioCalcCa()
+																																						.toString())))))))))))))))));
 
 		sumaSubtotal = Double.valueOf(entradasEditar.getPrecioCalcCcp().toString())
 				+ Double.valueOf(entradasEditar.getPrecioCalcC1().toString())

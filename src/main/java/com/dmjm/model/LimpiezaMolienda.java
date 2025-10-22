@@ -19,6 +19,7 @@ public class LimpiezaMolienda implements java.io.Serializable {
 	private Integer tempAgua;
 	private String vobo;
 	private Integer idUsuario;
+	private Integer turno;
 
 	public LimpiezaMolienda() {
 	}
@@ -29,7 +30,7 @@ public class LimpiezaMolienda implements java.io.Serializable {
 
 	public LimpiezaMolienda(int idLimpiezaMolienda, FolioPreparacionMolienda folioPreparacionMolienda,
 			Integer noLimpieza, String proceso, String tolvasPullman, Date horaInicial, Date horaFinal, String quimico,
-			BigDecimal litrosUsados, String lote, Integer tempAgua, String vobo, Integer idUsuario) {
+			BigDecimal litrosUsados, String lote, Integer tempAgua, String vobo, Integer idUsuario, Integer turno) {
 		this.idLimpiezaMolienda = idLimpiezaMolienda;
 		this.folioPreparacionMolienda = folioPreparacionMolienda;
 		this.noLimpieza = noLimpieza;
@@ -43,6 +44,7 @@ public class LimpiezaMolienda implements java.io.Serializable {
 		this.tempAgua = tempAgua;
 		this.vobo = vobo;
 		this.idUsuario = idUsuario;
+		this.turno = turno;
 	}
 
 	public int getIdLimpiezaMolienda() {
@@ -147,6 +149,14 @@ public class LimpiezaMolienda implements java.io.Serializable {
 
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+
+	public Integer getTurno() {
+		return turno;
+	}
+
+	public void setTurno(Integer turno) {
+		this.turno = turno;
 	}
 
 }
