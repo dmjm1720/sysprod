@@ -2739,6 +2739,7 @@ public class EntradasBean extends Conexion implements Serializable {
 				case "GARRA_Y_FALDA" -> ivaMateriaPrima.setIvaGarraFalda(entry.getValue() / 100.0);
 				case "CUERO_EN_SANGRE" -> ivaMateriaPrima.setIvaCueroEnSangre(entry.getValue() / 100.0);
 				case "CERDO_AMERICANO" -> ivaMateriaPrima.setIvaCerdoAmericano(entry.getValue() / 100.0);
+				case "CUERO_DEPILADO" -> ivaMateriaPrima.setIvaCueroDepilado(entry.getValue() / 100.0);
 				default -> {
 				}
 				}
