@@ -34,12 +34,17 @@
 		<property name="hallazgosImanes30Mesh" type="string">
 			<column name="HALLAZGOS_IMANES_30_MESH" length="250" />
 		</property>
-		<property name="hallazgosImanes60Mesh"
-			type="string">
+		<property name="hallazgosImanes60Mesh" type="string">
 			<column name="HALLAZGOS_IMANES_60_MESH" length="250" />
 		</property>
-			<property name="noLimpieza" type="java.lang.Integer">
+		<property name="noLimpieza" type="java.lang.Integer">
 			<column name="NO_LIMPIEZA" />
+		</property>
+		<property name="idUsuario" type="java.lang.Integer">
+			<column name="ID_USUARIO" />
+		</property>
+		<property name="vobo" type="string">
+			<column name="	VOBO" length="20" />
 		</property>
 	</class>
 </hibernate-mapping>

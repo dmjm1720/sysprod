@@ -127,4 +127,56 @@ public class CribasImanesDaoImpl implements ICribasDao {
 		return folio;
 	}
 
+	@Override
+	public void voboCribasImanes(CribasImanes cribasImanes) {
+		Session session = null;
+		try {
+
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.update(cribasImanes);
+			transaction.commit();
+			String info = "Se ha aplicado el Visto Bueno en el registro de Cribas, Imanes";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'info',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		
+	}
+
+	@Override
+	public void quitarvoboCribasImanes(CribasImanes cribasImanes) {
+		Session session = null;
+		try {
+
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.update(cribasImanes);
+			transaction.commit();
+			String info = "Se ha removido el Visto Bueno en el registro de Cribas, Imanes";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'info',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		
+	}
+
 }

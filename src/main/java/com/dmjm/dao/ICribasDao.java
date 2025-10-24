@@ -12,6 +12,10 @@ public interface ICribasDao {
 	
 	void actualizarCribasImanes(CribasImanes cribasImanes);
 	
+	void voboCribasImanes(CribasImanes cribasImanes);
+	
+	void quitarvoboCribasImanes(CribasImanes cribasImanes);
+	
 	void borrarCribasImanes(CribasImanes cribasImanes);
 	
 	int validarNoLimpieza(int folio);

@@ -1281,13 +1281,11 @@ public class MoliendaBean implements Serializable {
 
 		gDaoC.guardarGelatina(gelatinaC);
 
-		
-
 		gelatinaEditar = new GelatinaPorMoler();
 		gelatinaA = new GelatinaPorMoler();
 		gelatinaB = new GelatinaPorMoler();
 		gelatinaC = new GelatinaPorMoler();
-		
+
 		listar();
 	}
 
@@ -1303,8 +1301,6 @@ public class MoliendaBean implements Serializable {
 		listar();
 		gelatinaEditar = new GelatinaPorMoler();
 	}
-	
-
 
 	public void calcularTotalesGelatina() {
 
@@ -1428,6 +1424,8 @@ public class MoliendaBean implements Serializable {
 		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
 		ICribasDao cribDao = new CribasImanesDaoImpl();
 
+		cribasImanes.setIdUsuario(1028);
+		cribasImanes.setVobo("PENDIENTE");
 		cribasImanes.setNoLimpieza(cribDao.validarNoLimpieza(f.getIdFolioPrep()));
 		cribasImanes.setFolioPreparacionMolienda(f);
 		cribasImanes.setFecha(fecha);
@@ -1439,6 +1437,22 @@ public class MoliendaBean implements Serializable {
 	public void actualizarCribasImanes() {
 		ICribasDao cDao = new CribasImanesDaoImpl();
 		cDao.actualizarCribasImanes(cribasImanes);
+		cribasImanes = new CribasImanes();
+	}
+
+	public void aplicarVistoBueno() {
+		ICribasDao cDao = new CribasImanesDaoImpl();
+		cribasImanesEditar.setVobo("APROBADO");
+		cribasImanesEditar.setIdUsuario(us.getIdUsuario());
+		cDao.voboCribasImanes(cribasImanesEditar);
+		cribasImanesEditar = new CribasImanes();
+	}
+
+	public void quitarVistoBueno() {
+		ICribasDao cDao = new CribasImanesDaoImpl();
+		cribasImanesEditar.setVobo("PENDIENTE");
+		cribasImanesEditar.setIdUsuario(1028);
+		cDao.quitarvoboCribasImanes(cribasImanesEditar);
 		cribasImanesEditar = new CribasImanes();
 	}
 
@@ -1464,7 +1478,7 @@ public class MoliendaBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
+
 	public void visualizarReporteLimpieza() throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -1478,16 +1492,14 @@ public class MoliendaBean implements Serializable {
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
-		
-		
+
 		ruta = servletContext.getRealPath("/REP/reporte_limpieza_molienda.jasper");
 		reporte.getReporte(ruta, fecha.toString(), f.getIdFolioPrep());
 
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
-	
+
 	public void visualizarReporteLimpiezaCribas() throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -1501,8 +1513,7 @@ public class MoliendaBean implements Serializable {
 		IFolioPreparacionMoliendaDao folioPrepDao = new FolioPreparacionMoliendaDaoImpl();
 		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
 		f.setIdFolioPrep(folioPrepDao.folioMoliendaActual(fecha));
-		
-		
+
 		ruta = servletContext.getRealPath("/REP/rep_limpieza_pallman.jasper");
 		reporte.getReporte(ruta, fecha.toString(), f.getIdFolioPrep());
 

@@ -16,6 +16,8 @@ public class CribasImanes implements java.io.Serializable {
 	private String hallazgosImanes30Mesh;
 	private String hallazgosImanes60Mesh;
 	private Integer noLimpieza;
+	private Integer idUsuario;
+	private String vobo;
 
 	public CribasImanes() {
 	}
@@ -24,11 +26,10 @@ public class CribasImanes implements java.io.Serializable {
 		this.idCribasImanes = idCribasImanes;
 	}
 
-	
-
 	public CribasImanes(int idCribasImanes, FolioPreparacionMolienda folioPreparacionMolienda, Date fecha,
 			String cribasInspeccionadas, Integer turno, String apertura, String integridad, String hallazgosCriba,
-			String hallazgosImanes30Mesh, String hallazgosImanes60Mesh, Integer noLimpieza) {
+			String hallazgosImanes30Mesh, String hallazgosImanes60Mesh, Integer noLimpieza, Integer idUsuario,
+			String vobo) {
 
 		this.idCribasImanes = idCribasImanes;
 		this.folioPreparacionMolienda = folioPreparacionMolienda;
@@ -41,6 +42,8 @@ public class CribasImanes implements java.io.Serializable {
 		this.hallazgosImanes30Mesh = hallazgosImanes30Mesh;
 		this.hallazgosImanes60Mesh = hallazgosImanes60Mesh;
 		this.noLimpieza = noLimpieza;
+		this.idUsuario = idUsuario;
+		this.vobo = vobo;
 	}
 
 	public int getIdCribasImanes() {
@@ -129,6 +132,22 @@ public class CribasImanes implements java.io.Serializable {
 
 	public void setNoLimpieza(Integer noLimpieza) {
 		this.noLimpieza = noLimpieza;
+	}
+
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+
+	public String getVobo() {
+		return vobo;
+	}
+
+	public void setVobo(String vobo) {
+		this.vobo = vobo;
 	}
 
 }

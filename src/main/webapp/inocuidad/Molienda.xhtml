@@ -1307,7 +1307,7 @@
 								emptyMessage="NO HAY REGISTROS">
 
 
-								<p:column headerText="Borrar" width="2rem">
+								<p:column headerText="BORRAR" width="2rem">
 									<div style="text-align: center">
 										<p:commandButton id="em" icon="pi pi-fw pi-trash"
 											styleClass="ui-button-warning"
@@ -1321,16 +1321,48 @@
 									</div>
 								</p:column>
 
-								<p:column headerText="Editar" width="2rem" exportable="false">
-									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-										action="#{moliendaBean.banderEditarCribas('actualizar')}"
-										oncomplete="PF('dlgEditarCribas').show()"
-										update="frmEditarCribas" styleClass="ui-button-warning">
-										<f:setPropertyActionListener value="#{item}"
-											target="#{moliendaBean.cribasImanes}" />
-									</p:commandButton>
-									<p:tooltip id="toolTipE" for="ed" value="Editar"
-										trackMouse="true" />
+								<p:column headerText="EDITAR" width="2rem" exportable="false">
+									<div style="text-align: center">
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											action="#{moliendaBean.banderEditarCribas('actualizar')}"
+											oncomplete="PF('dlgEditarCribas').show()"
+											update="frmEditarCribas" styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{moliendaBean.cribasImanes}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+
+								<p:column headerText="VOBO" width="2rem" exportable="false"
+									rendered="#{login.usuario.perfiles.idPerfil eq 15}">
+									<div style="text-align: center">
+										<p:commandButton id="edVB" icon="pi pi-fw pi-thumbs-up"
+											action="#{moliendaBean.aplicarVistoBueno()}"
+											update="frmPrincipal:acco:tblCI, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{moliendaBean.cribasImanesEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEvb" for="edVB" value="APLICAR VOBO"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="QUITAR VOBO" width="2rem"
+									exportable="false"
+									rendered="#{login.usuario.perfiles.idPerfil eq 15}">
+									<div style="text-align: center">
+										<p:commandButton id="edVBQ" icon="pi pi-fw pi-thumbs-down" rendered="#{item.vobo eq 'APROBADO'}"
+											action="#{moliendaBean.quitarVistoBueno()}"
+											update="frmPrincipal:acco:tblCI, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{moliendaBean.cribasImanesEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEvbQ" for="edVB" value="APLICAR VOBO"
+											trackMouse="true" />
+									</div>
 								</p:column>
 
 								<p:column headerText="INSPECCIÓN TURNO" width="5rem">
@@ -1374,6 +1406,12 @@
 										readonly="true" style="color: #036FAB; width: 100%;" rows="4" />
 								</p:column>
 
+								<p:column headerText="VoBo" width="5rem"
+									styleClass="#{item.vobo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.vobo}" style="color: #FFFFFF;" />
+									</div>
+								</p:column>
 
 							</p:dataTable>
 						</p:tab>
@@ -2730,6 +2768,7 @@
 
 						<p:outputLabel value="DESCRIPCIÓN DE LOS HALLAZGOS (CRIBA)" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
+							onkeyup="this.value = this.value.toUpperCase();"
 							value="#{moliendaBean.cribasImanes.hallazgosCriba}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
@@ -2737,6 +2776,7 @@
 						<p:outputLabel
 							value="DESCRIPCIÓN DE LOS HALLAZGOS (IMANES 30 MESH)" />
 						<p:inputTextarea id="i30" styleClass="camposManto"
+							onkeyup="this.value = this.value.toUpperCase();"
 							value="#{moliendaBean.cribasImanes.hallazgosImanes30Mesh}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
@@ -2744,6 +2784,7 @@
 						<p:outputLabel
 							value="DESCRIPCIÓN DE LOS HALLAZGOS (IMANES 60 MESH)" />
 						<p:inputTextarea id="i60" styleClass="camposManto"
+							onkeyup="this.value = this.value.toUpperCase();"
 							value="#{moliendaBean.cribasImanes.hallazgosImanes60Mesh}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
