@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small" value="RESUMEN DE PRODUCCIÓN"
+						styleClass="fuenteTitulo" />
+
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab id="tRegTurnos" title="TOTALES"
+							titleStyle="font-size: .8rem; background-color: #283747; color: #F5F5F5">
+
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+								<p:splitterPanel size="0"
+									styleClass="flex align-items-center justify-content-center">
+
+
+								</p:splitterPanel>
+								<p:splitterPanel size="20"
+									styleClass="flex align-items-center justify-content-center">
+
+									<h:panelGrid id="pgResumen" columns="3"
+										style="text-align:center; margin-top:1rem;"
+										styleClass="tabla fuente">
+
+										<p:selectOneMenu id="year" style="font-size: .8rem"
+											styleClass="editar" value="#{resumen.year}" dynamic="true">
+											<f:selectItem itemLabel="SELECCIONA AÑO" itemValue="" />
+											<f:selectItem itemLabel="2025" itemValue="2025" />
+											<f:selectItem itemLabel="2026" itemValue="2026" />
+											<f:selectItem itemLabel="2027" itemValue="2027" />
+											<f:selectItem itemLabel="2028" itemValue="2028" />
+											<f:selectItem itemLabel="2029" itemValue="2029" />
+											<f:selectItem itemLabel="2030" itemValue="2030" />
+											<f:selectItem itemLabel="2031" itemValue="2031" />
+											<f:selectItem itemLabel="2032" itemValue="2032" />
+										</p:selectOneMenu>
+
+										<p:selectOneMenu id="mes" style="font-size: .8rem"
+											styleClass="editar" value="#{resumen.mes}" dynamic="true">
+											<f:selectItem itemLabel="SELECCIONA MES" itemValue="" />
+											<f:selectItem itemLabel="ENERO" itemValue="1" />
+											<f:selectItem itemLabel="FEBREO" itemValue="2" />
+											<f:selectItem itemLabel="MARZO" itemValue="3" />
+											<f:selectItem itemLabel="ABRIL" itemValue="4" />
+											<f:selectItem itemLabel="MAYO" itemValue="5" />
+											<f:selectItem itemLabel="JUNIO" itemValue="6" />
+											<f:selectItem itemLabel="JULIO" itemValue="7" />
+											<f:selectItem itemLabel="AGOSTO" itemValue="8" />
+											<f:selectItem itemLabel="SEPTIEMBRE" itemValue="9" />
+											<f:selectItem itemLabel="OCTUBRE" itemValue="10" />
+											<f:selectItem itemLabel="NOVIEMBRE" itemValue="11" />
+											<f:selectItem itemLabel="DICIEMBRE" itemValue="12" />
+
+										</p:selectOneMenu>
+
+										<p:commandButton id="reg" value="BUSCAR" styleClass="fuente"
+											action="#{resumen.totales()}"
+											update="frmPrincipal, frmPrincipal:acco:pgResumenTotales, frmPrincipal:msgs"
+											icon="pi pi-book" style="width: 8rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+									
+									<h:panelGrid id="pgResumenTotales" columns="2"
+										styleClass="tabla fuente">
+
+										<p:outputLabel value="TOTAL DE RETAL" styleClass="resumen-et" />
+										<p:outputLabel value="#{resumen.resumenTotales.totalRetal}"
+											styleClass="resumen">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:outputLabel>
+
+										<p:outputLabel value="TOTAL DE CERDO" styleClass="resumen-et" />
+										<p:outputLabel value="#{resumen.resumenTotales.totalCerdo}"
+											styleClass="resumen">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:outputLabel>
+
+
+										<p:outputLabel value="TOTAL DE RETAL RECUPERADO"
+											styleClass="resumen-et" />
+										<p:outputLabel
+											value="#{resumen.resumenTotales.totalRetalRecuperada}"
+											styleClass="resumen">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:outputLabel>
+
+										<p:outputLabel value="TOTAL DE CERDO RECUPERADO"
+											styleClass="resumen-et" />
+										<p:outputLabel
+											value="#{resumen.resumenTotales.totalCerdoRecuperada}"
+											styleClass="resumen">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:outputLabel>
+
+									</h:panelGrid>
+								</p:splitterPanel>
+
+							</p:splitter>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>
