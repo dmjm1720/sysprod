@@ -468,26 +468,30 @@
 								<p:column colspan="2" headerText="hr inicial">
 									<h:outputText value="#{item.moliendaHoraInicial}"
 										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 									</h:outputText>
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
 									<h:outputText value="#{item.moliendaHoraFinal}"
 										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 									</h:outputText>
 								</p:column>
 
 								<p:column colspan="2" headerText="hr inicial">
 									<h:outputText value="#{item.secadoHoraInicial}"
 										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 									</h:outputText>
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
 									<h:outputText value="#{item.secadoHoraFinal}"
 										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 									</h:outputText>
 								</p:column>
 
@@ -897,26 +901,30 @@
 								<p:column colspan="2" headerText="hr inicial">
 									<h:outputText value="#{itemr.moliendaHoraInicial}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 									</h:outputText>
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
 									<h:outputText value="#{itemr.moliendaHoraFinal}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 									</h:outputText>
 								</p:column>
 
 								<p:column colspan="2" headerText="hr inicial">
 									<h:outputText value="#{itemr.secadoHoraInicial}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 									</h:outputText>
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
 									<h:outputText value="#{itemr.secadoHoraFinal}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-										<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 									</h:outputText>
 								</p:column>
 
@@ -1221,7 +1229,8 @@
 									<div style="text-align: center">
 										<h:outputText value="#{item.horaInicial}"
 											style="color: #036FAB;">
-											<f:convertDateTime pattern="HH:mm" />
+										<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 										</h:outputText>
 									</div>
 								</p:column>
@@ -1230,7 +1239,8 @@
 									<div style="text-align: center">
 										<h:outputText value="#{item.horaFinal}"
 											style="color: #036FAB;">
-											<f:convertDateTime pattern="HH:mm" />
+										<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 										</h:outputText>
 									</div>
 								</p:column>
@@ -1354,7 +1364,8 @@
 									exportable="false"
 									rendered="#{login.usuario.perfiles.idPerfil eq 15}">
 									<div style="text-align: center">
-										<p:commandButton id="edVBQ" icon="pi pi-fw pi-thumbs-down" rendered="#{item.vobo eq 'APROBADO'}"
+										<p:commandButton id="edVBQ" icon="pi pi-fw pi-thumbs-down"
+											rendered="#{item.vobo eq 'APROBADO'}"
 											action="#{moliendaBean.quitarVistoBueno()}"
 											update="frmPrincipal:acco:tblCI, frmPrincipal:msgs">
 											<f:setPropertyActionListener value="#{item}"
@@ -1502,13 +1513,15 @@
 								<p:column headerText="Hora inicial" width="3rem">
 									<h:outputText value="#{item.horaInicio}"
 										style="color: #036FAB;">
-										<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 									</h:outputText>
 								</p:column>
 
 								<p:column headerText="Hora final" width="3rem">
 									<h:outputText value="#{item.horaFin}" style="color: #036FAB;">
-										<f:convertDateTime pattern="HH:mm" />
+									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+
 									</h:outputText>
 								</p:column>
 
