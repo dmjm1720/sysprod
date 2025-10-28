@@ -1370,7 +1370,8 @@ public class EntradasBean extends Conexion implements Serializable {
 		if (entradasEditar.getTipoMoneda().equals("USD")) {
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgNetos().toString())
 					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
-							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
+							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
+							+ Double.valueOf(entradasEditar.getPorcentajeMerma().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgNetos().toString())) / 100);
 			LOGGER.info("KG CALIDADA DE LA MATERIA: " + kg_porcentaje + " TIPO DE MONEDA: "
@@ -1391,9 +1392,15 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgEmbarcados().toString())
 					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
-							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
+							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
+							+ Double.valueOf(entradasEditar.getPorcentajeMerma().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgEmbarcados().toString())) / 100);
+
+			LOGGER.info("PORCENTAJE TOTAL: " + (Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
+					+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
+					+ Double.valueOf(entradasEditar.getPorcentajeMerma().toString()) + porcentajeDeMerma
+					- Double.valueOf(entradasEditar.getCalculoKgMerma().toString())));
 
 			LOGGER.info("KG CALIDAD DE LA MATERIA: " + kg_porcentaje + " TIPO DE MONEDA: "
 					+ entradasEditar.getTipoMoneda());
@@ -1910,7 +1917,8 @@ public class EntradasBean extends Conexion implements Serializable {
 		if (entradasEditar.getTipoMoneda().equals("USD")) {
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgNetos().toString())
 					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
-							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
+							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
+							+ Double.valueOf(entradasEditar.getPorcentajeMerma().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgNetos().toString())) / 100);
 			LOGGER.info("KG MERMA: " + kg_porcentaje + " Tipo de moneda: " + entradasEditar.getTipoMoneda());
@@ -1930,7 +1938,8 @@ public class EntradasBean extends Conexion implements Serializable {
 
 			kg_porcentaje = Double.valueOf(entradasEditar.getKgEmbarcados().toString())
 					- (((Double.valueOf(entradasEditar.getDescuentoHumedad().toString())
-							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString()) + porcentajeDeMerma
+							+ Double.valueOf(entradasEditar.getDescuentoCalcio().toString())
+							+ Double.valueOf(entradasEditar.getPorcentajeMerma().toString()) + porcentajeDeMerma
 							- Double.valueOf(entradasEditar.getCalculoKgMerma().toString()))
 							* Double.valueOf(entradasEditar.getKgEmbarcados().toString())) / 100);
 
