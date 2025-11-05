@@ -140,6 +140,7 @@ public class MoliendaBean implements Serializable {
 	private List<VoboMolienda> listaDeVoboMolienda;
 	private VoboMolienda vobo;
 	private VoboMolienda voboEditar;
+	
 
 	public MoliendaBean() {
 		// TODO Auto-generated constructor stub
@@ -1603,6 +1604,48 @@ public class MoliendaBean implements Serializable {
 
 	public void borrarVobo() {
 
+	}
+	
+	public void buscarPorFecha() {
+
+		IMoliendaDao eDao = new MoliendaDaoImpl();
+		IRemoliendaDao rDao = new RemoliendaDaoImpl();
+
+		IFolioPreparacionMoliendaDao lDao = new FolioPreparacionMoliendaDaoImpl();
+		FolioPreparacionMolienda f = new FolioPreparacionMolienda();
+		Molienda fo = new Molienda();
+		
+		
+		
+		listaMolienda = new ArrayList<>();
+		listaMolienda = eDao.listaPorFechaMolienda(fechaFiltro);
+
+		listaRemolienda = new ArrayList<>();
+		listaRemolienda = rDao.listaPorFechaRemolienda(fechaFiltro);
+		
+		if (!listaMolienda.isEmpty()) {
+		    fo = listaMolienda.get(0); // o el tipo específico que use la lista
+		    // Usar primerItem según necesidad
+		}
+		
+		
+		f = lDao.folioMoliendaFiltro(fo.getFolio());
+
+		folioFecha = f.getFolioMolienda();
+		folioSeleccionado = f.getFolioMolienda();
+		fecha = fechaFiltro;
+		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
+		fechaHoja = formato.format(fecha);
+
+		IGelatinaDao gDao = new GelatinaDaoImpl();
+		listaGelatina = new ArrayList<>();
+		listaGelatina = gDao.listaGeltatina(folioFecha);
+		
+
+		getListaLimpiezaMolienda();
+		getListaOrdenManto();
+		getListaCribasImanes();
+		getListaDeVoboMolienda();
 	}
 
 }

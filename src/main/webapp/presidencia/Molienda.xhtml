@@ -246,12 +246,9 @@
 																	alt="add" />
 															</h:commandLink></th>
 														<th><h:commandLink id="buscar" value="BUSCAR"
-																action="#{moliendaBean.banderaEditar('guardar')}"
-																actionListener="#{moliendaBean.initEditar()}"
 																style="width: 6rem; height: 2.5rem; text-decoration: none"
-																update="frmEditargh:pnlEditargh" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditargh:pnlEditargh"
-																	onevent="function(e){ if(e.status=='success'){PF('dlgEditargh').show();} }" />
+																onclick="PF('dlgBuscar').show(); return false;"
+																styleClass="fuente">
 																<h:graphicImage library="images" name="search.png"
 																	alt="add" />
 															</h:commandLink></th>
@@ -271,7 +268,7 @@
 																	max="#{moliendaBean.folioMaximo}"
 																	min="#{moliendaBean.folioMinimo}" step="1">
 																	<p:ajax listener="#{moliendaBean.listar()}"
-																		update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblCI, frmPrincipal:acco:tblCocr, frmPrincipal:acco:tblGelatina, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblObs" />
+																		update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:spinnerFolio, frmPrincipal:acco:tblCI, frmPrincipal:acco:tblCocr, frmPrincipal:acco:tblGelatina, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblObs" />
 																</p:spinner>
 															</div>
 
@@ -490,7 +487,7 @@
 								<p:column colspan="2" headerText="hr final">
 									<h:outputText value="#{item.secadoHoraFinal}"
 										styleClass="#{item.operacion.contains('BRA')  ? 'bra' : item.operacion.contains('BS')  ? 'bs'  : item.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-									<f:convertDateTime pattern="HH:mm"
+										<f:convertDateTime pattern="HH:mm"
 											timeZone="America/Mexico_City" />
 									</h:outputText>
 								</p:column>
@@ -657,43 +654,32 @@
 																	alt="add" />
 															</h:commandLink></th>
 
-														<th><h:commandLink id="rprinter" value="IMPRIMIR"
-																action="#{moliendaBean.banderaEditar('guardar')}"
-																actionListener="#{moliendaBean.initEditar()}"
+														<th><h:commandLink id="printer2" value="IMPRIMIR"
+																target="_blank"
+																actionListener="#{moliendaBean.visualizarReporte()}"
 																style="width: 6rem; height: 2.5rem; text-decoration: none"
 																update="frmEditargh:pnlEditargh" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditargh:pnlEditargh"
-																	onevent="function(e){ if(e.status=='success'){PF('dlgEditargh').show();} }" />
 																<h:graphicImage library="images" name="printer.png"
 																	alt="add" />
 															</h:commandLink></th>
-														<th><h:commandLink id="rexportar" value="EXPORTAR"
-																action="#{moliendaBean.banderaEditar('guardar')}"
-																actionListener="#{moliendaBean.initEditar()}"
+														<th><h:commandLink id="exportar2" value="EXPORTAR"
+																target="_blank"
+																actionListener="#{moliendaBean.visualizarReporteExcel()}"
 																style="width: 6rem; height: 2.5rem; text-decoration: none"
-																update="frmEditargh:pnlEditargh" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditargh:pnlEditargh"
-																	onevent="function(e){ if(e.status=='success'){PF('dlgEditargh').show();} }" />
+																styleClass="fuente">
 																<h:graphicImage library="images" name="excel-file.png"
 																	alt="add" />
 															</h:commandLink></th>
 														<th><h:commandLink id="rbuscar" value="BUSCAR"
-																action="#{moliendaBean.banderaEditar('guardar')}"
-																actionListener="#{moliendaBean.initEditar()}"
 																style="width: 6rem; height: 2.5rem; text-decoration: none"
-																update="frmEditargh:pnlEditargh" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditargh:pnlEditargh"
-																	onevent="function(e){ if(e.status=='success'){PF('dlgEditargh').show();} }" />
+																onclick="PF('dlgBuscar').show(); return false;"
+																styleClass="fuente">
 																<h:graphicImage library="images" name="search.png"
 																	alt="add" />
 															</h:commandLink></th>
 														<th><h:commandLink id="rautorizar" value="AUTORIZAR"
-																action="#{moliendaBean.banderaEditar('guardar')}"
-																actionListener="#{moliendaBean.initEditar()}"
-																style="width: 6rem; height: 2.5rem; text-decoration: none"
-																update="frmEditargh:pnlEditargh" styleClass="fuente">
-																<f:ajax execute="@this" render="frmEditargh:pnlEditargh"
-																	onevent="function(e){ if(e.status=='success'){PF('dlgEditargh').show();} }" />
+																action="#{moliendaBean.guardarActualizarVobo()}"
+																style="width: 6rem; height: 2.5rem; text-decoration: none">
 																<h:graphicImage library="images" name="document.png"
 																	alt="add" />
 															</h:commandLink></th>
@@ -901,14 +887,16 @@
 								<p:column colspan="2" headerText="hr inicial">
 									<h:outputText value="#{itemr.moliendaHoraInicial}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 
 									</h:outputText>
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
 									<h:outputText value="#{itemr.moliendaHoraFinal}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 
 									</h:outputText>
 								</p:column>
@@ -916,14 +904,16 @@
 								<p:column colspan="2" headerText="hr inicial">
 									<h:outputText value="#{itemr.secadoHoraInicial}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 
 									</h:outputText>
 								</p:column>
 								<p:column colspan="2" headerText="hr final">
 									<h:outputText value="#{itemr.secadoHoraFinal}"
 										styleClass="#{itemr.operacion.contains('BRA')  ? 'bra' : itemr.operacion.contains('BS')  ? 'bs'  : itemr.operacion.contains('GH') ? 'gh'  : 'fuenteNaranja'}">
-									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 
 									</h:outputText>
 								</p:column>
@@ -1229,7 +1219,8 @@
 									<div style="text-align: center">
 										<h:outputText value="#{item.horaInicial}"
 											style="color: #036FAB;">
-										<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+											<f:convertDateTime pattern="HH:mm"
+												timeZone="America/Mexico_City" />
 
 										</h:outputText>
 									</div>
@@ -1239,7 +1230,8 @@
 									<div style="text-align: center">
 										<h:outputText value="#{item.horaFinal}"
 											style="color: #036FAB;">
-										<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+											<f:convertDateTime pattern="HH:mm"
+												timeZone="America/Mexico_City" />
 
 										</h:outputText>
 									</div>
@@ -1513,14 +1505,16 @@
 								<p:column headerText="Hora inicial" width="3rem">
 									<h:outputText value="#{item.horaInicio}"
 										style="color: #036FAB;">
-									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 
 									</h:outputText>
 								</p:column>
 
 								<p:column headerText="Hora final" width="3rem">
 									<h:outputText value="#{item.horaFin}" style="color: #036FAB;">
-									<f:convertDateTime pattern="HH:mm" timeZone="America/Mexico_City" />
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
 
 									</h:outputText>
 								</p:column>
@@ -1772,14 +1766,14 @@
 						<div style="text-align: center">
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.bandera eq 'guardar'}"
-								style="widht: 20rem; height: 2rem" title="Guardar"
+								style="width: 20rem; height: 2rem" title="Guardar"
 								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarInfoMolienda()}"
 								oncomplete="PF('dlgEditar').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.bandera eq 'editar'}"
-								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
+								style="width: 20rem; height: 2rem" title="ACTUALIZAR"
 								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarInfoMolienda()}"
 								oncomplete="PF('dlgEditar').hide()" />
@@ -1950,14 +1944,14 @@
 						<div style="text-align: center">
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.bandera eq 'guardar'}"
-								style="widht: 20rem; height: 2rem" title="Guardar"
+								style="width: 20rem; height: 2rem" title="Guardar"
 								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarInfoMolienda()}"
 								oncomplete="PF('dlgEditargh').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.bandera eq 'editar'}"
-								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
+								style="width: 20rem; height: 2rem" title="ACTUALIZAR"
 								update="frmPrincipal:acco:tblCoc, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarInfoMolienda()}"
 								oncomplete="PF('dlgEditargh').hide()" />
@@ -2209,14 +2203,14 @@
 						<div style="text-align: center">
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.bandera eq 'guardar'}"
-								style="widht: 20rem; height: 2rem" title="Guardar"
+								style="width: 20rem; height: 2rem" title="Guardar"
 								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarInfoRemolienda()}"
 								oncomplete="PF('dlgEditarRR').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.bandera eq 'editar'}"
-								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
+								style="width: 20rem; height: 2rem" title="ACTUALIZAR"
 								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarInfoRemolienda()}"
 								oncomplete="PF('dlgEditarRR').hide()" />
@@ -2396,14 +2390,14 @@
 						<div style="text-align: center">
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.bandera eq 'guardar'}"
-								style="widht: 20rem; height: 2rem" title="Guardar"
+								style="width: 20rem; height: 2rem" title="Guardar"
 								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarInfoRemolienda()}"
 								oncomplete="PF('dlgEditarghRR').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.bandera eq 'editar'}"
-								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
+								style="width: 20rem; height: 2rem" title="ACTUALIZAR"
 								update="frmPrincipal:acco:tblCocr, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarInfoRemolienda()}"
 								oncomplete="PF('dlgEditarghRR').hide()" />
@@ -2476,7 +2470,7 @@
 
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
-							style="widht: 20rem; height: 2rem" title="Guardar"
+							style="width: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
 							actionListener="#{moliendaBean.actualizarLimpieza()}"
 							oncomplete="PF('dlgEditarLimpieza').hide()" />
@@ -2522,7 +2516,7 @@
 
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
-							style="widht: 20rem; height: 2rem" title="Guardar"
+							style="width: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
 							actionListener="#{moliendaBean.actualizarOrdenManto()}"
 							oncomplete="PF('dlgEditarManto').hide()" />
@@ -2659,7 +2653,7 @@
 						<div style="text-align: right">
 
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
-								style="widht: 20rem; height: 2rem" title="Guardar"
+								style="width: 20rem; height: 2rem" title="Guardar"
 								update="frmPrincipal:acco:tblGelatina, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarGelatina()}"
 								oncomplete="PF('dlgAgregarGPMNuevo').hide()" />
@@ -2711,14 +2705,14 @@
 
 							<p:commandButton icon="pi pi-save" value="GUARDAR"
 								rendered="#{moliendaBean.banderaGelatina eq 'guardar'}"
-								style="widht: 20rem; height: 2rem" title="Guardar"
+								style="width: 20rem; height: 2rem" title="Guardar"
 								update="frmPrincipal:acco:tblGelatina, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.guardarGelatina()}"
 								oncomplete="PF('dlgAgregarGPM').hide()" />
 
 							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 								rendered="#{moliendaBean.banderaGelatina eq 'editar'}"
-								style="widht: 20rem; height: 2rem" title="ACTUALIZAR"
+								style="width: 20rem; height: 2rem" title="ACTUALIZAR"
 								update="frmPrincipal:acco:tblGelatina, frmPrincipal:msgs"
 								actionListener="#{moliendaBean.actualizarGelatina()}"
 								oncomplete="PF('dlgAgregarGPM').hide()" />
@@ -2808,14 +2802,14 @@
 					<div style="text-align: right">
 						<p:commandButton id="g" icon="pi pi-save" value="GUARDAR"
 							rendered="#{moliendaBean.banderaCribas eq 'guardar'}"
-							style="widht: 20rem; height: 2rem" title="Guardar"
+							style="width: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal:acco:tblCI, frmPrincipal:msgs"
 							actionListener="#{moliendaBean.guardarCribasImanes()}"
 							oncomplete="PF('dlgEditarCribas').hide()" />
 
 						<p:commandButton id="a" icon="pi pi-save" value="ACTUALIZAR"
 							rendered="#{moliendaBean.banderaCribas eq 'actualizar'}"
-							style="widht: 20rem; height: 2rem" title="Guardar"
+							style="width: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal:acco:tblCI, frmPrincipal:msgs"
 							actionListener="#{moliendaBean.actualizarCribasImanes()}"
 							oncomplete="PF('dlgEditarCribas').hide()" />
@@ -2824,6 +2818,39 @@
 				</p:dialog>
 			</h:form>
 			<!-- FINALIZA FORMULARIO PARA EDITAR CRIBAS-->
+
+
+			<!-- INICIA FORMULARIO PARA BUSCAR POR FECHA -->
+			<h:form id="frmBuscar">
+				<p:dialog header="Buscar por fecha" widgetVar="dlgBuscar"
+					styleClass="tabla fuente" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlBuscar" columns="2" styleClass="fuente">
+
+						<p:outputLabel value="SELECCIONA FECHA" />
+
+						<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="false"
+							disabled="false" showIcon="true" placeholder="SELECCIONA FECHA"
+							inputStyleClass="font-size: .8rem !important pear"
+							inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+							value="#{moliendaBean.fechaFiltro}"
+							style="font-family: 'Poppins', sans-serif !important;"
+							styleClass="captura" />
+
+						<p:outputLabel value="BUSCAR" />
+						<p:commandButton id="a" icon="pi pi-save" value="BUSCAR"
+							style="width: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblCI, frmPrincipal:acco:tblCocr, frmPrincipal:acco:tblGelatina, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblObs"
+							actionListener="#{moliendaBean.buscarPorFecha()}"
+							oncomplete="PF('dlgBuscar').hide()" />
+					</h:panelGrid>
+
+
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR GELATINA POR MOLER-->
+
 
 
 		</ui:define>
