@@ -2,7 +2,10 @@
 	url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300&display=swap')
 	;
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import
+	url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap')
+	;
+
 @import
 	url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap')
 	;
@@ -477,7 +480,8 @@ a:link:hover, a:visited:hover {
 
 .bra {
 	color: #2AA63E;
-	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	font-family: 'Consolas', 'Roboto', monospace;
+	/* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
 	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
@@ -485,7 +489,8 @@ a:link:hover, a:visited:hover {
 
 .bs {
 	color: #34A6F4;
-	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	font-family: 'Consolas', 'Roboto', monospace;
+	/* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
 	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
@@ -493,7 +498,8 @@ a:link:hover, a:visited:hover {
 
 .bscen {
 	color: #34A6F4;
-	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	font-family: 'Consolas', 'Roboto', monospace;
+	/* fuente monoespaciada */
 	text-align: center; /* alinea a la derecha */
 	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
@@ -501,7 +507,8 @@ a:link:hover, a:visited:hover {
 
 .bstot {
 	color: #073b5e;
-	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	font-family: 'Consolas', 'Roboto', monospace;
+	/* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
 	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
@@ -509,7 +516,8 @@ a:link:hover, a:visited:hover {
 
 .bstotkg {
 	color: #87036a;
-	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	font-family: 'Consolas', 'Roboto', monospace;
+	/* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
 	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
@@ -517,7 +525,8 @@ a:link:hover, a:visited:hover {
 
 .gh {
 	color: #9810FA;
-	font-family: 'Consolas', 'Roboto', monospace; /* fuente monoespaciada */
+	font-family: 'Consolas', 'Roboto', monospace;
+	/* fuente monoespaciada */
 	text-align: right; /* alinea a la derecha */
 	font-size: 0.8rem; /* tamaño más compacto */
 	padding-right: 0.5rem; /* pequeño margen a la derecha */
@@ -533,15 +542,14 @@ a:link:hover, a:visited:hover {
 .editar {
 	font-family: "IBM Plex Sans", sans-serif !important;
 	font-optical-sizing: auto;
-	background-color: #f9f06b!important;
+	background-color: #f9f06b !important;
 	font-size: bold;
 }
 
-
 .spinner-folio input {
-    color: #5a81ff !important;      /* color de fuente */
-    font-weight: bold !important;   /* opcional */
-    font-size: 1.5rem !important;     /* opcional */
+	color: #5a81ff !important; /* color de fuente */
+	font-weight: bold !important; /* opcional */
+	font-size: 1.5rem !important; /* opcional */
 }
 
 .resumen {
@@ -549,15 +557,70 @@ a:link:hover, a:visited:hover {
 	font-optical-sizing: auto;
 	font-size: 1rem !important;
 	color: #073b5e !important;
+	background-color: #f9f06b !important;
 	font-size: bold;
 }
+
 .resumen-et {
 	font-family: "IBM Plex Sans", sans-serif !important;
 	font-optical-sizing: auto;
 	font-size: .8rem !important;
-	color: #1e9dd3 !important;
+	color: rgb(0, 0, 0) !important;
 	font-size: bold;
 }
 
+.resumenTot {
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	font-size: 1rem !important;
+	color: rgb(255, 255, 255) !important;
+	background-color: rgb(26, 95, 180) !important;
+	font-size: bold;
+}
 
+.granTot {
+	font-family: "IBM Plex Sans", sans-serif !important;
+	font-optical-sizing: auto;
+	font-size: 1rem !important;
+	color: rgb(246, 245, 244) !important;
+	background-color: rgb(18, 191, 47) !important;
+	font-size: bold;
+}
 
+@media print {
+	/* Ocultar botones y menús en impresión */
+	.ui-button, .ui-growl {
+		display: none !important;
+	}
+	.resumen {
+		font-family: "IBM Plex Sans", sans-serif !important;
+		font-optical-sizing: auto;
+		font-size: 1rem !important;
+		color: #073b5e !important;
+		background-color: #f9f06b !important;
+		font-size: bold;
+	}
+	.resumen-et {
+		font-family: "IBM Plex Sans", sans-serif !important;
+		font-optical-sizing: auto;
+		font-size: .8rem !important;
+		color: rgb(0, 0, 0) !important;
+		font-size: bold;
+	}
+	.resumenTot {
+		font-family: "IBM Plex Sans", sans-serif !important;
+		font-optical-sizing: auto;
+		font-size: 1rem !important;
+		color: rgb(255, 255, 255) !important;
+		background-color: rgb(26, 95, 180) !important;
+		font-size: bold;
+	}
+	.granTot {
+		font-family: "IBM Plex Sans", sans-serif !important;
+		font-optical-sizing: auto;
+		font-size: 1rem !important;
+		color: rgb(246, 245, 244) !important;
+		background-color: rgb(18, 191, 47) !important;
+		font-size: bold;
+	}
+}

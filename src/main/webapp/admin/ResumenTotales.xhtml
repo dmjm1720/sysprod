@@ -34,7 +34,7 @@
 
 					<p:accordionPanel id="acco" widgetVar="basic">
 
-						<p:tab id="tRegTurnos" title="TOTALES"
+						<p:tab id="tRegReporte" title="TOTALES"
 							titleStyle="font-size: .8rem; background-color: #283747; color: #F5F5F5">
 
 							<p:splitter styleClass="mb-5" widgetVar="splitter">
@@ -43,10 +43,11 @@
 
 
 								</p:splitterPanel>
-								<p:splitterPanel size="20"
+								<p:splitterPanel size="40"
 									styleClass="flex align-items-center justify-content-center">
 
-									<h:panelGrid id="pgResumen" columns="3"
+
+									<h:panelGrid id="pgResumen" columns="4"
 										style="text-align:center; margin-top:1rem;"
 										styleClass="tabla fuente">
 
@@ -78,53 +79,130 @@
 											<f:selectItem itemLabel="OCTUBRE" itemValue="10" />
 											<f:selectItem itemLabel="NOVIEMBRE" itemValue="11" />
 											<f:selectItem itemLabel="DICIEMBRE" itemValue="12" />
-
 										</p:selectOneMenu>
 
 										<p:commandButton id="reg" value="BUSCAR" styleClass="fuente"
 											action="#{resumen.totales()}"
-											update="frmPrincipal, frmPrincipal:acco:pgResumenTotales, frmPrincipal:msgs"
-											icon="pi pi-book" style="width: 8rem; height: 2rem">
+											update="frmPrincipal, frmPrincipal:acco:pgResumenTotales, frmPrincipal:acco:pgTot, frmPrincipal:msgs"
+											icon="pi pi-search" style="width: 5rem; height: 2rem">
 										</p:commandButton>
+
+										<p:commandButton value="IMPRIMIR" type="button"
+											icon="pi pi-print" style="width: 5rem; height: 2rem">
+											<p:printer target="frmPrincipal:acco:tRegReporte" />
+										</p:commandButton>
+
+										<p:outputLabel value="" styleClass="resumen-et" />
+										<p:outputLabel value="PRODUCCIÓN DEL MES"
+											styleClass="resumen-et" />
+										<p:outputLabel value="" styleClass="resumen-et" />
 									</h:panelGrid>
-									
+
+
 									<h:panelGrid id="pgResumenTotales" columns="2"
 										styleClass="tabla fuente">
-
+										<p:outputLabel value="MATERIAL" styleClass="resumen-et" />
+										<p:outputLabel value="KG" styleClass="resumen-et" />
 										<p:outputLabel value="TOTAL DE RETAL" styleClass="resumen-et" />
-										<p:outputLabel value="#{resumen.resumenTotales.totalRetal}"
-											styleClass="resumen">
+										<p:inputText value="#{resumen.resumenTotales.totalRetal}"
+											readonly="true" styleClass="resumen">
 											<f:convertNumber type="number" groupingUsed="true"
 												maxFractionDigits="0" locale="es_MX" />
-										</p:outputLabel>
+										</p:inputText>
 
 										<p:outputLabel value="TOTAL DE CERDO" styleClass="resumen-et" />
-										<p:outputLabel value="#{resumen.resumenTotales.totalCerdo}"
-											styleClass="resumen">
+										<p:inputText value="#{resumen.resumenTotales.totalCerdo}"
+											readonly="true" styleClass="resumen">
 											<f:convertNumber type="number" groupingUsed="true"
 												maxFractionDigits="0" locale="es_MX" />
-										</p:outputLabel>
+										</p:inputText>
 
 
-										<p:outputLabel value="TOTAL DE RETAL RECUPERADO"
+										<p:outputLabel value="TOTAL DE RETAL RECUPERADA"
 											styleClass="resumen-et" />
-										<p:outputLabel
+										<p:inputText
 											value="#{resumen.resumenTotales.totalRetalRecuperada}"
-											styleClass="resumen">
+											readonly="true" styleClass="resumen">
 											<f:convertNumber type="number" groupingUsed="true"
 												maxFractionDigits="0" locale="es_MX" />
-										</p:outputLabel>
+										</p:inputText>
 
-										<p:outputLabel value="TOTAL DE CERDO RECUPERADO"
+										<p:outputLabel value="TOTAL DE CERDO RECUPERADA"
 											styleClass="resumen-et" />
-										<p:outputLabel
+										<p:inputText
 											value="#{resumen.resumenTotales.totalCerdoRecuperada}"
-											styleClass="resumen">
+											readonly="true" styleClass="resumen">
 											<f:convertNumber type="number" groupingUsed="true"
 												maxFractionDigits="0" locale="es_MX" />
-										</p:outputLabel>
+										</p:inputText>
+										<p:outputLabel value="TOTAL DE PRODUCCIÓN"
+											styleClass="resumen-et" />
+										<p:inputText value="#{resumen.resumenTotales.totalProduccion}"
+											readonly="true" styleClass="resumenTot">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:inputText>
 
 									</h:panelGrid>
+
+
+
+									<h:panelGrid columns="3"
+										style="text-align:center; margin-top:1rem;"
+										styleClass="tabla fuente">
+
+										<p:outputLabel
+											value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+											styleClass="resumen-et" />
+										<p:outputLabel value="REMOLIENDA / REPROCESO"
+											styleClass="resumen-et" />
+										<p:outputLabel value="" styleClass="resumen-et" />
+									</h:panelGrid>
+
+
+									<h:panelGrid id="pgTot" columns="2" styleClass="tabla fuente">
+
+										<p:outputLabel value="MATERIAL" styleClass="resumen-et" />
+										<p:outputLabel value="KG" styleClass="resumen-et" />
+										<p:outputLabel
+											value="TOTAL DE REMOLIENDA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+											styleClass="resumen-et" />
+										<p:inputText
+											value="#{resumen.resumenTotalesRemolienda.totalRemolienda}"
+											escape="false" styleClass="resumen">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:inputText>
+
+										<p:outputLabel value="TOTAL DE REPROCESO"
+											styleClass="resumen-et" />
+										<p:inputText
+											value="#{resumen.resumenTotalesRemolienda.totalReproceso}"
+											escape="false" styleClass="resumen">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:inputText>
+
+										<p:outputLabel value="TOTAL REMOL. Y REPR."
+											styleClass="resumen-et" />
+										<p:inputText
+											value="#{resumen.resumenTotalesRemolienda.totalRemoliendaReproceso}"
+											readonly="true" styleClass="resumenTot">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:inputText>
+
+
+										<p:outputLabel value="GRAN TOTAL" styleClass="resumen-et" />
+										<p:inputText
+											value="#{resumen.resumenTotalesRemolienda.granTotal}"
+											readonly="true" styleClass="granTot">
+											<f:convertNumber type="number" groupingUsed="true"
+												maxFractionDigits="0" locale="es_MX" />
+										</p:inputText>
+
+									</h:panelGrid>
+
 								</p:splitterPanel>
 
 							</p:splitter>

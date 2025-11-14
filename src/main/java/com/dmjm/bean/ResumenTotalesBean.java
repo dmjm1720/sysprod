@@ -32,8 +32,6 @@ public class ResumenTotalesBean implements Serializable {
 		resumenTotalesRemolienda = new ResumenMoliendaRemolienda();
 	}
 
-	
-
 	public ResumenMoliendaRemolienda getResumenTotales() {
 		return resumenTotales;
 	}
@@ -70,8 +68,17 @@ public class ResumenTotalesBean implements Serializable {
 		IResumenTotalMolliendaRemoliendaDao mDao = new ResumenMoliendaRemoliendaDaoImpl();
 		resumenTotales = mDao.resumenMolienda(year, mes);
 
+		resumenTotales.setTotalProduccion(resumenTotales.getTotalRetal() + resumenTotales.getTotalCerdo()
+				+ resumenTotales.getTotalRetalRecuperada() + resumenTotales.getTotalCerdoRecuperada());
+
 		IResumenTotalMolliendaRemoliendaDao rDao = new ResumenMoliendaRemoliendaDaoImpl();
 		resumenTotalesRemolienda = rDao.resumenRemolienda(year, mes);
+
+		resumenTotalesRemolienda.setTotalRemoliendaReproceso(
+				resumenTotalesRemolienda.getTotalRemolienda() + resumenTotalesRemolienda.getTotalReproceso());
+
+		resumenTotalesRemolienda.setGranTotal(
+				resumenTotalesRemolienda.getTotalRemoliendaReproceso() + resumenTotales.getTotalProduccion());
 	}
 
 }
