@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19-nov-2025 14:57:36 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.LuwaDos" table="LUWA_DOS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idLuwa" type="int">
+            <column name="ID_LUWA" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="folioPreparacionLuwaDos" class="com.dmjm.model.FolioPreparacionLuwaDos" fetch="select">
+            <column name="ID_FOLIO_PREP" />
+        </many-to-one>
+        <property name="hora" type="string">
+            <column name="HORA" length="10" />
+        </property>
+        <property name="operacion" type="string">
+            <column name="OPERACION" length="25" />
+        </property>
+        <property name="entradaConc" type="big_decimal">
+            <column name="ENTRADA_CONC" precision="10" scale="1" />
+        </property>
+        <property name="concPorcentaje" type="big_decimal">
+            <column name="CONC_PORCENTAJE" precision="10" scale="1" />
+        </property>
+        <property name="ph" type="big_decimal">
+            <column name="PH" precision="10" scale="1" />
+        </property>
+        <property name="tempSalida" type="java.lang.Integer">
+            <column name="TEMP_SALIDA" />
+        </property>
+        <property name="redox" type="java.lang.Integer">
+            <column name="REDOX" />
+        </property>
+        <property name="presionBombaVacio" type="java.lang.Integer">
+            <column name="PRESION_BOMBA_VACIO" />
+        </property>
+        <property name="valvulaRegPresion" type="big_decimal">
+            <column name="VALVULA_REG_PRESION" precision="10" scale="1" />
+        </property>
+        <property name="condesadorTemp" type="java.lang.Integer">
+            <column name="CONDESADOR_TEMP" />
+        </property>
+        <property name="corrienteMotor" type="big_decimal">
+            <column name="CORRIENTE_MOTOR" precision="10" scale="1" />
+        </property>
+        <property name="estadoA" type="string">
+            <column name="ESTADO_A" length="2" />
+        </property>
+        <property name="estadoR" type="string">
+            <column name="ESTADO_R" length="2" />
+        </property>
+        <property name="folioLuwa" type="java.lang.Integer">
+            <column name="FOLIO_LUWA" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" />
+        </property>
+        <property name="estadoAR" type="java.lang.Boolean">
+            <column name="ESTADO_A_R" />
+        </property>
+        <property name="estadoManto" type="java.lang.Boolean">
+            <column name="ESTADO_MANTO" />
+        </property>
+        <property name="estadoLimpieza" type="java.lang.Boolean">
+            <column name="ESTADO_LIMPIEZA" />
+        </property>
+    </class>
+</hibernate-mapping>

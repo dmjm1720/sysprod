@@ -10,24 +10,28 @@ public interface IOperadorDao {
 	List<String> completeOperador(String nombre, String depto) throws SQLException;
 
 	int buscarOperador(String nombre, String depto) throws SQLException;
-	
+
 	void guardarOperador(Operador operador);
 
 	void actualizarOperador(Operador operador);
-	
+
 	List<Operador> listaOperadorCocedores();
 
 	List<Operador> listaOperadorEstPlantaA();
-	
+
 	List<Operador> listaOperadorEstPlantaB();
-	
+
 	List<Operador> listaOperadorUltraUno();
-	
+
 	List<Operador> listaOperadorUltraDos();
-	
+
 	List<Operador> listaOperadorVotatorA();
-	
+
 	List<Operador> listaOperadorVotatorB();
-	
+
 	List<Operador> listaOperadorMolienda();
+
+	List<Operador> listaOperadorLuwaPA();
+	
+	List<Operador> listaOperadorLuwaPB();
 }

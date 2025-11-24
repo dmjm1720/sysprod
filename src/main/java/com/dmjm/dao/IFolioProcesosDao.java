@@ -35,5 +35,24 @@ public interface IFolioProcesosDao {
 	int buscarFolioVotatorB(int year);
 
 	void actualizarFolioVotatorB(int year, int folio);
+	
+	int buscarFolioLuwaUno(int year);
 
+	void actualizarFolioLuwaUno(int year, int folio);
+	
+	int buscarFolioLuwaDos(int year);
+
+	void actualizarFolioLuwaDos(int year, int folio);
+
+	int buscarFolioLuwaTres(int year);
+
+	void actualizarFolioLuwaTres(int year, int folio);
+	
+	int buscarFolioLuwaCuatro(int year);
+
+	void actualizarFolioLuwaCuatro(int year, int folio);
+	
+	int buscarFolioLuwaCinco(int year);
+
+	void actualizarFolioLuwaCinco(int year, int folio);
 }

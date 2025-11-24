@@ -18,20 +18,17 @@
 		<property name="hibernate.format_sql">true</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.enable_lazy_load_no_trans">true</property>
-		<mapping
-			resource="com/dmjm/model/DescuentoCalciosTablaA.hbm.xml" />
+		
+		<mapping resource="com/dmjm/model/DescuentoCalciosTablaA.hbm.xml" />
 		<mapping resource="com/dmjm/model/InfoDocumento.hbm.xml" />
 		<mapping resource="com/dmjm/model/Transportista.hbm.xml" />
 		<mapping resource="com/dmjm/model/Preservacion.hbm.xml" />
 		<mapping resource="com/dmjm/model/Proveedores.hbm.xml" />
 		<mapping resource="com/dmjm/model/Entradas.hbm.xml" />
-		<mapping
-			resource="com/dmjm/model/DescuentoCalciosTablaB.hbm.xml" />
+		<mapping resource="com/dmjm/model/DescuentoCalciosTablaB.hbm.xml" />
 		<mapping resource="com/dmjm/model/Perfiles.hbm.xml" />
-		<mapping
-			resource="com/dmjm/model/DescuentoHumedadTablaA.hbm.xml" />
-		<mapping
-			resource="com/dmjm/model/DescuentoHumedadTablaB.hbm.xml" />
+		<mapping resource="com/dmjm/model/DescuentoHumedadTablaA.hbm.xml" />
+		<mapping resource="com/dmjm/model/DescuentoHumedadTablaB.hbm.xml" />
 		<mapping resource="com/dmjm/model/Folios.hbm.xml" />
 		<mapping resource="com/dmjm/model/Usuarios.hbm.xml" />
 		<mapping resource="com/dmjm/model/Materia.hbm.xml" />
@@ -44,22 +41,18 @@
 		<mapping resource="com/dmjm/model/OperacionLavadoras.hbm.xml" />
 		<mapping resource="com/dmjm/model/CuentasContables.hbm.xml" />
 		<mapping resource="com/dmjm/model/EntradasImportacion.hbm.xml" />
-		<mapping
-			resource="com/dmjm/model/ProveedoresImportacion.hbm.xml" />
+		<mapping resource="com/dmjm/model/ProveedoresImportacion.hbm.xml" />
 		<mapping resource="com/dmjm/model/Activacion.hbm.xml" />
 		<mapping resource="com/dmjm/model/Quimicos.hbm.xml" />
 		<mapping resource="com/dmjm/model/BitacoraPrecios.hbm.xml" />
-		<mapping
-			resource="com/dmjm/model/EntradasMaquinariaEquipo.hbm.xml" />
+		<mapping resource="com/dmjm/model/EntradasMaquinariaEquipo.hbm.xml" />
 
-		<mapping
-			resource="com/dmjm/model/FolioPreparacionCocedores.hbm.xml" />
+		<mapping resource="com/dmjm/model/FolioPreparacionCocedores.hbm.xml" />
 		<mapping resource="com/dmjm/model/Cocedores.hbm.xml" />
 		<mapping resource="com/dmjm/model/Limpieza.hbm.xml" />
 		<mapping resource="com/dmjm/model/OrdenMantenimiento.hbm.xml" />
 		<mapping resource="com/dmjm/model/FolioCocedores.hbm.xml" />
 		<mapping resource="com/dmjm/model/Purgas.hbm.xml" />
-
 
 		<mapping resource="com/dmjm/model/Operador.hbm.xml" />
 		<mapping resource="com/dmjm/model/RegistroTurnos.hbm.xml" />
@@ -106,5 +99,31 @@
 	    <mapping resource="com/dmjm/model/GelatinaPorMoler.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/OrdenMantenimientoMolienda.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/VoboMolienda.hbm.xml"/>
+	    
+		<mapping resource="com/dmjm/model/OrdenMantenimientoLuwaTres.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LuwaUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaLuwaDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoLuwaCinco.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaLuwaCuatro.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionLuwaCinco.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaLuwaCinco.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaLuwaUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaLuwaTres.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionLuwaDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionLuwaUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LuwaCinco.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LuwaTres.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoLuwaCuatro.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LuwaDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LuwaCuatro.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoLuwaDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionLuwaCuatro.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoLuwaUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionLuwaTres.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/ResumenLuwaDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/ResumenLuwaCinco.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/ResumenLuwaCuatro.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/ResumenLuwaUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/ResumenLuwaTres.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

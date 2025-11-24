@@ -277,4 +277,119 @@ public class RegistroTurnoDaoImpl implements IRegistroTurnosDao {
 	    return lista;
 	}
 
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosLuwaUnoPlantaA(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'LUWA UNO PLANTA A'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosLuwaCuatroPlantaB(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'LUWA CUATRO PLANTA B'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosLuwaDosPlantaA(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'LUWA DOS PLANTA A'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosLuwaTresPlantaA(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'LUWA TRES PLANTA A'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
+	@Override
+	public List<RegistroTurnos> listaRegistroTurnosLuwaCincoPlantaA(Date fecha) {
+		List<RegistroTurnos> lista = null;
+	    Transaction t = null;
+
+	    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+	        t = session.beginTransaction();
+
+	        String hql = "FROM RegistroTurnos WHERE fecha = :fecha AND descProceso = 'LUWA CINCO PLANTA A'";
+			Query<RegistroTurnos> query = session.createQuery(hql, RegistroTurnos.class);
+	        query.setParameter("fecha", fecha);
+
+	        lista = query.list();
+	        t.commit();
+	    } catch (HibernateException e) {
+	        if (t != null) {
+	            t.rollback();
+	        }
+	        e.printStackTrace();
+	    }
+	    return lista;
+	}
+
 }

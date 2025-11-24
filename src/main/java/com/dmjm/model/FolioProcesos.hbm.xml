@@ -30,5 +30,20 @@
 		<property name="folioVotatorB" type="java.lang.Integer">
 			<column name="FOLIO_VOTATOR_B" />
 		</property>
+		<property name="folioLuwaUno" type="java.lang.Integer">
+			<column name="FOLIO_LUWA_UNO" />
+		</property>
+		<property name="folioLuwaDos" type="java.lang.Integer">
+			<column name="FOLIO_LUWA_DOS" />
+		</property>
+		<property name="folioLuwaTres" type="java.lang.Integer">
+			<column name="FOLIO_LUWA_TRES" />
+		</property>
+		<property name="folioLuwaCuatro" type="java.lang.Integer">
+			<column name="FOLIO_LUWA_CUATRO" />
+		</property>
+		<property name="folioLuwaCinco" type="java.lang.Integer">
+			<column name="FOLIO_LUWA_CINCO" />
+		</property>
 	</class>
 </hibernate-mapping>

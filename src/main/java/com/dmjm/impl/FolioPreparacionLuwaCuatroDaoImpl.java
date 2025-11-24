@@ -1,0 +1,146 @@
+package com.dmjm.impl;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import com.dmjm.dao.IFolioPreparacionLuwaCuatroDao;
+import com.dmjm.model.FolioPreparacionLuwaCuatro;
+import com.dmjm.util.Conexion;
+import com.dmjm.util.HibernateUtil;
+
+public class FolioPreparacionLuwaCuatroDaoImpl extends Conexion implements IFolioPreparacionLuwaCuatroDao {
+
+	@Override
+	public int returnIDGuardarFolio(int folio, Date fecha) {
+		Session session = null;
+		FolioPreparacionLuwaCuatro f = new FolioPreparacionLuwaCuatro();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			Transaction transaction = session.beginTransaction();
+
+			f.setFolioLuwaCuatro(folio);
+			f.setFecha(fecha);
+
+			session.save(f);
+			transaction.commit();
+
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return f.getIdFolioPrep();
+	}
+
+	@Override
+	public FolioPreparacionLuwaCuatro retornarFechaActual() {
+		FolioPreparacionLuwaCuatro f = new FolioPreparacionLuwaCuatro();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM FolioPreparacionLuwaCuatro ORDER BY idFolioPrep DESC";
+			Query<FolioPreparacionLuwaCuatro> query = session.createQuery(hql, FolioPreparacionLuwaCuatro.class);
+
+			f = query.setMaxResults(1).getSingleResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return f;
+	}
+
+	@Override
+	public int fechaFolioActual(Date fecha) {
+		int folio = 0;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT f.folioLuwaCuatro FROM FolioPreparacionLuwaCuatro f WHERE f.fecha = :fecha";
+			Query<Integer> query = session.createQuery(hql, Integer.class);
+			query.setParameter("fecha", fecha);
+
+			folio = query.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return folio;
+	}
+
+	@Override
+	public int folioLuwaCuatroActual(Date fecha) {
+		int folio = 0;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT f.idFolioPrep FROM FolioPreparacionLuwaCuatro f WHERE f.fecha = :fecha";
+			Query<Integer> query = session.createQuery(hql, Integer.class);
+			query.setParameter("fecha", fecha);
+
+			folio = Optional.ofNullable(query.uniqueResult()).orElse(0);
+
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return folio;
+	}
+
+	@Override
+	public void guardarObservacion(int folio, String observacion) {
+		try {
+			ConectarSysProd();
+			PreparedStatement ps = getCnSysProd().prepareStatement(
+					"UPDATE FOLIO_PREPARACION_LUWA_CUATRO SET OBSERVACIONES = ? WHERE ID_FOLIO_PREP = ?");
+			ps.setString(1, observacion);
+			ps.setLong(2, folio);
+
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			Logger.getLogger(FolioDeImportacionDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
+
+	@Override
+	public List<FolioPreparacionLuwaCuatro> listaFolioLuwaCuatro(int folio) {
+		List<FolioPreparacionLuwaCuatro> lista = new ArrayList<>();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM FolioPreparacionLuwaCuatro WHERE idFolioPrep = :folio";
+			Query<FolioPreparacionLuwaCuatro> query = session.createQuery(hql, FolioPreparacionLuwaCuatro.class);
+			query.setParameter("folio", folio);
+			lista = query.getResultList();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return lista;
+	}
+
+}

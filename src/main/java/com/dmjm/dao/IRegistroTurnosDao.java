@@ -29,4 +29,14 @@ public interface IRegistroTurnosDao {
 
 	List<RegistroTurnos> listaRegistroTurnosMolienda(Date fecha);
 
+	List<RegistroTurnos> listaRegistroTurnosLuwaUnoPlantaA(Date fecha);
+
+	List<RegistroTurnos> listaRegistroTurnosLuwaDosPlantaA(Date fecha);
+
+	List<RegistroTurnos> listaRegistroTurnosLuwaTresPlantaA(Date fecha);
+
+	List<RegistroTurnos> listaRegistroTurnosLuwaCincoPlantaA(Date fecha);
+
+	List<RegistroTurnos> listaRegistroTurnosLuwaCuatroPlantaB(Date fecha);
+
 }

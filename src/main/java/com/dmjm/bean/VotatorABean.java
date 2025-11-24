@@ -480,7 +480,7 @@ public class VotatorABean implements Serializable {
 		}
 
 		cDao.actualizarVotator(votatorEditar);
-		actualizarPromedios(votatorEditar.getFolioPreparacionVotatorA().getFolioVotatorA());
+		actualizarPromedios(votatorEditar.getFolioPreparacionVotatorA().getIdFolioPrep());
 
 		if (votatorEditar.getHora().equals("7:00")) {
 			IVotatorADao aDao = new VotatorADaoImpl();

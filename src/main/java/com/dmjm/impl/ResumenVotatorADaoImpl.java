@@ -33,7 +33,7 @@ public class ResumenVotatorADaoImpl extends Conexion implements IResumenVotatorA
 			session.save(resumen);
 			transaction.commit();
 
-			String info = "Se ha actualizado el resumen de tiempos en Votato A";
+			String info = "Se ha actualizado el resumen de tiempos en Votator A";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"

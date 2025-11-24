@@ -13,6 +13,11 @@ public class FolioProcesos implements Serializable {
 	private Integer folioUltraDos;
 	private Integer folioVotatorA;
 	private Integer folioVotatorB;
+	private Integer folioLuwaUno;
+	private Integer folioLuwaDos;
+	private Integer folioLuwaTres;
+	private Integer folioLuwaCuatro;
+	private Integer folioLuwaCinco;
 
 	public FolioProcesos() {
 	}
@@ -22,7 +27,9 @@ public class FolioProcesos implements Serializable {
 	}
 
 	public FolioProcesos(int idFolioProcesos, Integer year, Integer folioEstPa, Integer folioEstPb,
-			Integer folioUltraUno, Integer folioUltraDos, Integer folioVotatorA, Integer folioVotatorB) {
+			Integer folioUltraUno, Integer folioUltraDos, Integer folioVotatorA, Integer folioVotatorB,
+			Integer folioLuwaUno, Integer folioLuwaDos, Integer folioLuwaTres, Integer folioLuwaCuatro,
+			Integer folioLuwaCinco) {
 		this.idFolioProcesos = idFolioProcesos;
 		this.year = year;
 		this.folioEstPa = folioEstPa;
@@ -31,6 +38,11 @@ public class FolioProcesos implements Serializable {
 		this.folioUltraDos = folioUltraDos;
 		this.folioVotatorA = folioVotatorA;
 		this.folioVotatorB = folioVotatorB;
+		this.folioLuwaUno = folioLuwaUno;
+		this.folioLuwaDos = folioLuwaDos;
+		this.folioLuwaTres = folioLuwaTres;
+		this.folioLuwaCuatro = folioLuwaCuatro;
+		this.folioLuwaCinco = folioLuwaCinco;
 	}
 
 	public int getIdFolioProcesos() {
@@ -95,6 +107,46 @@ public class FolioProcesos implements Serializable {
 
 	public void setFolioVotatorB(Integer folioVotatorB) {
 		this.folioVotatorB = folioVotatorB;
+	}
+
+	public Integer getFolioLuwaUno() {
+		return folioLuwaUno;
+	}
+
+	public void setFolioLuwaUno(Integer folioLuwaUno) {
+		this.folioLuwaUno = folioLuwaUno;
+	}
+
+	public Integer getFolioLuwaDos() {
+		return folioLuwaDos;
+	}
+
+	public void setFolioLuwaDos(Integer folioLuwaDos) {
+		this.folioLuwaDos = folioLuwaDos;
+	}
+
+	public Integer getFolioLuwaTres() {
+		return folioLuwaTres;
+	}
+
+	public void setFolioLuwaTres(Integer folioLuwaTres) {
+		this.folioLuwaTres = folioLuwaTres;
+	}
+
+	public Integer getFolioLuwaCuatro() {
+		return folioLuwaCuatro;
+	}
+
+	public void setFolioLuwaCuatro(Integer folioLuwaCuatro) {
+		this.folioLuwaCuatro = folioLuwaCuatro;
+	}
+
+	public Integer getFolioLuwaCinco() {
+		return folioLuwaCinco;
+	}
+
+	public void setFolioLuwaCinco(Integer folioLuwaCinco) {
+		this.folioLuwaCinco = folioLuwaCinco;
 	}
 
 }
