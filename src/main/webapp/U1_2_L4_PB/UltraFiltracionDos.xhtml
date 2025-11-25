@@ -1,0 +1,1284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small"
+						value="CAPTURA DE ULTRAFILTRACIÓN II&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{ultraDosBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{ultraDosBean.fecha}&nbsp;&nbsp;&nbsp;"
+						styleClass="fuenteTitulo" />
+
+				</div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab id="tRegTurnos" title="OPERADORES / COORDINADORES EN TURNO"
+							titleStyle="font-size: .8rem; background-color: #283747; color: #F5F5F5">
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+								<p:splitterPanel size="20"
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgTurnos" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel for="turno" value="Turno" />
+										<p:autoComplete id="turno" size="35" required="false"
+											requiredMessage="Turno requerido" autocomplete="off"
+											placeholder="Ingresa Turno" dropdown="true"
+											value="#{ultraDosBean.filterTurno}"
+											completeMethod="#{ultraDosBean.buscarNombreTurno}">
+										</p:autoComplete>
+
+										<p:outputLabel for="operador" value="Operador" />
+										<p:autoComplete id="operador" size="35" required="false"
+											requiredMessage="Operador requerido" autocomplete="off"
+											placeholder="Ingresa Operador" dropdown="true"
+											value="#{ultraDosBean.filterOperador}"
+											completeMethod="#{ultraDosBean.buscarNombreOperador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="coord" value="Coordinador" />
+										<p:autoComplete id="coord" size="35" required="false"
+											requiredMessage="Coordinador requerido" autocomplete="off"
+											placeholder="Ingresa Coordinador" dropdown="true"
+											value="#{ultraDosBean.filterUsuario}"
+											completeMethod="#{ultraDosBean.buscarNombreCoordinador}">
+										</p:autoComplete>
+
+										<p:outputLabel for="reg" value="Registrar turno" />
+										<p:commandButton id="reg" value="REGISTRAR"
+											styleClass="fuente"
+											actionListener="#{ultraDosBean.guardarRegistroTurnos()}"
+											update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
+											style="width: 8rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<p:outputLabel value="TURNOS REGISTRADOS" />
+									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
+										var="turnos" sortMode="multiple" rowHover="true"
+										style="width: 80%" paginatorAlwaysVisible="true"
+										scrollable="true" value="#{ultraDosBean.listarRegistroTurnos}"
+										emptyMessage="NO HAY REGISTROS">
+
+										<p:column headerText="Borrar" width="2rem">
+											<div style="text-align: center">
+												<p:commandButton id="eb" icon="pi pi-fw pi-trash"
+													styleClass="ui-button-warning"
+													action="#{ultraDosBean.borrarTurnos()}"
+													update="frmPrincipal:acco:tRegTurnos">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{ultraDosBean.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipEB" for="eb" value="Borrar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+										<p:column headerText="Editar" width="2rem">
+											<div style="text-align: center">
+												<p:commandButton id="et" icon="pi pi-fw pi-pencil"
+													onclick="PF('dlgEditarTurnos').show()"
+													update="frmTurnos:pnlEditarTurnos"
+													styleClass="ui-button-warning">
+													<f:setPropertyActionListener value="#{turnos}"
+														target="#{ultraDosBean.registroTurnosEditar}" />
+												</p:commandButton>
+												<p:tooltip id="toolTipET" for="et" value="Editar"
+													trackMouse="true" />
+											</div>
+										</p:column>
+
+										<p:column headerText="Turno" width="6rem" styleClass="fondo">
+											<h:outputText value="#{turnos.turnos.nombreTurno}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Fecha registro turno" width="8rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.fecha}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Folio" width="6rem" styleClass="fondo">
+											<h:outputText value="#{turnos.folio}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Operador" width="8rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.operador.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Coordinador" width="8rem"
+											styleClass="fondo">
+											<h:outputText value="#{turnos.usuarios.nombre}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+									</p:dataTable>
+								</p:splitterPanel>
+							</p:splitter>
+
+						</p:tab>
+
+
+
+
+						<p:tab id="pt" title="ULTRA FILTRACIÓN II"
+							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
+
+								<p:splitterPanel size="5"
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgHoja" columns="1" styleClass="tabla fuente">
+										<p:outputLabel value="NUEVA HOJA" />
+										<div style="text-align: center">
+											<p:commandButton value="" styleClass="fuente"
+												actionListener="#{ultraDosBean.guardarUltraDos()}"
+												update="frmPrincipal, frmPrincipal:msgs"
+												icon="pi pi-file-excel" style="width: 2rem; height: 2rem">
+											</p:commandButton>
+
+										</div>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgFechas" columns="2"
+										styleClass="tabla fuente">
+										<p:outputLabel value="SELECCIONA FECHA" />
+										<br />
+										<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
+											showTime="false" disabled="false" showIcon="true"
+											placeholder="SELECCIONA FECHA"
+											inputStyleClass="font-size: .8rem !important pear"
+											inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+											value="#{ultraDosBean.fechaFiltro}"
+											style="font-family: 'Poppins', sans-serif !important;"
+											styleClass="captura" />
+
+										<p:commandButton value="BUSCAR" styleClass="fuente"
+											actionListener="#{ultraDosBean.filtrarPorFecha()}"
+											update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblPrefiltros"
+											icon="pi pi-filter" style="width: 6rem; height: 2rem">
+										</p:commandButton>
+									</h:panelGrid>
+								</p:splitterPanel>
+
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid id="pgRep" columns="4" styleClass="tabla fuente">
+
+										<p:outputLabel value="IMPRIMIR" />
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{ultraDosBean.visualizarReporte()}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+
+										<p:outputLabel value="EXPORTAR" />
+										<h:commandLink id="impExcel"
+											style="height: 30px; font-size: 12px;" target="_blank"
+											actionListener="#{ultraDosBean.visualizarReporteExcel()}">
+											<h:graphicImage url="/resources/img/excel.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+
+									</h:panelGrid>
+								</p:splitterPanel>
+
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+									<h:panelGrid columns="2">
+										<p:commandButton value="AGREGAR / EDITAR" styleClass="fuente"
+											oncomplete="PF('dlgAgregarObs').show()" icon="pi pi-book"
+											update="frmObservaciones:pnlAgregarObs"
+											actionListener="#{ultraDosBean.obtenerObservacion()}"
+											style="width: 6rem; height: 2.5rem">
+										</p:commandButton>
+										<p:dataTable id="tblObs" styleClass="tabla2 fuenteCocedores"
+											var="itemObs" value="#{ultraDosBean.listaFolioUltraDos}"
+											emptyMessage="NO HAY REGISTROS">
+
+											<p:column headerText="Observaciones">
+												<h:outputText value="#{itemObs.observaciones}" />
+											</p:column>
+										</p:dataTable>
+
+									</h:panelGrid>
+
+								</p:splitterPanel>
+
+							</p:splitter>
+
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="false" rowHover="true"
+								scrollHeight="300" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{ultraDosBean.listaUltrafiltracion}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="page" listener="#{ultraDosBean.onPageChange}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblPrefiltros" />
+
+								<p:columnGroup type="header">
+
+
+									<p:row>
+										<p:column rowspan="5" headerText="Editar" styleClass="datos" />
+										<p:column rowspan="3" headerText="HORA" styleClass="datos"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="4" colspan="2" headerText="OPERACIÓN"
+											styleClass="datos" style="font-size: .6rem !important;" />
+									</p:row>
+
+
+									<p:row>
+										<p:column colspan="2" headerText="PREFILTROS"
+											styleClass="color" />
+										<p:column colspan="6" headerText="ALIMENTACIÓN"
+											styleClass="color" />
+										<p:column colspan="3" headerText="ETAPA 1" styleClass="color" />
+										<p:column colspan="3" headerText="ETAPA 2" styleClass="color" />
+										<p:column colspan="3" headerText="ETAPA 3" styleClass="color" />
+										<p:column colspan="3" headerText="ETAPA 4" styleClass="color" />
+										<p:column colspan="3" headerText="CONCENTRADO"
+											styleClass="color" />
+										<p:column colspan="1" headerText="% CONC. PERMEADO"
+											styleClass="color" />
+										<p:column colspan="2" headerText="ESTADO" styleClass="color" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="Presión Entrada" styleClass="datos" />
+										<p:column headerText="Presión Salida" styleClass="datos" />
+										<p:column headerText="Flujo Ent. LPH" styleClass="datos" />
+										<p:column headerText="Temp. °C" styleClass="datos" />
+										<p:column headerText="% Conc. Entrada" styleClass="datos" />
+										<p:column headerText="pH" styleClass="datos" />
+										<p:column headerText="Presión Bar" styleClass="datos" />
+										<p:column headerText="% Bomba" styleClass="datos" />
+										<p:column headerText="Temp. °C" styleClass="datos" />
+										<p:column headerText="Presión PSI" styleClass="datos" />
+										<p:column headerText="Flujo Perm. LPH" styleClass="datos" />
+										<p:column headerText="Temp. °C" styleClass="datos" />
+										<p:column headerText="Presión PSI" styleClass="datos" />
+										<p:column headerText="Flujo Perm. LPH" styleClass="datos" />
+										<p:column headerText="Temp. °C" styleClass="datos" />
+										<p:column headerText="Presión PSI" styleClass="datos" />
+										<p:column headerText="Flujo Perm. LPH" styleClass="datos" />
+										<p:column headerText="Temp. °C" styleClass="datos" />
+										<p:column headerText="Presión PSI" styleClass="datos" />
+										<p:column headerText="Flujo Perm. LPH" styleClass="datos" />
+										<p:column headerText="Conc. Salida %" styleClass="datos" />
+										<p:column headerText="Ratio" styleClass="datos" />
+										<p:column headerText="Flujo Salida" styleClass="datos" />
+										<p:column headerText="% Conc.  Permeado" styleClass="datos" />
+										<p:column headerText="A" styleClass="datos" />
+										<p:column headerText="R" styleClass="datos" />
+									</p:row>
+
+
+								</p:columnGroup>
+								<p:column exportable="false"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'normal'}">
+									<div style="text-align: center">
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											rendered="#{item.hora ne 'PROM.'}"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{ultraDosBean.ultraFiltracionDosEditar}" />
+
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
+									</div>
+
+								</p:column>
+								<p:column headerText="Hora"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.hora}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fuenteNaranja'}" />
+								</p:column>
+
+								<p:column colspan="2" headerText="Operación"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<h:outputText value="#{item.operacion}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Presión entrada"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'prefiltro'}">
+									<h:outputText value="#{item.presionEntrada}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Presión salida"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'prefiltro'}">
+									<h:outputText value="#{item.presionSalida}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Flujo Ent"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.flujoEnt}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Temp"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.temp01}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Conc. entrada"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.concEntrada }"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="pH"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.ph}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Presión Bar"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.presionBar}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="% Bomba"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.porcentajeBomba}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Temp"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
+									<h:outputText value="#{item.temp02}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Presión PSI"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
+									<h:outputText value="#{item.presionPsi01}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Flujo Perm"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa1'}">
+									<h:outputText value="#{item.flujoPerm01}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Temp"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa2'}">
+									<h:outputText value="#{item.temp03}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Presión PSI"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa2'}">
+									<h:outputText value="#{item.presionPsi02}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Flujo Perm"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa2'}">
+									<h:outputText value="#{item.flujoPerm02}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Temp"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa3'}">
+									<h:outputText value="#{item.temp04}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Presión PSI"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa3'}">
+									<h:outputText value="#{item.presionPsi03}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Flujo Perm"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa3'}">
+									<h:outputText value="#{item.flujoPerm03}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Temp"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa4'}">
+									<h:outputText value="#{item.temp05}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Presión PSI"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa4'}">
+									<h:outputText value="#{item.presionPsi04}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Flujo Perm"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'etapa4'}">
+									<h:outputText value="#{item.flujoPerm04}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Conc. Salida"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.concSalida}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Ratio"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.ratio}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="Flujo salida"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentrado'}">
+									<h:outputText value="#{item.flujoSalida}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column headerText="% Concentrado"
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'concentradoPor'}">
+									<h:outputText value="#{item.concPermeado}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+
+								<p:column
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoA}"
+											styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
+								</p:column>
+
+								<p:column
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'fondoAmarillo'}">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoR}"
+											styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+									</div>
+								</p:column>
+
+							</p:dataTable>
+
+
+
+						</p:tab>
+
+						<p:tab title="PRE FILTROS" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #FF8C00; color: #F5F5F5">
+
+							<h:panelGrid id="pgCambioPre" columns="2"
+								styleClass="tabla fuente">
+
+
+								<p:outputLabel value="Hora Inicio" />
+								<pe:timePicker value="#{ultraDosBean.cambioEditar.horaInicio}"
+									mode="spinner" widgetVar="h1" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+								<p:outputLabel value="Hora Final" />
+								<pe:timePicker value="#{ultraDosBean.cambioEditar.horaFinal}"
+									mode="spinner" widgetVar="h2" showOn="button"
+									intervalMinutes="2" endMinutes="59" />
+
+								<p:outputLabel value="" />
+								<p:commandButton value="NUEVO REGISTRO DE CAMBIO DE PREFILTROS"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{ultraDosBean.guardarCambioPreFiltro()}"
+									update="frmPrincipal:acco:tblPrefiltros, frmPrincipal:acco:pgCambioPre"
+									icon="pi pi-fw pi-save" style="width: 20rem; height: 2rem" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblPrefiltros" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="30%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{ultraDosBean.listaCambio.size()}"
+								value="#{ultraDosBean.listaCambio}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="bopre" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{ultraDosBean.borrarPrefiltros()}"
+											update="frmPrincipal:acco:tblPrefiltros">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{ultraDosBean.cambioBorrar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEBP" for="bopre" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarCambioPre').show()"
+										update="frmEditarCambioPre:pnlEditarCambioPre"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{ultraDosBean.cambioEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+								<p:column headerText="Hora inicial" width="10rem">
+									<h:outputText value="#{item.horaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hora final" width="10rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="LIMPIEZA" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #008080; color: #F5F5F5">
+
+							<h:panelGrid id="pgLimpieza" columns="12"
+								styleClass="tabla fuente">
+
+								<p:selectOneMenu id="cocLimp"
+									value="#{ultraDosBean.etapaSeleccionada}" dynamic="true">
+									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+									<f:selectItem itemLabel="ETAPA 1" itemValue="ETAPA 1" />
+									<f:selectItem itemLabel="ETAPA 2" itemValue="ETAPA 2" />
+									<f:selectItem itemLabel="ETAPA 3" itemValue="ETAPA 3" />
+									<f:selectItem itemLabel="ETAPA 4" itemValue="ETAPA 4" />
+									<f:selectItem itemLabel="TANQUE DE SALIDA DE COLUMNAS"
+										itemValue="TANQUE DE SALIDA DE COLUMNAS" />
+									<f:selectItem itemLabel="TANQUE DE ALIMENTACIÓN"
+										itemValue="TANQUE DE ALIMENTACIÓN" />
+									<f:selectItem
+										itemLabel="TANQUE DE SALIDA DE LA ULTRAFILTRACIÓN"
+										itemValue="TANQUE DE SALIDA DE LA ULTRAFILTRACIÓN" />
+									<f:selectItem itemLabel="TUBERÍA ORIENTE DE ENVÍO A PLANTA A"
+										itemValue="TUBERÍA ORIENTE DE ENVÍO A PLANTA A" />
+									<f:selectItem itemLabel="TUBERÍA PONIENTE DE ENVÍO A PLANTA A"
+										itemValue="TUBERÍA PONIENTE DE ENVÍO A PLANTA A" />
+								</p:selectOneMenu>
+								<p:outputLabel value="" />
+								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
+									styleClass="fuente camposLimpieza"
+									actionListener="#{ultraDosBean.guardarLimpieza()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLim"
+									value="#{ultraDosBean.noLimpiezaSeleccionadaBorrar}"
+									dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA A ELIMINAR" itemValue="" />
+									<f:selectItems value="#{ultraDosBean.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="BORRAR"
+									actionListener="#{ultraDosBean.deleteLimpieza()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+
+								<p:spacer width="5rem" />
+								<p:selectOneMenu id="noLimVoBo"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									value="#{ultraDosBean.noLimpiezaVoBo}" dynamic="true">
+									<f:selectItem itemLabel="NO. LIMPIEZA Vo.Bo." itemValue="" />
+									<f:selectItems value="#{ultraDosBean.listaLimpiezas}" />
+								</p:selectOneMenu>
+
+								<p:commandButton value="AGREGAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{ultraDosBean.agregarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+								<p:commandButton value="BORRAR"
+									rendered="#{login.usuario.perfiles.idPerfil==15}"
+									actionListener="#{ultraDosBean.borrarVoBo()}"
+									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
+
+							</h:panelGrid>
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblLimpieza" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="210"
+								scrollWidth="80%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{ultraDosBean.listaLimpieza.size()}"
+								value="#{ultraDosBean.listaLimpieza}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarLimpieza').show()"
+										update="frmEditarLimpieza:pnlEditarLimpieza"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{ultraDosBean.limpiezaEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+								<p:column headerText="No. Limpieza" width="3rem">
+									<div style="text-align: center">
+										<h:outputText value="#{item.noLimpieza}"
+											style="color: #036FAB;" />
+									</div>
+								</p:column>
+								<p:column headerText="Proceso" width="5rem">
+									<h:outputText value="#{item.proceso}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Equipo" width="5rem">
+									<h:outputText value="#{item.noCocedor}" style="color: #036FAB;" />
+								</p:column>
+								<p:column headerText="Hora inicial" width="4rem">
+									<h:outputText value="#{item.horaInicial}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="4rem">
+									<h:outputText value="#{item.horaFinal}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Químico" width="6rem">
+									<h:outputText value="#{item.quimico}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Litros usados" width="4rem">
+									<h:outputText value="#{item.litrosUsados}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Lote" width="6rem">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VoBo" width="5rem"
+									styleClass="#{item.voBo eq 'PENDIENTE' ? 'pendiente' : 'aprobado'}">
+									<h:outputText value="#{item.voBo}" style="color: #FFFFFF;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+
+						<p:tab title="ORDEN DE MANTENIMIENTO"
+							titleStyle="font-size: .8rem; background-color: #696969; color: #F5F5F5">
+
+
+							<h:panelGrid id="pgManto" columns="2" styleClass="tabla fuente">
+
+								<p:outputLabel value="No de Orden" />
+								<p:inputText id="om" styleClass="camposManto"
+									value="#{ultraDosBean.ordenMantenimiento.noOrden}"
+									required="false" requiredMessage="Campo requerido"
+									style="width: 8rem" />
+
+								<p:outputLabel value="Hora Inicio" />
+								<pe:timePicker
+									value="#{ultraDosBean.ordenMantenimiento.horaInicio}"
+									mode="spinner" widgetVar="h3" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+								<p:outputLabel value="Hora Final" />
+								<pe:timePicker
+									value="#{ultraDosBean.ordenMantenimiento.horaFin}"
+									mode="spinner" widgetVar="h4" showOn="button"
+									intervalMinutes="1" endMinutes="59" />
+
+								<p:outputLabel value="Descripción" />
+								<p:inputTextarea id="desc" styleClass="camposManto"
+									value="#{ultraDosBean.ordenMantenimiento.descripcion}"
+									required="false" requiredMessage="Campo requerido"
+									style="width: 20rem" />
+
+								<p:outputLabel value="" />
+								<p:commandButton value="REGISTRAR NUEVA ORDEN"
+									styleClass="fuente camposManto"
+									actionListener="#{ultraDosBean.guardarOrdenManto()}"
+									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
+									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
+
+
+							</h:panelGrid>
+
+							<br />
+							<p:divider />
+							<br />
+							<br />
+
+
+							<p:dataTable id="tblManto" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="50%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{ultraDosBean.listaOrdenManto.size()}"
+								value="#{ultraDosBean.listaOrdenManto}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+								<p:column headerText="Borrar" width="2rem">
+									<div style="text-align: center">
+										<p:commandButton id="em" icon="pi pi-fw pi-trash"
+											styleClass="ui-button-warning"
+											action="#{ultraDosBean.borrarOrdenManto()}"
+											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{ultraDosBean.ordenMantenimientoEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipEM" for="em" value="Borrar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Editar" width="3rem" exportable="false">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditarManto').show()"
+										update="frmEditarManto:pnlEditarManto"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{ultraDosBean.ordenMantenimientoEditar}" />
+									</p:commandButton>
+									<p:tooltip id="toolTipE" for="ed" value="Editar"
+										trackMouse="true" />
+								</p:column>
+
+								<p:column headerText="No. de orden" width="3rem">
+									<h:outputText value="#{item.noOrden}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora inicial" width="3rem">
+									<h:outputText value="#{item.horaInicio}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Hora final" width="3rem">
+									<h:outputText value="#{item.horaFin}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="Descripción" width="20rem">
+									<p:inputTextarea value="#{item.descripcion}" readonly="true"
+										style="color: #036FAB; width: 100%;" rows="6" />
+								</p:column>
+
+
+							</p:dataTable>
+						</p:tab>
+
+
+
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="Actualizar información de Ultrafiltración II"
+					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
+					closeOnEscape="true" minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="4">
+
+
+						<p:outputLabel for="horario" value="Horario" />
+						<p:inputText id="horario" styleClass="fuenteNaranja"
+							disabled="true"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.hora}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="operacion" value="Operación" />
+						<p:inputText id="operacion" styleClass="camposCocedores"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.operacion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+						<p:outputLabel for="preEnt" value="Presión entrada" />
+						<p:inputText id="preEnt" styleClass="camposCocedores"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.presionEntrada}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="preSal" value="Presión salida" />
+						<p:inputText id="preSal" styleClass="camposCocedores"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.presionSalida}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+						<p:outputLabel for="flujoEnt" value="Flujo Ent. LPH" />
+						<p:inputText id="flujoEnt"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.flujoEnt}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="tem01" value="Temp. °C" />
+						<p:inputText id="tem01"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.temp01}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="con" value="% Conc. Entrada" />
+						<p:inputText id="con"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.concEntrada}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="pH" value="pH" />
+						<p:inputText id="pH"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.ph}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="pbar" value="Presión Bar" />
+						<p:inputText id="pbar"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.presionBar}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="pbomba" value="% Bomba" />
+						<p:inputText id="pbomba"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.porcentajeBomba}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+
+						<p:outputLabel for="temp02" value="Temp. °C" />
+						<p:inputText id="temp02"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.temp02}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="prepsi01" value="Presión PSI" />
+						<p:inputText id="prepsi01"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.presionPsi01}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="flujoPerm01" value="Flujo Perm. LPH" />
+						<p:inputText id="flujoPerm01"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.flujoPerm01}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+
+						<p:outputLabel for="temp03" value="Temp. °C" />
+						<p:inputText id="temp03"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.temp03}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="prepsi02" value="Presión PSI" />
+						<p:inputText id="prepsi02"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.presionPsi02}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="flujoPerm02" value="Flujo Perm. LPH" />
+						<p:inputText id="flujoPerm02"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.flujoPerm02}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="temp04" value="Temp. °C" />
+						<p:inputText id="temp04"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.temp04}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="prepsi03" value="Presión PSI" />
+						<p:inputText id="prepsi03"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.presionPsi03}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="flujoPerm03" value="Flujo Perm. LPH" />
+						<p:inputText id="flujoPerm03"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.flujoPerm03}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="temp05" value="Temp. °C" />
+						<p:inputText id="temp05"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.temp05}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="prepsi04" value="Presión PSI" />
+						<p:inputText id="prepsi04"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.presionPsi04}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="flujoPerm04" value="Flujo Perm. LPH" />
+						<p:inputText id="flujoPerm04"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.flujoPerm04}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="conSalida" value="Conc. Salida %" />
+						<p:inputText id="conSalida"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.concSalida}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="ratio" value="Ratio" />
+						<p:inputText id="ratio"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.ratio}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="flujoSalida" value="Flujo Salida" />
+						<p:inputText id="flujoSalida"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.flujoSalida}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel for="concPerm" value="% Conc. Permeado" />
+						<p:inputText id="concPerm"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.concPermeado}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
+							styleClass="#{ultraDosBean.ultraFiltracionDosEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+						<p:selectOneButton id="a"
+							value="#{ultraDosBean.ultraFiltracionDosEditar.estadoAR}"
+							styleClass="#{ultraDosBean.ultraFiltracionDosEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							<f:selectItem itemLabel="Aceptado" itemValue="true" />
+							<f:selectItem itemLabel="Rechazado" itemValue="false" />
+							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />
+						</p:selectOneButton>
+
+					</h:panelGrid>
+
+					<br />
+					<br />
+					<br />
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{ultraDosBean.actualizarUltraDos()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR PREFILTROS-->
+			<h:form id="frmEditarCambioPre">
+				<p:dialog header="Actualizar información de Cambio de prefiltros"
+					styleClass="tabla fuente" widgetVar="dlgEditarCambioPre"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEditarCambioPre" columns="2">
+
+						<p:outputLabel value="Hora Inicial" />
+						<pe:timePicker value="#{ultraDosBean.cambioEditar.horaInicio}"
+							mode="spinner" widgetVar="h5" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel value="Hora Final" />
+						<pe:timePicker value="#{ultraDosBean.cambioEditar.horaFinal}"
+							mode="spinner" widgetVar="h6" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{ultraDosBean.actualizarCambio()}"
+							oncomplete="PF('dlgEditarCambioPre').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR PREFILTROS-->
+
+			<!-- INICIA FORMULARIO PARA EDITAR LIMPIEZA-->
+			<h:form id="frmEditarLimpieza">
+				<p:dialog header="Actualizar información de Limpieza"
+					styleClass="tabla fuente" widgetVar="dlgEditarLimpieza"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+					<h:panelGrid id="pnlEditarLimpieza" columns="2">
+						<p:outputLabel for="pro" value="Proceso" />
+						<p:inputText id="pro" styleClass="camposLimpieza" readonly="true"
+							value="#{ultraDosBean.limpiezaEditar.proceso}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+						<p:outputLabel value="Hora Inicial" />
+						<pe:timePicker value="#{ultraDosBean.limpiezaEditar.horaInicial}"
+							mode="spinner" widgetVar="h7" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel value="Hora Final" />
+						<pe:timePicker value="#{ultraDosBean.limpiezaEditar.horaFinal}"
+							mode="spinner" widgetVar="h8" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel for="qui" value="Químico" />
+						<p:inputText id="qui" styleClass="camposLimpieza"
+							value="#{ultraDosBean.limpiezaEditar.quimico}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+
+						<p:outputLabel for="lts" value="Litros usados"
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}" />
+						<p:inputText id="lts" styleClass="camposLimpieza"
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}"
+							value="#{ultraDosBean.limpiezaEditar.litrosUsados}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+
+						<p:outputLabel for="lote" value="Lote"
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}" />
+						<p:inputText id="lote" styleClass="camposLimpieza"
+							value="#{ultraDosBean.limpiezaEditar.lote}" required="false"
+							rendered="#{ultraDosBean.limpiezaEditar.proceso ne 'ENJUAGUE' and ultraDosBean.limpiezaEditar.proceso ne 'DESCONCETRACIÓN'}"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{ultraDosBean.actualizarLimpieza()}"
+							oncomplete="PF('dlgEditarLimpieza').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR LIMPIEZA-->
+
+
+
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR ORDEN DE MANTENIMIENTO-->
+			<h:form id="frmEditarManto">
+				<p:dialog header="Actualizar información de orden de Mantenimiento"
+					widgetVar="dlgEditarManto" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true" styleClass="tabla fuente">
+					<h:panelGrid id="pnlEditarManto" columns="2">
+
+						<p:outputLabel for="orden" value="No de Orden" />
+						<p:inputText id="orden" styleClass="camposManto"
+							value="#{ultraDosBean.ordenMantenimientoEditar.noOrden}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+
+						<p:outputLabel value="Hora Inicio" />
+						<pe:timePicker
+							value="#{ultraDosBean.ordenMantenimientoEditar.horaInicio}"
+							mode="spinner" widgetVar="h9" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+						<p:outputLabel value="Hora Final" />
+						<pe:timePicker
+							value="#{ultraDosBean.ordenMantenimientoEditar.horaFin}"
+							mode="spinner" widgetVar="h10" showOn="button"
+							intervalMinutes="1" endMinutes="59" />
+
+						<p:outputLabel value="Descripción" />
+						<p:inputTextarea id="desc" styleClass="camposManto"
+							value="#{ultraDosBean.ordenMantenimientoEditar.descripcion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{ultraDosBean.actualizarOrdenManto()}"
+							oncomplete="PF('dlgEditarManto').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR PURGAS-->
+
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmTurnos">
+				<p:dialog header="Actualizar información del turno"
+					widgetVar="dlgEditarTurnos" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditarTurnos" columns="2" styleClass="fuente">
+
+
+						<p:outputLabel for="operador" value="Operador" />
+						<p:autoComplete id="operador" size="35" required="false"
+							requiredMessage="Operador requerido" autocomplete="off"
+							placeholder="Ingresa Operador" dropdown="true"
+							value="#{ultraDosBean.filterOperador}"
+							completeMethod="#{ultraDosBean.buscarNombreOperador}">
+						</p:autoComplete>
+
+						<p:outputLabel value="" />
+						<p:outputLabel value="" />
+
+						<p:outputLabel for="coord" value="Coordinador" />
+						<p:autoComplete id="coord" size="35" required="false"
+							requiredMessage="Coordinador requerido" autocomplete="off"
+							placeholder="Ingresa coordinador" dropdown="true"
+							value="#{ultraDosBean.filterUsuario}"
+							completeMethod="#{ultraDosBean.buscarNombreCoordinador}">
+						</p:autoComplete>
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{ultraDosBean.actualizarTurnos()}"
+							oncomplete="PF('dlgEditarTurnos').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmObservaciones">
+				<p:dialog header="Agregar/Editar observación"
+					widgetVar="dlgAgregarObs" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
+
+						<p:inputTextarea id="textObs"
+							value="#{ultraDosBean.folioPrepUltraDos.observaciones}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+					</h:panelGrid>
+					<br />
+					<br />
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{ultraDosBean.guardarObservaciones()}"
+							oncomplete="PF('dlgAgregarObs').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

@@ -57,8 +57,8 @@
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==1}">
 					<f:facet name="start">
-						<p:graphicImage name="images/primefaces-logo.svg"
-							library="showcase" />
+						<h:graphicImage library="images" name="excel-file.png" width="24"
+							height="24" alt="add" />
 					</f:facet>
 					<p:submenu label="Materia Prima" icon="pi pi-fw pi-cog">
 
@@ -235,20 +235,24 @@
 
 						<p:submenu label="Evaporadores (Luwas)" icon="pi pi-fw pi-cog">
 							<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
-								<p:menuitem value="Operadores" icon="pi pi-fw pi-users" outcome="OperadoresLuwaUno"/>
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwasPA" />
 								<p:menuitem value="Luwa 1" outcome="LuwaUno"
 									icon="pi pi-fw pi-cog" />
-								<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"  outcome="LuwaDos"/>
-								<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog" outcome="LuwaTres" />
-								<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog" outcome="LuwaCinco" />
+								<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
+									outcome="LuwaDos" />
+								<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+									outcome="LuwaTres" />
+								<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+									outcome="LuwaCinco" />
 							</p:submenu>
 							<p:submenu label="Planta B" icon="pi pi-fw pi-plus">
-								<p:menuitem value="Operadores" icon="pi pi-fw pi-users" outcome="OperadoresLuwaPB"/>
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwaPB" />
 								<p:menuitem value="Luwa 4" outcome="LuwaCuatro"
 									icon="pi pi-fw pi-video" />
 							</p:submenu>
 						</p:submenu>
-
 
 					</p:submenu>
 
@@ -371,8 +375,29 @@
 								icon="pi pi-fw pi-users">
 							</p:menuitem>
 						</p:submenu>
+						
+						<p:submenu label="Evaporadores (Luwas)" icon="pi pi-fw pi-cog">
+						<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
+							<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+								outcome="OperadoresLuwasPA" />
+							<p:menuitem value="Luwa 1" outcome="LuwaUno"
+								icon="pi pi-fw pi-cog" />
+							<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
+								outcome="LuwaDos" />
+							<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+								outcome="LuwaTres" />
+							<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+								outcome="LuwaCinco" />
+						</p:submenu>
+						<p:submenu label="Planta B" icon="pi pi-fw pi-plus">
+							<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+								outcome="OperadoresLuwaPB" />
+							<p:menuitem value="Luwa 4" outcome="LuwaCuatro"
+								icon="pi pi-fw pi-video" />
+						</p:submenu>
 					</p:submenu>
-
+						
+					</p:submenu>
 
 					<p:divider layout="vertical" />
 
@@ -555,6 +580,27 @@
 							</p:menuitem>
 						</p:submenu>
 
+						<p:submenu label="Evaporadores (Luwas)" icon="pi pi-fw pi-cog">
+							<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwasPA" />
+								<p:menuitem value="Luwa 1" outcome="LuwaUno"
+									icon="pi pi-fw pi-cog" />
+								<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
+									outcome="LuwaDos" />
+								<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+									outcome="LuwaTres" />
+								<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+									outcome="LuwaCinco" />
+							</p:submenu>
+							<p:submenu label="Planta B" icon="pi pi-fw pi-plus">
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwaPB" />
+								<p:menuitem value="Luwa 4" outcome="LuwaCuatro"
+									icon="pi pi-fw pi-video" />
+							</p:submenu>
+						</p:submenu>
+
 					</p:submenu>
 
 
@@ -625,6 +671,7 @@
 							icon="pi pi-fw pi-server">
 						</p:menuitem>
 					</p:submenu>
+
 
 					<p:divider layout="vertical" />
 
@@ -772,7 +819,30 @@
 							</p:menuitem>
 						</p:submenu>
 
+						<p:submenu label="Evaporadores (Luwas)" icon="pi pi-fw pi-cog">
+							<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwasPA" />
+								<p:menuitem value="Luwa 1" outcome="LuwaUno"
+									icon="pi pi-fw pi-cog" />
+								<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
+									outcome="LuwaDos" />
+								<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+									outcome="LuwaTres" />
+								<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+									outcome="LuwaCinco" />
+							</p:submenu>
+							<p:submenu label="Planta B" icon="pi pi-fw pi-plus">
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwaPB" />
+								<p:menuitem value="Luwa 4" outcome="LuwaCuatro"
+									icon="pi pi-fw pi-video" />
+							</p:submenu>
+						</p:submenu>
+
 					</p:submenu>
+
+
 
 					<p:divider layout="vertical" />
 
@@ -983,7 +1053,7 @@
 
 
 
-				<!-- ULTRA FILTRACION I -->
+				<!-- ULTRA FILTRACION I, II LUWA 4 PLANTA B-->
 
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==13}">
@@ -992,8 +1062,7 @@
 							library="showcase" />
 					</f:facet>
 
-					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
-
+					<p:submenu label="Ultrafiltración I" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Ultra Filtración I"
 							outcome="UltraFiltracionUno" icon="pi pi-fw pi-server">
 						</p:menuitem>
@@ -1003,22 +1072,7 @@
 						</p:menuitem>
 					</p:submenu>
 
-					<p:divider layout="vertical" />
-
-					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
-						action="/index?faces-redirect=true"
-						actionListener="#{login.cerrarSesion()}" />
-				</p:menubar>
-
-				<!-- ULTRA FILTRACION II -->
-				<p:menubar hideDelay="1000"
-					rendered="#{login.usuario.perfiles.idPerfil==14}">
-					<f:facet name="start">
-						<p:graphicImage name="images/primefaces-logo.svg"
-							library="showcase" />
-					</f:facet>
-
-					<p:submenu label="Ultrafiltración" icon="pi pi-fw pi-cog">
+					<p:submenu label="Ultrafiltración II" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Ultra Filtración II"
 							outcome="UltraFiltracionDos" icon="pi pi-fw pi-server">
 						</p:menuitem>
@@ -1026,7 +1080,13 @@
 						<p:menuitem value="Operadores Ultra II"
 							outcome="OpeUltrafiltracionDos" icon="pi pi-fw pi-users">
 						</p:menuitem>
+					</p:submenu>
 
+					<p:submenu label="Luwa Planta B" icon="pi pi-fw pi-server">
+						<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+							outcome="OperadoresLuwaPB" />
+						<p:menuitem value="Luwa 4" outcome="LuwaCuatro"
+							icon="pi pi-fw pi-video" />
 					</p:submenu>
 
 					<p:divider layout="vertical" />
@@ -1035,6 +1095,91 @@
 						action="/index?faces-redirect=true"
 						actionListener="#{login.cerrarSesion()}" />
 				</p:menubar>
+
+				<!-- ALMACEN-->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==16}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+					<p:submenu label="Molienda" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Molienda" outcome="Molienda"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:menuitem value="Operadores" outcome="OperadoresMolienda"
+							icon="pi pi-fw pi-users">
+						</p:menuitem>
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+				<!-- LUWAS PLANTA A-->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==17}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+
+					<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
+						<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+							outcome="OperadoresLuwasPA" />
+						<p:menuitem value="Luwa 1" outcome="LuwaUno"
+							icon="pi pi-fw pi-cog" />
+						<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
+							outcome="LuwaDos" />
+						<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+							outcome="LuwaTres" />
+						<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+							outcome="LuwaCinco" />
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+
+
+				<!-- LUWAS PLANTA A -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==14}">
+					<f:facet name="start">
+						<p:graphicImage name="images/primefaces-logo.svg"
+							library="showcase" />
+					</f:facet>
+
+
+					<p:submenu label="Evaporadores (Luwas)" icon="pi pi-fw pi-cog">
+						<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
+							<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+								outcome="OperadoresLuwasPA" />
+							<p:menuitem value="Luwa 1" outcome="LuwaUno"
+								icon="pi pi-fw pi-cog" />
+							<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
+								outcome="LuwaDos" />
+							<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+								outcome="LuwaTres" />
+							<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+								outcome="LuwaCinco" />
+						</p:submenu>
+					</p:submenu>
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
 
 
 				<!-- INOCUIDAD -->
@@ -1140,6 +1285,27 @@
 							<p:menuitem value="Operadores" outcome="OperadoresMolienda"
 								icon="pi pi-fw pi-users">
 							</p:menuitem>
+						</p:submenu>
+
+						<p:submenu label="Evaporadores (Luwas)" icon="pi pi-fw pi-cog">
+							<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwasPA" />
+								<p:menuitem value="Luwa 1" outcome="LuwaUno"
+									icon="pi pi-fw pi-cog" />
+								<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
+									outcome="LuwaDos" />
+								<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+									outcome="LuwaTres" />
+								<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+									outcome="LuwaCinco" />
+							</p:submenu>
+							<p:submenu label="Planta B" icon="pi pi-fw pi-plus">
+								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+									outcome="OperadoresLuwaPB" />
+								<p:menuitem value="Luwa 4" outcome="LuwaCuatro"
+									icon="pi pi-fw pi-video" />
+							</p:submenu>
 						</p:submenu>
 
 					</p:submenu>

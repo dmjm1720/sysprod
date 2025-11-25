@@ -93,13 +93,13 @@ public class FiltroUrl implements PhaseListener {
 			return true;
 		}else if (rol.equals("Procesos Planta B") && page.contains("/procesosB/")) {
 			return true;
-		}else if (rol.equals("Ultra Filtración I") && page.contains("/ultra1/")) {
-			return true;
-		}else if (rol.equals("Ultra Filtración II") && page.contains("/ultra2/")) {
+		}else if (rol.equals("Ultra filtración I, II y Luwa 4") && page.contains("/U1_2_L4_PB/")) {
 			return true;
 		}else if (rol.equals("Inocuidad") && page.contains("/inocuidad/")) {
 			return true;
 		}else if (rol.equals("Almacén") && page.contains("/almacen/")) {
+			return true;
+		}else if (rol.equals("Luwas Planta A") && page.contains("/luwaA/")) {
 			return true;
 		}
 		

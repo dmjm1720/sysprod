@@ -84,4 +84,10 @@
 	right: 15px;
 }
 
+.ui-menubar .ui-menubar-start {
+    display: flex !important;
+    align-items: center;
+}
+
+
 
