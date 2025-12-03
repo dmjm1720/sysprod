@@ -14,6 +14,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,6 +53,7 @@ import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.ResumenLuwaUno;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("luwaUnoBean")
 @ViewScoped
@@ -868,6 +871,55 @@ public class LuwaUnoBean implements Serializable {
 			return true;
 		}
 		return false;
+	}
+	
+	public void visualizarReporte() throws SQLException {
+		@SuppressWarnings("unused")
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		// ACTUALIZAR EL RESUMEN
+		try {
+			resumenLuwa();
+		} catch (ParseException e) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL RESUMEN");
+			e.printStackTrace();
+		}
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/luwa_uno_rep.jasper");
+		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+		// ACTUALIZAR EL RESUMEN
+		try {
+			resumenLuwa();
+		} catch (ParseException e) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL RESUMEN");
+			e.printStackTrace();
+		}
+
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/luwa_uno_rep_excel.jasper");
+
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString());
+
+		FacesContext.getCurrentInstance().responseComplete();
+
 	}
 
 }

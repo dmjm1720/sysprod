@@ -103,7 +103,7 @@ public class UsuarioDaoImpl extends Conexion implements IUsuarioDao {
 	@Override
 	public List<Usuarios> listarUsuarios() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("FROM Usuarios", Usuarios.class).list();
+			return session.createQuery("FROM Usuarios WHERE nombre != 'PENDIENTE'", Usuarios.class).list();
 		}
 	}
 

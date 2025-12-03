@@ -908,7 +908,8 @@ public class MoliendaBean implements Serializable {
 		rt.setUsuarios(u);
 
 		rt.setFecha(fecha);
-		rt.setFolio(folioFecha);
+		IFolioPreparacionMoliendaDao folioPrep = new FolioPreparacionMoliendaDaoImpl();
+		rt.setFolio(folioPrep.folioMoliendaActual(fecha));
 		rt.setDescProceso("MOLIENDA");
 
 		rDao.guardaRegistroTurnos(rt);
@@ -1473,8 +1474,10 @@ public class MoliendaBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
+		IFolioPreparacionMoliendaDao folioPrep = new FolioPreparacionMoliendaDaoImpl();
+		
 		ruta = servletContext.getRealPath("/REP/molienda_rep.jasper");
-		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+		reporte.getReporte(ruta, fecha.toString(), folioPrep.folioMoliendaActual(fecha));
 
 		FacesContext.getCurrentInstance().responseComplete();
 
@@ -1533,8 +1536,8 @@ public class MoliendaBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = servletContext.getRealPath("/REP/molienda_rep.jasper");
 
-		// Llamar a la versión que exporta a Excel
-		reporte.getReporteExcel(ruta, fecha.toString(), folioFecha);
+		IFolioPreparacionMoliendaDao folioPrep = new FolioPreparacionMoliendaDaoImpl();
+		reporte.getReporteExcel(ruta, fecha.toString(), folioPrep.folioMoliendaActual(fecha));
 
 		FacesContext.getCurrentInstance().responseComplete();
 
