@@ -18,6 +18,9 @@ public class FolioProcesos implements Serializable {
 	private Integer folioLuwaTres;
 	private Integer folioLuwaCuatro;
 	private Integer folioLuwaCinco;
+	private Integer folioDafUno;
+	private Integer folioDafDos;
+	private Integer folioPreparacion;
 
 	public FolioProcesos() {
 	}
@@ -29,7 +32,7 @@ public class FolioProcesos implements Serializable {
 	public FolioProcesos(int idFolioProcesos, Integer year, Integer folioEstPa, Integer folioEstPb,
 			Integer folioUltraUno, Integer folioUltraDos, Integer folioVotatorA, Integer folioVotatorB,
 			Integer folioLuwaUno, Integer folioLuwaDos, Integer folioLuwaTres, Integer folioLuwaCuatro,
-			Integer folioLuwaCinco) {
+			Integer folioLuwaCinco, Integer folioDafUno, Integer folioDafDos, Integer folioPreparacion) {
 		this.idFolioProcesos = idFolioProcesos;
 		this.year = year;
 		this.folioEstPa = folioEstPa;
@@ -43,6 +46,9 @@ public class FolioProcesos implements Serializable {
 		this.folioLuwaTres = folioLuwaTres;
 		this.folioLuwaCuatro = folioLuwaCuatro;
 		this.folioLuwaCinco = folioLuwaCinco;
+		this.folioDafUno = folioDafUno;
+		this.folioDafDos = folioDafDos;
+		this.folioPreparacion = folioPreparacion;
 	}
 
 	public int getIdFolioProcesos() {
@@ -148,5 +154,31 @@ public class FolioProcesos implements Serializable {
 	public void setFolioLuwaCinco(Integer folioLuwaCinco) {
 		this.folioLuwaCinco = folioLuwaCinco;
 	}
+
+	public Integer getFolioDafUno() {
+		return folioDafUno;
+	}
+
+	public void setFolioDafUno(Integer folioDafUno) {
+		this.folioDafUno = folioDafUno;
+	}
+
+	public Integer getFolioDafDos() {
+		return folioDafDos;
+	}
+
+	public void setFolioDafDos(Integer folioDafDos) {
+		this.folioDafDos = folioDafDos;
+	}
+
+	public Integer getFolioPreparacion() {
+		return folioPreparacion;
+	}
+
+	public void setFolioPreparacion(Integer folioPreparacion) {
+		this.folioPreparacion = folioPreparacion;
+	}
+	
+	
 
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -515,12 +516,15 @@ public class UltraFiltracionUnoBean implements Serializable {
 
 				ultraFiltracionUno = new UltrafiltracionUno();
 
-				// **FOLIO_COCEDORES**//
-				int year = 0;
+				// **FOLIO**//
 				int folio = 0;
-				year = LocalDate.now().getYear();
+				//year = LocalDate.now().getYear();
+				Calendar calendario = Calendar.getInstance();
+				calendario.setTime(fec);
+				int newYear = calendario.get(Calendar.YEAR);
 				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
-				folio = folDao.buscarFolioUltraUno(year);
+
+				folio = folDao.buscarFolioUltraUno(newYear);
 
 				// **FOLIO_PREPARACION ULTRA**//
 
@@ -538,7 +542,7 @@ public class UltraFiltracionUnoBean implements Serializable {
 				}
 				// **ACTUALIZAR FOLIO_PROCESOS**//
 				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-				folioDao.actualizarFolioUltraUno(year, folio);
+				folioDao.actualizarFolioUltraUno(newYear, folio);
 			}
 			String script = "setTimeout(function() { window.location.href='UltraFiltracionUno.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);

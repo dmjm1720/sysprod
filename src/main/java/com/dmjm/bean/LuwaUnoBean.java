@@ -642,7 +642,7 @@ public class LuwaUnoBean implements Serializable {
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		return vDao.validarFechasFaltantes(80, "FOLIO_PREPARACION_LUWA_UNO");
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_LUWA_UNO");
 	}
 
 	public void guardarLuwa() {
@@ -674,13 +674,15 @@ public class LuwaUnoBean implements Serializable {
 				ILuwaUnoDao cDao = new LuwaUnoDaoImpl();
 				luwa = new LuwaUno();
 
-				// **FOLIO_COCEDORES**//
-				int year = 0;
+				// **FOLIO**//
 				int folio = 0;
-				year = LocalDate.now().getYear();
+				//year = LocalDate.now().getYear();
+				Calendar calendario = Calendar.getInstance();
+				calendario.setTime(fec);
+				int newYear = calendario.get(Calendar.YEAR);
 				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
 
-				folio = folDao.buscarFolioLuwaUno(year);
+				folio = folDao.buscarFolioLuwaUno(newYear);
 
 				// **FOLIO_PREPARACION_LUWA**//
 
@@ -698,7 +700,7 @@ public class LuwaUnoBean implements Serializable {
 				}
 				// **ACTUALIZAR FOLIO_PROCESOS**//
 				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-				folioDao.actualizarFolioLuwaUno(year, folio);
+				folioDao.actualizarFolioLuwaUno(newYear, folio);
 			}
 			String script = "setTimeout(function() { window.location.href='LuwaUno.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);

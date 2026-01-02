@@ -6,89 +6,58 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf">
 <h:head>
 	<title>Login</title>
-
-	<link href="resources/css/modal.css" rel="stylesheet" type="text/css" />
-	<link href="resources/css/newcss.css" rel="stylesheet" type="text/css" />
+	<link href="resources/css/inicio.css" rel="stylesheet" type="text/css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
 </h:head>
 
 <body>
-	<h:form id="frmMsg">
-		<section class="hero news alternate">
-		<div class="grid-container">
-			<div class="cell">
-				<div class="annotation">SISTEMA DE CAPTURA DE PRODUCCIÓN
-					Release 25.12.02</div>
-				<h1>Coloidales Duché S.A. de C.V.</h1>
+
+
+<!-- 	<p:poll interval="60" update="formLogin" /> -->
+
+
+	<div class="background">
+		<div class="sysprod-text">SYSPROD</div>
+	</div>
+
+	<div class="login-wrapper">
+		<h:form id="formLogin" class="login-card">
+
+			<p:growl id="mensaje" showSummary="true" life="50000"
+				showDetail="true" />
+			<p class="subtitle">Bienvenido a SYSPROD</p>
+			<h2>Iniciar sesión</h2>
+			
+
+			<div class="field">
+				<label for="user">Usuario</label> <input type="text" name="uname"
+					jsf:value="#{login.usuario.usuario}"
+					placeholder="Ingresa tu usuario" required="true" label="username"
+					jsf:requiredMessage="REQUIERE USUARIO" jsf:label="REQUIERE USUARIO" />
 			</div>
-		</div>
-		</section>
 
-		<p:growl id="mensaje" showSummary="true" life="50000"
-			showDetail="true" />
-		<p:growl id="mensajeGral" sticky="true" showDetail="true" life="3000" />
-	</h:form>
-
-
-
-	<h:form id="formLogin" class="modal-content logo-name"
-		style="text-align: center">
-		<p:poll interval="60" update="formLogin" />
-
-		<br></br>
-            SISTEMA DE CAPTURA DE PRODUCCIÓN
-            <div class="imgcontainer">
-
-			<img src="resources/img/security.png" alt="Login" class="avatar" />
-			<br></br> <br></br> <label for="uname"><b>USUARIO</b></label> <br></br>
-			<input type="text" name="uname" jsf:value="#{login.usuario.usuario}"
-				placeholder="Ingresa tu usuario" required="true" label="username"
-				jsf:requiredMessage="REQUIERE USUARIO" jsf:label="REQUIERE USUARIO" />
-			<label for="psw"><b>CONTRASEÑA</b></label> <input type="password"
+			<div class="field">
+				<label for="pass">Contraseña</label> <input type="password"
 				name="psw" placeholder="Ingresa tu contraseña"
 				jsf:value="#{login.usuario.password}" required="true"
 				jsf:label="REQUIERE CONTRASEÑA" label="password"
 				jsf:requiredMessage="REQUIERE PASSWORD" />
-			<p:commandButton id="inicio"
-				update="formLogin,frmMsg:mensaje, frmMsg:mensajeGral" value="INGRESAR AL SISTEMA"
-				actionListener="#{login.login(event)}"
-				oncomplete="handleLoginRequest(xhr, status, args)"
-				style="background-color: #1D60A4; color: #000000; font-family: 'Rajdhani', sans-serif !important">
-			</p:commandButton>
-		</div>
-
-
-
-
-		<div class="loading-page">
-
-			<div class="name-container">
-				<div class="logo-name" style="font-size: 1em">SISTEMA DE
-					CAPTURA DE PRODUCCIÓN</div>
 			</div>
-		</div>
-
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"
-			integrity="sha512-gmwBmiTVER57N3jYS3LinA9eb8aHrJua5iQD7yqYCKa5x6Jjc7VDVaEA0je0Lu0bP9j7tEjV3+1qUm6loO99Kw=="
-			crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<script src="resources/js/validar.js"></script>
 
 
-	</h:form>
+			<p:commandButton id="inicio" class="btn-primary"
+				update="formLogin:mensaje" value="INGRESAR AL SISTEMA"
+				actionListener="#{login.login(event)}"
+				oncomplete="handleLoginRequest(xhr, status, args)">
+			</p:commandButton>
+			<br/>
+			<br/>
+			<p class="subtitle">Release 2025.12.19</p>
+		</h:form>
+	</div>
 
 
-	<script>
-            // Get the modal
-            var modal = document.getElementById('id01');
 
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
 
 	<script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {

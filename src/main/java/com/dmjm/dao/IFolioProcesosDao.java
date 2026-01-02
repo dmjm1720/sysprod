@@ -55,4 +55,12 @@ public interface IFolioProcesosDao {
 	int buscarFolioLuwaCinco(int year);
 
 	void actualizarFolioLuwaCinco(int year, int folio);
+	
+	int buscarFolioDafUno(int year);
+
+	void actualizarFolioDafUno(int year, int folio);
+	
+	int buscarFolioDafDos(int year);
+
+	void actualizarFolioDafDos(int year, int folio);
 }

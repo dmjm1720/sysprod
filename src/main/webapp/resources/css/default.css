@@ -371,6 +371,13 @@ a:link:hover, a:visited:hover {
 	background-color: #66CDAA !important;
 }
 
+.camposFloculante {
+	font-family: "IBM Plex Sans", sans-serif;
+	font-optical-sizing: auto;
+	background-color: #CBD99B !important;
+	font-size: .8rem !important;
+}
+
 .filtros {
 	font-family: "IBM Plex Sans", sans-serif;
 	font-optical-sizing: auto;

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.dmjm.model.DafUnoPrepFlolucolante"
+		table="DAF_UNO_PREP_FLOLUCOLANTE" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idDafUno" type="int">
+			<column name="ID_DAF_UNO" />
+			<generator class="native" />
+		</id>
+		<property name="folioDaf" type="java.lang.Integer">
+			<column name="FOLIO_DAF" />
+		</property>
+		<property name="agua" type="big_decimal">
+			<column name="AGUA" precision="10" />
+		</property>
+		<property name="hora" type="time">
+			<column name="HORA" length="16" />
+		</property>
+		<property name="kgFloculante" type="big_decimal">
+			<column name="KG_FLOCULANTE" precision="10" />
+		</property>
+		<property name="lote" type="string">
+			<column name="LOTE" length="50" />
+		</property>
+		<property name="estado" type="java.lang.Integer">
+			<column name="ESTADO" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+	</class>
+</hibernate-mapping>

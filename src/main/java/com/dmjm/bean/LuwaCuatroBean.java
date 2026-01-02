@@ -642,7 +642,7 @@ public class LuwaCuatroBean implements Serializable {
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		return vDao.validarFechasFaltantes(80, "FOLIO_PREPARACION_LUWA_CUATRO");
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_LUWA_CUATRO");
 	}
 
 	public void guardarLuwa() {
@@ -674,13 +674,15 @@ public class LuwaCuatroBean implements Serializable {
 				ILuwaCuatroDao cDao = new LuwaCuatroDaoImpl();
 				luwa = new LuwaCuatro();
 
-				// **FOLIO_COCEDORES**//
-				int year = 0;
+				// **FOLIO**//
 				int folio = 0;
-				year = LocalDate.now().getYear();
+				//year = LocalDate.now().getYear();
+				Calendar calendario = Calendar.getInstance();
+				calendario.setTime(fec);
+				int newYear = calendario.get(Calendar.YEAR);
 				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
 
-				folio = folDao.buscarFolioLuwaCuatro(year);
+				folio = folDao.buscarFolioLuwaCuatro(newYear);
 
 				// **FOLIO_PREPARACION_LUWA**//
 
@@ -698,7 +700,7 @@ public class LuwaCuatroBean implements Serializable {
 				}
 				// **ACTUALIZAR FOLIO_PROCESOS**//
 				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-				folioDao.actualizarFolioLuwaCuatro(year, folio);
+				folioDao.actualizarFolioLuwaCuatro(newYear, folio);
 			}
 			String script = "setTimeout(function() { window.location.href='LuwaCuatro.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);

@@ -125,5 +125,16 @@
 	    <mapping resource="com/dmjm/model/ResumenLuwaCuatro.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/ResumenLuwaUno.hbm.xml"/>
 	    <mapping resource="com/dmjm/model/ResumenLuwaTres.hbm.xml"/>
+	    
+	    <mapping resource="com/dmjm/model/DafUnoPrepFlolucolante.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionDafDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaDafDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/LimpiezaDafUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/DafDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/DafDosPrepFlolucolante.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoDafDos.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/FolioPreparacionDafUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/OrdenMantenimientoDafUno.hbm.xml"/>
+	    <mapping resource="com/dmjm/model/DafUno.hbm.xml"/> 
 	</session-factory>
 </hibernate-configuration>

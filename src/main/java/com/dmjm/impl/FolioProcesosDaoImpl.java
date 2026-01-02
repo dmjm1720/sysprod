@@ -436,4 +436,72 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		
 	}
 
+	@Override
+	public int buscarFolioDafUno(int year) {
+		int folio = 0;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT COALESCE(MAX(f.folioDafUno), 0) + 1 FROM FolioProcesos f WHERE f.year = :year";
+			Query<Integer> query = session.createQuery(hql, Integer.class);
+			query.setParameter("year", year);
+
+			folio = query.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return folio;
+	}
+
+	@Override
+	public void actualizarFolioDafUno(int year, int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			Transaction t = session.beginTransaction();
+
+			String hql = "UPDATE FolioProcesos f SET f.folioDafUno = :folioDafUno WHERE f.year = : year";
+			@SuppressWarnings("rawtypes")
+			Query query = session.createQuery(hql);
+			query.setParameter("folioDafUno", folio);
+			query.setParameter("year", year);
+
+			query.executeUpdate();
+			t.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public int buscarFolioDafDos(int year) {
+		int folio = 0;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT COALESCE(MAX(f.folioDafDos), 0) + 1 FROM FolioProcesos f WHERE f.year = :year";
+			Query<Integer> query = session.createQuery(hql, Integer.class);
+			query.setParameter("year", year);
+
+			folio = query.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return folio;
+	}
+
+	@Override
+	public void actualizarFolioDafDos(int year, int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			Transaction t = session.beginTransaction();
+
+			String hql = "UPDATE FolioProcesos f SET f.folioDafDos = :folioDafDos WHERE f.year = : year";
+			@SuppressWarnings("rawtypes")
+			Query query = session.createQuery(hql);
+			query.setParameter("folioDafDos", folio);
+			query.setParameter("year", year);
+
+			query.executeUpdate();
+			t.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }

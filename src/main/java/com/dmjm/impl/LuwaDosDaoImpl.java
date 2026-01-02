@@ -89,7 +89,7 @@ public class LuwaDosDaoImpl extends Conexion implements ILuwaDosDao {
 			session.update(luwa);
 			transaction.commit();
 
-			String info = "Se ha actualizado el registrado del Luwa";
+			String info = "Se ha actualizado el registro del Luwa";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"

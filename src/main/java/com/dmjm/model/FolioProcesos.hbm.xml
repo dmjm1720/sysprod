@@ -45,5 +45,14 @@
 		<property name="folioLuwaCinco" type="java.lang.Integer">
 			<column name="FOLIO_LUWA_CINCO" />
 		</property>
+		<property name="folioDafUno" type="java.lang.Integer">
+			<column name="FOLIO_DAF_UNO" />
+		</property>
+		<property name="folioDafDos" type="java.lang.Integer">
+			<column name="FOLIO_DAF_DOS" />
+		</property>
+		<property name="folioPreparacion" type="java.lang.Integer">
+			<column name="FOLIO_PREPARACION" />
+		</property>
 	</class>
 </hibernate-mapping>

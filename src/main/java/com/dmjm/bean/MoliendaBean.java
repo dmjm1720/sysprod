@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -971,6 +972,15 @@ public class MoliendaBean implements Serializable {
 	public void guardarMolienda() {
 
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
+//		Date hoy = new Date();          // ahora
+//		int diasASumar = 5;
+//
+//		Calendar cal = Calendar.getInstance();
+//		cal.setTime(hoy);
+//		cal.add(Calendar.DAY_OF_MONTH, diasASumar);
+//
+//		Date nuevaFecha = cal.getTime(); // hoy + 5 días
+		
 		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_MOLIENDA");
 		if (validacion) {
 			LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -414,12 +415,15 @@ public class EsterilizadorPABean implements Serializable {
 
 		esterilizadorPlantaA = new EsterilizadorPlantaA();
 
-		// **FOLIO_COCEDORES**//
-		int year = 0;
+		// **FOLIO**//
 		int folio = 0;
-		year = LocalDate.now().getYear();
+		//year = LocalDate.now().getYear();
+		Calendar calendario = Calendar.getInstance();
+		calendario.setTime(fec);
+		int newYear = calendario.get(Calendar.YEAR);
 		IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
-		folio = folDao.buscarFolio(year);
+
+		folio = folDao.buscarFolio(newYear);
 
 		// **FOLIO_PREPARACION_EST_A**//
 
@@ -437,7 +441,7 @@ public class EsterilizadorPABean implements Serializable {
 		}
 		// **ACTUALIZAR FOLIO_PROCESOS**//
 		IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-		folioDao.actualizarFolio(year, folio);
+		folioDao.actualizarFolio(newYear, folio);
 						}
 		String script = "setTimeout(function() { window.location.href='EsterilizadorPlantaA.html'; }, 3000);";
 		PrimeFaces.current().executeScript(script);

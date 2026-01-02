@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +29,7 @@ import org.primefaces.event.data.PageEvent;
 import com.dmjm.dao.ICocedoresDao;
 import com.dmjm.dao.IFolioCocedoresDao;
 import com.dmjm.dao.IFolioPreparcionCocedoresDao;
+import com.dmjm.dao.IFolioProcesosDao;
 import com.dmjm.dao.ILimpiezaDao;
 import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IOrdenMantoDao;
@@ -38,6 +40,7 @@ import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.dao.IValidacionFolioDao;
 import com.dmjm.impl.CocedoresDaoImpl;
 import com.dmjm.impl.FolioPreparacionCocedoresDaoImpl;
+import com.dmjm.impl.FolioProcesosDaoImpl;
 import com.dmjm.impl.FoliosCocedoresDaoImpl;
 import com.dmjm.impl.LimpiezaDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
@@ -506,12 +509,15 @@ public class CocedoresBean implements Serializable {
 
 				cocedores = new Cocedores();
 
-				// **FOLIO_COCEDORES**//
-				int year = 0;
+				// **FOLIO**//
 				int folio = 0;
-				year = LocalDate.now().getYear();
+				//year = LocalDate.now().getYear();
+				Calendar calendario = Calendar.getInstance();
+				calendario.setTime(fec);
+				int newYear = calendario.get(Calendar.YEAR);
 				IFolioCocedoresDao folDao = new FoliosCocedoresDaoImpl();
-				folio = folDao.buscarFolio(year);
+
+				folio = folDao.buscarFolio(newYear);
 
 				// **FOLIO_PREPARACION_COCEDORES**//
 				IFolioPreparcionCocedoresDao fDao = new FolioPreparacionCocedoresDaoImpl();
@@ -528,7 +534,7 @@ public class CocedoresBean implements Serializable {
 				}
 				// **ACTUALIZAR FOLIO_COCEDORES**//
 				IFolioCocedoresDao folioDao = new FoliosCocedoresDaoImpl();
-				folioDao.actualizarFolio(year, folio);
+				folioDao.actualizarFolio(newYear, folio);
 			}
 			String script = "setTimeout(function() { window.location.href='Cocedores.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);

@@ -93,6 +93,8 @@ public class LoginBean implements Serializable {
 				ruta = "/sysprod/almacen/Molienda.html";
 			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("Luwas Planta A")) {
 				ruta = "/sysprod/luwaA/LuwaUno.html";
+			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("Molienda")) {
+				ruta = "/sysprod/molienda/Molienda.html";
 			}
 			
 
@@ -101,6 +103,9 @@ public class LoginBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡ERROR DE ACCESO!", "¡VERIFIQUE SUS CREDENCIALES!"));
 			this.usuario = new Usuarios();
+
+			String script = "setTimeout(function() { window.location.href='index.html'; }, 2000);";
+			PrimeFaces.current().executeScript(script);
 		}
 
 		PrimeFaces.current().ajax().addCallbackParam("loggedIn", loggedIn);

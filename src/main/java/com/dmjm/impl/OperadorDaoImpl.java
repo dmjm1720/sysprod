@@ -205,4 +205,22 @@ public class OperadorDaoImpl extends Conexion implements IOperadorDao {
 		}
 	}
 
+	@Override
+	public List<Operador> listaOperadorDafUno() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Operador WHERE Proceso='Daf Uno' AND estado='Activo'",
+					Operador.class).list();
+		}
+	}
+
+	@Override
+	public List<Operador> listaOperadorDafDos() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Operador WHERE Proceso='Daf Dos' AND estado='Activo'",
+					Operador.class).list();
+		}
+	}
+
 }

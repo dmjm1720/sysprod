@@ -431,13 +431,15 @@ public class VotatorABean implements Serializable {
 
 				votator = new VotatorA();
 
-				// **FOLIO_COCEDORES**//
-				int year = 0;
+				// **FOLIO**//
 				int folio = 0;
-				year = LocalDate.now().getYear();
+				//year = LocalDate.now().getYear();
+				Calendar calendario = Calendar.getInstance();
+				calendario.setTime(fec);
+				int newYear = calendario.get(Calendar.YEAR);
 				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
 
-				folio = folDao.buscarFolioVotatorA(year);
+				folio = folDao.buscarFolioVotatorA(newYear);
 
 				// **FOLIO_PREPARACION_VOTATOR_A**//
 
@@ -455,7 +457,7 @@ public class VotatorABean implements Serializable {
 				}
 				// **ACTUALIZAR FOLIO_PROCESOS**//
 				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-				folioDao.actualizarFolioVotatorA(year, folio);
+				folioDao.actualizarFolioVotatorA(newYear, folio);
 			}
 			String script = "setTimeout(function() { window.location.href='VotatorA.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -520,13 +521,16 @@ public class UltraFiltracionDosBean implements Serializable {
 				IUltraFiltracionDosDao cDao = new UltraFiltracionDosDaoImpl();
 
 				ultraFiltracionDos = new UltrafiltracionDos();
-
-				// **FOLIO_COCEDORES**//
-				int year = 0;
+				
+				// **FOLIO**//
 				int folio = 0;
-				year = LocalDate.now().getYear();
+				//year = LocalDate.now().getYear();
+				Calendar calendario = Calendar.getInstance();
+				calendario.setTime(fec);
+				int newYear = calendario.get(Calendar.YEAR);
 				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
-				folio = folDao.buscarFolioUltraDos(year);
+
+				folio = folDao.buscarFolioUltraDos(newYear);
 
 				// **FOLIO_PREPARACION ULTRA**//
 
@@ -544,7 +548,7 @@ public class UltraFiltracionDosBean implements Serializable {
 				}
 				// **ACTUALIZAR FOLIO_PROCESOS**//
 				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-				folioDao.actualizarFolioUltraDos(year, folio);
+				folioDao.actualizarFolioUltraDos(newYear, folio);
 			}
 			String script = "setTimeout(function() { window.location.href='UltraFiltracionDos.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);

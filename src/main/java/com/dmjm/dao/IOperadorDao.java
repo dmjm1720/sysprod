@@ -34,4 +34,8 @@ public interface IOperadorDao {
 	List<Operador> listaOperadorLuwaPA();
 	
 	List<Operador> listaOperadorLuwaPB();
+	
+	List<Operador> listaOperadorDafUno();
+	
+	List<Operador> listaOperadorDafDos();
 }
