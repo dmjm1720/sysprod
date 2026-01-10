@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center">
+					<p:badge id="bp" size="small" value="PREPARACIÓN DEL FLOCULANTE"
+						styleClass="fuenteTitulo" />
+				</div>
+
+				<br></br>
+
+				<div class="card">
+					<p:accordionPanel id="acco" widgetVar="basic">
+						<p:tab title="PREPARACIÓN DEL FLOCULANTE" menuTitle="Options"
+							titleStyle="font-size: .8rem; background-color: #BF1A1A; color: #F5F5F5">
+							<p:commandButton id="et" value="AGREGAR" icon="pi pi-fw pi-plus"
+								action="#{floculanteBean.dafPrep('GUARDAR')}"
+								onclick="PF('dlgEditarDafPrep').show()"
+								update="frmDafPrep:pnlEditarDafPrep"
+								styleClass="ui-button-warning">
+								<f:ajax execute="@this" render="frmDafPrep:pnlEditarDafPrep"
+									onevent="function(e){ if(e.status=='success'){PF('dlgEditarDafPrep').show();} }" />
+							</p:commandButton>
+							<p:dataTable id="tblPreparacion" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="210"
+								scrollWidth="40%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{floculanteBean.listaPreparacionFlolucolante.size()}"
+								value="#{floculanteBean.listaPreparacionFlolucolante}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="EDITAR" width="2rem"
+									style="text-align: center">
+									<p:commandButton id="eddafeditar" icon="pi pi-fw pi-pencil"
+										action="#{floculanteBean.dafPrep('ACTUALIZAR')}"
+										onclick="PF('dlgEditarDafPrep').show()"
+										update="frmDafPrep:pnlEditarDafPrep"
+										styleClass="ui-button-warning">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{floculanteBean.dafUnoPrep}" />
+									</p:commandButton>
+								</p:column>
+
+								<p:column headerText="NO. PREPARACIÓN" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.folioDaf}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="FECHA" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.fecha}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="HORA" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.hora}" style="color: #036FAB;">
+										<f:convertDateTime pattern="HH:mm"
+											timeZone="America/Mexico_City" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="KG. FLOCULANTE" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.kgFloculante}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LOTE" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.lote}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="AGUA" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.agua}" style="color: #036FAB;" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+					</p:accordionPanel>
+				</div>
+			</h:form>
+
+			<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+
+			<!-- INICIA FORMULARIO PARA EDITAR DAF PREPARACION-->
+			<h:form id="frmDafPrep">
+				<p:dialog header="Preparación del Floculante"
+					widgetVar="dlgEditarDafPrep" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditarDafPrep" columns="2" styleClass="fuente">
+
+						<p:outputLabel for="daf" value="NO. PREPARACIÓN" />
+						<p:inputText id="daf" styleClass="camposFloculante"
+							rendered="#{floculanteBean.bandera eq 'GUARDAR'}"
+							value="#{floculanteBean.folioMax()}" required="false"
+							disabled="true" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+						<p:inputText id="dafA" styleClass="camposFloculante"
+							rendered="#{floculanteBean.bandera eq 'ACTUALIZAR'}"
+							value="#{floculanteBean.dafUnoPrep.folioDaf}" required="false"
+							disabled="true" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+						<p:outputLabel for="fecha" value="FECHA" />
+						<p:datePicker id="fecha" pattern="dd-MMMM-yyyy" showTime="false"
+							disabled="false" placeholder="FECHA"
+							inputStyle="width: 350px !important; font-size: 12px !important, font-family: 'Poppins', sans-serif !important;"
+							value="#{floculanteBean.dafUnoPrep.fecha}"
+							style="font-family: 'Poppins', sans-serif !important;"
+							styleClass="camposFloculante" />
+
+						<p:outputLabel value="HORA" />
+						<pe:timePicker value="#{floculanteBean.dafUnoPrep.hora}"
+							styleClass="camposFloculante" mode="spinner" widgetVar="h5"
+							showOn="button" intervalMinutes="1" endMinutes="59" />
+
+						<p:outputLabel for="kgdaf" value="KG FLOCULANTE" />
+						<p:inputText id="kgdaf" styleClass="camposFloculante"
+							value="#{floculanteBean.dafUnoPrep.kgFloculante}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 8rem" />
+
+						<p:outputLabel for="lotedaf" value="LOTE" />
+						<p:inputText id="lotedaf" styleClass="camposFloculante"
+							onkeyup="this.value = this.value.toUpperCase();"
+							value="#{floculanteBean.dafUnoPrep.lote}" required="false"
+							requiredMessage="Campo requerido" style="width: 8rem" />
+
+						<p:outputLabel for="aguadaf" value="AGUA" />
+						<p:inputText id="aguadaf" styleClass="camposFloculante"
+							value="#{floculanteBean.dafUnoPrep.agua}" required="false"
+							requiredMessage="Campo requerido" style="width: 8rem" />
+						<br />
+						<br />
+						<div style="text-align: right">
+							<p:commandButton icon="pi pi-save" value="GUARDAR"
+								rendered="#{floculanteBean.bandera eq 'GUARDAR'}"
+								title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+								actionListener="#{floculanteBean.guardarDafPrepFloculante()}"
+								oncomplete="PF('dlgEditarDafPrep').hide()" />
+
+							<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
+								rendered="#{floculanteBean.bandera eq 'ACTUALIZAR'}"
+								title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+								actionListener="#{floculanteBean.actualizarDafPrepFloculante()}"
+								oncomplete="PF('dlgEditarDafPrep').hide()" />
+						</div>
+
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

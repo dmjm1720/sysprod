@@ -1109,7 +1109,7 @@ public class CocedoresBean implements Serializable {
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_COCEDORES");
+		return vDao.validarFechasFaltantes(70, "FOLIO_PREPARACION_COCEDORES");
 	}
 
 }

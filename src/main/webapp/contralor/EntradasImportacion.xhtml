@@ -178,7 +178,7 @@
 										value="Imprimir hoja de liberación" trackMouse="true" />
 								</p:column>
 								
-								<p:column headerText="Liberar" width="3rem" rendered="#{login.usuario.perfiles.nombrePerfil=='Importaciones'}">
+								<p:column headerText="Liberar" width="3rem" rendered="#{login.usuario.perfiles.nombrePerfil=='R. Industriales'}">
 									<p:commandButton id="lib" icon="pi pi-calendar" actionListener="#{entImportBean.liberar(item.idEntradaImportacion)}"
 										update="frmPrincipal:acco:tblEntImp, frmPrincipal:msgs" styleClass="ui-button-warning"
 										disabled="#{item.estadoImpresion==1}">

@@ -23,7 +23,7 @@
 
 				<div style="text-align: center">
 					<p:badge id="bp" size="small"
-						value="DAF ORIENTE &nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{dafUnoBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{dafUnoBean.fecha}&nbsp;&nbsp;&nbsp;"
+						value="DAF PONIENTE &nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{dafDosBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{dafDosBean.fecha}&nbsp;&nbsp;&nbsp;"
 						styleClass="fuenteTitulo" />
 
 				</div>
@@ -46,30 +46,30 @@
 										<p:autoComplete id="turno" size="35" required="false"
 											requiredMessage="Turno requerido" autocomplete="off"
 											placeholder="Ingresa Turno" dropdown="true"
-											value="#{dafUnoBean.filterTurno}"
-											completeMethod="#{dafUnoBean.buscarNombreTurno}">
+											value="#{dafDosBean.filterTurno}"
+											completeMethod="#{dafDosBean.buscarNombreTurno}">
 										</p:autoComplete>
 
 										<p:outputLabel for="operador" value="Operador" />
 										<p:autoComplete id="operador" size="35" required="false"
 											requiredMessage="Operador requerido" autocomplete="off"
 											placeholder="Ingresa Operador" dropdown="true"
-											value="#{dafUnoBean.filterOperador}"
-											completeMethod="#{dafUnoBean.buscarNombreOperador}">
+											value="#{dafDosBean.filterOperador}"
+											completeMethod="#{dafDosBean.buscarNombreOperador}">
 										</p:autoComplete>
 
 										<p:outputLabel for="coord" value="Coordinador" />
 										<p:autoComplete id="coord" size="35" required="false"
 											requiredMessage="Coordinador requerido" autocomplete="off"
 											placeholder="Ingresa Coordinador" dropdown="true"
-											value="#{dafUnoBean.filterUsuario}"
-											completeMethod="#{dafUnoBean.buscarNombreCoordinador}">
+											value="#{dafDosBean.filterUsuario}"
+											completeMethod="#{dafDosBean.buscarNombreCoordinador}">
 										</p:autoComplete>
 
 										<p:outputLabel for="reg" value="Registrar turno" />
 										<p:commandButton id="reg" value="REGISTRAR"
 											styleClass="fuente"
-											actionListener="#{dafUnoBean.guardarRegistroTurnos()}"
+											actionListener="#{dafDosBean.guardarRegistroTurnos()}"
 											update="frmPrincipal, frmPrincipal:msgs" icon="pi pi-book"
 											style="width: 8rem; height: 2rem">
 										</p:commandButton>
@@ -82,7 +82,7 @@
 									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
 										var="turnos" sortMode="multiple" rowHover="true"
 										style="width: 85%" paginatorAlwaysVisible="true"
-										scrollable="true" value="#{dafUnoBean.listarRegistroTurnos}"
+										scrollable="true" value="#{dafDosBean.listarRegistroTurnos}"
 										emptyMessage="NO HAY REGISTROS">
 
 
@@ -90,10 +90,10 @@
 											<div style="text-align: center">
 												<p:commandButton id="eb" icon="pi pi-fw pi-trash"
 													styleClass="ui-button-warning"
-													action="#{dafUnoBean.borrarTurnos()}"
+													action="#{dafDosBean.borrarTurnos()}"
 													update="frmPrincipal:acco:tRegTurnos">
 													<f:setPropertyActionListener value="#{turnos}"
-														target="#{dafUnoBean.registroTurnosEditar}" />
+														target="#{dafDosBean.registroTurnosEditar}" />
 												</p:commandButton>
 												<p:tooltip id="toolTipEB" for="eb" value="Borrar"
 													trackMouse="true" />
@@ -107,7 +107,7 @@
 													update="frmTurnos:pnlEditarTurnos"
 													styleClass="ui-button-warning">
 													<f:setPropertyActionListener value="#{turnos}"
-														target="#{dafUnoBean.registroTurnosEditar}" />
+														target="#{dafDosBean.registroTurnosEditar}" />
 												</p:commandButton>
 												<p:tooltip id="toolTipET" for="et" value="Editar"
 													trackMouse="true" />
@@ -149,7 +149,7 @@
 						</p:tab>
 
 
-						<p:tab id="pt" title="DAF ORIENTE"
+						<p:tab id="pt" title="DAF PONIENTE"
 							titleStyle="font-size: .8rem; background-color: #123458; color: #F5F5F5">
 
 							<script>
@@ -191,7 +191,7 @@
 										<p:outputLabel value="NUEVA HOJA" />
 										<div style="text-align: center">
 											<p:commandButton value="" styleClass="fuente"
-												actionListener="#{dafUnoBean.guardarDaf()}"
+												actionListener="#{dafDosBean.guardarDaf()}"
 												update="frmPrincipal, frmPrincipal:msgs"
 												icon="pi pi-file-excel" style="width: 2rem; height: 2rem">
 											</p:commandButton>
@@ -211,12 +211,12 @@
 											placeholder="SELECCIONA FECHA"
 											inputStyleClass="font-size: .8rem !important pear"
 											inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
-											value="#{dafUnoBean.fechaFiltro}"
+											value="#{dafDosBean.fechaFiltro}"
 											style="font-family: 'Poppins', sans-serif !important;"
 											styleClass="captura" />
 
 										<p:commandButton value="BUSCAR" styleClass="fuente"
-											actionListener="#{dafUnoBean.filtrarPorFecha()}"
+											actionListener="#{dafDosBean.filtrarPorFecha()}"
 											update="frmPrincipal:acco:tblCoc, frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos"
 											icon="pi pi-filter" style="width: 6rem; height: 2rem">
 										</p:commandButton>
@@ -230,7 +230,7 @@
 										<p:outputLabel value="IMPRIMIR" />
 										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
 											target="_blank"
-											actionListener="{dafUnoBean.visualizarReporte()}">
+											actionListener="{dafDosBean.visualizarReporte()}">
 											<h:graphicImage url="/resources/img/printer.png"
 												style="height: 1.8rem" />
 										</h:commandLink>
@@ -238,7 +238,7 @@
 										<p:outputLabel value="EXPORTAR" />
 										<h:commandLink id="impExcel"
 											style="height: 30px; font-size: 12px;" target="_blank"
-											actionListener="{dafUnoBean.visualizarReporteExcel()}">
+											actionListener="{dafDosBean.visualizarReporteExcel()}">
 											<h:graphicImage url="/resources/img/excel.png"
 												style="height: 1.8rem" />
 										</h:commandLink>
@@ -253,11 +253,11 @@
 										<p:commandButton value="AGREGAR / EDITAR" styleClass="fuente"
 											oncomplete="PF('dlgAgregarObs').show()" icon="pi pi-book"
 											update="frmObservaciones:pnlAgregarObs"
-											actionListener="#{dafUnoBean.obtenerObservacion()}"
+											actionListener="#{dafDosBean.obtenerObservacion()}"
 											style="width: 6rem; height: 2.5rem">
 										</p:commandButton>
 										<p:dataTable id="tblObs" styleClass="tabla2 fuenteCocedores"
-											var="itemObs" value="#{dafUnoBean.listaFolioDafUno}"
+											var="itemObs" value="#{dafDosBean.listaFolioDafDos}"
 											emptyMessage="NO HAY REGISTROS">
 
 											<p:column headerText="Observaciones">
@@ -278,9 +278,9 @@
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
 								scrollHeight="300" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
-								value="#{dafUnoBean.listaDaf}" emptyMessage="NO HAY REGISTROS">
+								value="#{dafDosBean.listaDaf}" emptyMessage="NO HAY REGISTROS">
 
-								<p:ajax event="page" listener="#{dafUnoBean.onPageChange}"
+								<p:ajax event="page" listener="#{dafDosBean.onPageChange}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos" />
 
 								<p:columnGroup type="header">
@@ -339,7 +339,7 @@
 											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
 											styleClass="ui-button-warning">
 											<f:setPropertyActionListener value="#{item}"
-												target="#{dafUnoBean.dafEditar}" />
+												target="#{dafDosBean.dafEditar}" />
 
 										</p:commandButton>
 										<p:tooltip id="toolTipE" for="ed" value="Editar"
@@ -438,15 +438,15 @@
 								styleClass="tabla fuente">
 
 								<p:selectOneMenu id="cocLimp"
-									value="#{dafUnoBean.cocedorSeleccionado}" dynamic="true">
+									value="#{dafDosBean.cocedorSeleccionado}" dynamic="true">
 									<f:selectItem itemLabel="SELECCIONA" itemValue="" />
-									<f:selectItem itemLabel="DAF ORIENTE" itemValue="DAF ORIENTE" />
+									<f:selectItem itemLabel="DAF PONIENTE" itemValue="DAF PONIENTE" />
 									<f:selectItem itemLabel="TANQUE DE SALIDA NORTE"
 										itemValue="TANQUE DE SALIDA NORTE" />
 									<f:selectItem itemLabel="TANQUE DE SALIDA SUR"
 										itemValue="TANQUE DE SALIDA SUR" />
-									<f:selectItem itemLabel="TUBERIA ALIMENTACION ORIENTE A DAF"
-										itemValue="TUBERIA ALIMENTACION ORIENTE A DAF" />
+									<f:selectItem itemLabel="TUBERIA ALIMENTACION PONIENTE A DAF"
+										itemValue="TUBERIA ALIMENTACION PONIENTE A DAF" />
 									<f:selectItem itemLabel="TUBERIA ALIMENTACION PONIENTE A DAF"
 										itemValue="TUBERIA ALIMENTACION PONIENTE A DAF" />
 									<f:selectItem
@@ -456,8 +456,8 @@
 										itemValue="TANQUE DE SALIDA NORTE Y TUBERIA" />
 									<f:selectItem itemLabel="TANQUE DE SALIDA SUR Y TUBERIA"
 										itemValue="TANQUE DE SALIDA SUR Y TUBERIA" />
-									<f:selectItem itemLabel="TANQUE FLOCULANTE ORIENTE"
-										itemValue="TANQUE FLOCULANTE ORIENTE" />
+									<f:selectItem itemLabel="TANQUE FLOCULANTE PONIENTE"
+										itemValue="TANQUE FLOCULANTE PONIENTE" />
 									<f:selectItem itemLabel="ANQUE FLOCULANTE PONIENTE"
 										itemValue="ANQUE FLOCULANTE PONIENTE" />
 								</p:selectOneMenu>
@@ -465,40 +465,40 @@
 								<p:outputLabel value="" />
 								<p:commandButton value="NUEVO REGISTRO DE LIMPIEZA"
 									styleClass="fuente camposLimpieza"
-									actionListener="#{dafUnoBean.guardarLimpieza()}"
+									actionListener="#{dafDosBean.guardarLimpieza()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
 
 
 								<p:spacer width="5rem" />
 								<p:selectOneMenu id="noLim"
-									value="#{dafUnoBean.noLimpiezaSeleccionadaBorrar}"
+									value="#{dafDosBean.noLimpiezaSeleccionadaBorrar}"
 									dynamic="true">
 									<f:selectItem itemLabel="NO. LIMPIEZA A ELIMINAR" itemValue="" />
-									<f:selectItems value="#{dafUnoBean.listaLimpiezas}" />
+									<f:selectItems value="#{dafDosBean.listaLimpiezas}" />
 								</p:selectOneMenu>
 
 								<p:commandButton value="BORRAR"
-									actionListener="#{dafUnoBean.deleteLimpieza()}"
+									actionListener="#{dafDosBean.deleteLimpieza()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
 
 								<p:spacer width="5rem" />
 								<p:selectOneMenu id="noLimVoBo"
 									rendered="#{login.usuario.perfiles.idPerfil==15}"
-									value="#{dafUnoBean.noLimpiezaVoBo}" dynamic="true">
+									value="#{dafDosBean.noLimpiezaVoBo}" dynamic="true">
 									<f:selectItem itemLabel="NO. LIMPIEZA Vo.Bo." itemValue="" />
-									<f:selectItems value="#{dafUnoBean.listaLimpiezas}" />
+									<f:selectItems value="#{dafDosBean.listaLimpiezas}" />
 								</p:selectOneMenu>
 
 								<p:commandButton value="AGREGAR"
 									rendered="#{login.usuario.perfiles.idPerfil==15}"
-									actionListener="#{dafUnoBean.agregarVoBo()}"
+									actionListener="#{dafDosBean.agregarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
 								<p:commandButton value="BORRAR"
 									rendered="#{login.usuario.perfiles.idPerfil==15}"
-									actionListener="#{dafUnoBean.borrarVoBo()}"
+									actionListener="#{dafDosBean.borrarVoBo()}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:pgLimpieza" />
 
 							</h:panelGrid>
@@ -515,8 +515,8 @@
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
 								scrollable="true"
-								currentPageReportTemplate="Total: #{dafUnoBean.limpiezaDafUno.size()}"
-								value="#{dafUnoBean.limpiezaDafUno}"
+								currentPageReportTemplate="Total: #{dafDosBean.limpiezaDafDos.size()}"
+								value="#{dafDosBean.limpiezaDafDos}"
 								emptyMessage="NO HAY REGISTROS">
 
 								<p:column headerText="Editar" width="3rem" exportable="false"
@@ -526,7 +526,7 @@
 										update="frmEditarLimpieza:pnlEditarLimpieza"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{dafUnoBean.limpiezaEditar}" />
+											target="#{dafDosBean.limpiezaEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
@@ -592,33 +592,33 @@
 
 								<p:outputLabel value="No de Orden" />
 								<p:inputText id="om" styleClass="camposManto"
-									value="#{dafUnoBean.ordenMantenimiento.noOrden}"
+									value="#{dafDosBean.ordenMantenimiento.noOrden}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 8rem" />
 
 								<p:outputLabel value="Hora Inicio" />
 								<pe:timePicker
-									value="#{dafUnoBean.ordenMantenimiento.horaInicio}"
+									value="#{dafDosBean.ordenMantenimiento.horaInicio}"
 									mode="spinner" widgetVar="h5" showOn="button"
 									intervalMinutes="1" endMinutes="59" />
 
 
 								<p:outputLabel value="Hora Final" />
-								<pe:timePicker value="#{dafUnoBean.ordenMantenimiento.horaFin}"
+								<pe:timePicker value="#{dafDosBean.ordenMantenimiento.horaFin}"
 									mode="spinner" widgetVar="h6" showOn="button"
 									intervalMinutes="1" endMinutes="59" />
 
 
 								<p:outputLabel value="Descripción" />
 								<p:inputTextarea id="desc" styleClass="camposManto"
-									value="#{dafUnoBean.ordenMantenimiento.descripcion}"
+									value="#{dafDosBean.ordenMantenimiento.descripcion}"
 									required="false" requiredMessage="Campo requerido"
 									style="width: 20rem" />
 
 								<p:outputLabel value="" />
 								<p:commandButton value="REGISTRAR NUEVA ORDEN"
 									styleClass="fuente camposManto"
-									actionListener="#{dafUnoBean.guardarOrdenManto()}"
+									actionListener="#{dafDosBean.guardarOrdenManto()}"
 									update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto"
 									icon="pi pi-fw pi-save" style="width: 15rem; height: 2rem" />
 
@@ -637,8 +637,8 @@
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
 								scrollable="true"
-								currentPageReportTemplate="Total: #{dafUnoBean.listaOrdenManto.size()}"
-								value="#{dafUnoBean.listaOrdenManto}"
+								currentPageReportTemplate="Total: #{dafDosBean.listaOrdenManto.size()}"
+								value="#{dafDosBean.listaOrdenManto}"
 								emptyMessage="NO HAY REGISTROS">
 
 
@@ -646,10 +646,10 @@
 									<div style="text-align: center">
 										<p:commandButton id="em" icon="pi pi-fw pi-trash"
 											styleClass="ui-button-warning"
-											action="#{dafUnoBean.borrarOrdenManto()}"
+											action="#{dafDosBean.borrarOrdenManto()}"
 											update="frmPrincipal:acco:tblManto, frmPrincipal:acco:pgManto, frmPrincipal:msgs">
 											<f:setPropertyActionListener value="#{item}"
-												target="#{dafUnoBean.ordenMantenimientoEditar}" />
+												target="#{dafDosBean.ordenMantenimientoEditar}" />
 										</p:commandButton>
 										<p:tooltip id="toolTipEM" for="em" value="Borrar"
 											trackMouse="true" />
@@ -664,7 +664,7 @@
 										update="frmEditarManto:pnlEditarManto"
 										styleClass="ui-button-warning">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{dafUnoBean.ordenMantenimientoEditar}" />
+											target="#{dafDosBean.ordenMantenimientoEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolTipE" for="ed" value="Editar"
 										trackMouse="true" />
@@ -701,7 +701,7 @@
 
 			<!-- INICIA FORMULARIO PARA EDITAR DAF -->
 			<h:form id="frmEditar">
-				<p:dialog header="Actualizar información de Daf Oriente"
+				<p:dialog header="Actualizar información de Daf Poniente"
 					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
 					closeOnEscape="true" minimizable="true" maximizable="true">
 					<h:panelGrid id="pnlEditar" columns="2">
@@ -709,76 +709,76 @@
 
 						<p:outputLabel for="horario" value="Horario" />
 						<p:inputText id="horario" styleClass="fuenteNaranja"
-							disabled="true" value="#{dafUnoBean.dafEditar.hora}"
+							disabled="true" value="#{dafDosBean.dafEditar.hora}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 5rem" />
 
 						<p:outputLabel for="operacion" value="Operación" />
 						<p:inputText id="operacion" styleClass="camposCocedores"
-							value="#{dafUnoBean.dafEditar.operacion}" required="false"
+							value="#{dafDosBean.dafEditar.operacion}" required="false"
 							requiredMessage="Campo requerido" style="width: 8rem" />
 
 						<p:outputLabel for="conE" value="CONC. %" />
 						<p:inputText id="conE" placeholder="CONC. %"
-							value="#{dafUnoBean.dafEditar.concPorcentaje}" required="false"
+							value="#{dafDosBean.dafEditar.concPorcentaje}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
 
 						<p:outputLabel for="conE" value="FLUJO GRENETINA" />
 						<p:inputText id="con" placeholder="FLUJO GRENETINA"
-							value="#{dafUnoBean.dafEditar.flujoGrenetina}" required="false"
+							value="#{dafDosBean.dafEditar.flujoGrenetina}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
 
 						<p:outputLabel for="ph" value="pH" />
 						<p:inputText id="ph" placeholder="3.5-6.0"
-							value="#{dafUnoBean.dafEditar.ph}" required="false"
+							value="#{dafDosBean.dafEditar.ph}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
 
 						<p:outputLabel for="redox" value="NTU ENTRADA" />
 						<p:inputText id="redox" placeholder="(≺ 1000 NTU)"
-							value="#{dafUnoBean.dafEditar.ntuEntrada}" required="false"
+							value="#{dafDosBean.dafEditar.ntuEntrada}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
 
 						<p:outputLabel for="ent" value="NTU SALIDA" />
 						<p:inputText id="ent" placeholder="(≺ 100 NTU)"
-							value="#{dafUnoBean.dafEditar.ntuSalida}" required="false"
+							value="#{dafDosBean.dafEditar.ntuSalida}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
 
 						<p:outputLabel for="sal" value="PRESIÓN DE AIRE" />
 						<p:inputText id="sal" placeholder="PRESIÓN DE AIRE"
-							value="#{dafUnoBean.dafEditar.presionAire}" required="false"
+							value="#{dafDosBean.dafEditar.presionAire}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
 
 						<p:outputLabel for="recep" value="FREC. BOMBA FLOCULANTE" />
 						<p:inputText id="recep" placeholder="FREC. BOMBA FLOCULANTE"
-							value="#{dafUnoBean.dafEditar.frecBombaFlolucolante}"
+							value="#{dafDosBean.dafEditar.frecBombaFlolucolante}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="noFol" value="NO PREP DEL FLOCULANTE" />
 						<p:selectOneMenu id="noFol"
-							value="#{dafUnoBean.dafEditar.folioPreparacion}" dynamic="true">
+							value="#{dafDosBean.dafEditar.folioPreparacion}" dynamic="true">
 							<f:selectItem itemLabel="SELECCIONA" itemValue="" />
-							<f:selectItems value="#{dafUnoBean.listarFoliosPreparacion}" />
+							<f:selectItems value="#{dafDosBean.listarFoliosPreparacion}" />
 						</p:selectOneMenu>
 
 						<p:outputLabel for="desc" value="FREC. BOMBA FLOCULANTE" />
 						<p:inputText id="desc" placeholder="25 - 35"
-							value="#{dafUnoBean.dafEditar.frecBombaFlolucolante}"
+							value="#{dafDosBean.dafEditar.frecBombaFlolucolante}"
 							required="false" requiredMessage="Campo requerido"
 							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />
 						<p:outputLabel id="estadoAR" for="a" value="&#8674;ESTADO&#8672;"
-							styleClass="#{dafUnoBean.dafEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
-						<p:selectOneButton id="a" value="#{dafUnoBean.dafEditar.estadoAR}"
-							styleClass="#{dafUnoBean.dafEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
+							styleClass="#{dafDosBean.dafEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}" />
+						<p:selectOneButton id="a" value="#{dafDosBean.dafEditar.estadoAR}"
+							styleClass="#{dafDosBean.dafEditar.estadoAR ? 'btn-aceptado' : 'btn-rechazado'}">
 							<f:selectItem itemLabel="Aceptado" itemValue="true" />
 							<f:selectItem itemLabel="Rechazado" itemValue="false" />
 							<p:ajax update="frmEditar:a, frmEditar:estadoAR" />
@@ -794,7 +794,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{dafUnoBean.actualizaDaf()}"
+							actionListener="#{dafDosBean.actualizaDaf()}"
 							oncomplete="PF('dlgEditar').hide()" />
 					</div>
 
@@ -813,59 +813,59 @@
 
 						<p:outputLabel for="pro" value="Proceso" />
 						<p:inputText id="pro" styleClass="camposLimpieza" readonly="true"
-							value="#{dafUnoBean.limpiezaEditar.proceso}" required="false"
+							value="#{dafDosBean.limpiezaEditar.proceso}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel value="Hora Inicial" />
-						<pe:timePicker value="#{dafUnoBean.limpiezaEditar.horaInicial}"
+						<pe:timePicker value="#{dafDosBean.limpiezaEditar.horaInicial}"
 							mode="spinner" widgetVar="h1" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 
 						<p:outputLabel value="Hora Final" />
-						<pe:timePicker value="#{dafUnoBean.limpiezaEditar.horaFinal}"
+						<pe:timePicker value="#{dafDosBean.limpiezaEditar.horaFinal}"
 							mode="spinner" widgetVar="h2" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 
 						<p:outputLabel for="qui" value="P. Químico" />
 						<p:inputText id="qui" styleClass="camposLimpieza"
-							value="#{dafUnoBean.limpiezaEditar.quimico}" required="false"
+							value="#{dafDosBean.limpiezaEditar.quimico}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 
 						<p:outputLabel for="lts" value="Cantidad Usada"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="lts" styleClass="camposLimpieza"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
-							value="#{dafUnoBean.limpiezaEditar.litrosUsados}"
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							value="#{dafDosBean.limpiezaEditar.litrosUsados}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 						<p:outputLabel for="um" value="Unidad de medida"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="um" styleClass="camposLimpieza"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
-							value="#{dafUnoBean.limpiezaEditar.um}" required="false"
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							value="#{dafDosBean.limpiezaEditar.um}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel for="tem" value="Temperatura"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="tem" styleClass="camposLimpieza"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
-							value="#{dafUnoBean.limpiezaEditar.temperatura}" required="false"
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							value="#{dafDosBean.limpiezaEditar.temperatura}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel for="lote" value="Lote"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}" />
 						<p:inputText id="lote" styleClass="camposLimpieza"
-							value="#{dafUnoBean.limpiezaEditar.lote}" required="false"
-							rendered="#{dafUnoBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
+							value="#{dafDosBean.limpiezaEditar.lote}" required="false"
+							rendered="#{dafDosBean.limpiezaEditar.proceso ne 'ENJUAGUE'}"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 						<p:outputLabel for="phf" value="pH Final" />
 						<p:inputText id="phf" styleClass="camposLimpieza"
-							value="#{dafUnoBean.limpiezaEditar.phFinal}" required="false"
+							value="#{dafDosBean.limpiezaEditar.phFinal}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 					</h:panelGrid>
@@ -874,7 +874,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{dafUnoBean.actualizarLimpieza()}"
+							actionListener="#{dafDosBean.actualizarLimpieza()}"
 							oncomplete="PF('dlgEditarLimpieza').hide()" />
 					</div>
 
@@ -892,25 +892,25 @@
 
 						<p:outputLabel for="orden" value="No de Orden" />
 						<p:inputText id="orden" styleClass="camposManto"
-							value="#{dafUnoBean.ordenMantenimientoEditar.noOrden}"
+							value="#{dafDosBean.ordenMantenimientoEditar.noOrden}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 8rem" />
 
 						<p:outputLabel value="Hora Inicio" />
 						<pe:timePicker
-							value="#{dafUnoBean.ordenMantenimientoEditar.horaInicio}"
+							value="#{dafDosBean.ordenMantenimientoEditar.horaInicio}"
 							mode="spinner" widgetVar="h3" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 						<p:outputLabel value="Hora Final" />
 						<pe:timePicker
-							value="#{dafUnoBean.ordenMantenimientoEditar.horaFin}"
+							value="#{dafDosBean.ordenMantenimientoEditar.horaFin}"
 							mode="spinner" widgetVar="h4" showOn="button" intervalMinutes="1"
 							endMinutes="59" />
 
 						<p:outputLabel value="Descripción" />
 						<p:inputTextarea id="desc" styleClass="camposManto"
-							value="#{dafUnoBean.ordenMantenimientoEditar.descripcion}"
+							value="#{dafDosBean.ordenMantenimientoEditar.descripcion}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 					</h:panelGrid>
@@ -919,7 +919,7 @@
 						<p:commandButton icon="pi pi-save" value="ACTUALIZAR"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{dafUnoBean.actualizarOrdenManto()}"
+							actionListener="#{dafDosBean.actualizarOrdenManto()}"
 							oncomplete="PF('dlgEditarManto').hide()" />
 					</div>
 
@@ -941,8 +941,8 @@
 						<p:autoComplete id="operador" size="35" required="false"
 							requiredMessage="Operador requerido" autocomplete="off"
 							placeholder="Ingresa Operador" dropdown="true"
-							value="#{dafUnoBean.filterOperador}"
-							completeMethod="#{dafUnoBean.buscarNombreOperador}">
+							value="#{dafDosBean.filterOperador}"
+							completeMethod="#{dafDosBean.buscarNombreOperador}">
 						</p:autoComplete>
 
 						<p:outputLabel value="" />
@@ -952,8 +952,8 @@
 						<p:autoComplete id="coord" size="35" required="false"
 							requiredMessage="Coordinador requerido" autocomplete="off"
 							placeholder="Ingresa coordinador" dropdown="true"
-							value="#{dafUnoBean.filterUsuario}"
-							completeMethod="#{dafUnoBean.buscarNombreCoordinador}">
+							value="#{dafDosBean.filterUsuario}"
+							completeMethod="#{dafDosBean.buscarNombreCoordinador}">
 						</p:autoComplete>
 
 					</h:panelGrid>
@@ -962,7 +962,7 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{dafUnoBean.actualizarTurnos()}"
+							actionListener="#{dafDosBean.actualizarTurnos()}"
 							oncomplete="PF('dlgEditarTurnos').hide()" />
 					</div>
 
@@ -980,7 +980,7 @@
 					<h:panelGrid id="pnlAgregarObs" columns="2" styleClass="fuente">
 
 						<p:inputTextarea id="textObs"
-							value="#{dafUnoBean.folioPreparacionDafUno.observaciones}"
+							value="#{dafDosBean.folioPreparacionDafDos.observaciones}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
@@ -990,7 +990,7 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
-							actionListener="#{dafUnoBean.guardarObservaciones()}"
+							actionListener="#{dafDosBean.guardarObservaciones()}"
 							oncomplete="PF('dlgAgregarObs').hide()" />
 					</div>
 

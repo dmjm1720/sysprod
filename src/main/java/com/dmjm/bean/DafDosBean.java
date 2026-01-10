@@ -2,7 +2,6 @@ package com.dmjm.bean;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,59 +19,58 @@ import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.data.PageEvent;
 
-import com.dmjm.dao.IDafUnoDao;
+import com.dmjm.dao.IDafDosDao;
 import com.dmjm.dao.IDafUnoPrepFlolucolanteDao;
-import com.dmjm.dao.IFolioPreparacionDafUnoDao;
+import com.dmjm.dao.IFolioPreparacionDafDosDao;
 import com.dmjm.dao.IFolioProcesosDao;
-import com.dmjm.dao.ILimpiezaDafUnoDao;
+import com.dmjm.dao.ILimpiezaDafDosDao;
 import com.dmjm.dao.IOperadorDao;
-import com.dmjm.dao.IOrdenMantenimientoDafUnoDao;
+import com.dmjm.dao.IOrdenMantenimientoDafDosDao;
 import com.dmjm.dao.IRegistroTurnosDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.dao.IValidacionFolioDao;
-import com.dmjm.impl.DafUnoDaoImpl;
+import com.dmjm.impl.DafDosDaoImpl;
 import com.dmjm.impl.DafUnoPrepFlolucolanteDaoImpl;
-import com.dmjm.impl.FolioPreparacionDafUnoDaoImpl;
+import com.dmjm.impl.FolioPreparacionDafDosDaoImpl;
 import com.dmjm.impl.FolioProcesosDaoImpl;
-import com.dmjm.impl.LimpiezaDafUnoDaoImpl;
+import com.dmjm.impl.LimpiezaDafDosDaoImpl;
 import com.dmjm.impl.OperadorDaoImpl;
-import com.dmjm.impl.OrdenMantenimientoDafUnoDaoImpl;
+import com.dmjm.impl.OrdenMantenimientoDafDosDaoImpl;
 import com.dmjm.impl.RegistroTurnoDaoImpl;
 import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
-import com.dmjm.model.DafUno;
-import com.dmjm.model.DafUnoPrepFlolucolante;
-import com.dmjm.model.FolioPreparacionDafUno;
-import com.dmjm.model.LimpiezaDafUno;
+import com.dmjm.model.DafDos;
+import com.dmjm.model.FolioPreparacionDafDos;
+import com.dmjm.model.LimpiezaDafDos;
 import com.dmjm.model.Operador;
-import com.dmjm.model.OrdenMantenimientoDafUno;
+import com.dmjm.model.OrdenMantenimientoDafDos;
 import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
 import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
-@Named("dafUnoBean")
+@Named("dafDosBean")
 @ViewScoped
-public class DafUnoBean implements Serializable {
+public class DafDosBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private List<DafUno> listaDaf;
-	private DafUno daf;
-	private DafUno dafEditar;
+	private List<DafDos> listaDaf;
+	private DafDos daf;
+	private DafDos dafEditar;
 
-	private List<DafUno> listaFiltroDaf;
+	private List<DafDos> listaFiltroDaf;
 
 	private Date fecha;
 	private int folioFecha;
 	private int folioPrepDaf;
 	private Date fechaFiltro;
 
-	private LimpiezaDafUno limpieza;
-	private List<LimpiezaDafUno> limpiezaDafUno;
-	private LimpiezaDafUno limpiezaEditar;
+	private LimpiezaDafDos limpieza;
+	private List<LimpiezaDafDos> limpiezaDafDos;
+	private LimpiezaDafDos limpiezaEditar;
 
 	private String filterTurno;
 	private String filterUsuario;
@@ -86,15 +84,15 @@ public class DafUnoBean implements Serializable {
 	private RegistroTurnos registroTurnosEditar;
 	private List<RegistroTurnos> listarRegistroTurnos;
 
-	private List<OrdenMantenimientoDafUno> listaOrdenManto;
-	private OrdenMantenimientoDafUno ordenMantenimiento;
-	private OrdenMantenimientoDafUno ordenMantenimientoEditar;
+	private List<OrdenMantenimientoDafDos> listaOrdenManto;
+	private OrdenMantenimientoDafDos ordenMantenimiento;
+	private OrdenMantenimientoDafDos ordenMantenimientoEditar;
 
 	private int noLimpiezaSeleccionadaBorrar;
 	private int noLimpiezaVoBo;
 
-	private List<FolioPreparacionDafUno> listaFolioDafUno;
-	private FolioPreparacionDafUno folioPreparacionDafUno;
+	private List<FolioPreparacionDafDos> listaFolioDafDos;
+	private FolioPreparacionDafDos folioPreparacionDafDos;
 	private List<Integer> listaLimpiezas;
 	private String cocedorSeleccionado;
 
@@ -104,21 +102,21 @@ public class DafUnoBean implements Serializable {
 	private String bandera;
 
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
-	private static final Logger LOGGER = LogManager.getLogger(DafUnoBean.class.getName());
+	private static final Logger LOGGER = LogManager.getLogger(DafDosBean.class.getName());
 
-	public DafUnoBean() {
+	public DafDosBean() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@PostConstruct
 	public void init() {
 		listaDaf = new ArrayList<>();
-		daf = new DafUno();
-		dafEditar = new DafUno();
+		daf = new DafDos();
+		dafEditar = new DafDos();
 
-		limpieza = new LimpiezaDafUno();
-		limpiezaDafUno = new ArrayList<>();
-		limpiezaEditar = new LimpiezaDafUno();
+		limpieza = new LimpiezaDafDos();
+		limpiezaDafDos = new ArrayList<>();
+		limpiezaEditar = new LimpiezaDafDos();
 
 		operador = new Operador();
 		operadorEditar = new Operador();
@@ -129,16 +127,15 @@ public class DafUnoBean implements Serializable {
 		registroTurnosEditar = new RegistroTurnos();
 
 		listaOrdenManto = new ArrayList<>();
-		ordenMantenimiento = new OrdenMantenimientoDafUno();
-		ordenMantenimientoEditar = new OrdenMantenimientoDafUno();
+		ordenMantenimiento = new OrdenMantenimientoDafDos();
+		ordenMantenimientoEditar = new OrdenMantenimientoDafDos();
 
 		listaLimpiezas = new ArrayList<>();
-		folioPreparacionDafUno = new FolioPreparacionDafUno();
+		folioPreparacionDafDos = new FolioPreparacionDafDos();
 
 		listarFoliosPreparacion = new ArrayList<>();
-		
-		listaFiltroDaf = new ArrayList<DafUno>();
-		IDafUnoDao lDafDao = new DafUnoDaoImpl();
+		listaFiltroDaf = new ArrayList<>();
+		IDafDosDao lDafDao = new DafDosDaoImpl();
 		listaFiltroDaf = lDafDao.listaFiltroDaf();
 		primera();
 
@@ -160,8 +157,8 @@ public class DafUnoBean implements Serializable {
 		this.bandera = bandera;
 	}
 
-	public List<DafUno> getListaDaf() {
-		IDafUnoDao eDao = new DafUnoDaoImpl();
+	public List<DafDos> getListaDaf() {
+		IDafDosDao eDao = new DafDosDaoImpl();
 		if (fechaFiltro != null) {
 			listaDaf = eDao.listaPorFechaDaf(fechaFiltro);
 			for (int i = 0; i < 1; i++) {
@@ -175,8 +172,8 @@ public class DafUnoBean implements Serializable {
 		return listaDaf;
 	}
 
-	public DafUno getDaf() {
-		IDafUnoDao lDao = new DafUnoDaoImpl();
+	public DafDos getDaf() {
+		IDafDosDao lDao = new DafDosDaoImpl();
 		if (fechaFiltro != null) {
 			listaDaf = lDao.listaPorFechaDaf(fechaFiltro);
 			for (int i = 0; i < 1; i++) {
@@ -209,15 +206,15 @@ public class DafUnoBean implements Serializable {
 		this.operadorEditar = operadorEditar;
 	}
 
-	public void setDaf(DafUno daf) {
+	public void setDaf(DafDos daf) {
 		this.daf = daf;
 	}
 
-	public DafUno getDafEditar() {
+	public DafDos getDafEditar() {
 		return dafEditar;
 	}
 
-	public void setDafEditar(DafUno dafEditar) {
+	public void setDafEditar(DafDos dafEditar) {
 		this.dafEditar = dafEditar;
 	}
 
@@ -245,19 +242,19 @@ public class DafUnoBean implements Serializable {
 		this.folioPrepDaf = folioPrepDaf;
 	}
 
-	public LimpiezaDafUno getLimpieza() {
+	public LimpiezaDafDos getLimpieza() {
 		return limpieza;
 	}
 
-	public void setLimpieza(LimpiezaDafUno limpieza) {
+	public void setLimpieza(LimpiezaDafDos limpieza) {
 		this.limpieza = limpieza;
 	}
 
-	public LimpiezaDafUno getLimpiezaEditar() {
+	public LimpiezaDafDos getLimpiezaEditar() {
 		return limpiezaEditar;
 	}
 
-	public void setLimpiezaEditar(LimpiezaDafUno limpiezaEditar) {
+	public void setLimpiezaEditar(LimpiezaDafDos limpiezaEditar) {
 		this.limpiezaEditar = limpiezaEditar;
 	}
 
@@ -301,19 +298,19 @@ public class DafUnoBean implements Serializable {
 		this.registroTurnosEditar = registroTurnosEditar;
 	}
 
-	public OrdenMantenimientoDafUno getOrdenMantenimiento() {
+	public OrdenMantenimientoDafDos getOrdenMantenimiento() {
 		return ordenMantenimiento;
 	}
 
-	public void setOrdenMantenimiento(OrdenMantenimientoDafUno ordenMantenimiento) {
+	public void setOrdenMantenimiento(OrdenMantenimientoDafDos ordenMantenimiento) {
 		this.ordenMantenimiento = ordenMantenimiento;
 	}
 
-	public OrdenMantenimientoDafUno getOrdenMantenimientoEditar() {
+	public OrdenMantenimientoDafDos getOrdenMantenimientoEditar() {
 		return ordenMantenimientoEditar;
 	}
 
-	public void setOrdenMantenimientoEditar(OrdenMantenimientoDafUno ordenMantenimientoEditar) {
+	public void setOrdenMantenimientoEditar(OrdenMantenimientoDafDos ordenMantenimientoEditar) {
 		this.ordenMantenimientoEditar = ordenMantenimientoEditar;
 	}
 
@@ -325,12 +322,12 @@ public class DafUnoBean implements Serializable {
 		this.fechaFiltro = fechaFiltro;
 	}
 
-	public FolioPreparacionDafUno getFolioPreparacionDafUno() {
-		return folioPreparacionDafUno;
+	public FolioPreparacionDafDos getFolioPreparacionDafDos() {
+		return folioPreparacionDafDos;
 	}
 
-	public void setFolioPreparacionDafUno(FolioPreparacionDafUno folioPreparacionDafUno) {
-		this.folioPreparacionDafUno = folioPreparacionDafUno;
+	public void setFolioPreparacionDafDos(FolioPreparacionDafDos folioPreparacionDafDos) {
+		this.folioPreparacionDafDos = folioPreparacionDafDos;
 	}
 
 	public String getCocedorSeleccionado() {
@@ -357,17 +354,17 @@ public class DafUnoBean implements Serializable {
 		this.noLimpiezaSeleccionadaBorrar = noLimpiezaSeleccionadaBorrar;
 	}
 
-	public List<LimpiezaDafUno> getLimpiezaDafUno() {
-		ILimpiezaDafUnoDao lDao = new LimpiezaDafUnoDaoImpl();
+	public List<LimpiezaDafDos> getLimpiezaDafDos() {
+		ILimpiezaDafDosDao lDao = new LimpiezaDafDosDaoImpl();
 
-		IFolioPreparacionDafUnoDao folioPrepDao = new FolioPreparacionDafUnoDaoImpl();
-		this.folioPrepDaf = folioPrepDao.folioDafUnoActual(fecha);
-		limpiezaDafUno = lDao.listarLimpieza(folioPrepDaf);
+		IFolioPreparacionDafDosDao folioPrepDao = new FolioPreparacionDafDosDaoImpl();
+		this.folioPrepDaf = folioPrepDao.folioDafDosActual(fecha);
+		limpiezaDafDos = lDao.listarLimpieza(folioPrepDaf);
 
-		return limpiezaDafUno;
+		return limpiezaDafDos;
 	}
 
-	public List<DafUno> obtenerElementosDePagina(int pagina) {
+	public List<DafDos> obtenerElementosDePagina(int pagina) {
 		int elementosPorPagina = 25; // Número de elementos por página
 		int inicio = pagina * elementosPorPagina;
 		int fin = Math.min(inicio + elementosPorPagina, listaDaf.size());
@@ -376,19 +373,19 @@ public class DafUnoBean implements Serializable {
 		return listaDaf.subList(inicio, fin);
 	}
 
-	public List<DafUno> getListaFiltroDaf() {
+	public List<DafDos> getListaFiltroDaf() {
 		return listaFiltroDaf;
 	}
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_DAF_UNO");
+		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_DAF_DOS");
 	}
 
 	public void guardarDaf() {
 
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_DAF_UNO");
+		boolean validacion = vDao.validarFolio(new Date(), "FOLIO_PREPARACION_DAF_DOS");
 		if (validacion) {
 			LOGGER.error("YA EXISTE UNA HOJA CON LA MISMA FECHA");
 			String info = "Ya existe una hoja con la misma fecha";
@@ -397,7 +394,7 @@ public class DafUnoBean implements Serializable {
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: true,\n"
 							+ "  timer: 8000\n" + "})");
-			String script = "setTimeout(function() { window.location.href='DafUno.html'; }, 3000);";
+			String script = "setTimeout(function() { window.location.href='DafDos.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		} else {
 
@@ -411,8 +408,8 @@ public class DafUnoBean implements Serializable {
 						"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00",
 						"3:00", "4:00", "5:00", "6:00", "PROM." };
 
-				IDafUnoDao cDao = new DafUnoDaoImpl();
-				daf = new DafUno();
+				IDafDosDao cDao = new DafDosDaoImpl();
+				daf = new DafDos();
 
 				// **FOLIO**//
 				int folio = 0;
@@ -422,34 +419,34 @@ public class DafUnoBean implements Serializable {
 				int newYear = calendario.get(Calendar.YEAR);
 				IFolioProcesosDao folDao = new FolioProcesosDaoImpl();
 
-				folio = folDao.buscarFolioDafUno(newYear);
+				folio = folDao.buscarFolioDafDos(newYear);
 
 				// **FOLIO_PREPARACION_DAF**//
 
-				IFolioPreparacionDafUnoDao estDao = new FolioPreparacionDafUnoDaoImpl();
-				FolioPreparacionDafUno fpe = new FolioPreparacionDafUno();
+				IFolioPreparacionDafDosDao estDao = new FolioPreparacionDafDosDaoImpl();
+				FolioPreparacionDafDos fpe = new FolioPreparacionDafDos();
 				fpe.setIdFolioPrep(estDao.returnIDGuardarFolio(folio, fec)); // FECHA DEL FOLIO FALTANTE
 
 				for (String lista : listaHora) {
 					daf.setFolioDaf(folio);
 					daf.setHora(lista);
-					daf.setFolioPreparacionDafUno(fpe);
+					daf.setFolioPreparacionDafDos(fpe);
 					daf.setFecha(fec); // FECHA DEL FOLIO FALTANTE
 					cDao.guardarDaf(daf);
-					daf = new DafUno();
+					daf = new DafDos();
 				}
 				// **ACTUALIZAR FOLIO_PROCESOS**//
 				IFolioProcesosDao folioDao = new FolioProcesosDaoImpl();
-				folioDao.actualizarFolioDafUno(newYear, folio);
+				folioDao.actualizarFolioDafDos(newYear, folio);
 			}
-			String script = "setTimeout(function() { window.location.href='DafUno.html'; }, 3000);";
+			String script = "setTimeout(function() { window.location.href='DafDos.html'; }, 3000);";
 			PrimeFaces.current().executeScript(script);
 		}
 	}
 
 	public void actualizaDaf() {
 
-		IDafUnoDao cDao = new DafUnoDaoImpl();
+		IDafDosDao cDao = new DafDosDaoImpl();
 
 		String oper = dafEditar.getOperacion().replaceAll("\\s+", "");
 		dafEditar.setOperacion(oper.replaceAll("(?<=\\D)(?=\\d)", " "));
@@ -466,40 +463,40 @@ public class DafUnoBean implements Serializable {
 
 		//dafEditar.setFolioPreparacion(folioSeleccionado);
 		cDao.actualizarDaf(dafEditar);
-		actualizarPromedios(dafEditar.getFolioPreparacionDafUno().getIdFolioPrep());
+		actualizarPromedios(dafEditar.getFolioPreparacionDafDos().getIdFolioPrep());
 
 		if (dafEditar.getHora().equals("7:00")) {
-			IDafUnoDao aDao = new DafUnoDaoImpl();
-			aDao.actualizarDafPromedio(dafEditar.getOperacion(), dafEditar.getFolioPreparacionDafUno().getIdFolioPrep());
+			IDafDosDao aDao = new DafDosDaoImpl();
+			aDao.actualizarDafPromedio(dafEditar.getOperacion(), dafEditar.getFolioPreparacionDafDos().getIdFolioPrep());
 		}
-		dafEditar = new DafUno();
+		dafEditar = new DafDos();
 		PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
 
 	}
 
 	private void actualizarPromedios(Integer folio) {
-		IDafUnoDao actualizar_conc_porcentaje = new DafUnoDaoImpl();
+		IDafDosDao actualizar_conc_porcentaje = new DafDosDaoImpl();
 		actualizar_conc_porcentaje.actualizarConcentradoPorcentaje(folio);
 
-		IDafUnoDao actualizar_flujo_grenetina = new DafUnoDaoImpl();
+		IDafDosDao actualizar_flujo_grenetina = new DafDosDaoImpl();
 		actualizar_flujo_grenetina.actualizarFlujoGrenetina(folio);
 
-		IDafUnoDao actualizar_ph = new DafUnoDaoImpl();
+		IDafDosDao actualizar_ph = new DafDosDaoImpl();
 		actualizar_ph.actualizarPH(folio);
 
-		IDafUnoDao actualizar_ntu_entrada = new DafUnoDaoImpl();
+		IDafDosDao actualizar_ntu_entrada = new DafDosDaoImpl();
 		actualizar_ntu_entrada.actualizarNTUEntrada(folio);
 
-		IDafUnoDao actualizar_ntu_salida = new DafUnoDaoImpl();
+		IDafDosDao actualizar_ntu_salida = new DafDosDaoImpl();
 		actualizar_ntu_salida.actualizarNTUSalida(folio);
 
-		IDafUnoDao actualizar_presion_aire = new DafUnoDaoImpl();
+		IDafDosDao actualizar_presion_aire = new DafDosDaoImpl();
 		actualizar_presion_aire.actualizarPresionAire(folio);
 
-		IDafUnoDao actualizar_frecBomba_flolucolante = new DafUnoDaoImpl();
+		IDafDosDao actualizar_frecBomba_flolucolante = new DafDosDaoImpl();
 		actualizar_frecBomba_flolucolante.actualizarFrecBombaFlolucolante(folio);
 
-		IDafUnoDao actualizar_valvula_reg_presion = new DafUnoDaoImpl();
+		IDafDosDao actualizar_valvula_reg_presion = new DafDosDaoImpl();
 		actualizar_valvula_reg_presion.actualizarValvulaRegPresion(folio);
 
 	}
@@ -508,45 +505,45 @@ public class DafUnoBean implements Serializable {
 	public void guardarLimpieza() {
 		String datosLimpieza[] = { "ENJUAGUE", "ALCALINO", "ENJUAGUE", "ÁCIDO", "ENJUAGUE", "SANITIZANTE", "ENJUAGUE" };
 
-		FolioPreparacionDafUno f = new FolioPreparacionDafUno();
+		FolioPreparacionDafDos f = new FolioPreparacionDafDos();
 		f.setIdFolioPrep(folioPrepDaf);
 
 		// VALIDAR SI HAY LIMPIEZA PARA ASIGNAR EL CONSECUTIVO
 
-		ILimpiezaDafUnoDao validaDao = new LimpiezaDafUnoDaoImpl();
+		ILimpiezaDafDosDao validaDao = new LimpiezaDafDosDaoImpl();
 		int noDeLimpieza = 0;
 		noDeLimpieza = validaDao.validarNoLimpieza(folioPrepDaf);
 
 		// validación de limpieza para agregar en la tabla de cocedores
 
-		ILimpiezaDafUnoDao lDao = new LimpiezaDafUnoDaoImpl();
+		ILimpiezaDafDosDao lDao = new LimpiezaDafDosDaoImpl();
 
-		IDafUnoDao vDao = new DafUnoDaoImpl();
+		IDafDosDao vDao = new DafDosDaoImpl();
 		vDao.actualizarLimpieza(folioPrepDaf, noDeLimpieza);
 		for (String l : datosLimpieza) {
 			limpieza.setVobo("PENDIENTE");
 			limpieza.setNoLimpieza(noDeLimpieza);
-			limpieza.setFolioPreparacionDafUno(f);
+			limpieza.setFolioPreparacionDafDos(f);
 			limpieza.setProceso(l);
 			limpieza.setIdUsuario(1028);
 			limpieza.setNoDaf(cocedorSeleccionado);
 			lDao.guardarLimpieza(limpieza);
-			limpieza = new LimpiezaDafUno();
+			limpieza = new LimpiezaDafDos();
 		}
 
 	}
 
 	public void actualizarLimpieza() {
-		ILimpiezaDafUnoDao lDao = new LimpiezaDafUnoDaoImpl();
+		ILimpiezaDafDosDao lDao = new LimpiezaDafDosDaoImpl();
 		lDao.actualizarLimpieza(limpiezaEditar);
-		limpiezaEditar = new LimpiezaDafUno();
+		limpiezaEditar = new LimpiezaDafDos();
 	}
 
 	public void deleteLimpieza() {
 		// validación de limpieza para agregar en la tabla de cocedores
-		IDafUnoDao vDao = new DafUnoDaoImpl();
+		IDafDosDao vDao = new DafDosDaoImpl();
 		vDao.actualizarLimpieza(folioPrepDaf, 0);
-		ILimpiezaDafUnoDao iDao = new LimpiezaDafUnoDaoImpl();
+		ILimpiezaDafDosDao iDao = new LimpiezaDafDosDaoImpl();
 		iDao.borrarLimpieza(folioPrepDaf, noLimpiezaSeleccionadaBorrar);
 
 	}
@@ -554,7 +551,7 @@ public class DafUnoBean implements Serializable {
 	public void guardarOperador() {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		operador.setEstado("Activo");
-		operador.setProceso("Daf Uno");
+		operador.setProceso("Daf Dos");
 		oDao.guardarOperador(operador);
 		operador = new Operador();
 
@@ -568,16 +565,16 @@ public class DafUnoBean implements Serializable {
 
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
-		listaOperadores = oDao.listaOperadorDafUno();
+		listaOperadores = oDao.listaOperadorDafDos();
 		return listaOperadores;
 	}
 
 	public List<RegistroTurnos> getListarRegistroTurnos() {
 
 		IRegistroTurnosDao rDao = new RegistroTurnoDaoImpl();
-		listarRegistroTurnos = rDao.listaRegistroTurnosDafUno(fecha);
-		IFolioPreparacionDafUnoDao folioPrepDao = new FolioPreparacionDafUnoDaoImpl();
-		this.folioPrepDaf = folioPrepDao.folioDafUnoActual(fecha);
+		listarRegistroTurnos = rDao.listaRegistroTurnosDafDos(fecha);
+		IFolioPreparacionDafDosDao folioPrepDao = new FolioPreparacionDafDosDaoImpl();
+		this.folioPrepDaf = folioPrepDao.folioDafDosActual(fecha);
 		return listarRegistroTurnos;
 	}
 
@@ -598,7 +595,7 @@ public class DafUnoBean implements Serializable {
 
 		rt.setFecha(fecha);
 		rt.setFolio(folioFecha);
-		rt.setDescProceso("DAF UNO");
+		rt.setDescProceso("DAF DOS");
 
 		rDao.guardaRegistroTurnos(rt);
 
@@ -639,13 +636,13 @@ public class DafUnoBean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre, "Daf Uno");
+		return tDao.completeOperador(nombre, "Daf Dos");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre, "Daf Uno");
+		return tDao.buscarOperador(nombre, "Daf Dos");
 	}
 
 	public void actualizarTurnos() throws SQLException {
@@ -663,63 +660,63 @@ public class DafUnoBean implements Serializable {
 		filterTurno = null;
 	}
 
-	public List<OrdenMantenimientoDafUno> getListaOrdenManto() {
-		IOrdenMantenimientoDafUnoDao oDao = new OrdenMantenimientoDafUnoDaoImpl();
-		IFolioPreparacionDafUnoDao folioPrepDao = new FolioPreparacionDafUnoDaoImpl();
-		this.folioPrepDaf = folioPrepDao.folioDafUnoActual(fecha);
+	public List<OrdenMantenimientoDafDos> getListaOrdenManto() {
+		IOrdenMantenimientoDafDosDao oDao = new OrdenMantenimientoDafDosDaoImpl();
+		IFolioPreparacionDafDosDao folioPrepDao = new FolioPreparacionDafDosDaoImpl();
+		this.folioPrepDaf = folioPrepDao.folioDafDosActual(fecha);
 		listaOrdenManto = oDao.listaOrdenManto(folioPrepDaf);
 		return listaOrdenManto;
 	}
 
 	public void actualizarOrdenManto() {
-		IOrdenMantenimientoDafUnoDao iDao = new OrdenMantenimientoDafUnoDaoImpl();
+		IOrdenMantenimientoDafDosDao iDao = new OrdenMantenimientoDafDosDaoImpl();
 		iDao.actualizarOrdenManto(ordenMantenimientoEditar);
-		ordenMantenimiento = new OrdenMantenimientoDafUno();
+		ordenMantenimiento = new OrdenMantenimientoDafDos();
 	}
 
 	public void borrarOrdenManto() {
-		IOrdenMantenimientoDafUnoDao iDao = new OrdenMantenimientoDafUnoDaoImpl();
+		IOrdenMantenimientoDafDosDao iDao = new OrdenMantenimientoDafDosDaoImpl();
 		iDao.borrarOrdenManto(ordenMantenimientoEditar);
-		ordenMantenimientoEditar = new OrdenMantenimientoDafUno();
+		ordenMantenimientoEditar = new OrdenMantenimientoDafDos();
 	}
 
 	public void borrarVoBo() {
-		ILimpiezaDafUnoDao iDao = new LimpiezaDafUnoDaoImpl();
+		ILimpiezaDafDosDao iDao = new LimpiezaDafDosDaoImpl();
 		iDao.borrarVoBo(folioPrepDaf, noLimpiezaVoBo);
 	}
 
 	public void agregarVoBo() {
-		ILimpiezaDafUnoDao iDao = new LimpiezaDafUnoDaoImpl();
+		ILimpiezaDafDosDao iDao = new LimpiezaDafDosDaoImpl();
 		iDao.agregarVoBo(folioPrepDaf, noLimpiezaVoBo, us.getIdUsuario());
 	}
 
-	public List<FolioPreparacionDafUno> getListaFolioDafUno() {
-		IFolioPreparacionDafUnoDao lDao = new FolioPreparacionDafUnoDaoImpl();
-		listaFolioDafUno = lDao.listaFolioDafUno(folioPrepDaf);
-		return listaFolioDafUno;
+	public List<FolioPreparacionDafDos> getListaFolioDafDos() {
+		IFolioPreparacionDafDosDao lDao = new FolioPreparacionDafDosDaoImpl();
+		listaFolioDafDos = lDao.listaFolioDafDos(folioPrepDaf);
+		return listaFolioDafDos;
 	}
 
 	public void primera() {
-		IFolioPreparacionDafUnoDao fDao = new FolioPreparacionDafUnoDaoImpl();
-		FolioPreparacionDafUno f = new FolioPreparacionDafUno();
+		IFolioPreparacionDafDosDao fDao = new FolioPreparacionDafDosDaoImpl();
+		FolioPreparacionDafDos f = new FolioPreparacionDafDos();
 		f = fDao.retornarFechaActual();
 		this.fecha = f.getFecha();
 
 		// **FOLIO DE LA FECHA ACTUAL**//
 		if (this.fecha != null) {
-			IFolioPreparacionDafUnoDao folioDao = new FolioPreparacionDafUnoDaoImpl();
+			IFolioPreparacionDafDosDao folioDao = new FolioPreparacionDafDosDaoImpl();
 			this.folioFecha = folioDao.fechaFolioActual(fecha);
-			IFolioPreparacionDafUnoDao folioPrepDao = new FolioPreparacionDafUnoDaoImpl();
-			this.folioPrepDaf = folioPrepDao.folioDafUnoActual(fecha);
+			IFolioPreparacionDafDosDao folioPrepDao = new FolioPreparacionDafDosDaoImpl();
+			this.folioPrepDaf = folioPrepDao.folioDafDosActual(fecha);
 			getListarRegistroTurnos();
-			getLimpiezaDafUno();
+			getLimpiezaDafDos();
 			getListaOrdenManto();
-			getListaFolioDafUno();
+			getListaFolioDafDos();
 		}
 	}
 
 	public List<Integer> getListaLimpiezas() throws SQLException {
-		ILimpiezaDafUnoDao lDao = new LimpiezaDafUnoDaoImpl();
+		ILimpiezaDafDosDao lDao = new LimpiezaDafDosDaoImpl();
 		listaLimpiezas = lDao.noLimpieza(folioPrepDaf);
 		return listaLimpiezas;
 	}
@@ -728,7 +725,7 @@ public class DafUnoBean implements Serializable {
 		int nuevaPagina = event.getPage();
 
 		// Obtener la lista de elementos en la página actual
-		List<DafUno> paginaActual = obtenerElementosDePagina(nuevaPagina);
+		List<DafDos> paginaActual = obtenerElementosDePagina(nuevaPagina);
 
 		// Obtener la fecha del primer elemento de la nueva página
 		if (!paginaActual.isEmpty()) {
@@ -736,10 +733,10 @@ public class DafUnoBean implements Serializable {
 			this.fecha = paginaActual.get(0).getFecha();
 			// **FOLIO DE LA FECHA ACTUAL**//
 			if (this.fecha != null) {
-				IFolioPreparacionDafUnoDao fDao = new FolioPreparacionDafUnoDaoImpl();
+				IFolioPreparacionDafDosDao fDao = new FolioPreparacionDafDosDaoImpl();
 				this.folioFecha = fDao.fechaFolioActual(fecha);
-				IFolioPreparacionDafUnoDao folioPrepDao = new FolioPreparacionDafUnoDaoImpl();
-				this.folioPrepDaf = folioPrepDao.folioDafUnoActual(fecha);
+				IFolioPreparacionDafDosDao folioPrepDao = new FolioPreparacionDafDosDaoImpl();
+				this.folioPrepDaf = folioPrepDao.folioDafDosActual(fecha);
 			}
 
 		}
@@ -749,30 +746,30 @@ public class DafUnoBean implements Serializable {
 	public void filtrarPorFecha() {
 		getListaDaf(); // CAMBIAR PARAMETROS PARA EL REPORTE,
 		getListarRegistroTurnos();
-		getLimpiezaDafUno();
+		getLimpiezaDafDos();
 		getListaOrdenManto();
-		getListaFolioDafUno();
+		getListaFolioDafDos();
 
 	}
 
 	// **ORDEN DE MANTENIMIENTO**//
 	public void guardarOrdenManto() {
 		// validación de mantenimiento
-		IDafUnoDao validaDao = new DafUnoDaoImpl();
+		IDafDosDao validaDao = new DafDosDaoImpl();
 		validaDao.actualizarManto(folioPrepDaf);
 
-		IOrdenMantenimientoDafUnoDao iDao = new OrdenMantenimientoDafUnoDaoImpl();
+		IOrdenMantenimientoDafDosDao iDao = new OrdenMantenimientoDafDosDaoImpl();
 
-		FolioPreparacionDafUno f = new FolioPreparacionDafUno();
+		FolioPreparacionDafDos f = new FolioPreparacionDafDos();
 		f.setIdFolioPrep(folioPrepDaf);
-		ordenMantenimiento.setFolioPreparacionDafUno(f);
+		ordenMantenimiento.setFolioPreparacionDafDos(f);
 		iDao.guardarOrdenManto(ordenMantenimiento);
-		ordenMantenimiento = new OrdenMantenimientoDafUno();
+		ordenMantenimiento = new OrdenMantenimientoDafDos();
 	}
 
 	public void obtenerObservacion() {
-		for (int i = 0; i < listaFolioDafUno.size(); i++) {
-			folioPreparacionDafUno.setObservaciones(listaFolioDafUno.get(i).getObservaciones());
+		for (int i = 0; i < listaFolioDafDos.size(); i++) {
+			folioPreparacionDafDos.setObservaciones(listaFolioDafDos.get(i).getObservaciones());
 		}
 	}
 
@@ -782,9 +779,9 @@ public class DafUnoBean implements Serializable {
 	}
 
 	public void guardarObservaciones() {
-		IFolioPreparacionDafUnoDao fDao = new FolioPreparacionDafUnoDaoImpl();
-		fDao.guardarObservacion(folioPrepDaf, folioPreparacionDafUno.getObservaciones());
-		folioPreparacionDafUno = new FolioPreparacionDafUno();
+		IFolioPreparacionDafDosDao fDao = new FolioPreparacionDafDosDaoImpl();
+		fDao.guardarObservacion(folioPrepDaf, folioPreparacionDafDos.getObservaciones());
+		folioPreparacionDafDos = new FolioPreparacionDafDos();
 	}
 
 	public List<Integer> getListarFoliosPreparacion() {

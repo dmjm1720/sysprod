@@ -47,7 +47,8 @@ public class ValidacionFolioDaoImpl extends Conexion implements IValidacionFolio
 	public List<Date> validarFechasFaltantes(int dias, String tblFolioPrep) {
 		List<Date> lista = new ArrayList<>();
 	    // Rango esperado
-	    LocalDate fechaFin = LocalDate.now().plusDays(5);
+	    //LocalDate fechaFin = LocalDate.now().plusDays(5);
+		LocalDate fechaFin = LocalDate.now();
 	    LocalDate fechaIni = fechaFin.minusDays(dias);
 
 	    try {

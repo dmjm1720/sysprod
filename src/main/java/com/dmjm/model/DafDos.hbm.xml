@@ -62,5 +62,8 @@
         <property name="estadoLimpieza" type="java.lang.Boolean">
             <column name="ESTADO_LIMPIEZA" />
         </property>
+        <property name="folioPreparacion" type="java.lang.Integer">
+			<column name="FOLIO_PREPARACION" />
+		</property>
     </class>
 </hibernate-mapping>

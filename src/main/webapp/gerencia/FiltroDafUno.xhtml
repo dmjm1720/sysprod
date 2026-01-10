@@ -21,10 +21,7 @@
 				<p:growl id="msgs" showDetail="true"
 					skipDetailIfEqualsSummary="true" />
 
-				<div style="text-align: center">
-
-
-				</div>
+				<div style="text-align: center"></div>
 
 
 				<br></br>
@@ -36,8 +33,8 @@
 
 
 
-						<p:tab id="pt" title="ULTRA FILTRACIÓN I"
-							titleStyle="font-size: .8rem; background-color: #4169E1; color: #F5F5F5">
+						<p:tab id="pt" title="DAF ORIENTE"
+							titleStyle="font-size: .8rem; background-color: #123458; color: #F5F5F5">
 
 							<script>
                         PrimeFaces.locales['es'] = {
@@ -71,6 +68,7 @@
                         };
                     </script>
 
+
 							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
 								var="item" sortMode="multiple" reflow="true"
 								paginatorTemplate="
@@ -78,71 +76,76 @@
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
 								scrollHeight="300" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
-								value="#{ultraUnoBean.listaFiltroUltraUno}"
+								value="#{dafUnoBean.listaFiltroDaf}"
 								emptyMessage="NO HAY REGISTROS">
-
-								<p:ajax event="page" listener="#{ultraUnoBean.onPageChange}"
-									update="frmPrincipal" />
 
 								<p:columnGroup type="header">
 
 									<p:row>
-										<p:column rowspan="5" headerText="Ver reporte"
-											styleClass="datos" />
-										<p:column rowspan="5" headerText="Manto." styleClass="datos" />
-										<p:column rowspan="5" headerText="Limpieza" styleClass="datos" />
-										<p:column rowspan="5" headerText="Fecha" styleClass="datos" />
-									</p:row>
-
-									<p:row>
-										<p:column rowspan="3" headerText="HORA" styleClass="datos"
+										<p:column rowspan="3" headerText="REPORTE" styleClass="color"
 											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="MANTO." styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="LIMPIEZA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="FECHA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="HORA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="OPERACIÓN"
+											styleClass="color" style="font-size: .6rem !important" />
+									</p:row>
 
-										<p:column rowspan="4" headerText="OPERACIÓN"
-											styleClass="datos" style="font-size: .6rem !important" />
+									<p:row>
+										<p:column headerText="CONC. %" styleClass="datos" />
+										<p:column headerText="FLUJO GRENETINA" styleClass="datos" />
+										<p:column headerText="PH" styleClass="datos" />
+										<p:column headerText="NTU ENTRADA" styleClass="datos" />
+										<p:column headerText="NTU SALIDA" styleClass="datos" />
+										<p:column headerText="PRESIÓN DE AIRE" styleClass="datos" />
+										<p:column headerText="NO PREP FLOCULANTE" styleClass="datos" />
+										<p:column headerText="FREC. BOMBA FLOCULANTE"
+											styleClass="datos" />
+										<p:column headerText="VÁLVULA REG. PRESIÓN (kg/cm²)"
+											styleClass="datos" />
+										<p:column colspan="2" headerText="ESTADO" styleClass="color"
+											style="font-size: .6rem !important" />
 									</p:row>
 
 
 									<p:row>
-										<p:column colspan="3" headerText="ALIMENTACIÓN"
-											styleClass="color" />
-										<p:column colspan="3" headerText="ETAPA 1" styleClass="color" />
-										<p:column colspan="2" headerText="CONCENTRADO"
-											styleClass="color" />
-										<p:column colspan="1" headerText="% CONC. PERMEADO"
-											styleClass="color" />
-										<p:column colspan="2" headerText="ESTADO" styleClass="color" />
-									</p:row>
-
-									<p:row>
-										<p:column headerText="Flujo Ent. LPH" styleClass="datos" />
-										<p:column headerText="Temp. °C" styleClass="datos" />
-										<p:column headerText="% Conc. Entrada" styleClass="datos" />
-
-										<p:column headerText="Temp. °C" styleClass="datos" />
-										<p:column headerText="Presión PSI" styleClass="datos" />
-										<p:column headerText="Flujo Perm. LPH" styleClass="datos" />
-
-										<p:column headerText="Conc. Salida %" styleClass="datos" />
-										<p:column headerText="Flujo Salida" styleClass="datos" />
-										<p:column headerText="% Conc.  Permeado" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="(3.5 - 7.0)" styleClass="datos" />
+										<p:column headerText=" ≺ 1000 NTU" styleClass="datos" />
+										<p:column headerText=" ≺ 100 NTU" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
 										<p:column headerText="A" styleClass="datos" />
 										<p:column headerText="R" styleClass="datos" />
 									</p:row>
 
 
 								</p:columnGroup>
-								<p:column>
+								<p:column styleClass="datos">
 									<div style="text-align: center">
 										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
 											target="_blank"
-											actionListener="#{ultraUnoBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionUltraUno.idFolioPrep, item.folioUltra)}">
+											actionListener="#{dafUnoBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionDafUno.idFolioPrep, item.folioDaf)}">
 											<h:graphicImage url="/resources/img/printer.png"
 												style="height: 1.8rem" />
 										</h:commandLink>
 									</div>
 								</p:column>
-
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
 								<p:column>
 									<div style="text-align: center">
 										<p:graphicImage
@@ -151,62 +154,56 @@
 									</div>
 								</p:column>
 
-								<p:column>
-									<div style="text-align: center">
-										<p:graphicImage
-											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
-											style="width: 20px; height: 20px;" />
-									</div>
-								</p:column>
-
-								<p:column headerText="Fecha" styleClass="datos">
+								<p:column styleClass="datos">
 									<h:outputText value="#{item.fecha}" styleClass="datos" />
 								</p:column>
-								<p:column headerText="Hora" styleClass="datos">
+
+								<p:column styleClass="datos">
 									<h:outputText value="7:00" styleClass="datos" />
 								</p:column>
 
-								<p:column headerText="Operación" styleClass="datos">
+								<p:column styleClass="datos">
 									<h:outputText value="#{item.operacion}" styleClass="datos" />
 								</p:column>
 
-								<p:column headerText="Flujo Ent" styleClass="datos">
-									<h:outputText value="#{item.flujoEntrada}" styleClass="datos" />
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.concPorcentaje}" styleClass="datos" />
 								</p:column>
 
-								<p:column headerText="Temp" styleClass="datos">
-									<h:outputText value="#{item.temp01}" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.flujoGrenetina}" styleClass="datos" />
 								</p:column>
 
-								<p:column headerText="Conc. entrada" styleClass="datos">
-									<h:outputText value="#{item.concEntrada }" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.ph}" styleClass="datos" />
 								</p:column>
 
-
-								<p:column headerText="Temp" styleClass="datos">
-									<h:outputText value="#{item.temp02}" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.ntuEntrada}" styleClass="datos" />
 								</p:column>
 
-								<p:column headerText="Presión PSI" styleClass="datos">
-									<h:outputText value="#{item.presionPsi}" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.ntuSalida}" styleClass="datos" />
 								</p:column>
 
-								<p:column headerText="Flujo Perm" styleClass="datos">
-									<h:outputText value="#{item.flujoPerm}" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.presionAire}" styleClass="datos" />
 								</p:column>
 
-
-								<p:column headerText="Conc. Salida" styleClass="datos">
-									<h:outputText value="#{item.concSalida}" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.folioPreparacion}"
+										styleClass="datos" />
 								</p:column>
 
-
-								<p:column headerText="Flujo salida" styleClass="datos">
-									<h:outputText value="#{item.flujoSalida}" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.frecBombaFlolucolante}"
+										styleClass="datos" />
 								</p:column>
 
-								<p:column headerText="% Concentrado" styleClass="datos">
-									<h:outputText value="#{item.concPermeado}" styleClass="datos" />
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.valvulaRegPresion}"
+										styleClass="datos" />
 								</p:column>
 
 								<p:column styleClass="datos">
@@ -220,19 +217,29 @@
 										<h:outputText value="#{item.estadoR}" styleClass="datos" />
 									</div>
 								</p:column>
-
 							</p:dataTable>
 						</p:tab>
 
 
+
+
+
+
 					</p:accordionPanel>
-
-
 
 				</div>
 
-
 			</h:form>
+
+
+
+
+
+
+
+
+
+
 
 
 

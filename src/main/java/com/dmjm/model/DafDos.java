@@ -25,6 +25,7 @@ public class DafDos implements java.io.Serializable {
 	private Boolean estadoAR;
 	private Boolean estadoManto;
 	private Boolean estadoLimpieza;
+	private Integer folioPreparacion;
 
 	public DafDos() {
 	}
@@ -36,8 +37,8 @@ public class DafDos implements java.io.Serializable {
 	public DafDos(int idDaf, FolioPreparacionDafDos folioPreparacionDafDos, String hora, String operacion,
 			BigDecimal concPorcentaje, BigDecimal flujoGrenetina, BigDecimal ph, Integer ntuEntrada, Integer ntuSalida,
 			BigDecimal presionAire, BigDecimal frecBombaFlolucolante, BigDecimal valvulaRegPresion, String estadoA,
-			String estadoR, Integer folioDaf, Date fecha, Boolean estadoAR, Boolean estadoManto,
-			Boolean estadoLimpieza) {
+			String estadoR, Integer folioDaf, Date fecha, Boolean estadoAR, Boolean estadoManto, Boolean estadoLimpieza,
+			Integer folioPreparacion) {
 		this.idDaf = idDaf;
 		this.folioPreparacionDafDos = folioPreparacionDafDos;
 		this.hora = hora;
@@ -57,6 +58,7 @@ public class DafDos implements java.io.Serializable {
 		this.estadoAR = estadoAR;
 		this.estadoManto = estadoManto;
 		this.estadoLimpieza = estadoLimpieza;
+		this.folioPreparacion = folioPreparacion;
 	}
 
 	public int getIdDaf() {
@@ -209,6 +211,14 @@ public class DafDos implements java.io.Serializable {
 
 	public void setEstadoLimpieza(Boolean estadoLimpieza) {
 		this.estadoLimpieza = estadoLimpieza;
+	}
+
+	public Integer getFolioPreparacion() {
+		return folioPreparacion;
+	}
+
+	public void setFolioPreparacion(Integer folioPreparacion) {
+		this.folioPreparacion = folioPreparacion;
 	}
 
 }
