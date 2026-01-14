@@ -1478,6 +1478,49 @@
 				</p:menubar>
 
 
+				<!-- DAF -->
+				<p:menubar hideDelay="1000"
+					rendered="#{login.usuario.perfiles.idPerfil==19}">
+					<f:facet name="start">
+						<h:graphicImage library="images" name="excel-file.png" width="24"
+							height="24" alt="add" />
+					</f:facet>
+
+					<p:submenu label="DAF" icon="pi pi-fw pi-cog">
+						<p:menuitem value="Daf Oriente" outcome="DafUno"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:menuitem value="Resumen Daf Oriente" outcome="FiltroDafUno"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:menuitem value="Daf Poniente" outcome="DafDos"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:menuitem value="Resumen Daf Poniente" outcome="FiltroDafDos"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:divider />
+						<p:menuitem value="Ope. Daf Oriente" outcome="OpeDafUno"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:menuitem value="Ope. Daf Poniente" outcome="OpeDafDos"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:divider />
+						<p:menuitem value="Preparación" outcome="Preparacion"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+					</p:submenu>
+
+
+					<p:divider layout="vertical" />
+
+					<p:menuitem value="Cerrar sesión" icon="pi pi-fw pi-power-off"
+						action="/index?faces-redirect=true"
+						actionListener="#{login.cerrarSesion()}" />
+				</p:menubar>
+
+
 			</h:form>
 		</div>
 		<ui:insert name="top">

@@ -811,7 +811,7 @@ public class DafUnoBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/votator_rep_b.jasper");
+		ruta = servletContext.getRealPath("/REP/daf_oriente.jasper");
 		reporte.getReporte(ruta, fecha.toString(), folioFecha);
 
 		FacesContext.getCurrentInstance().responseComplete();
@@ -828,7 +828,7 @@ public class DafUnoBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/votator_rep_b.jasper");
+		ruta = servletContext.getRealPath("/REP/daf_oriente.jasper");
 
 		reporte.getReporte(ruta, fec, folioFechaRep);
 

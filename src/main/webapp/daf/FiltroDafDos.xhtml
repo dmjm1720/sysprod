@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center"></div>
+
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+
+
+
+						<p:tab id="pt" title="DAF PONIENTE"
+							titleStyle="font-size: .8rem; background-color: #123458; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="300" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{dafDosBean.listaFiltroDaf}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:columnGroup type="header">
+
+									<p:row>
+										<p:column rowspan="3" headerText="REPORTE" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="MANTO." styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="LIMPIEZA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="FECHA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="HORA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="OPERACIÓN"
+											styleClass="color" style="font-size: .6rem !important" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="CONC. %" styleClass="datos" />
+										<p:column headerText="FLUJO GRENETINA" styleClass="datos" />
+										<p:column headerText="PH" styleClass="datos" />
+										<p:column headerText="NTU ENTRADA" styleClass="datos" />
+										<p:column headerText="NTU SALIDA" styleClass="datos" />
+										<p:column headerText="PRESIÓN DE AIRE" styleClass="datos" />
+										<p:column headerText="NO PREP FLOCULANTE" styleClass="datos" />
+										<p:column headerText="FREC. BOMBA FLOCULANTE"
+											styleClass="datos" />
+										<p:column headerText="VÁLVULA REG. PRESIÓN (kg/cm²)"
+											styleClass="datos" />
+										<p:column colspan="2" headerText="ESTADO" styleClass="color"
+											style="font-size: .6rem !important" />
+									</p:row>
+
+
+									<p:row>
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="(3.5 - 7.0)" styleClass="datos" />
+										<p:column headerText=" ≺ 1000 NTU" styleClass="datos" />
+										<p:column headerText=" ≺ 100 NTU" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="A" styleClass="datos" />
+										<p:column headerText="R" styleClass="datos" />
+									</p:row>
+
+
+								</p:columnGroup>
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{dafDosBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionDafDos.idFolioPrep, item.folioDaf)}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+									</div>
+								</p:column>
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoManto eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.fecha}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="7:00" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.operacion}" styleClass="datos" />
+								</p:column>
+
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.concPorcentaje}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.flujoGrenetina}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.ph}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.ntuEntrada}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.ntuSalida}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.presionAire}" styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.folioPreparacion}"
+										styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.frecBombaFlolucolante}"
+										styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.valvulaRegPresion}"
+										styleClass="datos" />
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoA}" styleClass="datos" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:outputText value="#{item.estadoR}" styleClass="datos" />
+									</div>
+								</p:column>
+							</p:dataTable>
+						</p:tab>
+
+
+
+
+
+
+					</p:accordionPanel>
+
+				</div>
+
+			</h:form>
+
+
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

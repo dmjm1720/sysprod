@@ -830,7 +830,7 @@ public class UltraFiltracionDosBean implements Serializable {
 		ICambioPrefiltroDao cDao = new CambioPrefiltroDaoImpl();
 
 		IFolioPreparacionUltraDosDao folioPrepDao = new FolioUltraDosDaoImpl();
-		this.folioPrepUltra = folioPrepDao.fechaFolioActual(fecha);
+		this.folioPrepUltra = folioPrepDao.folioUltraDosActual(fecha);
 		listaCambio = cDao.listarCambioPrefiltro(folioPrepUltra);
 		return listaCambio;
 	}

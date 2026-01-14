@@ -83,28 +83,29 @@ public class FiltroUrl implements PhaseListener {
 			return true;
 		} else if (rol.equals("R. Industriales") && page.contains("/industriales/")) {
 			return true;
-		}else if (rol.equals("Aux. Contable") && page.contains("/auxiliar/")) {
+		} else if (rol.equals("Aux. Contable") && page.contains("/auxiliar/")) {
 			return true;
 		} else if (rol.equals("Operador") && page.contains("/operador/")) {
 			return true;
-		}else if (rol.equals("Cocedores") && page.contains("/cocedores/")) {
+		} else if (rol.equals("Cocedores") && page.contains("/cocedores/")) {
 			return true;
-		}else if (rol.equals("Esterilizador Planta A") && page.contains("/procesosA/")) {
+		} else if (rol.equals("Esterilizador Planta A") && page.contains("/procesosA/")) {
 			return true;
-		}else if (rol.equals("Esterilizador Planta B") && page.contains("/procesosB/")) {
+		} else if (rol.equals("Esterilizador Planta B") && page.contains("/procesosB/")) {
 			return true;
-		}else if (rol.equals("Ultra filtración I, II y Luwa 4") && page.contains("/U1_2_L4_PB/")) {
+		} else if (rol.equals("Ultra filtración I, II y Luwa 4") && page.contains("/U1_2_L4_PB/")) {
 			return true;
-		}else if (rol.equals("Inocuidad") && page.contains("/inocuidad/")) {
+		} else if (rol.equals("Inocuidad") && page.contains("/inocuidad/")) {
 			return true;
-		}else if (rol.equals("Almacén") && page.contains("/almacen/")) {
+		} else if (rol.equals("Almacén") && page.contains("/almacen/")) {
 			return true;
-		}else if (rol.equals("Luwas Planta A") && page.contains("/luwaA/")) {
+		} else if (rol.equals("Luwas Planta A") && page.contains("/luwaA/")) {
 			return true;
-		}else if (rol.equals("Molienda") && page.contains("/molienda/")) {
+		} else if (rol.equals("Molienda") && page.contains("/molienda/")) {
+			return true;
+		} else if (rol.equals("DAF") && page.contains("/daf/")) {
 			return true;
 		}
-		
 
 		return false;
 	}
