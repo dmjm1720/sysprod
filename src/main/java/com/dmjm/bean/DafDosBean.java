@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -255,6 +256,10 @@ public class DafDosBean implements Serializable {
 	}
 
 	public void setLimpiezaEditar(LimpiezaDafDos limpiezaEditar) {
+		if (Objects.nonNull(limpiezaEditar) && ("ENJUAGUE".equals(limpiezaEditar.getProceso())
+				|| "LIMPIEZA MECÁNICA".equals(limpiezaEditar.getProceso()))) {
+			limpiezaEditar.setQuimico("AGUA");
+		}
 		this.limpiezaEditar = limpiezaEditar;
 	}
 
@@ -461,13 +466,14 @@ public class DafDosBean implements Serializable {
 			dafEditar.setEstadoA(null);
 		}
 
-		//dafEditar.setFolioPreparacion(folioSeleccionado);
+		// dafEditar.setFolioPreparacion(folioSeleccionado);
 		cDao.actualizarDaf(dafEditar);
 		actualizarPromedios(dafEditar.getFolioPreparacionDafDos().getIdFolioPrep());
 
 		if (dafEditar.getHora().equals("7:00")) {
 			IDafDosDao aDao = new DafDosDaoImpl();
-			aDao.actualizarDafPromedio(dafEditar.getOperacion(), dafEditar.getFolioPreparacionDafDos().getIdFolioPrep());
+			aDao.actualizarDafPromedio(dafEditar.getOperacion(),
+					dafEditar.getFolioPreparacionDafDos().getIdFolioPrep());
 		}
 		dafEditar = new DafDos();
 		PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
@@ -792,12 +798,11 @@ public class DafDosBean implements Serializable {
 		listarFoliosPreparacion = lDao.listarFolios(newYear);
 		return listarFoliosPreparacion;
 	}
-	
+
 	public void actualizarFolioPrepFloculante() {
-		
+
 	}
-	
-	
+
 	public void visualizarReporte() throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -814,7 +819,7 @@ public class DafDosBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
+
 	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()

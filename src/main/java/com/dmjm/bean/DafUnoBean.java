@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -136,7 +137,7 @@ public class DafUnoBean implements Serializable {
 		folioPreparacionDafUno = new FolioPreparacionDafUno();
 
 		listarFoliosPreparacion = new ArrayList<>();
-		
+
 		listaFiltroDaf = new ArrayList<DafUno>();
 		IDafUnoDao lDafDao = new DafUnoDaoImpl();
 		listaFiltroDaf = lDafDao.listaFiltroDaf();
@@ -254,6 +255,10 @@ public class DafUnoBean implements Serializable {
 	}
 
 	public LimpiezaDafUno getLimpiezaEditar() {
+		if (Objects.nonNull(limpiezaEditar) && ("ENJUAGUE".equals(limpiezaEditar.getProceso())
+				|| "LIMPIEZA MECÁNICA".equals(limpiezaEditar.getProceso()))) {
+			limpiezaEditar.setQuimico("AGUA");
+		}
 		return limpiezaEditar;
 	}
 
@@ -464,13 +469,14 @@ public class DafUnoBean implements Serializable {
 			dafEditar.setEstadoA(null);
 		}
 
-		//dafEditar.setFolioPreparacion(folioSeleccionado);
+		// dafEditar.setFolioPreparacion(folioSeleccionado);
 		cDao.actualizarDaf(dafEditar);
 		actualizarPromedios(dafEditar.getFolioPreparacionDafUno().getIdFolioPrep());
 
 		if (dafEditar.getHora().equals("7:00")) {
 			IDafUnoDao aDao = new DafUnoDaoImpl();
-			aDao.actualizarDafPromedio(dafEditar.getOperacion(), dafEditar.getFolioPreparacionDafUno().getIdFolioPrep());
+			aDao.actualizarDafPromedio(dafEditar.getOperacion(),
+					dafEditar.getFolioPreparacionDafUno().getIdFolioPrep());
 		}
 		dafEditar = new DafUno();
 		PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
@@ -795,12 +801,11 @@ public class DafUnoBean implements Serializable {
 		listarFoliosPreparacion = lDao.listarFolios(newYear);
 		return listarFoliosPreparacion;
 	}
-	
+
 	public void actualizarFolioPrepFloculante() {
-		
+
 	}
-	
-	
+
 	public void visualizarReporte() throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
@@ -817,7 +822,7 @@ public class DafUnoBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
+
 	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
 		@SuppressWarnings("unused")
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()

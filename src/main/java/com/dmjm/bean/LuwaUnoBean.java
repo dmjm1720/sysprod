@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -362,6 +363,10 @@ public class LuwaUnoBean implements Serializable {
 	}
 
 	public LimpiezaLuwaUno getLimpiezaEditar() {
+		if (Objects.nonNull(limpiezaEditar) && ("ENJUAGUE".equals(limpiezaEditar.getProceso())
+				|| "LIMPIEZA MECÁNICA".equals(limpiezaEditar.getProceso()))) {
+			limpiezaEditar.setQuimico("AGUA");
+		}
 		return limpiezaEditar;
 	}
 
