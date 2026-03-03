@@ -105,6 +105,8 @@ public class FiltroUrl implements PhaseListener {
 			return true;
 		} else if (rol.equals("DAF") && page.contains("/daf/")) {
 			return true;
+		}else if (rol.equals("Secadores") && page.contains("/secadores/")) {
+			return true;
 		}
 
 		return false;

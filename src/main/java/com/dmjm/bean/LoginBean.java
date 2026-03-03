@@ -97,6 +97,8 @@ public class LoginBean implements Serializable {
 				ruta = "/sysprod/molienda/Molienda.html";
 			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("DAF")) {
 				ruta = "/sysprod/daf/DafUno.html";
+			}else if (this.usuario.getPerfiles().getNombrePerfil().equals("Secadores")) {
+				ruta = "/sysprod/secadores/SecadorA.html";
 			}
 			
 

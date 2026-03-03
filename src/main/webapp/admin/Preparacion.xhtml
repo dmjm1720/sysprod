@@ -41,8 +41,8 @@
 									onevent="function(e){ if(e.status=='success'){PF('dlgEditarDafPrep').show();} }" />
 							</p:commandButton>
 							<p:dataTable id="tblPreparacion" styleClass="tabla fuente"
-								var="item" sortMode="multiple" scrollHeight="210"
-								scrollWidth="40%"
+								var="item" sortMode="multiple" scrollHeight="410"
+								scrollWidth="100%"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
@@ -68,7 +68,7 @@
 									<h:outputText value="#{item.folioDaf}" style="color: #036FAB;" />
 								</p:column>
 
-								<p:column headerText="FECHA" width="4rem"
+								<p:column headerText="FECHA" width="4rem" 
 									style="text-align: center">
 									<h:outputText value="#{item.fecha}" style="color: #036FAB;" />
 								</p:column>

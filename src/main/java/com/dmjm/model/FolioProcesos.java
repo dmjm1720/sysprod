@@ -21,6 +21,8 @@ public class FolioProcesos implements Serializable {
 	private Integer folioDafUno;
 	private Integer folioDafDos;
 	private Integer folioPreparacion;
+	private Integer folioSecadorA;
+	private Integer folioSecadorB;
 
 	public FolioProcesos() {
 	}
@@ -32,7 +34,8 @@ public class FolioProcesos implements Serializable {
 	public FolioProcesos(int idFolioProcesos, Integer year, Integer folioEstPa, Integer folioEstPb,
 			Integer folioUltraUno, Integer folioUltraDos, Integer folioVotatorA, Integer folioVotatorB,
 			Integer folioLuwaUno, Integer folioLuwaDos, Integer folioLuwaTres, Integer folioLuwaCuatro,
-			Integer folioLuwaCinco, Integer folioDafUno, Integer folioDafDos, Integer folioPreparacion) {
+			Integer folioLuwaCinco, Integer folioDafUno, Integer folioDafDos, Integer folioPreparacion,
+			Integer folioSecadorA, Integer folioSecadorB) {
 		this.idFolioProcesos = idFolioProcesos;
 		this.year = year;
 		this.folioEstPa = folioEstPa;
@@ -49,6 +52,8 @@ public class FolioProcesos implements Serializable {
 		this.folioDafUno = folioDafUno;
 		this.folioDafDos = folioDafDos;
 		this.folioPreparacion = folioPreparacion;
+		this.folioSecadorA = folioSecadorA;
+		this.folioSecadorB = folioSecadorB;
 	}
 
 	public int getIdFolioProcesos() {
@@ -178,7 +183,21 @@ public class FolioProcesos implements Serializable {
 	public void setFolioPreparacion(Integer folioPreparacion) {
 		this.folioPreparacion = folioPreparacion;
 	}
-	
-	
+
+	public Integer getFolioSecadorA() {
+		return folioSecadorA;
+	}
+
+	public void setFolioSecadorA(Integer folioSecadorA) {
+		this.folioSecadorA = folioSecadorA;
+	}
+
+	public Integer getFolioSecadorB() {
+		return folioSecadorB;
+	}
+
+	public void setFolioSecadorB(Integer folioSecadorB) {
+		this.folioSecadorB = folioSecadorB;
+	}
 
 }

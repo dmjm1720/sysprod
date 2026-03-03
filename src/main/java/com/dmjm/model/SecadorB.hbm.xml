@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20/02/2026 10:32:50 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.SecadorB" table="SECADOR_B"
+		schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+		<id name="idSecador" type="int">
+			<column name="ID_SECADOR" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="folioPreparacionSecadorB"
+			class="com.dmjm.model.FolioPreparacionSecadorB" fetch="select">
+			<column name="ID_FOLIO_PREP" />
+		</many-to-one>
+		<property name="hora" type="string">
+			<column name="HORA" length="10" />
+		</property>
+		<property name="operacion" type="string">
+			<column name="OPERACION" length="25" />
+		</property>
+		<property name="limiteUno" type="big_decimal">
+			<column name="LIMITE_UNO" precision="10" scale="3" />
+		</property>
+		<property name="limiteDos" type="big_decimal">
+			<column name="LIMITE_DOS" precision="10" scale="3" />
+		</property>
+		<property name="limiteTres" type="big_decimal">
+			<column name="LIMITE_TRES" precision="10" scale="3" />
+		</property>
+		<property name="limiteCuatro" type="big_decimal">
+			<column name="LIMITE_CUATRO" precision="10" scale="3" />
+		</property>
+		<property name="limiteCinco" type="big_decimal">
+			<column name="LIMITE_CINCO" precision="10" scale="3" />
+		</property>
+		<property name="limiteSeis" type="big_decimal">
+			<column name="LIMITE_SEIS" precision="10" scale="3" />
+		</property>
+		<property name="limiteSiete" type="big_decimal">
+			<column name="LIMITE_SIETE" precision="10" scale="3" />
+		</property>
+		<property name="limiteOcho" type="big_decimal">
+			<column name="LIMITE_OCHO" precision="10" scale="3" />
+		</property>
+		<property name="limiteNueve" type="big_decimal">
+			<column name="LIMITE_NUEVE" precision="10" scale="3" />
+		</property>
+		<property name="vapor" type="big_decimal">
+			<column name="VAPOR" precision="10" scale="3" />
+		</property>
+		<property name="velTapete" type="big_decimal">
+			<column name="VEL_TAPETE" precision="10" scale="3" />
+		</property>
+		<property name="folioSecador" type="java.lang.Integer">
+			<column name="FOLIO_SECADOR" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="folioLm" type="java.lang.Integer">
+			<column name="FOLIO_LM" />
+		</property>
+		<property name="folioLr" type="java.lang.Integer">
+			<column name="FOLIO_LR" />
+		</property>
+		<property name="estadoAR" type="java.lang.Boolean">
+			<column name="ESTADO_A_R" />
+		</property>
+		<property name="estadoManto" type="java.lang.Boolean">
+			<column name="ESTADO_MANTO" />
+		</property>
+		<property name="estadoLimpieza" type="java.lang.Boolean">
+			<column name="ESTADO_LIMPIEZA" />
+		</property>
+		<property name="estadoA" type="string">
+			<column name="ESTADO_A" length="2" />
+		</property>
+		<property name="estadoR" type="string">
+			<column name="ESTADO_R" length="2" />
+		</property>
+	</class>
+</hibernate-mapping>

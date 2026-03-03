@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.dmjm.model.DafDos;
-import com.dmjm.model.DafUno;
 
 public interface IDafDosDao {
 

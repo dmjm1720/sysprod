@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20/02/2026 10:32:50 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.LimitesEspecificosB"
+		table="LIMITES_ESPECIFICOS_B" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idLimite" type="int">
+			<column name="ID_LIMITE" />
+			<generator class="native" />
+		</id>
+		<property name="folioLm" type="java.lang.Integer">
+			<column name="FOLIO_LM" />
+		</property>
+		<property name="fecha" type="date">
+			<column name="FECHA" length="10" />
+		</property>
+		<property name="limiteUno" type="string">
+			<column name="LIMITE_UNO" length="10" />
+		</property>
+		<property name="limiteDos" type="string">
+			<column name="LIMITE_DOS" length="10" />
+		</property>
+		<property name="limiteTres" type="string">
+			<column name="LIMITE_TRES" length="10" />
+		</property>
+		<property name="limiteCuatro" type="string">
+			<column name="LIMITE_CUATRO" length="10" />
+		</property>
+		<property name="limiteCinco" type="string">
+			<column name="LIMITE_CINCO" length="10" />
+		</property>
+		<property name="limiteSeis" type="string">
+			<column name="LIMITE_SEIS" length="10" />
+		</property>
+		<property name="limiteSiete" type="string">
+			<column name="LIMITE_SIETE" length="10" />
+		</property>
+		<property name="limiteOcho" type="string">
+			<column name="LIMITE_OCHO" length="10" />
+		</property>
+		<property name="limiteNueve" type="string">
+			<column name="LIMITE_NUEVE" length="10" />
+		</property>
+	</class>
+</hibernate-mapping>

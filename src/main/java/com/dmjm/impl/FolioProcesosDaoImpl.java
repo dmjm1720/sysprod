@@ -127,7 +127,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -195,7 +195,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -229,7 +229,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -297,7 +297,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -331,7 +331,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -365,7 +365,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -399,7 +399,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -433,7 +433,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -467,7 +467,7 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -501,7 +501,75 @@ public class FolioProcesosDaoImpl implements IFolioProcesosDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	@Override
+	public int buscarFolioSeacadorA(int year) {
+		int folio = 0;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT COALESCE(MAX(f.folioSecadorA), 0) + 1 FROM FolioProcesos f WHERE f.year = :year";
+			Query<Integer> query = session.createQuery(hql, Integer.class);
+			query.setParameter("year", year);
+
+			folio = query.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return folio;
+	}
+
+	@Override
+	public void actualizarFolioSecadorA(int year, int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			Transaction t = session.beginTransaction();
+
+			String hql = "UPDATE FolioProcesos f SET f.folioSecadorA = :folioSecadorA WHERE f.year = : year";
+			@SuppressWarnings("rawtypes")
+			Query query = session.createQuery(hql);
+			query.setParameter("folioSecadorA", folio);
+			query.setParameter("year", year);
+
+			query.executeUpdate();
+			t.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public int buscarFolioSeacadorB(int year) {
+		int folio = 0;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "SELECT COALESCE(MAX(f.folioSecadorB), 0) + 1 FROM FolioProcesos f WHERE f.year = :year";
+			Query<Integer> query = session.createQuery(hql, Integer.class);
+			query.setParameter("year", year);
+
+			folio = query.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return folio;
+	}
+
+	@Override
+	public void actualizarFolioSecadorB(int year, int folio) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			Transaction t = session.beginTransaction();
+
+			String hql = "UPDATE FolioProcesos f SET f.folioSecadorB = :folioSecadorB WHERE f.year = : year";
+			@SuppressWarnings("rawtypes")
+			Query query = session.createQuery(hql);
+			query.setParameter("folioSecadorB", folio);
+			query.setParameter("year", year);
+
+			query.executeUpdate();
+			t.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

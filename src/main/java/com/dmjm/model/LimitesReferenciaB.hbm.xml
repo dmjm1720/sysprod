@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20/02/2026 10:32:50 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.LimitesReferenciaB" table="LIMITES_REFERENCIA_B" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idLimite" type="int">
+            <column name="ID_LIMITE" />
+            <generator class="native" />
+        </id>
+        <property name="folioLr" type="java.lang.Integer">
+            <column name="FOLIO_LR" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="10" />
+        </property>
+        <property name="presionVapor" type="string">
+            <column name="PRESION_VAPOR" length="10" />
+        </property>
+        <property name="velTapete" type="string">
+            <column name="VEL_TAPETE" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

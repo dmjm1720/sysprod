@@ -42,5 +42,9 @@ public interface IRegistroTurnosDao {
 	List<RegistroTurnos> listaRegistroTurnosDafUno(Date fecha);
 	
 	List<RegistroTurnos> listaRegistroTurnosDafDos(Date fecha);
+	
+	List<RegistroTurnos> listaRegistroTurnosSecadorA(Date fecha);
+	
+	List<RegistroTurnos> listaRegistroTurnosSecadorB(Date fecha);
 
 }

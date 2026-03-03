@@ -1,0 +1,589 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center; font-size: 1rem">
+					<p:badge size="small"
+						value="CAPTURA DE LÍMITES ESPECÍFICOS Y DE REFERENCIA" />
+				</div>
+
+
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel id="acoPanel" widgetVar="basic">
+
+						<p:tab id="tabLA" title="LÍMITES ESPECÍFICOS A"
+							titleStyle="font-size: .8rem; background-color: #1A242F; color: #F5F5F5">
+
+							<h:panelGrid id="pnlLA" columns="4" styleClass="fuente">
+
+								<p:outputLabel value="FOLIO" />
+								<p:outputLabel id="folioA" style="width: 5rem"
+									value="#{limitesBean.folioSigLimA}" />
+
+								<p:outputLabel value="FECHA" />
+								<p:calendar id="button" value="#{limitesBean.limitesEspA.fecha}" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 1" />
+								<p:inputMask id="la1" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteUno}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 2" />
+								<p:inputMask id="la2" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteDos}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 3" />
+								<p:inputMask id="la3" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteTres}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 4" />
+								<p:inputMask id="la4" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteCuatro}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 5" />
+								<p:inputMask id="la5" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteCinco}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 6" />
+								<p:inputMask id="la6" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteSeis}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 7" />
+								<p:inputMask id="la7" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteSiete}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 8" />
+								<p:inputMask id="la8" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteOcho}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 9" />
+								<p:inputMask id="la9" style="width: 5rem"
+									value="#{limitesBean.limitesEspA.limiteNueve}" mask="99-99"
+									validateMask="true" />
+
+								<p:commandButton icon="pi pi-save" value="GUARDAR"
+									title="Guardar"
+									update="frmPrincipal, frmPrincipal:msgs, tblLimites, frmPrincipal:acoPanel:pnlLA"
+									actionListener="#{limitesBean.guardarLimitesEspA()}" />
+							</h:panelGrid>
+							<br></br>
+							<br></br>
+							<p:dataTable id="tblLimites" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{limitesBean.listalimitesEspA.size()}"
+								value="#{limitesBean.listalimitesEspA}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="1rem">
+									<div style="text-align: center">
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{secadorABean.operadorEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="FOLIO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.folioLm}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="FECHA" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.fecha}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE UNO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteUno}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE DOS" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteDos}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE TRES" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteTres}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE CUATRO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteCuatro}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE CINCO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteCinco}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE SEIS" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteSeis}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE SIETE" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteSiete}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE OCHO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteOcho}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE NUEVE" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteNueve}"
+										style="color: #036FAB;" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+						<!-- LÍMITES DE REFERENCIA A -->
+
+						<p:tab id="tabRA" title="LÍMITES DE REFERENCIA A"
+							titleStyle="font-size: .8rem; background-color: #2C3E50; color: #F5F5F5">
+
+							<h:panelGrid id="pnlRA" columns="2" styleClass="fuente">
+
+								<p:outputLabel value="FOLIO" />
+								<p:outputLabel id="folioRA" style="width: 5rem"
+									value="#{limitesBean.folioSigRefA}" />
+
+								<p:outputLabel value="FECHA" />
+								<p:calendar id="btnA" value="#{limitesBean.limitesRefA.fecha}" />
+
+								<p:outputLabel value="PRESIÓN VAPOR" />
+								<p:inputMask id="lar1" style="width: 5rem" mask="99-99"
+									value="#{limitesBean.limitesRefA.presionVapor}"
+									validateMask="true" />
+
+								<p:outputLabel value="VELOCIDAD TAPETE" />
+								<p:inputText id="lar2" style="width: 5rem"
+									value="#{limitesBean.limitesRefA.velTapete}"
+									validateMask="true" />
+
+
+								<p:commandButton icon="pi pi-save" value="GUARDAR"
+									title="Guardar"
+									update="frmPrincipal, frmPrincipal:msgs, tblLimites, frmPrincipal:acoPanel:pnlLA"
+									actionListener="#{limitesBean.guardarLimitesRefA()}" />
+							</h:panelGrid>
+							<br></br>
+							<br></br>
+							<p:dataTable id="tblLimitesRef" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="50%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{limitesBean.listalimitesRefA.size()}"
+								value="#{limitesBean.listalimitesRefA}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="1rem">
+									<div style="text-align: center">
+										<p:commandButton id="edRefA" icon="pi pi-fw pi-pencil"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{secadorABean.operadorEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipERefA" for="edRefA" value="Editar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="FOLIO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.folioLr}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="FECHA" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.fecha}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="PRESIÓN VAPOR" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.presionVapor}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VELOCIDAD TAPETE" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.velTapete}" style="color: #036FAB;" />
+								</p:column>
+
+
+
+							</p:dataTable>
+
+						</p:tab>
+						
+						
+						
+						
+						<!--  -->
+						
+						<p:tab id="tabLB" title="LÍMITES ESPECÍFICOS B"
+							titleStyle="font-size: .8rem; background-color: #3E5771; color: #F5F5F5">
+
+							<h:panelGrid id="pnlLB" columns="4" styleClass="fuente">
+
+								<p:outputLabel value="FOLIO" />
+								<p:outputLabel id="folioB" style="width: 5rem"
+									value="#{limitesBean.folioSigLimB}" />
+
+								<p:outputLabel value="FECHA" />
+								<p:calendar id="btnLEB" value="#{limitesBean.limitesEspB.fecha}" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 1" />
+								<p:inputMask id="lb1" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteUno}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 2" />
+								<p:inputMask id="lb2" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteDos}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 3" />
+								<p:inputMask id="lb3" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteTres}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 4" />
+								<p:inputMask id="lb4" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteCuatro}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 5" />
+								<p:inputMask id="lb5" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteCinco}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 6" />
+								<p:inputMask id="lb6" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteSeis}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 7" />
+								<p:inputMask id="lb7" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteSiete}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 8" />
+								<p:inputMask id="lb8" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteOcho}" mask="99-99"
+									validateMask="true" />
+
+								<p:outputLabel value="LÍMITE ESPECÍFICO 9" />
+								<p:inputMask id="lb9" style="width: 5rem"
+									value="#{limitesBean.limitesEspB.limiteNueve}" mask="99-99"
+									validateMask="true" />
+
+								<p:commandButton icon="pi pi-save" value="GUARDAR"
+									title="Guardar"
+									update="frmPrincipal, frmPrincipal:msgs, tblLimitesB, frmPrincipal:acoPanel:pnlLB"
+									actionListener="#{limitesBean.guardarLimitesEspB()}" />
+							</h:panelGrid>
+							<br></br>
+							<br></br>
+							<p:dataTable id="tblLimitesB" styleClass="tabla fuente" var="item"
+								sortMode="multiple" scrollHeight="650" scrollWidth="100%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{limitesBean.listalimitesEspB.size()}"
+								value="#{limitesBean.listalimitesEspB}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="1rem">
+									<div style="text-align: center">
+										<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{secadorABean.operadorEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipE" for="ed" value="Editar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="FOLIO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.folioLm}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="FECHA" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.fecha}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE UNO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteUno}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE DOS" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteDos}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE TRES" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteTres}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE CUATRO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteCuatro}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE CINCO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteCinco}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE SEIS" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteSeis}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE SIETE" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteSiete}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE OCHO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteOcho}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="LÍMITE NUEVE" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.limiteNueve}"
+										style="color: #036FAB;" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+						<!-- LÍMITES DE REFERENCIA B -->
+
+						<p:tab id="tabRB" title="LÍMITES DE REFERENCIA B"
+							titleStyle="font-size: .8rem; background-color: #507192; color: #F5F5F5">
+
+							<h:panelGrid id="pnlRB" columns="2" styleClass="fuente">
+
+								<p:outputLabel value="FOLIO" />
+								<p:outputLabel id="folioRB" style="width: 5rem"
+									value="#{limitesBean.folioSigRefB}" />
+
+								<p:outputLabel value="FECHA" />
+								<p:calendar id="btnB" value="#{limitesBean.limitesRefB.fecha}" />
+
+								<p:outputLabel value="PRESIÓN VAPOR" />
+								<p:inputMask id="larpv" style="width: 5rem" mask="99-99"
+									value="#{limitesBean.limitesRefB.presionVapor}"
+									validateMask="true" />
+
+								<p:outputLabel value="VELOCIDAD TAPETE" />
+								<p:inputText id="larvt" style="width: 5rem"
+									value="#{limitesBean.limitesRefB.velTapete}"
+									validateMask="true" />
+
+
+								<p:commandButton icon="pi pi-save" value="GUARDAR"
+									title="Guardar"
+									update="frmPrincipal, frmPrincipal:msgs, tblLimitesB, frmPrincipal:acoPanel:pnlRB"
+									actionListener="#{limitesBean.guardarLimitesRefB()}" />
+							</h:panelGrid>
+							<br></br>
+							<br></br>
+							<p:dataTable id="tblLimitesRefB" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="50%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{limitesBean.listalimitesRefB.size()}"
+								value="#{limitesBean.listalimitesRefB}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Editar" width="1rem">
+									<div style="text-align: center">
+										<p:commandButton id="edRefB" icon="pi pi-fw pi-pencil"
+											onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+											styleClass="ui-button-warning">
+											<f:setPropertyActionListener value="#{item}"
+												target="#{secadorABean.operadorEditar}" />
+										</p:commandButton>
+										<p:tooltip id="toolTipERefb" for="edRefB" value="Editar"
+											trackMouse="true" />
+									</div>
+								</p:column>
+
+								<p:column headerText="FOLIO" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.folioLr}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="FECHA" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.fecha}" style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="PRESIÓN VAPOR" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.presionVapor}"
+										style="color: #036FAB;" />
+								</p:column>
+
+								<p:column headerText="VELOCIDAD TAPETE" width="5rem"
+									style="text-align: center">
+									<h:outputText value="#{item.velTapete}" style="color: #036FAB;" />
+								</p:column>
+
+
+
+							</p:dataTable>
+
+						</p:tab>
+						
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+
+			</h:form>
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="Actualizar información del operador"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6" styleClass="fuente">
+
+						<p:outputLabel for="nombre" value="Nombre y Apellidos" />
+						<p:inputText id="nombre"
+							value="#{secadorABean.operadorEditar.nombre}" required="false"
+							requiredMessage="Campo requerido" style="width: 15rem" />
+						<p:message for="nombre" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{secadorABean.actualizarOperador()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -54,5 +54,11 @@
 		<property name="folioPreparacion" type="java.lang.Integer">
 			<column name="FOLIO_PREPARACION" />
 		</property>
+		<property name="folioSecadorA" type="java.lang.Integer">
+			<column name="FOLIO_SECADOR_A" />
+		</property>
+		<property name="folioSecadorB" type="java.lang.Integer">
+			<column name="FOLIO_SECADOR_B" />
+		</property>
 	</class>
 </hibernate-mapping>

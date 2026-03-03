@@ -63,4 +63,12 @@ public interface IFolioProcesosDao {
 	int buscarFolioDafDos(int year);
 
 	void actualizarFolioDafDos(int year, int folio);
+	
+	int buscarFolioSeacadorA(int year);
+
+	void actualizarFolioSecadorA(int year, int folio);
+	
+	int buscarFolioSeacadorB(int year);
+
+	void actualizarFolioSecadorB(int year, int folio);
 }

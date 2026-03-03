@@ -9,10 +9,14 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -22,91 +26,102 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-public class ReporteCocedores extends Conexion {
+public class ReporteCocedores {
 
-	public void getReporte(String ruta, String fecha, int folio) throws SQLException {
-		ConectarSysProd();
-		Map<String, Object> parameters = new HashMap<>();
-		parameters.put("fecha", fecha);
-		parameters.put("folio", folio);
-		parameters.put(JRParameter.REPORT_LOCALE, new Locale("es", "MX")); // México
-		try (Connection connection = getCnSysProd()) {
-			File file = new File(ruta);
-			if (!file.exists()) {
-				throw new IOException("El archivo del reporte no se encuentra: " + ruta);
-			}
+	public void getReporte(String ruta, String fecha, int folio) {
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
 
-			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-					.getResponse();
-			response.setContentType("application/pdf");
-			response.setHeader("Content-Disposition", "inline; filename=reporte.pdf");
+			session.doWork(connection -> {
+				Map<String, Object> parameters = new HashMap<>();
+				parameters.put("fecha", fecha);
+				parameters.put("folio", folio);
+				parameters.put(JRParameter.REPORT_LOCALE, new Locale("es", "MX"));
 
-			JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(file.getPath());
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+				FacesContext facesContext = FacesContext.getCurrentInstance();
+				HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
-			// Exportar el reporte como PDF
-			JRPdfExporter exporter = new JRPdfExporter();
-			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+				try {
+					
+					File file = new File(ruta);
+					if (!file.exists()) {
+						throw new IOException("El archivo del reporte no se encuentra: " + ruta);
+					}
+					JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(ruta);
+					JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
 
-			exporter.exportReport();
-			FacesContext.getCurrentInstance().responseComplete();
+					response.setContentType("application/pdf");
+					response.setHeader("Content-Disposition", "inline; filename=reporte.pdf");
 
-		} catch (JRException | IOException e) {
-			System.err.println("Error al generar el reporte: " + e.getMessage());
-			e.printStackTrace();
+					ServletOutputStream out = response.getOutputStream();
+					JasperExportManager.exportReportToPdfStream(jasperPrint, out);
+					out.flush();
+					out.close();
+
+					facesContext.responseComplete();
+				} catch (JRException | IOException e) {
+					e.printStackTrace();
+					throw new RuntimeException("Error generando reporte PDF", e);
+				}
+			});
 		} finally {
-			try {
-				CerrarSysProd();
-			} catch (SQLException e) {
-				System.err.println("Error al cerrar la conexión: " + e.getMessage());
-				e.printStackTrace();
+			if (session != null && session.isOpen()) {
+				session.close();
 			}
 		}
 	}
-	
-	public void getReporteExcel(String ruta, String fecha, int folio, int folio_cocedor) throws SQLException {
-	    ConectarSysProd();
-	    Map<String, Object> parameters = new HashMap<>();
-	    parameters.put("fecha", fecha);
-	    parameters.put("folio", folio);
-	    parameters.put("folio_cocedor", folio_cocedor);
-	    parameters.put(JRParameter.REPORT_LOCALE, new Locale("es", "MX")); // México
 
-	    try (Connection connection = getCnSysProd()) {
-	        File file = new File(ruta);
-	        if (!file.exists()) {
-	            throw new IOException("El archivo del reporte no se encuentra: " + ruta);
-	        }
+	public void getReporteExcel(String ruta, String fecha, int folio, int folio_cocedor) {
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
 
-	        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-	                .getResponse();
-	        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-	        response.setHeader("Content-Disposition", "attachment; filename=reporte.xlsx");
+			session.doWork(connection -> {
+				Map<String, Object> parameters = new HashMap<>();
+				parameters.put("fecha", fecha);
+				parameters.put("folio", folio);
+				parameters.put("folio_cocedor", folio_cocedor);
+				parameters.put(JRParameter.REPORT_LOCALE, new Locale("es", "MX"));
 
-	        JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(file.getPath());
-	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+				try {
+					File file = new File(ruta);
+					if (!file.exists()) {
+						throw new IOException("El archivo del reporte no se encuentra: " + ruta);
+					}
 
-	        // Exportar el reporte como Excel
-	        JRXlsxExporter exporter = new JRXlsxExporter();
-	        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-	        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(response.getOutputStream()));
+					JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(file.getPath());
+					JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
 
-	        exporter.exportReport();
-	        FacesContext.getCurrentInstance().responseComplete();
+					FacesContext facesContext = FacesContext.getCurrentInstance();
+					HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext()
+							.getResponse();
 
-	    } catch (JRException | IOException e) {
-	        System.err.println("Error al generar el reporte: " + e.getMessage());
-	        e.printStackTrace();
-	    } finally {
-	        try {
-	            CerrarSysProd();
-	        } catch (SQLException e) {
-	            System.err.println("Error al cerrar la conexión: " + e.getMessage());
-	            e.printStackTrace();
-	        }
-	    }
+					response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+					response.setHeader("Content-Disposition", "attachment; filename=reporte.xlsx");
+
+					JRXlsxExporter exporter = new JRXlsxExporter();
+					exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+
+					ServletOutputStream out = response.getOutputStream();
+					exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(out));
+
+					exporter.exportReport();
+					out.flush();
+					out.close();
+
+					facesContext.responseComplete();
+				} catch (JRException | IOException e) {
+					e.printStackTrace();
+					throw new RuntimeException("Error al generar el reporte Excel", e);
+				}
+			});
+
+		} finally {
+			if (session != null && session.isOpen()) {
+				session.close();
+			}
+		}
 	}
-
 
 }

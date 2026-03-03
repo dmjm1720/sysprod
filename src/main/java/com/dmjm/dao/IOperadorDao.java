@@ -32,10 +32,14 @@ public interface IOperadorDao {
 	List<Operador> listaOperadorMolienda();
 
 	List<Operador> listaOperadorLuwaPA();
-	
+
 	List<Operador> listaOperadorLuwaPB();
-	
+
 	List<Operador> listaOperadorDafUno();
-	
+
 	List<Operador> listaOperadorDafDos();
+
+	List<Operador> listaOperadorSecadorB();
+
+	List<Operador> listaOperadorSecadorA();
 }

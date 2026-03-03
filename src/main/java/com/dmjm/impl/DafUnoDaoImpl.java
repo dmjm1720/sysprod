@@ -341,7 +341,7 @@ public class DafUnoDaoImpl extends Conexion implements IDafUnoDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery(
 					"SELECT v.hora " + "FROM DafUno v " + "WHERE v.folioPreparacionDafUno.idFolioPrep = :folio "
-							+ "AND v.operacion = :operacion " + "AND v.hora <> 'PROM.' " + "ORDER BY v.idLuwa ASC",
+							+ "AND v.operacion = :operacion " + "AND v.hora <> 'PROM.' " + "ORDER BY v.idDaf ASC",
 					String.class).setParameter("folio", folio).setParameter("operacion", operacion).setMaxResults(1)
 					.uniqueResult(); // o .list().stream().findFirst().orElse(null)
 		}
@@ -352,7 +352,7 @@ public class DafUnoDaoImpl extends Conexion implements IDafUnoDao {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			return session.createQuery(
 					"SELECT v.hora " + "FROM DafUno v " + "WHERE v.folioPreparacionDafUno .idFolioPrep = :folio "
-							+ "AND v.operacion = :operacion " + "AND v.hora <> 'PROM.' " + "ORDER BY v.idLuwa DESC",
+							+ "AND v.operacion = :operacion " + "AND v.hora <> 'PROM.' " + "ORDER BY v.idDaf DESC",
 					String.class).setParameter("folio", folio).setParameter("operacion", operacion).setMaxResults(1)
 					.uniqueResult(); // o .list().stream().findFirst().orElse(null)
 		}

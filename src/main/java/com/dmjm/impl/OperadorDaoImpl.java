@@ -223,4 +223,22 @@ public class OperadorDaoImpl extends Conexion implements IOperadorDao {
 		}
 	}
 
+	@Override
+	public List<Operador> listaOperadorSecadorB() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Operador WHERE Proceso='Secador B' AND estado='Activo'",
+					Operador.class).list();
+		}
+	}
+
+	@Override
+	public List<Operador> listaOperadorSecadorA() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery(
+					"FROM Operador WHERE Proceso='Secador A' AND estado='Activo'",
+					Operador.class).list();
+		}
+	}
+
 }
