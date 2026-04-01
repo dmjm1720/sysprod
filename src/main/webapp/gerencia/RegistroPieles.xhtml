@@ -82,7 +82,7 @@
 											<p:commandButton icon="pi pi-save" title="Agregar operación"
 												value="AGREGAR OPERACIÓN"
 												style="width: 20rem; height: 2rem; color: #20B2AA; font-weight:bold"
-												update="frmPrincipal:accoRP:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre"
+												update="frmPrincipal:accoRP:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE3, frmPrincipal:accoE4, frmPrincipal:accoE5"
 												actionListener="#{preparacionBean.guardarPreparacion()}" />
 										</div>
 									</h:panelGrid>
@@ -119,7 +119,7 @@
 								value="BUSCAR NO. DE OPERACION" styleClass="mensajeBoton2"
 								style="width: 15rem; height: 2rem"
 								actionListener="#{preparacionBean.buscarRegistro()}"
-								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3" />
+								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3,frmPrincipal:accoE4, frmPrincipal:accoE5" />
 
 						</div>
 
@@ -374,6 +374,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -441,7 +455,7 @@
 							</p:column>
 
 							<p:column headerText="Lote" width="5rem"
-								styleClass="#{item3.lote lt 0 ? 'negativo' : 'normal'}">
+								styleClass="#{item3.lote lt '0' ? 'negativo' : 'normal'}">
 								<h:outputText value="#{item3.lote}" />
 							</p:column>
 
@@ -456,18 +470,7 @@
 							</p:column>
 
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
+
 						</p:dataTable>
 					</p:tab>
 
@@ -491,6 +494,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+							
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+							
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -574,23 +591,11 @@
 							</p:column>
 
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
 						</p:dataTable>
 					</p:tab>
 				</p:accordionPanel>
 
-				<!-- ETAPA 3 -->
+				<!-- ETAPA 3 APARTADO 1-->
 				<p:accordionPanel id="accoE3">
 					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)"
 						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5">
@@ -606,6 +611,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+							
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+							
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -689,6 +708,29 @@
 							</p:column>
 
 
+						</p:dataTable>
+
+
+					</p:tab>
+				</p:accordionPanel>
+
+				<!-- ETAPA 3 APARTADO 2-->
+				<p:accordionPanel id="accoE4">
+					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)"
+						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5">
+						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3"
+							value="#{preparacionBean.listaDeEtapas4}"
+							emptyMessage="NO HAY REGISTROS">
+
+							<p:column headerText="Operación" width="4rem" styleClass="fondo">
+								<h:outputText value="#{item3.preparacionPieles.noOperacion}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+							<p:column headerText="Lavadora" width="4rem" styleClass="fondo">
+								<h:outputText value="#{item3.lavadora}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+							
 							<p:column headerText="Editar" width="2rem" exportable="false"
 								style="text-align: center !important">
 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
@@ -701,7 +743,214 @@
 								<p:tooltip id="toolTipE" for="ed" value="Editar"
 									trackMouse="true" />
 							</p:column>
+							
+							<p:column headerText="Etapa" width="5rem">
+								<h:outputText value="#{item3.etapa}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Día inicio" width="5rem">
+								<h:outputText value="#{item3.diaInicio}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Hora inicio" width="5rem">
+
+								<h:outputText value="#{item3.horaInicio}"
+									style="color: #036FAB; font-weight: bold !important;">
+									<f:convertDateTime pattern="HH:mm:ss"
+										timeZone="America/Mexico_City" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Día fin" width="5rem">
+								<h:outputText value="#{item3.diaFin}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Hora fin" width="5rem">
+								<h:outputText value="#{item3.horaFin}"
+									style="color: #036FAB; font-weight: bold !important;">
+									<f:convertDateTime pattern="HH:mm:ss"
+										timeZone="America/Mexico_City" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="PH Sol" width="5rem">
+								<h:outputText value="#{item3.phSol}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="PH Piel" width="5rem">
+								<h:outputText value="#{item3.phPiel}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Normalidad" width="5rem">
+								<h:outputText value="#{item3.normalidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Alcalinidad" width="5rem">
+								<h:outputText value="#{item3.alcalinidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Conductividad" width="5rem">
+								<h:outputText value="#{item3.conductividad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Químico" width="5rem">
+								<h:outputText value="#{item3.tipo}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidad}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem">
+								<h:outputText value="#{item3.lote}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Operador" width="5rem">
+								<h:outputText value="#{item3.operador}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Agua" width="5rem">
+								<h:outputText value="#{item3.agua}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+
 						</p:dataTable>
+
+
+					</p:tab>
+				</p:accordionPanel>
+
+
+				<!-- ETAPA 3 APARTADO 3-->
+				<p:accordionPanel id="accoE5">
+					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)"
+						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5">
+						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3"
+							value="#{preparacionBean.listaDeEtapas5}"
+							emptyMessage="NO HAY REGISTROS">
+
+							<p:column headerText="Operación" width="4rem" styleClass="fondo">
+								<h:outputText value="#{item3.preparacionPieles.noOperacion}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+							<p:column headerText="Lavadora" width="4rem" styleClass="fondo">
+								<h:outputText value="#{item3.lavadora}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+							
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+							
+							<p:column headerText="Etapa" width="5rem">
+								<h:outputText value="#{item3.etapa}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Día inicio" width="5rem">
+								<h:outputText value="#{item3.diaInicio}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Hora inicio" width="5rem">
+
+								<h:outputText value="#{item3.horaInicio}"
+									style="color: #036FAB; font-weight: bold !important;">
+									<f:convertDateTime pattern="HH:mm:ss"
+										timeZone="America/Mexico_City" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Día fin" width="5rem">
+								<h:outputText value="#{item3.diaFin}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Hora fin" width="5rem">
+								<h:outputText value="#{item3.horaFin}"
+									style="color: #036FAB; font-weight: bold !important;">
+									<f:convertDateTime pattern="HH:mm:ss"
+										timeZone="America/Mexico_City" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="PH Sol" width="5rem">
+								<h:outputText value="#{item3.phSol}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="PH Piel" width="5rem">
+								<h:outputText value="#{item3.phPiel}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Normalidad" width="5rem">
+								<h:outputText value="#{item3.normalidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Alcalinidad" width="5rem">
+								<h:outputText value="#{item3.alcalinidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Conductividad" width="5rem">
+								<h:outputText value="#{item3.conductividad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Químico" width="5rem">
+								<h:outputText value="#{item3.tipo}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidad}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem">
+								<h:outputText value="#{item3.lote}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Operador" width="5rem">
+								<h:outputText value="#{item3.operador}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Agua" width="5rem">
+								<h:outputText value="#{item3.agua}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+
+							
+						</p:dataTable>
+
+
 					</p:tab>
 				</p:accordionPanel>
 				<script>
@@ -758,8 +1007,10 @@
 						<p:outputLabel styleClass="lavadora"
 							value="LAVADORA: #{preparacionBean.etapas.lavadora}" />
 
-						<p:outputLabel for="diaInicio" value="Día Inicio" />
+						<p:outputLabel for="diaInicio" value="Día Inicio"
+							rendered="#{preparacionBean.etapas.diaInicio ne '1969-12-31'}" />
 						<p:datePicker id="diaInicio" readonly="true"
+							rendered="#{preparacionBean.etapas.diaInicio ne '1969-12-31'}"
 							value="#{preparacionBean.etapas.diaInicio}" disabled="true"
 							requiredMessage="Campo requerido"
 							style="width: 20rem; font-weight: bold" />
@@ -835,24 +1086,29 @@
 						<p:outputLabel for="lote" value="Lote"
 							rendered="#{preparacionBean.etapas.lote gt '0' || preparacionBean.etapas.lote eq NULL}" />
 						<p:inputText id="lote" value="#{preparacionBean.etapas.lote}"
-							rendered="#{preparacionBean.etapas.lote gt '0' || preparacionBean.etapas.lote eq NULL}" 
-							required="false"
+							rendered="#{preparacionBean.etapas.lote gt '0' || preparacionBean.etapas.lote eq NULL}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 20rem" />
+
+
+						<p:outputLabel for="agua" value="Agua"
+							rendered="#{preparacionBean.etapas.agua ne 'Z'}" />
+						<p:inputText id="agua" value="#{preparacionBean.etapas.agua}"
+							rendered="#{preparacionBean.etapas.agua ne 'Z'}" required="false"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
-
-						<p:outputLabel for="agua" value="Agua" />
-						<p:inputText id="agua" value="#{preparacionBean.etapas.agua}"
-							required="false" requiredMessage="Campo requerido"
-							style="width: 20rem" />
-
-						<p:outputLabel for="diaFin" value="Dia Fin" />
+						<p:outputLabel for="diaFin" value="Dia Fin"
+							rendered="#{preparacionBean.etapas.diaFin ne '1969-12-31'}" />
 						<p:datePicker id="diaFin" value="#{preparacionBean.etapas.diaFin}"
+							rendered="#{preparacionBean.etapas.diaFin ne '1969-12-31'}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
 
-						<p:outputLabel for="hf" value="Hora Fin" />
+						<p:outputLabel for="hf" value="Hora Fin"
+							rendered="#{preparacionBean.etapas.horaFin ne '00:59:59'}" />
 						<p:datePicker id="hf" value="#{preparacionBean.etapas.horaFin}"
+							rendered="#{preparacionBean.etapas.horaFin ne '00:59:59'}"
 							pattern="hh:mm:ss a" timeOnly="true" showTime="true"
 							showIcon="true" hourFormat="12" showButtonBar="true" locale="mx"
 							lang="es" />
@@ -862,8 +1118,61 @@
 					<div style="text-align: right">
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							style="widht: 20rem; height: 2rem" title="Guardar"
-							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre"
 							actionListener="#{preparacionBean.actualizarEtapa(preparacionBean.etapas.lavadora)}"
+							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmLavadoras">
+				<p:dialog id="dlgLavadorasChicas" header="" widgetVar="dlgLavadoras"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+
+					<h:panelGrid id="pnlLavadoras" columns="1" styleClass="mensajeLib">
+
+						<p:outputLabel styleClass="mensajeLib"
+							value="¿Deseas pasar el proceso a lavadoras chicas o silos?" />
+
+						<p:selectOneRadio id="line" value="Silos" styleClass="mensajeLib"
+							layout="lineDirection">
+							<f:selectItem itemLabel="Lavadoras chicas" itemValue="lavadoras" />
+							<f:selectItem itemLabel="Silos" itemValue="silos" />
+						</p:selectOneRadio>
+
+						<div class="field col-12 md:col-1">
+							<p:outputLabel for="@next" value="¿Cuantas lavodoras?"
+								styleClass="mensajeLib" />
+							<p:spinner id="basic"
+								value="#{preparacionBean.noLavadorasChicas}"
+								styleClass="mensajeLib" />
+						</div>
+						<p:outputLabel id="nf"
+							value="No Factura: #{preparacionBean.noFacturaLavadorasChicas}" />
+
+						<p:outputLabel id="kilosTemp"
+							value="Kilos totales: #{preparacionBean.kilosLavadorasChicas}" />
+
+						<p:outputLabel id="kg1" value="#{preparacionBean.kg1}" />
+						<p:outputLabel id="kg2" value="#{preparacionBean.kg2}" />
+						<p:outputLabel id="kg3" value="#{preparacionBean.kg3}" />
+
+						<p:commandButton value="Procesar"
+							actionListener="#{preparacionBean.calcularKilos(preparacionBean.noLavadorasChicas)}"
+							update="frmLavadoras:nf, frmLavadoras:kilosTemp, frmLavadoras:kg1, frmLavadoras:kg2, frmLavadoras:kg3" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Mandar a proceso"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							actionListener="#{preparacionBean.actualizarEtapa(preparacionBean.etapas.lavadora)}"
+							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
 							oncomplete="PF('dlgEditar').hide()" />
 					</div>
 

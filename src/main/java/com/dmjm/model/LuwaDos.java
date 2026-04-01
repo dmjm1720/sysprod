@@ -15,7 +15,7 @@ public class LuwaDos implements java.io.Serializable {
 	private BigDecimal ph;
 	private Integer tempSalida;
 	private Integer redox;
-	private Integer presionBombaVacio;
+	private BigDecimal presionBombaVacio;
 	private BigDecimal valvulaRegPresion;
 	private Integer condesadorTemp;
 	private BigDecimal corrienteMotor;
@@ -36,7 +36,7 @@ public class LuwaDos implements java.io.Serializable {
 
 	public LuwaDos(int idLuwa, FolioPreparacionLuwaDos folioPreparacionLuwaDos, String hora, String operacion,
 			BigDecimal entradaConc, BigDecimal concPorcentaje, BigDecimal ph, Integer tempSalida, Integer redox,
-			Integer presionBombaVacio, BigDecimal valvulaRegPresion, Integer condesadorTemp, BigDecimal corrienteMotor,
+			BigDecimal presionBombaVacio, BigDecimal valvulaRegPresion, Integer condesadorTemp, BigDecimal corrienteMotor,
 			String estadoA, String estadoR, Integer folioLuwa, Date fecha, Boolean estadoAR, Boolean estadoManto,
 			Boolean estadoLimpieza) {
 		this.idLuwa = idLuwa;
@@ -133,11 +133,11 @@ public class LuwaDos implements java.io.Serializable {
 		this.redox = redox;
 	}
 
-	public Integer getPresionBombaVacio() {
+	public BigDecimal getPresionBombaVacio() {
 		return this.presionBombaVacio;
 	}
 
-	public void setPresionBombaVacio(Integer presionBombaVacio) {
+	public void setPresionBombaVacio(BigDecimal presionBombaVacio) {
 		this.presionBombaVacio = presionBombaVacio;
 	}
 

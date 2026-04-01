@@ -16,7 +16,7 @@ public class LuwaUno  implements java.io.Serializable {
      private BigDecimal ph;
      private Integer tempSalida;
      private Integer redox;
-     private Integer presionBombaVacio;
+     private BigDecimal presionBombaVacio;
      private BigDecimal valvulaRegPresion;
      private Integer condesadorTemp;
      private BigDecimal corrienteMotor;
@@ -35,7 +35,7 @@ public class LuwaUno  implements java.io.Serializable {
     public LuwaUno(int idLuwa) {
         this.idLuwa = idLuwa;
     }
-    public LuwaUno(int idLuwa, FolioPreparacionLuwaUno folioPreparacionLuwaUno, String hora, String operacion, BigDecimal entradaConc, BigDecimal concPorcentaje, BigDecimal ph, Integer tempSalida, Integer redox, Integer presionBombaVacio, BigDecimal valvulaRegPresion, Integer condesadorTemp, BigDecimal corrienteMotor, String estadoA, String estadoR, Integer folioLuwa, Date fecha, Boolean estadoAR, Boolean estadoManto, Boolean estadoLimpieza) {
+    public LuwaUno(int idLuwa, FolioPreparacionLuwaUno folioPreparacionLuwaUno, String hora, String operacion, BigDecimal entradaConc, BigDecimal concPorcentaje, BigDecimal ph, Integer tempSalida, Integer redox, BigDecimal presionBombaVacio, BigDecimal valvulaRegPresion, Integer condesadorTemp, BigDecimal corrienteMotor, String estadoA, String estadoR, Integer folioLuwa, Date fecha, Boolean estadoAR, Boolean estadoManto, Boolean estadoLimpieza) {
        this.idLuwa = idLuwa;
        this.folioPreparacionLuwaUno = folioPreparacionLuwaUno;
        this.hora = hora;
@@ -121,11 +121,11 @@ public class LuwaUno  implements java.io.Serializable {
     public void setRedox(Integer redox) {
         this.redox = redox;
     }
-    public Integer getPresionBombaVacio() {
+    public BigDecimal getPresionBombaVacio() {
         return this.presionBombaVacio;
     }
     
-    public void setPresionBombaVacio(Integer presionBombaVacio) {
+    public void setPresionBombaVacio(BigDecimal presionBombaVacio) {
         this.presionBombaVacio = presionBombaVacio;
     }
     public BigDecimal getValvulaRegPresion() {

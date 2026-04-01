@@ -22,9 +22,7 @@
 					skipDetailIfEqualsSummary="true" />
 
 				<div style="text-align: center">
-					<p:badge id="bp" size="small"
-						value="CAPTURA DE ULTRAFILTRACIÓN I&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FOLIO #{ultraUnoBean.folioFecha}&nbsp;&nbsp;&nbsp;&#8594;&nbsp;&nbsp;&nbsp;FECHA CAPTURA #{ultraUnoBean.fecha}&nbsp;&nbsp;&nbsp;"
-						styleClass="fuenteTitulo" />
+
 
 				</div>
 
@@ -83,8 +81,6 @@
 								value="#{ultraUnoBean.listaFiltroUltraUno}"
 								emptyMessage="NO HAY REGISTROS">
 
-								<p:ajax event="page" listener="#{ultraUnoBean.onPageChange}"
-									update="frmPrincipal" />
 
 								<p:columnGroup type="header">
 

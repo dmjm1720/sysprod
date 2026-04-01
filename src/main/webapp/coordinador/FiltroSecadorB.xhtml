@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<br></br>
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+
+
+
+						<p:tab id="pt" title="RESUMEN SECADOR B"
+							titleStyle="font-size: .8rem; background-color: #123458; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="25" paginator="true" rowHover="true" scrollHeight="800"
+								scrollWidth="100%" paginatorAlwaysVisible="true"
+								scrollable="true" value="#{secadorBBean.listaFiltroSecador}"
+								emptyMessage="NO HAY REGISTROS">
+
+
+
+								<p:columnGroup type="header">
+
+									<p:row>
+
+										<p:column colspan="18"
+											headerText="TEMPERATURAS EN LAS ZONAS °C" styleClass="color"
+											style="font-size: .6rem !important" />
+
+									</p:row>
+									<p:row>
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+
+										<p:column colspan="2" headerText="OPERACIÓN"
+											styleClass="color" style="font-size: .6rem !important" />
+
+										<p:column headerText="1" styleClass="datos" />
+										<p:column headerText="2" styleClass="datos" />
+										<p:column headerText="3" styleClass="datos" />
+										<p:column headerText="4" styleClass="datos" />
+										<p:column headerText="5" styleClass="datos" />
+										<p:column headerText="6" styleClass="datos" />
+										<p:column headerText="7" styleClass="datos" />
+										<p:column headerText="8" styleClass="datos" />
+										<p:column headerText="9" styleClass="datos" />
+										<p:column headerText="°P VAPOR" styleClass="datos" />
+										<p:column headerText="VEL. TAPETE" styleClass="datos" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="" styleClass="color"
+											style="font-size: .6rem !important" />
+
+										<p:column colspan="2" headerText="LÍMITES ESPECÍFICOS"
+											styleClass="color" style="font-size: .6rem !important" />
+
+										<p:column id="l1"
+											headerText="#{secadorBBean.limEsp.limiteUno}"
+											styleClass="datos" />
+										<p:column id="l2"
+											headerText="#{secadorBBean.limEsp.limiteDos}"
+											styleClass="datos" />
+										<p:column id="l3"
+											headerText="#{secadorBBean.limEsp.limiteTres}"
+											styleClass="datos" />
+										<p:column id="l4"
+											headerText="#{secadorBBean.limEsp.limiteCuatro}"
+											styleClass="datos" />
+										<p:column id="l5"
+											headerText="#{secadorBBean.limEsp.limiteCinco}"
+											styleClass="datos" />
+										<p:column id="l6"
+											headerText="#{secadorBBean.limEsp.limiteSeis}"
+											styleClass="datos" />
+										<p:column id="l7"
+											headerText="#{secadorBBean.limEsp.limiteSiete}"
+											styleClass="datos" />
+										<p:column id="l8"
+											headerText="#{secadorBBean.limEsp.limiteOcho}"
+											styleClass="datos" />
+										<p:column id="l9"
+											headerText="#{secadorBBean.limEsp.limiteNueve}"
+											styleClass="datos" />
+										<p:column headerText="(kg/cm2)" styleClass="datos" />
+										<p:column headerText="----" styleClass="datos" />
+
+									</p:row>
+
+
+									<p:row>
+										<p:column headerText="REPORTE" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="MANTO" styleClass="datos" />
+										<p:column headerText="LIMPIEZA" styleClass="datos" />
+										<p:column headerText="FECHA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column headerText="HORA" styleClass="color"
+											style="font-size: .6rem !important" />
+
+										<p:column colspan="2" headerText="LÍMITES DE REFERENCIA"
+											styleClass="color" style="font-size: .6rem !important" />
+
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="" styleClass="datos" />
+										<p:column headerText="#{secadorBBean.limRef.presionVapor}"
+											styleClass="datos" />
+										<p:column headerText="#{secadorBBean.limRef.velTapete}"
+											styleClass="datos" />
+									</p:row>
+
+								</p:columnGroup>
+
+
+								<p:column>
+									<div style="text-align: center">
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="{esterilizadorBeanA.visualizarReporteFiltros(item.fecha, item.folioPreparacionEstA.idFolioPrep, item.folioEsterilizador)}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+									</div>
+								</p:column>
+
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoManto eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+
+
+								<p:column exportable="false" styleClass="datos"
+									style="text-align: center">
+									<h:outputText value="#{item.fecha}" styleClass="datos" />
+								</p:column>
+
+								<p:column headerText="" style="text-align: center">
+									<h:outputText value="7:00" styleClass="datos"/>
+								</p:column>
+
+								<p:column headerText="" colspan="2">
+									<h:outputText value="#{item.operacion}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteUno}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteDos}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteTres}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteCuatro}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteCinco}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteSeis}" />
+								</p:column>
+
+								<p:column headerText="" style="text-align: center">
+									<h:outputText value="#{item.limiteSiete}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteOcho}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.limiteNueve}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.vapor}" />
+								</p:column>
+
+								<p:column headerText="">
+									<h:outputText value="#{item.velTapete}" />
+								</p:column>
+
+
+							</p:dataTable>
+						</p:tab>
+
+					</p:accordionPanel>
+
+				</div>
+
+
+			</h:form>
+
+
+		</ui:define>
+	</ui:composition>
+
+
+
+</h:body>
+</html>

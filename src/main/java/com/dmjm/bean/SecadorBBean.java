@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import com.dmjm.dao.ILimpiezaSecadorBDao;
 import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IOrdenMantenimientoSecadorBDao;
 import com.dmjm.dao.IRegistroTurnosDao;
+import com.dmjm.dao.ISecadorADao;
 import com.dmjm.dao.ISecadorBDao;
 import com.dmjm.dao.ITurnosDao;
 import com.dmjm.dao.IUsuarioDao;
@@ -43,9 +45,7 @@ import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.FolioPreparacionSecadorB;
-import com.dmjm.model.LimitesEspecificosA;
 import com.dmjm.model.LimitesEspecificosB;
-import com.dmjm.model.LimitesReferenciaA;
 import com.dmjm.model.LimitesReferenciaB;
 import com.dmjm.model.LimpiezaSecadorB;
 import com.dmjm.model.Operador;
@@ -110,6 +110,8 @@ public class SecadorBBean implements Serializable {
 	private int folioLimEsp;
 	private int folioLimRef;
 
+	@Inject
+	private ISecadorBDao secadorDao;
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 	private static final Logger LOGGER = LogManager.getLogger(SecadorBBean.class.getName());
 
@@ -339,7 +341,7 @@ public class SecadorBBean implements Serializable {
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		return vDao.validarFechasFaltantes(80, "FOLIO_PREPARACION_SECADOR_B");
+		return vDao.validarFechasFaltantes(100, "FOLIO_PREPARACION_SECADOR_B");
 	}
 
 	public void guardarSecadorB() {
@@ -439,35 +441,27 @@ public class SecadorBBean implements Serializable {
 
 	private void actualizarPromedios(Integer folio) {
 
-		ISecadorBDao l1 = new SecadorBDaoImpl();
-		l1.actualizarLimiteUno(folio);
+		secadorDao.actualizarLimiteUno(folio);
 
-		ISecadorBDao l2 = new SecadorBDaoImpl();
-		l2.actualizarLimiteDos(folio);
+		secadorDao.actualizarLimiteDos(folio);
 
-		ISecadorBDao l3 = new SecadorBDaoImpl();
-		l3.actualizarLimiteTres(folio);
+		secadorDao.actualizarLimiteTres(folio);
 
-		ISecadorBDao l4 = new SecadorBDaoImpl();
-		l4.actualizarLimiteCuatro(folio);
+		secadorDao.actualizarLimiteCuatro(folio);
 
-		ISecadorBDao l5 = new SecadorBDaoImpl();
-		l5.actualizarLimiteCinco(folio);
+		secadorDao.actualizarLimiteCinco(folio);
 
-		ISecadorBDao l6 = new SecadorBDaoImpl();
-		l6.actualizarLimiteSeis(folio);
+		secadorDao.actualizarLimiteSeis(folio);
 
-		ISecadorBDao l7 = new SecadorBDaoImpl();
-		l7.actualizarLimiteSiete(folio);
+		secadorDao.actualizarLimiteSiete(folio);
 
-		ISecadorBDao l8 = new SecadorBDaoImpl();
-		l8.actualizarLimiteOcho(folio);
+		secadorDao.actualizarLimiteOcho(folio);
+		
+		secadorDao.actualizarLimiteNueve(folio);
 
-		ISecadorBDao l9 = new SecadorBDaoImpl();
-		l9.actualizarLimiteNueve(folio);
-
-		ISecadorBDao v = new SecadorBDaoImpl();
-		v.actualizarVapor(folio);
+		secadorDao.actualizarVapor(folio); 
+		
+		secadorDao.actualizarVelTapete(folio);
 
 	}
 
@@ -661,13 +655,13 @@ public class SecadorBBean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre, "Secador B");
+		return tDao.completeOperador(nombre, "Est Planta B");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre, "Secador B");
+		return tDao.buscarOperador(nombre, "Est Planta B");
 	}
 
 	public void actualizarTurnos() throws SQLException {

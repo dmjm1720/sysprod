@@ -120,7 +120,7 @@ public class LimitesDaoImpl implements ILimitesDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.save(limites);
+			session.update(limites);
 			transaction.commit();
 
 			String info = "Se ha actualizado el límite especifíco";
@@ -181,7 +181,7 @@ public class LimitesDaoImpl implements ILimitesDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.save(limites);
+			session.update(limites);
 			transaction.commit();
 
 			String info = "Se ha actualzado el límite de referencia";

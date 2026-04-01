@@ -32,9 +32,9 @@
         <property name="redox" type="java.lang.Integer">
             <column name="REDOX" />
         </property>
-        <property name="presionBombaVacio" type="java.lang.Integer">
-            <column name="PRESION_BOMBA_VACIO" />
-        </property>
+		<property name="presionBombaVacio" type="big_decimal">
+			<column name="PRESION_BOMBA_VACIO" precision="10" scale="3"/>
+		</property>
         <property name="valvulaRegPresion" type="big_decimal">
             <column name="VALVULA_REG_PRESION" precision="10" scale="1" />
         </property>

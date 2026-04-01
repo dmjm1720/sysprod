@@ -39,6 +39,8 @@ public interface ISecadorADao {
 	
 	void actualizarVapor(int folio);
 
+	void actualizarVelTapete(int folio);
+
 	void actualizarManto(int folio);
 
 	void actualizarLimpieza(int folio, int estado);

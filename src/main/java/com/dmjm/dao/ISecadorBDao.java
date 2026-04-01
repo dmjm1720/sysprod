@@ -38,6 +38,8 @@ public interface ISecadorBDao {
 	void actualizarLimiteNueve(int folio);
 	
 	void actualizarVapor(int folio);
+	
+	void actualizarVelTapete(int folio);
 
 	void actualizarManto(int folio);
 

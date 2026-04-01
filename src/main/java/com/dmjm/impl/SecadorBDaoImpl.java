@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -18,6 +20,8 @@ import com.dmjm.model.SecadorB;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
+
+@ApplicationScoped
 public class SecadorBDaoImpl extends Conexion implements ISecadorBDao {
 	private static final Logger LOGGER = LogManager.getLogger(SecadorBDaoImpl.class.getName());
 
@@ -379,6 +383,26 @@ public class SecadorBDaoImpl extends Conexion implements ISecadorBDao {
 			ConectarSysProd();
 
 			String sql = "UPDATE SECADOR_B SET VAPOR = (SELECT COALESCE(AVG(VAPOR), 0) FROM SECADOR_B WHERE ID_FOLIO_PREP=? AND HORA NOT IN ('PROM.')) WHERE HORA='PROM.' AND ID_FOLIO_PREP=?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			ps.setInt(1, folio);
+			ps.setInt(2, folio);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL FOLIO: ", ex);
+		}
+		
+	}
+	
+	@Override
+	public void actualizarVelTapete(int folio) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE SECADOR_B SET VEL_TAPETE = (SELECT COALESCE(AVG(VEL_TAPETE), 0) FROM SECADOR_B WHERE ID_FOLIO_PREP=? AND HORA NOT IN ('PROM.')) WHERE HORA='PROM.' AND ID_FOLIO_PREP=?";
 			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
 
 			ps.setInt(1, folio);

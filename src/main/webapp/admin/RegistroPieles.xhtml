@@ -374,6 +374,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -441,7 +455,7 @@
 							</p:column>
 
 							<p:column headerText="Lote" width="5rem"
-								styleClass="#{item3.lote lt 0 ? 'negativo' : 'normal'}">
+								styleClass="#{item3.lote lt '0' ? 'negativo' : 'normal'}">
 								<h:outputText value="#{item3.lote}" />
 							</p:column>
 
@@ -456,18 +470,7 @@
 							</p:column>
 
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
+
 						</p:dataTable>
 					</p:tab>
 
@@ -491,6 +494,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+							
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+							
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -574,18 +591,6 @@
 							</p:column>
 
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
 						</p:dataTable>
 					</p:tab>
 				</p:accordionPanel>
@@ -606,6 +611,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+							
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+							
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -689,18 +708,6 @@
 							</p:column>
 
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
 						</p:dataTable>
 
 
@@ -723,6 +730,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+							
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+							
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -806,18 +827,6 @@
 							</p:column>
 
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
 						</p:dataTable>
 
 
@@ -841,6 +850,20 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
+							
+							<p:column headerText="Editar" width="2rem" exportable="false"
+								style="text-align: center !important">
+								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+									disabled="#{item3.estado==false}"
+									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									styleClass="ui-button-warning">
+									<f:setPropertyActionListener value="#{item3}"
+										target="#{preparacionBean.etapas}" />
+								</p:commandButton>
+								<p:tooltip id="toolTipE" for="ed" value="Editar"
+									trackMouse="true" />
+							</p:column>
+							
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -924,18 +947,7 @@
 							</p:column>
 
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
+							
 						</p:dataTable>
 
 

@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -108,6 +108,9 @@ public class SecadorABean implements Serializable {
 	private LimitesReferenciaA limRef;
 	private int folioLimEsp;
 	private int folioLimRef;
+
+	@Inject
+	private ISecadorADao secadorDao;
 
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 	private static final Logger LOGGER = LogManager.getLogger(SecadorABean.class.getName());
@@ -438,35 +441,27 @@ public class SecadorABean implements Serializable {
 
 	private void actualizarPromedios(Integer folio) {
 
-		ISecadorADao l1 = new SecadorADaoImpl();
-		l1.actualizarLimiteUno(folio);
+		secadorDao.actualizarLimiteUno(folio);
 
-		ISecadorADao l2 = new SecadorADaoImpl();
-		l2.actualizarLimiteDos(folio);
+		secadorDao.actualizarLimiteDos(folio);
 
-		ISecadorADao l3 = new SecadorADaoImpl();
-		l3.actualizarLimiteTres(folio);
+		secadorDao.actualizarLimiteTres(folio);
 
-		ISecadorADao l4 = new SecadorADaoImpl();
-		l4.actualizarLimiteCuatro(folio);
+		secadorDao.actualizarLimiteCuatro(folio);
 
-		ISecadorADao l5 = new SecadorADaoImpl();
-		l5.actualizarLimiteCinco(folio);
+		secadorDao.actualizarLimiteCinco(folio);
 
-		ISecadorADao l6 = new SecadorADaoImpl();
-		l6.actualizarLimiteSeis(folio);
+		secadorDao.actualizarLimiteSeis(folio);
 
-		ISecadorADao l7 = new SecadorADaoImpl();
-		l7.actualizarLimiteSiete(folio);
+		secadorDao.actualizarLimiteSiete(folio);
 
-		ISecadorADao l8 = new SecadorADaoImpl();
-		l8.actualizarLimiteOcho(folio);
+		secadorDao.actualizarLimiteOcho(folio);
 
-		ISecadorADao l9 = new SecadorADaoImpl();
-		l9.actualizarLimiteNueve(folio);
+		secadorDao.actualizarLimiteNueve(folio);
 
-		ISecadorADao v = new SecadorADaoImpl();
-		v.actualizarVapor(folio);
+		secadorDao.actualizarVapor(folio);
+
+		secadorDao.actualizarVelTapete(folio);
 
 	}
 
@@ -520,7 +515,7 @@ public class SecadorABean implements Serializable {
 	public void guardarOperador() {
 		IOperadorDao oDao = new OperadorDaoImpl();
 		operador.setEstado("Activo");
-		operador.setProceso("Secador A");
+		operador.setProceso("Est Planta A");
 		oDao.guardarOperador(operador);
 		operador = new Operador();
 
@@ -574,7 +569,7 @@ public class SecadorABean implements Serializable {
 
 	public List<Operador> getListaOperadores() {
 		IOperadorDao oDao = new OperadorDaoImpl();
-		listaOperadores = oDao.listaOperadorSecadorA();
+		listaOperadores = oDao.listaOperadorEstPlantaA();
 		return listaOperadores;
 	}
 
@@ -660,13 +655,13 @@ public class SecadorABean implements Serializable {
 	// **DATOS DEL OPERADOR, NOMBRE**//
 	public List<String> buscarNombreOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.completeOperador(nombre, "Secador A");
+		return tDao.completeOperador(nombre, "Est Planta A");
 	}
 
 	// **DATOS DEL OPERADOR, ID**//
 	public int buscarOperador(String nombre) throws SQLException {
 		IOperadorDao tDao = new OperadorDaoImpl();
-		return tDao.buscarOperador(nombre, "Secador A");
+		return tDao.buscarOperador(nombre, "Est Planta A");
 	}
 
 	public void actualizarTurnos() throws SQLException {

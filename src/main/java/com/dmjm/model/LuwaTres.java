@@ -1,4 +1,4 @@
-package com.dmjm.model;
+ package com.dmjm.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
