@@ -841,8 +841,26 @@ public class SecadorBBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/SecadorB.jasper");
+		ruta = servletContext.getRealPath("/REP/secadores_rep_b.jasper");
 		reporte.getReporte(ruta, fecha.toString(), folioFecha);
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	public void visualizarReporteExcel() throws SQLException {
+		@SuppressWarnings("unused")
+
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteEsterilizadores reporte = new ReporteEsterilizadores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = servletContext.getRealPath("/REP/secadores_rep_b_excel.jasper");
+
+		// Llamar a la versión que exporta a Excel
+		reporte.getReporteExcel(ruta, fecha.toString());
 
 		FacesContext.getCurrentInstance().responseComplete();
 
@@ -858,7 +876,7 @@ public class SecadorBBean implements Serializable {
 		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
 		String ruta = null;
 
-		ruta = servletContext.getRealPath("/REP/SecadorB.jasper");
+		ruta = servletContext.getRealPath("/REP/secadores_rep_b.jasper");
 
 		reporte.getReporte(ruta, fec, folioFechaRep);
 

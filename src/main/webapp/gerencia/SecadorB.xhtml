@@ -238,7 +238,7 @@
 										<p:outputLabel value="EXPORTAR" />
 										<h:commandLink id="impExcel"
 											style="height: 30px; font-size: 12px;" target="_blank"
-											actionListener="{secadorBBean.visualizarReporteExcel()}">
+											actionListener="#{secadorBBean.visualizarReporteExcel()}">
 											<h:graphicImage url="/resources/img/excel.png"
 												style="height: 1.8rem" />
 										</h:commandLink>
@@ -460,7 +460,7 @@
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
 
-								<p:column headerText="" style="text-align: center"
+								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'folioPrep'}">
 									<h:outputText value="#{item.limiteSiete}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
@@ -763,7 +763,7 @@
 
 			<!-- INICIA FORMULARIO PARA EDITAR DAF -->
 			<h:form id="frmEditar">
-				<p:dialog header="Actualizar información de Daf Poniente"
+				<p:dialog header="Actualizar información de Secador B"
 					styleClass="tabla fuente" widgetVar="dlgEditar" showEffect="fade"
 					closeOnEscape="true" minimizable="true" maximizable="true">
 					<h:panelGrid id="pnlEditar" columns="2">
