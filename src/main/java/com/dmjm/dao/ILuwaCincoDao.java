@@ -37,6 +37,10 @@ public interface ILuwaCincoDao {
 
 	void actualizarCorrienteMotor(int folio);
 
+	void actualizarflujoLitros(int folio);
+
+	void actualizarfrecBomba(int folio);
+
 	void actualizarManto(int folio);
 
 	void actualizarLimpieza(int folio, int estado);

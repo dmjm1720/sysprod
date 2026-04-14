@@ -82,7 +82,8 @@
 									<p:dataTable id="tblRegTurnos" styleClass="tabla fuente"
 										var="turnos" sortMode="multiple" rowHover="true"
 										style="width: 85%" paginatorAlwaysVisible="true"
-										scrollable="true" value="#{luwaCincoBean.listarRegistroTurnos}"
+										scrollable="true"
+										value="#{luwaCincoBean.listarRegistroTurnos}"
 										emptyMessage="NO HAY REGISTROS">
 
 
@@ -278,7 +279,8 @@
 								rows="25" paginator="true" liveScroll="true" rowHover="true"
 								scrollHeight="300" scrollWidth="100%"
 								paginatorAlwaysVisible="true" scrollable="true"
-								value="#{luwaCincoBean.listaLuwa}" emptyMessage="NO HAY REGISTROS">
+								value="#{luwaCincoBean.listaLuwa}"
+								emptyMessage="NO HAY REGISTROS">
 
 								<p:ajax event="page" listener="#{luwaCincoBean.onPageChange}"
 									update="frmPrincipal:acco:tblLimpieza, frmPrincipal:acco:tblManto, frmPrincipal:bp, frmPrincipal:acco:tblRegTurnos, frmPrincipal:acco:tblResumen" />
@@ -297,9 +299,12 @@
 									</p:row>
 
 									<p:row>
-										<p:column rowspan="2" headerText="ENTRADA CONC. %"
-											styleClass="datos" />
-										<p:column colspan="4" headerText="CONDICIONES DEL PRODUCTO"
+
+										<p:column colspan="3"
+											headerText="CONDICIONES DEL PRODUCTO ENTRADA"
+											styleClass="color" />
+										<p:column colspan="4"
+											headerText="CONDICIONES DEL PRODUCTO SALIDA"
 											styleClass="color" />
 										<p:column colspan="4" headerText="CONDICIONES DEL EQUIPO"
 											styleClass="color" />
@@ -308,14 +313,16 @@
 									</p:row>
 
 									<p:row>
-
+										<p:column headerText="FLUJO" styleClass="datos" />
+										<p:column headerText="FRECUENCIA BOMBA" styleClass="datos" />
+										<p:column headerText="CONC. %" styleClass="datos" />
 										<p:column headerText="CONC. %" styleClass="datos" />
 										<p:column headerText="PH" styleClass="datos" />
 										<p:column headerText="TEMP (°C)" styleClass="datos" />
 										<p:column headerText="REDOX (p.p.m)" styleClass="datos" />
 										<p:column headerText="PRESIÓN DE BOMBA DE VACÍO (cm Hg)"
 											styleClass="datos" />
-										<p:column headerText="VÁLVULA REG. PRESIÓN (kg/cm²)"
+										<p:column headerText="VÁLVULA REG. PRESIÓN (MPa)"
 											styleClass="datos" />
 										<p:column headerText="CONDENSADOR TEMP (°C)"
 											styleClass="datos" />
@@ -328,12 +335,14 @@
 										<p:column headerText="Editar" styleClass="datos" />
 										<p:column colspan="2" headerText="LÍMITES DE REFERENCIA"
 											styleClass="datos" />
+										<p:column headerText="LITROS" styleClass="datos" />
+										<p:column headerText="L/MIN" styleClass="datos" />
 										<p:column headerText="MIN. 12.0" styleClass="datos" />
-										<p:column headerText="25 - 35" styleClass="datos" />
+										<p:column headerText="28% MÍNIMO" styleClass="datos" />
 										<p:column headerText="4.0 - 8.0" styleClass="datos" />
-										<p:column headerText="30 - 55" styleClass="datos" />
+										<p:column headerText="50 °C MÁXIMO" styleClass="datos" />
 										<p:column headerText="200 MÍN" styleClass="datos" />
-										<p:column headerText="40 - 50" styleClass="datos" />
+										<p:column headerText="0.050 - 0.080" styleClass="datos" />
 										<p:column headerText="1.0 - 4.5" styleClass="datos" />
 										<p:column headerText="---" styleClass="datos" />
 										<p:column headerText="25-35" styleClass="datos" />
@@ -369,7 +378,16 @@
 									<h:outputText value="#{item.operacion}"
 										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
 								</p:column>
-
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.flujoLitros}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
+								<p:column headerText=""
+									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
+									<h:outputText value="#{item.frecBomba}"
+										styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'datos'}" />
+								</p:column>
 
 								<p:column headerText=""
 									styleClass="#{item.hora eq 'PROM.' ? 'promedio' : 'alimentacion'}">
@@ -661,7 +679,8 @@
 
 
 								<p:outputLabel value="Hora Final" />
-								<pe:timePicker value="#{luwaCincoBean.ordenMantenimiento.horaFin}"
+								<pe:timePicker
+									value="#{luwaCincoBean.ordenMantenimiento.horaFin}"
 									mode="spinner" widgetVar="h6" showOn="button"
 									intervalMinutes="1" endMinutes="59" />
 
@@ -776,6 +795,20 @@
 							value="#{luwaCincoBean.luwaEditar.operacion}" required="false"
 							requiredMessage="Campo requerido" style="width: 8rem" />
 
+
+						<p:outputLabel for="fl" value="FLUJO LITROS" />
+						<p:inputText id="fl" placeholder="FLUJO LTS"
+							value="#{luwaCincoBean.luwaEditar.flujoLitros}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
+
+						<p:outputLabel for="fbom" value="FRECUENCIA BOMBA" />
+						<p:inputText id="fbom" placeholder="L/MIN"
+							value="#{luwaCincoBean.luwaEditar.frecBomba}" required="false"
+							requiredMessage="Campo requerido" styleClass="camposCocedores"
+							style="width: 5rem" />
+
 						<p:outputLabel for="conE" value="ENTRADA CONC. %" />
 						<p:inputText id="conE" placeholder="MIN. 12.0"
 							value="#{luwaCincoBean.luwaEditar.entradaConc}" required="false"
@@ -783,10 +816,10 @@
 							style="width: 5rem" />
 
 						<p:outputLabel for="conE" value="CONC. %" />
-						<p:inputText id="con" placeholder="25 – 35"
-							value="#{luwaCincoBean.luwaEditar.concPorcentaje}" required="false"
-							requiredMessage="Campo requerido" styleClass="camposCocedores"
-							style="width: 5rem" />
+						<p:inputText id="con" placeholder="28% MÍNIMO"
+							value="#{luwaCincoBean.luwaEditar.concPorcentaje}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="ph" value="pH" />
 						<p:inputText id="ph" placeholder="4.5-8.0"
@@ -795,7 +828,7 @@
 							style="width: 5rem" />
 
 						<p:outputLabel for="redox" value="TEMP. (°C) Condensador" />
-						<p:inputText id="redox" placeholder="30 - 55"
+						<p:inputText id="redox" placeholder="50 °C MÁXIMO"
 							value="#{luwaCincoBean.luwaEditar.tempSalida}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
@@ -820,15 +853,15 @@
 
 						<p:outputLabel for="succ" value="CONDENSADOR TEMP. (°C)" />
 						<p:inputText id="succ" placeholder="---"
-							value="#{luwaCincoBean.luwaEditar.condesadorTemp}" required="false"
-							requiredMessage="Campo requerido" styleClass="camposCocedores"
-							style="width: 5rem" />
+							value="#{luwaCincoBean.luwaEditar.condesadorTemp}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel for="desc" value="CORRIENTE MOTOR (Amp)" />
 						<p:inputText id="desc" placeholder="25 - 35"
-							value="#{luwaCincoBean.luwaEditar.corrienteMotor}" required="false"
-							requiredMessage="Campo requerido" styleClass="camposCocedores"
-							style="width: 5rem" />
+							value="#{luwaCincoBean.luwaEditar.corrienteMotor}"
+							required="false" requiredMessage="Campo requerido"
+							styleClass="camposCocedores" style="width: 5rem" />
 
 						<p:outputLabel value="" />
 						<p:outputLabel value="" />

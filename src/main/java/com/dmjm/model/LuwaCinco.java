@@ -26,6 +26,8 @@ public class LuwaCinco implements java.io.Serializable {
 	private Boolean estadoAR;
 	private Boolean estadoManto;
 	private Boolean estadoLimpieza;
+	private Integer flujoLitros;
+	private BigDecimal frecBomba;
 
 	public LuwaCinco() {
 	}
@@ -36,9 +38,9 @@ public class LuwaCinco implements java.io.Serializable {
 
 	public LuwaCinco(int idLuwa, FolioPreparacionLuwaCinco folioPreparacionLuwaCinco, String hora, String operacion,
 			BigDecimal entradaConc, BigDecimal concPorcentaje, BigDecimal ph, Integer tempSalida, Integer redox,
-			BigDecimal presionBombaVacio, BigDecimal valvulaRegPresion, Integer condesadorTemp, BigDecimal corrienteMotor,
-			String estadoA, String estadoR, Integer folioLuwa, Date fecha, Boolean estadoAR, Boolean estadoManto,
-			Boolean estadoLimpieza) {
+			BigDecimal presionBombaVacio, BigDecimal valvulaRegPresion, Integer condesadorTemp,
+			BigDecimal corrienteMotor, String estadoA, String estadoR, Integer folioLuwa, Date fecha, Boolean estadoAR,
+			Boolean estadoManto, Boolean estadoLimpieza, Integer flujoLitros, BigDecimal frecBomba) {
 		this.idLuwa = idLuwa;
 		this.folioPreparacionLuwaCinco = folioPreparacionLuwaCinco;
 		this.hora = hora;
@@ -59,6 +61,8 @@ public class LuwaCinco implements java.io.Serializable {
 		this.estadoAR = estadoAR;
 		this.estadoManto = estadoManto;
 		this.estadoLimpieza = estadoLimpieza;
+		this.flujoLitros = flujoLitros;
+		this.frecBomba = frecBomba;
 	}
 
 	public int getIdLuwa() {
@@ -220,5 +224,23 @@ public class LuwaCinco implements java.io.Serializable {
 	public void setEstadoLimpieza(Boolean estadoLimpieza) {
 		this.estadoLimpieza = estadoLimpieza;
 	}
+
+	public Integer getFlujoLitros() {
+		return flujoLitros;
+	}
+
+	public void setFlujoLitros(Integer flujoLitros) {
+		this.flujoLitros = flujoLitros;
+	}
+
+	public BigDecimal getFrecBomba() {
+		return frecBomba;
+	}
+
+	public void setFrecBomba(BigDecimal frecBomba) {
+		this.frecBomba = frecBomba;
+	}
+	
+	
 
 }

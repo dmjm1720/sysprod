@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab id="pt" title="EVAPORADORES LUWA CINCO"
+							titleStyle="font-size: .8rem; background-color: #EB5B00; color: #F5F5F5">
+
+							<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Borrar'
+                        };
+                    </script>
+
+							<p:dataTable id="tblCoc" styleClass="tabla2 fuenteCocedores"
+								var="item" sortMode="multiple" reflow="true"
+								paginatorTemplate="
+								{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rows="50" paginator="true" liveScroll="true" rowHover="true"
+								scrollHeight="600" scrollWidth="100%"
+								paginatorAlwaysVisible="true" scrollable="true"
+								value="#{luwaCincoBean.listaFiltroLuwa}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:columnGroup type="header">
+
+									<p:row>
+										<p:column rowspan="3" headerText="REPORTE" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="MANTO." styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="LIMPIEZA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="FECHA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="HORA" styleClass="color"
+											style="font-size: .6rem !important" />
+										<p:column rowspan="3" headerText="OPERACIÓN"
+											styleClass="color" style="font-size: .6rem !important" />
+									</p:row>
+
+									<p:row>
+
+										<p:column colspan="3"
+											headerText="CONDICIONES DEL PRODUCTO ENTRADA"
+											styleClass="color" />
+										<p:column colspan="4"
+											headerText="CONDICIONES DEL PRODUCTO SALIDA"
+											styleClass="color" />
+										<p:column colspan="4" headerText="CONDICIONES DEL EQUIPO"
+											styleClass="color" />
+
+									</p:row>
+
+									<p:row>
+										<p:column headerText="FLUJO" styleClass="datos" />
+										<p:column headerText="FRECUENCIA BOMBA" styleClass="datos" />
+										<p:column headerText="CONC. %" styleClass="datos" />
+										<p:column headerText="CONC. %" styleClass="datos" />
+										<p:column headerText="PH" styleClass="datos" />
+										<p:column headerText="TEMP (°C)" styleClass="datos" />
+										<p:column headerText="REDOX (p.p.m)" styleClass="datos" />
+										<p:column headerText="PRESIÓN DE BOMBA DE VACÍO (cm Hg)"
+											styleClass="datos" />
+										<p:column headerText="VÁLVULA REG. PRESIÓN (MPa)"
+											styleClass="datos" />
+										<p:column headerText="CONDENSADOR TEMP (°C)"
+											styleClass="datos" />
+										<p:column headerText="CORRIENTE MOTOR (Amp)"
+											styleClass="datos" />
+									</p:row>
+
+
+									<p:row>
+
+										<p:column colspan="6" headerText="LÍMITES DE REFERENCIA"
+											styleClass="datos" />
+										<p:column headerText="LITROS" styleClass="datos" />
+										<p:column headerText="L/MIN" styleClass="datos" />
+										<p:column headerText="MIN. 12.0" styleClass="datos" />
+										<p:column headerText="28% MÍNIMO" styleClass="datos" />
+										<p:column headerText="4.0 - 8.0" styleClass="datos" />
+										<p:column headerText="50 °C MÁXIMO" styleClass="datos" />
+										<p:column headerText="200 MÍN" styleClass="datos" />
+										<p:column headerText="0.050 - 0.080" styleClass="datos" />
+										<p:column headerText="1.0 - 4.5" styleClass="datos" />
+										<p:column headerText="---" styleClass="datos" />
+										<p:column headerText="25-35" styleClass="datos" />
+
+									</p:row>
+
+
+								</p:columnGroup>
+								<p:column styleClass="datos">
+									<div style="text-align: center">
+										<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+											target="_blank"
+											actionListener="#{luwaCincoBean.visualizarReporteFiltros(item.fecha, item.folioPreparacionLuwaCinco.idFolioPrep, item.folioLuwa)}">
+											<h:graphicImage url="/resources/img/printer.png"
+												style="height: 1.8rem" />
+										</h:commandLink>
+									</div>
+								</p:column>
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoLimpieza eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+								<p:column>
+									<div style="text-align: center">
+										<p:graphicImage
+											value="/resources/img/#{item.estadoManto eq true ? 'true.png' :  'false.png' }"
+											style="width: 20px; height: 20px;" />
+									</div>
+								</p:column>
+
+								<p:column styleClass="datos">
+									<h:outputText value="#{item.fecha}" styleClass="datos" />
+								</p:column>
+								<p:column styleClass="datos">
+									<h:outputText value="7:00" styleClass="datos" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.operacion}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.flujoLitros}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.frecBomba}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.entradaConc}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.concPorcentaje}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.ph}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.tempSalida}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.redox}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.presionBombaVacio}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.valvulaRegPresion}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.condesadorTemp}" />
+								</p:column>
+								<p:column headerText="">
+									<h:outputText value="#{item.corrienteMotor}" />
+								</p:column>
+
+							</p:dataTable>
+						</p:tab>
+					</p:accordionPanel>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

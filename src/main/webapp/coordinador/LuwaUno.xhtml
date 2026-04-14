@@ -299,7 +299,7 @@
 									<p:row>
 										<p:column rowspan="2" headerText="ENTRADA CONC. %"
 											styleClass="datos" />
-										<p:column colspan="4" headerText="CONDICIONES DEL PRODUCTO"
+										<p:column colspan="4" headerText="CONDICIONES DEL PRODUCTO SALIDA"
 											styleClass="color" />
 										<p:column colspan="4" headerText="CONDICIONES DEL EQUIPO"
 											styleClass="color" />
@@ -329,9 +329,9 @@
 										<p:column colspan="2" headerText="LÍMITES DE REFERENCIA"
 											styleClass="datos" />
 										<p:column headerText="MIN. 12.0" styleClass="datos" />
-										<p:column headerText="25 - 35" styleClass="datos" />
+										<p:column headerText="28% MÍNIMO" styleClass="datos" />
 										<p:column headerText="4.0 - 8.0" styleClass="datos" />
-										<p:column headerText="30 - 55" styleClass="datos" />
+										<p:column headerText="50 °C MÁXIMO" styleClass="datos" />
 										<p:column headerText="200 MÍN" styleClass="datos" />
 										<p:column headerText="40 - 50" styleClass="datos" />
 										<p:column headerText="1.0 - 4.5" styleClass="datos" />
@@ -783,7 +783,7 @@
 							style="width: 5rem" />
 
 						<p:outputLabel for="conE" value="CONC. %" />
-						<p:inputText id="con" placeholder="25 – 35"
+						<p:inputText id="con" placeholder="28% MÍNIMO"
 							value="#{luwaUnoBean.luwaEditar.concPorcentaje}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />
@@ -795,7 +795,7 @@
 							style="width: 5rem" />
 
 						<p:outputLabel for="redox" value="TEMP. (°C) Condensador" />
-						<p:inputText id="redox" placeholder="30 - 55"
+						<p:inputText id="redox" placeholder="50 °C MÁXIMO"
 							value="#{luwaUnoBean.luwaEditar.tempSalida}" required="false"
 							requiredMessage="Campo requerido" styleClass="camposCocedores"
 							style="width: 5rem" />

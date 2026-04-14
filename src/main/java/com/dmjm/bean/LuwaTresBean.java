@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,6 +13,7 @@ import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +54,7 @@ import com.dmjm.model.RegistroTurnos;
 import com.dmjm.model.ResumenLuwaTres;
 import com.dmjm.model.Turnos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteCocedores;
 import com.dmjm.util.ReporteEsterilizadores;
 
 @Named("luwaTresBean")
@@ -103,6 +104,9 @@ public class LuwaTresBean implements Serializable {
 
 	private List<ResumenLuwaTres> listaResumen;
 
+	@Inject
+	ILuwaTresDao luwa3Dao;
+	
 	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 	private static final Logger LOGGER = LogManager.getLogger(LuwaTresBean.class.getName());
 
@@ -137,6 +141,10 @@ public class LuwaTresBean implements Serializable {
 
 		listaResumen = new ArrayList<>();
 
+		listaFiltroLuwa = new ArrayList<>();
+		ILuwaTresDao lDao = new LuwaTresDaoImpl();
+		listaFiltroLuwa = lDao.listaFiltroLuwa();
+		
 		primera();
 
 	}
@@ -521,7 +529,8 @@ public class LuwaTresBean implements Serializable {
 
 		if (luwaEditar.getHora().equals("7:00")) {
 			ILuwaTresDao aDao = new LuwaTresDaoImpl();
-			aDao.actualizarLuwaPromedio(luwaEditar.getOperacion(), folioFecha);
+			aDao.actualizarLuwaPromedio(luwaEditar.getOperacion(),
+					luwaEditar.getFolioPreparacionLuwaTres().getIdFolioPrep());
 		}
 		luwaEditar = new LuwaTres();
 		PrimeFaces.current().executeScript("PF('dlgEditar').hide();");
@@ -529,32 +538,16 @@ public class LuwaTresBean implements Serializable {
 	}
 
 	private void actualizarPromedios(Integer folio) {
-		ILuwaTresDao actualizar_conc_entrada = new LuwaTresDaoImpl();
-		actualizar_conc_entrada.actualizarEntradaConcentrado(folio);
-		
-		ILuwaTresDao actualizar_concentrado_porcentaje = new LuwaTresDaoImpl();
-		actualizar_concentrado_porcentaje.actualizarConcentradoPorcentaje(folio);
-		
-		ILuwaTresDao actualizar_ph = new LuwaTresDaoImpl();
-		actualizar_ph.actualizarPH(folio);
-		
-		ILuwaTresDao actualizar_temp_salida = new LuwaTresDaoImpl();
-		actualizar_temp_salida.actualizarTempSalida(folio);
-		
-		ILuwaTresDao actualizar_redox = new LuwaTresDaoImpl();
-		actualizar_redox.actualizarRedox(folio);
-		
-		ILuwaTresDao actualizar_presion_bomba = new LuwaTresDaoImpl();
-		actualizar_presion_bomba.actualizarPresionBombaVacio(folio);
-		
-		ILuwaTresDao actualizar_valvula_reg = new LuwaTresDaoImpl();
-		actualizar_valvula_reg.actualizarValvulaRegPresion(folio);
-		
-		ILuwaTresDao actualizar_cond_temp = new LuwaTresDaoImpl();
-		actualizar_cond_temp.actualizarCondensadorTemp(folio);
-		
-		ILuwaTresDao actualizar_corriente_motor = new LuwaTresDaoImpl();
-		actualizar_corriente_motor.actualizarCorrienteMotor(folio);
+
+		luwa3Dao.actualizarEntradaConcentrado(folio);
+		luwa3Dao.actualizarConcentradoPorcentaje(folio);
+		luwa3Dao.actualizarPH(folio);
+		luwa3Dao.actualizarTempSalida(folio);
+		luwa3Dao.actualizarRedox(folio);
+		luwa3Dao.actualizarPresionBombaVacio(folio);
+		luwa3Dao.actualizarValvulaRegPresion(folio);
+		luwa3Dao.actualizarCondensadorTemp(folio);
+		luwa3Dao.actualizarCorrienteMotor(folio);
 
 	}
 
@@ -647,7 +640,7 @@ public class LuwaTresBean implements Serializable {
 
 	public List<Date> buscarFechasFaltantes() {
 		IValidacionFolioDao vDao = new ValidacionFolioDaoImpl();
-		return vDao.validarFechasFaltantes(30, "FOLIO_PREPARACION_LUWA_TRES");
+		return vDao.validarFechasFaltantes(100, "FOLIO_PREPARACION_LUWA_TRES");
 	}
 
 	public void guardarLuwa() {
@@ -681,7 +674,7 @@ public class LuwaTresBean implements Serializable {
 
 				// **FOLIO**//
 				int folio = 0;
-				//year = LocalDate.now().getYear();
+				// year = LocalDate.now().getYear();
 				Calendar calendario = Calendar.getInstance();
 				calendario.setTime(fec);
 				int newYear = calendario.get(Calendar.YEAR);
@@ -879,7 +872,7 @@ public class LuwaTresBean implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public void visualizarReporte() throws SQLException {
 		@SuppressWarnings("unused")
 
@@ -903,7 +896,7 @@ public class LuwaTresBean implements Serializable {
 		FacesContext.getCurrentInstance().responseComplete();
 
 	}
-	
+
 	public void visualizarReporteExcel() throws SQLException {
 		@SuppressWarnings("unused")
 
@@ -924,6 +917,24 @@ public class LuwaTresBean implements Serializable {
 
 		// Llamar a la versión que exporta a Excel
 		reporte.getReporteExcel(ruta, fecha.toString());
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+	}
+	
+	public void visualizarReporteFiltros(String fec, int folioPrep, int folioFechaRep) throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		ReporteCocedores reporte = new ReporteCocedores();
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ruta = servletContext.getRealPath("/REP/luwa_tres_rep.jasper");
+
+		reporte.getReporte(ruta, fec, folioFechaRep);
 
 		FacesContext.getCurrentInstance().responseComplete();
 

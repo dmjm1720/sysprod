@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -18,6 +20,7 @@ import com.dmjm.model.LuwaDos;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
+@ApplicationScoped
 public class LuwaDosDaoImpl extends Conexion implements ILuwaDosDao {
 
 	private static final Logger LOGGER = LogManager.getLogger(LuwaDosDaoImpl.class.getName());

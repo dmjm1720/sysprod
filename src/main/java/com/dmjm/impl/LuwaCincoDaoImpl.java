@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -18,6 +20,7 @@ import com.dmjm.model.LuwaCinco;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
+@ApplicationScoped 
 public class LuwaCincoDaoImpl extends Conexion implements ILuwaCincoDao {
 
 	private static final Logger LOGGER = LogManager.getLogger(LuwaCincoDaoImpl.class.getName());
@@ -378,6 +381,46 @@ public class LuwaCincoDaoImpl extends Conexion implements ILuwaCincoDao {
 					String.class).setParameter("folio", folio).setParameter("operacion", operacion).setMaxResults(1)
 					.uniqueResult(); // o .list().stream().findFirst().orElse(null)
 		}
+	}
+
+	@Override
+	public void actualizarflujoLitros(int folio) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE LUWA_CINCO SET FLUJO_LITROS = (SELECT COALESCE(AVG(FLUJO_LITROS), 0) FROM LUWA_CINCO WHERE ID_FOLIO_PREP=? AND HORA NOT IN ('PROM.')) WHERE HORA='PROM.' AND ID_FOLIO_PREP=?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			ps.setInt(1, folio);
+			ps.setInt(2, folio);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL FOLIO: ", ex);
+		}
+		
+	}
+
+	@Override
+	public void actualizarfrecBomba(int folio) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE LUWA_CINCO SET FREC_BOMBA = (SELECT COALESCE(AVG(FREC_BOMBA), 0) FROM LUWA_CINCO WHERE ID_FOLIO_PREP=? AND HORA NOT IN ('PROM.')) WHERE HORA='PROM.' AND ID_FOLIO_PREP=?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			ps.setInt(1, folio);
+			ps.setInt(2, folio);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR EL FOLIO: ", ex);
+		}
+		
 	}
 
 }

@@ -135,6 +135,7 @@ public class DafDosBean implements Serializable {
 		folioPreparacionDafDos = new FolioPreparacionDafDos();
 
 		listarFoliosPreparacion = new ArrayList<>();
+		
 		listaFiltroDaf = new ArrayList<>();
 		IDafDosDao lDafDao = new DafDosDaoImpl();
 		listaFiltroDaf = lDafDao.listaFiltroDaf();
