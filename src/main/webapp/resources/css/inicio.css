@@ -24,7 +24,7 @@ body {
 
 .sysprod-text {
   position: absolute;
-  inset: 50% auto auto 50%;
+  inset: 78% auto auto 50%;
   transform: translate(-50%, -50%);
   font-size: clamp(4rem, 12vw, 10rem);
   font-weight: 800;

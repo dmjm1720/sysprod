@@ -46,6 +46,7 @@
 		<mapping resource="com/dmjm/model/Quimicos.hbm.xml" />
 		<mapping resource="com/dmjm/model/BitacoraPrecios.hbm.xml" />
 		<mapping resource="com/dmjm/model/EntradasMaquinariaEquipo.hbm.xml" />
+		<mapping resource="com/dmjm/model/Categorias.hbm.xml" />
 
 		<mapping resource="com/dmjm/model/FolioPreparacionCocedores.hbm.xml" />
 		<mapping resource="com/dmjm/model/Cocedores.hbm.xml" />

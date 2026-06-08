@@ -160,7 +160,7 @@ public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
 	@Override
 	public List<Lavadoras> listarLavadorasDisponibles() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("FROM Lavadoras WHERE estado=0", Lavadoras.class).list();
+			return session.createQuery("FROM Lavadoras WHERE estado=0 AND nombre <> 'Tambor'", Lavadoras.class).list();
 		}
 	}
 
@@ -181,6 +181,32 @@ public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡AVISO!", "ERROR AL ACTUALIZAR"));
 		}
 
+	}
+
+	@Override
+	public void borrarLavadora(Lavadoras lavadoras) {
+		Session session = null;
+		try {
+
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			Transaction transaction = session.beginTransaction();
+			session.delete(lavadoras);
+			transaction.commit();
+			String info = "Se ha borrado la lavadora seleccionada";
+
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		
 	}
 
 }

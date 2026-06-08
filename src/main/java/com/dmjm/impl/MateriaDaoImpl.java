@@ -18,104 +18,125 @@ import com.dmjm.util.HibernateUtil;
 
 public class MateriaDaoImpl extends Conexion implements IMateriaDao {
 
-    @Override
-    public List<Materia> listarMateria() {
-        @SuppressWarnings("JPQLValidation")
-        List<Materia> materia = (List<Materia>) HibernateUtil.getSessionFactory().openSession().createQuery("From Materia").list();
-        return materia;
-    }
+	@Override
+	public List<Materia> listarMateria() {
+		@SuppressWarnings("JPQLValidation")
+		List<Materia> materia = (List<Materia>) HibernateUtil.getSessionFactory().openSession()
+				.createQuery("From Materia").list();
+		return materia;
+	}
 
-    @Override
-    public void guardarMateria(Materia materia) {
-        Session session = null;
-        try {
+	@Override
+	public void guardarMateria(Materia materia) {
+		Session session = null;
+		try {
 
-            session = HibernateUtil.getSessionFactory().openSession();
+			session = HibernateUtil.getSessionFactory().openSession();
 
-            Transaction transaction = session.beginTransaction();
-            session.save(materia);
-            transaction.commit();
-            String info = "Se ha registrado una nueva materia prima";
-
-			PrimeFaces.current()
-					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
-							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
-							+ "  timer: 8000\n" + "})");
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
-
-    @Override
-    public void actualizarMateria(Materia materia) {
-    	Session session = null;
-        try {
-
-            session = HibernateUtil.getSessionFactory().openSession();
-
-            Transaction transaction = session.beginTransaction();
-            session.update(materia);
-            transaction.commit();
-            String info = "Se ha actualizado la información de la materia prima";
+			Transaction transaction = session.beginTransaction();
+			session.save(materia);
+			transaction.commit();
+			String info = "Se ha registrado una nueva materia prima";
 
 			PrimeFaces.current()
 					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
 							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
 							+ "  timer: 8000\n" + "})");
-        } catch (HibernateException e) {
-            session.getTransaction().rollback();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 
-    @Override
-    public List<String> completeMateria(String nombre) throws SQLException {
-        List<String> resultRFC = new ArrayList<>();
-        List<String> listarTodo = new ArrayList<>();
+	@Override
+	public void actualizarMateria(Materia materia) {
+		Session session = null;
+		try {
 
-        ConectarSysProd();
+			session = HibernateUtil.getSessionFactory().openSession();
 
-        PreparedStatement st = getCnSysProd().prepareStatement("SELECT DISTINCT (TIPO) FROM MATERIA WHERE TIPO LIKE '" + nombre + "%'");
-        ResultSet rs = st.executeQuery();
-        listarTodo = new ArrayList<>();
-        if (!rs.isBeforeFirst()) {
-            listarTodo.add("No hay resultados para tu búsqueda");
-        } else {
-            while (rs.next()) {
-                listarTodo.add(rs.getString("TIPO"));
-            }
-        }
-        for (int i = 0; i < listarTodo.size(); i++) {
-            resultRFC.add(listarTodo.get(i));
-        }
+			Transaction transaction = session.beginTransaction();
+			session.update(materia);
+			transaction.commit();
+			String info = "Se ha actualizado la información de la materia prima";
 
-        CerrarSysProd();
-        return resultRFC;
-    }
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 
-    @Override
-    public int buscarMateria(String nombre) throws SQLException {
-        ConectarSysProd();
-        PreparedStatement st = getCnSysProd().prepareStatement("SELECT ID_MATERIA FROM MATERIA WHERE TIPO = '" + nombre + "'");
-        ResultSet rs = st.executeQuery();
-        int materia = 0;
-        if (!rs.isBeforeFirst()) {
+	@Override
+	public List<String> completeMateria(String nombre) throws SQLException {
+		List<String> resultRFC = new ArrayList<>();
+		List<String> listarTodo = new ArrayList<>();
 
-        } else {
-            while (rs.next()) {
-                materia = rs.getInt("ID_MATERIA");
-            }
-        }
+		ConectarSysProd();
 
-        CerrarSysProd();
-        return materia;
-    }
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT DISTINCT (TIPO) FROM MATERIA WHERE TIPO LIKE '" + nombre + "%'");
+		ResultSet rs = st.executeQuery();
+		listarTodo = new ArrayList<>();
+		if (!rs.isBeforeFirst()) {
+			listarTodo.add("No hay resultados para tu búsqueda");
+		} else {
+			while (rs.next()) {
+				listarTodo.add(rs.getString("TIPO"));
+			}
+		}
+//        for (int i = 0; i < listarTodo.size(); i++) {
+//            resultRFC.add(listarTodo.get(i));
+//        }
+
+		CerrarSysProd();
+		return listarTodo;
+	}
+
+	@Override
+	public int buscarMateria(String nombre) throws SQLException {
+		ConectarSysProd();
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT ID_MATERIA FROM MATERIA WHERE TIPO = '" + nombre + "'");
+		ResultSet rs = st.executeQuery();
+		int materia = 0;
+		if (!rs.isBeforeFirst()) {
+
+		} else {
+			while (rs.next()) {
+				materia = rs.getInt("ID_MATERIA");
+			}
+		}
+
+		CerrarSysProd();
+		return materia;
+	}
+
+	@Override
+	public List<String> listaMaterial() throws SQLException {
+		List<String> listarTodo = new ArrayList<>();
+		ConectarSysProd();
+		PreparedStatement st = getCnSysProd().prepareStatement("SELECT DISTINCT (TIPO) FROM MATERIA");
+		ResultSet rs = st.executeQuery();
+		listarTodo = new ArrayList<>();
+		if (!rs.isBeforeFirst()) {
+			listarTodo.add("No hay resultados para tu búsqueda");
+		} else {
+			while (rs.next()) {
+				listarTodo.add(rs.getString("TIPO"));
+			}
+		}
+		CerrarSysProd();
+		return listarTodo;
+	}
 
 }

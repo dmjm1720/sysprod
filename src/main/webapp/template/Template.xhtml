@@ -133,6 +133,10 @@
 						<p:menuitem value="Lavadoras" outcome="Lavadoras"
 							icon="pi pi-fw pi-server">
 						</p:menuitem>
+
+						<p:menuitem value="Categorias" outcome="Categorias"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
 					</p:submenu>
 
 
@@ -1341,7 +1345,7 @@
 						actionListener="#{login.cerrarSesion()}" />
 				</p:menubar>
 
-			
+
 
 
 
@@ -1574,9 +1578,9 @@
 						action="/index?faces-redirect=true"
 						actionListener="#{login.cerrarSesion()}" />
 				</p:menubar>
-				
-				
-					<!-- ALMACEN-->
+
+
+				<!-- ALMACEN-->
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==16}">
 					<f:facet name="start">
@@ -1607,26 +1611,26 @@
 							library="showcase" />
 					</f:facet>
 
-							<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
-								<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
-									outcome="OperadoresLuwasPA" />
-								<p:menuitem value="Luwa 1" outcome="LuwaUno"
-									icon="pi pi-fw pi-cog" />
+					<p:submenu label="Planta A" icon="pi pi-fw pi-plus">
+						<p:menuitem value="Operadores" icon="pi pi-fw pi-users"
+							outcome="OperadoresLuwasPA" />
+						<p:menuitem value="Luwa 1" outcome="LuwaUno"
+							icon="pi pi-fw pi-cog" />
 						<p:menuitem value="Resumen Luwa 1" outcome="FiltroLuwaUno"
 							icon="pi pi-fw pi-cog" />
 						<p:menuitem value="Luwa 2" icon="pi pi-fw pi-cog"
-									outcome="LuwaDos" />
-								<p:menuitem value="Resumen Luwa 2" outcome="FiltroLuwaDos"
-									icon="pi pi-fw pi-cog" />
-								<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
-									outcome="LuwaTres" />
-								<p:menuitem value="Resumen Luwa 3" outcome="FiltroLuwaTres"
-									icon="pi pi-fw pi-cog" />
-								<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
-									outcome="LuwaCinco" />
-								<p:menuitem value="Resumen Luwa 5" outcome="FiltroLuwaCinco"
-									icon="pi pi-fw pi-cog" />
-							</p:submenu>
+							outcome="LuwaDos" />
+						<p:menuitem value="Resumen Luwa 2" outcome="FiltroLuwaDos"
+							icon="pi pi-fw pi-cog" />
+						<p:menuitem value="Luwa 3" icon="pi pi-fw pi-cog"
+							outcome="LuwaTres" />
+						<p:menuitem value="Resumen Luwa 3" outcome="FiltroLuwaTres"
+							icon="pi pi-fw pi-cog" />
+						<p:menuitem value="Luwa 5" icon="pi pi-fw pi-cog"
+							outcome="LuwaCinco" />
+						<p:menuitem value="Resumen Luwa 5" outcome="FiltroLuwaCinco"
+							icon="pi pi-fw pi-cog" />
+					</p:submenu>
 
 					<p:divider layout="vertical" />
 

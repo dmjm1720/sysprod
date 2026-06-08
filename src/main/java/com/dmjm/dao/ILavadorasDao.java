@@ -24,4 +24,6 @@ public interface ILavadorasDao {
 	List<Lavadoras> listarLavadorasDisponibles();
 	
 	void actualizarEtapaLavadora(String etapa, int id);
+	
+	void borrarLavadora(Lavadoras lavadoras);
 }

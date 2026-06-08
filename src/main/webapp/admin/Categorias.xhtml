@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab
+							title="ADMINISTRACIÓN DE CATEGORÍAS Y MATERIALES CLASIFICACIÓN SISTEMA"
+							titleStyle="font-size: .8rem; background-color: #176D8C; color: #F5F5F5">
+							<br />
+							<br />
+							<h:panelGrid columns="3" cellpadding="4" styleClass="fuente">
+
+								<p:outputLabel for="cat" value="Categoria" />
+								<p:inputText id="cat"
+									value="#{categoriaBean.categorias.subCategoria}"
+									required="true" requiredMessage="Material requerido"
+									onkeyup="this.value = this.value.toUpperCase();"
+									style="width: 20rem" />
+								<p:message for="cat" showDetail="true" />
+
+								<p:outputLabel for="material" value="Material" />
+								<p:autoComplete id="material" size="35" required="true"
+									autocomplete="material" requiredMessage="Categoría requerida"
+									placeholder="Selecciona material" dropdown="true"
+									value="#{categoriaBean.filtroMateria}"
+									completeMethod="#{categoriaBean.buscarNombreMateria}" />
+
+
+								<p:message for="material" showDetail="true" />
+
+								<p:outputLabel value="" />
+								<p:commandButton icon="pi pi-save" title="Guardar"
+									value="GUARDAR"
+									update="frmPrincipal, frmPrincipal:msgs, tblCategorias"
+									style="width: 6rem; height: 1.2rem"
+									actionListener="#{categoriaBean.guardarCategoria()}" />
+							</h:panelGrid>
+
+							<br />
+							<br />
+							<p:dataTable id="tblCategorias" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="60%" widgetVar="wbtblCategorias"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{categoriaBean.listarCategorias.size()}"
+								value="#{categoriaBean.listarCategorias}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:column headerText="Acciones" width="1.5rem"
+									exportable="false" style="text-align: center">
+									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
+										onclick="PF('dlgEditar').show()" actionListener="#{categoriaBean.llenarFiltro()}" update="frmEditar:pnlEditar"
+										styleClass="ui-button-warning" process="@this" 
+										validateClient="false">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{categoriaBean.categorias}" />
+									</p:commandButton>
+									<p:tooltip id="toolbr" for="br" value="Editar"
+										trackMouse="true" />
+									<p:commandButton id="br" icon="pi pi-fw pi-trash"
+										actionListener="#{categoriaBean.abrirPopup(item.categoriaSistema)}"
+										styleClass="ui-button-danger" process="@this"
+										validateClient="false">
+										<f:setPropertyActionListener value="#{item}"
+											target="#{categoriaBean.categorias}" />
+									</p:commandButton>
+									<p:tooltip for="br" value="Borrar" trackMouse="true" />
+
+									<p:remoteCommand name="borrarCategoria" process="@this"
+										validateClient="false"
+										action="#{categoriaBean.borrarCategoria()}"
+										update="frmPrincipal, frmPrincipal:msgs" />
+								</p:column>
+
+								<p:column headerText="Categoría" width="2rem"
+									style="text-align: center" filterBy="#{item.subCategoria}">
+									<h:outputText value="#{item.subCategoria}" />
+								</p:column>
+
+								<p:column headerText="Material" width="4rem"
+									filterBy="#{item.materia.tipo}">
+									<h:outputText value="#{item.materia.tipo}" />
+								</p:column>
+
+								<p:column headerText="ID" width=".2rem"
+									style="text-align: center">
+									<h:outputText value="#{item.idCategoria}" />
+								</p:column>
+
+
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DE LA CLASIFICACIÓN"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="1" styleClass="fuente">
+
+						<p:outputLabel for="categ" value="Categoría" />
+						<p:inputText id="categ"
+							value="#{categoriaBean.categorias.subCategoria}" required="false"
+							requiredMessage="Campo requerido" style="width: 10rem" />
+						<p:message for="categ" />
+
+						<p:outputLabel for="mat" value="Material" />
+						<p:selectOneMenu id="mat" size="35" required="true"
+						 requiredMessage="Categoría requerida"
+							placeholder="Selecciona material" dropdown="true"
+							value="#{categoriaBean.categorias.categoriaSistema}"
+							 >
+							 <f:selectItems value="#{categoriaBean.tiposMateria}"/>
+							 </p:selectOneMenu>
+						<p:message for="mat" />
+
+
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{categoriaBean.actualizarCategoria()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -378,7 +378,7 @@ public class PreparacionPielesBean implements Serializable {
 		List<Lavadoras> listar = lava.listarLavadorasDisponibles();
 		listarLavadorasDisponibles.clear();
 		for (Lavadoras l : listar) {
-			listarLavadorasDisponibles.add(l.getNombre());
+			listarLavadorasDisponibles.add(l.getDescripcion());
 		}
 		return listarLavadorasDisponibles;
 	}

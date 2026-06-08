@@ -29,59 +29,59 @@
 
 				<p:accordionPanel id="accoRP">
 
-					<p:tab title="REGISTRO DE OPERACIONES"
-						titleStyle="font-size: .8rem; background-color: #A52A2A; color: #F5F5F5">
+					<p:tab title="CARGA DE MATERIA PRIMA"
+						titleStyle="font-size: .7rem; background-color: #A52A2A; color: #F5F5F5">
 						<div class="card">
 
-							<p:splitter style="height: 220px" styleClass="mb-5"
-								widgetVar="splitter">
+							<p:splitter styleClass="mb-5" widgetVar="splitter">
 								<p:splitterPanel
 									styleClass="flex align-items-center justify-content-center">
 									<h:panelGrid id="panelIzquierdo" columns="2" cellpadding="4"
 										styleClass="fuente mensajeBoton2">
 
-										<p:outputLabel for="operacion" value="OPERACIÓN" />
+										<p:outputLabel for="operacion" value="NO. DE OPERACIÓN" />
 										<p:inputText id="operacion" styleClass="amarillo"
+											style="width: 4rem"
 											value="#{preparacionBean.prePieles.noOperacion}"
 											readonly="true" required="false"
 											requiredMessage="Campo requerido" />
 
-										<p:outputLabel for="fecha" value="FECHA" />
+										<p:outputLabel for="fecha" value="FECHA DE CARGA" />
 										<p:datePicker id="fecha" pattern="dd-MMMM-yyyy"
 											showTime="false" disabled="false"
 											placeholder="Fecha de registro"
 											inputStyleClass="font-size: .8rem !important amarillo"
-											inputStyle="width: 350px !important; font-family: 'Poppins', sans-serif !important;"
+											inputStyle="width: 150px !important; font-family: 'Poppins', sans-serif !important;"
 											value="#{preparacionBean.prePieles.fecha}"
 											style="font-family: 'Poppins', sans-serif !important;"
 											styleClass="captura" />
 
 
-										<p:outputLabel for="imp" value="LAVADORAS" />
+										<p:outputLabel for="imp" value="LAVADORA GRANDE / TAMBOR" />
 										<p:selectOneMenu id="imp" styleClass="amarillo"
-											style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:17rem"
+											style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:6rem"
 											value="#{preparacionBean.filterLavadora}">
-											<f:selectItem itemLabel="SELECCIONA LAVADORA" itemValue="">
+											<f:selectItem itemLabel="SELECCIONA" itemValue="">
 
 											</f:selectItem>
 											<f:selectItems
 												value="#{preparacionBean.listarLavadorasDisponibles}" />
-											<p:ajax event="change"
-												listener="#{preparacionBean.capacidad(preparacionBean.filterLavadora)}"
-												update="frmPrincipal:accoRP:imp, frmPrincipal:accoRP:total" />
+											<!-- 											<p:ajax event="change" -->
+											<!-- 												listener="#{preparacionBean.capacidad(preparacionBean.filterLavadora)}" -->
+											<!-- 												update="frmPrincipal:accoRP:imp, frmPrincipal:accoRP:total" /> -->
 										</p:selectOneMenu>
 
 
-										<p:outputLabel for="total"
-											value="CAPACIDAD TOTAL DE LA LAVADORA EN KG." />
-										<p:inputText id="total" styleClass="amarillo" readonly="true"
-											value="#{preparacionBean.prePieles.totalKilos}"
-											required="false" requiredMessage="Campo requerido" />
+										<!-- 										<p:outputLabel for="total" -->
+										<!-- 											value="CAPACIDAD TOTAL DE LA LAVADORA EN KG." /> -->
+										<!-- 										<p:inputText id="total" styleClass="amarillo" readonly="true" -->
+										<!-- 											value="{preparacionBean.prePieles.totalKilos}" -->
+										<!-- 											required="false" requiredMessage="Campo requerido" /> -->
 
 										<div style="text-align: center">
 											<p:commandButton icon="pi pi-save" title="Agregar operación"
-												value="AGREGAR OPERACIÓN"
-												style="width: 20rem; height: 2rem; color: #20B2AA; font-weight:bold"
+												value="AGREGAR"
+												style="width: 8rem; height: 2rem; color: #20B2AA; font-weight:bold"
 												update="frmPrincipal:accoRP:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE3, frmPrincipal:accoE4, frmPrincipal:accoE5"
 												actionListener="#{preparacionBean.guardarPreparacion()}" />
 										</div>
@@ -102,26 +102,27 @@
 
 				<p:accordionPanel id="acco" widgetVar="basic">
 
-					<p:tab title="PRIMERA ETAPA DE LAVADO (LAVADORAS GRANDES)"
-						titleStyle="font-size: .8rem; background-color: #008B8B; color: #F5F5F5">
+					<p:tab title="CARGAR MATERIAL A LAVADORAS / TAMBORES"
+						titleStyle="font-size: .7rem; background-color: #008B8B; color: #F5F5F5">
 
-						<div style="text-align: center">
-
-							<p:selectOneMenu id="group" style="width:17rem"
-								styleClass="saldo" value="#{preparacionBean.folio}">
-								<f:selectItem itemLabel="NÚMERO DE OPERACIÓN" itemValue="" />
+						<h:panelGrid id="panelIzquierdo" columns="3" cellpadding="4">
+							
+							<p:outputLabel value="SELECCIONE EL NÚMERO DE OPERACIÓN" styleClass="fuente mensajeBoton2"/>
+							<p:selectOneMenu id="group"
+								style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:6rem"
+								value="#{preparacionBean.folio}">
+								<f:selectItem itemLabel="SELECCIONA" itemValue="" />
 								<f:selectItems
 									value="#{preparacionBean.listaOperacionesDisponibles}" />
 							</p:selectOneMenu>
 
 
-							<p:commandButton icon="pi pi-search-plus"
-								value="BUSCAR NO. DE OPERACION" styleClass="mensajeBoton2"
-								style="width: 15rem; height: 2rem"
+							<p:commandButton icon="pi pi-search-plus" value="BUSCAR"
+								styleClass="mensajeBoton2" style="width: 8rem; height: 2rem"
 								actionListener="#{preparacionBean.buscarRegistro()}"
 								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3,frmPrincipal:accoE4, frmPrincipal:accoE5" />
 
-						</div>
+						</h:panelGrid>
 
 						<br></br>
 						<br></br>
@@ -142,7 +143,7 @@
 									styleClass="mensajeBoton2" />
 								<p:selectOneMenu id="factura" styleClass="amarillo"
 									filter="true"
-									style="color: #B22222;font-weight: bold !important;font-size: .9rem; width:14rem"
+									style="color: #B22222;font-weight: bold !important;font-size: .8rem; width:14rem"
 									value="#{preparacionBean.facturasPieles.factura}">
 									<f:selectItem itemLabel="SELECCIONA FACTURA" itemValue="" />
 									<f:selectItems value="#{preparacionBean.listaFacturasTolvas}" />
@@ -494,7 +495,7 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
-							
+
 							<p:column headerText="Editar" width="2rem" exportable="false"
 								style="text-align: center !important">
 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
@@ -507,7 +508,7 @@
 								<p:tooltip id="toolTipE" for="ed" value="Editar"
 									trackMouse="true" />
 							</p:column>
-							
+
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -611,7 +612,7 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
-							
+
 							<p:column headerText="Editar" width="2rem" exportable="false"
 								style="text-align: center !important">
 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
@@ -624,7 +625,7 @@
 								<p:tooltip id="toolTipE" for="ed" value="Editar"
 									trackMouse="true" />
 							</p:column>
-							
+
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -730,7 +731,7 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
-							
+
 							<p:column headerText="Editar" width="2rem" exportable="false"
 								style="text-align: center !important">
 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
@@ -743,7 +744,7 @@
 								<p:tooltip id="toolTipE" for="ed" value="Editar"
 									trackMouse="true" />
 							</p:column>
-							
+
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -850,7 +851,7 @@
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
-							
+
 							<p:column headerText="Editar" width="2rem" exportable="false"
 								style="text-align: center !important">
 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
@@ -863,7 +864,7 @@
 								<p:tooltip id="toolTipE" for="ed" value="Editar"
 									trackMouse="true" />
 							</p:column>
-							
+
 							<p:column headerText="Etapa" width="5rem">
 								<h:outputText value="#{item3.etapa}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -947,7 +948,7 @@
 							</p:column>
 
 
-							
+
 						</p:dataTable>
 
 
@@ -962,7 +963,7 @@
                             monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
                             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesMin: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
                             weekHeader: 'Semana',
                             firstDay: 1,
                             isRTL: false,

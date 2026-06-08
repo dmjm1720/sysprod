@@ -7,13 +7,15 @@ import com.dmjm.model.Materia;
 
 public interface IMateriaDao {
 
-    List<Materia> listarMateria();
+	List<Materia> listarMateria();
 
-    void guardarMateria(Materia materia);
+	void guardarMateria(Materia materia);
 
-    void actualizarMateria(Materia materia);
-    
-    List<String> completeMateria(String nombre) throws SQLException;
+	void actualizarMateria(Materia materia);
 
-    int buscarMateria(String nombre) throws SQLException;
+	List<String> completeMateria(String nombre) throws SQLException;
+
+	int buscarMateria(String nombre) throws SQLException;
+
+	List<String> listaMaterial() throws SQLException;
 }
