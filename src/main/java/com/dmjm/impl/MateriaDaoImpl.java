@@ -139,4 +139,23 @@ public class MateriaDaoImpl extends Conexion implements IMateriaDao {
 		return listarTodo;
 	}
 
+	@Override
+	public String buscarIdMateria(int id) throws SQLException {
+		ConectarSysProd();
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT TIPO FROM MATERIA WHERE ID_MATERIA = '" + id + "'");
+		ResultSet rs = st.executeQuery();
+		String materia = null;
+		if (!rs.isBeforeFirst()) {
+
+		} else {
+			while (rs.next()) {
+				materia = rs.getString("TIPO");
+			}
+		}
+
+		CerrarSysProd();
+		return materia;
+	}
+
 }

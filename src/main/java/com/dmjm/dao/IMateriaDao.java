@@ -18,4 +18,6 @@ public interface IMateriaDao {
 	int buscarMateria(String nombre) throws SQLException;
 
 	List<String> listaMaterial() throws SQLException;
+	
+	String buscarIdMateria(int id) throws SQLException;
 }

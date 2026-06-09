@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.ICategoriasDao;
@@ -18,14 +21,18 @@ import com.dmjm.impl.CategoriasDaoImpl;
 import com.dmjm.impl.MateriaDaoImpl;
 import com.dmjm.model.Categorias;
 import com.dmjm.model.Materia;
+import com.dmjm.model.Usuarios;
 
 @Named("categoriaBean")
 @ViewScoped
 public class CategoriaBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOGGER = LogManager.getLogger(CategoriaBean.class.getName());
+	Usuarios us = (Usuarios) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nombre");
 	private List<Categorias> listarCategorias;
 	private Categorias categorias;
+	private Categorias categoriasEditar;
 	private String validarCategoria;
 	private String filtroMateria;
 	private Materia materia;
@@ -36,6 +43,7 @@ public class CategoriaBean implements Serializable {
 	public void init() {
 		listarCategorias = new ArrayList<>();
 		categorias = new Categorias();
+		categoriasEditar = new Categorias();
 		materia = new Materia();
 		tiposMateria = new ArrayList<>();
 	}
@@ -89,6 +97,14 @@ public class CategoriaBean implements Serializable {
 		this.tiposMateria = tiposMateria;
 	}
 
+	public Categorias getCategoriasEditar() {
+		return categoriasEditar;
+	}
+
+	public void setCategoriasEditar(Categorias categoriasEditar) {
+		this.categoriasEditar = categoriasEditar;
+	}
+
 	public List<Categorias> getListarCategorias() {
 		ICategoriasDao catDao = new CategoriasDaoImpl();
 		listarCategorias = catDao.listaCategorias();
@@ -97,9 +113,9 @@ public class CategoriaBean implements Serializable {
 
 	public void guardarCategoria() throws SQLException {
 		ICategoriasDao catDao = new CategoriasDaoImpl();
-		String validarCat = validarCategoria();
+		int validarCat = validarCategoria();
 
-		if (validarCat.equals("CATEGORÍA NO ENCONTRADA")) {
+		if (validarCat == 0) {
 			materia.setIdMateria(buscarMateria(filtroMateria));
 			categorias.setMateria(materia);
 			catDao.guardarCategoria(categorias);
@@ -114,16 +130,19 @@ public class CategoriaBean implements Serializable {
 		categorias = new Categorias();
 	}
 
-	public String validarCategoria() throws SQLException {
+	public int validarCategoria() throws SQLException {
 		ICategoriasDao catDao = new CategoriasDaoImpl();
-		return catDao.validarCategoriaExistente(categorias.getCategoriaSistema());
+		return catDao.validarCategoriaExistente(buscarMateria(filtroMateria));
 	}
 
 	public void actualizarCategoria() throws SQLException {
 		ICategoriasDao catDao = new CategoriasDaoImpl();
 //		String validarCat = validarCategoria();
 //		if (validarCat.equals("CATEGORÍA NO ENCONTRADA")) {
-		catDao.actualizarCategoria(categorias);
+		materia.setIdMateria(buscarMateria(categoriasEditar.getMateria().getTipo()));
+		categoriasEditar.setMateria(materia);
+		catDao.actualizarCategoria(categoriasEditar);
+		LOGGER.warn("ACTUALIZACIÓN DE CATEGORÍA: " + categoriasEditar.getMateria().getTipo());
 //		} else {
 //			String info = "Categoría duplicada, no es posible actualizar";
 //
@@ -171,6 +190,9 @@ public class CategoriaBean implements Serializable {
 	}
 
 	public List<SelectItem> llenarFiltro() throws SQLException {
+		materia.setTipo(categoriasEditar.getMateria().getTipo());
+		
+		categoriasEditar.setMateria(materia);
 
 		IMateriaDao mDao = new MateriaDaoImpl();
 

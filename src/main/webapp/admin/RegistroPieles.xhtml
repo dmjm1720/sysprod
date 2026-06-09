@@ -106,8 +106,9 @@
 						titleStyle="font-size: .7rem; background-color: #008B8B; color: #F5F5F5">
 
 						<h:panelGrid id="panelIzquierdo" columns="3" cellpadding="4">
-							
-							<p:outputLabel value="SELECCIONE EL NÚMERO DE OPERACIÓN" styleClass="fuente mensajeBoton2"/>
+
+							<p:outputLabel value="SELECCIONE EL NÚMERO DE OPERACIÓN"
+								styleClass="fuente mensajeBoton2" />
 							<p:selectOneMenu id="group"
 								style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:6rem"
 								value="#{preparacionBean.folio}">
@@ -136,7 +137,7 @@
 							<p:outputLabel id="sd"
 								value="FACTURA SALDO DISPONIBLE: #{preparacionBean.saldoDisponibleParaAgregar}"
 								styleClass="saldo" />
-							<h:panelGrid id="panelDerecho" columns="8" cellpadding="2"
+							<h:panelGrid id="panelDerecho" columns="4" cellpadding="2"
 								styleClass="fuente">
 
 								<p:outputLabel for="factura" value="FACTURA"
@@ -149,16 +150,13 @@
 									<f:selectItems value="#{preparacionBean.listaFacturasTolvas}" />
 									<p:ajax event="change"
 										listener="#{preparacionBean.validacionFactura(preparacionBean.facturasPieles.factura)}"
-										update="frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp, frmPrincipal:acco:sd" />
+										update="frmPrincipal:acco:prov, frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp, frmPrincipal:acco:sd" />
 								</p:selectOneMenu>
 
 								<p:outputLabel value="" styleClass="mensajeBoton2" />
-								<p:commandButton icon="pi pi-save" title="Guardar"
-									value="Agregar factura al proceso" styleClass="pear"
-									style="width: 15rem; height: 2rem; color: #4169E1; font-weight:bold"
-									actionListener="#{preparacionBean.guardarFacturaPieles()}"
-									update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp" />
-
+								<p:outputLabel id="prov"
+									value="${preparacionBean.proveedor.nombre}"
+									styleClass="mensajeBoton2" />
 
 								<p:outputLabel for="cz" value="CZ" styleClass="mensajeBoton2" />
 								<p:inputText id="cz" styleClass="pear" style="width: 10rem"
@@ -191,6 +189,12 @@
 									value="#{preparacionBean.facturasPieles.ca}" required="false"
 									requiredMessage="Campo requerido" />
 
+								<p:outputLabel value="" styleClass="mensajeBoton2" />
+								<p:commandButton icon="pi pi-save" title="Guardar"
+									value="Agregar factura al proceso" styleClass="pear"
+									style="width: 15rem; height: 2rem; color: #4169E1; font-weight:bold"
+									actionListener="#{preparacionBean.guardarFacturaPieles()}"
+									update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp" />
 
 							</h:panelGrid>
 							<p:divider></p:divider>

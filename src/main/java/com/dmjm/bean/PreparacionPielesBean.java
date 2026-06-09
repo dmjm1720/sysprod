@@ -49,6 +49,7 @@ import com.dmjm.model.FacturasPieles;
 import com.dmjm.model.Lavadoras;
 import com.dmjm.model.OperacionLavadoras;
 import com.dmjm.model.PreparacionPieles;
+import com.dmjm.model.Proveedores;
 import com.dmjm.model.Quimicos;
 import com.dmjm.model.SaldoFactura;
 import com.dmjm.model.Usuarios;
@@ -109,6 +110,8 @@ public class PreparacionPielesBean implements Serializable {
 	private Double kg2 = 0.0;
 	private Double kg3 = 0.0;
 
+	private Proveedores proveedor;
+
 	@PostConstruct
 	public void init() {
 		listarPreparacion = new ArrayList<>();
@@ -130,7 +133,7 @@ public class PreparacionPielesBean implements Serializable {
 		listarLavadorasDisponibles = new ArrayList<>();
 		listarLavadorasDisponibles2 = new ArrayList<>();
 		listaFacturasTolvas = new ArrayList<>();
-
+		proveedor = new Proveedores();
 		procesos = new ArrayList<>();
 		procesos.add("Carga");
 		procesos.add("Lavado Enzimático");
@@ -148,6 +151,14 @@ public class PreparacionPielesBean implements Serializable {
 		procesos.add("Control 7");
 		procesos.add("Control 8");
 
+	}
+
+	public Proveedores getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(Proveedores proveedor) {
+		this.proveedor = proveedor;
 	}
 
 	public PreparacionPieles getPrePieles() {
@@ -1622,6 +1633,11 @@ public class PreparacionPielesBean implements Serializable {
 		IEntradasDao eDao = new EntradasDaoImpl();
 		Entradas e = new Entradas();
 		e = eDao.obtenerIdEntrada(fact);
+		String nombre = e.getProveedores().getNombre();
+		proveedor.setNombre(e.getProveedores().getNombre());
+		proveedor.setIdProveedor(e.getProveedores().getIdProveedor());
+		
+		LOGGER.info("PROVEEDOR ASOCIADO A LA FACTURA: " + nombre);
 		validarSaldo = sDao.saldo(fact);// hace un top a la selección
 		SaldoFactura sf = new SaldoFactura();
 		if (validarSaldo == -99.0) {

@@ -13,9 +13,6 @@
 			fetch="select">
 			<column name="ID_MATERIA" />
 		</many-to-one>
-		<property name="categoriaSistema" type="string">
-			<column name="CATEGORIA_SISTEMA" length="50" />
-		</property>
 		<property name="subCategoria" type="string">
 			<column name="SUB_CATEGORIA" length="100" />
 		</property>

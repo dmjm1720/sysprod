@@ -15,5 +15,5 @@ public interface ICategoriasDao {
 	
 	void borrarCategoria(Categorias categorias);
 
-	String validarCategoriaExistente(String categoria_sistema) throws SQLException;
+	int validarCategoriaExistente(int categoria_sistema) throws SQLException;
 }

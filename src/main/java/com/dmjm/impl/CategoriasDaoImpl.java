@@ -76,25 +76,7 @@ public class CategoriasDaoImpl extends Conexion implements ICategoriasDao {
 
 	}
 
-	@Override
-	public String validarCategoriaExistente(String categoria_sistema) throws SQLException {
-		ConectarSysProd();
-		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT CATEGORIA_SISTEMA FROM CATEGORIAS WHERE CATEGORIA_SISTEMA = '" + categoria_sistema + "'");
-		ResultSet rs = st.executeQuery();
-		String categoria = "";
-		if (!rs.isBeforeFirst()) {
-			categoria = "CATEGORÍA NO ENCONTRADA";
-		} else {
-			while (rs.next()) {
-				categoria = rs.getString("CATEGORIA_SISTEMA");
-			}
-		}
 
-		CerrarSysProd();
-		return categoria;
-
-	}
 
 	@Override
 	public void borrarCategoria(Categorias categorias) {
@@ -120,6 +102,25 @@ public class CategoriasDaoImpl extends Conexion implements ICategoriasDao {
 			}
 		}
 		
+	}
+
+	@Override
+	public int validarCategoriaExistente(int categoria_sistema) throws SQLException {
+		ConectarSysProd();
+		PreparedStatement st = getCnSysProd()
+				.prepareStatement("SELECT ID_MATERIA FROM CATEGORIAS WHERE ID_MATERIA = '" + categoria_sistema + "'");
+		ResultSet rs = st.executeQuery();
+		int categoria = 0;
+		if (!rs.isBeforeFirst()) {
+			categoria = 0;
+		} else {
+			while (rs.next()) {
+				categoria = rs.getInt("ID_MATERIA");
+			}
+		}
+
+		CerrarSysProd();
+		return categoria;
 	}
 
 }

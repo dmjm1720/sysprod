@@ -73,11 +73,11 @@
 								<p:column headerText="Acciones" width="1.5rem"
 									exportable="false" style="text-align: center">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-										onclick="PF('dlgEditar').show()" actionListener="#{categoriaBean.llenarFiltro()}" update="frmEditar:pnlEditar"
+										oncomplete="PF('dlgEditar').show()" action="#{categoriaBean.llenarFiltro}" update="frmEditar:pnlEditar"
 										styleClass="ui-button-warning" process="@this" 
 										validateClient="false">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{categoriaBean.categorias}" />
+											target="#{categoriaBean.categoriasEditar}" />
 									</p:commandButton>
 									<p:tooltip id="toolbr" for="br" value="Editar"
 										trackMouse="true" />
@@ -86,7 +86,7 @@
 										styleClass="ui-button-danger" process="@this"
 										validateClient="false">
 										<f:setPropertyActionListener value="#{item}"
-											target="#{categoriaBean.categorias}" />
+											target="#{categoriaBean.categoriasEditar}" />
 									</p:commandButton>
 									<p:tooltip for="br" value="Borrar" trackMouse="true" />
 
@@ -134,7 +134,7 @@
 
 						<p:outputLabel for="categ" value="Categoría" />
 						<p:inputText id="categ"
-							value="#{categoriaBean.categorias.subCategoria}" required="false"
+							value="#{categoriaBean.categoriasEditar.subCategoria}" required="false"
 							requiredMessage="Campo requerido" style="width: 10rem" />
 						<p:message for="categ" />
 
@@ -142,7 +142,7 @@
 						<p:selectOneMenu id="mat" size="35" required="true"
 						 requiredMessage="Categoría requerida"
 							placeholder="Selecciona material" dropdown="true"
-							value="#{categoriaBean.categorias.categoriaSistema}"
+							value="#{categoriaBean.categoriasEditar.materia.tipo}"
 							 >
 							 <f:selectItems value="#{categoriaBean.tiposMateria}"/>
 							 </p:selectOneMenu>
