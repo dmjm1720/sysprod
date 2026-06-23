@@ -274,8 +274,9 @@ a:link:hover, a:visited:hover {
 }
 
 .negativo {
-	background-color: #1E90FF !important; /* Rojo claro para resaltar */
-	color: #1E90FF !important; /* Texto oscuro para contraste */
+	background-color: rgb(71, 71, 71) !important;
+	/* Rojo claro para resaltar */
+	color: rgb(71, 71, 71) !important; /* Texto oscuro para contraste */
 }
 
 .normal {
@@ -630,8 +631,8 @@ a:link:hover, a:visited:hover {
 		background-color: rgb(18, 191, 47) !important;
 		font-size: bold;
 	}
-
 }
+
 .resumenMaq {
 	font-family: "IBM Plex Sans", sans-serif !important;
 	font-optical-sizing: auto;
@@ -646,6 +647,6 @@ a:link:hover, a:visited:hover {
 
 .my-small-popup {
 	/*font-family: "IBM Plex Sans", sans-serif !important;*/
-    width: 350px !important;
-    font-size: .8rem !important;
+	width: 350px !important;
+	font-size: .8rem !important;
 }

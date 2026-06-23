@@ -114,7 +114,7 @@ public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
 	public int buscarLavadora(String nombre) throws SQLException {
 		ConectarSysProd();
 		PreparedStatement st = getCnSysProd()
-				.prepareStatement("SELECT ID_LAVADORA FROM LAVADORAS WHERE NOMBRE = '" + nombre + "'");
+				.prepareStatement("SELECT ID_LAVADORA FROM LAVADORAS WHERE DESCRIPCION = '" + nombre + "'");
 		ResultSet rs = st.executeQuery();
 		int materia = 0;
 		if (!rs.isBeforeFirst()) {
@@ -160,7 +160,7 @@ public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
 	@Override
 	public List<Lavadoras> listarLavadorasDisponibles() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("FROM Lavadoras WHERE estado=0 AND nombre <> 'Tambor'", Lavadoras.class).list();
+			return session.createQuery("FROM Lavadoras WHERE estado=0", Lavadoras.class).list();
 		}
 	}
 

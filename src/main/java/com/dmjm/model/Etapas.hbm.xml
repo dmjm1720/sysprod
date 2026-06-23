@@ -34,15 +34,6 @@
 		<property name="normalidad" type="big_decimal">
 			<column name="NORMALIDAD" precision="10" scale="4" />
 		</property>
-		<property name="tipo" type="string">
-			<column name="TIPO" length="50" />
-		</property>
-		<property name="cantidad" type="string">
-			<column name="CANTIDAD" length="50" />
-		</property>
-		<property name="lote" type="string">
-			<column name="LOTE" length="50" />
-		</property>
 		<property name="operador" type="string">
 			<column name="OPERADOR" length="50" />
 		</property>
@@ -64,8 +55,23 @@
 		<property name="estadoEtapa" type="string">
 			<column name="ESTADO_ETAPA" length="25" />
 		</property>
-		<property name="phPiel"  type="big_decimal">
-			<column name="PH_PIEL" precision="10" scale="4" />
+		<property name="quimico1" type="string">
+			<column name="QUIMICO_1" length="50" />
+		</property>
+		<property name="cantidad1" type="string">
+			<column name="CANTIDAD_1" length="50" />
+		</property>
+		<property name="lote1" type="string">
+			<column name="LOTE_1" length="50" />
+		</property>
+		<property name="quimico2" type="string">
+			<column name="QUIMICO_2" length="50" />
+		</property>
+		<property name="cantidad2" type="string">
+			<column name="CANTIDAD_2" length="50" />
+		</property>
+		<property name="lote2" type="string">
+			<column name="LOTE_2" length="50" />
 		</property>
 	</class>
 </hibernate-mapping>

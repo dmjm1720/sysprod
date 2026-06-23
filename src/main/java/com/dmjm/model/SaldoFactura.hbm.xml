@@ -27,5 +27,8 @@
 		<property name="fecha" type="timestamp">
 			<column name="FECHA" length="23" />
 		</property>
+		<property name="idEntrada" type="java.lang.Integer">
+			<column name="ID_ENTRADA" />
+		</property>
 	</class>
 </hibernate-mapping>

@@ -14,4 +14,6 @@ public interface ISaldoFacturaDao {
 	
 	double saldo (String factura);
 	
+	void actualizarFacturaSaldoEntradas(int idEntrada);
+	
 }

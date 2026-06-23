@@ -13,5 +13,7 @@ public interface IFacturaPielesDao {
 	void actualizarFacturasPieles(FacturasPieles facturasPieles);
 	
 	double sumaSaldo (int idPrep);
+	
+	String factura (int idPrep);
 
 }

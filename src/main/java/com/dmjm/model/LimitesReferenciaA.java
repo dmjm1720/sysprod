@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class LimitesReferenciaA  implements java.io.Serializable {
 
-
-     private int idLimite;
+	private static final long serialVersionUID = 1L;
+	private int idLimite;
      private Integer folioLr;
      private Date fecha;
      private String presionVapor;

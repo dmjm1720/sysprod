@@ -82,7 +82,7 @@
 									<p:tooltip id="toolbr" for="br" value="Editar"
 										trackMouse="true" />
 									<p:commandButton id="br" icon="pi pi-fw pi-trash"
-										actionListener="#{categoriaBean.abrirPopup(item.categoriaSistema)}"
+										actionListener="#{categoriaBean.abrirPopup(item.materia.tipo)}"
 										styleClass="ui-button-danger" process="@this"
 										validateClient="false">
 										<f:setPropertyActionListener value="#{item}"

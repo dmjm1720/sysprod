@@ -123,7 +123,7 @@ public class CocedoresBean implements Serializable {
 	}
 
 	@PostConstruct
-	public void init() throws SQLException {
+	public void init() {
 		listaCocedores = new ArrayList<Cocedores>();
 		cocedores = new Cocedores();
 		cocedoresEditar = new Cocedores();

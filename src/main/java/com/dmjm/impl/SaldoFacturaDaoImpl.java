@@ -96,4 +96,22 @@ public class SaldoFacturaDaoImpl extends Conexion implements ISaldoFacturaDao {
 		return saldo;
 	}
 
+	@Override
+	public void actualizarFacturaSaldoEntradas(int idEntrada) {
+		try {
+			ConectarSysProd();
+
+			String sql = "UPDATE ENTRADAS SET KILOS_PROCESO_LAVADORAS = 1 WHERE ID_ENTRADA=?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setInt(1, idEntrada);
+
+			ps.executeUpdate();
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA ENTRADA: ", ex);
+		}
+		
+	}
+
 }

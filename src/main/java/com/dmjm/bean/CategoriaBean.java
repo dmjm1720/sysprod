@@ -173,8 +173,8 @@ public class CategoriaBean implements Serializable {
 
 	public void borrarCategoria() {
 		ICategoriasDao catDao = new CategoriasDaoImpl();
-		catDao.borrarCategoria(categorias);
-		categorias = new Categorias();
+		catDao.borrarCategoria(categoriasEditar);
+		categoriasEditar = new Categorias();
 	}
 
 	// **DATOS DE LA MATERIA PRIMA, NOMBRE**//

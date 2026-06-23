@@ -43,6 +43,7 @@ import com.dmjm.impl.OperacionLavadorasDaoImpl;
 import com.dmjm.impl.PreparacionDaoImpl;
 import com.dmjm.impl.QuimicosDaoImpl;
 import com.dmjm.impl.SaldoFacturaDaoImpl;
+import com.dmjm.model.Categorias;
 import com.dmjm.model.Entradas;
 import com.dmjm.model.Etapas;
 import com.dmjm.model.FacturasPieles;
@@ -112,6 +113,8 @@ public class PreparacionPielesBean implements Serializable {
 
 	private Proveedores proveedor;
 
+	private Categorias categorias;
+
 	@PostConstruct
 	public void init() {
 		listarPreparacion = new ArrayList<>();
@@ -134,22 +137,26 @@ public class PreparacionPielesBean implements Serializable {
 		listarLavadorasDisponibles2 = new ArrayList<>();
 		listaFacturasTolvas = new ArrayList<>();
 		proveedor = new Proveedores();
-		procesos = new ArrayList<>();
-		procesos.add("Carga");
-		procesos.add("Lavado Enzimático");
-		procesos.add("Lavada de Carga");
-		procesos.add("Blanqueo");
-		procesos.add("Lavadas de Blanqueo");
-		procesos.add("Pre Acidulación");
-		procesos.add("Acidulación");
-		procesos.add("Control 1");
-		procesos.add("Control 2");
-		procesos.add("Control 3");
-		procesos.add("Control 4");
-		procesos.add("Control 5");
-		procesos.add("Control 6");
-		procesos.add("Control 7");
-		procesos.add("Control 8");
+//		procesos = new ArrayList<>();
+//		procesos.add("Carga");
+//		procesos.add("Depilado");
+//		procesos.add("Lavado de Depilado");
+//		procesos.add("Blanqueo");
+//		procesos.add("Lavadas de Blanqueo");
+//		procesos.add("Proceso Enzimático");
+//		procesos.add("Lavadas Enzimáticas");
+//		procesos.add("Pre Acidulación");
+//		procesos.add("Acidulación");
+//		procesos.add("Control 1");
+//		procesos.add("Control 2");
+//		procesos.add("Control 3");
+//		procesos.add("Control 4");
+//		procesos.add("Control 5");
+//		procesos.add("Control 6");
+//		procesos.add("Control 7");
+//		procesos.add("Control 8");
+
+		categorias = new Categorias();
 
 	}
 
@@ -344,6 +351,14 @@ public class PreparacionPielesBean implements Serializable {
 		this.kg3 = kg3;
 	}
 
+	public Categorias getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(Categorias categorias) {
+		this.categorias = categorias;
+	}
+
 	public void onToggleSelect(ToggleSelectEvent event) {
 		FacesMessage msg = new FacesMessage();
 		msg.setSummary("Toggled: " + event.isSelected());
@@ -449,9 +464,9 @@ public class PreparacionPielesBean implements Serializable {
 		operacionLavadoras.setPreparacionPieles(pieles);
 
 		// PRIMERA ETAPA
-		String[] listaEtapas = { "Carga", "Lavado Enzimático", "Lavada de Carga", "Blanqueo", "Lavadas de Blanqueo",
-				"Pre Acidulación", "Acidulación", "Control 1", "Control 2", "Control 3", "Control 4", "Control 5",
-				"Control 6", "Control 7", "Control 8" };
+		String[] listaEtapas = { "Carga", "Depilado", "Lavado de Depilado", "Blanqueo", "Lavadas de Blanqueo",
+				"Proceso Enzimático", "Lavadas Enzimáticas", "Pre Acidulación", "Acidulación", "Control 1", "Control 2",
+				"Control 3", "Control 4", "Control 5", "Control 6", "Control 7", "Control 8" };
 		// SEGUNDA ETAPA
 		String[] listaEtapaBlanqueo = { "Blanqueo 1", "Blanqueo 2", "Blanqueo 3", "Blanqueo 4", "Blanqueo 5",
 				"Blanqueo 6", "Blanqueo 7", "Blanqueo 8" };
@@ -473,15 +488,9 @@ public class PreparacionPielesBean implements Serializable {
 
 		Date fecInicio = calendar.getTime();
 
-		int hora = calendar.get(Calendar.HOUR_OF_DAY); // Hora en formato 24 horas
-		int minuto = calendar.get(Calendar.MINUTE); // Minuto
-		int segundo = calendar.get(Calendar.SECOND); // Segundo
+		Calendar calendar1 = Calendar.getInstance();
+		Date horaIni = calendar1.getTime();
 
-		calendar.set(Calendar.HOUR, hora);
-		calendar.set(Calendar.MINUTE, minuto);
-		calendar.set(Calendar.SECOND, segundo);
-
-		Date horaIni = calendar.getTime();
 
 		// GUARDAR PRIMERA ETAPA
 		for (String lEtapas : listaEtapas) {
@@ -493,16 +502,52 @@ public class PreparacionPielesBean implements Serializable {
 				e.setHoraInicio(horaIni);
 				e.setOperador(us.getNombre());
 				e.setEstado(true);
-			}
-			if (lEtapas.equals("Lavada de Carga") || lEtapas.equals("Blanqueo")) {
 				e.setNormalidad(new BigDecimal(-1));
+				e.setAlcalinidad(-1);
+				e.setConductividad(-1);
+				e.setQuimico1("-1");
+				e.setCantidad1("-1");
+				e.setLote1("-1");
+				e.setQuimico2("-1");
+				e.setCantidad2("-1");
+				e.setLote2("-1");
 			}
-			if (lEtapas.equals("Lavadas de Blanqueo") || lEtapas.equals("Pre Acidulación")) {
+			if (lEtapas.equals("Lavado de Depilado") || lEtapas.equals("Lavadas de Blanqueo")
+					|| lEtapas.equals("Lavadas Enzimáticas")) {
 				e.setNormalidad(new BigDecimal(-1));
-				e.setTipo("-1");
-				e.setCantidad("-1");
-				e.setLote("-1");
+				e.setAlcalinidad(-1);
+				e.setConductividad(-1);
+				e.setQuimico1("-1");
+				e.setCantidad1("-1");
+				e.setLote1("-1");
+				e.setQuimico2("-1");
+				e.setCantidad2("-1");
+				e.setLote2("-1");
 			}
+			if (lEtapas.equals("Depilado")) {
+				e.setNormalidad(new BigDecimal(-1));
+				e.setAlcalinidad(-1);
+				e.setConductividad(-1);
+			}
+			if (lEtapas.equals("Blanqueo") || lEtapas.equals("Proceso Enzimático")) {
+				e.setNormalidad(new BigDecimal(-1));
+				e.setAlcalinidad(-1);
+				e.setConductividad(-1);
+				e.setQuimico2("-1");
+				e.setCantidad2("-1");
+				e.setLote2("-1");
+			}
+
+			if (lEtapas.equals("Pre Acidulación")) {
+				e.setNormalidad(new BigDecimal(-1));
+
+			}
+			if (lEtapas.equals("Acidulación")) {
+				e.setAlcalinidad(-1);
+				e.setConductividad(-1);
+
+			}
+
 			if (lEtapas.equals("Control 1") || lEtapas.equals("Control 2") || lEtapas.equals("Control 3")
 					|| lEtapas.equals("Control 4") || lEtapas.equals("Control 5") || lEtapas.equals("Control 6")
 					|| lEtapas.equals("Control 7")) {
@@ -513,13 +558,24 @@ public class PreparacionPielesBean implements Serializable {
 				Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 				e.setHoraFin(date);
 				e.setHoraFin(date);
-				e.setTipo("-1");
-				e.setCantidad("-1");
-				e.setLote("-1");
+				e.setQuimico1("-1");
+				e.setCantidad1("-1");
+				e.setLote1("-1");
+				e.setQuimico2("-1");
+				e.setCantidad2("-1");
+				e.setLote2("-1");
 				e.setAgua("Z");
 			}
 			if (lEtapas.equals("Control 8")) {
 				e.setDiaInicio(new Date(1969 - 12 - 31));
+				e.setAlcalinidad(-1);
+				e.setConductividad(-1);
+				e.setQuimico1("-1");
+				e.setCantidad1("-1");
+				e.setLote1("-1");
+				e.setQuimico2("-1");
+				e.setCantidad2("-1");
+				e.setLote2("-1");
 				e.setAgua("Z");
 			}
 			e.setLavadora(filterLavadora);
@@ -637,26 +693,37 @@ public class PreparacionPielesBean implements Serializable {
 		lavadoras = lavDao.operacionLavadoraId(idPrep);
 
 		double cantidadIngresada = 0.0;
-		if (facturasPieles.getCn() != null && Double.valueOf(facturasPieles.getCn().toString()) > 0) {
-			cantidadIngresada = facturasPieles.getCn().doubleValue();
+		if (facturasPieles.getCategoria1() != null && Double.valueOf(facturasPieles.getCategoria1().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria1().doubleValue();
 		}
 
-		if (facturasPieles.getCz() != null && Double.valueOf(facturasPieles.getCz().toString()) > 0) {
-			cantidadIngresada = facturasPieles.getCz().doubleValue();
+		if (facturasPieles.getCategoria2() != null && Double.valueOf(facturasPieles.getCategoria2().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria2().doubleValue();
 		}
 
-		if (facturasPieles.getDc() != null && Double.valueOf(facturasPieles.getDc().toString()) > 0) {
-			cantidadIngresada = facturasPieles.getDc().doubleValue();
+		if (facturasPieles.getCategoria3() != null && Double.valueOf(facturasPieles.getCategoria3().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria3().doubleValue();
 		}
 
-		if (facturasPieles.getDs() != null && Double.valueOf(facturasPieles.getDs().toString()) > 0) {
-			cantidadIngresada = facturasPieles.getDs().doubleValue();
+		if (facturasPieles.getCategoria4() != null && Double.valueOf(facturasPieles.getCategoria4().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria4().doubleValue();
 		}
 
-		if (facturasPieles.getRp() != null && Double.valueOf(facturasPieles.getRp().toString()) > 0) {
-			cantidadIngresada = facturasPieles.getRp().doubleValue();
+		if (facturasPieles.getCategoria5() != null && Double.valueOf(facturasPieles.getCategoria5().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria5().doubleValue();
 		}
-
+		if (facturasPieles.getCategoria6() != null && Double.valueOf(facturasPieles.getCategoria6().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria6().doubleValue();
+		}
+		if (facturasPieles.getCategoria7() != null && Double.valueOf(facturasPieles.getCategoria7().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria7().doubleValue();
+		}
+		if (facturasPieles.getCategoria8() != null && Double.valueOf(facturasPieles.getCategoria8().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria8().doubleValue();
+		}
+		if (facturasPieles.getCategoria9() != null && Double.valueOf(facturasPieles.getCategoria9().toString()) > 0) {
+			cantidadIngresada = facturasPieles.getCategoria9().doubleValue();
+		}
 		capacidad = Double.valueOf(lavadoras.getLavadoras().getCapacidadKilos().doubleValue());
 		saldoFactura = saldoFactura + cantidadIngresada;
 
@@ -676,28 +743,69 @@ public class PreparacionPielesBean implements Serializable {
 				IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
 				// **OBTENER EL VALOR ACTUAL DEL ID_PRERACIÓN**//
 				prePieles.setIdPreparacion(idPrep);
-				if (facturasPieles.getCn() != null && Double.valueOf(facturasPieles.getCn().toString()) > 0) {
-					facturasPieles.setTotal(facturasPieles.getCn());
+				if (facturasPieles.getCategoria1() != null
+						&& Double.valueOf(facturasPieles.getCategoria1().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria1().doubleValue();
 				}
-				if (facturasPieles.getCz() != null && Double.valueOf(facturasPieles.getCz().toString()) > 0) {
-					facturasPieles.setTotal(facturasPieles.getCz());
+
+				if (facturasPieles.getCategoria2() != null
+						&& Double.valueOf(facturasPieles.getCategoria2().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria2().doubleValue();
 				}
-				if (facturasPieles.getDc() != null && Double.valueOf(facturasPieles.getDc().toString()) > 0) {
-					facturasPieles.setTotal(facturasPieles.getDc());
+
+				if (facturasPieles.getCategoria3() != null
+						&& Double.valueOf(facturasPieles.getCategoria3().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria3().doubleValue();
 				}
-				if (facturasPieles.getDs() != null && Double.valueOf(facturasPieles.getDs().toString()) > 0) {
-					facturasPieles.setTotal(facturasPieles.getDs());
+
+				if (facturasPieles.getCategoria4() != null
+						&& Double.valueOf(facturasPieles.getCategoria4().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria4().doubleValue();
 				}
-				if (facturasPieles.getRp() != null && Double.valueOf(facturasPieles.getRp().toString()) > 0) {
-					facturasPieles.setTotal(facturasPieles.getRp());
+
+				if (facturasPieles.getCategoria5() != null
+						&& Double.valueOf(facturasPieles.getCategoria5().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria5().doubleValue();
+				}
+				if (facturasPieles.getCategoria6() != null
+						&& Double.valueOf(facturasPieles.getCategoria6().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria6().doubleValue();
+				}
+				if (facturasPieles.getCategoria7() != null
+						&& Double.valueOf(facturasPieles.getCategoria7().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria7().doubleValue();
+				}
+				if (facturasPieles.getCategoria8() != null
+						&& Double.valueOf(facturasPieles.getCategoria8().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria8().doubleValue();
+				}
+				if (facturasPieles.getCategoria9() != null
+						&& Double.valueOf(facturasPieles.getCategoria9().toString()) > 0) {
+					cantidadIngresada = facturasPieles.getCategoria9().doubleValue();
 				}
 				LOGGER.info("ID DE PREPARACIÓN: " + idPrep);
 				facturasPieles.setPreparacionPieles(prePieles);
 				fDao.guardarFacturasPieles(facturasPieles);
-				facturasPieles = new FacturasPieles();
 
 				IFacturaPielesDao pDao = new FacturaPielesDaoImpl();
 				listaFacturaPieles = pDao.listaFacturaPieles(idPrep);
+
+				// VALIDACIÓN PARA ACTUALIZAR LA ENTRADA DE LA FACTURA
+				double valorSaldo = 0.0;
+				ISaldoFacturaDao saldoDao = new SaldoFacturaDaoImpl();
+
+				IFacturaPielesDao fact = new FacturaPielesDaoImpl();
+				Entradas entradas = new Entradas();
+
+				IEntradasDao eDao = new EntradasDaoImpl();
+				entradas = eDao.obtenerIdEntrada(fact.factura(idPrep));
+				valorSaldo = saldoDao.saldo(fact.factura(idPrep));// hace un top a la selección
+				if (valorSaldo == 0.0) {
+					ISaldoFacturaDao sDao = new SaldoFacturaDaoImpl();
+					sDao.actualizarFacturaSaldoEntradas(entradas.getIdEntrada());
+				}
+
+				facturasPieles = new FacturasPieles();
 				getListaFacturaPieles();
 
 			} else {
@@ -908,9 +1016,9 @@ public class PreparacionPielesBean implements Serializable {
 
 					e.setEstadoEtapa("Etapa 1");// REGLA
 					e.setNormalidad(new BigDecimal(-1));// REGLA
-					e.setTipo("-1");// REGLA
-					e.setCantidad("-1");// REGLA
-					e.setLote("-1");// REGLA
+					e.setQuimico1("-1");// REGLA
+					e.setCantidad1("-1");// REGLA
+					e.setLote1("-1");// REGLA
 
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
@@ -940,9 +1048,9 @@ public class PreparacionPielesBean implements Serializable {
 
 					e.setEstadoEtapa("Etapa 1");// REGLA
 					e.setNormalidad(new BigDecimal(-1));// REGLA
-					e.setTipo("-1");// REGLA
-					e.setCantidad("-1");// REGLA
-					e.setLote("-1");// REGLA
+					e.setQuimico1("-1");// REGLA
+					e.setCantidad1("-1");// REGLA
+					e.setLote1("-1");// REGLA
 
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
@@ -1003,9 +1111,9 @@ public class PreparacionPielesBean implements Serializable {
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 					e.setHoraFin(date);
-					e.setTipo("-1");
-					e.setCantidad("-1");
-					e.setLote("-1");
+					e.setQuimico1("-1");
+					e.setCantidad1("-1");
+					e.setLote1("-1");
 					e.setAgua("Z");
 
 					e.setLavadora(lavadoraActual);
@@ -1041,9 +1149,9 @@ public class PreparacionPielesBean implements Serializable {
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 					e.setHoraFin(date);
-					e.setTipo("-1");
-					e.setCantidad("-1");
-					e.setLote("-1");
+					e.setQuimico1("-1");
+					e.setCantidad1("-1");
+					e.setLote1("-1");
 					e.setAgua("Z");
 
 					e.setLavadora(lavadoraActual);
@@ -1079,9 +1187,9 @@ public class PreparacionPielesBean implements Serializable {
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 					e.setHoraFin(date);
-					e.setTipo("-1");
-					e.setCantidad("-1");
-					e.setLote("-1");
+					e.setQuimico1("-1");
+					e.setCantidad1("-1");
+					e.setLote1("-1");
 					e.setAgua("Z");
 
 					e.setLavadora(lavadoraActual);
@@ -1117,9 +1225,9 @@ public class PreparacionPielesBean implements Serializable {
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 					e.setHoraFin(date);
-					e.setTipo("-1");
-					e.setCantidad("-1");
-					e.setLote("-1");
+					e.setQuimico1("-1");
+					e.setCantidad1("-1");
+					e.setLote1("-1");
 					e.setAgua("Z");
 
 					e.setLavadora(lavadoraActual);
@@ -1155,9 +1263,9 @@ public class PreparacionPielesBean implements Serializable {
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 					e.setHoraFin(date);
-					e.setTipo("-1");
-					e.setCantidad("-1");
-					e.setLote("-1");
+					e.setQuimico1("-1");
+					e.setCantidad1("-1");
+					e.setLote1("-1");
 					e.setAgua("Z");
 
 					e.setLavadora(lavadoraActual);
@@ -1193,9 +1301,9 @@ public class PreparacionPielesBean implements Serializable {
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 					e.setHoraFin(date);
-					e.setTipo("-1");
-					e.setCantidad("-1");
-					e.setLote("-1");
+					e.setQuimico1("-1");
+					e.setCantidad1("-1");
+					e.setLote1("-1");
 					e.setAgua("Z");
 
 					e.setLavadora(lavadoraActual);
@@ -1231,9 +1339,9 @@ public class PreparacionPielesBean implements Serializable {
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
 					e.setHoraFin(date);
-					e.setTipo("-1");
-					e.setCantidad("-1");
-					e.setLote("-1");
+					e.setQuimico1("-1");
+					e.setCantidad1("-1");
+					e.setLote1("-1");
 					e.setAgua("Z");
 
 					e.setLavadora(lavadoraActual);
@@ -1628,7 +1736,8 @@ public class PreparacionPielesBean implements Serializable {
 		ISaldoFacturaDao sDao = new SaldoFacturaDaoImpl();
 		double validarSaldo = 0.0;
 
-		String tipoM = "";
+		String tipoMat = "";
+		int tipoM = 0;
 
 		IEntradasDao eDao = new EntradasDaoImpl();
 		Entradas e = new Entradas();
@@ -1636,7 +1745,7 @@ public class PreparacionPielesBean implements Serializable {
 		String nombre = e.getProveedores().getNombre();
 		proveedor.setNombre(e.getProveedores().getNombre());
 		proveedor.setIdProveedor(e.getProveedores().getIdProveedor());
-		
+
 		LOGGER.info("PROVEEDOR ASOCIADO A LA FACTURA: " + nombre);
 		validarSaldo = sDao.saldo(fact);// hace un top a la selección
 		SaldoFactura sf = new SaldoFactura();
@@ -1645,26 +1754,49 @@ public class PreparacionPielesBean implements Serializable {
 			ISaldoFacturaDao saldoDao = new SaldoFacturaDaoImpl();
 
 			sf.setFactura(fact);
-			sf.setNuevoSaldo(e.getKgRecibidos());
-			sf.setTotalFactura(e.getKgRecibidos());
+			if (e.getProveedores().getNacionalImportacion().equals("NACIONAL")
+					&& !e.getMateria().getTipo().equals("CUERO EN SANGRE")) {
+				LOGGER.info("MATERIAL NACIONAL Y DIFERENTE DE CUERO EN SANGRE");
+				LOGGER.info("PROVEEDOR:" + e.getProveedores().getNombre() + " ORIGEN:"
+						+ e.getProveedores().getNacionalImportacion() + " TIPO DE MP:" + e.getMateria().getTipo());
+				sf.setNuevoSaldo(e.getKgRecibidos());
+				sf.setTotalFactura(e.getKgRecibidos());
+
+			} else if (e.getProveedores().getNacionalImportacion().equals("IMPORTACIÓN")
+					|| e.getMateria().getTipo().equals("CUERO EN SANGRE")) {
+				LOGGER.info("MATERIAL IMPORTACIÓN Y/O CUERO EN SANGRE");
+				LOGGER.info("PROVEEDOR:" + e.getProveedores().getNombre() + " ORIGEN:"
+						+ e.getProveedores().getNacionalImportacion() + " TIPO DE MP:" + e.getMateria().getTipo());
+				if (e.getTipoMoneda().equals("USD")) {
+					sf.setNuevoSaldo(e.getKgNetos());
+					sf.setTotalFactura(e.getKgNetos());
+				} else {
+					sf.setNuevoSaldo(e.getKgEmbarcados());
+					sf.setTotalFactura(e.getKgEmbarcados());
+				}
+
+			}
+
 			sf.setFecha(new Date());
+			sf.setIdEntrada(e.getIdEntrada());
 
 			saldoDao.guardarSaldoFactura(sf);
 
-			tipoM = e.getMateria().getTipo();
+			tipoM = e.getMateria().getIdMateria();
+			tipoMat = e.getMateria().getTipo();
 
 			// **VALIDAR EL TIPO DE MATERIAL**//
 			ISaldoFacturaDao vDao = new SaldoFacturaDaoImpl();
 			double saldoFactura = 0.0;
 			saldoFactura = vDao.saldo(fact);// hace un top a la selección
-			validarMaterial(tipoM, saldoFactura);
+			validarMaterial(tipoM, tipoMat, saldoFactura);
 
 			LOGGER.info("SE HA IDENTIFICADO LA MATERIA: " + tipoM);
 
 			LOGGER.info(
 					"NO EXISTE LA FACTURA, SE INGRESA FACTURA Y TOTAL DE KILOS: " + fact + "->" + e.getKgRecibidos());
 		} else {
-			tipoM = e.getMateria().getTipo();
+			tipoM = e.getMateria().getIdMateria();
 			LOGGER.info("Mostramos el saldo de kilos: " + validarSaldo);
 			LOGGER.info("SE HA IDENTIFICADO LA MATERIA: " + tipoM);
 			facturasPieles = new FacturasPieles();
@@ -1672,62 +1804,78 @@ public class PreparacionPielesBean implements Serializable {
 			ISaldoFacturaDao vDao = new SaldoFacturaDaoImpl();
 			double saldoFactura = 0.0;
 			saldoFactura = vDao.saldo(fact);// hace un top a la selección
-			validarMaterial(tipoM, saldoFactura);
+			validarMaterial(tipoM, tipoMat, saldoFactura);
 
 		}
 	}
 
-	public void validarMaterial(String tipoDeMaterial, double saldoRestante) {
+	public void validarMaterial(int tipoDeMaterial, String tipo, double saldoRestante) {
 
 		// **CLASIFICACIÓN DE LA MATERIA**//
+		LOGGER.info("ID MATERIAL: " + tipoDeMaterial);
+		LOGGER.info("MATERIAL A BUSCAR: " + tipo);
 		switch (tipoDeMaterial) {
-		// CZ
-		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES",
-				"GARRA Y FALDA" -> {
-			LOGGER.info("Procesar material tipo CZ");
-			// Acciones para CZ
-			facturasPieles.setCz(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar = facturasPieles.getCz().doubleValue();
+
+		case 2, 3, 12 -> {
+			LOGGER.info("CARNAZA");
+			LOGGER.info("CATEGORIA 2");
+			facturasPieles.setCategoria2(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria2().doubleValue();
 		}
 
-		// OC
-		case "CACHETE", "PEDACERÍA", "DESCARNE ADHERIDO" -> {
-			LOGGER.info("Procesar material tipo OC");
-			// Acciones para DC
-			facturasPieles.setDc(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar = facturasPieles.getDc().doubleValue();
+		case 4 -> {
+			LOGGER.info("CARNAZA SALADA");
+			LOGGER.info("CATEGORIA 3");
+			facturasPieles.setCategoria3(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria3().doubleValue();
 		}
 
-		// DS
-		case "DESCARNE SEPARADO" -> {
-			LOGGER.info("Procesar material tipo DS");
-			// Acciones para DS
-			facturasPieles.setDs(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar = facturasPieles.getDs().doubleValue();
+		case 6 -> {
+			LOGGER.info("CERDO NACIONAL");
+			LOGGER.info("CATEGORIA 4");
+			facturasPieles.setCategoria4(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria4().doubleValue();
 		}
 
-		// CN
-		case "CERDO MEXICANO" -> {
-			LOGGER.info("Procesar material tipo CN");
-			// Acciones para CN
-			facturasPieles.setCn(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar = facturasPieles.getCn().doubleValue();
+		case 1 -> {
+			LOGGER.info("CUERO ROCHA");
+			LOGGER.info("CATEGORIA 1");
+			facturasPieles.setCategoria1(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria1().doubleValue();
 		}
 
-		// CN
-		case "CERDO AMERICANO" -> {
-			LOGGER.info("Procesar material tipo CAM");
-			// Acciones para CN
-			facturasPieles.setCa(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar = facturasPieles.getCa().doubleValue();
+		case 11 -> {
+			LOGGER.info("DESCARNE SEPARADO");
+			LOGGER.info("CATEGORIA 5");
+			facturasPieles.setCategoria5(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria5().doubleValue();
 		}
 
-		// RP
-		case "CUERO INTEGRAL SALADO CON PELO", "RECORTE DE CUERO CON PELO", "CUERO EN SANGRE" -> {
-			LOGGER.info("Procesar material RP");
-			// Acciones para RP
-			facturasPieles.setRp(new BigDecimal(saldoRestante));
-			saldoDisponibleParaAgregar = facturasPieles.getRp().doubleValue();
+		case 7, 9, 10 -> {
+			LOGGER.info("OREJA Y CACHETE");
+
+			facturasPieles.setCategoria6(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria6().doubleValue();
+		}
+
+		case 8, 15 -> {
+			LOGGER.info("PEDACERIA CON PELO");
+
+			facturasPieles.setCategoria7(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria7().doubleValue();
+		}
+
+		case 14 -> {
+			LOGGER.info("PELO EN SANGRE");
+
+			facturasPieles.setCategoria8(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria8().doubleValue();
+		}
+		case 5, 13 -> {
+			LOGGER.info("TENERIA LEON");
+
+			facturasPieles.setCategoria9(new BigDecimal(saldoRestante));
+			saldoDisponibleParaAgregar = facturasPieles.getCategoria9().doubleValue();
 		}
 
 		default -> System.out.println("Tipo de material desconocido.");
@@ -1741,7 +1889,7 @@ public class PreparacionPielesBean implements Serializable {
 			ISaldoFacturaDao sDao = new SaldoFacturaDaoImpl();
 			double validarSaldo = 0.0;
 
-			String tipoM = "";
+			int tipoM = 0;
 
 			IEntradasDao eDao = new EntradasDaoImpl();
 			Entradas e = new Entradas();
@@ -1750,7 +1898,7 @@ public class PreparacionPielesBean implements Serializable {
 			SaldoFactura sf = new SaldoFactura();
 
 			ISaldoFacturaDao saldoDao = new SaldoFacturaDaoImpl();
-			tipoM = e.getMateria().getTipo();
+			tipoM = e.getMateria().getIdMateria();
 
 			if (cantidadIngresada(tipoM) > 0 && cantidadIngresada(tipoM) <= validarSaldo) {
 				sf.setFactura(factura);
@@ -1768,54 +1916,48 @@ public class PreparacionPielesBean implements Serializable {
 		return validar;
 	}
 
-	public double cantidadIngresada(String identificacionMaterial) {
+	public double cantidadIngresada(int identificacionMaterial) {
 
 		double cantidad = 0.0;
 
 		switch (identificacionMaterial) {
-		// CZ
-		case "CARNAZA COMPLETA", "CARNAZA PEDAZOS", "CARNZA SALADA", "CUERO DEPILADO", "DESBARBE / RECORTES",
-				"GARRA Y FALDA" -> {
-			LOGGER.info("Procesar material tipo CZ");
-			// Acciones para CZ
-			cantidad = Double.valueOf(facturasPieles.getCz().toString());
+		case 2, 3, 12 -> {
+			cantidad = Double.valueOf(facturasPieles.getCategoria2().toString());
 		}
-
-		// OC
-		case "CACHETE", "PEDACERÍA", "DESCARNE ADHERIDO" -> {
+		case 4 -> {
 			LOGGER.info("Procesar material tipo OC");
-			// Acciones para DC
-			cantidad = Double.valueOf(facturasPieles.getDc().toString());
+			cantidad = Double.valueOf(facturasPieles.getCategoria3().toString());
 		}
-
-		// DS
-		case "DESCARNE SEPARADO" -> {
+		case 6 -> {
 			LOGGER.info("Procesar material tipo DS");
-			// Acciones para DS
-			cantidad = Double.valueOf(facturasPieles.getDs().toString());
+			cantidad = Double.valueOf(facturasPieles.getCategoria4().toString());
 		}
-
-		// CN
-		case "CERDO MEXICANO" -> {
+		case 1 -> {
 			LOGGER.info("Procesar material tipo CN");
-			// Acciones para CN
-			cantidad = Double.valueOf(facturasPieles.getCn().toString());
+			cantidad = Double.valueOf(facturasPieles.getCategoria1().toString());
 		}
 
-		// CAM
-		case "CERDO AMERICANO" -> {
+		case 11 -> {
 			LOGGER.info("Procesar material tipo CAM");
-			// Acciones para CAM
-			cantidad = Double.valueOf(facturasPieles.getCa().toString());
+			cantidad = Double.valueOf(facturasPieles.getCategoria5().toString());
 		}
 
-		// RP
-		case "CUERO INTEGRAL SALADO CON PELO", "RECORTE DE CUERO CON PELO", "CUERO EN SANGRE" -> {
+		case 7, 9, 10 -> {
 			LOGGER.info("Procesar material con RP");
-			// Acciones para materiales con pelo
-			cantidad = Double.valueOf(facturasPieles.getRp().toString());
+			cantidad = Double.valueOf(facturasPieles.getCategoria6().toString());
 		}
-
+		case 8, 15 -> {
+			LOGGER.info("Procesar material con RP");
+			cantidad = Double.valueOf(facturasPieles.getCategoria7().toString());
+		}
+		case 14 -> {
+			LOGGER.info("Procesar material con RP");
+			cantidad = Double.valueOf(facturasPieles.getCategoria8().toString());
+		}
+		case 5, 13 -> {
+			LOGGER.info("Procesar material con RP");
+			cantidad = Double.valueOf(facturasPieles.getCategoria9().toString());
+		}
 		default -> System.out.println("Tipo de material desconocido.");
 		}
 		return cantidad;
@@ -1885,7 +2027,7 @@ public class PreparacionPielesBean implements Serializable {
 
 		for (FacturasPieles fp : listaFacturaPieles) {
 			noFacturaLavadorasChicas = fp.getFactura();
-			kilos1 = fp.getCz().doubleValue();
+			// kilos1 = fp.getCz().doubleValue();
 		}
 
 		kilos2 = Math.floor(kilos1 / noLavadoras);

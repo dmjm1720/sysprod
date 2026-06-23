@@ -101,6 +101,7 @@ public class Entradas implements Serializable {
 	private BigDecimal precioCalcCa;
 	private Integer rangoHumedad;
 	private Integer rangoCalcios;
+	private Integer kilosProcesoLavadoras;
 
 	public Entradas() {
 	}
@@ -137,7 +138,7 @@ public class Entradas implements Serializable {
 			BigDecimal precioCalcCdi, BigDecimal precioCalcG, BigDecimal precioCalcCe, BigDecimal subtotal,
 			BigDecimal iva, BigDecimal totalCaptura, BigDecimal kgCalidadMateria, String archivoCertificado,
 			String tipoMoneda, Integer estatusFacturaImportacion, BigDecimal cerdoAmericano, BigDecimal precioCa,
-			BigDecimal precioCalcCa, Integer rangoHumedad, Integer rangoCalcios) {
+			BigDecimal precioCalcCa, Integer rangoHumedad, Integer rangoCalcios, Integer kilosProcesoLavadoras) {
 
 		this.idEntrada = idEntrada;
 		this.materia = materia;
@@ -233,6 +234,7 @@ public class Entradas implements Serializable {
 		this.precioCalcCa = precioCalcCa;
 		this.rangoHumedad = rangoHumedad;
 		this.rangoCalcios = rangoCalcios;
+		this.kilosProcesoLavadoras = kilosProcesoLavadoras;
 	}
 
 	public int getIdEntrada() {
@@ -986,7 +988,13 @@ public class Entradas implements Serializable {
 	public void setRangoHumedad(Integer rangoHumedad) {
 		this.rangoHumedad = rangoHumedad;
 	}
-	
-	
+
+	public Integer getKilosProcesoLavadoras() {
+		return kilosProcesoLavadoras;
+	}
+
+	public void setKilosProcesoLavadoras(Integer kilosProcesoLavadoras) {
+		this.kilosProcesoLavadoras = kilosProcesoLavadoras;
+	}
 
 }

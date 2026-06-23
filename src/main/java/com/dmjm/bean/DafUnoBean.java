@@ -2,7 +2,6 @@ package com.dmjm.bean;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +43,6 @@ import com.dmjm.impl.TurnosDaoImpl;
 import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.impl.ValidacionFolioDaoImpl;
 import com.dmjm.model.DafUno;
-import com.dmjm.model.DafUnoPrepFlolucolante;
 import com.dmjm.model.FolioPreparacionDafUno;
 import com.dmjm.model.LimpiezaDafUno;
 import com.dmjm.model.Operador;

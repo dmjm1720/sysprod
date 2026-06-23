@@ -114,4 +114,30 @@ public class FacturaPielesDaoImpl extends Conexion implements IFacturaPielesDao 
 		return saldo;
 	}
 
+	@Override
+	public String factura(int idPrep) {
+		String factura = null;
+		try {
+			ConectarSysProd();
+			String query = "SELECT FACTURA FROM FACTURAS_PIELES WHERE ID_PREPARACION=?";
+			PreparedStatement st = getCnSysProd().prepareStatement(query);
+			st.setInt(1, idPrep);
+			ResultSet rs = st.executeQuery();
+			if (!rs.isBeforeFirst()) {
+				
+			} else {
+				while (rs.next()) {
+					factura = rs.getString("FACTURA");
+					LOGGER.info("FACTURA CONSULTADA: " + factura);
+				}
+			}
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL CONSULTAR EL SALDO: " + ex);
+		}
+
+		return factura;
+	}
+
 }

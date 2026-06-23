@@ -13,9 +13,7 @@ import com.dmjm.model.LimitesEspecificosA;
 import com.dmjm.model.LimitesEspecificosB;
 import com.dmjm.model.LimitesReferenciaA;
 import com.dmjm.model.LimitesReferenciaB;
-import com.dmjm.model.Usuarios;
 import com.dmjm.util.HibernateUtil;
-import com.dmjm.util.Password;
 
 public class LimitesDaoImpl implements ILimitesDao {
 

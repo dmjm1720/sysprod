@@ -16,9 +16,6 @@ public class Etapas implements Serializable {
 	private Date horaFin;
 	private BigDecimal phSol;
 	private BigDecimal normalidad;
-	private String tipo;
-	private String cantidad;
-	private String lote;
 	private String operador;
 	private String agua;
 	private Boolean estado;
@@ -26,7 +23,12 @@ public class Etapas implements Serializable {
 	private Integer conductividad;
 	private String lavadora;
 	private String estadoEtapa;
-	private BigDecimal phPiel;
+	private String quimico1;
+	private String cantidad1;
+	private String lote1;
+	private String quimico2;
+	private String cantidad2;
+	private String lote2;
 
 	public Etapas() {
 	}
@@ -36,8 +38,10 @@ public class Etapas implements Serializable {
 	}
 
 	public Etapas(int idEtapa, PreparacionPieles preparacionPieles, String etapa, Date diaInicio, Date horaInicio,
-			Date diaFin, Date horaFin, BigDecimal phSol, BigDecimal normalidad, String tipo, String cantidad,
-			String lote, String operador, String agua, Boolean estado, Integer alcalinidad, Integer conductividad, String lavadora, String estadoEtapa, BigDecimal phPiel) {
+			Date diaFin, Date horaFin, BigDecimal phSol, BigDecimal normalidad, String operador, String agua,
+			Boolean estado, Integer alcalinidad, Integer conductividad, String lavadora, String estadoEtapa,
+			String quimico1, String cantidad1, String lote1, String quimico2, String cantidad2, String lote2) {
+		super();
 		this.idEtapa = idEtapa;
 		this.preparacionPieles = preparacionPieles;
 		this.etapa = etapa;
@@ -47,17 +51,19 @@ public class Etapas implements Serializable {
 		this.horaFin = horaFin;
 		this.phSol = phSol;
 		this.normalidad = normalidad;
-		this.tipo = tipo;
-		this.cantidad = cantidad;
-		this.lote = lote;
 		this.operador = operador;
 		this.agua = agua;
 		this.estado = estado;
-		this.alcalinidad =alcalinidad;
+		this.alcalinidad = alcalinidad;
 		this.conductividad = conductividad;
 		this.lavadora = lavadora;
 		this.estadoEtapa = estadoEtapa;
-		this.phPiel = phPiel;
+		this.quimico1 = quimico1;
+		this.cantidad1 = cantidad1;
+		this.lote1 = lote1;
+		this.quimico2 = quimico2;
+		this.cantidad2 = cantidad2;
+		this.lote2 = lote2;
 	}
 
 	public int getIdEtapa() {
@@ -132,30 +138,6 @@ public class Etapas implements Serializable {
 		this.normalidad = normalidad;
 	}
 
-	public String getTipo() {
-		return this.tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getCantidad() {
-		return this.cantidad;
-	}
-
-	public void setCantidad(String cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public String getLote() {
-		return this.lote;
-	}
-
-	public void setLote(String lote) {
-		this.lote = lote;
-	}
-
 	public String getOperador() {
 		return this.operador;
 	}
@@ -212,15 +194,52 @@ public class Etapas implements Serializable {
 		this.estadoEtapa = estadoEtapa;
 	}
 
-	public BigDecimal getPhPiel() {
-		return phPiel;
+	public String getQuimico1() {
+		return quimico1;
 	}
 
-	public void setPhPiel(BigDecimal phPiel) {
-		this.phPiel = phPiel;
+	public void setQuimico1(String quimico1) {
+		this.quimico1 = quimico1;
 	}
-	
-	
-	
+
+	public String getCantidad1() {
+		return cantidad1;
+	}
+
+	public void setCantidad1(String cantidad1) {
+		this.cantidad1 = cantidad1;
+	}
+
+	public String getLote1() {
+		return lote1;
+	}
+
+	public void setLote1(String lote1) {
+		this.lote1 = lote1;
+	}
+
+	public String getQuimico2() {
+		return quimico2;
+	}
+
+	public void setQuimico2(String quimico2) {
+		this.quimico2 = quimico2;
+	}
+
+	public String getCantidad2() {
+		return cantidad2;
+	}
+
+	public void setCantidad2(String cantidad2) {
+		this.cantidad2 = cantidad2;
+	}
+
+	public String getLote2() {
+		return lote2;
+	}
+
+	public void setLote2(String lote2) {
+		this.lote2 = lote2;
+	}
 
 }

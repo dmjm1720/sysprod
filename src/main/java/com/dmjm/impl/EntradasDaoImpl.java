@@ -262,7 +262,7 @@ public class EntradasDaoImpl extends Conexion implements IEntradasDao {
 	public List<Entradas> listarEntradasFactura() {
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.openSession();
-		Query<Entradas> query = session.createQuery("FROM Entradas WHERE ticketBasculaToluca IS NOT NULL ORDER BY ticketBasculaToluca DESC", Entradas.class);
+		Query<Entradas> query = session.createQuery("FROM Entradas WHERE ticketBasculaToluca IS NOT NULL AND kilosProcesoLavadoras IS NULL ORDER BY ticketBasculaToluca DESC", Entradas.class);
 		List<Entradas> entradas = query.list();
 		session.close();
 		return entradas;

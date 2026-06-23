@@ -9,13 +9,19 @@ public class FacturasPieles implements Serializable {
 	private int idFacturaPiel;
 	private PreparacionPieles preparacionPieles;
 	private String factura;
-	private BigDecimal cz;
-	private BigDecimal dc;
-	private BigDecimal ds;
-	private BigDecimal cn;
-	private BigDecimal rp;
 	private BigDecimal total;
-	private BigDecimal ca;
+	private BigDecimal categoria1;
+	private BigDecimal categoria2;
+	private BigDecimal categoria3;
+	private BigDecimal categoria4;
+	private BigDecimal categoria5;
+	private BigDecimal categoria6;
+	private BigDecimal categoria7;
+	private BigDecimal categoria8;
+	private BigDecimal categoria9;
+	private BigDecimal categoria10;
+	private BigDecimal categoria11;
+	private BigDecimal categoria12;
 
 	public FacturasPieles() {
 	}
@@ -24,22 +30,31 @@ public class FacturasPieles implements Serializable {
 		this.idFacturaPiel = idFacturaPiel;
 	}
 
-	public FacturasPieles(int idFacturaPiel, PreparacionPieles preparacionPieles, String factura, BigDecimal cz,
-			BigDecimal dc, BigDecimal ds, BigDecimal cn, BigDecimal rp, BigDecimal total, BigDecimal ca) {
+	public FacturasPieles(int idFacturaPiel, PreparacionPieles preparacionPieles, String factura, BigDecimal total,
+			BigDecimal categoria1, BigDecimal categoria2, BigDecimal categoria3, BigDecimal categoria4,
+			BigDecimal categoria5, BigDecimal categoria6, BigDecimal categoria7, BigDecimal categoria8,
+			BigDecimal categoria9, BigDecimal categoria10, BigDecimal categoria11, BigDecimal categoria12) {
+
 		this.idFacturaPiel = idFacturaPiel;
 		this.preparacionPieles = preparacionPieles;
 		this.factura = factura;
-		this.cz = cz;
-		this.dc = dc;
-		this.ds = ds;
-		this.cn = cn;
-		this.rp = rp;
 		this.total = total;
-		this.ca = ca;
+		this.categoria1 = categoria1;
+		this.categoria2 = categoria2;
+		this.categoria3 = categoria3;
+		this.categoria4 = categoria4;
+		this.categoria5 = categoria5;
+		this.categoria6 = categoria6;
+		this.categoria7 = categoria7;
+		this.categoria8 = categoria8;
+		this.categoria9 = categoria9;
+		this.categoria10 = categoria10;
+		this.categoria11 = categoria11;
+		this.categoria12 = categoria12;
 	}
 
 	public int getIdFacturaPiel() {
-		return this.idFacturaPiel;
+		return idFacturaPiel;
 	}
 
 	public void setIdFacturaPiel(int idFacturaPiel) {
@@ -47,7 +62,7 @@ public class FacturasPieles implements Serializable {
 	}
 
 	public PreparacionPieles getPreparacionPieles() {
-		return this.preparacionPieles;
+		return preparacionPieles;
 	}
 
 	public void setPreparacionPieles(PreparacionPieles preparacionPieles) {
@@ -55,51 +70,11 @@ public class FacturasPieles implements Serializable {
 	}
 
 	public String getFactura() {
-		return this.factura;
+		return factura;
 	}
 
 	public void setFactura(String factura) {
 		this.factura = factura;
-	}
-
-	public BigDecimal getCz() {
-		return this.cz;
-	}
-
-	public void setCz(BigDecimal cz) {
-		this.cz = cz;
-	}
-
-	public BigDecimal getDc() {
-		return this.dc;
-	}
-
-	public void setDc(BigDecimal dc) {
-		this.dc = dc;
-	}
-
-	public BigDecimal getDs() {
-		return this.ds;
-	}
-
-	public void setDs(BigDecimal ds) {
-		this.ds = ds;
-	}
-
-	public BigDecimal getCn() {
-		return this.cn;
-	}
-
-	public void setCn(BigDecimal cn) {
-		this.cn = cn;
-	}
-
-	public BigDecimal getRp() {
-		return this.rp;
-	}
-
-	public void setRp(BigDecimal rp) {
-		this.rp = rp;
 	}
 
 	public BigDecimal getTotal() {
@@ -110,14 +85,100 @@ public class FacturasPieles implements Serializable {
 		this.total = total;
 	}
 
-	public BigDecimal getCa() {
-		return ca;
+	public BigDecimal getCategoria1() {
+		return categoria1;
 	}
 
-	public void setCa(BigDecimal ca) {
-		this.ca = ca;
+	public void setCategoria1(BigDecimal categoria1) {
+		this.categoria1 = categoria1;
 	}
-	
-	
+
+	public BigDecimal getCategoria2() {
+		return categoria2;
+	}
+
+	public void setCategoria2(BigDecimal categoria2) {
+		this.categoria2 = categoria2;
+	}
+
+	public BigDecimal getCategoria3() {
+		return categoria3;
+	}
+
+	public void setCategoria3(BigDecimal categoria3) {
+		this.categoria3 = categoria3;
+	}
+
+	public BigDecimal getCategoria4() {
+		return categoria4;
+	}
+
+	public void setCategoria4(BigDecimal categoria4) {
+		this.categoria4 = categoria4;
+	}
+
+	public BigDecimal getCategoria5() {
+		return categoria5;
+	}
+
+	public void setCategoria5(BigDecimal categoria5) {
+		this.categoria5 = categoria5;
+	}
+
+	public BigDecimal getCategoria6() {
+		return categoria6;
+	}
+
+	public void setCategoria6(BigDecimal categoria6) {
+		this.categoria6 = categoria6;
+	}
+
+	public BigDecimal getCategoria7() {
+		return categoria7;
+	}
+
+	public void setCategoria7(BigDecimal categoria7) {
+		this.categoria7 = categoria7;
+	}
+
+	public BigDecimal getCategoria8() {
+		return categoria8;
+	}
+
+	public void setCategoria8(BigDecimal categoria8) {
+		this.categoria8 = categoria8;
+	}
+
+	public BigDecimal getCategoria9() {
+		return categoria9;
+	}
+
+	public void setCategoria9(BigDecimal categoria9) {
+		this.categoria9 = categoria9;
+	}
+
+	public BigDecimal getCategoria10() {
+		return categoria10;
+	}
+
+	public void setCategoria10(BigDecimal categoria10) {
+		this.categoria10 = categoria10;
+	}
+
+	public BigDecimal getCategoria11() {
+		return categoria11;
+	}
+
+	public void setCategoria11(BigDecimal categoria11) {
+		this.categoria11 = categoria11;
+	}
+
+	public BigDecimal getCategoria12() {
+		return categoria12;
+	}
+
+	public void setCategoria12(BigDecimal categoria12) {
+		this.categoria12 = categoria12;
+	}
 
 }

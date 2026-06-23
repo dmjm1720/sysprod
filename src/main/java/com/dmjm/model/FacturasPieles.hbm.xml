@@ -17,26 +17,44 @@
 		<property name="factura" type="string">
 			<column name="FACTURA" length="50" />
 		</property>
-		<property name="cz" type="big_decimal">
-			<column name="CZ" precision="10" scale="4" />
-		</property>
-		<property name="dc" type="big_decimal">
-			<column name="DC" precision="10" scale="4" />
-		</property>
-		<property name="ds" type="big_decimal">
-			<column name="DS" precision="10" scale="4" />
-		</property>
-		<property name="cn" type="big_decimal">
-			<column name="CN" precision="10" scale="4" />
-		</property>
-		<property name="rp" type="big_decimal">
-			<column name="RP" precision="10" scale="4" />
-		</property>
 		<property name="total" type="big_decimal">
 			<column name="TOTAL" precision="10" scale="4" />
 		</property>
-		<property name="ca" type="big_decimal">
-			<column name="CA" precision="10" scale="4" />
+		<property name="categoria1" type="big_decimal">
+			<column name="CATEGORIA_1" precision="10" scale="4" />
+		</property>
+		<property name="categoria2" type="big_decimal">
+			<column name="CATEGORIA_2" precision="10" scale="4" />
+		</property>
+		<property name="categoria3" type="big_decimal">
+			<column name="CATEGORIA_3" precision="10" scale="4" />
+		</property>
+		<property name="categoria4" type="big_decimal">
+			<column name="CATEGORIA_4" precision="10" scale="4" />
+		</property>
+		<property name="categoria5" type="big_decimal">
+			<column name="CATEGORIA_5" precision="10" scale="4" />
+		</property>
+		<property name="categoria6" type="big_decimal">
+			<column name="CATEGORIA_6" precision="10" scale="4" />
+		</property>
+		<property name="categoria7" type="big_decimal">
+			<column name="CATEGORIA_7" precision="10" scale="4" />
+		</property>
+		<property name="categoria8" type="big_decimal">
+			<column name="CATEGORIA_8" precision="10" scale="4" />
+		</property>
+		<property name="categoria9" type="big_decimal">
+			<column name="CATEGORIA_9" precision="10" scale="4" />
+		</property>
+		<property name="categoria10" type="big_decimal">
+			<column name="CATEGORIA_10" precision="10" scale="4" />
+		</property>
+		<property name="categoria11" type="big_decimal">
+			<column name="CATEGORIA_11" precision="10" scale="4" />
+		</property>
+		<property name="categoria12" type="big_decimal">
+			<column name="CATEGORIA_12" precision="10" scale="4" />
 		</property>
 	</class>
 </hibernate-mapping>

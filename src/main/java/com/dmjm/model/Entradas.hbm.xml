@@ -289,12 +289,14 @@
 		<property name="precioCalcCa" type="big_decimal">
 			<column name="PRECIO_CALC_CA" precision="10" scale="4" />
 		</property>
-
 		<property name="rangoHumedad" type="java.lang.Integer">
 			<column name="RANGO_HUMEDAD" />
 		</property>
 		<property name="rangoCalcios" type="java.lang.Integer">
 			<column name="RANGO_CALCIOS" />
+		</property>
+		<property name="kilosProcesoLavadoras" type="java.lang.Integer">
+			<column name="KILOS_PROCESO_LAVADORAS" />
 		</property>
 
 	</class>

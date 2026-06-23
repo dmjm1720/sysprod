@@ -135,7 +135,7 @@
 							<!-- AGREGAR LA FACTURA -->
 							<p:outputLabel value="" />
 							<p:outputLabel id="sd"
-								value="FACTURA SALDO DISPONIBLE: #{preparacionBean.saldoDisponibleParaAgregar}"
+								value="KILOS DISPONIBLES: #{preparacionBean.saldoDisponibleParaAgregar}"
 								styleClass="saldo" />
 							<h:panelGrid id="panelDerecho" columns="4" cellpadding="2"
 								styleClass="fuente">
@@ -150,56 +150,80 @@
 									<f:selectItems value="#{preparacionBean.listaFacturasTolvas}" />
 									<p:ajax event="change"
 										listener="#{preparacionBean.validacionFactura(preparacionBean.facturasPieles.factura)}"
-										update="frmPrincipal:acco:prov, frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp, frmPrincipal:acco:sd" />
+										update="frmPrincipal:acco:prov,frmPrincipal:acco:sd, frmPrincipal:acco:c1, frmPrincipal:acco:c2, frmPrincipal:acco:c3, frmPrincipal:acco:c4, frmPrincipal:acco:c5, frmPrincipal:acco:c6, frmPrincipal:acco:c7, frmPrincipal:acco:c8, frmPrincipal:acco:c9" />
 								</p:selectOneMenu>
 
-								<p:outputLabel value="" styleClass="mensajeBoton2" />
+								<p:outputLabel value="PROVEEDOR:" styleClass="mensajeBoton2" />
 								<p:outputLabel id="prov"
 									value="${preparacionBean.proveedor.nombre}"
 									styleClass="mensajeBoton2" />
 
-								<p:outputLabel for="cz" value="CZ" styleClass="mensajeBoton2" />
-								<p:inputText id="cz" styleClass="pear" style="width: 10rem"
-									value="#{preparacionBean.facturasPieles.cz}" required="false"
-									requiredMessage="Campo requerido" />
+								<p:outputLabel for="c1" value="CUERO ROCHA"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c1" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria1}"
+									required="false" requiredMessage="Campo requerido" />
 
 
-								<p:outputLabel for="dc" value="DC" styleClass="mensajeBoton2" />
-								<p:inputText id="dc" styleClass="pear" style="width: 10rem"
-									value="#{preparacionBean.facturasPieles.dc}" required="false"
-									requiredMessage="Campo requerido" />
+								<p:outputLabel for="c2" value="CARNAZA"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c2" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria2}"
+									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="ds" value="DS" styleClass="mensajeBoton2" />
-								<p:inputText id="ds" styleClass="pear" style="width: 10rem"
-									value="#{preparacionBean.facturasPieles.ds}" required="false"
-									requiredMessage="Campo requerido" />
+								<p:outputLabel for="c3" value="CARNAZA SALADA"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c3" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria3}"
+									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="cn" value="CN" styleClass="mensajeBoton2" />
-								<p:inputText id="cn" styleClass="pear" style="width: 10rem"
-									value="#{preparacionBean.facturasPieles.cn}" required="false"
-									requiredMessage="Campo requerido" />
+								<p:outputLabel for="c4" value="CERDO NACIONAL"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c4" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria4}"
+									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="rp" value="RP" styleClass="mensajeBoton2" />
-								<p:inputText id="rp" styleClass="pear" style="width: 10rem"
-									value="#{preparacionBean.facturasPieles.rp}" required="false"
-									requiredMessage="Campo requerido" />
+								<p:outputLabel for="c5" value="DESCARNE SEPARADO"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c5" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria5}"
+									required="false" requiredMessage="Campo requerido" />
 
-								<p:outputLabel for="cam" value="CAM" styleClass="mensajeBoton2" />
-								<p:inputText id="cam" styleClass="pear" style="width: 10rem"
-									value="#{preparacionBean.facturasPieles.ca}" required="false"
-									requiredMessage="Campo requerido" />
+								<p:outputLabel for="c6" value="OREJA Y CACHETE"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c6" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria6}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="c7" value="PEDACERIA CON PELO"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c7" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria7}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="c8" value="PELO EN SANGRE"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c8" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria8}"
+									required="false" requiredMessage="Campo requerido" />
+
+								<p:outputLabel for="c9" value="TENERIA LEON"
+									styleClass="mensajeBoton2" />
+								<p:inputText id="c9" styleClass="pear" style="width: 10rem"
+									value="#{preparacionBean.facturasPieles.categoria9}"
+									required="false" requiredMessage="Campo requerido" />
 
 								<p:outputLabel value="" styleClass="mensajeBoton2" />
 								<p:commandButton icon="pi pi-save" title="Guardar"
-									value="Agregar factura al proceso" styleClass="pear"
+									value="AGREGAR" styleClass="pear"
 									style="width: 15rem; height: 2rem; color: #4169E1; font-weight:bold"
 									actionListener="#{preparacionBean.guardarFacturaPieles()}"
-									update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp" />
+									update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:c1, frmPrincipal:acco:c2, frmPrincipal:acco:c3, frmPrincipal:acco:c4, frmPrincipal:acco:c5, frmPrincipal:acco:c6, frmPrincipal:acco:c7, frmPrincipal:acco:c8, frmPrincipal:acco:c9" />
 
 							</h:panelGrid>
 							<p:divider></p:divider>
 							<br></br> <br></br>
-							<p:splitter style="height: 150px; width:35%" styleClass="mb-5"
+							<p:splitter style="height: 100px; width:35%" styleClass="mb-5"
 								widgetVar="splitter">
 
 								<p:splitterPanel
@@ -235,59 +259,7 @@
 								</p:splitterPanel>
 
 
-								<p:splitterPanel
-									styleClass="flex align-items-center justify-content-center">
 
-									<p:dataTable id="tblB" styleClass="tabla fuente" var="item2"
-										sortMode="multiple" rowHover="true"
-										style="height: 150px; width:100%"
-										paginatorAlwaysVisible="true" scrollable="true"
-										value="#{preparacionBean.listaFacturaPieles}"
-										emptyMessage="NO HAY REGISTROS">
-
-										<p:column headerText="Operación" width="4rem"
-											styleClass="fondo">
-											<h:outputText value="#{item2.preparacionPieles.noOperacion}"
-												style="color: #036FAB;" />
-										</p:column>
-
-										<p:column headerText="Factura" width="8rem">
-											<h:outputText value="#{item2.factura}"
-												style="color: #036FAB;" />
-										</p:column>
-
-										<p:column headerText="CZ" width="5rem">
-											<h:outputText value="#{item2.cz}"
-												style="color: #036FAB;font-weight: bold !important;" />
-										</p:column>
-
-										<p:column headerText="DC" width="5rem">
-											<h:outputText value="#{item2.dc}"
-												style="color: #036FAB;font-weight: bold !important;" />
-										</p:column>
-
-										<p:column headerText="DS" width="5rem">
-											<h:outputText value="#{item2.ds}"
-												style="color: #036FAB;font-weight: bold !important;" />
-										</p:column>
-
-										<p:column headerText="CN" width="5rem">
-											<h:outputText value="#{item2.cn}"
-												style="color: #036FAB;font-weight: bold !important;" />
-										</p:column>
-
-										<p:column headerText="RP" width="5rem">
-											<h:outputText value="#{item2.rp}"
-												style="color: #036FAB;font-weight: bold !important;" />
-										</p:column>
-
-										<p:column headerText="CAM" width="5rem">
-											<h:outputText value="#{item2.ca}"
-												style="color: #036FAB;font-weight: bold !important;" />
-										</p:column>
-
-									</p:dataTable>
-								</p:splitterPanel>
 
 								<p:splitterPanel
 									styleClass="flex align-items-center justify-content-center">
@@ -314,12 +286,85 @@
 									</p:dataTable>
 								</p:splitterPanel>
 
+
+
+							</p:splitter>
+
+							<p:splitter style="height: 150px; width:35%" styleClass="mb-5"
+								widgetVar="splitter">
+								<p:splitterPanel
+									styleClass="flex align-items-center justify-content-center">
+
+									<p:dataTable id="tblB" styleClass="tabla fuente" var="item2"
+										sortMode="multiple" rowHover="true"
+										style="height: 150px; width:100%"
+										paginatorAlwaysVisible="true" scrollable="true"
+										value="#{preparacionBean.listaFacturaPieles}"
+										emptyMessage="NO HAY REGISTROS">
+
+										<p:column headerText="Operación" width="4rem"
+											styleClass="fondo">
+											<h:outputText value="#{item2.preparacionPieles.noOperacion}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="Factura" width="8rem"
+											style="text-align: center">
+											<h:outputText value="#{item2.factura}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="CUERO ROCHA" width="5rem">
+											<h:outputText value="#{item2.categoria1}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="CARNAZA" width="5rem">
+											<h:outputText value="#{item2.categoria2}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="CARNAZA SALADA" width="5rem">
+											<h:outputText value="#{item2.categoria3}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="CERDO NACIONAL" width="5rem">
+											<h:outputText value="#{item2.categoria4}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="DESCARNE SEPARADO" width="5rem">
+											<h:outputText value="#{item2.categoria5}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+										<p:column headerText="OREJA Y CACHETE" width="5rem">
+											<h:outputText value="#{item2.categoria6}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+										<p:column headerText="PEDACERIA CON PELO" width="5rem">
+											<h:outputText value="#{item2.categoria7}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+										<p:column headerText="PELO EN SANGRE" width="5rem">
+											<h:outputText value="#{item2.categoria8}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+										<p:column headerText="TENERIA LEON" width="5rem">
+											<h:outputText value="#{item2.categoria9}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+
+									</p:dataTable>
+								</p:splitterPanel>
+
 								<p:splitterPanel
 									styleClass="flex align-items-center justify-content-center">
 									<p:panelGrid columns="1" style="height: 30rem">
 
 										<p:selectOneMenu id="option" styleClass="amarillo"
-											style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:17rem"
+											style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:15rem"
 											value="#{preparacionBean.estadoLavadora}">
 											<f:selectItem itemLabel="MANDAR LAVADORA ANTERIOR A "
 												itemValue="" />
@@ -329,7 +374,7 @@
 											<f:selectItem itemLabel="OTRO" itemValue="4" />
 										</p:selectOneMenu>
 										<p:selectOneMenu id="la" styleClass="amarillo"
-											style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:17rem"
+											style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:15rem"
 											value="#{preparacionBean.filterLavadora2}">
 											<f:selectItem itemLabel="SELECCIONA NUEVA LAVADORA"
 												itemValue="" />
@@ -354,15 +399,14 @@
 
 										<p:commandButton icon="pi pi-save" title="Guardar"
 											value="Cambiar lavadora" styleClass="pear"
-											style="width: 20rem; height: 2rem; color: #4169E1; font-weight:bold"
+											style="width: 14rem; height: 2rem; color: #4169E1; font-weight:bold"
 											actionListener="#{preparacionBean.mostrar(preparacionBean.filterLavadora2, preparacionBean.estadoLavadora)}"
-											update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:cz, frmPrincipal:acco:dc, frmPrincipal:acco:ds, frmPrincipal:acco:cn, frmPrincipal:acco:rp" />
+											update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre,frmPrincipal:acco:c1, frmPrincipal:acco:c2, frmPrincipal:acco:c3, frmPrincipal:acco:c4, frmPrincipal:acco:c5, frmPrincipal:acco:c6, frmPrincipal:acco:c7, frmPrincipal:acco:c8, frmPrincipal:acco:c9" />
 
 
 
 									</p:panelGrid>
 								</p:splitterPanel>
-
 							</p:splitter>
 						</div>
 
@@ -371,11 +415,11 @@
 							value="#{preparacionBean.listaDeEtapas}"
 							emptyMessage="NO HAY REGISTROS">
 
-							<p:column headerText="Operación" width="4rem" styleClass="fondo">
+							<p:column headerText="Operación" width="4rem" style="text-align: center">
 								<h:outputText value="#{item3.preparacionPieles.noOperacion}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
-							<p:column headerText="Lavadora" width="4rem" styleClass="fondo">
+							<p:column headerText="Lavadora / Tambor" width="4rem" style="text-align: center">
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
@@ -429,39 +473,54 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="PH Piel" width="5rem">
-								<h:outputText value="#{item3.phPiel}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
 							<p:column headerText="Normalidad" width="5rem"
 								styleClass="#{item3.normalidad lt 0 ? 'negativo' : 'normal'}">
 								<h:outputText value="#{item3.normalidad}" />
 							</p:column>
 
-							<p:column headerText="Alcalinidad" width="5rem">
-								<h:outputText value="#{item3.alcalinidad}"
-									style="color: #036FAB;font-weight: bold !important;" />
+							<p:column headerText="Alcalinidad" width="5rem"
+								styleClass="#{item3.alcalinidad lt 0 ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.alcalinidad}" />
 							</p:column>
 
-							<p:column headerText="Conductividad" width="5rem">
-								<h:outputText value="#{item3.conductividad}"
-									style="color: #036FAB;font-weight: bold !important;" />
+							<p:column headerText="Conductividad" width="5rem"
+								styleClass="#{item3.conductividad lt 0 ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.conductividad}" />
 							</p:column>
 
 							<p:column headerText="Químico" width="5rem"
-								styleClass="#{item3.tipo lt '0' ? 'negativo' : 'normal'}">
-								<h:outputText value="#{item3.tipo}" />
+								styleClass="#{item3.quimico1 lt '0' ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.quimico1}" />
 							</p:column>
 
 							<p:column headerText="Cantidad" width="5rem"
-								styleClass="#{item3.cantidad lt 0 ? 'negativo' : 'normal'}">
-								<h:outputText value="#{item3.cantidad}" />
+								styleClass="#{item3.cantidad1 lt 0 ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.cantidad1}" />
 							</p:column>
 
 							<p:column headerText="Lote" width="5rem"
-								styleClass="#{item3.lote lt '0' ? 'negativo' : 'normal'}">
-								<h:outputText value="#{item3.lote}" />
+								styleClass="#{item3.lote1 lt '0' ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.lote1}" />
+							</p:column>
+
+							<p:column headerText="Químico" width="5rem"
+								styleClass="#{item3.quimico2 lt '0' ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.quimico2}" />
+							</p:column>
+
+							<p:column headerText="Cantidad" width="5rem"
+								styleClass="#{item3.cantidad2 lt 0 ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.cantidad2}" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem"
+								styleClass="#{item3.lote2 lt '0' ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.lote2}" />
+							</p:column>
+
+							<p:column headerText="Agua" width="5rem"
+								styleClass="#{item3.agua eq 'Z' ? 'negativo' : 'normal'}">
+								<h:outputText value="#{item3.agua}" />
 							</p:column>
 
 							<p:column headerText="Operador" width="5rem">
@@ -469,10 +528,7 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="Agua" width="5rem"
-								styleClass="#{item3.agua eq 'Z' ? 'negativo' : 'normal'}">
-								<h:outputText value="#{item3.agua}" />
-							</p:column>
+
 
 
 
@@ -550,11 +606,6 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="PH Piel" width="5rem">
-								<h:outputText value="#{item3.phPiel}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
 							<p:column headerText="Normalidad" width="5rem">
 								<h:outputText value="#{item3.normalidad}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -571,22 +622,32 @@
 							</p:column>
 
 							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.tipo}"
+								<h:outputText value="#{item3.quimico1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad}"
+								<h:outputText value="#{item3.cantidad1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote}"
+								<h:outputText value="#{item3.lote1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="Operador" width="5rem">
-								<h:outputText value="#{item3.operador}"
+							<p:column headerText="Químico" width="5rem">
+								<h:outputText value="#{item3.quimico2}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidad2}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem">
+								<h:outputText value="#{item3.lote2}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
@@ -594,7 +655,10 @@
 								<h:outputText value="#{item3.agua}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
-
+							<p:column headerText="Operador" width="5rem">
+								<h:outputText value="#{item3.operador}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
 
 						</p:dataTable>
 					</p:tab>
@@ -667,11 +731,6 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="PH Piel" width="5rem">
-								<h:outputText value="#{item3.phPiel}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
 							<p:column headerText="Normalidad" width="5rem">
 								<h:outputText value="#{item3.normalidad}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -688,22 +747,31 @@
 							</p:column>
 
 							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.tipo}"
+								<h:outputText value="#{item3.quimico1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad}"
+								<h:outputText value="#{item3.cantidad1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote}"
+								<h:outputText value="#{item3.lote1}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+							<p:column headerText="Químico" width="5rem">
+								<h:outputText value="#{item3.quimico2}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="Operador" width="5rem">
-								<h:outputText value="#{item3.operador}"
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidad2}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem">
+								<h:outputText value="#{item3.lote2}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
@@ -711,7 +779,10 @@
 								<h:outputText value="#{item3.agua}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
-
+							<p:column headerText="Operador" width="5rem">
+								<h:outputText value="#{item3.operador}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
 
 						</p:dataTable>
 
@@ -786,10 +857,6 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="PH Piel" width="5rem">
-								<h:outputText value="#{item3.phPiel}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
 
 							<p:column headerText="Normalidad" width="5rem">
 								<h:outputText value="#{item3.normalidad}"
@@ -807,22 +874,31 @@
 							</p:column>
 
 							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.tipo}"
+								<h:outputText value="#{item3.quimico1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad}"
+								<h:outputText value="#{item3.cantidad1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote}"
+								<h:outputText value="#{item3.lote1}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+							<p:column headerText="Químico" width="5rem">
+								<h:outputText value="#{item3.quimico2}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="Operador" width="5rem">
-								<h:outputText value="#{item3.operador}"
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidad2}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem">
+								<h:outputText value="#{item3.lote2}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
@@ -831,6 +907,10 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
+							<p:column headerText="Operador" width="5rem">
+								<h:outputText value="#{item3.operador}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
 
 						</p:dataTable>
 
@@ -906,11 +986,6 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="PH Piel" width="5rem">
-								<h:outputText value="#{item3.phPiel}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
 							<p:column headerText="Normalidad" width="5rem">
 								<h:outputText value="#{item3.normalidad}"
 									style="color: #036FAB;font-weight: bold !important;" />
@@ -927,22 +1002,32 @@
 							</p:column>
 
 							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.tipo}"
+								<h:outputText value="#{item3.quimico1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad}"
+								<h:outputText value="#{item3.cantidad1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote}"
+								<h:outputText value="#{item3.lote1}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
-							<p:column headerText="Operador" width="5rem">
-								<h:outputText value="#{item3.operador}"
+							<p:column headerText="Químico" width="5rem">
+								<h:outputText value="#{item3.quimico2}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidad2}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Lote" width="5rem">
+								<h:outputText value="#{item3.lote2}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
@@ -951,6 +1036,10 @@
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
+							<p:column headerText="Operador" width="5rem">
+								<h:outputText value="#{item3.operador}"
+									style="color: #036FAB; font-weight: bold !important;" />
+							</p:column>
 
 
 						</p:dataTable>
@@ -1035,13 +1124,6 @@
 							oninput="this.value = this.value.replace(/^(\d{3,}|\d\.\d{3,})$/, this.value.slice(0, -1));">
 						</p:inputNumber>
 
-						<p:outputLabel value="PH Piel" />
-						<p:inputNumber value="#{preparacionBean.etapas.phPiel}"
-							thousandSeparator="" decimalSeparator="." decimalPlaces="2"
-							minValue="1" maxValue="14.00" size="6" padControl="false"
-							oninput="this.value = this.value.replace(/^(\d{3,}|\d\.\d{3,})$/, this.value.slice(0, -1));">
-						</p:inputNumber>
-
 						<p:outputLabel value="Normalidad" for="normalidad"
 							rendered="#{preparacionBean.etapas.normalidad gt 0 || preparacionBean.etapas.normalidad eq NULL}" />
 						<p:inputNumber id="normalidad"
@@ -1068,11 +1150,11 @@
 
 
 						<p:outputLabel for="tipo" value="Químico"
-							rendered="#{preparacionBean.etapas.tipo gt '0' || preparacionBean.etapas.tipo eq NULL}" />
+							rendered="#{preparacionBean.etapas.quimico1 gt '0' || preparacionBean.etapas.quimico1 eq NULL}" />
 						<p:selectOneMenu id="tipo"
-							rendered="#{preparacionBean.etapas.tipo gt '0' || preparacionBean.etapas.tipo eq NULL}"
+							rendered="#{preparacionBean.etapas.quimico1 gt '0' || preparacionBean.etapas.quimico1 eq NULL}"
 							style="color: #FF7F50 ;font-weight: bold !important;font-size: .8rem; width:17rem"
-							value="#{preparacionBean.etapas.tipo}">
+							value="#{preparacionBean.etapas.quimico1}">
 							<f:selectItem itemLabel="SELECCIONA PRODUCTO QUÍMICO"
 								itemValue="" />
 							<f:selectItems value="#{preparacionBean.listarQuimicos}" />
@@ -1080,18 +1162,18 @@
 
 
 						<p:outputLabel for="cantidad" value="Cantidad"
-							rendered="#{preparacionBean.etapas.cantidad gt '0' || preparacionBean.etapas.cantidad eq NULL}" />
+							rendered="#{preparacionBean.etapas.cantidad1 gt '0' || preparacionBean.etapas.cantidad1 eq NULL}" />
 						<p:inputText id="cantidad"
-							rendered="#{preparacionBean.etapas.cantidad gt '0' || preparacionBean.etapas.cantidad eq NULL}"
-							value="#{preparacionBean.etapas.cantidad}" required="false"
+							rendered="#{preparacionBean.etapas.cantidad1 gt '0' || preparacionBean.etapas.cantidad1 eq NULL}"
+							value="#{preparacionBean.etapas.cantidad1}" required="false"
 							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);"
 							requiredMessage="Campo requerido" style="width: 20rem" />
 
 
 						<p:outputLabel for="lote" value="Lote"
-							rendered="#{preparacionBean.etapas.lote gt '0' || preparacionBean.etapas.lote eq NULL}" />
-						<p:inputText id="lote" value="#{preparacionBean.etapas.lote}"
-							rendered="#{preparacionBean.etapas.lote gt '0' || preparacionBean.etapas.lote eq NULL}"
+							rendered="#{preparacionBean.etapas.lote1 gt '0' || preparacionBean.etapas.lote1 eq NULL}" />
+						<p:inputText id="lote" value="#{preparacionBean.etapas.lote1}"
+							rendered="#{preparacionBean.etapas.lote1 gt '0' || preparacionBean.etapas.lote1 eq NULL}"
 							required="false" requiredMessage="Campo requerido"
 							style="width: 20rem" />
 
