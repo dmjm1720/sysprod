@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:head>
 
@@ -415,11 +416,13 @@
 							value="#{preparacionBean.listaDeEtapas}"
 							emptyMessage="NO HAY REGISTROS">
 
-							<p:column headerText="Operación" width="4rem" style="text-align: center">
+							<p:column headerText="Operación" width="4rem"
+								style="text-align: center">
 								<h:outputText value="#{item3.preparacionPieles.noOperacion}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
-							<p:column headerText="Lavadora / Tambor" width="4rem" style="text-align: center">
+							<p:column headerText="Lavadora / Tambor" width="4rem"
+								style="text-align: center">
 								<h:outputText value="#{item3.lavadora}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
@@ -1099,7 +1102,7 @@
 
 						<p:outputLabel value="" />
 						<p:outputLabel styleClass="lavadora"
-							value="LAVADORA: #{preparacionBean.etapas.lavadora}" />
+							value="LAVADORA / TAMBOR: #{preparacionBean.etapas.lavadora}" />
 
 						<p:outputLabel for="diaInicio" value="Día Inicio"
 							rendered="#{preparacionBean.etapas.diaInicio ne '1969-12-31'}" />
@@ -1121,7 +1124,8 @@
 						<p:inputNumber value="#{preparacionBean.etapas.phSol}"
 							thousandSeparator="" decimalSeparator="." decimalPlaces="2"
 							minValue="1" maxValue="14.00" size="6" padControl="false"
-							oninput="this.value = this.value.replace(/^(\d{3,}|\d\.\d{3,})$/, this.value.slice(0, -1));">
+							oninput="this.value = this.value.replace(/^(\d{3,}|\d\.\d{3,})$/, this.value.slice(0, -1));"
+							style="width: 5rem">
 						</p:inputNumber>
 
 						<p:outputLabel value="Normalidad" for="normalidad"
@@ -1132,31 +1136,37 @@
 							decimalSeparator="." decimalPlaces="4" minValue="0" size="10"
 							padControl="false" widgetVar="normalidadInput"
 							styleClass="custom-input"
-							oninput="this.value = this.value.replace(/^(\d{2,}|\d\.\d{5,})$/, this.value.slice(0, -1));">
+							oninput="this.value = this.value.replace(/^(\d{2,}|\d\.\d{5,})$/, this.value.slice(0, -1));"
+							style="width: 5rem">
 						</p:inputNumber>
 
-						<p:outputLabel value="Alcalinidad" />
-						<p:inputText value="#{preparacionBean.etapas.alcalinidad}"
-							minValue="1" maxValue="99999" size="5"
-							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);">
+						<p:outputLabel value="Alcalinidad"
+							rendered="#{preparacionBean.etapas.alcalinidad gt 0 || preparacionBean.etapas.alcalinidad eq NULL}" />
+						<p:inputText
+							rendered="#{preparacionBean.etapas.alcalinidad gt 0 || preparacionBean.etapas.alcalinidad eq NULL}"
+							value="#{preparacionBean.etapas.alcalinidad}" minValue="1"
+							maxValue="99999" size="5"
+							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);"
+							style="width: 5rem">
 						</p:inputText>
 
-						<p:outputLabel for="conductividad" value="Conductividad" />
+						<p:outputLabel for="conductividad" value="Conductividad"
+							rendered="#{preparacionBean.etapas.conductividad gt 0 || preparacionBean.etapas.conductividad eq NULL}" />
 						<p:inputText id="conductividad"
+							rendered="#{preparacionBean.etapas.conductividad gt 0 || preparacionBean.etapas.conductividad eq NULL}"
 							value="#{preparacionBean.etapas.conductividad}" required="false"
 							minValue="1" maxValue="9999" size="5"
 							oninput="if (this.value.length > 4) this.value = this.value.slice(0, 4);"
-							requiredMessage="Campo requerido" style="width: 20rem" />
+							requiredMessage="Campo requerido" style="width: 5rem" />
 
 
 						<p:outputLabel for="tipo" value="Químico"
 							rendered="#{preparacionBean.etapas.quimico1 gt '0' || preparacionBean.etapas.quimico1 eq NULL}" />
 						<p:selectOneMenu id="tipo"
 							rendered="#{preparacionBean.etapas.quimico1 gt '0' || preparacionBean.etapas.quimico1 eq NULL}"
-							style="color: #FF7F50 ;font-weight: bold !important;font-size: .8rem; width:17rem"
+							style="color: #FF7F50 ;font-weight: bold !important;font-size: .6rem; width:10rem"
 							value="#{preparacionBean.etapas.quimico1}">
-							<f:selectItem itemLabel="SELECCIONA PRODUCTO QUÍMICO"
-								itemValue="" />
+							<f:selectItem itemLabel="PRODUCTO QUÍMICO" itemValue="" />
 							<f:selectItems value="#{preparacionBean.listarQuimicos}" />
 						</p:selectOneMenu>
 
@@ -1167,7 +1177,7 @@
 							rendered="#{preparacionBean.etapas.cantidad1 gt '0' || preparacionBean.etapas.cantidad1 eq NULL}"
 							value="#{preparacionBean.etapas.cantidad1}" required="false"
 							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);"
-							requiredMessage="Campo requerido" style="width: 20rem" />
+							requiredMessage="Campo requerido" style="width: 5rem" />
 
 
 						<p:outputLabel for="lote" value="Lote"
@@ -1175,30 +1185,57 @@
 						<p:inputText id="lote" value="#{preparacionBean.etapas.lote1}"
 							rendered="#{preparacionBean.etapas.lote1 gt '0' || preparacionBean.etapas.lote1 eq NULL}"
 							required="false" requiredMessage="Campo requerido"
-							style="width: 20rem" />
+							style="width: 5rem" />
+
+
+						<p:outputLabel for="tipo2" value="Químico"
+							rendered="#{preparacionBean.etapas.quimico2 gt '0' || preparacionBean.etapas.quimico2 eq NULL}" />
+						<p:selectOneMenu id="tipo2"
+							rendered="#{preparacionBean.etapas.quimico2 gt '0' || preparacionBean.etapas.quimico2 eq NULL}"
+							style="color: #FF7F50 ;font-weight: bold !important;font-size: .6rem; width:10rem"
+							value="#{preparacionBean.etapas.quimico2}">
+							<f:selectItem itemLabel="PRODUCTO QUÍMICO" itemValue="" />
+							<f:selectItems value="#{preparacionBean.listarQuimicos}" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel for="cantidad2" value="Cantidad"
+							rendered="#{preparacionBean.etapas.cantidad2 gt '0' || preparacionBean.etapas.cantidad2 eq NULL}" />
+						<p:inputText id="cantidad2"
+							rendered="#{preparacionBean.etapas.cantidad2 gt '0' || preparacionBean.etapas.cantidad2 eq NULL}"
+							value="#{preparacionBean.etapas.cantidad2}" required="false"
+							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);"
+							requiredMessage="Campo requerido" style="width: 5rem" />
+
+
+						<p:outputLabel for="lote2" value="Lote"
+							rendered="#{preparacionBean.etapas.lote2 gt '0' || preparacionBean.etapas.lote2 eq NULL}" />
+						<p:inputText id="lote2" value="#{preparacionBean.etapas.lote2}"
+							rendered="#{preparacionBean.etapas.lote2 gt '0' || preparacionBean.etapas.lote2 eq NULL}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
 
 
 						<p:outputLabel for="agua" value="Agua"
 							rendered="#{preparacionBean.etapas.agua ne 'Z'}" />
 						<p:inputText id="agua" value="#{preparacionBean.etapas.agua}"
 							rendered="#{preparacionBean.etapas.agua ne 'Z'}" required="false"
-							requiredMessage="Campo requerido" style="width: 20rem" />
+							requiredMessage="Campo requerido" style="width: 5rem" />
 
 						<p:outputLabel for="diaFin" value="Dia Fin"
 							rendered="#{preparacionBean.etapas.diaFin ne '1969-12-31'}" />
 						<p:datePicker id="diaFin" value="#{preparacionBean.etapas.diaFin}"
 							rendered="#{preparacionBean.etapas.diaFin ne '1969-12-31'}"
 							required="false" requiredMessage="Campo requerido"
-							style="width: 20rem" />
+							style="width: 5rem" />
 
 
 						<p:outputLabel for="hf" value="Hora Fin"
 							rendered="#{preparacionBean.etapas.horaFin ne '00:59:59'}" />
-						<p:datePicker id="hf" value="#{preparacionBean.etapas.horaFin}"
+						<pe:timePicker id="hf" value="#{preparacionBean.etapas.horaFin}"
 							rendered="#{preparacionBean.etapas.horaFin ne '00:59:59'}"
-							pattern="hh:mm:ss a" timeOnly="true" showTime="true"
-							showIcon="true" hourFormat="12" showButtonBar="true" locale="mx"
-							lang="es" />
+							mode="spinner" widgetVar="h6" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 					</h:panelGrid>
 

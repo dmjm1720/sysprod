@@ -1,5 +1,6 @@
 package com.dmjm.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.dmjm.model.Etapas;
@@ -26,7 +27,11 @@ public interface IEtapasDao {
 	
 	void actualizarSiguienteEtapa(Etapas e);
 	
+	//void actualizarSiguienteEtapa(Date fecIni, Date horaIni, boolean estado, int idEtapa, String usuario);
+	
 	void actualizarEtapaCambioLavadora(int idPreparacion, String etapa, String lavadora);
 	
 	List<String> listaProcesosPendientesEtapa(int idPreparacion);
+	
+	void actualizarHoraFinEtapaAnterior(Date fecFinal, int idEtapa);
 }

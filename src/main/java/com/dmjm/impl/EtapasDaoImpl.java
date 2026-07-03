@@ -3,7 +3,9 @@ package com.dmjm.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -77,7 +79,7 @@ public class EtapasDaoImpl extends Conexion implements IEtapasDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction transaction = session.beginTransaction();
-			session.merge(etapas);
+			session.update(etapas);
 			transaction.commit();
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
@@ -188,7 +190,8 @@ public class EtapasDaoImpl extends Conexion implements IEtapasDao {
 		try {
 
 			ConectarSysProd();
-			PreparedStatement st = getCnSysProd().prepareStatement("SELECT ETAPA FROM ETAPAS WHERE ID_PREPARACION =? AND HORA_FIN IS NULL");
+			PreparedStatement st = getCnSysProd()
+					.prepareStatement("SELECT ETAPA FROM ETAPAS WHERE ID_PREPARACION =? AND HORA_FIN IS NULL");
 			st.setInt(1, idPreparacion);
 			ResultSet rs = st.executeQuery();
 
@@ -313,6 +316,45 @@ public class EtapasDaoImpl extends Conexion implements IEtapasDao {
 
 		}
 		return etapas;
+	}
+
+//	@Override
+//	public void actualizarSiguienteEtapa(Date fecIni, Date horaIni, boolean estado, int idEtapa, String usuario) {
+//		try {
+//		    ConectarSysProd();
+//		    String sql = "UPDATE ETAPAS SET DIA_INICIO = ?, HORA_INICIO = ?, ESTADO = ?, OPERADOR = ? WHERE ID_ETAPA = ?";
+//
+//		    PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+//		    ps.setDate(1, new java.sql.Date(fecIni.getTime()));
+//		    ps.setTime(2, new Time(horaIni.getTime()));
+//		    ps.setBoolean(3, estado);
+//		    ps.setString(4, usuario);
+//		    ps.setInt(5, idEtapa);
+//
+//		    ps.executeUpdate();
+//		    CerrarSysProd();
+//		} catch (SQLException ex) {
+//		    LOGGER.error("ERROR AL ACTUALIZAR LA ETAPA: " + ex);
+//		}
+//
+//	}
+
+	@Override
+	public void actualizarHoraFinEtapaAnterior(Date fecFinal, int idEtapa) {
+		try {
+		    ConectarSysProd();
+		    String sql = "UPDATE ETAPAS SET HORA_FIN = ? WHERE ID_ETAPA = ?";
+
+		    PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+		    ps.setTime(1, new Time(fecFinal.getTime()));
+		    ps.setInt(2, idEtapa);
+
+		    ps.executeUpdate();
+		    CerrarSysProd();
+		} catch (SQLException ex) {
+		    LOGGER.error("ERROR AL ACTUALIZAR LA ETAPA: " + ex);
+		}
+		
 	}
 
 }
