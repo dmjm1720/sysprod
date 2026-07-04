@@ -56,5 +56,23 @@
 		<property name="categoria12" type="big_decimal">
 			<column name="CATEGORIA_12" precision="10" scale="4" />
 		</property>
+		<property name="totalFactura" type="big_decimal">
+			<column name="TOTAL_FACTURA" precision="10" scale="4" />
+		</property>
+		<property name="kilosDisponibles" type="big_decimal">
+			<column name="KILOS_DISPONIBLES" precision="10" scale="4" />
+		</property>
+		<property name="proveedor" type="string">
+			<column name="PROVEEDOR" length="100" />
+		</property>
+		<property name="origen" type="string">
+			<column name="ORIGEN" length="50" />
+		</property>
+		<property name="fechaInicial" type="date">
+			<column name="FECHA_INICIAL" length="10" />
+		</property>
+		<property name="fechaFinal" type="date">
+			<column name="FECHA_FINAL" length="10" />
+		</property>
 	</class>
 </hibernate-mapping>

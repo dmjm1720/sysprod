@@ -83,7 +83,7 @@
 											<p:commandButton icon="pi pi-save" title="Agregar operación"
 												value="AGREGAR"
 												style="width: 8rem; height: 2rem; color: #20B2AA; font-weight:bold"
-												update="frmPrincipal:accoRP:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE3, frmPrincipal:accoE4, frmPrincipal:accoE5"
+												update="frmPrincipal:accoRP:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE3"
 												actionListener="#{preparacionBean.guardarPreparacion()}" />
 										</div>
 									</h:panelGrid>
@@ -122,7 +122,7 @@
 							<p:commandButton icon="pi pi-search-plus" value="BUSCAR"
 								styleClass="mensajeBoton2" style="width: 8rem; height: 2rem"
 								actionListener="#{preparacionBean.buscarRegistro()}"
-								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3,frmPrincipal:accoE4, frmPrincipal:accoE5" />
+								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3" />
 
 						</h:panelGrid>
 
@@ -669,7 +669,7 @@
 
 				<!-- ETAPA 3 APARTADO 1-->
 				<p:accordionPanel id="accoE3">
-					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)"
+					<p:tab title="ETAPA LAVADAS EN LAVAODRAS CHICAS"
 						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5">
 						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3"
 							value="#{preparacionBean.listaDeEtapas3}"
@@ -793,263 +793,263 @@
 					</p:tab>
 				</p:accordionPanel>
 
-				<!-- ETAPA 3 APARTADO 2-->
-				<p:accordionPanel id="accoE4">
-					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)"
-						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5">
-						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3"
-							value="#{preparacionBean.listaDeEtapas4}"
-							emptyMessage="NO HAY REGISTROS">
+<!-- 				ETAPA 3 APARTADO 2 -->
+<!-- 				<p:accordionPanel id="accoE4"> -->
+<!-- 					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)" -->
+<!-- 						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5"> -->
+<!-- 						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3" -->
+<!-- 							value="#{preparacionBean.listaDeEtapas4}" -->
+<!-- 							emptyMessage="NO HAY REGISTROS"> -->
 
-							<p:column headerText="Operación" width="4rem" styleClass="fondo">
-								<h:outputText value="#{item3.preparacionPieles.noOperacion}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-							<p:column headerText="Lavadora" width="4rem" styleClass="fondo">
-								<h:outputText value="#{item3.lavadora}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
+<!-- 							<p:column headerText="Operación" width="4rem" styleClass="fondo"> -->
+<!-- 								<h:outputText value="#{item3.preparacionPieles.noOperacion}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+<!-- 							<p:column headerText="Lavadora" width="4rem" styleClass="fondo"> -->
+<!-- 								<h:outputText value="#{item3.lavadora}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
 
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
+<!-- 							<p:column headerText="Editar" width="2rem" exportable="false" -->
+<!-- 								style="text-align: center !important"> -->
+<!-- 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil" -->
+<!-- 									disabled="#{item3.estado==false}" -->
+<!-- 									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar" -->
+<!-- 									styleClass="ui-button-warning"> -->
+<!-- 									<f:setPropertyActionListener value="#{item3}" -->
+<!-- 										target="#{preparacionBean.etapas}" /> -->
+<!-- 								</p:commandButton> -->
+<!-- 								<p:tooltip id="toolTipE" for="ed" value="Editar" -->
+<!-- 									trackMouse="true" /> -->
+<!-- 							</p:column> -->
 
-							<p:column headerText="Etapa" width="5rem">
-								<h:outputText value="#{item3.etapa}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
+<!-- 							<p:column headerText="Etapa" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.etapa}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
 
-							<p:column headerText="Día inicio" width="5rem">
-								<h:outputText value="#{item3.diaInicio}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
+<!-- 							<p:column headerText="Día inicio" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.diaInicio}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
 
-							<p:column headerText="Hora inicio" width="5rem">
+<!-- 							<p:column headerText="Hora inicio" width="5rem"> -->
 
-								<h:outputText value="#{item3.horaInicio}"
-									style="color: #036FAB; font-weight: bold !important;">
-									<f:convertDateTime pattern="HH:mm:ss"
-										timeZone="America/Mexico_City" />
-								</h:outputText>
-							</p:column>
+<!-- 								<h:outputText value="#{item3.horaInicio}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;"> -->
+<!-- 									<f:convertDateTime pattern="HH:mm:ss" -->
+<!-- 										timeZone="America/Mexico_City" /> -->
+<!-- 								</h:outputText> -->
+<!-- 							</p:column> -->
 
-							<p:column headerText="Día fin" width="5rem">
-								<h:outputText value="#{item3.diaFin}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
+<!-- 							<p:column headerText="Día fin" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.diaFin}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
 
-							<p:column headerText="Hora fin" width="5rem">
-								<h:outputText value="#{item3.horaFin}"
-									style="color: #036FAB; font-weight: bold !important;">
-									<f:convertDateTime pattern="HH:mm:ss"
-										timeZone="America/Mexico_City" />
-								</h:outputText>
-							</p:column>
+<!-- 							<p:column headerText="Hora fin" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.horaFin}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;"> -->
+<!-- 									<f:convertDateTime pattern="HH:mm:ss" -->
+<!-- 										timeZone="America/Mexico_City" /> -->
+<!-- 								</h:outputText> -->
+<!-- 							</p:column> -->
 
-							<p:column headerText="PH Sol" width="5rem">
-								<h:outputText value="#{item3.phSol}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-
-							<p:column headerText="Normalidad" width="5rem">
-								<h:outputText value="#{item3.normalidad}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Alcalinidad" width="5rem">
-								<h:outputText value="#{item3.alcalinidad}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Conductividad" width="5rem">
-								<h:outputText value="#{item3.conductividad}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.quimico1}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad1}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote1}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.quimico2}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad2}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote2}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Agua" width="5rem">
-								<h:outputText value="#{item3.agua}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Operador" width="5rem">
-								<h:outputText value="#{item3.operador}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-						</p:dataTable>
+<!-- 							<p:column headerText="PH Sol" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.phSol}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
 
 
-					</p:tab>
-				</p:accordionPanel>
+<!-- 							<p:column headerText="Normalidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.normalidad}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Alcalinidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.alcalinidad}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Conductividad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.conductividad}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Químico" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.quimico1}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Cantidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.cantidad1}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Lote" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.lote1}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+<!-- 							<p:column headerText="Químico" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.quimico2}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Cantidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.cantidad2}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Lote" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.lote2}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Agua" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.agua}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Operador" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.operador}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 						</p:dataTable> -->
 
 
-				<!-- ETAPA 3 APARTADO 3-->
-				<p:accordionPanel id="accoE5">
-					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)"
-						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5">
-						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3"
-							value="#{preparacionBean.listaDeEtapas5}"
-							emptyMessage="NO HAY REGISTROS">
-
-							<p:column headerText="Operación" width="4rem" styleClass="fondo">
-								<h:outputText value="#{item3.preparacionPieles.noOperacion}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-							<p:column headerText="Lavadora" width="4rem" styleClass="fondo">
-								<h:outputText value="#{item3.lavadora}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Editar" width="2rem" exportable="false"
-								style="text-align: center !important">
-								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
-									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
-									styleClass="ui-button-warning">
-									<f:setPropertyActionListener value="#{item3}"
-										target="#{preparacionBean.etapas}" />
-								</p:commandButton>
-								<p:tooltip id="toolTipE" for="ed" value="Editar"
-									trackMouse="true" />
-							</p:column>
-
-							<p:column headerText="Etapa" width="5rem">
-								<h:outputText value="#{item3.etapa}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Día inicio" width="5rem">
-								<h:outputText value="#{item3.diaInicio}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Hora inicio" width="5rem">
-
-								<h:outputText value="#{item3.horaInicio}"
-									style="color: #036FAB; font-weight: bold !important;">
-									<f:convertDateTime pattern="HH:mm:ss"
-										timeZone="America/Mexico_City" />
-								</h:outputText>
-							</p:column>
-
-							<p:column headerText="Día fin" width="5rem">
-								<h:outputText value="#{item3.diaFin}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Hora fin" width="5rem">
-								<h:outputText value="#{item3.horaFin}"
-									style="color: #036FAB; font-weight: bold !important;">
-									<f:convertDateTime pattern="HH:mm:ss"
-										timeZone="America/Mexico_City" />
-								</h:outputText>
-							</p:column>
-
-							<p:column headerText="PH Sol" width="5rem">
-								<h:outputText value="#{item3.phSol}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Normalidad" width="5rem">
-								<h:outputText value="#{item3.normalidad}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Alcalinidad" width="5rem">
-								<h:outputText value="#{item3.alcalinidad}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Conductividad" width="5rem">
-								<h:outputText value="#{item3.conductividad}"
-									style="color: #036FAB;font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.quimico1}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad1}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote1}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Químico" width="5rem">
-								<h:outputText value="#{item3.quimico2}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Cantidad" width="5rem">
-								<h:outputText value="#{item3.cantidad2}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Lote" width="5rem">
-								<h:outputText value="#{item3.lote2}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Agua" width="5rem">
-								<h:outputText value="#{item3.agua}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
-
-							<p:column headerText="Operador" width="5rem">
-								<h:outputText value="#{item3.operador}"
-									style="color: #036FAB; font-weight: bold !important;" />
-							</p:column>
+<!-- 					</p:tab> -->
+<!-- 				</p:accordionPanel> -->
 
 
-						</p:dataTable>
+<!-- 				ETAPA 3 APARTADO 3 -->
+<!-- 				<p:accordionPanel id="accoE5"> -->
+<!-- 					<p:tab title="TERCERA ETAPA DE LAVADO (LAVADORAS CHICAS)" -->
+<!-- 						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5"> -->
+<!-- 						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3" -->
+<!-- 							value="#{preparacionBean.listaDeEtapas5}" -->
+<!-- 							emptyMessage="NO HAY REGISTROS"> -->
+
+<!-- 							<p:column headerText="Operación" width="4rem" styleClass="fondo"> -->
+<!-- 								<h:outputText value="#{item3.preparacionPieles.noOperacion}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+<!-- 							<p:column headerText="Lavadora" width="4rem" styleClass="fondo"> -->
+<!-- 								<h:outputText value="#{item3.lavadora}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Editar" width="2rem" exportable="false" -->
+<!-- 								style="text-align: center !important"> -->
+<!-- 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil" -->
+<!-- 									disabled="#{item3.estado==false}" -->
+<!-- 									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar" -->
+<!-- 									styleClass="ui-button-warning"> -->
+<!-- 									<f:setPropertyActionListener value="#{item3}" -->
+<!-- 										target="#{preparacionBean.etapas}" /> -->
+<!-- 								</p:commandButton> -->
+<!-- 								<p:tooltip id="toolTipE" for="ed" value="Editar" -->
+<!-- 									trackMouse="true" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Etapa" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.etapa}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Día inicio" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.diaInicio}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Hora inicio" width="5rem"> -->
+
+<!-- 								<h:outputText value="#{item3.horaInicio}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;"> -->
+<!-- 									<f:convertDateTime pattern="HH:mm:ss" -->
+<!-- 										timeZone="America/Mexico_City" /> -->
+<!-- 								</h:outputText> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Día fin" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.diaFin}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Hora fin" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.horaFin}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;"> -->
+<!-- 									<f:convertDateTime pattern="HH:mm:ss" -->
+<!-- 										timeZone="America/Mexico_City" /> -->
+<!-- 								</h:outputText> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="PH Sol" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.phSol}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Normalidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.normalidad}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Alcalinidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.alcalinidad}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Conductividad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.conductividad}" -->
+<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Químico" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.quimico1}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Cantidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.cantidad1}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Lote" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.lote1}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Químico" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.quimico2}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Cantidad" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.cantidad2}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Lote" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.lote2}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Agua" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.agua}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
+
+<!-- 							<p:column headerText="Operador" width="5rem"> -->
+<!-- 								<h:outputText value="#{item3.operador}" -->
+<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
+<!-- 							</p:column> -->
 
 
-					</p:tab>
-				</p:accordionPanel>
+<!-- 						</p:dataTable> -->
+
+
+<!-- 					</p:tab> -->
+<!-- 				</p:accordionPanel> -->
 				<script>
                         PrimeFaces.locales['es'] = {
                             closeText: 'Cerrar',

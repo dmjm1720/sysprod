@@ -2,6 +2,7 @@ package com.dmjm.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class FacturasPieles implements Serializable {
 
@@ -22,6 +23,12 @@ public class FacturasPieles implements Serializable {
 	private BigDecimal categoria10;
 	private BigDecimal categoria11;
 	private BigDecimal categoria12;
+	private BigDecimal totalFactura;
+	private BigDecimal kilosDisponibles;
+	private String proveedor;
+	private String origen;
+	private Date fechaInicial;
+	private Date fechaFinal;
 
 	public FacturasPieles() {
 	}
@@ -33,7 +40,9 @@ public class FacturasPieles implements Serializable {
 	public FacturasPieles(int idFacturaPiel, PreparacionPieles preparacionPieles, String factura, BigDecimal total,
 			BigDecimal categoria1, BigDecimal categoria2, BigDecimal categoria3, BigDecimal categoria4,
 			BigDecimal categoria5, BigDecimal categoria6, BigDecimal categoria7, BigDecimal categoria8,
-			BigDecimal categoria9, BigDecimal categoria10, BigDecimal categoria11, BigDecimal categoria12) {
+			BigDecimal categoria9, BigDecimal categoria10, BigDecimal categoria11, BigDecimal categoria12,
+			BigDecimal totalFactura, BigDecimal kilosDisponibles, String proveedor, String origen, Date fechaInicial,
+			Date fechaFinal) {
 
 		this.idFacturaPiel = idFacturaPiel;
 		this.preparacionPieles = preparacionPieles;
@@ -51,6 +60,13 @@ public class FacturasPieles implements Serializable {
 		this.categoria10 = categoria10;
 		this.categoria11 = categoria11;
 		this.categoria12 = categoria12;
+		this.totalFactura = totalFactura;
+		this.kilosDisponibles = kilosDisponibles;
+		this.proveedor = proveedor;
+		this.origen = origen;
+		this.fechaInicial = fechaInicial;
+		this.fechaFinal = fechaFinal;
+
 	}
 
 	public int getIdFacturaPiel() {
@@ -179,6 +195,54 @@ public class FacturasPieles implements Serializable {
 
 	public void setCategoria12(BigDecimal categoria12) {
 		this.categoria12 = categoria12;
+	}
+
+	public BigDecimal getTotalFactura() {
+		return totalFactura;
+	}
+
+	public void setTotalFactura(BigDecimal totalFactura) {
+		this.totalFactura = totalFactura;
+	}
+
+	public BigDecimal getKilosDisponibles() {
+		return kilosDisponibles;
+	}
+
+	public void setKilosDisponibles(BigDecimal kilosDisponibles) {
+		this.kilosDisponibles = kilosDisponibles;
+	}
+
+	public String getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(String proveedor) {
+		this.proveedor = proveedor;
+	}
+
+	public String getOrigen() {
+		return origen;
+	}
+
+	public void setOrigen(String origen) {
+		this.origen = origen;
+	}
+
+	public Date getFechaInicial() {
+		return fechaInicial;
+	}
+
+	public void setFechaInicial(Date fechaInicial) {
+		this.fechaInicial = fechaInicial;
+	}
+
+	public Date getFechaFinal() {
+		return fechaFinal;
+	}
+
+	public void setFechaFinal(Date fechaFinal) {
+		this.fechaFinal = fechaFinal;
 	}
 
 }

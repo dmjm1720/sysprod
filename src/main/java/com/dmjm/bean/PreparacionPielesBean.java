@@ -471,14 +471,14 @@ public class PreparacionPielesBean implements Serializable {
 		String[] listaEtapaBlanqueo = { "Lavadas Finales (1)", "Lavadas Finales (2)", "Lavadas Finales (3)",
 				"Lavadas Finales (4)", "Lavadas Finales (5)" };
 		// TERCERA ETAPA APARTADO 1
-		String[] listaEtapaLavadorasChicas = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
-				"Lavadora Chica 4" };
+		String[] listaEtapaLavadorasChicas = { "Lavadas Finales -1-", "Lavadas Finales -2-", "Lavadas Finales -3-",
+				"Lavadas Finales -4-", "Lavadas Finales -5-", "Lavadas Finales -6-" };
 		// TERCERA ETAPA APARTADO 2
-		String[] listaEtapaLavadorasChicas2 = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
-				"Lavadora Chica 4" };
-		// TERCERA ETAPA APARTADO 3
-		String[] listaEtapaLavadorasChicas3 = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
-				"Lavadora Chica 4" };
+//		String[] listaEtapaLavadorasChicas2 = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
+//				"Lavadora Chica 4" };
+//		// TERCERA ETAPA APARTADO 3
+//		String[] listaEtapaLavadorasChicas3 = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
+//				"Lavadora Chica 4" };
 		// CUARTA ETAPA
 		String[] listaSilos = { "Silos" };
 		List<Etapas> listaAgregarEtapas = new ArrayList<>();
@@ -605,27 +605,27 @@ public class PreparacionPielesBean implements Serializable {
 			listaAgregarEtapas.add(e);
 		}
 
-		// GUARDAR TERCERA ETAPA APARTADO 2
-		for (String terceraEtapa2 : listaEtapaLavadorasChicas2) {
-			Etapas e = new Etapas();
-			e.setPreparacionPieles(pieles);
-			e.setEstado(false);
-			e.setLavadora(filterLavadora);
-			e.setEtapa(terceraEtapa2);
-			e.setEstadoEtapa("Etapa 4");
-			listaAgregarEtapas.add(e);
-		}
-
-		// GUARDAR TERCERA ETAPA APARTADO 3
-		for (String terceraEtapa3 : listaEtapaLavadorasChicas3) {
-			Etapas e = new Etapas();
-			e.setPreparacionPieles(pieles);
-			e.setEstado(false);
-			e.setLavadora(filterLavadora);
-			e.setEtapa(terceraEtapa3);
-			e.setEstadoEtapa("Etapa 5");
-			listaAgregarEtapas.add(e);
-		}
+//		// GUARDAR TERCERA ETAPA APARTADO 2
+//		for (String terceraEtapa2 : listaEtapaLavadorasChicas2) {
+//			Etapas e = new Etapas();
+//			e.setPreparacionPieles(pieles);
+//			e.setEstado(false);
+//			e.setLavadora(filterLavadora);
+//			e.setEtapa(terceraEtapa2);
+//			e.setEstadoEtapa("Etapa 4");
+//			listaAgregarEtapas.add(e);
+//		}
+//
+//		// GUARDAR TERCERA ETAPA APARTADO 3
+//		for (String terceraEtapa3 : listaEtapaLavadorasChicas3) {
+//			Etapas e = new Etapas();
+//			e.setPreparacionPieles(pieles);
+//			e.setEstado(false);
+//			e.setLavadora(filterLavadora);
+//			e.setEtapa(terceraEtapa3);
+//			e.setEstadoEtapa("Etapa 5");
+//			listaAgregarEtapas.add(e);
+//		}
 
 		IEtapasDao eDao = new EtapasDaoImpl();
 		eDao.guardarListaEtapas(listaAgregarEtapas);
@@ -781,10 +781,36 @@ public class PreparacionPielesBean implements Serializable {
 				if (facturasPieles.getCategoria9() != null
 						&& Double.valueOf(facturasPieles.getCategoria9().toString()) > 0) {
 					cantidadIngresada = facturasPieles.getCategoria9().doubleValue();
+
 				}
 				LOGGER.info("ID DE PREPARACIÓN: " + idPrep);
+				LOGGER.info("FACTURA DE PREPARACIÓN: " + facturasPieles.getFactura());
+				Entradas ent = new Entradas();
+				IEntradasDao revDao = new EntradasDaoImpl();
+				ent = revDao.obtenerIdEntrada(facturasPieles.getFactura());
+				facturasPieles.setProveedor(ent.getProveedores().getNombre());
+				facturasPieles.setOrigen(ent.getProveedores().getNacionalImportacion());
+				// VALIDACIÓN PARA ACTUALIZAR LA ENTRADA DE LA FACTURA
+				ISaldoFacturaDao saldosDao = new SaldoFacturaDaoImpl();
+				double revisarSaldo = 0.0;
+				revisarSaldo = saldosDao.saldo(facturasPieles.getFactura());// hace un top a la selección
+				
+				if (ent.getProveedores().getNacionalImportacion().equals("NACIONAL")
+						&& !ent.getMateria().getTipo().equals("CUERO EN SANGRE")) {
+					facturasPieles.setTotalFactura(ent.getKgRecibidos());
+				} else if (ent.getProveedores().getNacionalImportacion().equals("IMPORTACIÓN")
+						|| ent.getMateria().getTipo().equals("CUERO EN SANGRE")) {
+					if (ent.getTipoMoneda().equals("USD")) {
+						facturasPieles.setTotalFactura(ent.getKgNetos());
+					} else {
+						facturasPieles.setTotalFactura(ent.getKgEmbarcados());
+					}
+
+				}
+				
+				facturasPieles.setKilosDisponibles(new BigDecimal(revisarSaldo));
 				facturasPieles.setPreparacionPieles(prePieles);
-				fDao.guardarFacturasPieles(facturasPieles);
+				fDao.guardarFacturasPieles(facturasPieles); // GUARDAR EN LA TABLA FACTURA_PIELES
 
 				IFacturaPielesDao pDao = new FacturaPielesDaoImpl();
 				listaFacturaPieles = pDao.listaFacturaPieles(idPrep);
@@ -1443,7 +1469,7 @@ public class PreparacionPielesBean implements Serializable {
 					LocalDate today = LocalDate.now(); // Mantiene la fecha actual
 					LocalTime time = LocalTime.of(0, 59, 59); // Establece la hora deseada
 					Date date = Date.from(time.atDate(today).atZone(ZoneId.systemDefault()).toInstant());
-	
+
 					e.setHoraFin(date);
 					e.setQuimico1("-1");
 					e.setCantidad1("-1");
@@ -1722,13 +1748,13 @@ public class PreparacionPielesBean implements Serializable {
 
 		if (etapas.getEtapa().equals("Lavadas Finales (5)")) {
 			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
-				e.setEtapa("Lavadas Finales (6)");
+				e.setEtapa("Lavadas Finales -1-");
 				if (estadoEtapa(e).getEstado().equals(false)) {
 					e.setDiaInicio(fecInicio);
 					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
-					e.setEstadoEtapa("Etapa 2");
+					e.setEstadoEtapa("Etapa 3");
 					e.setLavadora(lavadoraActual);
 					e.setOperador(us.getNombre());
 					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
@@ -1739,12 +1765,133 @@ public class PreparacionPielesBean implements Serializable {
 
 					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
 					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
-					LOGGER.info("Etapa: Control 8, está en el estado CERO, se actualiza al estado 1 ");
+					LOGGER.info("Etapa: Lavadas Finales -1-, está en el estado CERO, se actualiza al estado 1 ");
 
 				}
-
 			}
+		}
 
+		if (etapas.getEtapa().equals("Lavadas Finales -1-")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Lavadas Finales -2-)");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 3");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Lavadas Finales -2-, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+
+		if (etapas.getEtapa().equals("Lavadas Finales -2-")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Lavadas Finales -3-)");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 3");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Lavadas Finales -3-, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+
+		if (etapas.getEtapa().equals("Lavadas Finales -3-")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Lavadas Finales -4-)");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 3");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Lavadas Finales -4-, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		if (etapas.getEtapa().equals("Lavadas Finales -4-")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Lavadas Finales -5-)");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 3");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Lavadas Finales -5-, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
+		}
+		if (etapas.getEtapa().equals("Lavadas Finales -5-")) {
+			if (etapas.getHoraFin() != null && !etapas.getHoraFin().equals("NULL")) {
+				e.setEtapa("Lavadas Finales -6-)");
+				if (estadoEtapa(e).getEstado().equals(false)) {
+					e.setDiaInicio(fecInicio);
+					e.setHoraInicio(horaIni);
+					e.setEstado(true);
+
+					e.setEstadoEtapa("Etapa 3");
+					e.setLavadora(lavadoraActual);
+					e.setOperador(us.getNombre());
+					e.setIdEtapa(estadoEtapa(e).getIdEtapa());
+					PreparacionPieles prep = new PreparacionPieles();
+					prep.setIdPreparacion(estadoEtapa(e).getPreparacionPieles().getIdPreparacion());
+					e.setPreparacionPieles(prep);
+					etapaDao.actualizarSiguienteEtapa(e);
+
+					actualizarEtapas(e.getPreparacionPieles().getIdPreparacion(), e.getEtapa());
+					// **ACTUALIZAR EL ESTADO A DISPONIBLE EN LA LAVADORA**//
+					LOGGER.info("Etapa: Lavadas Finales -6-, está en el estado CERO, se actualiza al estado 1 ");
+
+				}
+			}
 		}
 
 		// showMessage(); MOSTRAR MENSAJE
@@ -2075,9 +2222,22 @@ public class PreparacionPielesBean implements Serializable {
 			if (cantidadIngresada(tipoM) > 0 && cantidadIngresada(tipoM) <= validarSaldo) {
 				sf.setFactura(factura);
 				sf.setNuevoSaldo(new BigDecimal(validarSaldo - cantidadIngresada(tipoM)));
-				sf.setTotalFactura(e.getKgRecibidos());
-				sf.setFecha(new Date());
 
+				if (e.getProveedores().getNacionalImportacion().equals("NACIONAL")
+						&& !e.getMateria().getTipo().equals("CUERO EN SANGRE")) {
+					sf.setTotalFactura(e.getKgRecibidos());
+				} else if (e.getProveedores().getNacionalImportacion().equals("IMPORTACIÓN")
+						|| e.getMateria().getTipo().equals("CUERO EN SANGRE")) {
+					if (e.getTipoMoneda().equals("USD")) {
+						sf.setTotalFactura(e.getKgNetos());
+					} else {
+						sf.setTotalFactura(e.getKgEmbarcados());
+					}
+
+				}
+
+				sf.setFecha(new Date());
+				sf.setIdEntrada(e.getIdEntrada());
 				saldoDao.guardarSaldoFactura(sf);
 				validar = "OK";
 			} else {

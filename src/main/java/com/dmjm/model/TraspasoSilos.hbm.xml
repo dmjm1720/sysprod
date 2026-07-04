@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3/07/2026 09:34:22 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.TraspasoSilos" table="TRASPASO_SILOS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idTraspaso" type="int">
+            <column name="ID_TRASPASO" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="operador" class="com.dmjm.model.Operador" fetch="select">
+            <column name="ID_OPERADOR" />
+        </many-to-one>
+        <many-to-one name="usuarios" class="com.dmjm.model.Usuarios" fetch="select">
+            <column name="ID_USUARIO" />
+        </many-to-one>
+        <property name="fechaInicial" type="date">
+            <column name="FECHA_INICIAL" length="10" />
+        </property>
+        <property name="horaInicial" type="time">
+            <column name="HORA_INICIAL" length="16" />
+        </property>
+        <property name="fechaFinal" type="date">
+            <column name="FECHA_FINAL" length="10" />
+        </property>
+        <property name="horaFinal" type="time">
+            <column name="HORA_FINAL" length="16" />
+        </property>
+    </class>
+</hibernate-mapping>
