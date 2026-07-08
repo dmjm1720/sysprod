@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -34,6 +35,7 @@ import com.dmjm.dao.IOperacionLavadorasDao;
 import com.dmjm.dao.IPreparacionPielesDao;
 import com.dmjm.dao.IQuimicosDao;
 import com.dmjm.dao.ISaldoFacturaDao;
+import com.dmjm.dao.ITraspasoSilosDao;
 import com.dmjm.impl.EntradasDaoImpl;
 import com.dmjm.impl.EtapasDaoImpl;
 import com.dmjm.impl.FacturaPielesDaoImpl;
@@ -43,6 +45,7 @@ import com.dmjm.impl.OperacionLavadorasDaoImpl;
 import com.dmjm.impl.PreparacionDaoImpl;
 import com.dmjm.impl.QuimicosDaoImpl;
 import com.dmjm.impl.SaldoFacturaDaoImpl;
+import com.dmjm.impl.TraspasoDaoImpl;
 import com.dmjm.model.Categorias;
 import com.dmjm.model.Entradas;
 import com.dmjm.model.Etapas;
@@ -53,6 +56,7 @@ import com.dmjm.model.PreparacionPieles;
 import com.dmjm.model.Proveedores;
 import com.dmjm.model.Quimicos;
 import com.dmjm.model.SaldoFactura;
+import com.dmjm.model.TraspasoSilos;
 import com.dmjm.model.Usuarios;
 
 @Named(value = "preparacionBean")
@@ -99,6 +103,7 @@ public class PreparacionPielesBean implements Serializable {
 	private double saldoDisponibleParaAgregar = 0.0;
 
 	private String[] selectedProcess;
+	private String[] selectedLavadorasChicas;
 	private List<String> procesos;
 
 	private String estadoLavadora = "";
@@ -110,10 +115,22 @@ public class PreparacionPielesBean implements Serializable {
 	private Double kg1 = 0.0;
 	private Double kg2 = 0.0;
 	private Double kg3 = 0.0;
+	private Double kg4 = 0.0;
+	private Double kg5 = 0.0;
+	private Double kg6 = 0.0;
 
 	private Proveedores proveedor;
 
 	private Categorias categorias;
+
+	private List<TraspasoSilos> listarTraspasos;
+	private TraspasoSilos traspasoSilos;
+	private TraspasoSilos traspasoSilosEditar;
+
+	private List<String> listarLavadorasChicas;
+
+	private int distribucionKilos;
+	private List<String> listarAsignacionKilosLavadorasChicas;
 
 	@PostConstruct
 	public void init() {
@@ -137,27 +154,46 @@ public class PreparacionPielesBean implements Serializable {
 		listarLavadorasDisponibles2 = new ArrayList<>();
 		listaFacturasTolvas = new ArrayList<>();
 		proveedor = new Proveedores();
-//		procesos = new ArrayList<>();
-//		procesos.add("Carga");
-//		procesos.add("Depilado");
-//		procesos.add("Lavado de Depilado");
-//		procesos.add("Blanqueo");
-//		procesos.add("Lavadas de Blanqueo");
-//		procesos.add("Proceso Enzimático");
-//		procesos.add("Lavadas Enzimáticas");
-//		procesos.add("Pre Acidulación");
-//		procesos.add("Acidulación");
-//		procesos.add("Control 1");
-//		procesos.add("Control 2");
-//		procesos.add("Control 3");
-//		procesos.add("Control 4");
-//		procesos.add("Control 5");
-//		procesos.add("Control 6");
-//		procesos.add("Control 7");
-//		procesos.add("Control 8");
 
 		categorias = new Categorias();
 
+		listarTraspasos = new ArrayList<>();
+		traspasoSilos = new TraspasoSilos();
+		traspasoSilosEditar = new TraspasoSilos();
+
+		listarLavadorasChicas = new ArrayList<>();
+		listarAsignacionKilosLavadorasChicas = new ArrayList<>();
+
+	}
+
+	public int getDistribucionKilos() {
+		return distribucionKilos;
+	}
+
+	public void setDistribucionKilos(int distribucionKilos) {
+		this.distribucionKilos = distribucionKilos;
+	}
+
+	public TraspasoSilos getTraspasoSilos() {
+		return traspasoSilos;
+	}
+
+	public void setTraspasoSilos(TraspasoSilos traspasoSilos) {
+		this.traspasoSilos = traspasoSilos;
+	}
+
+	public TraspasoSilos getTraspasoSilosEditar() {
+		return traspasoSilosEditar;
+	}
+
+	public void setTraspasoSilosEditar(TraspasoSilos traspasoSilosEditar) {
+		this.traspasoSilosEditar = traspasoSilosEditar;
+	}
+
+	public List<TraspasoSilos> getListarTraspasos() {
+		ITraspasoSilosDao tDao = new TraspasoDaoImpl();
+		listarTraspasos = tDao.listaTraspasos(idPrep);
+		return listarTraspasos;
 	}
 
 	public Proveedores getProveedor() {
@@ -295,6 +331,14 @@ public class PreparacionPielesBean implements Serializable {
 		this.selectedProcess = selectedProcess;
 	}
 
+	public String[] getSelectedLavadorasChicas() {
+		return selectedLavadorasChicas;
+	}
+
+	public void setSelectedLavadorasChicas(String[] selectedLavadorasChicas) {
+		this.selectedLavadorasChicas = selectedLavadorasChicas;
+	}
+
 	public String getEstadoLavadora() {
 		return estadoLavadora;
 	}
@@ -359,6 +403,14 @@ public class PreparacionPielesBean implements Serializable {
 		this.categorias = categorias;
 	}
 
+	public List<String> getListarAsignacionKilosLavadorasChicas() {
+		return listarAsignacionKilosLavadorasChicas;
+	}
+
+	public void setListarAsignacionKilosLavadorasChicas(List<String> listarAsignacionKilosLavadorasChicas) {
+		this.listarAsignacionKilosLavadorasChicas = listarAsignacionKilosLavadorasChicas;
+	}
+
 	public void onToggleSelect(ToggleSelectEvent event) {
 		FacesMessage msg = new FacesMessage();
 		msg.setSummary("Toggled: " + event.isSelected());
@@ -396,6 +448,21 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		return listaOperacionesDisponibles;
+	}
+
+	// **OBTENER LA LISTA DE LAVADORAS CHICAS DISPONIBLES**//
+	public List<String> getListarLavadorasChicas() {
+		ILavadorasDao lDao = new LavadorasDaoImpl();
+		List<Lavadoras> listar = new ArrayList<>();
+		listar.clear();
+		listarLavadorasChicas.clear();
+		listar = lDao.listaLavadorasChicas();
+
+		for (Lavadoras lavadoras : listar) {
+			listarLavadorasChicas.add(lavadoras.getNombre() + " " + lavadoras.getDescripcion());
+		}
+
+		return listarLavadorasChicas;
 	}
 
 	// **OBTENER LA LISTA DE LAS LAVADORAS DISPONIBLES**//
@@ -471,8 +538,8 @@ public class PreparacionPielesBean implements Serializable {
 		String[] listaEtapaBlanqueo = { "Lavadas Finales (1)", "Lavadas Finales (2)", "Lavadas Finales (3)",
 				"Lavadas Finales (4)", "Lavadas Finales (5)" };
 		// TERCERA ETAPA APARTADO 1
-		String[] listaEtapaLavadorasChicas = { "Lavadas Finales -1-", "Lavadas Finales -2-", "Lavadas Finales -3-",
-				"Lavadas Finales -4-", "Lavadas Finales -5-", "Lavadas Finales -6-" };
+//		String[] listaEtapaLavadorasChicas = { "Lavadas Finales -1-", "Lavadas Finales -2-", "Lavadas Finales -3-",
+//				"Lavadas Finales -4-", "Lavadas Finales -5-", "Lavadas Finales -6-" };
 		// TERCERA ETAPA APARTADO 2
 //		String[] listaEtapaLavadorasChicas2 = { "Lavadora Chica 1", "Lavadora Chica 2", "Lavadora Chica 3",
 //				"Lavadora Chica 4" };
@@ -595,35 +662,13 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		// GUARDAR TERCERA ETAPA
-		for (String terceraEtapa : listaEtapaLavadorasChicas) {
-			Etapas e = new Etapas();
-			e.setPreparacionPieles(pieles);
-			e.setEstado(false);
-			e.setLavadora(filterLavadora);
-			e.setEtapa(terceraEtapa);
-			e.setEstadoEtapa("Etapa 3");
-			listaAgregarEtapas.add(e);
-		}
-
-//		// GUARDAR TERCERA ETAPA APARTADO 2
-//		for (String terceraEtapa2 : listaEtapaLavadorasChicas2) {
+//		for (String terceraEtapa : listaEtapaLavadorasChicas) {
 //			Etapas e = new Etapas();
 //			e.setPreparacionPieles(pieles);
 //			e.setEstado(false);
 //			e.setLavadora(filterLavadora);
-//			e.setEtapa(terceraEtapa2);
-//			e.setEstadoEtapa("Etapa 4");
-//			listaAgregarEtapas.add(e);
-//		}
-//
-//		// GUARDAR TERCERA ETAPA APARTADO 3
-//		for (String terceraEtapa3 : listaEtapaLavadorasChicas3) {
-//			Etapas e = new Etapas();
-//			e.setPreparacionPieles(pieles);
-//			e.setEstado(false);
-//			e.setLavadora(filterLavadora);
-//			e.setEtapa(terceraEtapa3);
-//			e.setEstadoEtapa("Etapa 5");
+//			e.setEtapa(terceraEtapa);
+//			e.setEstadoEtapa("Etapa 3");
 //			listaAgregarEtapas.add(e);
 //		}
 
@@ -794,7 +839,7 @@ public class PreparacionPielesBean implements Serializable {
 				ISaldoFacturaDao saldosDao = new SaldoFacturaDaoImpl();
 				double revisarSaldo = 0.0;
 				revisarSaldo = saldosDao.saldo(facturasPieles.getFactura());// hace un top a la selección
-				
+
 				if (ent.getProveedores().getNacionalImportacion().equals("NACIONAL")
 						&& !ent.getMateria().getTipo().equals("CUERO EN SANGRE")) {
 					facturasPieles.setTotalFactura(ent.getKgRecibidos());
@@ -807,7 +852,7 @@ public class PreparacionPielesBean implements Serializable {
 					}
 
 				}
-				
+
 				facturasPieles.setKilosDisponibles(new BigDecimal(revisarSaldo));
 				facturasPieles.setPreparacionPieles(prePieles);
 				fDao.guardarFacturasPieles(facturasPieles); // GUARDAR EN LA TABLA FACTURA_PIELES
@@ -1894,7 +1939,6 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 
-		// showMessage(); MOSTRAR MENSAJE
 		if (etapas.getAlcalinidad() != null && etapas.getAlcalinidad().equals("")) {
 			etapas.setAlcalinidad(null);
 		}
@@ -1951,6 +1995,8 @@ public class PreparacionPielesBean implements Serializable {
 		listaOperaciones = oDao.listaOperacionLavadoras(idPrep);
 		getListaOperaciones();
 
+		dlgMostrarTraspasoMaterial(); // MOSTRAR DIÁLOGO DE TRASPASO DE MATERIAL
+
 	}
 
 	public Etapas estadoEtapa(Etapas e) {
@@ -2002,6 +2048,8 @@ public class PreparacionPielesBean implements Serializable {
 		IEtapasDao eDao5 = new EtapasDaoImpl();
 		listaDeEtapas5 = eDao5.listaEtapas5(idPrep);
 		getListaDeEtapas5();
+
+		getListarTraspasos();
 
 	}
 
@@ -2343,37 +2391,72 @@ public class PreparacionPielesBean implements Serializable {
 
 	}
 
-	public void showMessage() {
+	public void dlgMostrarTraspasoMaterial() {
 
-		PrimeFaces.current().executeScript("PF('dlgLavadoras').show();");
+		PrimeFaces.current().executeScript("PF('dlgTraspasoMaterial').show();");
 	}
 
-	public void calcularKilos(int noLavadoras) {
-		System.out.println("No de lavadoras: " + noLavadoras);
-		IFacturaPielesDao pDao = new FacturaPielesDaoImpl();
-		listaFacturaPieles = pDao.listaFacturaPieles(idPrep);
+	public List<Double> calcularKilos() {
 
-		Double kilos1 = 0.0;
-		Double kilos2 = 0.0;
-		Double kilos3 = 0.0;
+	    List<Double> listaKilos = new ArrayList<>();
 
-		for (FacturasPieles fp : listaFacturaPieles) {
-			noFacturaLavadorasChicas = fp.getFactura();
-			// kilos1 = fp.getCz().doubleValue();
-		}
+	    int numeroLavadoras = selectedLavadorasChicas.length;
 
-		kilos2 = Math.floor(kilos1 / noLavadoras);
+	    IFacturaPielesDao pDao = new FacturaPielesDaoImpl();
+	    listaFacturaPieles = pDao.listaFacturaPieles(idPrep);
 
-		if (noLavadoras == 3) {
-			kilos3 = (kilos2 * 2) - kilos1;
-		}
+	    double kilosTotales = distribucionKilos;
 
-		if (noLavadoras == 3) {
-			kg1 = kilos2;
-			kg2 = kilos2;
-			kg3 = Math.abs(kilos3);
-		}
-		kilosLavadorasChicas = kilos1;
+	    for (FacturasPieles fp : listaFacturaPieles) {
+	        noFacturaLavadorasChicas = fp.getFactura();
+	    }
+
+	    if (numeroLavadoras < 2 || numeroLavadoras > 6) {
+	        return listaKilos;
+	    }
+
+	    // Parte entera de la división
+	    int kilosBase = (int) (kilosTotales / numeroLavadoras);
+
+	    // Kilos sobrantes
+	    int restante = (int) (kilosTotales % numeroLavadoras);
+
+	    // Repartir los kilos
+	    for (int i = 0; i < numeroLavadoras; i++) {
+
+	        double kilos = kilosBase;
+
+	        // A las primeras "restante" lavadoras se les agrega 1 kg
+	        if (i < restante) {
+	            kilos++;
+	        }
+
+	        listaKilos.add(kilos);
+	    }
+
+	    // Mostrar la distribución
+	    listarAsignacionKilosLavadorasChicas.clear();
+
+	    for (int i = 0; i < selectedLavadorasChicas.length && i < listaKilos.size(); i++) {
+	        listarAsignacionKilosLavadorasChicas.add(
+	            selectedLavadorasChicas[i] + ": " + listaKilos.get(i) + " kg."
+	        );
+	    }
+
+	    return listaKilos;
+	}
+
+	public void guardarTaspasoSilos() {
+		ITraspasoSilosDao tDao = new TraspasoDaoImpl();
+		tDao.guardarTraspasoSilos(traspasoSilos);
+		traspasoSilos = new TraspasoSilos();
+
+	}
+
+	public void actualizarTaspasoSilos() {
+		ITraspasoSilosDao tDao = new TraspasoDaoImpl();
+		tDao.actualizarTraspasoSilos(traspasoSilosEditar);
+		traspasoSilosEditar = new TraspasoSilos();
 
 	}
 

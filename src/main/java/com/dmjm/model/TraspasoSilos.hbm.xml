@@ -18,13 +18,19 @@
             <column name="FECHA_INICIAL" length="10" />
         </property>
         <property name="horaInicial" type="time">
-            <column name="HORA_INICIAL" length="16" />
+            <column name="HORA_INICIAL" length="7" />
         </property>
         <property name="fechaFinal" type="date">
             <column name="FECHA_FINAL" length="10" />
         </property>
         <property name="horaFinal" type="time">
-            <column name="HORA_FINAL" length="16" />
+            <column name="HORA_FINAL" length="7" />
         </property>
+        <property name="noOperacion" type="java.lang.Integer">
+			<column name="NO_OPERACION" />
+		</property>
+		    <property name="idOperacion" type="java.lang.Integer">
+			<column name="ID_OPERACION" />
+		</property>
     </class>
 </hibernate-mapping>

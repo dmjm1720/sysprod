@@ -12,6 +12,8 @@ public class TraspasoSilos implements java.io.Serializable {
 	private Date horaInicial;
 	private Date fechaFinal;
 	private Date horaFinal;
+	private int noOperacion;
+	private int idOperacion;
 
 	public TraspasoSilos() {
 	}
@@ -21,7 +23,7 @@ public class TraspasoSilos implements java.io.Serializable {
 	}
 
 	public TraspasoSilos(int idTraspaso, Operador operador, Usuarios usuarios, Date fechaInicial, Date horaInicial,
-			Date fechaFinal, Date horaFinal) {
+			Date fechaFinal, Date horaFinal, int noOperacion, int idOperacion) {
 		this.idTraspaso = idTraspaso;
 		this.operador = operador;
 		this.usuarios = usuarios;
@@ -29,6 +31,8 @@ public class TraspasoSilos implements java.io.Serializable {
 		this.horaInicial = horaInicial;
 		this.fechaFinal = fechaFinal;
 		this.horaFinal = horaFinal;
+		this.noOperacion = noOperacion;
+		this.idOperacion = idOperacion;
 	}
 
 	public int getIdTraspaso() {
@@ -85,6 +89,22 @@ public class TraspasoSilos implements java.io.Serializable {
 
 	public void setHoraFinal(Date horaFinal) {
 		this.horaFinal = horaFinal;
+	}
+
+	public int getNoOperacion() {
+		return noOperacion;
+	}
+
+	public void setNoOperacion(int noOperacion) {
+		this.noOperacion = noOperacion;
+	}
+
+	public int getIdOperacion() {
+		return idOperacion;
+	}
+
+	public void setIdOperacion(int idOperacion) {
+		this.idOperacion = idOperacion;
 	}
 
 }

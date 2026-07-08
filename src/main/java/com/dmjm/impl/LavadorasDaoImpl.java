@@ -209,4 +209,11 @@ public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
 		
 	}
 
+	@Override
+	public List<Lavadoras> listaLavadorasChicas() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Lavadoras WHERE nombre='LAVADORA CHICA' AND estado=0", Lavadoras.class).list();
+		}
+	}
+
 }

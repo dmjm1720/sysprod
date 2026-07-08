@@ -14,16 +14,18 @@ public interface ILavadorasDao {
 	void actualizarLavadoras(Lavadoras lavadoras);
 
 	List<String> completeLavadoras(String nombre) throws SQLException;
-	
+
 	int buscarLavadora(String nombre) throws SQLException;
-	
+
 	void actualizarEstadoLavadora(int estado, String etapa, int idEntrada);
-	
+
 	Lavadoras listarCapaciad(Lavadoras l);
-	
+
 	List<Lavadoras> listarLavadorasDisponibles();
-	
+
 	void actualizarEtapaLavadora(String etapa, int id);
-	
+
 	void borrarLavadora(Lavadoras lavadoras);
+
+	List<Lavadoras> listaLavadorasChicas();
 }
