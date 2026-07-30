@@ -118,16 +118,10 @@
 									value="#{preparacionBean.listaOperacionesDisponibles}" />
 							</p:selectOneMenu>
 
-
 							<p:commandButton icon="pi pi-search-plus" value="BUSCAR"
 								styleClass="mensajeBoton2" style="width: 8rem; height: 2rem"
 								actionListener="#{preparacionBean.buscarRegistro()}"
-								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3" />
-
-							<p:commandButton icon="pi pi-search-plus" value="TRASPASO"
-								styleClass="mensajeBoton2" style="width: 8rem; height: 2rem"
-								oncomplete="PF('dlgTraspasoMaterial').show()" />
-
+								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3, frmPrincipal:accoE4:tblPre" />
 
 						</h:panelGrid>
 
@@ -282,7 +276,8 @@
 										</p:column>
 
 										<p:column headerText="Lavadora" width="8rem">
-											<h:outputText value="#{lav.lavadoras.nombre}"
+											<h:outputText
+												value="#{lav.lavadoras.nombre}  #{lav.lavadoras.descripcion}"
 												style="color: #036FAB;font-weight: bold !important;" />
 										</p:column>
 										<p:column headerText="Estatus actual" width="8rem">
@@ -545,9 +540,26 @@
 
 				</p:accordionPanel>
 
+				<div style="text-align: center">
+					<p:commandButton icon="pi pi-sign-in" value="TRASPASO"
+						styleClass="mensajeBoton2 verde" style="width: 8rem; height: 2rem"
+						actionListener="#{preparacionBean.colocarTotal()}"
+						update="frmLavadorasTras:distt"
+						oncomplete="PF('dlgTraspasoMaterialTras').show()" />
+
+					<p:commandButton icon="pi pi-sign-out" value="ENCIMADO"
+						styleClass="mensajeBoton2 amarillo"
+						style="width: 8rem; height: 2rem"
+						oncomplete="PF('dlgTraspasoMaterial').show()" />
+				</div>
+
 
 				<!-- ETAPA 2 -->
 				<p:accordionPanel id="accoE2">
+
+
+
+
 					<p:tab title="LAVADAS FINALES"
 						titleStyle="font-size: .8rem; background-color: #4682B4; color: #F5F5F5">
 
@@ -841,7 +853,7 @@
 							</p:column>
 
 							<p:column headerText="Operador" width="4rem" styleClass="fondo">
-								<h:outputText value="#{item3.operador}"
+								<h:outputText value="#{item3.operador.nombre}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
 
@@ -1195,9 +1207,175 @@
 			<!-- FINALIZA FORMULARIO PARA EDITAR -->
 
 
-			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<!-- INICIA FORMULARIO PARA TRASPASO DE LAVADORAS -->
+			<h:form id="frmLavadorasTras">
+				<p:dialog id="dlgLavadorasChicasTras"
+					header="TRASPASO DE MATERIAL A LAVADORAS CHICAS"
+					widgetVar="dlgTraspasoMaterialTras" showEffect="fade"
+					closeOnEscape="true" minimizable="false" maximizable="false">
+					<div style="text-align: center">
+
+						<p:outputLabel value="SELECCIONE DESTINO DEL MATERIAL" />
+						<br></br>
+						<p:divider />
+						<br></br> <br></br>
+					</div>
+
+
+					<p:splitter styleClass="mb-6" widgetVar="splitter">
+						<p:splitterPanel
+							styleClass="flex align-items-center justify-content-center">
+
+
+							<span style="font-size: .9rem">&#8680; Traspaso a Silos</span>
+							<p:divider />
+							<br></br>
+							<br></br>
+							<table>
+								<thead>
+									<tr>
+										<th colspan="3">Traspaso a Silos</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Fecha y Hora Inicial:</td>
+										<td><p:datePicker id="fechaSilosTras"
+												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
+												placeholder="Fecha inicial"
+												inputStyleClass="font-size: .8rem !important amarillo"
+												inputStyle="width: 90px !important; font-family: 'Poppins', sans-serif !important;"
+												value="#{preparacionBean.traspasoSilos.fechaInicial}"
+												style="font-family: 'Poppins', sans-serif !important;"
+												styleClass="captura" /></td>
+										<td><pe:timePicker id="hiSilosTras"
+												value="#{preparacionBean.traspasoSilos.horaInicial}"
+												mode="spinner" widgetVar="hsI" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></td>
+									</tr>
+									<tr>
+										<td>Fecha y Hora Final:</td>
+										<td><p:datePicker id="fechaFinSilosTras"
+												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
+												placeholder="Fecha final"
+												inputStyleClass="font-size: .8rem !important amarillo"
+												inputStyle="width: 90px !important; font-family: 'Poppins', sans-serif !important;"
+												value="#{preparacionBean.traspasoSilos.fechaFinal}"
+												style="font-family: 'Poppins', sans-serif !important;"
+												styleClass="captura" /></td>
+										<td><pe:timePicker id="hiFinSilos"
+												value="#{preparacionBean.traspasoSilos.horaFinal}"
+												mode="spinner" widgetVar="hsF" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></td>
+									</tr>
+									<tr>
+										<td>Nombre del Coordinador:</td>
+										<td colspan="2"><p:autoComplete id="coordsTr" size="20"
+												required="false" requiredMessage="Nombre del Coordinador"
+												autocomplete="off" placeholder="Selecciona" dropdown="true"
+												value="#{luwaTresBean.filterUsuario}"
+												completeMethod="#{luwaTresBean.buscarNombreCoordinador}">
+											</p:autoComplete></td>
+									</tr>
+									<tr>
+										<td>Nombre del Operador:</td>
+										<td colspan="2"><p:autoComplete id="opppTr" size="20"
+												required="false" requiredMessage="Nombre del Coordinador"
+												autocomplete="off" placeholder="Selecciona" dropdown="true"
+												value="#{luwaTresBean.filterUsuario}"
+												completeMethod="#{luwaTresBean.buscarNombreCoordinador}">
+											</p:autoComplete></td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="text-align: right">
+								<p:commandButton icon="pi pi-save"
+									value="Confirmar Traspaso a Silos"
+									actionListener="#{preparacionBean.guardarTaspasoSilos}"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre" 
+									oncomplete="PF('dlgTraspasoMaterialTras').hide()" />
+							</div>
+						</p:splitterPanel>
+
+
+
+						<p:splitterPanel
+							styleClass="flex align-items-center justify-content-center">
+							<span style="font-size: .9rem">&#8680; Traspaso a
+								Lavadoras Chicas (10-16)</span>
+							<p:divider />
+							<br></br>
+							<br></br>
+
+							<table>
+								<thead>
+									<tr>
+										<th colspan="2">Traspaso a Lavadoras Chicas</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Seleccionar Lavadoras:</td>
+										<td><p:selectCheckboxMenu id="c0" multiple="true"
+												panelStyleClass="fuente" styleClass="fuente"
+												emptyLabel="Selecciona lavadoras" updateLabel="true"
+												style="min-width: 15rem" panelStyle="width: 20rem"
+												scrollHeight="50"
+												value="#{preparacionBean.selectedLavadorasChicas}">
+												<p:ajax event="change" update="asig"
+													listener="#{preparacionBean.onToggleSelectCK}" />
+												<p:ajax event="change" update="asig"
+													listener="#{preparacionBean.onItemSelectCK}" />
+												<p:ajax event="itemUnselect" update="asig"
+													listener="#{preparacionBean.onItemUnselect}" />
+												<f:selectItems
+													value="#{preparacionBean.listarLavadorasChicas}" />
+											</p:selectCheckboxMenu></td>
+									</tr>
+									<tr>
+										<td>Kilos de Material:</td>
+										<td><p:inputText id="distt"
+												value="#{preparacionBean.distribucionKilos}">
+												<p:ajax event="keyup" update="asig"
+													listener="#{preparacionBean.calcularKilos}" />
+											</p:inputText></td>
+
+									</tr>
+									<tr>
+										<td colspan="2">Distribución:</td>
+									</tr>
+									<tr>
+										<td colspan="2"><p:dataList id="asig"
+												value="#{preparacionBean.listarAsignacionKilosLavadorasChicas}"
+												var="item" type="unordered">
+   														 #{item}
+														</p:dataList></td>
+									</tr>
+								</tbody>
+							</table>
+							<div style="text-align: right">
+								<p:commandButton icon="pi pi-save"
+									value="Confirmar Traspaso a Lavadoras"
+									style="widht: 20rem; height: 2rem" title="Guardar"
+									actionListener="#{preparacionBean.guardarTraspasoLavadoras}"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre"
+									oncomplete="PF('dlgTraspasoMaterialTras').hide()" />
+								<p:commandButton icon="pi pi-times" value="Salir"
+									style="widht: 20rem; height: 2rem" title="Guardar"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre"
+									oncomplete="PF('dlgTraspasoMaterialTras').hide()" />
+							</div>
+						</p:splitterPanel>
+					</p:splitter>
+
+				</p:dialog>
+			</h:form>
+			<!-- INICIA FORMULARIO PARA ENCIMANDO DE LAVADORA CHICA -->
+
+			<!-- INICIA FORMULARIO PARA ENCIMANDO DE LAVADORA CHICA -->
 			<h:form id="frmLavadoras">
-				<p:dialog id="dlgLavadorasChicas" header="TRASPASO DE MATERIAL"
+				<p:dialog id="dlgLavadorasChicas"
+					header="TRASPASO DE MATERIAL ENCIMANDO A LAVADORA CHICA"
 					widgetVar="dlgTraspasoMaterial" showEffect="fade"
 					closeOnEscape="true" minimizable="true" maximizable="true">
 					<div style="text-align: center">
@@ -1331,8 +1509,8 @@
 									</tr>
 									<tr>
 										<td colspan="2"><p:dataList id="asig"
-														value="#{preparacionBean.listarAsignacionKilosLavadorasChicas}"
-														var="item" type="unordered">
+												value="#{preparacionBean.listarAsignacionKilosLavadorasChicas}"
+												var="item" type="unordered">
    														 #{item}
 														</p:dataList></td>
 									</tr>
@@ -1351,7 +1529,7 @@
 
 				</p:dialog>
 			</h:form>
-			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+			<!-- INICIA FORMULARIO PARA ENCIMANDO DE LAVADORA CHICA -->
 
 		</ui:define>
 	</ui:composition>

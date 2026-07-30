@@ -124,7 +124,7 @@ public class FacturaPielesDaoImpl extends Conexion implements IFacturaPielesDao 
 			st.setInt(1, idPrep);
 			ResultSet rs = st.executeQuery();
 			if (!rs.isBeforeFirst()) {
-				
+
 			} else {
 				while (rs.next()) {
 					factura = rs.getString("FACTURA");
@@ -138,6 +138,33 @@ public class FacturaPielesDaoImpl extends Conexion implements IFacturaPielesDao 
 		}
 
 		return factura;
+	}
+
+	@Override
+	public double obtenerTotalProceso(int idPrep) {
+
+		double total = 0.0;
+		try {
+			ConectarSysProd();
+			String query = "SELECT SUM(COALESCE(TOTAL, 0)) AS TOTAL FROM FACTURAS_PIELES WHERE ID_PREPARACION = ?;";
+			PreparedStatement st = getCnSysProd().prepareStatement(query);
+			st.setInt(1, idPrep);
+			ResultSet rs = st.executeQuery();
+			if (!rs.isBeforeFirst()) {
+
+			} else {
+				while (rs.next()) {
+					total = rs.getDouble("TOTAL");
+					LOGGER.info("TOTAL DE LA OPERACIÓN: " + total);
+				}
+			}
+
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL CONSULTAR EL TOTAL: " + ex);
+		}
+
+		return total;
 	}
 
 }

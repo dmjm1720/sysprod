@@ -15,5 +15,7 @@ public interface IFacturaPielesDao {
 	double sumaSaldo (int idPrep);
 	
 	String factura (int idPrep);
+	
+	double obtenerTotalProceso (int idPrep); 
 
 }

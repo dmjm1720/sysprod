@@ -17,9 +17,9 @@ public class TraspasoDaoImpl implements ITraspasoSilosDao {
 	@Override
 	public List<TraspasoSilos> listaTraspasos(int idPreparacion) {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			String hql = "FROM TraspasoSilos WHERE idOperacion = :idOperacion";
+			String hql = "FROM TraspasoSilos p JOIN FETCH p.preparacionPieles WHERE p.preparacionPieles.idPreparacion = :idPreparacion";
 			Query<TraspasoSilos> query = session.createQuery(hql, TraspasoSilos.class);
-			query.setParameter("idOperacion", idPreparacion);
+			query.setParameter("idPreparacion", idPreparacion);
 
 			return query.list();
 		}

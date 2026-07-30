@@ -14,6 +14,9 @@
         <many-to-one name="usuarios" class="com.dmjm.model.Usuarios" fetch="select">
             <column name="ID_USUARIO" />
         </many-to-one>
+                <many-to-one name="preparacionPieles" class="com.dmjm.model.PreparacionPieles" fetch="select">
+            <column name="ID_PREPARACION" />
+        </many-to-one>
         <property name="fechaInicial" type="date">
             <column name="FECHA_INICIAL" length="10" />
         </property>

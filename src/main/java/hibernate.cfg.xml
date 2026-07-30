@@ -48,6 +48,7 @@
 		<mapping resource="com/dmjm/model/EntradasMaquinariaEquipo.hbm.xml" />
 		<mapping resource="com/dmjm/model/Categorias.hbm.xml" />
 		<mapping resource="com/dmjm/model/TraspasoSilos.hbm.xml"/>
+		<mapping resource="com/dmjm/model/ResumenLavadoras.hbm.xml"/>
 
 		<mapping resource="com/dmjm/model/FolioPreparacionCocedores.hbm.xml" />
 		<mapping resource="com/dmjm/model/Cocedores.hbm.xml" />

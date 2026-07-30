@@ -13,6 +13,7 @@ import org.primefaces.PrimeFaces;
 
 import com.dmjm.dao.IMateriaDao;
 import com.dmjm.model.Materia;
+import com.dmjm.model.ResumenLavadoras;
 import com.dmjm.util.Conexion;
 import com.dmjm.util.HibernateUtil;
 
@@ -20,10 +21,11 @@ public class MateriaDaoImpl extends Conexion implements IMateriaDao {
 
 	@Override
 	public List<Materia> listarMateria() {
-		@SuppressWarnings("JPQLValidation")
-		List<Materia> materia = (List<Materia>) HibernateUtil.getSessionFactory().openSession()
-				.createQuery("From Materia").list();
-		return materia;
+
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Materia", Materia.class).getResultList();
+		}
+
 	}
 
 	@Override

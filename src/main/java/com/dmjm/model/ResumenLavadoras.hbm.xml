@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/07/2026 07:10:30 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.ResumenLavadoras" table="RESUMEN_LAVADORAS" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idResumenLavadoras" type="int">
+            <column name="ID_RESUMEN_LAVADORAS" />
+            <generator class="native" />
+        </id>
+        <property name="numero" type="java.lang.Integer">
+            <column name="NUMERO" />
+        </property>
+        <property name="tipo" type="string">
+            <column name="TIPO" length="50" />
+        </property>
+        <property name="noOperacion" type="java.lang.Integer">
+            <column name="NO_OPERACION" />
+        </property>
+        <property name="cantidad" type="big_decimal">
+            <column name="CANTIDAD" precision="10" scale="4" />
+        </property>
+    </class>
+</hibernate-mapping>
+
