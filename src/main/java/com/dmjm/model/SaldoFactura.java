@@ -12,7 +12,6 @@ public class SaldoFactura implements Serializable {
 	private BigDecimal nuevoSaldo;
 	private BigDecimal totalFactura;
 	private Integer operacion;
-	private String lavadora;
 	private Date fecha;
 	private int idEntrada;
 
@@ -24,13 +23,12 @@ public class SaldoFactura implements Serializable {
 	}
 
 	public SaldoFactura(int idSaldo, String factura, BigDecimal nuevoSaldo, BigDecimal totalFactura, Integer operacion,
-			String lavadora, Date fecha, int idEntrada) {
+			Date fecha, int idEntrada) {
 		this.idSaldo = idSaldo;
 		this.factura = factura;
 		this.nuevoSaldo = nuevoSaldo;
 		this.totalFactura = totalFactura;
 		this.operacion = operacion;
-		this.lavadora = lavadora;
 		this.fecha = fecha;
 		this.idEntrada = idEntrada;
 	}
@@ -73,14 +71,6 @@ public class SaldoFactura implements Serializable {
 
 	public void setOperacion(Integer operacion) {
 		this.operacion = operacion;
-	}
-
-	public String getLavadora() {
-		return lavadora;
-	}
-
-	public void setLavadora(String lavadora) {
-		this.lavadora = lavadora;
 	}
 
 	public Date getFecha() {

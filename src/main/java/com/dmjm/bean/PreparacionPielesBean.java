@@ -1,6 +1,5 @@
 package com.dmjm.bean;
 
-import java.awt.Event;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -11,7 +10,9 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -22,6 +23,8 @@ import javax.inject.Named;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.ToggleSelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -31,34 +34,44 @@ import com.dmjm.dao.IEtapasDao;
 import com.dmjm.dao.IFacturaPielesDao;
 import com.dmjm.dao.IFolioPreparacionDao;
 import com.dmjm.dao.ILavadorasDao;
+import com.dmjm.dao.ILavadorasEstatusOperacionDao;
 import com.dmjm.dao.IOperacionLavadorasDao;
+import com.dmjm.dao.IOperadorDao;
 import com.dmjm.dao.IPreparacionPielesDao;
 import com.dmjm.dao.IQuimicosDao;
 import com.dmjm.dao.IResumenLavadorasDao;
+import com.dmjm.dao.IResumenTraspasosDao;
 import com.dmjm.dao.ISaldoFacturaDao;
 import com.dmjm.dao.ITraspasoSilosDao;
+import com.dmjm.dao.IUsuarioDao;
 import com.dmjm.impl.EntradasDaoImpl;
 import com.dmjm.impl.EtapasDaoImpl;
 import com.dmjm.impl.FacturaPielesDaoImpl;
 import com.dmjm.impl.FoliosPreparacionDaoImpl;
 import com.dmjm.impl.LavadorasDaoImpl;
+import com.dmjm.impl.LavadorasEstatusOperacionDaoImpl;
 import com.dmjm.impl.OperacionLavadorasDaoImpl;
+import com.dmjm.impl.OperadorDaoImpl;
 import com.dmjm.impl.PreparacionDaoImpl;
 import com.dmjm.impl.QuimicosDaoImpl;
 import com.dmjm.impl.ResumenLavadorasDaoImpl;
+import com.dmjm.impl.ResumenTraspasoDaoImpl;
 import com.dmjm.impl.SaldoFacturaDaoImpl;
 import com.dmjm.impl.TraspasoDaoImpl;
+import com.dmjm.impl.UsuarioDaoImpl;
 import com.dmjm.model.Categorias;
 import com.dmjm.model.Entradas;
 import com.dmjm.model.Etapas;
 import com.dmjm.model.FacturasPieles;
 import com.dmjm.model.Lavadoras;
+import com.dmjm.model.LavadorasEstatusOperacion;
 import com.dmjm.model.OperacionLavadoras;
 import com.dmjm.model.Operador;
 import com.dmjm.model.PreparacionPieles;
 import com.dmjm.model.Proveedores;
 import com.dmjm.model.Quimicos;
 import com.dmjm.model.ResumenLavadoras;
+import com.dmjm.model.ResumenTraspasos;
 import com.dmjm.model.SaldoFactura;
 import com.dmjm.model.TraspasoSilos;
 import com.dmjm.model.Usuarios;
@@ -77,7 +90,10 @@ public class PreparacionPielesBean implements Serializable {
 	private List<Etapas> listaDeEtapas3;
 	private List<Etapas> listaDeEtapas4;
 	private List<Etapas> listaDeEtapas5;
+	private List<Etapas> listaEtapasLavadorasChicas;
+
 	private Etapas etapas;
+	private Etapas etapasLavadorasChicas;
 	private OperacionLavadoras operacionLavadoras;
 
 	private List<FacturasPieles> listaFacturaPieles;
@@ -108,6 +124,7 @@ public class PreparacionPielesBean implements Serializable {
 
 	private String[] selectedProcess;
 	private String[] selectedLavadorasChicas;
+	private String[] selectedLavadorasChicasTras;
 	private List<String> procesos;
 
 	private String estadoLavadora = "";
@@ -134,12 +151,37 @@ public class PreparacionPielesBean implements Serializable {
 	private List<String> listarLavadorasChicas;
 
 	private int distribucionKilos;
+	private int distribucionKilosSilos;
+	private int distribucionKilosEncimar;
 	private List<String> listarAsignacionKilosLavadorasChicas;
 
 	private ResumenLavadoras resumenLavadoras;
 
+	private Operador operador;
+	private Operador operadorEditar;
+
+	private String filterUsuario;
+	private String filterOperador;
+	private List<Operador> listaOperadores;
+
+	private List<ResumenTraspasos> listarResumenTraspasos;
+	private ResumenTraspasos resumenTraspasos;
+	private ResumenTraspasos resumenTraspasosAct;
+	private Etapas etapasEditarTraspaso;
+
+	private List<LavadorasEstatusOperacion> listarLavadorasEstatusOperacion;
+	private LavadorasEstatusOperacion estatusOperacion;
+
+	private String filterOperacion;
+
+	private List<String> listarOperaciones;
+
+	private Integer folioOperacion;
+
+	private List<Integer> listarLavadorasChicasDisponibles;
+
 	@PostConstruct
-	public void init() {
+	public void init() throws SQLException {
 		listarPreparacion = new ArrayList<>();
 		prePieles = new PreparacionPieles();
 		listarPreparacion = new ArrayList<>();
@@ -147,6 +189,7 @@ public class PreparacionPielesBean implements Serializable {
 		lavadoras = new Lavadoras();
 		prePieles.setNoOperacion(buscarFolio());
 		etapas = new Etapas();
+		etapasLavadorasChicas = new Etapas();
 		listaDeEtapas = new ArrayList<>();
 		listaDeEtapas2 = new ArrayList<>();
 		listaDeEtapas3 = new ArrayList<>();
@@ -172,6 +215,178 @@ public class PreparacionPielesBean implements Serializable {
 
 		resumenLavadoras = new ResumenLavadoras();
 
+		operador = new Operador();
+		operadorEditar = new Operador();
+		listaOperadores = new ArrayList<>();
+
+		listarResumenTraspasos = new ArrayList<>();
+		resumenTraspasos = new ResumenTraspasos();
+		resumenTraspasosAct = new ResumenTraspasos();
+
+		listarLavadorasEstatusOperacion = new ArrayList<>();
+		estatusOperacion = new LavadorasEstatusOperacion();
+
+		listaEtapasLavadorasChicas = new ArrayList<>();
+
+		etapasEditarTraspaso = new Etapas();
+
+		listarOperaciones = new ArrayList<>();
+		listarLavadorasChicasDisponibles = new ArrayList<>();
+		cargarLavadorasChicas();
+	}
+
+	public Integer getFolioOperacion() {
+		return folioOperacion;
+	}
+
+	public void setFolioOperacion(Integer folioOperacion) {
+		this.folioOperacion = folioOperacion;
+	}
+
+	public List<String> getListarOperaciones() throws SQLException {
+
+		if (folio > 0) {
+			ILavadorasDao lDao = new LavadorasDaoImpl();
+			listarOperaciones = lDao.listaDeOperaciones(folio);
+			return listarOperaciones;
+		}
+
+		return listarOperaciones;
+	}
+
+	public void obtenerListaLavadorasChicasDisponibles() {
+		ILavadorasDao lDao = new LavadorasDaoImpl();
+
+		List<Lavadoras> lista = new ArrayList<>();
+		lista.clear();
+		listarLavadorasChicasDisponibles.clear();
+		if (folio > 0) {
+			lista = lDao.listarLavodorasPorOperacion(folioOperacion);
+
+			for (Lavadoras lavadoras : lista) {
+				listarLavadorasChicasDisponibles.add(Integer.parseInt(lavadoras.getDescripcion()));
+			}
+
+		}
+		getListarLavadorasChicasDisponibles();
+
+	}
+
+	public List<Integer> getListarLavadorasChicasDisponibles() {
+
+		return listarLavadorasChicasDisponibles;
+	}
+
+	public void setListarLavadorasChicasDisponibles(List<Integer> listarLavadorasChicasDisponibles) {
+		this.listarLavadorasChicasDisponibles = listarLavadorasChicasDisponibles;
+	}
+
+	public String getFilterOperacion() {
+		return filterOperacion;
+	}
+
+	public void setFilterOperacion(String filterOperacion) {
+		this.filterOperacion = filterOperacion;
+	}
+
+	public Etapas getEtapasEditarTraspaso() {
+		return etapasEditarTraspaso;
+	}
+
+	public void setEtapasEditarTraspaso(Etapas etapasEditarTraspaso) {
+		this.etapasEditarTraspaso = etapasEditarTraspaso;
+	}
+
+	public ResumenTraspasos getResumenTraspasosAct() {
+		return resumenTraspasosAct;
+	}
+
+	public void setResumenTraspasosAct(ResumenTraspasos resumenTraspasosAct) {
+		this.resumenTraspasosAct = resumenTraspasosAct;
+	}
+
+	public List<LavadorasEstatusOperacion> getListarLavadorasEstatusOperacion() {
+		return listarLavadorasEstatusOperacion;
+	}
+
+	public void setListarLavadorasEstatusOperacion(List<LavadorasEstatusOperacion> listarLavadorasEstatusOperacion) {
+		this.listarLavadorasEstatusOperacion = listarLavadorasEstatusOperacion;
+	}
+
+	public LavadorasEstatusOperacion getEstatusOperacion() {
+		return estatusOperacion;
+	}
+
+	public void setEstatusOperacion(LavadorasEstatusOperacion estatusOperacion) {
+		this.estatusOperacion = estatusOperacion;
+	}
+
+	public ResumenTraspasos getResumenTraspasos() {
+		return resumenTraspasos;
+	}
+
+	public void setResumenTraspasos(ResumenTraspasos resumenTraspasos) {
+		this.resumenTraspasos = resumenTraspasos;
+	}
+
+	public List<ResumenTraspasos> getListarResumenTraspasos() {
+		return listarResumenTraspasos;
+	}
+
+	public int getDistribucionKilosEncimar() {
+		return distribucionKilosEncimar;
+	}
+
+	public void setDistribucionKilosEncimar(int distribucionKilosEncimar) {
+		this.distribucionKilosEncimar = distribucionKilosEncimar;
+	}
+
+	public int getDistribucionKilosSilos() {
+		return distribucionKilosSilos;
+	}
+
+	public void setDistribucionKilosSilos(int distribucionKilosSilos) {
+		this.distribucionKilosSilos = distribucionKilosSilos;
+	}
+
+	public String getFilterUsuario() {
+		return filterUsuario;
+	}
+
+	public void setFilterUsuario(String filterUsuario) {
+		this.filterUsuario = filterUsuario;
+	}
+
+	public String getFilterOperador() {
+		return filterOperador;
+	}
+
+	public void setFilterOperador(String filterOperador) {
+		this.filterOperador = filterOperador;
+	}
+
+	public Operador getOperador() {
+		return operador;
+	}
+
+	public void setOperador(Operador operador) {
+		this.operador = operador;
+	}
+
+	public Operador getOperadorEditar() {
+		return operadorEditar;
+	}
+
+	public void setOperadorEditar(Operador operadorEditar) {
+		this.operadorEditar = operadorEditar;
+	}
+
+	public Etapas getEtapasLavadorasChicas() {
+		return etapasLavadorasChicas;
+	}
+
+	public void setEtapasLavadorasChicas(Etapas etapasLavadorasChicas) {
+		this.etapasLavadorasChicas = etapasLavadorasChicas;
 	}
 
 	public ResumenLavadoras getResumenLavadoras() {
@@ -353,6 +568,14 @@ public class PreparacionPielesBean implements Serializable {
 
 	public void setSelectedLavadorasChicas(String[] selectedLavadorasChicas) {
 		this.selectedLavadorasChicas = selectedLavadorasChicas;
+	}
+
+	public String[] getSelectedLavadorasChicasTras() {
+		return selectedLavadorasChicasTras;
+	}
+
+	public void setSelectedLavadorasChicasTras(String[] selectedLavadorasChicasTras) {
+		this.selectedLavadorasChicasTras = selectedLavadorasChicasTras;
 	}
 
 	public String getEstadoLavadora() {
@@ -676,26 +899,15 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		// GUARDAR SEGUNDA ETAPA
-//		for (String segundaEtapa : listaEtapaBlanqueo) {
-//			Etapas e = new Etapas();
-//			e.setPreparacionPieles(pieles);
-//			e.setEstado(false);
-//			e.setLavadora(filterLavadora);
-//			e.setEtapa(segundaEtapa);
-//			e.setEstadoEtapa("Etapa 2");
-//			listaAgregarEtapas.add(e);
-//		}
-
-		// GUARDAR TERCERA ETAPA
-//		for (String terceraEtapa : listaEtapaLavadorasChicas) {
-//			Etapas e = new Etapas();
-//			e.setPreparacionPieles(pieles);
-//			e.setEstado(false);
-//			e.setLavadora(filterLavadora);
-//			e.setEtapa(terceraEtapa);
-//			e.setEstadoEtapa("Etapa 3");
-//			listaAgregarEtapas.add(e);
-//		}
+		for (String segundaEtapa : listaEtapaBlanqueo) {
+			Etapas e = new Etapas();
+			e.setPreparacionPieles(pieles);
+			e.setEstado(false);
+			e.setLavadora(filterLavadora);
+			e.setEtapa(segundaEtapa);
+			e.setEstadoEtapa("Etapa 2");
+			listaAgregarEtapas.add(e);
+		}
 
 		IEtapasDao eDao = new EtapasDaoImpl();
 		eDao.guardarListaEtapas(listaAgregarEtapas);
@@ -743,6 +955,8 @@ public class PreparacionPielesBean implements Serializable {
 		pieles = new PreparacionPieles();
 		operacionLavadoras = new OperacionLavadoras();
 		facturasPieles = new FacturasPieles();
+
+		prePieles.setNoOperacion(buscarFolio());
 
 	}
 
@@ -890,6 +1104,7 @@ public class PreparacionPielesBean implements Serializable {
 
 				resumenLavadoras.setCantidad(new BigDecimal(cantidadIngresada)); // CANTIDAD INGRESADA AL PROCESO
 				resumenLavadoras.setNoOperacion(folio); // NÚMERO DE OPERACIÓN
+
 				IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
 				List<OperacionLavadoras> lOperaciones = new ArrayList<>();
 				OperacionLavadoras lavadorasOp = new OperacionLavadoras();
@@ -899,8 +1114,37 @@ public class PreparacionPielesBean implements Serializable {
 					lavadorasOp = lOperaciones.get(0);
 				}
 				resumenLavadoras.setNumero(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion())); // NÚMERO DE
+																											// //
 																											// LAVADORA
 				resumenLavadoras.setTipo(lavadorasOp.getLavadoras().getNombre()); // DESCRIPCIÓN DE LA LAVADORA
+
+				IResumenTraspasosDao resTrasDao = new ResumenTraspasoDaoImpl(); // RESUMEN TRASPASOS
+
+				resumenTraspasos.setOperacionOrigen(folio);
+				resumenTraspasos.setKgCantidad((int) Math.round(cantidadIngresada));
+				resumenTraspasos.setTipo("CARGA INICIAL +");
+				resumenTraspasos.setFechaFinal(new Date());
+				resumenTraspasos.setLavadoraGCT(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion()));
+				resumenTraspasos.setKgCantidadRestante((int) Math.round(cantidadIngresada));
+				resTrasDao.guardarResumenTraspasos(resumenTraspasos);
+
+				resumenTraspasos = new ResumenTraspasos();
+
+				// GUARDAR EL ESTATUS DE LA LAVADORA
+
+				ILavadorasEstatusOperacionDao lavadorasEstatusDao = new LavadorasEstatusOperacionDaoImpl();
+				ILavadorasEstatusOperacionDao validarRegDao = new LavadorasEstatusOperacionDaoImpl();
+
+				estatusOperacion.setOperacion(folio);
+				setLavadoraStatus(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion()), true);
+
+				// ACTUALIZAR LA OPERACION EN LA LAVADORA
+				actualizarOperacionesLavadora(folio, lavadorasOp.getLavadoras().getDescripcion());
+
+				// VALIDAR EL ESTATUS SI YA FUE INGRESADO ANTERIORMENTE
+				if (validarRegDao.validarRegistro(folio) == -1) {
+					lavadorasEstatusDao.guardarLavadorasEstatusOperacion(estatusOperacion);
+				}
 
 				resDao.guardarResumenLavadoras(resumenLavadoras);
 
@@ -1377,7 +1621,7 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 1")) {
-			if (etapas.getConductividad() != null && etapas.getConductividad().equals("")) {
+			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
 
 				e.setEtapa("Control 2");
 
@@ -1419,7 +1663,7 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 2")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().equals("")) {
+			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
 
 				e.setEtapa("Control 3");
 
@@ -1461,7 +1705,7 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 3")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().equals("")) {
+			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
 
 				e.setEtapa("Control 4");
 
@@ -1502,7 +1746,7 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 		if (etapas.getEtapa().equals("Control 4")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().equals("")) {
+			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
 
 				e.setEtapa("Control 5");
 
@@ -1544,7 +1788,7 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 5")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().equals("")) {
+			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
 
 				e.setEtapa("Control 6");
 
@@ -1586,7 +1830,7 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 		if (etapas.getEtapa().equals("Control 6")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().equals("")) {
+			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
 
 				e.setEtapa("Control 7");
 
@@ -1629,7 +1873,7 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 7")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().equals("")) {
+			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
 
 				e.setEtapa("Control 8");
 
@@ -2026,12 +2270,12 @@ public class PreparacionPielesBean implements Serializable {
 		listaDeEtapas3 = eDao3.listaEtapas3(idPrep);
 		getListaDeEtapas3();
 
-		// ETAPA 3//
+		// ETAPA 4//
 		IEtapasDao eDao4 = new EtapasDaoImpl();
 		listaDeEtapas4 = eDao4.listaEtapas3(idPrep);
-		getListaDeEtapas3();
+		getListaDeEtapas4();
 
-		// ETAPA 3//
+		// ETAPA 5//
 		IEtapasDao eDao5 = new EtapasDaoImpl();
 		listaDeEtapas4 = eDao5.listaEtapas3(idPrep);
 		getListaDeEtapas3();
@@ -2191,7 +2435,6 @@ public class PreparacionPielesBean implements Serializable {
 
 			sf.setFecha(new Date());
 			sf.setIdEntrada(e.getIdEntrada());
-
 			saldoDao.guardarSaldoFactura(sf);
 
 			tipoM = e.getMateria().getIdMateria();
@@ -2331,6 +2574,7 @@ public class PreparacionPielesBean implements Serializable {
 
 				sf.setFecha(new Date());
 				sf.setIdEntrada(e.getIdEntrada());
+				sf.setOperacion(folio); // FOLIO DE LA OPERACIÓN
 				saldoDao.guardarSaldoFactura(sf);
 				validar = "OK";
 			} else {
@@ -2489,44 +2733,515 @@ public class PreparacionPielesBean implements Serializable {
 		return listaKilos;
 	}
 
-	public void guardarTaspasoSilos() {
-		ITraspasoSilosDao tDao = new TraspasoDaoImpl();
+	public void guardarTaspasoSilos() throws SQLException {
+		// distribucionKilosSilos ES LO QUE EL USUSARIO INTRODUCE
 
-		PreparacionPieles p = new PreparacionPieles();
-		p.setIdPreparacion(idPrep);
-		Usuarios u = new Usuarios();
-		u.setIdUsuario(us.getIdUsuario());
-		Operador op = new Operador();
-		op.setIdOperador(12);
+		int cantidadRestante = validarCantidad(folio);
 
-		traspasoSilos.setOperador(op);
-		traspasoSilos.setUsuarios(u);
-		traspasoSilos.setPreparacionPieles(p);
-		traspasoSilos.setIdOperacion(folio);
-		traspasoSilos.setNoOperacion(folio);
-		tDao.guardarTraspasoSilos(traspasoSilos);
-		traspasoSilos = new TraspasoSilos();
+		if (cantidadRestante == 0) {
+			// VALIDA LA CANTIDAD, SI ES 0 YA NO HAY NADA QUE HACER
+			String info = "No queda cantidad disponible para el folio " + folio + "";
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} else if (cantidadRestante > 0) {
+			if (distribucionKilosSilos <= 0) {
+				System.out.println("La cantidad ingresada debe ser mayor que 0.");
+				String info = "La cantidad ingresada debe ser mayor que 0.";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else if (distribucionKilosSilos > cantidadRestante) {
+
+				String info = "La cantidad ingresada excede la cantidad restante (" + cantidadRestante + ").";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else {
+				// Aquí ya pasa todas las validaciones
+				LOGGER.info("Cantidad válida: " + distribucionKilosSilos);
+				// Lógica para guardar el traspaso...
+
+				ITraspasoSilosDao tDao = new TraspasoDaoImpl();
+
+				PreparacionPieles p = new PreparacionPieles();
+				p.setIdPreparacion(idPrep);
+				Usuarios u = new Usuarios();
+				u.setIdUsuario(buscarCoordinador(filterUsuario));
+				Operador op = new Operador();
+				op.setIdOperador(buscarOperador(filterOperador));
+
+				traspasoSilos.setOperador(op);
+				traspasoSilos.setUsuarios(u);
+				traspasoSilos.setPreparacionPieles(p);
+				traspasoSilos.setIdOperacion(folio);
+				traspasoSilos.setNoOperacion(folio);
+				traspasoSilos.setCantidad(distribucionKilosSilos);
+				if (distribucionKilosSilos > validarCantidad(folio)) {
+					String info = "Revisa la cantidad, no debe ser superior a los kilos disponibles";
+					PrimeFaces.current()
+							.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+									+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+									+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+
+				} else {
+					// GUARDAR EL ESTATUS DE LA LAVADORA
+					ILavadorasEstatusOperacionDao lavadorasEstatusDao = new LavadorasEstatusOperacionDaoImpl();
+
+					List<OperacionLavadoras> lOperaciones = new ArrayList<>();
+					OperacionLavadoras lavadorasOp = new OperacionLavadoras();
+					IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+
+					lOperaciones = oDao.listaOperacionLavadoras(idPrep);
+					if (!lOperaciones.isEmpty()) {
+						lavadorasOp = lOperaciones.get(0);
+					}
+
+					estatusOperacion.setOperacion(folio);
+
+					tDao.guardarTraspasoSilos(traspasoSilos);
+
+					IResumenTraspasosDao resTrasDao = new ResumenTraspasoDaoImpl(); // RESUMEN TRASPASOS
+
+					resumenTraspasosAct.setFechaInicial(traspasoSilos.getFechaInicial());
+					resumenTraspasosAct.setFechaFinal(traspasoSilos.getFechaFinal());
+					resumenTraspasosAct.setHoraInicial(traspasoSilos.getHoraInicial());
+					resumenTraspasosAct.setHoraFinal(traspasoSilos.getHoraFinal());
+					
+					resumenTraspasosAct.setOperacionOrigen(folio);
+					resumenTraspasosAct.setKgCantidad((int) Math.round(distribucionKilosSilos));
+					resumenTraspasosAct.setTipo("TRASPASO SILOS -");
+					resumenTraspasosAct.setLavadoraGCT(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion()));
+					// VALIDAR LA CANTIDAD RESTANTE
+					resumenTraspasosAct
+							.setKgCantidadRestante((int) Math.round(validarCantidad(folio) - distribucionKilosSilos));
+					resTrasDao.guardarResumenTraspasos(resumenTraspasosAct);
+					// SI ES CERO SE ACTUALIZA LA TABLA LAVADORAS_ESTATUS_OPERACION
+					if (validarCantidad(folio) == 0) {
+
+						lavadorasEstatusDao.actualizarLavadoraFalse(
+								lavadoraTipo(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion())), folio);
+
+						ILavadorasDao lavDao = new LavadorasDaoImpl();
+						lavDao.actualizarEstadoLavadora(0, lavadorasOp.getLavadoras().getDescripcion());
+					}
+
+					resumenTraspasosAct = new ResumenTraspasos();
+
+				}
+
+				traspasoSilos = new TraspasoSilos();
+			}
+		}
+
+	}
+
+	public void guardarTaspasoSilosEncimado() throws SQLException {
+		// distribucionKilosSilos ES LO QUE EL USUSARIO INTRODUCE
+		int idEtapa = 0;
+		int cantidad = 0;
+		idEtapa = etapasEditarTraspaso.getIdEtapa();
+
+		IEtapasDao etaDao = new EtapasDaoImpl();
+		cantidad = etaDao.cantidadMasEncimado(idEtapa);
+
+		int nuevaCantidad = etapasEditarTraspaso.getCantidad();
+		// Validar la cantidad que se traspaso y actalizar las cantidad de las etapas
+		int cantidadRestante = validarCantidadEncimado(folio);
+
+		if (cantidadRestante == 0) {
+			// VALIDA LA CANTIDAD, SI ES 0 YA NO HAY NADA QUE HACER
+			String info = "No queda cantidad disponible para el folio " + folio + "";
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} else if (cantidadRestante > 0) {
+			if (etapasEditarTraspaso.getCantidad() <= 0) {
+
+				String info = "La cantidad ingresada debe ser mayor que 0.";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else if (etapasEditarTraspaso.getCantidad() > cantidadRestante) {
+
+				String info = "La cantidad ingresada excede la cantidad restante (" + cantidadRestante + ").";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else {
+				// Aquí ya pasa todas las validaciones
+				LOGGER.info("Cantidad válida: " + etapasEditarTraspaso.getCantidad());
+				// Lógica para guardar el traspaso...
+
+				ITraspasoSilosDao tDao = new TraspasoDaoImpl();
+
+				PreparacionPieles p = new PreparacionPieles();
+				p.setIdPreparacion(idPrep);
+				Usuarios u = new Usuarios();
+				u.setIdUsuario(buscarCoordinador(filterUsuario));
+				Operador op = new Operador();
+				op.setIdOperador(buscarOperador(filterOperador));
+
+				traspasoSilos.setOperador(op);
+				traspasoSilos.setUsuarios(u);
+				traspasoSilos.setPreparacionPieles(p);
+				traspasoSilos.setIdOperacion(folio);
+				traspasoSilos.setNoOperacion(folio);
+				traspasoSilos.setCantidad(etapasEditarTraspaso.getCantidad());
+				if (etapasEditarTraspaso.getCantidad() > validarCantidadEncimado(folio)) {
+					String info = "Revisa la cantidad, no debe ser superior a los kilos disponibles";
+					PrimeFaces.current()
+							.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+									+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+									+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+
+				} else {
+					// GUARDAR EL ESTATUS DE LA LAVADORA
+					ILavadorasEstatusOperacionDao lavadorasEstatusDao = new LavadorasEstatusOperacionDaoImpl();
+
+					List<OperacionLavadoras> lOperaciones = new ArrayList<>();
+					OperacionLavadoras lavadorasOp = new OperacionLavadoras();
+					IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+
+					lOperaciones = oDao.listaOperacionLavadoras(idPrep);
+					if (!lOperaciones.isEmpty()) {
+						lavadorasOp = lOperaciones.get(0);
+					}
+
+					estatusOperacion.setOperacion(folio);
+
+					tDao.guardarTraspasoSilos(traspasoSilos);
+
+					IResumenTraspasosDao resTrasDao = new ResumenTraspasoDaoImpl(); // RESUMEN TRASPASOS
+					
+					resumenTraspasosAct.setFechaInicial(traspasoSilos.getFechaInicial());
+					resumenTraspasosAct.setFechaFinal(traspasoSilos.getFechaFinal());
+					resumenTraspasosAct.setHoraInicial(traspasoSilos.getHoraInicial());
+					resumenTraspasosAct.setHoraFinal(traspasoSilos.getHoraFinal());
+					resumenTraspasosAct.setOperacionOrigen(folio);
+					resumenTraspasosAct.setKgCantidad((int) Math.round(etapasEditarTraspaso.getCantidad()));
+					resumenTraspasosAct.setTipo("TRASPASO SILOS -");
+					resumenTraspasosAct.setLavadoraGCT(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion()));
+					// VALIDAR LA CANTIDAD RESTANTE
+					resumenTraspasosAct.setKgCantidadRestante(
+							(int) Math.round(validarCantidadEncimado(folio) - etapasEditarTraspaso.getCantidad()));
+					resTrasDao.guardarResumenTraspasos(resumenTraspasosAct);
+
+					// SE ACTUALIZA LA NUEVA CANTIDAD
+					IEtapasDao nuevaCantidadDao = new EtapasDaoImpl();
+					nuevaCantidadDao.actualizarCantidad((cantidad - nuevaCantidad), idEtapa);
+
+					// SE CONSULTA LA CANTIDAD ACTUALIZADA
+					IEtapasDao etapaDao = new EtapasDaoImpl();
+					int cantidadValidar = 0;
+					cantidadValidar = etapaDao.cantidadMasEncimado(idEtapa);
+
+					// SI ES CERO SE ACTUALIZA LA TABLA LAVADORAS_ESTATUS_OPERACION
+					if (cantidadValidar == 0) {
+
+						lavadorasEstatusDao.actualizarLavadoraFalse(
+								lavadoraTipo(Integer.parseInt(etapasEditarTraspaso.getLavadora())), folio);
+
+						ILavadorasDao lavDao = new LavadorasDaoImpl();
+						lavDao.actualizarEstadoLavadora(0, etapasEditarTraspaso.getLavadora());
+					}
+
+					resumenTraspasosAct = new ResumenTraspasos();
+
+				}
+
+				traspasoSilos = new TraspasoSilos();
+			}
+		}
+
+	}
+
+	public void guardarEncimadoLavadoras() throws SQLException {
+		// distribucionKilosSilos ES LO QUE EL USUSARIO INTRODUCE
+		int idEtapa = 0;
+		int cantidad = 0;
+		idEtapa = etapasEditarTraspaso.getIdEtapa();
+
+		IEtapasDao etaDao = new EtapasDaoImpl();
+		cantidad = etaDao.cantidadMasEncimado(idEtapa);
+
+		int nuevaCantidad = etapasEditarTraspaso.getCantidad();
+		// Validar la cantidad que se traspaso y actalizar las cantidad de las etapas
+		int cantidadRestante = validarCantidadEncimado(folio);
+
+		if (cantidadRestante == 0) {
+			// VALIDA LA CANTIDAD, SI ES 0 YA NO HAY NADA QUE HACER
+			String info = "No queda cantidad disponible para el folio " + folio + "";
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} else if (cantidadRestante > 0) {
+			if (etapasEditarTraspaso.getCantidad() <= 0) {
+
+				String info = "La cantidad ingresada debe ser mayor que 0.";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else if (etapasEditarTraspaso.getCantidad() > cantidadRestante) {
+
+				String info = "La cantidad ingresada excede la cantidad restante (" + cantidadRestante + ").";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else {
+				// Aquí ya pasa todas las validaciones
+				LOGGER.info("Cantidad válida: " + etapasEditarTraspaso.getCantidad());
+				// Lógica para guardar el traspaso...
+
+				ITraspasoSilosDao tDao = new TraspasoDaoImpl();
+
+				PreparacionPieles p = new PreparacionPieles();
+				p.setIdPreparacion(idPrep);
+				Usuarios u = new Usuarios();
+				u.setIdUsuario(buscarCoordinador(filterUsuario));
+				Operador op = new Operador();
+				op.setIdOperador(buscarOperador(filterOperador));
+
+				traspasoSilos.setOperador(op);
+				traspasoSilos.setUsuarios(u);
+				traspasoSilos.setPreparacionPieles(p);
+				traspasoSilos.setIdOperacion(folio);
+				traspasoSilos.setNoOperacion(folio);
+				traspasoSilos.setCantidad(etapasEditarTraspaso.getCantidad());
+				if (etapasEditarTraspaso.getCantidad() > validarCantidadEncimado(folio)) {
+					String info = "Revisa la cantidad, no debe ser superior a los kilos disponibles";
+					PrimeFaces.current()
+							.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+									+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+									+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+
+				} else {
+					// GUARDAR EL ESTATUS DE LA LAVADORA
+					ILavadorasEstatusOperacionDao lavadorasEstatusDao = new LavadorasEstatusOperacionDaoImpl();
+
+					List<OperacionLavadoras> lOperaciones = new ArrayList<>();
+					OperacionLavadoras lavadorasOp = new OperacionLavadoras();
+					IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+
+					lOperaciones = oDao.listaOperacionLavadoras(idPrep);
+					if (!lOperaciones.isEmpty()) {
+						lavadorasOp = lOperaciones.get(0);
+					}
+
+					estatusOperacion.setOperacion(folio);
+
+					// tDao.guardarTraspasoSilos(traspasoSilos); //QUITAR ESTO
+
+					IResumenTraspasosDao resTrasDao = new ResumenTraspasoDaoImpl(); // RESUMEN TRASPASOS
+					resumenTraspasosAct.setFechaInicial(etapasLavadorasChicas.getDiaInicio());
+					resumenTraspasosAct.setFechaFinal(etapasLavadorasChicas.getDiaFin());
+					resumenTraspasosAct.setHoraInicial(etapasLavadorasChicas.getHoraInicio());
+					resumenTraspasosAct.setHoraFinal(etapasLavadorasChicas.getHoraFin());
+				
+					resumenTraspasosAct.setOperacionOrigen(folio);
+					resumenTraspasosAct.setKgCantidad((int) Math.round(etapasEditarTraspaso.getCantidad()));
+					resumenTraspasosAct.setTipo("ENCIMADO +");
+					resumenTraspasosAct.setOperacionDestino(etapasEditarTraspaso.getOperacionDestino());
+					resumenTraspasosAct.setLavadoraGCT(Integer.parseInt(etapasEditarTraspaso.getLavadora()));
+					resumenTraspasosAct.setLavadoraGCTDestino(etapasEditarTraspaso.getLavadoraDestino());
+					// VALIDAR LA CANTIDAD RESTANTE
+					resumenTraspasosAct.setKgCantidadRestante(cantidad - nuevaCantidad);//
+					resTrasDao.guardarResumenTraspasos(resumenTraspasosAct);
+
+					// SE ACTUALIZA LA NUEVA CANTIDAD
+					IEtapasDao nuevaCantidadDao = new EtapasDaoImpl();
+					nuevaCantidadDao.actualizarCantidad((cantidad - nuevaCantidad), idEtapa);
+
+					// SE CONSULTA LA CANTIDAD ACTUALIZADA
+					IEtapasDao etapaDao = new EtapasDaoImpl();
+					int cantidadValidar = 0;
+					cantidadValidar = etapaDao.cantidadMasEncimado(idEtapa);
+
+					// SUMAR EL ENCIMADO A LAVADORAS
+					IEtapasDao actualizarDao = new EtapasDaoImpl();
+					IEtapasDao actualizarCantDao = new EtapasDaoImpl();
+					Etapas et = new Etapas();
+
+					et = actualizarDao.cantidadTraspasoEncimado(etapasEditarTraspaso.getLavadoraDestino());
+					actualizarCantDao.actualizarCantidad(et.getCantidad() + nuevaCantidad, et.getIdEtapa());
+
+					// SI ES CERO SE ACTUALIZA LA TABLA LAVADORAS_ESTATUS_OPERACION
+					if (cantidadValidar == 0) {
+
+						lavadorasEstatusDao.actualizarLavadoraFalse(
+								lavadoraTipo(Integer.parseInt(etapasEditarTraspaso.getLavadora())), folio);
+
+						ILavadorasDao lavDao = new LavadorasDaoImpl();
+						lavDao.actualizarEstadoLavadora(0, etapasEditarTraspaso.getLavadora());
+					}
+
+					resumenTraspasosAct = new ResumenTraspasos();
+
+				}
+				String info = "Se ha realizado el encimado a la lavadora: " + etapasEditarTraspaso.getLavadoraDestino()
+						+ " por la cantidad de: " + nuevaCantidad + " kilos";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'success',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+
+				traspasoSilos = new TraspasoSilos();
+			}
+		}
 
 	}
 
 	public void guardarTraspasoLavadoras() {
-		Etapas e = new Etapas();
-		PreparacionPieles p = new PreparacionPieles();
 
-		for (int i = 0; i < selectedLavadorasChicas.length; i++) {
-			String lavadoras[] = null;
-			lavadoras = selectedLavadorasChicas;
-			p.setIdPreparacion(idPrep);
-			e.setPreparacionPieles(p);
-			e.setEstado(true);
-			e.setLavadora(lavadoras[i].replaceAll("\\D", ""));
-			e.setEtapa(listarAsignacionKilosLavadorasChicas.get(i));
-			e.setEstadoEtapa("Etapa 3");
+		// distribucionKilosSilos ES LO QUE EL USUSARIO INTRODUCE
+		int cantidadRestante = validarCantidad(folio);
 
-			IEtapasDao eDao = new EtapasDaoImpl();
-			eDao.guardarEtapas(e);
+		if (cantidadRestante == 0) {
+			// VALIDA LA CANTIDAD, SI ES 0 YA NO HAY NADA QUE HACER
+			String info = "No queda cantidad disponible para el folio " + folio + "";
+			PrimeFaces.current()
+					.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+							+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n" + "  showConfirmButton: false,\n"
+							+ "  timer: 8000\n" + "})");
+		} else if (cantidadRestante > 0) {
+			if (distribucionKilos <= 0) {
+				System.out.println("La cantidad ingresada debe ser mayor que 0.");
+				String info = "La cantidad ingresada debe ser mayor que 0.";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else if (distribucionKilos > cantidadRestante) {
 
+				String info = "La cantidad ingresada excede la cantidad restante (" + cantidadRestante + ").";
+				PrimeFaces.current()
+						.executeScript("Swal.fire({\n" + "  position: 'top-center',\n" + "  icon: 'error',\n"
+								+ "  title: '¡Aviso!',\n" + "  text: '" + info + "',\n"
+								+ "  showConfirmButton: false,\n" + "  timer: 8000\n" + "})");
+			} else {
+				// Aquí ya pasa todas las validaciones
+				LOGGER.info("Cantidad válida: " + distribucionKilos);
+				// Lógica para guardar el traspaso...
+
+				// GUARDAR EL ESTATUS DE LA LAVADORA
+				ILavadorasEstatusOperacionDao lavadorasEstatusDao = new LavadorasEstatusOperacionDaoImpl();
+				// GUARDAR EL ESTATUS DE LA LAVADORA CHICA
+				ILavadorasEstatusOperacionDao lavadorasChicasEstatusDao = new LavadorasEstatusOperacionDaoImpl();
+
+				List<OperacionLavadoras> lOperaciones = new ArrayList<>();
+				OperacionLavadoras lavadorasOp = new OperacionLavadoras();
+				IOperacionLavadorasDao oDao = new OperacionLavadorasDaoImpl();
+
+				lOperaciones = oDao.listaOperacionLavadoras(idPrep);
+				if (!lOperaciones.isEmpty()) {
+					lavadorasOp = lOperaciones.get(0);
+				}
+
+				Etapas e = new Etapas();
+				PreparacionPieles p = new PreparacionPieles();
+
+				for (int i = 0; i < selectedLavadorasChicas.length; i++) {
+					String lavadoras[] = null;
+					lavadoras = selectedLavadorasChicas;
+					p.setIdPreparacion(idPrep);
+					e.setPreparacionPieles(p);
+					String cadena = "";
+
+					cadena = listarAsignacionKilosLavadorasChicas.get(i);
+					Matcher m = java.util.regex.Pattern.compile("\\d+\\.\\d+").matcher(cadena);
+					int cantidadIngresada = 0;
+
+					if (m.find()) {
+						// Convierte a double y luego a entero
+						double valor = Double.parseDouble(m.group());
+						cantidadIngresada = (int) valor;
+					}
+
+					if (i == 0) {
+						e.setDiaInicio(etapasLavadorasChicas.getDiaInicio());
+						e.setDiaFin(etapasLavadorasChicas.getDiaFin());
+						e.setHoraInicio(etapasLavadorasChicas.getHoraInicio());
+						e.setHoraFin(etapasLavadorasChicas.getHoraFin());
+						resumenTraspasosAct.setFechaInicial(etapasLavadorasChicas.getDiaInicio());
+						resumenTraspasosAct.setFechaFinal(etapasLavadorasChicas.getDiaFin());
+						resumenTraspasosAct.setHoraInicial(etapasLavadorasChicas.getHoraInicio());
+						resumenTraspasosAct.setHoraFinal(etapasLavadorasChicas.getHoraFin());
+					}
+
+					e.setEstado(true);
+					e.setLavadora(lavadoras[i].replaceAll("\\D", ""));
+					e.setEtapa("Lavadora chica");
+
+					e.setCantidadTraspaso(cantidadIngresada);
+					e.setCantidad(cantidadIngresada);
+					e.setEstadoEtapa("Etapa 3");
+
+					for (int j = 0; j < 5; j++) {
+
+						IEtapasDao eDao = new EtapasDaoImpl();
+						if (j == 0) {
+							// GUARDAR EL TRASPASO EN RESUMEN_TRASPASOS
+							IResumenTraspasosDao resTrasDao = new ResumenTraspasoDaoImpl(); // RESUMEN TRASPASOS
+
+							resumenTraspasosAct.setOperacionOrigen(folio);
+							resumenTraspasosAct.setKgCantidad(cantidadIngresada);
+							resumenTraspasosAct.setTipo("TRASPASO LC -");
+							resumenTraspasosAct.setLavadoraGCT(Integer.parseInt(lavadoras[i].replaceAll("\\D", "")));
+							// VALIDAR LA CANTIDAD RESTANTE
+							LOGGER.info("CANTIDAD RESTANTE: " + validarCantidad(folio));
+							resumenTraspasosAct.setKgCantidadRestante(
+									(int) Math.round(validarCantidad(folio) - cantidadIngresada));
+							resTrasDao.guardarResumenTraspasos(resumenTraspasosAct);
+
+							// ACTUALIZAR LAVADORAS CHICAS A TRUE EN LAVADORAS_ESTATUS_OPERACION
+							lavadorasChicasEstatusDao.actualizarLavadoraTrue(
+									lavadoraTipo(Integer.parseInt(lavadoras[i].replaceAll("\\D", ""))), folio);
+
+							// ACTUALIZAR EL NÚMERO DE OPERACIÓN DE LA LAVADORA
+							actualizarOperacionesLavadora(folio, lavadoras[i].replaceAll("\\D", ""));
+
+							// SI ES CERO SE ACTUALIZA LA TABLA LAVADORAS_ESTATUS_OPERACION
+							if (validarCantidad(folio) == 0) {
+
+								lavadorasEstatusDao.actualizarLavadoraFalse(
+										lavadoraTipo(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion())),
+										folio);
+
+								ILavadorasDao lavDao = new LavadorasDaoImpl();
+								lavDao.actualizarEstadoLavadora(0, lavadorasOp.getLavadoras().getDescripcion());
+							}
+
+							// ACTUALIZAR EL ESTATUS DE LAS LAVADORAS CHICAS EN LAVADORAS, ESTATUS EN
+							// PROCESO
+							ILavadorasDao lavChicasDao = new LavadorasDaoImpl();
+							lavChicasDao.actualizarEstadoLavadoraChica(1, "Traspaso",
+									lavadoras[i].replaceAll("\\D", ""));
+
+						}
+						eDao.guardarEtapas(e);
+						e.setCantidadTraspaso(null);
+						e.setCantidad(null);
+						e.setDiaInicio(null);
+						e.setDiaFin(null);
+						e.setHoraInicio(null);
+						e.setHoraFin(null);
+					}
+
+				}
+			}
 		}
+		IEtapasDao eDao3 = new EtapasDaoImpl();
+		listaDeEtapas3 = eDao3.listaEtapas3(idPrep);
+		getListaDeEtapas3();
 	}
 
 	public void actualizarTaspasoSilos() {
@@ -2543,7 +3258,177 @@ public class PreparacionPielesBean implements Serializable {
 
 	public void colocarTotal() {
 		this.distribucionKilos = 0;
-		this.distribucionKilos = totalOperacion(idPrep);
+		this.distribucionKilosSilos = 0;
+		this.distribucionKilosEncimar = 0;
+		// this.distribucionKilos = totalOperacion(idPrep);
+		this.distribucionKilos = validarCantidad(folio);
+		this.distribucionKilosSilos = distribucionKilos;
+		this.distribucionKilosEncimar = distribucionKilos;
+	}
+
+	// **DATOS DEL OPERADOR, NOMBRE**//
+	public List<String> buscarNombreOperador(String nombre) throws SQLException {
+		IOperadorDao tDao = new OperadorDaoImpl();
+		return tDao.completeOperador(nombre, "Lavadoras");
+	}
+
+	// **DATOS DEL OPERADOR, ID**//
+	public int buscarOperador(String nombre) throws SQLException {
+		IOperadorDao tDao = new OperadorDaoImpl();
+		return tDao.buscarOperador(nombre, "Lavadoras");
+	}
+
+	public void guardarOperador() {
+		IOperadorDao oDao = new OperadorDaoImpl();
+		operador.setEstado("Activo");
+		operador.setProceso("Lavadoras");
+		oDao.guardarOperador(operador);
+		operador = new Operador();
+
+	}
+
+	public void actualizarOperador() {
+		IOperadorDao oDao = new OperadorDaoImpl();
+		oDao.actualizarOperador(operadorEditar);
+		operadorEditar = new Operador();
+	}
+
+	// **DATOS DEL COORDINADOR, NOMBRE**//
+	public List<String> buscarNombreCoordinador(String nombre) throws SQLException {
+		IUsuarioDao tDao = new UsuarioDaoImpl();
+		return tDao.completeUsuario(nombre);
+	}
+
+	// **DATOS DEL COORDINADOR, ID**//
+	public int buscarCoordinador(String nombre) throws SQLException {
+		IUsuarioDao tDao = new UsuarioDaoImpl();
+		return tDao.buscarUsuario(nombre);
+	}
+
+	public List<Operador> getListaOperadores() {
+		IOperadorDao oDao = new OperadorDaoImpl();
+		listaOperadores = oDao.listaOperadorLavadoras();
+		return listaOperadores;
+	}
+
+	public void guardarResumenTraspasos() {
+		IResumenTraspasosDao rDao = new ResumenTraspasoDaoImpl();
+		rDao.guardarResumenTraspasos(resumenTraspasos);
+		resumenTraspasos = new ResumenTraspasos();
+	}
+
+	public String lavadoraTipo(int numeroLav) {
+
+		String tipo = "";
+
+		switch (numeroLav) {
+		case 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37 -> tipo = "LAVADORA_GRANDE_" + numeroLav;
+
+		case 4, 5, 6, 7 -> tipo = "TAMBOR_" + numeroLav;
+
+		case 10, 11, 12, 13, 14, 15, 16 -> tipo = "LAVADORA_CHICA_" + numeroLav;
+
+		default -> throw new IllegalArgumentException("Unexpected value: " + numeroLav);
+		}
+
+		return tipo;
+
+	}
+
+	public void setLavadoraStatus(int numeroLav, boolean valor) {
+		switch (numeroLav) {
+		case 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37 -> {
+			switch (numeroLav) {
+			case 26 -> this.estatusOperacion.setLavadoraGrande26(valor);
+			case 27 -> this.estatusOperacion.setLavadoraGrande27(valor);
+			case 28 -> this.estatusOperacion.setLavadoraGrande28(valor);
+			case 29 -> this.estatusOperacion.setLavadoraGrande29(valor);
+			case 30 -> this.estatusOperacion.setLavadoraGrande30(valor);
+			case 31 -> this.estatusOperacion.setLavadoraGrande31(valor);
+			case 32 -> this.estatusOperacion.setLavadoraGrande32(valor);
+			case 33 -> this.estatusOperacion.setLavadoraGrande33(valor);
+			case 34 -> this.estatusOperacion.setLavadoraGrande34(valor);
+			case 35 -> this.estatusOperacion.setLavadoraGrande35(valor);
+			case 36 -> this.estatusOperacion.setLavadoraGrande36(valor);
+			case 37 -> this.estatusOperacion.setLavadoraGrande37(valor);
+			}
+		}
+		case 4, 5, 6, 7 -> {
+			switch (numeroLav) {
+			case 4 -> this.estatusOperacion.setTambor4(valor);
+			case 5 -> this.estatusOperacion.setTambor5(valor);
+			case 6 -> this.estatusOperacion.setTambor6(valor);
+			case 7 -> this.estatusOperacion.setTambor7(valor);
+			}
+		}
+		case 10, 11, 12, 13, 14, 15, 16 -> {
+			switch (numeroLav) {
+			case 10 -> this.estatusOperacion.setLavadoraChica10(valor);
+			case 11 -> this.estatusOperacion.setLavadoraChica11(valor);
+			case 12 -> this.estatusOperacion.setLavadoraChica12(valor);
+			case 13 -> this.estatusOperacion.setLavadoraChica13(valor);
+			case 14 -> this.estatusOperacion.setLavadoraChica14(valor);
+			case 15 -> this.estatusOperacion.setLavadoraChica15(valor);
+			case 16 -> this.estatusOperacion.setLavadoraChica16(valor);
+			}
+		}
+		default -> throw new IllegalArgumentException("Unexpected value: " + numeroLav);
+		}
+	}
+
+	public int validarCantidad(int noOperacion) {
+		IResumenTraspasosDao resumenDao = new ResumenTraspasoDaoImpl();
+		return resumenDao.validarCantidadRestante(noOperacion);
+	}
+
+	public int validarCantidadEncimado(int noOperacion) {
+		IResumenTraspasosDao resumenDao = new ResumenTraspasoDaoImpl();
+		return resumenDao.validarCantidadLavdorasChicas(noOperacion);
+	}
+
+	public List<Etapas> getListaEtapasLavadorasChicas() {
+		return listaEtapasLavadorasChicas;
+	}
+
+	public void setListarLavadorasChicas(List<String> listarLavadorasChicas) {
+		this.listarLavadorasChicas = listarLavadorasChicas;
+	}
+
+	public void cargarLavadorasChicas() throws SQLException {
+		IEtapasDao etapasDao = new EtapasDaoImpl();
+		listaEtapasLavadorasChicas = etapasDao.listaEtapasLavadorasChicas(idPrep);
+		getListarOperaciones();
+		getListaEtapasLavadorasChicas();
+	}
+
+	public void onRowEdit(RowEditEvent event) {
+//		FacesContext.getCurrentInstance().addMessage(null,
+//				new FacesMessage(FacesMessage.SEVERITY_INFO, "SISTEMA DE PEDIDOS", "Se ha modificado la cantidad..."));
+		validaciones();
+	}
+
+	public void onRowCancel(RowEditEvent event) {
+//		FacesContext.getCurrentInstance().addMessage(null,
+//				new FacesMessage(FacesMessage.SEVERITY_INFO, "SISTEMA DE PEDIDOS", "Se ha cancelado la edición..."));
+	}
+
+	public void validaciones() {
+
+		for (Etapas etapas : listaEtapasLavadorasChicas) {
+			etapas.setCantidadTraspaso(etapas.getCantidadTraspaso());
+			etapas.setLavadoraDestino(etapas.getLavadoraDestino());
+			if (etapas.getLavadoraDestino() != null) {
+				etapas.setOperacionDestino(folioOperacion);
+			}
+
+		}
+
+		getListarLavadorasChicas();
+	}
+
+	public void actualizarOperacionesLavadora(int oper, String desc) {
+		ILavadorasDao lavadorasDao = new LavadorasDaoImpl();
+		lavadorasDao.actualizarOperacionLavadora(oper, desc);
 	}
 
 }

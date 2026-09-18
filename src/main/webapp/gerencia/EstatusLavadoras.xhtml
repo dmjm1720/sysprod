@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div style="text-align: center; font-size: 1rem">
+					<p:badge size="small" value="ESTATUS ACTUAL LAVADORAS" />
+				</div>
+
+
+
+				<br></br>
+				<p:divider></p:divider>
+
+				<p:divider />
+				<div class="card">
+
+					<p:accordionPanel widgetVar="basic">
+
+						<p:tab title="ESTATUS ACTUAL LAVADORAS EN OPERACIÓN"
+							titleStyle="font-size: .8rem; background-color: #0D47A1; color: #F5F5F5">
+
+							<p:dataTable id="tblUsuarios" styleClass="tabla fuente"
+								var="item" sortMode="multiple" scrollHeight="650"
+								scrollWidth="90%"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{lavBean.listarLavadoras.size()}"
+								value="#{lavBean.listarLavadoras}"
+								emptyMessage="NO HAY REGISTROS">
+								<p:columnGroup type="header">
+
+									<p:row>
+								
+										<p:column filterBy="#{item.operacion}" rowspan="8" colspan="2" headerText="OPERACIÓN"
+											styleClass="datosEstatus" />
+											
+									</p:row>
+
+
+									<p:row>
+										<p:column colspan="12" headerText="LAVADORAS GRANDES"
+											styleClass="color" />
+										<p:column colspan="4" headerText="TAMBORES" styleClass="color" />
+										<p:column colspan="7" headerText="LAVADORAS CHICAS"
+											styleClass="color" />
+									</p:row>
+
+									<p:row>
+										<p:column headerText="26" styleClass="datosEstatus" />
+										<p:column headerText="27" styleClass="datosEstatus" />
+										<p:column headerText="28" styleClass="datosEstatus" />
+										<p:column headerText="29" styleClass="datosEstatus" />
+										<p:column headerText="30" styleClass="datosEstatus" />
+										<p:column headerText="31" styleClass="datosEstatus" />
+										<p:column headerText="32" styleClass="datosEstatus" />
+										<p:column headerText="33" styleClass="datosEstatus" />
+										<p:column headerText="34" styleClass="datosEstatus" />
+										<p:column headerText="35" styleClass="datosEstatus" />
+										<p:column headerText="36" styleClass="datosEstatus" />
+										<p:column headerText="37" styleClass="datosEstatus" />
+										<p:column headerText="4" styleClass="datosEstatus" />
+										<p:column headerText="5" styleClass="datosEstatus" />
+										<p:column headerText="6" styleClass="datosEstatus" />
+										<p:column headerText="7" styleClass="datosEstatus" />
+										<p:column headerText="10" styleClass="datosEstatus" />
+										<p:column headerText="11" styleClass="datosEstatus" />
+										<p:column headerText="12" styleClass="datosEstatus" />
+										<p:column headerText="13" styleClass="datosEstatus" />
+										<p:column headerText="14" styleClass="datosEstatus" />
+										<p:column headerText="15" styleClass="datosEstatus" />
+										<p:column headerText="16" styleClass="datosEstatus" />
+									</p:row>
+
+								</p:columnGroup>
+
+								<p:column colspan="2" headerText="Operación" width="10rem" 
+									style="text-align: center; font-weight: bold">
+									<h:outputText value="#{item.operacion}" style="color: #1B4F72;  font-size: 1rem" />
+								</p:column>
+
+								<p:column headerText="26" width="5rem"
+									style="text-align: center" filterBy="#{item.operacion}">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande26.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+
+								</p:column>
+								<p:column headerText="27" width="5rem" 
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande27.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="28" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande28.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="29" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande29.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="30" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande30.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="31" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande31.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="32" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande32.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="33" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande33.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="34" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande34.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="35" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande35.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="36" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande36.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="37" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraGrande36.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								
+								
+								<p:column headerText="4" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.tambor4.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="5" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.tambor7.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="6" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.tambor6.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="7" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.tambor7.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								
+								
+								<p:column headerText="10" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraChica10.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="11" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraChica11.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="12" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraChica12.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="13" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraChica13.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="14" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraChica14.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="15" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraChica15.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								<p:column headerText="16" width="5rem"
+									style="text-align: center">
+									<p:graphicImage
+										value="/resources/img/#{item.lavadoraChica16.equals(true) ? 'verde.png' : 'rojo.png'}"
+										style="width: 20px; height: 20px;" />
+								</p:column>
+								
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+				<script>
+                        PrimeFaces.locales['es'] = {
+                            closeText: 'Cerrar',
+                            prevText: 'Anterior',
+                            nextText: 'Siguiente',
+                            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                            dayNamesMin: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                            weekHeader: 'Semana',
+                            firstDay: 1,
+                            isRTL: false,
+                            showMonthAfterYear: false,
+                            yearSuffix: '',
+                            timeOnlyTitle: 'Sólo hora',
+                            timeText: 'Tiempo',
+                            hourText: 'Hora',
+                            minuteText: 'Minuto',
+                            secondText: 'Segundo',
+                            millisecondText: 'Milisegundo',
+                            currentText: 'Fecha actual',
+                            ampm: false,
+                            month: 'Mes',
+                            week: 'Semana',
+                            day: 'Día',
+                            allDayText: 'Todo el día',
+                            today: 'Hoy',
+                            clear: 'Claro'
+                        };
+                    </script>
+
+
+			</h:form>
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="Actualizar información del operador"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="6" styleClass="fuente">
+
+						<p:outputLabel for="nombre" value="Nombre y Apellidos" />
+						<p:inputText id="nombre"
+							value="#{dafUnoBean.operadorEditar.nombre}" required="false"
+							requiredMessage="Campo requerido" style="width: 15rem" />
+						<p:message for="nombre" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							title="Guardar" update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{dafUnoBean.actualizarOperador()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

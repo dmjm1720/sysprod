@@ -29,6 +29,11 @@ public class Etapas implements Serializable {
 	private String quimico2;
 	private String cantidad2;
 	private String lote2;
+	private Integer cantidad;
+	private Integer cantidadTraspaso;
+	private Integer cantidadEncimado;
+	private Integer lavadoraDestino;
+	private Integer operacionDestino;
 
 	public Etapas() {
 	}
@@ -40,8 +45,9 @@ public class Etapas implements Serializable {
 	public Etapas(int idEtapa, PreparacionPieles preparacionPieles, String etapa, Date diaInicio, Date horaInicio,
 			Date diaFin, Date horaFin, BigDecimal phSol, BigDecimal normalidad, String operador, String agua,
 			Boolean estado, Integer alcalinidad, Integer conductividad, String lavadora, String estadoEtapa,
-			String quimico1, String cantidad1, String lote1, String quimico2, String cantidad2, String lote2) {
-		super();
+			String quimico1, String cantidad1, String lote1, String quimico2, String cantidad2, String lote2,
+			Integer cantidad, Integer cantidadTraspaso, Integer cantidadEncimado, Integer lavadoraDestino, Integer operacionDestino) {
+
 		this.idEtapa = idEtapa;
 		this.preparacionPieles = preparacionPieles;
 		this.etapa = etapa;
@@ -64,6 +70,11 @@ public class Etapas implements Serializable {
 		this.quimico2 = quimico2;
 		this.cantidad2 = cantidad2;
 		this.lote2 = lote2;
+		this.cantidad = cantidad;
+		this.cantidadTraspaso = cantidadTraspaso;
+		this.cantidadEncimado = cantidadEncimado;
+		this.lavadoraDestino = lavadoraDestino;
+		this.operacionDestino = operacionDestino;
 	}
 
 	public int getIdEtapa() {
@@ -241,5 +252,47 @@ public class Etapas implements Serializable {
 	public void setLote2(String lote2) {
 		this.lote2 = lote2;
 	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public Integer getCantidadTraspaso() {
+		return cantidadTraspaso;
+	}
+
+	public void setCantidadTraspaso(Integer cantidadTraspaso) {
+		this.cantidadTraspaso = cantidadTraspaso;
+	}
+
+	public Integer getCantidadEncimado() {
+		return cantidadEncimado;
+	}
+
+	public void setCantidadEncimado(Integer cantidadEncimado) {
+		this.cantidadEncimado = cantidadEncimado;
+	}
+
+	public Integer getLavadoraDestino() {
+		return lavadoraDestino;
+	}
+
+	public void setLavadoraDestino(Integer lavadoraDestino) {
+		this.lavadoraDestino = lavadoraDestino;
+	}
+
+	public Integer getOperacionDestino() {
+		return operacionDestino;
+	}
+
+	public void setOperacionDestino(Integer operacionDestino) {
+		this.operacionDestino = operacionDestino;
+	}
+	
+	
 
 }

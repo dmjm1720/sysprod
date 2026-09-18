@@ -21,9 +21,6 @@
 		<property name="operacion" type="java.lang.Integer">
 			<column name="OPERACION" />
 		</property>
-		<property name="lavadora" type="string">
-			<column name="LAVADORA" length="50" />
-		</property>
 		<property name="fecha" type="timestamp">
 			<column name="FECHA" length="23" />
 		</property>

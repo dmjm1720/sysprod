@@ -68,7 +68,7 @@
 
 
 							<p:dataTable id="tblLavadoras" styleClass="tabla fuente"
-								var="item" sortMode="multiple" scrollHeight="650"
+								var="item" sortMode="multiple" scrollHeight="750"
 								scrollWidth="60%" widgetVar="wbtblLavadoras"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
@@ -79,7 +79,7 @@
 								value="#{lavadorasBean.listarLavadoras}"
 								emptyMessage="NO HAY REGISTROS">
 
-								<p:column headerText="Acciones" width="1.5rem"
+								<p:column headerText="Acciones" width="2.5rem"
 									exportable="false" style="text-align: center">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
 										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
@@ -113,7 +113,7 @@
 									<h:outputText value="#{item.descripcion}" />
 								</p:column>
 
-								<p:column headerText="Tipo" width="4rem"
+								<p:column headerText="Tipo" width="9rem"
 									filterBy="#{item.nombre}" filterMatchMode="exact">
 									<f:facet name="filter">
 										<p:selectOneMenu onchange="PF('wbtblLavadoras').filter()"
@@ -140,6 +140,10 @@
 
 								<p:column headerText="Etapa" width="10rem">
 									<h:outputText value="#{item.etapa}" />
+								</p:column>
+								
+								<p:column headerText="No. Operación" width="10rem">
+									<h:outputText value="#{item.operacion}" />
 								</p:column>
 
 							</p:dataTable>

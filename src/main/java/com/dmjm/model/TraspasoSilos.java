@@ -5,7 +5,7 @@ import java.util.Date;
 public class TraspasoSilos implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int idTraspaso;
+	private Integer idTraspaso;
 	private Operador operador;
 	private Usuarios usuarios;
 	private PreparacionPieles preparacionPieles;
@@ -13,19 +13,20 @@ public class TraspasoSilos implements java.io.Serializable {
 	private Date horaInicial;
 	private Date fechaFinal;
 	private Date horaFinal;
-	private int noOperacion;
-	private int idOperacion;
+	private Integer noOperacion;
+	private Integer idOperacion;
+	private Integer cantidad;
 
 	public TraspasoSilos() {
 	}
 
-	public TraspasoSilos(int idTraspaso) {
+	public TraspasoSilos(Integer idTraspaso) {
 		this.idTraspaso = idTraspaso;
 	}
 
-	public TraspasoSilos(int idTraspaso, Operador operador, PreparacionPieles preparacionPieles, Usuarios usuarios,
+	public TraspasoSilos(Integer idTraspaso, Operador operador, PreparacionPieles preparacionPieles, Usuarios usuarios,
 			Date fechaInicial, Date horaInicial, Date fechaFinal, Date horaFinal, Integer noOperacion,
-			Integer idOperacion) {
+			Integer idOperacion, Integer cantidad) {
 		this.idTraspaso = idTraspaso;
 		this.operador = operador;
 		this.preparacionPieles = preparacionPieles;
@@ -36,13 +37,14 @@ public class TraspasoSilos implements java.io.Serializable {
 		this.horaFinal = horaFinal;
 		this.noOperacion = noOperacion;
 		this.idOperacion = idOperacion;
+		this.cantidad = cantidad;
 	}
 
-	public int getIdTraspaso() {
+	public Integer getIdTraspaso() {
 		return this.idTraspaso;
 	}
 
-	public void setIdTraspaso(int idTraspaso) {
+	public void setIdTraspaso(Integer idTraspaso) {
 		this.idTraspaso = idTraspaso;
 	}
 
@@ -94,19 +96,19 @@ public class TraspasoSilos implements java.io.Serializable {
 		this.horaFinal = horaFinal;
 	}
 
-	public int getNoOperacion() {
+	public Integer getNoOperacion() {
 		return noOperacion;
 	}
 
-	public void setNoOperacion(int noOperacion) {
+	public void setNoOperacion(Integer noOperacion) {
 		this.noOperacion = noOperacion;
 	}
 
-	public int getIdOperacion() {
+	public Integer getIdOperacion() {
 		return idOperacion;
 	}
 
-	public void setIdOperacion(int idOperacion) {
+	public void setIdOperacion(Integer idOperacion) {
 		this.idOperacion = idOperacion;
 	}
 
@@ -116,6 +118,14 @@ public class TraspasoSilos implements java.io.Serializable {
 
 	public void setPreparacionPieles(PreparacionPieles preparacionPieles) {
 		this.preparacionPieles = preparacionPieles;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 
 }

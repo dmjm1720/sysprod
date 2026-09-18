@@ -342,19 +342,146 @@ public class EtapasDaoImpl extends Conexion implements IEtapasDao {
 	@Override
 	public void actualizarHoraFinEtapaAnterior(Date fecFinal, int idEtapa) {
 		try {
-		    ConectarSysProd();
-		    String sql = "UPDATE ETAPAS SET HORA_FIN = ? WHERE ID_ETAPA = ?";
+			ConectarSysProd();
+			String sql = "UPDATE ETAPAS SET HORA_FIN = ? WHERE ID_ETAPA = ?";
 
-		    PreparedStatement ps = getCnSysProd().prepareStatement(sql);
-		    ps.setTime(1, new Time(fecFinal.getTime()));
-		    ps.setInt(2, idEtapa);
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setTime(1, new Time(fecFinal.getTime()));
+			ps.setInt(2, idEtapa);
 
-		    ps.executeUpdate();
-		    CerrarSysProd();
+			ps.executeUpdate();
+			CerrarSysProd();
 		} catch (SQLException ex) {
-		    LOGGER.error("ERROR AL ACTUALIZAR LA ETAPA: " + ex);
+			LOGGER.error("ERROR AL ACTUALIZAR LA ETAPA: " + ex);
 		}
-		
+
+	}
+
+	@Override
+	public List<Etapas> listaEtapasLavadorasChicas(int idPreparacion) {
+		List<Etapas> etapas = new ArrayList<>();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM Etapas e WHERE e.preparacionPieles.idPreparacion = :idPreparacion AND cantidadTraspaso>0";
+			Query<Etapas> query = session.createQuery(hql, Etapas.class);
+
+			// Establecer el parámetro
+			query.setParameter("idPreparacion", idPreparacion);
+			etapas = query.list();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return etapas;
+	}
+
+	@Override
+	public int cantidadTraspaso(int idEtapa) {
+		int cantidad = 0;
+		try {
+
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd()
+					.prepareStatement("SELECT CANTIDAD_TRASPASO FROM ETAPAS WHERE ID_ETAPA =?");
+			st.setInt(1, idEtapa);
+			ResultSet rs = st.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+			} else {
+				while (rs.next()) {
+					cantidad = rs.getInt("CANTIDAD_TRASPASO");
+				}
+			}
+
+			CerrarSysProd();
+
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL CONSULTAR EL FOLIO: " + ex);
+		}
+		return cantidad;
+	}
+
+	@Override
+	public int cantidadMasEncimado(int idEtapa) {
+		int cantidad = 0;
+		try {
+
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd().prepareStatement("SELECT CANTIDAD FROM ETAPAS WHERE ID_ETAPA =?");
+			st.setInt(1, idEtapa);
+			ResultSet rs = st.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+			} else {
+				while (rs.next()) {
+					cantidad = rs.getInt("CANTIDAD");
+				}
+			}
+
+			CerrarSysProd();
+
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL CONSULTAR EL FOLIO: " + ex);
+		}
+		return cantidad;
+	}
+
+	@Override
+	public void actualizarCantidad(int nuevaCantidad, int idEtapa) {
+		try {
+			ConectarSysProd();
+			String sql = "UPDATE ETAPAS SET CANTIDAD = ? WHERE ID_ETAPA = ?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+			ps.setInt(1, nuevaCantidad);
+			ps.setInt(2, idEtapa);
+
+			ps.executeUpdate();
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA ETAPA: " + ex);
+		}
+
+	}
+
+	@Override
+	public Etapas cantidadTraspasoEncimado(int lavadora) {
+
+		Etapas etapas = new Etapas();
+		try {
+
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd()
+					.prepareStatement("SELECT TOP(1) ID_ETAPA, CANTIDAD FROM ETAPAS WHERE LAVADORA = ? AND CANTIDAD >0");
+			st.setInt(1, lavadora);
+			ResultSet rs = st.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+			} else {
+				while (rs.next()) {
+					
+					etapas.setIdEtapa(rs.getInt("ID_ETAPA"));
+					etapas.setCantidad(rs.getInt("CANTIDAD"));
+
+				}
+			}
+
+			CerrarSysProd();
+
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL CONSULTAR EL FOLIO: " + ex);
+		}
+
+		return etapas;
 	}
 
 }

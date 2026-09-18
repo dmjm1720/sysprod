@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21/08/2026 09:27:00 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.dmjm.model.LavadorasEstatusOperacion" table="LAVADORAS_ESTATUS_OPERACION" schema="dbo" catalog="SYSPROD" optimistic-lock="version">
+        <id name="idLavadorasStatus" type="int">
+            <column name="ID_LAVADORAS_STATUS" />
+            <generator class="native" />
+        </id>
+        <property name="operacion" type="java.lang.Integer">
+            <column name="OPERACION" />
+        </property>
+        <property name="lavadoraGrande26" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_26" />
+        </property>
+        <property name="lavadoraGrande27" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_27" />
+        </property>
+        <property name="lavadoraGrande28" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_28" />
+        </property>
+        <property name="lavadoraGrande29" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_29" />
+        </property>
+        <property name="lavadoraGrande30" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_30" />
+        </property>
+        <property name="lavadoraGrande31" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_31" />
+        </property>
+        <property name="lavadoraGrande32" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_32" />
+        </property>
+        <property name="lavadoraGrande33" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_33" />
+        </property>
+        <property name="lavadoraGrande34" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_34" />
+        </property>
+        <property name="lavadoraGrande35" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_35" />
+        </property>
+        <property name="lavadoraGrande36" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_36" />
+        </property>
+        <property name="lavadoraGrande37" type="java.lang.Boolean">
+            <column name="LAVADORA_GRANDE_37" />
+        </property>
+        <property name="tambor4" type="java.lang.Boolean">
+            <column name="TAMBOR_4" />
+        </property>
+        <property name="tambor5" type="java.lang.Boolean">
+            <column name="TAMBOR_5" />
+        </property>
+        <property name="tambor6" type="java.lang.Boolean">
+            <column name="TAMBOR_6" />
+        </property>
+        <property name="tambor7" type="java.lang.Boolean">
+            <column name="TAMBOR_7" />
+        </property>
+        <property name="lavadoraChica10" type="java.lang.Boolean">
+            <column name="LAVADORA_CHICA_10" />
+        </property>
+        <property name="lavadoraChica11" type="java.lang.Boolean">
+            <column name="LAVADORA_CHICA_11" />
+        </property>
+        <property name="lavadoraChica12" type="java.lang.Boolean">
+            <column name="LAVADORA_CHICA_12" />
+        </property>
+        <property name="lavadoraChica13" type="java.lang.Boolean">
+            <column name="LAVADORA_CHICA_13" />
+        </property>
+        <property name="lavadoraChica14" type="java.lang.Boolean">
+            <column name="LAVADORA_CHICA_14" />
+        </property>
+        <property name="lavadoraChica15" type="java.lang.Boolean">
+            <column name="LAVADORA_CHICA_15" />
+        </property>
+        <property name="lavadoraChica16" type="java.lang.Boolean">
+            <column name="LAVADORA_CHICA_16" />
+        </property>
+    </class>
+</hibernate-mapping>

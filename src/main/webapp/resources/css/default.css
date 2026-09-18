@@ -288,8 +288,18 @@ a:link:hover, a:visited:hover {
 	color: #036FAB !important;
 }
 
+.datosEstatus{
+	color: #036FAB !important;
+	font-weight: bold !important;
+	font-size: .8rem;
+	font-family: 'Poppins', sans-serif !important;
+}
+
 .color {
 	color: #8B008B !important;
+	font-weight: bold !important;
+	font-size: .8rem;
+	font-family: 'Poppins', sans-serif !important;
 }
 
 .fuenteCocedores {

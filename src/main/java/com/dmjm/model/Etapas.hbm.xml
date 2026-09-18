@@ -73,5 +73,20 @@
 		<property name="lote2" type="string">
 			<column name="LOTE_2" length="50" />
 		</property>
+		<property name="cantidad" type="java.lang.Integer">
+			<column name="CANTIDAD" />
+		</property>
+		<property name="cantidadTraspaso" type="java.lang.Integer">
+			<column name="CANTIDAD_TRASPASO" />
+		</property>
+		<property name="cantidadEncimado" type="java.lang.Integer">
+			<column name="CANTIDAD_ENCIMADO" />
+		</property>
+		<property name="lavadoraDestino" type="java.lang.Integer">
+			<column name="LAVADORA_DESTINO" />
+		</property>
+		<property name="operacionDestino" type="java.lang.Integer">
+			<column name="OPERACION_DESTINO" />
+		</property>
 	</class>
 </hibernate-mapping>

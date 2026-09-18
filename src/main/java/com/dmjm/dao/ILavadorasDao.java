@@ -28,4 +28,16 @@ public interface ILavadorasDao {
 	void borrarLavadora(Lavadoras lavadoras);
 
 	List<Lavadoras> listaLavadorasChicas();
+
+	void actualizarEstadoLavadora(int estado, String descripcion);
+
+	void actualizarEstadoLavadoraChica(int estado, String etapa, String descripcion);
+
+	List<Lavadoras> listaLavadorasChicasEncimar();
+
+	void actualizarOperacionLavadora(int operacion, String descripcion);
+
+	List<Lavadoras> listarLavodorasPorOperacion(int operacion);
+	
+	List<String> listaDeOperaciones(Integer operacion) throws SQLException;
 }

@@ -83,8 +83,8 @@
 											<p:commandButton icon="pi pi-save" title="Agregar operación"
 												value="AGREGAR"
 												style="width: 8rem; height: 2rem; color: #20B2AA; font-weight:bold"
-												update="frmPrincipal:accoRP:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE3"
-												actionListener="#{preparacionBean.guardarPreparacion()}" />
+												actionListener="#{preparacionBean.guardarPreparacion()}"
+												update="frmPrincipal:acco, frmPrincipal:accoRP, frmPrincipal:accoRP:imp, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE3" />
 										</div>
 									</h:panelGrid>
 
@@ -532,9 +532,6 @@
 							</p:column>
 
 
-
-
-
 						</p:dataTable>
 					</p:tab>
 
@@ -543,14 +540,10 @@
 				<div style="text-align: center">
 					<p:commandButton icon="pi pi-sign-in" value="TRASPASO"
 						styleClass="mensajeBoton2 verde" style="width: 8rem; height: 2rem"
-						actionListener="#{preparacionBean.colocarTotal()}"
-						update="frmLavadorasTras:distt"
+						action="#{preparacionBean.colocarTotal}" process="@this"
+						update="frmLavadorasTras:distt, frmLavadorasTras:kilosAPasar"
 						oncomplete="PF('dlgTraspasoMaterialTras').show()" />
 
-					<p:commandButton icon="pi pi-sign-out" value="ENCIMADO"
-						styleClass="mensajeBoton2 amarillo"
-						style="width: 8rem; height: 2rem"
-						oncomplete="PF('dlgTraspasoMaterial').show()" />
 				</div>
 
 
@@ -684,6 +677,17 @@
 					</p:tab>
 				</p:accordionPanel>
 
+
+				<div style="text-align: center">
+
+					<p:commandButton icon="pi pi-sign-out" value="ENCIMADO"
+						styleClass="mensajeBoton2 amarillo"
+						style="width: 8rem; height: 2rem"
+						actionListener="#{preparacionBean.cargarLavadorasChicas()}"
+						process="@this"
+						update="frmLavadorasEnc:tblLavLC, frmLavadorasEnc:tblLavLCE,frmLavadorasEnc:operPen"
+						oncomplete="PF('dlgTraspasoMaterialEnc').show()" />
+				</div>
 				<!-- ETAPA 3 APARTADO 1-->
 				<p:accordionPanel id="accoE3">
 					<p:tab title="ETAPA LAVADAS EN LAVAODRAS CHICAS"
@@ -719,13 +723,22 @@
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
 
+							<p:column headerText="Kg. origen + Kg. traspasos" width="5rem">
+								<h:outputText value="#{item3.cantidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
+							<p:column headerText="Cantidad" width="5rem">
+								<h:outputText value="#{item3.cantidadTraspaso}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
+
 							<p:column headerText="Día inicio" width="5rem">
 								<h:outputText value="#{item3.diaInicio}"
 									style="color: #036FAB; font-weight: bold !important;" />
 							</p:column>
 
 							<p:column headerText="Hora inicio" width="5rem">
-
 								<h:outputText value="#{item3.horaInicio}"
 									style="color: #036FAB; font-weight: bold !important;">
 									<f:convertDateTime pattern="HH:mm:ss"
@@ -822,7 +835,10 @@
 								<h:outputText value="#{item3.noOperacion}"
 									style="color: #036FAB;font-weight: bold !important;" />
 							</p:column>
-
+							<p:column headerText="Cantidad" width="4rem" styleClass="fondo">
+								<h:outputText value="#{item3.cantidad}"
+									style="color: #036FAB;font-weight: bold !important;" />
+							</p:column>
 							<p:column headerText="Fecha Inicial" width="4rem"
 								styleClass="fondo">
 								<h:outputText value="#{item3.fechaInicial}"
@@ -896,115 +912,9 @@
 
 				<!-- 							<p:column headerText="Editar" width="2rem" exportable="false" -->
 				<!-- 								style="text-align: center !important"> -->
-				<!-- 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil" -->
-				<!-- 									disabled="#{item3.estado==false}" -->
-				<!-- 									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar" -->
-				<!-- 									styleClass="ui-button-warning"> -->
-				<!-- 									<f:setPropertyActionListener value="#{item3}" -->
-				<!-- 										target="#{preparacionBean.etapas}" /> -->
-				<!-- 								</p:commandButton> -->
-				<!-- 								<p:tooltip id="toolTipE" for="ed" value="Editar" -->
-				<!-- 									trackMouse="true" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Etapa" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.etapa}" -->
-				<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Día inicio" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.diaInicio}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Hora inicio" width="5rem"> -->
-
-				<!-- 								<h:outputText value="#{item3.horaInicio}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;"> -->
-				<!-- 									<f:convertDateTime pattern="HH:mm:ss" -->
-				<!-- 										timeZone="America/Mexico_City" /> -->
-				<!-- 								</h:outputText> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Día fin" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.diaFin}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Hora fin" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.horaFin}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;"> -->
-				<!-- 									<f:convertDateTime pattern="HH:mm:ss" -->
-				<!-- 										timeZone="America/Mexico_City" /> -->
-				<!-- 								</h:outputText> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="PH Sol" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.phSol}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Normalidad" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.normalidad}" -->
-				<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Alcalinidad" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.alcalinidad}" -->
-				<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Conductividad" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.conductividad}" -->
-				<!-- 									style="color: #036FAB;font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Químico" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.quimico1}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Cantidad" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.cantidad1}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Lote" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.lote1}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Químico" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.quimico2}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Cantidad" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.cantidad2}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Lote" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.lote2}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Agua" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.agua}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
-
-				<!-- 							<p:column headerText="Operador" width="5rem"> -->
-				<!-- 								<h:outputText value="#{item3.operador}" -->
-				<!-- 									style="color: #036FAB; font-weight: bold !important;" /> -->
-				<!-- 							</p:column> -->
 
 
-				<!-- 						</p:dataTable> -->
 
-
-				<!-- 					</p:tab> -->
-				<!-- 				</p:accordionPanel> -->
 				<script>
                         PrimeFaces.locales['es'] = {
                             closeText: 'Cerrar',
@@ -1175,7 +1085,11 @@
 							rendered="#{preparacionBean.etapas.agua ne 'Z'}" />
 						<p:inputText id="agua" value="#{preparacionBean.etapas.agua}"
 							rendered="#{preparacionBean.etapas.agua ne 'Z'}" required="false"
-							requiredMessage="Campo requerido" style="width: 5rem" />
+							requiredMessage="Campo requerido"
+							onkeyup="this.value=this.value.toUpperCase();"
+							validatorMessage="Solo se permite L o R" style="width: 5rem">
+							<f:validateRegex pattern="[LR]" />
+						</p:inputText>
 
 						<p:outputLabel for="diaFin" value="Dia Fin"
 							rendered="#{preparacionBean.etapas.diaFin ne '1969-12-31'}" />
@@ -1193,12 +1107,13 @@
 							endMinutes="59" />
 
 					</h:panelGrid>
-
+					<p:message for="agua" />
 					<div style="text-align: right">
+
 						<p:commandButton icon="pi pi-save" value="Actualizar"
 							style="widht: 20rem; height: 2rem" title="Guardar"
 							actionListener="#{preparacionBean.actualizarEtapa(preparacionBean.etapas.lavadora)}"
-							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
+							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
 							oncomplete="PF('dlgEditar').hide()" />
 					</div>
 
@@ -1269,21 +1184,27 @@
 												intervalMinutes="1" endMinutes="59" /></td>
 									</tr>
 									<tr>
+										<td>Kilos a traspasar</td>
+										<td><p:inputText id="kilosAPasar" size="8"
+												value="#{preparacionBean.distribucionKilosSilos}" /></td>
+										<td></td>
+									</tr>
+									<tr>
 										<td>Nombre del Coordinador:</td>
 										<td colspan="2"><p:autoComplete id="coordsTr" size="20"
 												required="false" requiredMessage="Nombre del Coordinador"
 												autocomplete="off" placeholder="Selecciona" dropdown="true"
-												value="#{luwaTresBean.filterUsuario}"
-												completeMethod="#{luwaTresBean.buscarNombreCoordinador}">
+												value="#{preparacionBean.filterUsuario}"
+												completeMethod="#{preparacionBean.buscarNombreCoordinador}">
 											</p:autoComplete></td>
 									</tr>
 									<tr>
 										<td>Nombre del Operador:</td>
-										<td colspan="2"><p:autoComplete id="opppTr" size="20"
-												required="false" requiredMessage="Nombre del Coordinador"
-												autocomplete="off" placeholder="Selecciona" dropdown="true"
-												value="#{luwaTresBean.filterUsuario}"
-												completeMethod="#{luwaTresBean.buscarNombreCoordinador}">
+										<td colspan="2"><p:autoComplete id="operador" size="35"
+												required="false" requiredMessage="Operador requerido"
+												autocomplete="off" placeholder="Ingresa Operador"
+												dropdown="true" value="#{preparacionBean.filterOperador}"
+												completeMethod="#{preparacionBean.buscarNombreOperador}">
 											</p:autoComplete></td>
 									</tr>
 								</tbody>
@@ -1292,7 +1213,7 @@
 								<p:commandButton icon="pi pi-save"
 									value="Confirmar Traspaso a Silos"
 									actionListener="#{preparacionBean.guardarTaspasoSilos}"
-									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre" 
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre"
 									oncomplete="PF('dlgTraspasoMaterialTras').hide()" />
 							</div>
 						</p:splitterPanel>
@@ -1314,6 +1235,36 @@
 									</tr>
 								</thead>
 								<tbody>
+									<tr>
+										<td>Fecha y Hora Inicial:</td>
+										<td><p:datePicker id="fechaSilosTrasC"
+												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
+												placeholder="Fecha inicial"
+												inputStyleClass="font-size: .8rem !important amarillo"
+												inputStyle="width: 90px !important; font-family: 'Poppins', sans-serif !important;"
+												value="#{preparacionBean.etapasLavadorasChicas.diaInicio}"
+												style="font-family: 'Poppins', sans-serif !important;"
+												styleClass="captura" /></td>
+										<td><pe:timePicker id="hiSilosTrasC"
+												value="#{preparacionBean.etapasLavadorasChicas.horaInicio}"
+												mode="spinner" widgetVar="hsIC" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></td>
+									</tr>
+									<tr>
+										<td>Fecha y Hora Final:</td>
+										<td><p:datePicker id="fechaFinSilosTrasC"
+												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
+												placeholder="Fecha final"
+												inputStyleClass="font-size: .8rem !important amarillo"
+												inputStyle="width: 90px !important; font-family: 'Poppins', sans-serif !important;"
+												value="#{preparacionBean.etapasLavadorasChicas.diaFin}"
+												style="font-family: 'Poppins', sans-serif !important;"
+												styleClass="captura" /></td>
+										<td><pe:timePicker id="hiFinSilosC"
+												value="#{preparacionBean.etapasLavadorasChicas.horaFin}"
+												mode="spinner" widgetVar="hsFC" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></td>
+									</tr>
 									<tr>
 										<td>Seleccionar Lavadoras:</td>
 										<td><p:selectCheckboxMenu id="c0" multiple="true"
@@ -1358,26 +1309,28 @@
 									value="Confirmar Traspaso a Lavadoras"
 									style="widht: 20rem; height: 2rem" title="Guardar"
 									actionListener="#{preparacionBean.guardarTraspasoLavadoras}"
-									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre"
+									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre"
 									oncomplete="PF('dlgTraspasoMaterialTras').hide()" />
-								<p:commandButton icon="pi pi-times" value="Salir"
-									style="widht: 20rem; height: 2rem" title="Guardar"
-									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre, frmPrincipal:accoE4:tblPre"
-									oncomplete="PF('dlgTraspasoMaterialTras').hide()" />
+
 							</div>
 						</p:splitterPanel>
+
+
 					</p:splitter>
 
 				</p:dialog>
 			</h:form>
 			<!-- INICIA FORMULARIO PARA ENCIMANDO DE LAVADORA CHICA -->
 
-			<!-- INICIA FORMULARIO PARA ENCIMANDO DE LAVADORA CHICA -->
-			<h:form id="frmLavadoras">
-				<p:dialog id="dlgLavadorasChicas"
-					header="TRASPASO DE MATERIAL ENCIMANDO A LAVADORA CHICA"
-					widgetVar="dlgTraspasoMaterial" showEffect="fade"
-					closeOnEscape="true" minimizable="true" maximizable="true">
+
+
+
+			<!-- INICIA FORMULARIO PARA TRASPASO DE LAVADORAS -->
+			<h:form id="frmLavadorasEnc">
+				<p:dialog id="dlgLavadorasChicasEnc" width="70%"
+					header="TRASPASO DE MATERIAL A LAVADORAS CHICAS"
+					widgetVar="dlgTraspasoMaterialEnc" showEffect="fade"
+					closeOnEscape="true" minimizable="false" maximizable="false">
 					<div style="text-align: center">
 
 						<p:outputLabel value="SELECCIONE DESTINO DEL MATERIAL" />
@@ -1405,26 +1358,26 @@
 								<tbody>
 									<tr>
 										<td>Fecha y Hora Inicial:</td>
-										<td><p:datePicker id="fechaSilos" pattern="dd-MMMM-yyyy"
-												showTime="false" disabled="false"
+										<td><p:datePicker id="fechaSilosEncs"
+												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
 												placeholder="Fecha inicial"
 												inputStyleClass="font-size: .8rem !important amarillo"
-												inputStyle="width: 90px !important; font-family: 'Poppins', sans-serif !important;"
+												inputStyle="width: 100px !important; font-family: 'Poppins', sans-serif !important;"
 												value="#{preparacionBean.traspasoSilos.fechaInicial}"
 												style="font-family: 'Poppins', sans-serif !important;"
 												styleClass="captura" /></td>
-										<td><pe:timePicker id="hiSilos"
+										<td><pe:timePicker id="hiSilosTras"
 												value="#{preparacionBean.traspasoSilos.horaInicial}"
 												mode="spinner" widgetVar="hsI" showOn="button"
 												intervalMinutes="1" endMinutes="59" /></td>
 									</tr>
 									<tr>
 										<td>Fecha y Hora Final:</td>
-										<td><p:datePicker id="fechaFinSilos"
+										<td><p:datePicker id="fechaFinSilosEncs"
 												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
 												placeholder="Fecha final"
 												inputStyleClass="font-size: .8rem !important amarillo"
-												inputStyle="width: 90px !important; font-family: 'Poppins', sans-serif !important;"
+												inputStyle="width: 100px !important; font-family: 'Poppins', sans-serif !important;"
 												value="#{preparacionBean.traspasoSilos.fechaFinal}"
 												style="font-family: 'Poppins', sans-serif !important;"
 												styleClass="captura" /></td>
@@ -1434,38 +1387,82 @@
 												intervalMinutes="1" endMinutes="59" /></td>
 									</tr>
 									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
 										<td>Nombre del Coordinador:</td>
-										<td colspan="2"><p:autoComplete id="coords" size="20"
+										<td colspan="2"><p:autoComplete id="coordsTrs" size="20"
 												required="false" requiredMessage="Nombre del Coordinador"
 												autocomplete="off" placeholder="Selecciona" dropdown="true"
-												value="#{luwaTresBean.filterUsuario}"
-												completeMethod="#{luwaTresBean.buscarNombreCoordinador}">
+												value="#{preparacionBean.filterUsuario}"
+												completeMethod="#{preparacionBean.buscarNombreCoordinador}">
 											</p:autoComplete></td>
 									</tr>
 									<tr>
 										<td>Nombre del Operador:</td>
-										<td colspan="2"><p:autoComplete id="oppp" size="20"
-												required="false" requiredMessage="Nombre del Coordinador"
-												autocomplete="off" placeholder="Selecciona" dropdown="true"
-												value="#{luwaTresBean.filterUsuario}"
-												completeMethod="#{luwaTresBean.buscarNombreCoordinador}">
+										<td colspan="2"><p:autoComplete id="operador" size="35"
+												required="false" requiredMessage="Operador requerido"
+												autocomplete="off" placeholder="Ingresa Operador"
+												dropdown="true" value="#{preparacionBean.filterOperador}"
+												completeMethod="#{preparacionBean.buscarNombreOperador}">
 											</p:autoComplete></td>
 									</tr>
 								</tbody>
 							</table>
-							<div style="text-align: right">
-								<p:commandButton icon="pi pi-save"
-									value="Confirmar Traspaso a Silos"
-									actionListener="#{preparacionBean.calcularKilos(preparacionBean.noLavadorasChicas)}" />
-							</div>
+							Kilos a traspasar
+							<p:dataTable id="tblLavLC" var="itemLC" editable="true"
+								rowIndexVar="index"
+								value="#{preparacionBean.listaEtapasLavadorasChicas}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="rowEdit" listener="#{preparacionBean.onRowEdit}"
+									update="frmLavadorasEnc:tblLavLC" />
+
+								<p:ajax event="rowEditCancel"
+									listener="#{preparacionBean.onRowCancel}"
+									update="frmLavadorasEnc:tblLavLC" />
+
+
+								<p:column headerText="Lavadora Chica">
+									<h:outputText value="#{itemLC.lavadora}" />
+								</p:column>
+
+								<p:column headerText="Cantidad disponible">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{itemLC.cantidad}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{itemLC.cantidad}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Editar">
+									<p:rowEditor />
+								</p:column>
+								<p:column headerText="Acción">
+									<p:commandButton value="Confirmar"
+										action="#{preparacionBean.guardarTaspasoSilosEncimado}"
+										process="@form" update="tblLavLC">
+										<f:setPropertyActionListener value="#{itemLC}"
+											target="#{preparacionBean.etapasEditarTraspaso}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+
+
 						</p:splitterPanel>
 
 
 
 						<p:splitterPanel
 							styleClass="flex align-items-center justify-content-center">
-							<span style="font-size: .9rem">&#8680; Proceso de
-								encimando a Lavadoras Chicas (10-16)</span>
+							<span style="font-size: .9rem">&#8680; Encimado a
+								Lavadoras Chicas (10-16)</span>
 							<p:divider />
 							<br></br>
 							<br></br>
@@ -1473,63 +1470,143 @@
 							<table>
 								<thead>
 									<tr>
-										<th colspan="2">Encimado a Lavadora Chica</th>
+										<th colspan="3">Encimado a Lavadoras Chicas</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>Seleccionar Lavadoras:</td>
-										<td><p:selectCheckboxMenu id="c0" multiple="true"
-												panelStyleClass="fuente" styleClass="fuente"
-												emptyLabel="Selecciona lavadoras" updateLabel="true"
-												style="min-width: 15rem" panelStyle="width: 20rem"
-												scrollHeight="50"
-												value="#{preparacionBean.selectedLavadorasChicas}">
-												<p:ajax event="change"
-													listener="#{preparacionBean.onToggleSelect}" />
-												<p:ajax event="change"
-													listener="#{preparacionBean.onItemSelect}" />
-												<p:ajax event="itemUnselect"
-													listener="#{preparacionBean.onItemUnselect}" />
-												<f:selectItems
-													value="#{preparacionBean.listarLavadorasChicas}" />
-											</p:selectCheckboxMenu></td>
+										<td>Fecha y Hora Inicial:</td>
+										<td><p:datePicker id="fechaSilosTrasC"
+												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
+												placeholder="Fecha inicial"
+												inputStyleClass="font-size: .8rem !important amarillo"
+												inputStyle="width: 100px !important; font-family: 'Poppins', sans-serif !important;"
+												value="#{preparacionBean.etapasLavadorasChicas.diaInicio}"
+												style="font-family: 'Poppins', sans-serif !important;"
+												styleClass="captura" /></td>
+										<td><pe:timePicker id="hiSilosTrasC"
+												value="#{preparacionBean.etapasLavadorasChicas.horaInicio}"
+												mode="spinner" widgetVar="hsIC" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></td>
 									</tr>
 									<tr>
-										<td>Kilos a encimar:</td>
-										<td><p:inputText id="distt"
-												value="#{preparacionBean.distribucionKilos}">
-												<p:ajax event="keyup" update="asig"
-													listener="#{preparacionBean.calcularKilos}" />
-											</p:inputText></td>
+										<td>Fecha y Hora Final:</td>
+										<td><p:datePicker id="fechaFinSilosTrasC"
+												pattern="dd-MMMM-yyyy" showTime="false" disabled="false"
+												placeholder="Fecha final"
+												inputStyleClass="font-size: .8rem !important amarillo"
+												inputStyle="width: 100px !important; font-family: 'Poppins', sans-serif !important;"
+												value="#{preparacionBean.etapasLavadorasChicas.diaFin}"
+												style="font-family: 'Poppins', sans-serif !important;"
+												styleClass="captura" /></td>
+										<td><pe:timePicker id="hiFinSilosC"
+												value="#{preparacionBean.etapasLavadorasChicas.horaFin}"
+												mode="spinner" widgetVar="hsFC" showOn="button"
+												intervalMinutes="1" endMinutes="59" /></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Selecciona operación</td>
+										<td><p:selectOneMenu id="operPen"
+												style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:6rem"
+												value="#{preparacionBean.folioOperacion}">
+												<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+												<f:selectItems value="#{preparacionBean.listarOperaciones}" />
+												<p:ajax
+													listener="#{preparacionBean.obtenerListaLavadorasChicasDisponibles}"
+													event="change" update="frmLavadorasEnc:tblLavLCE" />
+											</p:selectOneMenu></td>
 
 									</tr>
 									<tr>
-										<td colspan="2">Distribución:</td>
+										<td colspan="2"></td>
 									</tr>
 									<tr>
-										<td colspan="2"><p:dataList id="asig"
-												value="#{preparacionBean.listarAsignacionKilosLavadorasChicas}"
-												var="item" type="unordered">
-   														 #{item}
-														</p:dataList></td>
+										<td colspan="2"></td>
 									</tr>
 								</tbody>
 							</table>
-							<div style="text-align: right">
-								<p:commandButton icon="pi pi-save"
-									value="Confirmar Encimado a Lavadora"
-									style="widht: 20rem; height: 2rem" title="Guardar"
-									actionListener="#{preparacionBean.guardarTaspasoSilos}"
-									update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
-									oncomplete="PF('dlgEditar').hide()" />
-							</div>
+							
+							Kilos a encimar
+							<p:dataTable id="tblLavLCE" var="itemLCE" editable="true"
+								rowIndexVar="index"
+								value="#{preparacionBean.listaEtapasLavadorasChicas}"
+								emptyMessage="NO HAY REGISTROS">
+
+								<p:ajax event="rowEdit" listener="#{preparacionBean.onRowEdit}"
+									update="frmLavadorasEnc:tblLavLCE" />
+
+								<p:ajax event="rowEditCancel"
+									listener="#{preparacionBean.onRowCancel}"
+									update="frmLavadorasEnc:tblLavLCE" />
+
+								<p:column headerText="Lavadora Chica">
+									<h:outputText value="#{itemLCE.lavadora}" />
+								</p:column>
+
+								<p:column headerText="Cantidad disponible">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{itemLCE.cantidad}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:inputText value="#{itemLCE.cantidad}" />
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+
+								<p:column headerText="Lavadora destino">
+									<p:cellEditor>
+										<f:facet name="output">
+											<h:outputText value="#{itemLCE.lavadoraDestino}" />
+										</f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu id="lavDes"
+												style="color: #1E90FF;font-weight: bold !important;font-size: .8rem; width:6rem"
+												value="#{itemLCE.lavadoraDestino}">
+												<f:selectItem itemLabel="SELECCIONA" itemValue="" />
+												<f:selectItems
+													value="#{preparacionBean.listarLavadorasChicasDisponibles}" />
+
+											</p:selectOneMenu>
+										</f:facet>
+									</p:cellEditor>
+								</p:column>
+
+								<p:column headerText="Operación destino">
+									<h:outputText value="#{itemLCE.operacionDestino}" />
+								</p:column>
+
+
+								<p:column headerText="Editar">
+									<p:rowEditor />
+								</p:column>
+
+								<p:column headerText="Acción">
+									<p:commandButton value="Confirmar"
+										action="#{preparacionBean.guardarEncimadoLavadoras}"
+										process="@form" update="tblLavLCE">
+										<f:setPropertyActionListener value="#{itemLCE}"
+											target="#{preparacionBean.etapasEditarTraspaso}" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+
 						</p:splitterPanel>
+
+
 					</p:splitter>
 
 				</p:dialog>
 			</h:form>
 			<!-- INICIA FORMULARIO PARA ENCIMANDO DE LAVADORA CHICA -->
+
+
 
 		</ui:define>
 	</ui:composition>

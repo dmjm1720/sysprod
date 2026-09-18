@@ -12,6 +12,8 @@ public class Lavadoras implements Serializable {
 	private Integer estado;
 	private String etapa;
 	private BigDecimal capacidadKilos;
+	private Integer operacion;
+
 	public Lavadoras() {
 	}
 
@@ -19,13 +21,15 @@ public class Lavadoras implements Serializable {
 		this.idLavadora = idLavadora;
 	}
 
-	public Lavadoras(int idLavadora, String nombre, String descripcion, Integer estado, String etapa, BigDecimal capacidadKilos) {
+	public Lavadoras(int idLavadora, String nombre, String descripcion, Integer estado, String etapa,
+			BigDecimal capacidadKilos, Integer operacion) {
 		this.idLavadora = idLavadora;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.estado = estado;
 		this.etapa = etapa;
 		this.capacidadKilos = capacidadKilos;
+		this.operacion = operacion;
 
 	}
 
@@ -76,7 +80,13 @@ public class Lavadoras implements Serializable {
 	public void setCapacidadKilos(BigDecimal capacidadKilos) {
 		this.capacidadKilos = capacidadKilos;
 	}
-	
-	
+
+	public Integer getOperacion() {
+		return operacion;
+	}
+
+	public void setOperacion(Integer operacion) {
+		this.operacion = operacion;
+	}
 
 }

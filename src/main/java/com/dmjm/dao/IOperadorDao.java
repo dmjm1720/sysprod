@@ -42,4 +42,6 @@ public interface IOperadorDao {
 	List<Operador> listaOperadorSecadorB();
 
 	List<Operador> listaOperadorSecadorA();
+	
+	List<Operador> listaOperadorLavadoras();
 }

@@ -57,9 +57,19 @@
 				<p:menubar hideDelay="1000"
 					rendered="#{login.usuario.perfiles.idPerfil==1}">
 					<f:facet name="start">
-						<h:graphicImage library="images" name="excel-file.png" width="24"
-							height="24" alt="add" />
+
 					</f:facet>
+
+					<p:menuitem
+						style="border:none; background:transparent;cursor:default;">
+						<h:graphicImage library="images" name="logo.png" width="20"
+							height="24" />
+					</p:menuitem>
+
+					<p:menuitem style="border:none; background:transparent;">
+
+					</p:menuitem>
+
 					<p:submenu label="usuarios" icon="pi pi-fw pi-user">
 						<p:menuitem value="Usuarios" outcome="Usuarios"
 							icon="pi pi-fw pi-user">
@@ -135,6 +145,13 @@
 						</p:menuitem>
 
 						<p:menuitem value="Categorias" outcome="Categorias"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores" outcome="OpeLavadoras"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:menuitem value="Estatus Lavadoras" outcome="EstatusLavadoras"
 							icon="pi pi-fw pi-server">
 						</p:menuitem>
 					</p:submenu>
@@ -574,6 +591,7 @@
 							icon="pi pi-fw pi-file">
 						</p:menuitem>
 					</p:submenu>
+					
 
 					<p:submenu label="Lavadoras" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Registro de pieles" outcome="RegistroPieles"
@@ -583,8 +601,19 @@
 						<p:menuitem value="Lavadoras" outcome="Lavadoras"
 							icon="pi pi-fw pi-server">
 						</p:menuitem>
-					</p:submenu>
 
+						<p:menuitem value="Categorias" outcome="Categorias"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+
+						<p:menuitem value="Operadores" outcome="OpeLavadoras"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+						<p:menuitem value="Estatus Lavadoras" outcome="EstatusLavadoras"
+							icon="pi pi-fw pi-server">
+						</p:menuitem>
+					</p:submenu>
+					
 
 					<p:submenu label="Materia Prima Importación" icon="pi pi-fw pi-cog">
 						<p:menuitem value="Registro de Tolvas"
@@ -770,6 +799,9 @@
 								icon="pi pi-fw pi-server">
 							</p:menuitem>
 						</p:submenu>
+
+
+
 
 
 					</p:submenu>

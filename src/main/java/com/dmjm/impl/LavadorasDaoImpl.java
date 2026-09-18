@@ -206,14 +206,114 @@ public class LavadorasDaoImpl extends Conexion implements ILavadorasDao {
 				session.close();
 			}
 		}
-		
+
 	}
 
 	@Override
 	public List<Lavadoras> listaLavadorasChicas() {
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			return session.createQuery("FROM Lavadoras WHERE nombre='LAVADORA CHICA' AND estado=0", Lavadoras.class).list();
+			return session.createQuery("FROM Lavadoras WHERE nombre='LAVADORA CHICA' AND estado=0", Lavadoras.class)
+					.list();
 		}
+	}
+
+	@Override
+	public void actualizarEstadoLavadora(int estado, String descripcion) {
+		try {
+			ConectarSysProd();
+			String sql = "UPDATE LAVADORAS SET ESTADO = ?, ETAPA = 'Vacía', OPERACION=NULL WHERE DESCRIPCION = ?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setInt(1, estado);
+			ps.setString(2, descripcion);
+			ps.executeUpdate();
+			LOGGER.info("LAVADORA ACTUALIZADA :  ESTADO: " + estado + " LAVADORA: " + descripcion);
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA LAVADORA: " + ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡AVISO!", "ERROR AL ACTUALIZAR"));
+		}
+
+	}
+
+	@Override
+	public void actualizarEstadoLavadoraChica(int estado, String etapa, String descripcion) {
+		try {
+			ConectarSysProd();
+			String sql = "UPDATE LAVADORAS SET ESTADO = ?, ETAPA = ? WHERE DESCRIPCION = ?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setInt(1, estado);
+			ps.setString(2, etapa);
+			ps.setString(3, descripcion);
+			ps.executeUpdate();
+			LOGGER.info("LAVADORA ACTUALIZADA :  ESTADO: " + estado + " LAVADORA: " + descripcion);
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA LAVADORA: " + ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡AVISO!", "ERROR AL ACTUALIZAR"));
+		}
+
+	}
+
+	@Override
+	public List<Lavadoras> listaLavadorasChicasEncimar() {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			return session.createQuery("FROM Lavadoras WHERE nombre='LAVADORA CHICA'", Lavadoras.class).list();
+		}
+	}
+
+	@Override
+	public void actualizarOperacionLavadora(int operacion, String descripcion) {
+		try {
+			ConectarSysProd();
+			String sql = "UPDATE LAVADORAS SET OPERACION = ? WHERE DESCRIPCION = ?";
+			PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+			ps.setInt(1, operacion);
+			ps.setString(2, descripcion);
+			ps.executeUpdate();
+			LOGGER.info("LAVADORA ACTUALIZADA :  OPERACION: " + operacion + " LAVADORA: " + descripcion);
+			CerrarSysProd();
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL ACTUALIZAR LA LAVADORA: " + ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "¡AVISO!", "ERROR AL ACTUALIZAR"));
+		}
+
+	}
+
+	@Override
+	public List<Lavadoras> listarLavodorasPorOperacion(int operacion) {
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			String hql = "FROM Lavadoras l WHERE l.operacion IN (:operacion) AND l.nombre='LAVADORA CHICA'";
+			return session.createQuery(hql, Lavadoras.class).setParameter("operacion", operacion).list();
+		}
+	}
+
+	@Override
+	public List<String> listaDeOperaciones(Integer operacion) throws SQLException {
+		List<String> operaciones = new ArrayList<>();
+
+		ConectarSysProd();
+
+		String sql = "SELECT DISTINCT OPERACION FROM LAVADORAS WHERE OPERACION NOT IN (?)";
+
+		PreparedStatement st = getCnSysProd().prepareStatement(sql);
+		//st.setString(1, operacion.toString() + "%"); // LIKE con prefijo
+		st.setString(1, operacion.toString()); // exclusión exacta
+
+		ResultSet rs = st.executeQuery();
+		if (!rs.isBeforeFirst()) {
+			operaciones.add("No hay resultados para tu búsqueda");
+		} else {
+			while (rs.next()) {
+				operaciones.add(rs.getString("OPERACION"));
+			}
+		}
+
+		CerrarSysProd();
+		return operaciones;
+
 	}
 
 }

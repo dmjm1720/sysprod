@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17/08/2026 10:03:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.dmjm.model.ResumenTraspasos"
+		table="RESUMEN_TRASPASOS" schema="dbo" catalog="SYSPROD"
+		optimistic-lock="version">
+		<id name="idResumenTraspaso" type="int">
+			<column name="ID_RESUMEN_TRASPASO" />
+			<generator class="native" />
+		</id>
+		<property name="operacionOrigen" type="java.lang.Integer">
+			<column name="OPERACION_ORIGEN" />
+		</property>
+		<property name="kgCantidad" type="java.lang.Integer">
+			<column name="KG_CANTIDAD" />
+		</property>
+		<property name="tipo" type="string">
+			<column name="TIPO" length="50" />
+		</property>
+		<property name="lavadoraGCT" type="java.lang.Integer">
+			<column name="LAVADORA_G_C_T" />
+		</property>
+		<property name="operacionDestino" type="java.lang.Integer">
+			<column name="OPERACION_DESTINO" />
+		</property>
+		<property name="kgCantidadRestante" type="java.lang.Integer">
+			<column name="KG_CANTIDAD_RESTANTE" />
+		</property>
+		<property name="observaciones" type="string">
+			<column name="OBSERVACIONES" length="150" />
+		</property>
+		<property name="lavadoraGCTDestino" type="java.lang.Integer">
+			<column name="LAVADORA_G_C_T_DESTINO" />
+		</property>
+		<property name="fechaInicial" type="date">
+			<column name="FECHA_INICIAL" length="10" />
+		</property>
+		<property name="fechaFinal" type="date">
+			<column name="FECHA_FINAL" length="10" />
+		</property>
+		<property name="horaInicial" type="time">
+			<column name="HORA_INICIAL" length="16" />
+		</property>
+		<property name="horaFinal" type="time">
+			<column name="HORA_FINAL" length="16" />
+		</property>
+	</class>
+</hibernate-mapping>
