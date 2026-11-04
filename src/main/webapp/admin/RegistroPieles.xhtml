@@ -106,7 +106,7 @@
 					<p:tab title="CARGAR MATERIAL A LAVADORAS / TAMBORES"
 						titleStyle="font-size: .7rem; background-color: #008B8B; color: #F5F5F5">
 
-						<h:panelGrid id="panelIzquierdo" columns="3" cellpadding="4">
+						<h:panelGrid id="panelIzquierdo" columns="5" cellpadding="4">
 
 							<p:outputLabel value="SELECCIONE EL NÚMERO DE OPERACIÓN"
 								styleClass="fuente mensajeBoton2" />
@@ -122,6 +122,14 @@
 								styleClass="mensajeBoton2" style="width: 8rem; height: 2rem"
 								actionListener="#{preparacionBean.buscarRegistro()}"
 								update="frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2, frmPrincipal:accoE3, frmPrincipal:accoE4:tblPre" />
+							<p:outputLabel value="PRO-53" styleClass="fuente mensajeBoton2" />
+							<h:commandLink id="imp" style="height: 30px; font-size: 12px;"
+								target="_blank"
+								actionListener="#{preparacionBean.imprimirPro53}">
+								<h:graphicImage url="/resources/img/printer.png"
+									style="height: 1.8rem" />
+							</h:commandLink>
+
 
 						</h:panelGrid>
 
@@ -249,9 +257,16 @@
 											</h:outputText>
 										</p:column>
 
-										<p:column headerText="Capacidad de la lavadora total kilos"
-											width="10rem">
-											<h:outputText value="#{item.totalKilos}"
+										<p:column headerText="Agregar / Editar Observación"
+											width="10rem" >
+											<p:commandButton value="" icon="pi pi-pencil" oncomplete="PF('dlgEditarObsv').show()">
+												<f:setPropertyActionListener value="#{item}"
+													target="#{preparacionBean.observacionesEditar}" />
+											</p:commandButton>
+										</p:column>
+
+										<p:column headerText="Observaciones" width="10rem">
+											<h:outputText value="#{item.observaciones}"
 												style="color: #036FAB;font-weight: bold !important;" />
 										</p:column>
 
@@ -312,6 +327,11 @@
 										<p:column headerText="Factura" width="8rem"
 											style="text-align: center">
 											<h:outputText value="#{item2.factura}"
+												style="color: #036FAB;font-weight: bold !important;" />
+										</p:column>
+										<p:column headerText="Proveedor" width="8rem"
+											style="text-align: center">
+											<h:outputText value="#{item2.proveedor}"
 												style="color: #036FAB;font-weight: bold !important;" />
 										</p:column>
 
@@ -538,8 +558,10 @@
 				</p:accordionPanel>
 
 				<div style="text-align: center">
-					<p:commandButton icon="pi pi-sign-in" value="TRASPASO"
-						styleClass="mensajeBoton2 verde" style="width: 8rem; height: 2rem"
+					<p:commandButton icon="pi pi-sign-in"
+						value="Traspaso → Lavadoras Grandes: A Silos | A Lav. Chicas"
+						styleClass="mensajeBoton2 verde"
+						style="width: 25rem; height: 1.5rem"
 						action="#{preparacionBean.colocarTotal}" process="@this"
 						update="frmLavadorasTras:distt, frmLavadorasTras:kilosAPasar"
 						oncomplete="PF('dlgTraspasoMaterialTras').show()" />
@@ -680,9 +702,10 @@
 
 				<div style="text-align: center">
 
-					<p:commandButton icon="pi pi-sign-out" value="ENCIMADO"
+					<p:commandButton icon="pi pi-sign-out"
+						value="Encimado → Lavadoras Chicas: A Silos | Encimar"
 						styleClass="mensajeBoton2 amarillo"
-						style="width: 8rem; height: 2rem"
+						style="width: 22rem; height: 1.5rem"
 						actionListener="#{preparacionBean.cargarLavadorasChicas()}"
 						process="@this"
 						update="frmLavadorasEnc:tblLavLC, frmLavadorasEnc:tblLavLCE,frmLavadorasEnc:operPen"
@@ -690,7 +713,7 @@
 				</div>
 				<!-- ETAPA 3 APARTADO 1-->
 				<p:accordionPanel id="accoE3">
-					<p:tab title="ETAPA LAVADAS EN LAVAODRAS CHICAS"
+					<p:tab title="ETAPA LAVADAS EN LAVADORAS CHICAS"
 						titleStyle="font-size: .8rem; background-color: #191970; color: #F5F5F5">
 						<p:dataTable id="tblPre" styleClass="tabla fuente" var="item3"
 							value="#{preparacionBean.listaDeEtapas3}"
@@ -709,7 +732,8 @@
 								style="text-align: center !important">
 								<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
 									disabled="#{item3.estado==false}"
-									onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
+									onclick="PF('dlgEditarl15').show()"
+									update="frmEditarl15:pnlEditarl15"
 									styleClass="ui-button-warning">
 									<f:setPropertyActionListener value="#{item3}"
 										target="#{preparacionBean.etapas}" />
@@ -971,18 +995,17 @@
 
 						<p:outputLabel for="diaInicio" value="Día Inicio"
 							rendered="#{preparacionBean.etapas.diaInicio ne '1969-12-31'}" />
-						<p:datePicker id="diaInicio" readonly="true"
+						<p:datePicker id="diaInicio" readonly="false"
 							rendered="#{preparacionBean.etapas.diaInicio ne '1969-12-31'}"
-							value="#{preparacionBean.etapas.diaInicio}" disabled="true"
+							value="#{preparacionBean.etapas.diaInicio}" disabled="false"
 							requiredMessage="Campo requerido"
 							style="width: 20rem; font-weight: bold" />
 
 
 						<p:outputLabel for="hi" value="Hora Inicio" />
-						<p:datePicker id="hi" value="#{preparacionBean.etapas.horaInicio}"
-							pattern="hh:mm:ss a" timeOnly="true" showTime="true"
-							disabled="true" style="width: 20rem; font-weight: bold"
-							timeZone="America/Mexico_City" />
+						<pe:timePicker id="hi" value="#{preparacionBean.etapas.horaInicio}"
+							mode="spinner" widgetVar="hi" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
 
 
 						<p:outputLabel value="PH Sol" />
@@ -1115,6 +1138,182 @@
 							actionListener="#{preparacionBean.actualizarEtapa(preparacionBean.etapas.lavadora)}"
 							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
 							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditarl15">
+				<p:dialog id="dlgEtapal15" header="" widgetVar="dlgEditarl15"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
+
+					<h:panelGrid id="pnlEditarl15" columns="2" styleClass="fuente">
+						<p:outputLabel value="" />
+						<p:outputLabel
+							value="ETAPA: #{preparacionBean.etapas.etapa.toUpperCase()}"
+							styleClass="lavadora" />
+
+						<p:outputLabel value="" />
+						<p:outputLabel styleClass="lavadora"
+							value="OPERADOR: #{preparacionBean.etapas.operador}" />
+
+						<p:outputLabel value="" />
+						<p:outputLabel styleClass="lavadora"
+							value="LAVADORA / TAMBOR: #{preparacionBean.etapas.lavadora}" />
+
+						<p:outputLabel for="diaIniciol15" value="Día Inicio"
+							rendered="#{preparacionBean.etapas.diaInicio ne '1969-12-31'}" />
+						<p:datePicker id="diaIniciol15" readonly="false"
+							rendered="#{preparacionBean.etapas.diaInicio ne '1969-12-31'}"
+							value="#{preparacionBean.etapas.diaInicio}" disabled="false"
+							requiredMessage="Campo requerido"
+							style="width: 20rem; font-weight: bold" />
+
+
+						<p:outputLabel for="hil15" value="Hora Inicio" />
+						<pe:timePicker id="hil15"
+							value="#{preparacionBean.etapas.horaInicio}"
+							rendered="#{preparacionBean.etapas.horaInicio ne '00:59:59'}"
+							mode="spinner" widgetVar="h6l15" showOn="button"
+							intervalMinutes="1" endMinutes="59" />
+
+
+						<p:outputLabel value="PH Sol" />
+						<p:inputNumber value="#{preparacionBean.etapas.phSol}"
+							thousandSeparator="" decimalSeparator="." decimalPlaces="2"
+							minValue="1" maxValue="14.00" size="6" padControl="false"
+							oninput="this.value = this.value.replace(/^(\d{3,}|\d\.\d{3,})$/, this.value.slice(0, -1));"
+							style="width: 5rem">
+						</p:inputNumber>
+
+						<p:outputLabel value="Normalidad" for="normalidadl15"
+							rendered="#{preparacionBean.etapas.normalidad gt 0 || preparacionBean.etapas.normalidad eq NULL}" />
+						<p:inputNumber id="normalidadl15"
+							rendered="#{preparacionBean.etapas.normalidad gt 0 || preparacionBean.etapas.normalidad eq NULL}"
+							value="#{preparacionBean.etapas.normalidad}" thousandSeparator=""
+							decimalSeparator="." decimalPlaces="4" minValue="0" size="10"
+							padControl="false" widgetVar="normalidadInput"
+							styleClass="custom-input"
+							oninput="this.value = this.value.replace(/^(\d{2,}|\d\.\d{5,})$/, this.value.slice(0, -1));"
+							style="width: 5rem">
+						</p:inputNumber>
+
+						<p:outputLabel value="Alcalinidad"
+							rendered="#{preparacionBean.etapas.alcalinidad gt 0 || preparacionBean.etapas.alcalinidad eq NULL}" />
+						<p:inputText
+							rendered="#{preparacionBean.etapas.alcalinidad gt 0 || preparacionBean.etapas.alcalinidad eq NULL}"
+							value="#{preparacionBean.etapas.alcalinidad}" minValue="1"
+							maxValue="99999" size="5"
+							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);"
+							style="width: 5rem">
+						</p:inputText>
+
+						<p:outputLabel for="conductividadl15" value="Conductividad"
+							rendered="#{preparacionBean.etapas.conductividad gt 0 || preparacionBean.etapas.conductividad eq NULL}" />
+						<p:inputText id="conductividadl15"
+							rendered="#{preparacionBean.etapas.conductividad gt 0 || preparacionBean.etapas.conductividad eq NULL}"
+							value="#{preparacionBean.etapas.conductividad}" required="false"
+							minValue="1" maxValue="9999" size="5"
+							oninput="if (this.value.length > 4) this.value = this.value.slice(0, 4);"
+							requiredMessage="Campo requerido" style="width: 5rem" />
+
+
+						<p:outputLabel for="tipol15" value="Químico"
+							rendered="#{preparacionBean.etapas.quimico1 gt '0' || preparacionBean.etapas.quimico1 eq NULL}" />
+						<p:selectOneMenu id="tipol15"
+							rendered="#{preparacionBean.etapas.quimico1 gt '0' || preparacionBean.etapas.quimico1 eq NULL}"
+							style="color: #FF7F50 ;font-weight: bold !important;font-size: .6rem; width:10rem"
+							value="#{preparacionBean.etapas.quimico1}">
+							<f:selectItem itemLabel="PRODUCTO QUÍMICO" itemValue="" />
+							<f:selectItems value="#{preparacionBean.listarQuimicos}" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel for="cantidadl15" value="Cantidad"
+							rendered="#{preparacionBean.etapas.cantidad1 gt '0' || preparacionBean.etapas.cantidad1 eq NULL}" />
+						<p:inputText id="cantidadl15"
+							rendered="#{preparacionBean.etapas.cantidad1 gt '0' || preparacionBean.etapas.cantidad1 eq NULL}"
+							value="#{preparacionBean.etapas.cantidad1}" required="false"
+							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);"
+							requiredMessage="Campo requerido" style="width: 5rem" />
+
+
+						<p:outputLabel for="lotel15" value="Lote"
+							rendered="#{preparacionBean.etapas.lote1 gt '0' || preparacionBean.etapas.lote1 eq NULL}" />
+						<p:inputText id="lotel15" value="#{preparacionBean.etapas.lote1}"
+							rendered="#{preparacionBean.etapas.lote1 gt '0' || preparacionBean.etapas.lote1 eq NULL}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+
+						<p:outputLabel for="tipo2l15" value="Químico"
+							rendered="#{preparacionBean.etapas.quimico2 gt '0' || preparacionBean.etapas.quimico2 eq NULL}" />
+						<p:selectOneMenu id="tipo2l15"
+							rendered="#{preparacionBean.etapas.quimico2 gt '0' || preparacionBean.etapas.quimico2 eq NULL}"
+							style="color: #FF7F50 ;font-weight: bold !important;font-size: .6rem; width:10rem"
+							value="#{preparacionBean.etapas.quimico2}">
+							<f:selectItem itemLabel="PRODUCTO QUÍMICO" itemValue="" />
+							<f:selectItems value="#{preparacionBean.listarQuimicos}" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel for="cantidad2l15" value="Cantidad"
+							rendered="#{preparacionBean.etapas.cantidad2 gt '0' || preparacionBean.etapas.cantidad2 eq NULL}" />
+						<p:inputText id="cantidad2l15"
+							rendered="#{preparacionBean.etapas.cantidad2 gt '0' || preparacionBean.etapas.cantidad2 eq NULL}"
+							value="#{preparacionBean.etapas.cantidad2}" required="false"
+							oninput="if (this.value.length > 5) this.value = this.value.slice(0, 5);"
+							requiredMessage="Campo requerido" style="width: 5rem" />
+
+
+						<p:outputLabel for="lote2l15" value="Lote"
+							rendered="#{preparacionBean.etapas.lote2 gt '0' || preparacionBean.etapas.lote2 eq NULL}" />
+						<p:inputText id="lote2l15" value="#{preparacionBean.etapas.lote2}"
+							rendered="#{preparacionBean.etapas.lote2 gt '0' || preparacionBean.etapas.lote2 eq NULL}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+
+						<p:outputLabel for="agual15" value="Agua"
+							rendered="#{preparacionBean.etapas.agua ne 'Z'}" />
+						<p:inputText id="agual15" value="#{preparacionBean.etapas.agua}"
+							rendered="#{preparacionBean.etapas.agua ne 'Z'}" required="false"
+							requiredMessage="Campo requerido"
+							onkeyup="this.value=this.value.toUpperCase();"
+							validatorMessage="Solo se permite L o R" style="width: 5rem">
+							<f:validateRegex pattern="[LR]" />
+						</p:inputText>
+
+						<p:outputLabel for="diaFinl15" value="Dia Fin"
+							rendered="#{preparacionBean.etapas.diaFin ne '1969-12-31'}" />
+						<p:datePicker id="diaFinl15"
+							value="#{preparacionBean.etapas.diaFin}"
+							rendered="#{preparacionBean.etapas.diaFin ne '1969-12-31'}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+
+
+						<p:outputLabel for="hfl15" value="Hora Fin"
+							rendered="#{preparacionBean.etapas.horaFin ne '00:59:59'}" />
+						<pe:timePicker id="hfl15"
+							value="#{preparacionBean.etapas.horaFin}"
+							rendered="#{preparacionBean.etapas.horaFin ne '00:59:59'}"
+							mode="spinner" widgetVar="h6" showOn="button" intervalMinutes="1"
+							endMinutes="59" />
+
+					</h:panelGrid>
+					<p:message for="agual15" />
+					<div style="text-align: right">
+
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							actionListener="#{preparacionBean.actualizarEtapa(preparacionBean.etapas.lavadora)}"
+							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
+							oncomplete="PF('dlgEditarl15').hide()" />
 					</div>
 
 				</p:dialog>
@@ -1606,7 +1805,33 @@
 			</h:form>
 			<!-- INICIA FORMULARIO PARA ENCIMANDO DE LAVADORA CHICA -->
 
+			<h:form id="frmEditarObs">
+				<p:dialog id="dlgObsv" header="" widgetVar="dlgEditarObsv"
+					showEffect="fade" closeOnEscape="true" minimizable="true"
+					maximizable="true">
 
+					<h:panelGrid id="pnlEditarObsv" columns="2" styleClass="fuente">
+
+
+						<p:outputLabel for="obsv" value="Observaciones" />
+						<p:inputTextarea id="obsv"
+							value="#{preparacionBean.observacionesEditar.observaciones}"
+							required="false" onkeyup="this.value=this.value.toUpperCase();"
+							style="width: 5rem" />
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							actionListener="#{preparacionBean.guardarObservaciones()}"
+							update="frmPrincipal:msgs, frmPrincipal:acco:tblA, frmPrincipal:acco:tblB, frmPrincipal:acco:tblLavadorasw, frmPrincipal:acco:tblPre, frmPrincipal:accoE2:tblPre, frmPrincipal:accoE3:tblPre"
+							oncomplete="PF('dlgEditarObsv').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
 
 		</ui:define>
 	</ui:composition>

@@ -1,5 +1,6 @@
 package com.dmjm.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.dmjm.model.FacturasPieles;
@@ -17,5 +18,9 @@ public interface IFacturaPielesDao {
 	String factura (int idPrep);
 	
 	double obtenerTotalProceso (int idPrep); 
+	
+	List<FacturasPieles> listaFacturaPieles();
+	
+	void actualizarFechaFinal(int idPrep, Date fechaFinal);
 
 }

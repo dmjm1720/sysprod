@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -166,5 +167,51 @@ public class FacturaPielesDaoImpl extends Conexion implements IFacturaPielesDao 
 
 		return total;
 	}
+
+	@Override
+	public List<FacturasPieles> listaFacturaPieles() {
+		List<FacturasPieles> facturaPieles = new ArrayList<>();
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+
+			tx = session.beginTransaction();
+			String hql = "FROM FacturasPieles";
+			Query<FacturasPieles> query = session.createQuery(hql, FacturasPieles.class);
+
+			// Establecer el parámetro
+			//query.setParameter("idPreparacion", idPreparacion);
+			facturaPieles = query.list();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		return facturaPieles;
+	}
+
+	@Override
+	public void actualizarFechaFinal(int idPrep, Date fechaFinal) {
+	    try {
+	        ConectarSysProd();
+	        String sql = "UPDATE FACTURAS_PIELES SET FECHA_FINAL = ? WHERE ID_PREPARACION = ? ";
+	        PreparedStatement ps = getCnSysProd().prepareStatement(sql);
+
+	        // Conversión correcta
+	        ps.setDate(1, new java.sql.Date(fechaFinal.getTime()));
+	        ps.setInt(2, idPrep);
+
+	        ps.executeUpdate();
+	        CerrarSysProd();
+	    } catch (SQLException ex) {
+	        LOGGER.error("ERROR AL ACTUALIZAR LA FECHA FINAL: " + ex);
+	    }
+	}
+
 
 }

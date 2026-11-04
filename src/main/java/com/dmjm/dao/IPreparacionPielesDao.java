@@ -1,5 +1,6 @@
 package com.dmjm.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.dmjm.model.PreparacionPieles;
@@ -17,5 +18,7 @@ public interface IPreparacionPielesDao {
 	void actualizaEstatusEtapa(int id, String etapa);
 	
 	String nombreEstado (int idPreparacion);
+	
+	Date fechaInicial (int idPreparacion);
 	
 }

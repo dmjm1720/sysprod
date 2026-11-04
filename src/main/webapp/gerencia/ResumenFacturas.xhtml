@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+
+</h:head>
+<h:body>
+	<ui:composition template="/template/Template.xhtml">
+
+		<ui:define name="content">
+
+			<!--Formulario principal-->
+
+			<h:form id="frmPrincipal">
+
+				<p:growl id="msgs" showDetail="true"
+					skipDetailIfEqualsSummary="true" />
+
+				<div class="card">
+
+					<p:accordionPanel id="acco" widgetVar="basic">
+
+						<p:tab title="RESUMEN DE FACTURAS"
+							titleStyle="font-size: .8rem; background-color: #1B2631; color: #F5F5F5">
+							<div style="text-align: center">
+								<p:commandButton value="EXPORTAR A EXCEL" styleClass="fuente"
+									icon="pi pi-file-excel" style="width: 8rem; height: 2rem">
+									<p:dataExporter type="xls" 
+										target="frmPrincipal:acco:tblFacturas"
+										fileName="RESUMEN DE FACTURAS" />
+								</p:commandButton>
+							</div>
+
+							<p:dataTable id="tblFacturas" styleClass="tblResumen fuente"
+								var="item" sortMode="multiple" scrollHeight="900"
+								scrollWidth="100%" widgetVar="wbtblLavadoras"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
+								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
+								scrollable="true"
+								currentPageReportTemplate="Total: #{factPieles.lista.size()}"
+								rowStyleClass="#{item.kilosDisponibles == '0.0000' 
+                       ? (item.origen == 'IMPORTACIÓN' ? 'importacionsinExistencia' : 'nacionalsinExistencia') 
+                       : (item.origen == 'IMPORTACIÓN' ? 'importacion' : 'nacional')}"
+								value="#{factPieles.lista}" emptyMessage="NO HAY REGISTROS">
+
+								<p:column filterBy="#{item.preparacionPieles.noOperacion}"
+									headerText="Operación" width="3rem" style="text-align: center">
+									<h:outputText value="#{item.preparacionPieles.noOperacion}" />
+								</p:column>
+
+								<p:column filterBy="#{item.factura}" headerText="Factura"
+									width="3rem" style="text-align: center">
+									<h:outputText value="#{item.factura}" />
+								</p:column>
+
+								<p:column filterBy="#{item.origen}" headerText="Origen"
+									width="3rem" style="text-align: center">
+									<h:outputText value="#{item.origen}" />
+								</p:column>
+
+								<p:column headerText="Fecha de Carga" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.fechaInicial}" >
+									 <f:convertDateTime pattern="dd/MM/yy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Fecha Final" width="4rem"
+									style="text-align: center">
+									<h:outputText value="#{item.fechaFinal}" >
+									 <f:convertDateTime pattern="dd/MM/yy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column filterBy="#{item.proveedor}" headerText="Proveedor"
+									width="8rem" style="text-align: center">
+									<h:outputText value="#{item.proveedor}" />
+								</p:column>
+								
+								<p:column headerText="Kg. Embarque Netos" width="3rem">
+									<h:outputText value="#{item.totalFactura}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Cuero Rocha" width="3rem">
+									<h:outputText value="#{item.categoria1}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Carnaza" width="3rem">
+									<h:outputText value="#{item.categoria2}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Carnaza Salada" width="3rem">
+									<h:outputText value="#{item.categoria3}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Cerdo Nacional" width="3rem">
+									<h:outputText value="#{item.categoria4}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Descarne Separado" width="3rem">
+									<h:outputText value="#{item.categoria5}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Oreja y Cachete" width="3rem">
+									<h:outputText value="#{item.categoria6}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Pedacería con Pelo" width="3rem">
+									<h:outputText value="#{item.categoria7}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Pelo en Sangre" width="3rem">
+									<h:outputText value="#{item.categoria8}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Tenería León" width="3rem">
+									<h:outputText value="#{item.categoria9}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+
+
+								<p:column filterBy="#{item.kilosDisponibles}"
+									headerText="kg. Cargados" width="3rem">
+									<h:outputText value="#{item.kilosDisponibles}">
+										<f:convertNumber type="number" maxFractionDigits="0"
+											groupingUsed="true" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+
+						</p:tab>
+
+					</p:accordionPanel>
+
+
+
+				</div>
+
+
+			</h:form>
+
+			<!-- INICIA FORMULARIO PARA EDITAR -->
+			<h:form id="frmEditar">
+				<p:dialog header="ACTUALIZAR INFORMACIÓN DE LA LAVADORA"
+					widgetVar="dlgEditar" showEffect="fade" closeOnEscape="true"
+					minimizable="true" maximizable="true">
+					<h:panelGrid id="pnlEditar" columns="1" styleClass="fuente">
+
+						<p:outputLabel for="no" value="No." />
+						<p:inputText id="no"
+							value="#{lavadorasBean.lavadorasEditar.descripcion}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+						<p:message for="no" />
+
+						<p:outputLabel for="tipo" value="Tipo" />
+						<p:inputText id="tipo"
+							value="#{lavadorasBean.lavadorasEditar.nombre}" required="false"
+							requiredMessage="Campo requerido" style="width: 20rem" />
+						<p:message for="tipo" />
+
+						<p:outputLabel for="capacidad" value="Capacidad (Kg)" />
+						<p:inputText id="capacidad"
+							value="#{lavadorasBean.lavadorasEditar.capacidadKilos}"
+							required="false" requiredMessage="Campo requerido"
+							style="width: 5rem" />
+						<p:message for="capacidad" />
+
+						<p:outputLabel for="estado" value="Estatus Operativo" />
+						<p:inputText id="estado"
+							value="#{lavadorasBean.lavadorasEditar.estado}" required="false"
+							requiredMessage="Campo requerido" style="width: 10rem" />
+						<p:message for="estado" />
+
+						<p:outputLabel for="etapa" value="Etapa" />
+						<p:inputText id="etapa"
+							value="#{lavadorasBean.lavadorasEditar.etapa}" required="false"
+							requiredMessage="Campo requerido" style="width: 10rem" />
+						<p:message for="etapa" />
+
+
+
+					</h:panelGrid>
+
+					<div style="text-align: right">
+						<p:commandButton icon="pi pi-save" value="Actualizar"
+							style="widht: 20rem; height: 2rem" title="Guardar"
+							update="frmPrincipal, frmPrincipal:msgs"
+							actionListener="#{lavadorasBean.actualizar()}"
+							oncomplete="PF('dlgEditar').hide()" />
+					</div>
+
+				</p:dialog>
+			</h:form>
+			<!-- FINALIZA FORMULARIO PARA EDITAR -->
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

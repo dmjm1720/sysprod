@@ -10,7 +10,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 
@@ -19,11 +18,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.ToggleSelectEvent;
@@ -75,6 +75,8 @@ import com.dmjm.model.ResumenTraspasos;
 import com.dmjm.model.SaldoFactura;
 import com.dmjm.model.TraspasoSilos;
 import com.dmjm.model.Usuarios;
+import com.dmjm.util.ReporteLavadoras;
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 
 @Named(value = "preparacionBean")
 @ViewScoped
@@ -180,6 +182,10 @@ public class PreparacionPielesBean implements Serializable {
 
 	private List<Integer> listarLavadorasChicasDisponibles;
 
+	private Double saldoPrevio;
+
+	private PreparacionPieles observacionesEditar;
+
 	@PostConstruct
 	public void init() throws SQLException {
 		listarPreparacion = new ArrayList<>();
@@ -233,6 +239,16 @@ public class PreparacionPielesBean implements Serializable {
 		listarOperaciones = new ArrayList<>();
 		listarLavadorasChicasDisponibles = new ArrayList<>();
 		cargarLavadorasChicas();
+
+		observacionesEditar = new PreparacionPieles();
+	}
+
+	public PreparacionPieles getObservacionesEditar() {
+		return observacionesEditar;
+	}
+
+	public void setObservacionesEditar(PreparacionPieles observacionesEditar) {
+		this.observacionesEditar = observacionesEditar;
 	}
 
 	public Integer getFolioOperacion() {
@@ -270,6 +286,14 @@ public class PreparacionPielesBean implements Serializable {
 		}
 		getListarLavadorasChicasDisponibles();
 
+	}
+
+	public Double getSaldoPrevio() {
+		return saldoPrevio;
+	}
+
+	public void setSaldoPrevio(Double saldoPrevio) {
+		this.saldoPrevio = saldoPrevio;
 	}
 
 	public List<Integer> getListarLavadorasChicasDisponibles() {
@@ -801,7 +825,7 @@ public class PreparacionPielesBean implements Serializable {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date()); // tuFechaBase es un Date;
 
-		Date fecInicio = calendar.getTime();
+		//Date fecInicio = calendar.getTime();
 
 		Calendar calendar1 = Calendar.getInstance();
 		Date horaIni = calendar1.getTime();
@@ -812,7 +836,7 @@ public class PreparacionPielesBean implements Serializable {
 			e.setPreparacionPieles(pieles);
 			e.setEstado(false);
 			if (lEtapas.equals("Carga")) {
-				e.setDiaInicio(fecInicio);
+				e.setDiaInicio(buscarFechaPrep(idPre));
 				e.setHoraInicio(horaIni);
 				e.setOperador(us.getNombre());
 				e.setEstado(true);
@@ -960,6 +984,7 @@ public class PreparacionPielesBean implements Serializable {
 
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	public void guardarFacturaPieles() {
 
 		String saldoRevisar = "";
@@ -1009,8 +1034,6 @@ public class PreparacionPielesBean implements Serializable {
 		}
 		capacidad = Double.valueOf(lavadoras.getLavadoras().getCapacidadKilos().doubleValue());
 		saldoFactura = saldoFactura + cantidadIngresada;
-
-		System.err.println("Capacidad" + capacidad + "saldoFactura" + saldoFactura);
 
 		if (saldoFactura > capacidad) {
 			String info = "LA CANTIDAD INGRESADA " + cantidadIngresada + " MÁS EL SALDO REGISTRADO DA UN TOTAL DE "
@@ -1074,6 +1097,7 @@ public class PreparacionPielesBean implements Serializable {
 				ent = revDao.obtenerIdEntrada(facturasPieles.getFactura());
 				facturasPieles.setProveedor(ent.getProveedores().getNombre());
 				facturasPieles.setOrigen(ent.getProveedores().getNacionalImportacion());
+				facturasPieles.setFechaInicial(buscarFechaPrep(idPrep));
 				// VALIDACIÓN PARA ACTUALIZAR LA ENTRADA DE LA FACTURA
 				ISaldoFacturaDao saldosDao = new SaldoFacturaDaoImpl();
 				double revisarSaldo = 0.0;
@@ -1081,6 +1105,7 @@ public class PreparacionPielesBean implements Serializable {
 
 				if (ent.getProveedores().getNacionalImportacion().equals("NACIONAL")
 						&& !ent.getMateria().getTipo().equals("CUERO EN SANGRE")) {
+
 					facturasPieles.setTotalFactura(ent.getKgRecibidos());
 				} else if (ent.getProveedores().getNacionalImportacion().equals("IMPORTACIÓN")
 						|| ent.getMateria().getTipo().equals("CUERO EN SANGRE")) {
@@ -1092,7 +1117,13 @@ public class PreparacionPielesBean implements Serializable {
 
 				}
 
+				// VALIDAR CON UN COUNT CUANTAS VECES SE HA INGRESADO, SI ES 1 COLOCAR EL TOTAL
+				// ORIGEN, SI ES MAYOR
+				LOGGER.info("SALDO ANTES DE GUARDAR: " + this.saldoPrevio);
+				facturasPieles.setTotalFactura(new BigDecimal(this.saldoPrevio));
+
 				facturasPieles.setKilosDisponibles(new BigDecimal(revisarSaldo));
+				facturasPieles.setFechaInicial(buscarFechaPrep(idPrep)); //VALIDAR LA FECHA
 				facturasPieles.setPreparacionPieles(prePieles);
 				fDao.guardarFacturasPieles(facturasPieles); // GUARDAR EN LA TABLA FACTURA_PIELES
 
@@ -1114,7 +1145,6 @@ public class PreparacionPielesBean implements Serializable {
 					lavadorasOp = lOperaciones.get(0);
 				}
 				resumenLavadoras.setNumero(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion())); // NÚMERO DE
-																											// //
 																											// LAVADORA
 				resumenLavadoras.setTipo(lavadorasOp.getLavadoras().getNombre()); // DESCRIPCIÓN DE LA LAVADORA
 
@@ -1123,7 +1153,7 @@ public class PreparacionPielesBean implements Serializable {
 				resumenTraspasos.setOperacionOrigen(folio);
 				resumenTraspasos.setKgCantidad((int) Math.round(cantidadIngresada));
 				resumenTraspasos.setTipo("CARGA INICIAL +");
-				resumenTraspasos.setFechaFinal(new Date());
+				resumenTraspasos.setFechaInicial(buscarFechaPrep(idPrep)); //VALIDAR LA FECHA
 				resumenTraspasos.setLavadoraGCT(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion()));
 				resumenTraspasos.setKgCantidadRestante((int) Math.round(cantidadIngresada));
 				resTrasDao.guardarResumenTraspasos(resumenTraspasos);
@@ -1213,6 +1243,11 @@ public class PreparacionPielesBean implements Serializable {
 		IFolioPreparacionDao fDao = new FoliosPreparacionDaoImpl();
 		return fDao.buscarFolio();
 
+	}
+
+	public Date buscarFechaPrep(int idPreparacionFecha) {
+		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
+		return pDao.fechaInicial(idPreparacionFecha);
 	}
 
 	// **ACTUALIZAR FOLIO DE PREPARACIÓN DE PIELES**//
@@ -2543,6 +2578,7 @@ public class PreparacionPielesBean implements Serializable {
 		if (idP > 0) {
 			ISaldoFacturaDao sDao = new SaldoFacturaDaoImpl();
 			double validarSaldo = 0.0;
+			this.saldoPrevio = 0.0;
 
 			int tipoM = 0;
 
@@ -2550,6 +2586,7 @@ public class PreparacionPielesBean implements Serializable {
 			Entradas e = new Entradas();
 			e = eDao.obtenerIdEntrada(factura);
 			validarSaldo = sDao.saldo(factura);// hace un top a la selección
+			this.saldoPrevio = validarSaldo;
 			SaldoFactura sf = new SaldoFactura();
 
 			ISaldoFacturaDao saldoDao = new SaldoFacturaDaoImpl();
@@ -2810,7 +2847,7 @@ public class PreparacionPielesBean implements Serializable {
 					resumenTraspasosAct.setFechaFinal(traspasoSilos.getFechaFinal());
 					resumenTraspasosAct.setHoraInicial(traspasoSilos.getHoraInicial());
 					resumenTraspasosAct.setHoraFinal(traspasoSilos.getHoraFinal());
-					
+
 					resumenTraspasosAct.setOperacionOrigen(folio);
 					resumenTraspasosAct.setKgCantidad((int) Math.round(distribucionKilosSilos));
 					resumenTraspasosAct.setTipo("TRASPASO SILOS -");
@@ -2821,6 +2858,8 @@ public class PreparacionPielesBean implements Serializable {
 					resTrasDao.guardarResumenTraspasos(resumenTraspasosAct);
 					// SI ES CERO SE ACTUALIZA LA TABLA LAVADORAS_ESTATUS_OPERACION
 					if (validarCantidad(folio) == 0) {
+						IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
+						fDao.actualizarFechaFinal(idPrep, traspasoSilos.getFechaFinal());
 
 						lavadorasEstatusDao.actualizarLavadoraFalse(
 								lavadoraTipo(Integer.parseInt(lavadorasOp.getLavadoras().getDescripcion())), folio);
@@ -2919,7 +2958,7 @@ public class PreparacionPielesBean implements Serializable {
 					tDao.guardarTraspasoSilos(traspasoSilos);
 
 					IResumenTraspasosDao resTrasDao = new ResumenTraspasoDaoImpl(); // RESUMEN TRASPASOS
-					
+
 					resumenTraspasosAct.setFechaInicial(traspasoSilos.getFechaInicial());
 					resumenTraspasosAct.setFechaFinal(traspasoSilos.getFechaFinal());
 					resumenTraspasosAct.setHoraInicial(traspasoSilos.getHoraInicial());
@@ -2944,6 +2983,9 @@ public class PreparacionPielesBean implements Serializable {
 
 					// SI ES CERO SE ACTUALIZA LA TABLA LAVADORAS_ESTATUS_OPERACION
 					if (cantidadValidar == 0) {
+
+						IFacturaPielesDao fDao = new FacturaPielesDaoImpl();
+						fDao.actualizarFechaFinal(idPrep, traspasoSilos.getFechaFinal());
 
 						lavadorasEstatusDao.actualizarLavadoraFalse(
 								lavadoraTipo(Integer.parseInt(etapasEditarTraspaso.getLavadora())), folio);
@@ -3046,7 +3088,7 @@ public class PreparacionPielesBean implements Serializable {
 					resumenTraspasosAct.setFechaFinal(etapasLavadorasChicas.getDiaFin());
 					resumenTraspasosAct.setHoraInicial(etapasLavadorasChicas.getHoraInicio());
 					resumenTraspasosAct.setHoraFinal(etapasLavadorasChicas.getHoraFin());
-				
+
 					resumenTraspasosAct.setOperacionOrigen(folio);
 					resumenTraspasosAct.setKgCantidad((int) Math.round(etapasEditarTraspaso.getCantidad()));
 					resumenTraspasosAct.setTipo("ENCIMADO +");
@@ -3429,6 +3471,31 @@ public class PreparacionPielesBean implements Serializable {
 	public void actualizarOperacionesLavadora(int oper, String desc) {
 		ILavadorasDao lavadorasDao = new LavadorasDaoImpl();
 		lavadorasDao.actualizarOperacionLavadora(oper, desc);
+	}
+
+	public void imprimirPro53() throws SQLException {
+		@SuppressWarnings("unused")
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+				.getRequest();
+
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+		String ruta = null;
+
+		ReporteLavadoras reporte = new ReporteLavadoras();
+
+		ruta = servletContext.getRealPath("/REP/reporteLavadoras.jasper");
+
+		reporte.getReporte(ruta, String.valueOf(folio));
+
+		FacesContext.getCurrentInstance().responseComplete();
+	}
+
+	public void guardarObservaciones() {
+		IPreparacionPielesDao pDao = new PreparacionDaoImpl();
+		pDao.actualizarPreparcionPieles(observacionesEditar);
+		observacionesEditar = new PreparacionPieles();
+
 	}
 
 }

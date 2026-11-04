@@ -1058,7 +1058,7 @@ public class EntradasBean extends Conexion implements Serializable {
 		if (Double.parseDouble(entradasEditar.getCarnazaPrimera().toString()) != ceros) {
 			LOGGER.info("Dato2: " + entradasEditar.getCarnazaPrimera().toString() + " CARNAZA COMPLETA >>>Proveedor: "
 					+ entradasEditar.getProveedores().getNombre());
-			entradas.setPrecioC1(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 2)));
+			entradasEditar.setPrecioC1(BigDecimal.valueOf(buscarPrecio(entradasEditar.getProveedores().getIdProveedor(), 2)));
 			LOGGER.info("Precio: " + entradasEditar.getPrecioC1());
 		} else {
 			entradasEditar.setPrecioC1(BigDecimal.valueOf(ceros));

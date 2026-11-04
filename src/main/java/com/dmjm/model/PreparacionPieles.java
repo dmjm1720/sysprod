@@ -13,6 +13,7 @@ public class PreparacionPieles implements Serializable {
 	private Integer noOperacion;
 	private BigDecimal totalKilos;
 	private String estado;
+	private String observaciones;
 
 	public PreparacionPieles() {
 	}
@@ -22,13 +23,14 @@ public class PreparacionPieles implements Serializable {
 	}
 
 	public PreparacionPieles(int idPreparacion, Date fecha, Integer idOperacionLavadoras, Integer noOperacion,
-			BigDecimal totalKilos, String estado) {
+			BigDecimal totalKilos, String estado, String observaciones) {
 		this.idPreparacion = idPreparacion;
 		this.fecha = fecha;
 		this.idOperacionLavadoras = idOperacionLavadoras;
 		this.noOperacion = noOperacion;
 		this.totalKilos = totalKilos;
 		this.estado = estado;
+		this.observaciones = observaciones;
 
 	}
 
@@ -78,6 +80,14 @@ public class PreparacionPieles implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 
 }

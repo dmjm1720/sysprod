@@ -23,6 +23,9 @@
         <property name="estado" type="string">
             <column name="ESTADO" length="20" />
         </property>
+          <property name="observaciones" type="string">
+            <column name="OBSERVACIONES" length="250" />
+        </property>
         
     </class>
 </hibernate-mapping>

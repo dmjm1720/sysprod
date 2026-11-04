@@ -3,6 +3,7 @@ package com.dmjm.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -96,23 +97,22 @@ public class PreparacionDaoImpl extends Conexion implements IPreparacionPielesDa
 	@Override
 	public List<PreparacionPieles> listaPreparacion() {
 		Transaction transaction = null;
-        List<PreparacionPieles> operacion = null;
-        
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            
-            operacion = session.createQuery("FROM PreparacionPieles WHERE estado != 'Finalizado'")
-                               .list();
-                               
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
+		List<PreparacionPieles> operacion = null;
 
-        return operacion;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+
+			operacion = session.createQuery("FROM PreparacionPieles WHERE estado != 'Finalizado'").list();
+
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+
+		return operacion;
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class PreparacionDaoImpl extends Conexion implements IPreparacionPielesDa
 
 	@Override
 	public String nombreEstado(int idPreparacion) {
-		String nombreLavadora="";
+		String nombreLavadora = "";
 		try {
 			ConectarSysProd();
 			PreparedStatement st = getCnSysProd()
@@ -153,9 +153,36 @@ public class PreparacionDaoImpl extends Conexion implements IPreparacionPielesDa
 			CerrarSysProd();
 
 		} catch (SQLException ex) {
-			LOGGER.error("ERROR AL OBTENER EL NOMBRE DE LA LAVADORA" + "ERROR: " + ex);
+			LOGGER.error("ERROR AL OBTENER EL ESTADO" + "ERROR: " + ex);
 		}
 		return nombreLavadora;
+	}
+
+	@Override
+	public Date fechaInicial(int idPreparacion) {
+		Date fecha = null;
+		try {
+			ConectarSysProd();
+			PreparedStatement st = getCnSysProd()
+					.prepareStatement("SELECT FECHA FROM PREPARACION_PIELES WHERE ID_PREPARACION = ?");
+			st.setInt(1, idPreparacion);
+
+			ResultSet rs = st.executeQuery();
+
+			if (!rs.isBeforeFirst()) {
+
+			} else {
+				while (rs.next()) {
+					fecha = rs.getDate("FECHA");
+				}
+			}
+
+			CerrarSysProd();
+
+		} catch (SQLException ex) {
+			LOGGER.error("ERROR AL OBTENER LA FECHA" + "ERROR: " + ex);
+		}
+		return fecha;
 	}
 
 }

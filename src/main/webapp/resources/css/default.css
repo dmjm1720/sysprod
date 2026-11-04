@@ -162,6 +162,35 @@ a:link:hover, a:visited:hover {
 	font-weight: bold;
 }
 
+.tblResumen {
+	font-family: 'Consolas', 'Roboto', monospace;
+	
+}
+
+.nacional {
+	color: #000000 !important;
+	font-family: 'Consolas', 'Roboto', monospace;
+	
+}
+.importacion {
+	color: #C0392B !important;
+	font-family: 'Consolas', 'Roboto', monospace;
+	
+}
+
+.nacionalsinExistencia {
+    background-color: #A9DFBF !important; /* ejemplo: fondo verde claro */
+    color: #000000 !important;
+   font-family: 'Consolas', 'Roboto', monospace;
+   
+}
+.importacionsinExistencia {
+    background-color: #A9DFBF !important; /* ejemplo: fondo verde claro */
+    color: #C0392B !important;
+    font-family: 'Consolas', 'Roboto', monospace;
+   
+}
+
 .mantenimiento {
 	background-color: #483D8B;
 	color: #F0F8FF !important;
