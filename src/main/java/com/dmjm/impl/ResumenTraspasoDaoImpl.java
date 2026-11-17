@@ -98,7 +98,7 @@ public class ResumenTraspasoDaoImpl extends Conexion implements IResumenTraspaso
 					+ "WHEN TIPO = 'CARGA INICIAL +' THEN KG_CANTIDAD " + "WHEN TIPO = 'ENCIMADO +' THEN KG_CANTIDAD "
 					+ "WHEN TIPO = 'TRASPASO LC -' THEN -KG_CANTIDAD "
 					+ "WHEN TIPO = 'TRASPASO SILOS -' THEN -KG_CANTIDAD " + "ELSE 0 " + "END" + ") AS TOTAL "
-					+ "FROM RESUMEN_TRASPASOS " + "WHERE OPERACION_ORIGEN = ?");
+					+ "FROM RESUMEN_TRASPASOS " + "WHERE ? IN (OPERACION_ORIGEN, OPERACION_DESTINO)");
 			st.setInt(1, noOperacion);
 			ResultSet rs = st.executeQuery();
 
@@ -127,15 +127,16 @@ public class ResumenTraspasoDaoImpl extends Conexion implements IResumenTraspaso
 			ConectarSysProd();
 			PreparedStatement st = getCnSysProd().prepareStatement("SELECT"
 					+ "	SUM(CASE"
-					+ "		WHEN TIPO = 'ENCIMADO +' THEN - KG_CANTIDAD"
+					+ "		WHEN TIPO = 'ENCIMADO +' THEN KG_CANTIDAD"
 					+ "		WHEN TIPO = 'TRASPASO LC -' THEN  KG_CANTIDAD"
 					+ "	    WHEN TIPO = 'TRASPASO SILOS -' THEN - KG_CANTIDAD"
 					+ "	    ELSE 0 END) AS TOTAL"
 					+ " FROM"
 					+ "	RESUMEN_TRASPASOS"
 					+ " WHERE"
-					+ "	OPERACION_ORIGEN = ?");
+					+ "	OPERACION_ORIGEN = ? OR OPERACION_DESTINO = ?");
 			st.setInt(1, noOperacion);
+			st.setInt(2, noOperacion);
 			ResultSet rs = st.executeQuery();
 
 			if (!rs.isBeforeFirst()) {

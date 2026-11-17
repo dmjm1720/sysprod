@@ -151,56 +151,57 @@ a:link:hover, a:visited:hover {
 }
 
 .ocupada {
-	background-color: #ffff66;
+	background-color: #FFF085;
 	color: #000000 !important;
-	font-weight: bold;
+	font-family: 'Consolas', 'Roboto', monospace;
+	font-size: .7rem;
 }
 
 .disponible {
-	background-color: #3CB371;
-	color: #F0F8FF !important;
-	font-weight: bold;
+	background-color: #A9DFBF;
+	color: #000000 !important;
+	font-family: 'Consolas', 'Roboto', monospace;
+	font-size: .7rem
+}
+
+.mantenimiento {
+	background-color: #7C86FF;
+	color: #000000 !important;
+	font-family: 'Consolas', 'Roboto', monospace;
+	font-size: .7rem
+}
+
+.sinuso {
+	background-color: #FF692A;
+	color: #000000 !important;
+	font-family: 'Consolas', 'Roboto', monospace;
+	font-size: .7rem
 }
 
 .tblResumen {
 	font-family: 'Consolas', 'Roboto', monospace;
-	
 }
 
 .nacional {
 	color: #000000 !important;
 	font-family: 'Consolas', 'Roboto', monospace;
-	
 }
+
 .importacion {
 	color: #C0392B !important;
 	font-family: 'Consolas', 'Roboto', monospace;
-	
 }
 
 .nacionalsinExistencia {
-    background-color: #A9DFBF !important; /* ejemplo: fondo verde claro */
-    color: #000000 !important;
-   font-family: 'Consolas', 'Roboto', monospace;
-   
+	background-color: #A9DFBF !important; /* ejemplo: fondo verde claro */
+	color: #000000 !important;
+	font-family: 'Consolas', 'Roboto', monospace;
 }
+
 .importacionsinExistencia {
-    background-color: #A9DFBF !important; /* ejemplo: fondo verde claro */
-    color: #C0392B !important;
-    font-family: 'Consolas', 'Roboto', monospace;
-   
-}
-
-.mantenimiento {
-	background-color: #483D8B;
-	color: #F0F8FF !important;
-	font-weight: bold;
-}
-
-.sinuso {
-	background-color: #a51d2d;
-	color: #F0F8FF !important;
-	font-weight: bold;
+	background-color: #A9DFBF !important; /* ejemplo: fondo verde claro */
+	color: #C0392B !important;
+	font-family: 'Consolas', 'Roboto', monospace;
 }
 
 .kilos {
@@ -317,7 +318,7 @@ a:link:hover, a:visited:hover {
 	color: #036FAB !important;
 }
 
-.datosEstatus{
+.datosEstatus {
 	color: #036FAB !important;
 	font-weight: bold !important;
 	font-size: .8rem;

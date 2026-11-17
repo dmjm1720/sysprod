@@ -37,7 +37,7 @@
 
 							<p:dataTable id="tblFacturas" styleClass="tblResumen fuente"
 								var="item" sortMode="multiple" scrollHeight="900"
-								scrollWidth="100%" widgetVar="wbtblLavadoras"
+								scrollWidth="98%" widgetVar="wbtblLavadoras"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="50,100,200,500" rows="50" paginator="true"
 								liveScroll="true" rowHover="true" paginatorAlwaysVisible="true"
@@ -151,7 +151,7 @@
 
 
 								<p:column filterBy="#{item.kilosDisponibles}"
-									headerText="kg. Cargados" width="3rem">
+									headerText="kg. Disponibles" width="3rem">
 									<h:outputText value="#{item.kilosDisponibles}">
 										<f:convertNumber type="number" maxFractionDigits="0"
 											groupingUsed="true" />

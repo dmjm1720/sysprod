@@ -1323,8 +1323,8 @@ public class PreparacionPielesBean implements Serializable {
 
 				e.setEtapa("Depilado");
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 
 					e.setEstado(true);
 
@@ -1365,8 +1365,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Lavado de Depilado");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");// REGLA
@@ -1402,8 +1402,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Blanqueo");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");// REGLA
@@ -1437,8 +1437,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Lavadas de Blanqueo");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");// REGLA
@@ -1475,8 +1475,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Proceso Enzimático");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");// REGLA
@@ -1510,8 +1510,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Lavadas Enzimáticas");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1547,8 +1547,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Pre Acidulación");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1582,8 +1582,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Acidulación");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1617,8 +1617,8 @@ public class PreparacionPielesBean implements Serializable {
 				e.setEtapa("Control 1");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1656,13 +1656,13 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 1")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
+			if (etapas.getNormalidad() != null && !etapas.getNormalidad().toString().isEmpty()) {
 
 				e.setEtapa("Control 2");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1698,13 +1698,13 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 2")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
+			if (etapas.getNormalidad() != null && !etapas.getNormalidad().toString().isEmpty()) {
 
 				e.setEtapa("Control 3");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1740,13 +1740,13 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 3")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
+			if (etapas.getNormalidad() != null && !etapas.getNormalidad().toString().isEmpty()) {
 
 				e.setEtapa("Control 4");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1781,13 +1781,13 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 		if (etapas.getEtapa().equals("Control 4")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
+			if (etapas.getNormalidad() != null && !etapas.getNormalidad().toString().isEmpty()) {
 
 				e.setEtapa("Control 5");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1823,13 +1823,13 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 5")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
+			if (etapas.getNormalidad() != null && !etapas.getNormalidad().toString().isEmpty()) {
 
 				e.setEtapa("Control 6");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
 					// e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1865,13 +1865,13 @@ public class PreparacionPielesBean implements Serializable {
 			}
 		}
 		if (etapas.getEtapa().equals("Control 6")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
+			if (etapas.getNormalidad() != null && !etapas.getNormalidad().toString().isEmpty()) {
 
 				e.setEtapa("Control 7");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
 					// e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1908,13 +1908,13 @@ public class PreparacionPielesBean implements Serializable {
 		}
 
 		if (etapas.getEtapa().equals("Control 7")) {
-			if (etapas.getConductividad() != null && !etapas.getConductividad().toString().isEmpty()) {
+			if (etapas.getNormalidad() != null && !etapas.getNormalidad().toString().isEmpty()) {
 
 				e.setEtapa("Control 8");
 
 				if (estadoEtapa(e).getEstado().equals(false)) {
 					// e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 1");
@@ -1957,8 +1957,8 @@ public class PreparacionPielesBean implements Serializable {
 
 				e.setEtapa("Lavadas Finales (1)");
 				if (estadoEtapa(e).getEstado().equals(false)) {
-					e.setDiaInicio(fecInicio);
-					e.setHoraInicio(horaIni);
+//					e.setDiaInicio(fecInicio);
+//					e.setHoraInicio(horaIni);
 					e.setEstado(true);
 
 					e.setEstadoEtapa("Etapa 2");
@@ -2873,6 +2873,9 @@ public class PreparacionPielesBean implements Serializable {
 				}
 
 				traspasoSilos = new TraspasoSilos();
+				//distribucionKilosSilos = 0;
+				filterUsuario=null;
+				filterOperador=null;
 			}
 		}
 
@@ -3281,6 +3284,9 @@ public class PreparacionPielesBean implements Serializable {
 				}
 			}
 		}
+		etapasLavadorasChicas=new Etapas();
+		selectedLavadorasChicas= null;
+		listarAsignacionKilosLavadorasChicas = null;
 		IEtapasDao eDao3 = new EtapasDaoImpl();
 		listaDeEtapas3 = eDao3.listaEtapas3(idPrep);
 		getListaDeEtapas3();

@@ -24,7 +24,7 @@
 
 					<p:accordionPanel id="acco" widgetVar="basic">
 
-						<p:tab title="REGISTRO DE LAVDORAS"
+						<p:tab title="MANTENIMIENTO DE LAVADORAS"
 							titleStyle="font-size: .8rem; background-color: #1B2631; color: #F5F5F5">
 
 							<h:panelGrid columns="3" cellpadding="4" styleClass="fuente">
@@ -79,7 +79,7 @@
 								value="#{lavadorasBean.listarLavadoras}"
 								emptyMessage="NO HAY REGISTROS">
 
-								<p:column headerText="Acciones" width="2.5rem"
+								<p:column headerText="Acciones" width="3rem"
 									exportable="false" style="text-align: center">
 									<p:commandButton id="ed" icon="pi pi-fw pi-pencil"
 										onclick="PF('dlgEditar').show()" update="frmEditar:pnlEditar"
@@ -138,11 +138,11 @@
 										value="#{item.estado eq 0 ? 'Vacía' : (item.estado eq 1 ? 'En proceso' : (item.estado eq 2 ? 'En Mantenimiento' : (item.estado eq 3 ? 'Fuera de Servicio' : (item.estado eq 4 ? 'Otro' : 'Retirada'))))}" />
 								</p:column>
 
-								<p:column headerText="Etapa" width="10rem">
+								<p:column headerText="Etapa" width="5rem">
 									<h:outputText value="#{item.etapa}" />
 								</p:column>
 								
-								<p:column headerText="No. Operación" width="10rem">
+								<p:column headerText="No. Operación" width="3rem">
 									<h:outputText value="#{item.operacion}" />
 								</p:column>
 
@@ -187,9 +187,19 @@
 						<p:message for="capacidad" />
 
 						<p:outputLabel for="estado" value="Estatus Operativo" />
-						<p:inputText id="estado"
-							value="#{lavadorasBean.lavadorasEditar.estado}" required="false"
-							requiredMessage="Campo requerido" style="width: 10rem" />
+						
+						<p:selectOneMenu id="estado"
+												style="font-size: .6rem; width:6rem"
+												value="#{lavadorasBean.lavadorasEditar.estado}">
+												<f:selectItem itemLabel="Selecciona" itemValue="" />
+												<f:selectItem itemLabel="Vacía" itemValue="0" />
+												<f:selectItem itemLabel="En proceso" itemValue="1" />
+												<f:selectItem itemLabel="En Mantenimiento" itemValue="2" />
+												<f:selectItem itemLabel="Fuera de servicio" itemValue="3" />
+												<f:selectItem itemLabel="Otro" itemValue="4" />
+
+											</p:selectOneMenu>
+							<p:message for="estado" />
 						<p:message for="estado" />
 
 						<p:outputLabel for="etapa" value="Etapa" />
